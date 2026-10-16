@@ -10,6 +10,7 @@
 </script>
 
 <script lang="ts">
+	import { untrack } from "svelte";
 	import { cn } from "@heyramzi/utils";
 	import { Collapsible } from "#src/shadcn/collapsible/index.js";
 	import { setReasoningContext } from "#src/ai/reasoning/reasoning-context.svelte.js";
@@ -23,18 +24,20 @@
 		...rest
 	}: ReasoningProps = $props();
 
-	// WHY: child parts read streaming/duration through this proxy; the $effect keeps
-	// it synced to props so $derived in the trigger reruns on every change.
-	const ctx = $state({ isStreaming, duration });
-	$effect(() => {
-		ctx.isStreaming = isStreaming;
-		ctx.duration = duration;
+	// WHY: child parts read streaming/duration through these getters, so $derived in
+	// the trigger reruns whenever the props change.
+	setReasoningContext({
+		get isStreaming() {
+			return isStreaming;
+		},
+		get duration() {
+			return duration;
+		},
 	});
-	setReasoningContext(ctx);
 
 	// WHY: auto-open on stream start and auto-close on stream end, but only on the
 	// transition itself so a user who toggles mid-stream is left alone.
-	let prev = isStreaming;
+	let prev = untrack(() => isStreaming);
 	$effect(() => {
 		if (isStreaming && !prev) open = true;
 		else if (!isStreaming && prev) open = false;

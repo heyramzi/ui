@@ -32,10 +32,17 @@
 		...restProps
 	}: ToggleGroupPrimitive.RootProps & ToggleVariants & { spacing?: number } = $props();
 
+	// WHY: getters, so an item reads the group's current props, not the ones it mounted with.
 	setToggleGroupCtx({
-		variant,
-		size,
-		spacing,
+		get variant() {
+			return variant;
+		},
+		get size() {
+			return size;
+		},
+		get spacing() {
+			return spacing;
+		},
 	});
 </script>
 
