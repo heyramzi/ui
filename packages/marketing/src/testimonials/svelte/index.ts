@@ -5,7 +5,6 @@ export { default as TestimonialCompact } from "#src/testimonials/svelte/Testimon
 export { default as TestimonialHighlight } from "#src/testimonials/svelte/TestimonialHighlight.svelte";
 export { default as TestimonialVideoPlayer } from "#src/testimonials/svelte/TestimonialVideoPlayer.svelte";
 export { default as StarRating } from "#src/testimonials/svelte/StarRating.svelte";
-export { default as VideoEmbed } from "#src/testimonials/svelte/VideoEmbed.svelte";
 
 export { renderTestimonialContent } from "#src/testimonials/render-content.js";
 export { getMuxPlaybackId, getMuxPosterUrl } from "#src/testimonials/mux.js";

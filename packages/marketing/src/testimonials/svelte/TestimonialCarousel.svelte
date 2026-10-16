@@ -5,7 +5,7 @@
 	import type { PublicTestimonial } from "#src/testimonials/types.js";
 	import { renderTestimonialContent } from "#src/testimonials/render-content.js";
 	import StarRating from "#src/testimonials/svelte/StarRating.svelte";
-	import VideoEmbed from "#src/testimonials/svelte/VideoEmbed.svelte";
+	import TestimonialVideoPlayer from "#src/testimonials/svelte/TestimonialVideoPlayer.svelte";
 
 	// =========================
 	// PROPS
@@ -68,7 +68,7 @@
 			>
 				{#if testimonial.videoUrl}
 					<div class="mb-4">
-						<VideoEmbed url={testimonial.videoUrl} />
+						<TestimonialVideoPlayer src={testimonial.videoUrl} nativeControls />
 					</div>
 				{/if}
 

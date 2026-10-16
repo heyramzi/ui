@@ -75,7 +75,7 @@
 			>
 				{#if testimonial.videoUrl}
 					{@const cap = getCaption ? getCaption(testimonial.videoUrl) : null}
-					<TestimonialVideoPlayer src={testimonial.videoUrl} caption={cap} />
+					<TestimonialVideoPlayer src={testimonial.videoUrl} caption={cap} rounded={false} />
 				{/if}
 
 				<div class="p-5">

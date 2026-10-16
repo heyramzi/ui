@@ -5,7 +5,7 @@
 	import type { PublicTestimonial } from "#src/testimonials/types.js";
 	import { renderTestimonialContent } from "#src/testimonials/render-content.js";
 	import StarRating from "#src/testimonials/svelte/StarRating.svelte";
-	import VideoEmbed from "#src/testimonials/svelte/VideoEmbed.svelte";
+	import TestimonialVideoPlayer from "#src/testimonials/svelte/TestimonialVideoPlayer.svelte";
 	import quoteIcon from "#src/testimonials/svelte/quote-icon.svg?raw";
 
 	// =========================
@@ -45,7 +45,7 @@
 
 		{#if featured.videoUrl}
 			<div class="mb-6">
-				<VideoEmbed url={featured.videoUrl} />
+				<TestimonialVideoPlayer src={featured.videoUrl} nativeControls />
 			</div>
 		{/if}
 

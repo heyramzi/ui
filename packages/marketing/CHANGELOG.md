@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Breaking changes
+
+* feat(marketing)!: remove `VideoEmbed`; `TestimonialVideoPlayer` replaces it and takes `src` where `VideoEmbed` took `url`. It plays YouTube, Vimeo and Loom links, Mux playback ids and file videos. `nativeControls` shows the browser's controls (what `VideoEmbed` did without `playOnly`), `rounded` is on by default, and `title` names the embed frame. A link that is not a known embed now plays as a file video instead of rendering nothing.
+
 ## [1.1.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.0.3...marketing-v1.1.0) (2026-10-01)
 
 
