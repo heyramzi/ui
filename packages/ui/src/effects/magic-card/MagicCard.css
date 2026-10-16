@@ -1,0 +1,47 @@
+/* The glow and the hover edge read `--magic-card-glow`, so a caller picks the
+   brand colour with a class: `[--magic-card-glow:var(--brand-accent)]`. */
+.magic-card {
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.magic-card:hover {
+  border-color: color-mix(in oklch, var(--magic-card-glow, var(--color-primary)) 30%, var(--color-border));
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--magic-card-glow, var(--color-primary)) 8%, transparent);
+}
+
+.magic-card:focus-within {
+  outline: 2px solid var(--magic-card-glow, var(--color-primary));
+  outline-offset: 2px;
+}
+
+.magic-card__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(
+    var(--magic-card-radius, 500px) circle at var(--magic-card-x, 50%) var(--magic-card-y, 50%),
+    color-mix(
+        in oklch,
+        var(--magic-card-glow, var(--color-primary)) var(--magic-card-strength, 6%),
+        transparent
+      )
+      0%,
+    transparent 40%
+  );
+}
+
+.magic-card:hover .magic-card__glow {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magic-card,
+  .magic-card__glow {
+    transition: none;
+  }
+}

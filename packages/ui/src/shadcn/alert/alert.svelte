@@ -26,6 +26,8 @@
 		ref = $bindable(null),
 		class: className,
 		variant = "default",
+		// A caller whose message isn't urgent passes `status`, so a screen reader doesn't interrupt.
+		role = "alert",
 		children,
 		...restProps
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
@@ -38,7 +40,7 @@
 	data-slot="alert"
 	class={cn(alertVariants({ variant }), className)}
 	{...restProps}
-	role="alert"
+	{role}
 >
 	{@render children?.()}
 </div>

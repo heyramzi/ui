@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { splitSegments } from "#src/components/segmented/collapse.js";
 
 const items = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
@@ -26,7 +26,7 @@ describe("splitSegments", () => {
   it("loses nothing whichever item is current", () => {
     for (let i = 0; i < items.length; i++) {
       const { visible, hidden } = splitSegments(items, 6, i);
-      expect([...visible, ...hidden].toSorted()).toEqual([...items].toSorted());
+      expect([...visible, ...hidden].sort()).toEqual([...items].sort());
       expect(visible).toContain(items[i]);
       expect(visible).toHaveLength(5);
     }

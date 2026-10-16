@@ -8,6 +8,7 @@ import Title from "#src/shadcn/field/field-title.svelte";
 import Description from "#src/shadcn/field/field-description.svelte";
 import Separator from "#src/shadcn/field/field-separator.svelte";
 import Error from "#src/shadcn/field/field-error.svelte";
+import Simple from "#src/shadcn/field/simple-field.svelte";
 
 export {
   Field,
@@ -20,6 +21,7 @@ export {
   Description,
   Separator,
   Error,
+  Simple,
   //
   Set as FieldSet,
   Legend as FieldLegend,
@@ -30,4 +32,5 @@ export {
   Description as FieldDescription,
   Separator as FieldSeparator,
   Error as FieldError,
+  Simple as SimpleField,
 };

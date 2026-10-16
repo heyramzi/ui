@@ -23,12 +23,12 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `checkbox` — Checkbox
 - `code-block` — CodeBlock. Highlight with `useHighlightedCode` from `@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte` (Shiki, ANSI too)
 - `collapsible` — Collapsible
-- `command` — Command
+- `command` — Command, computeCommandScore (the scorer, for a custom `filter`)
 - `context-menu` — ContextMenu
 - `dialog` — Dialog
 - `dropdown-menu` — CheckboxGroup, CheckboxItem, Content, Portal, DropdownMenu, DropdownMenuCheckboxGroup
 - `empty` — Empty
-- `field` — Field
+- `field` — Field and its parts, plus SimpleField: label, hint or error and the control, with the message linked by `aria-describedby`
 - `hover-card` — HoverCard
 - `input` — Input
 - `input-otp` — InputOtp
@@ -57,54 +57,66 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `tooltip` — Tooltip
 - `trace` — Trace, an agent's steps: reasoning, tool calls and sources as status rows that can expand
 
+## Components (`src/components`)
+
+Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<name>`.
+
+- `copy` — CopyButton, copyText, copyRichText, htmlToPlainText, Copied
+- `data-table` — SortableHead, Pagination, InfiniteScroll, RowContextMenu, TableSkeleton, and the sort, page and filter helpers
+- `hold-to-confirm` — HoldToConfirm, press and hold to confirm
+- `icon` — Icon, a Phosphor component at a size
+- `language-flag` — LanguageFlag
+- `list-page` — ListPageShell, MasterDetail, GroupedList, RailRow and the rest of the master-detail page kit, NoticeBar, EmptyState, FilterPopover, setSectionHost
+- `locale-switch` — LocaleSwitch, a language switch on SegmentedFilter
+- `mark` — Mark, a logo or photo glyph with an initial fallback
+- `open-in` — OpenIn, a link out to a tool that takes the tool's name, label and mark as a prop
+- `picker` — Picker, MarkPicker, pickerTriggerClass, a command palette at popover scale
+- `segmented` — AnimatedTabs (pill or underline), SegmentedFilter, SegmentedNav, SectionRuns, one bordered track with a sliding pill, a badge note and an overflow menu
+- `star-rating-input` — StarRatingInput
+- `svg` — Svg, an SVG file imported with `?raw`
+
 ## Effects (`src/effects`)
+
+- `interactive-hover-button` — InteractiveHoverButton, a dot that grows into the fill
 
 - `animated-beam` — AnimatedBeam, AnimatedBeamProps, AnchorPosition
 - `border-beam` — BorderBeam
-- `image-comparison` — ImageComparison
+- `image-comparison` — ImageComparison, a before/after wipe with a bindable position, side badges and a hint sweep
 - `image-reveal` — ImageReveal, ImageRevealProps, ImageRevealHandle
 - `magnetic` — magnetic
+- `magic-card` — MagicCard. Props: `glow`, `radius`, `class`, `contentClass`; the glow colour is `--magic-card-glow` set on `class`.
 - `marquee` — Marquee
 - `progressive-blur` — ProgressiveBlur
 - `reveal` — InView, AnimatedGroup, TextEffect, observeInView, RevealPreset, RevealPer
 - `shader-gradient` — ShaderGradient, ShaderGradientProps, ShaderGradientUniforms
 - `spotlight` — Spotlight
-- `theme-toggle` — ThemeToggle, revealTheme. Props: `isDark`, `mode` (`light`, `dark`, `system`; swaps in the Monitor icon), `onToggle`, `variant` (`outline`, `ghost`, `inverted`; `inverted` boolean is an alias), `size`, `label`, `title`, `skipTransition`, `class`. `revealTheme(event, apply, { skip, duration, easing })` is the circular wipe on its own: `import { revealTheme } from "@heyramzi/ui"` (the `./lib/*` subpath points at `.js` and the source is `.ts`).
+- `theme-toggle` — ThemeToggle, revealTheme. Props: `isDark`, `mode` (`light`, `dark`, `system`; swaps in the Monitor icon), `onToggle`, `variant` (`outline`, `ghost`, `inverted`, `slide`; `inverted` boolean is an alias; `slide` is a pill with a moving thumb, coloured by `--theme-toggle-thumb-light`, `--theme-toggle-thumb-dark`, `--theme-toggle-track`, `--theme-toggle-glow` and friends set on `class`), `size`, `label`, `title`, `skipTransition`, `class`. `revealTheme(event, apply, { skip, duration, easing })` is the circular wipe on its own: `import { revealTheme } from "@heyramzi/ui"` (the `./lib/*` subpath points at `.js` and the source is `.ts`).
 
 ## Animations (`src/animations`)
 
-- `accordion` — keyframe utilities
 - `avatar-group-hover` — keyframe utilities
 - `card-tilt` — keyframe utilities
 - `digit-pop-in` — keyframe utilities
 - `dropdown` — keyframe utilities
-- `icon-swap` — keyframe utilities
 - `input-clear-dissolve` — keyframe utilities
 - `input-shake` — keyframe utilities
 - `learn-more-hover` — keyframe utilities
 - `like-button` — keyframe utilities
 - `modal` — keyframe utilities
-- `notification-badge` — keyframe utilities
 - `page-side-by-side` — keyframe utilities
-- `panel` — keyframe utilities
 - `plus-menu-morph` — keyframe utilities
-- `reasoning-stream` — keyframe utilities
 - `resize` — keyframe utilities
 - `shimmer-text` — keyframe utilities
-- `skeleton-reveal` — keyframe utilities
 - `spinning-counter` — keyframe utilities
-- `streaming-text` — keyframe utilities
 - `success-check` — keyframe utilities
-- `tabs-sliding` — keyframe utilities
 - `text-swap` — keyframe utilities
-- `texts-reveal` — keyframe utilities
 - `thinking-states` — keyframe utilities
-- `tooltip` — keyframe utilities
 
 ## AI and chat (`src/ai`)
 
-- `composer` — Composer, ComposerProps
+- `ai-button` — AiButton
 - `confirmation` — Confirmation, ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected, ConfirmationActions, ConfirmationAction
+- `generation-progress` — GenerationProgress
 - `loading-state` — PixelLoader
 - `prompt-input` — PromptInput, PromptInputBody, PromptInputToolbar, PromptInputTextarea, PromptInputSubmit
 - `reasoning` — Reasoning, ReasoningTrigger, ReasoningContent
@@ -116,7 +128,6 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 
 ---
 
-Skipped on purpose: brand assets (logos, marks, brand renderer, language flags,
-locale switch), kanban, list, gantt and status (they live in `@heyramzi/tasks`), and charts
+Skipped on purpose: brand assets (logos, marks, brand renderer), kanban, list, gantt and status (they live in `@heyramzi/tasks`), and charts
 (they live in `@heyramzi/charts`). The bot avatars
 are in `src/agents`, imported from `@heyramzi/ui/agents`.

@@ -46,7 +46,7 @@ const SRC = `${PKG}/src`;
  */
 
 /*
- * Most land in src/animations. Five do not, because a component already did the job and one behaviour gets one implementation: the last five entries name where each went instead.
+ * Fourteen of these name the component that owns the motion instead of a file in src/animations.
  */
 
 /*
@@ -55,31 +55,31 @@ const SRC = `${PKG}/src`;
 const PORTED = {
   "card-resize": "animations/resize.css",
   "number-pop-in": "animations/digit-pop-in.css",
-  "notification-badge": "animations/notification-badge.css",
+  "notification-badge": "shadcn/badge/badge.svelte",
   "text-states-swap": "animations/text-swap.css",
   "menu-dropdown": "animations/dropdown.css",
   "modal-open-close": "animations/modal.css",
-  "panel-reveal": "animations/panel.css",
+  "panel-reveal": "shadcn/sheet/sheet-content.svelte",
   "page-side-by-side": "animations/page-side-by-side.css",
-  "icon-swap": "animations/icon-swap.css",
+  "icon-swap": "effects/theme-toggle/ThemeToggle.svelte",
   "success-check": "animations/success-check.css",
   "avatar-group-hover": "animations/avatar-group-hover.css",
   "error-state-shake": "animations/input-shake.css",
   "input-clear-with-dissolve": "animations/input-clear-dissolve.css",
-  "skeleton-loader-and-reveal": "animations/skeleton-reveal.css",
-  "texts-reveal": "animations/texts-reveal.css",
-  "tabs-sliding": "animations/tabs-sliding.css",
+  "skeleton-loader-and-reveal": "shadcn/skeleton/skeleton.svelte",
+  "texts-reveal": "effects/reveal/TextEffect.svelte",
+  "tabs-sliding": "shadcn/tabs/tabs-list.svelte",
   "shimmer-text": "animations/shimmer-text.css",
-  "tooltip-open-close": "animations/tooltip.css",
+  "tooltip-open-close": "shadcn/tooltip/tooltip-content.svelte",
   "3d-tilt": "animations/card-tilt.css",
   "dropdown-menu-morph": "animations/plus-menu-morph.css",
-  accordion: "animations/accordion.css",
+  accordion: "shadcn/accordion/accordion-content.svelte",
   "like-button": "animations/like-button.css",
   "learn-more-hover": "animations/learn-more-hover.css",
   "spinning-counter": "animations/spinning-counter.css",
   "thinking-states": "animations/thinking-states.css",
-  "reasoning-stream": "animations/reasoning-stream.css",
-  "streaming-text": "animations/streaming-text.css",
+  "reasoning-stream": "ai/reasoning/ReasoningContent.svelte",
+  "streaming-text": "effects/reveal/TextEffect.svelte",
   toggle: "shadcn/switch/switch.svelte",
   "checkbox-check": "shadcn/checkbox/checkbox.svelte",
   "toast-open-close": "shadcn/sonner/sonner.svelte",

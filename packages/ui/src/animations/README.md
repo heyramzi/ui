@@ -17,37 +17,27 @@ The script writes pristine upstream copies to `.upstream/transitions/` and hashe
 
 | File | Selector | Used by |
 | --- | --- | --- |
-| `accordion.css` | `.t-acc` | standalone |
 | `avatar-group-hover.css` | `.t-avatar-group`, `.t-avatar` | standalone |
 | `card-tilt.css` | `.t-tilt`, `.t-tilt-card`, `.t-tilt-glare` | standalone |
 | `digit-pop-in.css` | `.t-digit` | standalone |
-| `dropdown.css` | `.t-dropdown` | (not yet wired) |
-| `icon-swap.css` | `.t-icon-swap` | standalone |
+| `dropdown.css` | `.t-dropdown` | `shadcn/tooltip`, `dropdown-menu`, `popover`, `context-menu` and `select` content |
 | `input-clear-dissolve.css` | `.t-clear`, `.t-clear-mirror`, `.t-clear-glow` | standalone |
 | `input-shake.css` | `.t-input-wrap`, `.t-input`, `.t-error-msg` | (none, form layer moved to upsys) |
 | `learn-more-hover.css` | `.t-learn`, `.t-learn-chevron` | standalone |
 | `like-button.css` | `.t-like`, `.t-like-particles` | standalone |
 | `modal.css` | `.t-modal`, `.t-modal-backdrop` | `shadcn/dialog`, `shadcn/alert-dialog` |
-| `notification-badge.css` | `.t-badge` | standalone |
 | `page-side-by-side.css` | `.t-page` | standalone |
-| `panel.css` | `.t-panel` | (not yet wired) |
 | `plus-menu-morph.css` | `.t-morph`, `.t-morph-plus`, `.t-morph-menu` | standalone |
-| `reasoning-stream.css` | `.t-reason`, `.t-reason-viewport` | standalone |
 | `resize.css` | `.t-resize` | standalone |
 | `shimmer-text.css` | `.t-shimmer` | `thinking-states.css` |
-| `skeleton-reveal.css` | `.t-skel` | standalone |
 | `spinning-counter.css` | `.t-reel`, `.t-reel-col` | standalone |
-| `streaming-text.css` | `.t-stream-w` | standalone |
 | `success-check.css` | `.t-success-check` | standalone |
-| `tabs-sliding.css` | `.t-tabs`, `.t-tab`, `.t-tabs-pill` | standalone |
 | `text-swap.css` + `text-swap.ts` | `.t-text-swap` | standalone |
-| `texts-reveal.css` | `.t-stagger`, `.t-stagger-line` | standalone |
 | `thinking-states.css` | `.t-think`, `.t-think-text` | standalone |
-| `tooltip.css` | `.t-tt-wrap`, `.t-tt`, `.t-tt-trigger` | standalone |
 
 `index.css` is the barrel — imports all of the above.
 
-## Five upstream transitions that are not files here
+## Fifteen upstream transitions that are not files here
 
 One behaviour, one implementation. Where a component already did the job, the upstream recipe was merged into it or dropped, rather than shipped as a second way to do the same thing.
 
@@ -58,8 +48,18 @@ One behaviour, one implementation. Where a component already did the job, the up
 | `toast-open-close` | `shadcn/sonner` — svelte-sonner owns toast motion. |
 | `banner-stacking` | `shadcn/sonner` — stacking and hover spread are what it does. |
 | `matrix-dot-loader` | `ai/loading-state` — `PixelLoader` is the dot-grid loader. |
+| `tabs-sliding` | `shadcn/tabs/tabs-list.svelte` with `lib/sliding-pill.ts` — the pill slides under the active tab. |
+| `tooltip-open-close` | `shadcn/tooltip/tooltip-content.svelte` — wired through `.t-dropdown`. |
+| `accordion` | `shadcn/accordion/accordion-content.svelte` — the expand and collapse keyframes. |
+| `skeleton-loader-and-reveal` | `shadcn/skeleton/skeleton.svelte` — the pulse. |
+| `notification-badge` | `shadcn/badge/badge.svelte` — the badge. |
+| `reasoning-stream` | `ai/reasoning/ReasoningContent.svelte` — the reasoning body. |
+| `streaming-text` | `effects/reveal/TextEffect.svelte` — word by word with a blur. |
+| `texts-reveal` | `effects/reveal/TextEffect.svelte` — the staggered rise. |
+| `panel-reveal` | `shadcn/sheet/sheet.css` — the sheet slide, imported by the sheet itself. |
+| `icon-swap` | `effects/theme-toggle/ThemeToggle.svelte` — the sun, moon and monitor icons cross-fade. |
 
-Two more pairs look like duplicates and are not: `spinning-counter` rolls a number between values, `digit-pop-in` updates one in place; `streaming-text` resolves a paragraph word by word, `ai/response` only blinks a caret while `.is-streaming`.
+One more pair looks like a duplicate and is not: `spinning-counter` rolls a number between values, `digit-pop-in` updates one in place.
 
 ## How to consume
 

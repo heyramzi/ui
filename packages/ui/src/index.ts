@@ -16,6 +16,8 @@ export type { AnimatedBeamProps, AnchorPosition } from "#src/effects/animated-be
 
 export { default as Spotlight } from "#src/effects/spotlight/Spotlight.svelte";
 
+export { default as MagicCard } from "#src/effects/magic-card/MagicCard.svelte";
+
 export { default as Marquee } from "#src/effects/marquee/Marquee.svelte";
 
 export { default as ImageReveal } from "#src/effects/image-reveal/ImageReveal.svelte";
@@ -40,10 +42,12 @@ export type {
 
 export { default as ProgressiveBlur } from "#src/effects/progressive-blur/ProgressiveBlur.svelte";
 
+export { default as InteractiveHoverButton } from "#src/effects/interactive-hover-button/InteractiveHoverButton.svelte";
+
 export { default as ImageComparison } from "#src/effects/image-comparison/ImageComparison.svelte";
 
 export { magnetic } from "#src/effects/magnetic/magnetic.js";
 export type { MagneticOptions } from "#src/effects/magnetic/magnetic.js";
 
 export { revealTheme } from "#src/lib/theme-transition.js";
-export type { RevealThemeOptions } from "#src/lib/theme-transition.js";
+export type { RevealOrigin, RevealThemeOptions } from "#src/lib/theme-transition.js";

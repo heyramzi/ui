@@ -23,3 +23,10 @@ export type RevealViewOptions = {
   /** `rootMargin` for the observer, e.g. `"0px 0px -15% 0px"`. */
   margin?: string;
 };
+
+export type InViewActionOptions = RevealViewOptions & {
+  /** Called when the node enters the viewport. */
+  onEnter?: () => void;
+  /** Called when the node leaves the viewport. Only fires when `once` is false. */
+  onLeave?: () => void;
+};

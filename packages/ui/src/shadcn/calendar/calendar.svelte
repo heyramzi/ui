@@ -24,6 +24,10 @@
 		yearFormat = "numeric",
 		day,
 		disableDaysOutsideMonth = false,
+		// Monday first and six rows always: a five-week month would otherwise resize
+		// the popover as the reader pages through the year.
+		weekStartsOn = 1,
+		fixedWeeks = true,
 		...restProps
 	}: WithoutChildrenOrChild<CalendarPrimitive.RootProps> & {
 		buttonVariant?: ButtonVariant;
@@ -52,6 +56,8 @@ get along, so we shut typescript up by casting `value` to `never`.
 	bind:placeholder
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
+	{weekStartsOn}
+	{fixedWeeks}
 	class={cn(
 		"bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
 		className,

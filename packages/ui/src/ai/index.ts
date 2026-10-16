@@ -1,10 +1,4 @@
 // =========================
-// COMPOSER
-// =========================
-
-export { Composer, type ComposerProps } from "#src/ai/composer/index.js";
-
-// =========================
 // TYPING DOTS
 // =========================
 
@@ -99,3 +93,19 @@ export {
 // =========================
 
 export { PixelLoader, type PixelLoaderProps } from "#src/ai/loading-state/index.js";
+
+// =========================
+// AI BUTTON
+// =========================
+
+export { AiButton, type AiButtonProps, type AiStatus } from "#src/ai/ai-button/index.js";
+
+// =========================
+// GENERATION PROGRESS
+// =========================
+
+export {
+  GenerationProgress,
+  type GenerationProgressProps,
+  type GenerationSteps,
+} from "#src/ai/generation-progress/index.js";

@@ -1,0 +1,48 @@
+/* The sheet slide: transitions.dev panel reveal, owned by the sheet. */
+
+:root {
+  --sheet-open-dur: 300ms;
+  --sheet-close-dur: 250ms;
+  --sheet-translate: 100%;
+  --sheet-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.t-sheet {
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--sheet-close-dur) var(--sheet-ease),
+    opacity var(--sheet-close-dur) var(--sheet-ease);
+  will-change: transform, opacity;
+}
+
+.t-sheet[data-side="right"] {
+  transform: translateX(var(--sheet-translate));
+}
+
+.t-sheet[data-side="left"] {
+  transform: translateX(calc(-1 * var(--sheet-translate)));
+}
+
+.t-sheet[data-side="top"] {
+  transform: translateY(calc(-1 * var(--sheet-translate)));
+}
+
+.t-sheet[data-side="bottom"] {
+  transform: translateY(var(--sheet-translate));
+}
+
+.t-sheet[data-state="open"] {
+  transform: translate(0, 0);
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    transform var(--sheet-open-dur) var(--sheet-ease),
+    opacity var(--sheet-open-dur) var(--sheet-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-sheet {
+    transition: none !important;
+  }
+}

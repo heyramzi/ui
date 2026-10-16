@@ -21,7 +21,7 @@ import SectionRuns, {
   type SectionStrip,
 } from "#src/components/segmented/section-runs.svelte";
 import { type SegmentContent } from "#src/components/segmented/segment.svelte";
-import { segmentedRowClass } from "#src/components/segmented/segmented.js";
+import { segmentedRowClass, type SegmentedVariant } from "#src/components/segmented/segmented.js";
 import { SEGMENT_MAX } from "#src/components/segmented/collapse.js";
 
 export {
@@ -35,6 +35,7 @@ export {
   type SectionStrip,
   type SegmentContent,
   type SegmentedNavItem,
+  type SegmentedVariant,
   type TabDef,
   type TabsPlacement,
 };

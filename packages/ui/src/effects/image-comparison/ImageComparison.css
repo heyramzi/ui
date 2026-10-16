@@ -1,8 +1,17 @@
+/*
+ * Brand hooks, all optional, set on the element's class:
+ * --hr-compare-handle-color, --hr-compare-handle-width, --hr-compare-handle-shadow,
+ * --hr-compare-grip-bg, --hr-compare-grip-color, --hr-compare-grip-size, --hr-compare-grip-shadow,
+ * --hr-compare-badge-inset, --hr-compare-hint-duration.
+ */
 .hr-compare {
   position: relative;
   overflow: hidden;
   user-select: none;
   isolation: isolate;
+}
+.hr-compare picture {
+  display: contents;
 }
 .hr-compare__img {
   display: block;
@@ -15,14 +24,32 @@
   inset: 0;
   clip-path: inset(0 0 0 calc(var(--hr-compare-pos) * 1%));
 }
+.hr-compare__badge {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.hr-compare__badge--before {
+  inset-inline-start: var(--hr-compare-badge-inset, 0.75rem);
+}
+.hr-compare__badge--after {
+  inset-inline-end: var(--hr-compare-badge-inset, 0.75rem);
+}
+.hr-compare[data-badges="top"] .hr-compare__badge {
+  inset-block-start: var(--hr-compare-badge-inset, 0.75rem);
+}
+.hr-compare[data-badges="bottom"] .hr-compare__badge {
+  inset-block-end: var(--hr-compare-badge-inset, 0.75rem);
+}
 .hr-compare__handle {
   position: absolute;
+  z-index: 2;
   inset-block: 0;
   left: calc(var(--hr-compare-pos) * 1%);
-  width: 2px;
-  translate: -1px 0;
+  width: var(--hr-compare-handle-width, 2px);
+  translate: calc(var(--hr-compare-handle-width, 2px) / -2) 0;
   background: var(--hr-compare-handle-color, white);
-  box-shadow: var(--elev-2, 0 2px 8px rgb(0 0 0 / 0.25));
+  box-shadow: var(--hr-compare-handle-shadow, var(--elev-2, 0 2px 8px rgb(0 0 0 / 0.25)));
   pointer-events: none;
 }
 .hr-compare__grip {
@@ -32,18 +59,18 @@
   translate: -50% -50%;
   display: grid;
   place-items: center;
-  width: 2rem;
-  height: 2rem;
+  width: var(--hr-compare-grip-size, 2rem);
+  height: var(--hr-compare-grip-size, 2rem);
   border-radius: 999px;
-  background: inherit;
+  background: var(--hr-compare-grip-bg, var(--hr-compare-handle-color, white));
   color: var(--hr-compare-grip-color, black);
-  font-size: 0.75rem;
-  line-height: 1;
+  box-shadow: var(--hr-compare-grip-shadow, none);
 }
 /* The range covers the frame so pointer drag, touch and arrow keys all work. */
 .hr-compare__range {
   position: absolute;
   inset: 0;
+  z-index: 3;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -51,6 +78,8 @@
   cursor: ew-resize;
   appearance: none;
   background: transparent;
+  /* A vertical swipe over the frame still scrolls the page. */
+  touch-action: pan-y pinch-zoom;
 }
 .hr-compare__range:focus-visible ~ .hr-compare__handle {
   outline: 2px solid var(--hr-compare-handle-color, white);
@@ -62,5 +91,10 @@
     transition:
       clip-path var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out),
       left var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+  }
+  /* A slower glide while the handle hints, so the sweep reads as a gesture. */
+  .hr-compare[data-hinting] .hr-compare__img--after,
+  .hr-compare[data-hinting] .hr-compare__handle {
+    transition-duration: var(--hr-compare-hint-duration, 800ms);
   }
 }

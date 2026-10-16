@@ -73,6 +73,7 @@ let currentHref = $derived(current.replace(/\/$/, ""));
 					icon={item.icon}
 					image={item.image}
 					done={item.done}
+					badge={item.badge}
 					{active}
 				/>
 			</a>

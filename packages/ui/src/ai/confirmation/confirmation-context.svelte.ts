@@ -5,8 +5,8 @@ const CONFIRMATION_CONTEXT_KEY = Symbol("confirmation-context");
 export type ConfirmationState = "idle" | "requested" | "accepted" | "rejected" | "failed";
 
 export interface ConfirmationContextValue {
-  kind: ConfirmationState;
-  executing: boolean;
+  readonly kind: ConfirmationState;
+  readonly executing: boolean;
 }
 
 export function setConfirmationContext(value: ConfirmationContextValue) {

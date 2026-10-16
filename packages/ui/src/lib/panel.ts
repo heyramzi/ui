@@ -4,7 +4,7 @@
 // different props, and their edges drifted because the classes were typed twice.
 
 // Dashboards used `Card`, so /ads had a ring and a shadow where /social had a
-// hairline. Flat, one hairline, `rounded-xl`, per DESIGN.md.
+// hairline. Flat, one hairline, `rounded-xl`.
 export const panelShellClass = "overflow-hidden rounded-xl border border-border bg-card";
 
 /**
@@ -13,3 +13,9 @@ export const panelShellClass = "overflow-hidden rounded-xl border border-border 
  */
 export const panelHeaderClass =
   "flex min-h-11 flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-border px-4 py-2";
+
+/**
+ * The inset well for a control block inside a panel. A visible step at the
+ * same depth, for filter rows and grouped controls.
+ */
+export const insetWellClass = "rounded-lg border border-border bg-muted/40 p-2";

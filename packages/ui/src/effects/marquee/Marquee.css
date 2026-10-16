@@ -14,7 +14,7 @@
   flex-shrink: 0;
   justify-content: space-around;
   gap: var(--gap, 1rem);
-  animation: marquee-x var(--duration, 40s) linear infinite;
+  animation: marquee-x var(--duration, 40s) linear var(--marquee-delay, 0s) infinite;
 }
 .marquee--vertical .marquee__track {
   flex-direction: column;
@@ -22,6 +22,32 @@
 }
 .marquee__track--reverse {
   animation-direction: reverse;
+}
+.marquee[data-overflow-only] {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0;
+}
+.marquee[data-still] .marquee__track {
+  animation: none;
+}
+.marquee[data-fade] {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black var(--marquee-fade),
+    black calc(100% - var(--marquee-fade)),
+    transparent
+  );
+}
+.marquee--vertical[data-fade] {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--marquee-fade),
+    black calc(100% - var(--marquee-fade)),
+    transparent
+  );
 }
 .marquee[data-pause-hover]:hover .marquee__track {
   animation-play-state: paused;

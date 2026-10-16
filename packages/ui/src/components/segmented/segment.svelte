@@ -17,6 +17,11 @@ export type SegmentContent = {
 	 * where there is no count, because a count already says the same thing.
 	 */
 	done?: boolean;
+	/**
+	 * A short note after the label, such as "Save 20%". Text where `count` is a
+	 * number, in the accent colour. Drawn before a count or a done dot.
+	 */
+	badge?: string;
 };
 </script>
 
@@ -42,7 +47,7 @@ type Props = SegmentContent & {
 // =========================
 // PROPS
 // =========================
-let { label, count, icon, image, done = false, active = false }: Props = $props();
+let { label, count, icon, image, done = false, badge, active = false }: Props = $props();
 
 // =========================
 // DERIVED
@@ -69,6 +74,10 @@ let on = $derived(active === true);
 {/if}
 
 {label}
+
+{#if badge}
+	<span class="text-primary text-[10px] font-semibold tracking-wide whitespace-nowrap uppercase">{badge}</span>
+{/if}
 
 {#if count != null}
 	<span

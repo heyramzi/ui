@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EllipsisIcon from "@lucide/svelte/icons/ellipsis";
+	import { DotsThree } from "phosphor-svelte";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { cn, type WithElementRef, type WithoutChildren } from "@heyramzi/utils";
 
@@ -18,6 +18,6 @@
 	class={cn("flex size-9 items-center justify-center", className)}
 	{...restProps}
 >
-	<EllipsisIcon class="size-4" />
+	<DotsThree class="size-4" />
 	<span class="sr-only">More</span>
 </span>

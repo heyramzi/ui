@@ -23,15 +23,15 @@
 		...rest
 	}: ConfirmationProps = $props();
 
-	// WHY: setContext runs once on mount but the value is referenced reactively via the proxy Svelte sets up on objects passed to setContext.
-
-	// State changes rerun any $derived in child components.
-	const ctx = $state({ kind, executing });
-	$effect(() => {
-		ctx.kind = kind;
-		ctx.executing = executing;
+	// WHY getters: setContext runs once on mount, so the parts read the props through these and rerun their $derived when a prop changes.
+	setConfirmationContext({
+		get kind() {
+			return kind;
+		},
+		get executing() {
+			return executing;
+		},
 	});
-	setConfirmationContext(ctx);
 </script>
 
 {#if kind !== "idle"}

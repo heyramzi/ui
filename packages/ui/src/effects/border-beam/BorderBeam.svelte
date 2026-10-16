@@ -37,7 +37,7 @@
 
 	// STATE
 	const uid = `bb-${Math.random().toString(36).slice(2, 10)}`;
-	let container = null;
+	let container = $state<HTMLElement | null>(null);
 	let systemTheme = $state<ResolvedTheme>("dark");
 	let isActive = $state(false);
 	let isFading = $state(false);

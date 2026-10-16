@@ -11,7 +11,7 @@
  */
 
 /*
- * The homes are not all in this folder: five live on the component that already did the job. See README.md.
+ * The homes are not all in this folder: fifteen live on the component that already did the job. See README.md.
  */
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";

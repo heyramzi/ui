@@ -4,7 +4,7 @@
 // =========================
 import type { Snippet } from "svelte";
 import { cn } from "@heyramzi/utils";
-import { segmentedTrackClass } from "#src/components/segmented/segmented.js";
+import { segmentedTrackClass, type SegmentedVariant } from "#src/components/segmented/segmented.js";
 import { slidingPill } from "#src/lib/sliding-pill.js";
 
 // =========================
@@ -13,6 +13,8 @@ import { slidingPill } from "#src/lib/sliding-pill.js";
 type Props = {
 	/** Fill the row rather than sit at its natural width. */
 	fill?: boolean;
+	/** `pill`, a bordered well with a travelling highlight, or `underline`, a travelling rule. */
+	variant?: SegmentedVariant;
 	class?: string;
 	children: Snippet;
 	/**
@@ -30,6 +32,7 @@ type Props = {
 // =========================
 let {
 	fill = false,
+	variant = "pill",
 	class: className,
 	children,
 	after,
@@ -42,7 +45,11 @@ let {
 <!-- =========================== -->
 <!-- WHY its own component: the active segment is a travelling pill, and the
      pill needs one element inside the track that no caller can forget. -->
-<div {...rest} class={cn("track relative", segmentedTrackClass({ fill }), className)}>
+<div
+	{...rest}
+	data-variant={variant}
+	class={cn("track relative", segmentedTrackClass({ variant, fill }), className)}
+>
 	<!-- Renders at zero width until the attachment measures, so a server-rendered
 	     strip shows the segment's own background and never an empty pill. -->
 	<span class="pill" aria-hidden="true" {@attach slidingPill}></span>
@@ -130,6 +137,36 @@ let {
 	.track:not([data-pill="on"]) :global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
 		background-color: var(--color-muted);
 		box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-foreground) 6%, transparent);
+	}
+
+	/* The underline: no seams, no wash, and the pill becomes a 2px rule on the
+	   hairline. `--segmented-rule` lets a brand colour it from a class. */
+	.track[data-variant="underline"] :global(.ui-segment)::before {
+		display: none;
+	}
+
+	@media (hover: hover) {
+		.track[data-variant="underline"]
+			:global(
+				.ui-segment:hover:not([data-state="active"], [aria-current="page"], [aria-pressed="true"], [data-state="open"])
+			) {
+			background-color: transparent;
+		}
+	}
+
+	.track[data-variant="underline"] .pill {
+		top: auto;
+		bottom: -1px;
+		height: 2px;
+		border-radius: 1px;
+		background-color: var(--segmented-rule, var(--color-foreground));
+		box-shadow: none;
+	}
+
+	.track[data-variant="underline"]:not([data-pill="on"])
+		:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
+		background-color: transparent;
+		box-shadow: inset 0 -2px 0 var(--segmented-rule, var(--color-foreground));
 	}
 
 	@media (prefers-reduced-motion: reduce) {

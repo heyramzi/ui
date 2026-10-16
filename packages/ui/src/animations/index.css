@@ -1,34 +1,23 @@
 /* Transitions.dev — bundle */
 /* Source: https://github.com/Jakubantalik/transitions.dev */
-/* Refresh the vendored upstream with `pnpm sync:transitions`. Two free
-   transitions are not here because a component already owns them: the switch
-   thumb lives in shadcn/switch/switch.css and the checkbox draw in
-   shadcn/checkbox/checkbox.css. See README.md. */
+/* Refresh the vendored upstream with `pnpm sync:transitions`. Fourteen free
+   transitions are not here because a component already owns them. See
+   README.md. */
 
 @import "./modal.css";
-@import "./icon-swap.css";
-@import "./panel.css";
 @import "./dropdown.css";
 @import "./text-swap.css";
 @import "./resize.css";
 @import "./digit-pop-in.css";
-@import "./notification-badge.css";
 @import "./page-side-by-side.css";
 @import "./input-shake.css";
 @import "./success-check.css";
 @import "./avatar-group-hover.css";
-@import "./skeleton-reveal.css";
 @import "./shimmer-text.css";
-@import "./tabs-sliding.css";
-@import "./tooltip.css";
-@import "./texts-reveal.css";
 @import "./input-clear-dissolve.css";
-@import "./accordion.css";
 @import "./learn-more-hover.css";
 @import "./card-tilt.css";
 @import "./plus-menu-morph.css";
 @import "./like-button.css";
 @import "./spinning-counter.css";
 @import "./thinking-states.css";
-@import "./reasoning-stream.css";
-@import "./streaming-text.css";

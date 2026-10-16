@@ -1,4 +1,5 @@
-import type { RevealViewOptions } from "#src/effects/reveal/types.js";
+import type { Action } from "svelte/action";
+import type { InViewActionOptions, RevealViewOptions } from "#src/effects/reveal/types.js";
 
 /**
  * Runs `onChange` when `el` enters or leaves the viewport. Returns the teardown.
@@ -31,3 +32,34 @@ export function observeInView(
   observer.observe(el);
   return () => observer.disconnect();
 }
+
+/**
+ * Svelte action that calls back when the node enters or leaves the viewport.
+ * Options are read at call time, so a `use:onInView={...}` update swaps the callbacks.
+ *
+ * @example
+ * <section use:onInView={{ amount: 0.2, onEnter: () => (visible = true) }}>
+ */
+export const onInView: Action<HTMLElement, InViewActionOptions | undefined> = (node, initial) => {
+  let options = initial ?? {};
+  let entered = false;
+
+  const { amount = 0.1, margin, once } = options;
+
+  const stop = observeInView(node, { amount, margin, once }, (inView) => {
+    if (inView && !entered) {
+      entered = true;
+      options.onEnter?.();
+    } else if (!inView && entered) {
+      entered = false;
+      options.onLeave?.();
+    }
+  });
+
+  return {
+    update(next) {
+      options = next ?? {};
+    },
+    destroy: stop,
+  };
+};

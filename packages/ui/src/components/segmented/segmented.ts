@@ -15,13 +15,21 @@ export const segmentedTrackClass = tv({
   // drew 30px beside a 28px button. One toolbar row came out at five heights.
 
   // WHY no size variant: `sm` drew 24px, and every tab control must share one height.
-  base: "h-7 any-pointer-coarse:h-10 shrink-0 items-stretch overflow-hidden rounded-lg border border-border p-0.5",
+  base: "h-7 any-pointer-coarse:h-10 shrink-0 items-stretch",
   variants: {
+    // `pill`: a bordered well with a travelling highlight. `underline`: bare
+    // labels over one hairline, the active one marked by a rule that travels.
+    variant: {
+      pill: "overflow-hidden rounded-lg border border-border p-0.5",
+      underline: "gap-5 border-b border-border",
+    },
     // Fill the row rather than sit at its natural width. For a narrow rail.
     fill: { true: "flex w-full", false: "inline-flex w-fit" },
   },
-  defaultVariants: { fill: false },
+  defaultVariants: { variant: "pill", fill: false },
 });
+
+export type SegmentedVariant = "pill" | "underline";
 
 export const segmentedTriggerClass = tv({
   base: [
@@ -41,15 +49,22 @@ export const segmentedTriggerClass = tv({
     "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none",
     // WHY no height on the trigger: an icon makes a segment taller than a word.
     // `h-full` against the track's `items-stretch` keeps every segment the same box.
-    "h-full rounded-[calc(var(--radius-lg)-3px)] px-2.5 text-xs any-pointer-coarse:px-3.5",
+    "h-full text-xs",
   ],
   variants: {
+    // The pill is concentric with the track's border and its 2px inset. The
+    // underline has no well to be concentric with, so no padding either: the
+    // rule under a label is as wide as the label.
+    variant: {
+      pill: "rounded-[calc(var(--radius-lg)-3px)] px-2.5 any-pointer-coarse:px-3.5",
+      underline: "rounded-sm px-0",
+    },
     // WHY `min-w-fit flex-auto`, not equal fractions: fractions cut "Approved" to
     // "Appro…" in a 280px rail. Each segment claims its label and shares the slack.
     fill: { true: "min-w-fit flex-auto", false: "" },
     active: { true: "text-foreground", false: "" },
   },
-  defaultVariants: { fill: false, active: false },
+  defaultVariants: { variant: "pill", fill: false, active: false },
 });
 
 /**

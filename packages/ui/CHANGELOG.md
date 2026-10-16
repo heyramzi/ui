@@ -1,5 +1,46 @@
 # Changelog
 
+## Unreleased
+
+### Breaking changes
+
+* feat(ui)!: `./lib/*` resolves real files with types, and takes `.js` or no extension: `@heyramzi/ui/lib/layout.js`
+* feat(ui)!: remove `lib/utils.ts`; import `cn`, `WithElementRef`, `WithoutChildren`, `Result` and `tryCatch` from `@heyramzi/utils`, and drop `clsx` and `tailwind-merge` as direct dependencies
+* feat(ui)!: remove `Composer` and the `./ai` export `ComposerProps`; `PromptInput` takes its `error` and `accent`, and puts a leading control or a header inside `PromptInputBody`
+* feat(ui)!: remove `viewTransitionReveal` and `animations/view-transition-reveal.ts`; `revealTheme` takes a click, an element or an `{ x, y }` point and injects the view-transition reset itself, so `ThemeToggle.css` no longer carries it
+* feat(ui)!: remove the animation files `tabs-sliding`, `tooltip`, `accordion`, `skeleton-reveal`, `notification-badge`, `reasoning-stream`, `streaming-text`, `texts-reveal`, `icon-swap` and `panel`, since a component already owns each motion; the sheet slide is now `shadcn/sheet/sheet.css`, which the sheet imports itself
+* feat(ui)!: `shadcn/calendar` defaults to `weekStartsOn={1}` and `fixedWeeks`, so weeks start on Monday and every month draws six rows
+* feat(ui)!: `shadcn/code-block` `CopyButton` renders the shared copy control, so `size` is `default`, `md` (the default here) or `sm`, `variant` is `ghost` or `outline`, and the check holds for 1.4s instead of 2s
+* feat(ui)!: `shadcn/alert` takes `role`, so a calm message can pass `status`
+* feat(ui)!: `ImageComparison` drops `start`; the handle begins at `position` (default 50), and `hover` returns to that first value
+* feat(ui)!: remove the `./lib/*.ts` export, so `@heyramzi/ui/lib/theme-transition.ts` no longer resolves; drop the extension or write `.js`
+* feat(ui)!: `@lucide/svelte` is no longer a dependency; the breadcrumb, calendar, message scroller, radio group, sonner, trace, theme toggle and the showcase demos draw Phosphor icons, so a toast or a radio dot may sit a pixel differently
+
+### Features
+
+* feat(ui): `CopyButton` takes `variant="inline"` for a chip that sits in running text (the font and colour are the surrounding text's, the icon trails), and `announce="name"` to swap the button's own name to `copiedLabel` instead of a live region
+* feat(ui): `shadcn/accordion` `AccordionTrigger` takes an `indicator` snippet that replaces the caret
+* feat(ui): `lib/panel` exports `insetWellClass`, the inset well for a control block inside a panel
+* feat(ui): `components/segmented`, one bordered track for tabs, a filter or nav links: `AnimatedTabs`, `SegmentedFilter`, `SegmentedNav`, `SectionRuns`, with a sliding pill on `lib/sliding-pill` and an overflow menu past six segments
+* feat(ui): `components/picker` (`Picker`, `MarkPicker`), `components/mark`, `components/icon`
+* feat(ui): `components/copy` (`CopyButton`, `copyText`, `copyRichText`, `Copied`), with a default accessible name
+* feat(ui): `components/data-table`, `components/list-page` (a master-detail page kit; the section strip comes from `setSectionHost`), `components/hold-to-confirm`, `components/star-rating-input`, `components/svg`, `components/language-flag`, `components/locale-switch`
+* feat(ui): `effects/theme-toggle` takes `variant="slide"`, a pill track with a thumb that moves between a sun and a moon, coloured by `--theme-toggle-*` custom properties on `class`
+* feat(ui): `effects/magic-card`, a frosted card with a glow that follows the pointer, coloured by `--magic-card-glow`
+* feat(ui): `components/open-in`, a link out to a tool that takes the tool's name, label and mark as a prop
+* feat(ui): `effects/interactive-hover-button`, `ai/ai-button` and `ai/generation-progress`
+* feat(ui): `shadcn/field` `SimpleField`: a label, a hint or an error and the control, with the message tied to the control by `aria-describedby`
+* feat(ui): `shadcn/command` exports `computeCommandScore`
+* feat(ui): `lib/tone` (`Tone`, `TONE_CLASS`, `TONE_TEXT`, `TONE_ICON`, `TONE_COLOR`)
+* feat(ui): `shadcn/badge` takes `tone` (neutral, accent, info, success, warning, destructive), an outlined chip read from `TONE_CLASS`; it ignores `variant`
+* feat(ui): `effects/reveal` exports the `onInView` action, which calls `onEnter` and `onLeave` as a node crosses the viewport, with `amount`, `margin` and `once`
+* feat(ui): `effects/marquee` takes `speed` (px/s, measured from the track), `fade` (edge masks), `delay`, `style` and `overflowOnly`, which scrolls a line of text only while it is wider than its box; the repeated copies are `aria-hidden`
+* feat(ui): `AnimatedTabs` takes `variant="underline"`: bare labels over a hairline with a travelling rule (colour it with `--segmented-rule`), the same height and overflow menu as the pill; a segment takes a `badge` note such as "Save 20%"
+* feat(ui): `ImageComparison` takes a bindable `position`, `beforeBadge` and `afterBadge` snippets with `badgeEdge`, picture `sources` with `width` and `height` on each side, `eager` loading, a `hint` sweep on mount and brand hooks for the handle and grip (`--hr-compare-*`); the grip draws chevrons, the range steps by 1 and a vertical swipe still scrolls
+* feat(ui): `NoticeBar` and the list-page empty states are built on `shadcn/alert` and `shadcn/empty`
+* feat(ui): every busy state renders `shadcn/spinner`: the toast loader, the prompt submit and infinite scroll
+* feat(rich-editor): new package `@heyramzi/rich-editor` 0.1.0, the Tiptap editor, renderer and Markdown bridge that were inside an app; a comparison table's winner cell carries `data-winner` as the first word of the cell, and a host colours its own products
+
 ## [4.5.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.4.1...ui-v4.5.0) (2026-10-01)
 
 

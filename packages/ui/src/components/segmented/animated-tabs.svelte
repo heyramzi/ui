@@ -31,7 +31,11 @@
 	import SegmentedTrack from "#src/components/segmented/segmented-track.svelte";
 	import SegmentedOverflow from "#src/components/segmented/segmented-overflow.svelte";
 	import { SEGMENT_MAX, splitSegments } from "#src/components/segmented/collapse.js";
-	import { segmentedActiveClass, segmentedTriggerClass } from "#src/components/segmented/segmented.js";
+	import {
+		segmentedActiveClass,
+		segmentedTriggerClass,
+		type SegmentedVariant,
+	} from "#src/components/segmented/segmented.js";
 
 	// WHY re-declare `value` and `onValueChange`: the primitive types them as a
 	// bare `string`, so fourteen pages cast back to their union. Generic now, the
@@ -45,6 +49,9 @@
 		// WHY: when true the track stretches to its container and triggers share width equally.
 		// Use for narrow side panels where pickers should fill the row.
 		block?: boolean;
+		// `underline`: bare labels over a hairline, a travelling rule marks the active one.
+		// Same height and overflow menu. Colour the rule with `--segmented-rule` on `class`.
+		variant?: SegmentedVariant;
 		ariaLabel?: string;
 		toolbar?: import("svelte").Snippet;
 		// WHY: content ABOVE the tab row but inside the root. A detail pane names the
@@ -69,6 +76,7 @@
 		tabs,
 		placement = "toolbar",
 		block = false,
+		variant = "pill",
 		ariaLabel,
 		toolbar,
 		lead,
@@ -120,14 +128,14 @@
 				listWrapperClass,
 			)}
 		>
-			<SegmentedTrack fill={block}>
+			<SegmentedTrack fill={block} {variant}>
 				<!-- WHY an inner `display: contents` tablist: a tablist owns only tabs, and the
 				     overflow trigger isn't one. `contents` keeps segments as direct flex children. -->
 				<div class="contents" data-slot="tabs-list" role="tablist" aria-label={ariaLabel}>
 					{#each split.visible as tab (tab.value)}
 						<TabsPrimitive.Trigger
 							value={tab.value}
-							class={cn(segmentedTriggerClass({ fill: block }), segmentedActiveClass)}
+							class={cn(segmentedTriggerClass({ variant, fill: block }), segmentedActiveClass)}
 						>
 							<Segment
 								label={tab.label}
@@ -135,6 +143,7 @@
 								icon={tab.icon}
 								image={tab.image}
 								done={tab.done}
+								badge={tab.badge}
 								active="auto"
 							/>
 						</TabsPrimitive.Trigger>
@@ -150,6 +159,7 @@
 							}}
 							label={moreLabel}
 							fill={block}
+							{variant}
 						/>
 					{/if}
 				{/snippet}

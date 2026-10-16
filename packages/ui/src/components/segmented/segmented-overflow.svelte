@@ -5,7 +5,7 @@
 import { CaretDown } from "phosphor-svelte";
 import { Picker } from "#src/components/picker/index.js";
 import { cn } from "@heyramzi/utils";
-import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
+import { segmentedTriggerClass, type SegmentedVariant } from "#src/components/segmented/segmented.js";
 import type { SegmentContent } from "#src/components/segmented/segment.svelte";
 
 // =========================
@@ -24,6 +24,7 @@ type Props = {
 	/** What the segment says. Translate at the call site. */
 	label?: string;
 	fill?: boolean;
+	variant?: SegmentedVariant;
 	searchPlaceholder?: string;
 	emptyLabel?: string;
 };
@@ -36,6 +37,7 @@ let {
 	onSelect,
 	label = "More",
 	fill = false,
+	variant = "pill",
 	searchPlaceholder,
 	emptyLabel,
 }: Props = $props();
@@ -63,7 +65,7 @@ let options = $derived(
 	value={null}
 	onSelect={(value) => onSelect(value)}
 	triggerClass={cn(
-		segmentedTriggerClass({ fill }),
+		segmentedTriggerClass({ variant, fill }),
 		"data-[state=open]:bg-foreground/5 data-[state=open]:text-foreground",
 	)}
 	triggerLabel={label}

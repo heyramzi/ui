@@ -34,11 +34,6 @@
       "types": "./src/lib/*.ts",
       "default": "./src/lib/*.ts"
     },
-    "./lib/*.ts": {
-      "svelte": "./src/lib/*.ts",
-      "types": "./src/lib/*.ts",
-      "default": "./src/lib/*.ts"
-    },
     "./lib/*": {
       "svelte": "./src/lib/*.ts",
       "types": "./src/lib/*.ts",
@@ -69,6 +64,10 @@
       "svelte": "./src/effects/spotlight/Spotlight.svelte",
       "default": "./src/effects/spotlight/Spotlight.svelte"
     },
+    "./effects/magic-card": {
+      "svelte": "./src/effects/magic-card/MagicCard.svelte",
+      "default": "./src/effects/magic-card/MagicCard.svelte"
+    },
     "./effects/marquee": {
       "svelte": "./src/effects/marquee/Marquee.svelte",
       "default": "./src/effects/marquee/Marquee.svelte"
@@ -91,6 +90,10 @@
     "./effects/progressive-blur": {
       "svelte": "./src/effects/progressive-blur/ProgressiveBlur.svelte",
       "default": "./src/effects/progressive-blur/ProgressiveBlur.svelte"
+    },
+    "./effects/interactive-hover-button": {
+      "svelte": "./src/effects/interactive-hover-button/InteractiveHoverButton.svelte",
+      "default": "./src/effects/interactive-hover-button/InteractiveHoverButton.svelte"
     },
     "./effects/image-comparison": {
       "svelte": "./src/effects/image-comparison/ImageComparison.svelte",
@@ -128,16 +131,6 @@
     },
     "./animations/*": {
       "default": "./src/animations/*"
-    },
-    "./showcase": {
-      "svelte": "./src/showcase/index.ts",
-      "types": "./src/showcase/index.ts",
-      "default": "./src/showcase/index.ts"
-    },
-    "./showcase/kit": {
-      "svelte": "./src/showcase/kit.ts",
-      "types": "./src/showcase/kit.ts",
-      "default": "./src/showcase/kit.ts"
     },
     "./shadcn/hooks/*": {
       "svelte": "./src/shadcn/hooks/*.ts",
@@ -184,18 +177,16 @@
   },
   "dependencies": {
     "@heyramzi/utils": "^1.3.3",
-    "@lucide/svelte": "^1.52.0",
     "@shadcn-svelte/primitives": "^0.0.1",
-    "clsx": "^2.1.1",
     "marked": "^18.1.0",
     "phosphor-svelte": "^3.1.0",
     "shiki": "^4.5.0",
-    "tailwind-merge": "^3.7.0",
     "tailwind-variants": "^3.3.1"
   },
   "devDependencies": {
     "@internationalized/date": "^3.12.4",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^26.6.4",
     "bits-ui": "^2.19.5",
     "jsdom": "^30.1.2",
     "mode-watcher": "^1.1.0",

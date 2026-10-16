@@ -11,11 +11,12 @@ only a convenience.
 ## What is inside
 
 - `src/shadcn` shadcn-svelte primitives, generalized.
+- `src/components` generic pieces on the primitives: segmented control, picker, copy button, data table, list page, hold to confirm and more.
 - `src/effects` animated borders, beams, marquee, spotlight, image reveal,
   image comparison, shimmer gradients and a theme toggle.
 - `src/animations` keyframe CSS for dropdowns, modals, tooltips, text swaps,
   success checks and the rest of the motion vocabulary.
-- `src/ai` chat and AI surfaces: composer, prompt input, response, reasoning, confirmation and loaders.
+- `src/ai` chat and AI surfaces: prompt input, response, reasoning, confirmation and loaders.
 - `src/agents` bot avatars and a cast grid, imported from `@heyramzi/ui/agents`:
   `AgentAvatar` draws an eyes-only face from a name, role, shape and colour, and
   `AgentCast` lays a list of agents out as cards you can pick from.
@@ -40,6 +41,9 @@ import `@heyramzi/ui/shadcn/utilities.css`.
 Retheme by overriding any variable on `:root`, for example
 `--color-brand-indigo` or `--radius-lg`. Dark mode keys off a `.dark`
 class on `html`.
+
+Rich text lives in [`@heyramzi/rich-editor`](https://github.com/heyramzi/ui/tree/main/packages/rich-editor),
+so the kit doesn't pull Tiptap into every app.
 
 Charts live in their own package now,
 [`@heyramzi/charts`](https://github.com/heyramzi/ui/tree/main/packages/charts). It reads

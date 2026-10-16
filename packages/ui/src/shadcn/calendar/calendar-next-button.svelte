@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Calendar as CalendarPrimitive } from "bits-ui";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import { CaretRight } from "phosphor-svelte";
 	import { buttonVariants, type ButtonVariant } from "#src/shadcn/button/index.js";
 	import { cn } from "@heyramzi/utils";
 
@@ -16,7 +16,7 @@
 </script>
 
 {#snippet Fallback()}
-	<ChevronRightIcon class="size-4" />
+	<CaretRight class="size-4" />
 {/snippet}
 
 <CalendarPrimitive.NextButton

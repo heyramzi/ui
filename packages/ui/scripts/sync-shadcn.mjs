@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Sync shadcn-svelte into src/shadcn and its demos into the showcase, three-way
+/* Sync shadcn-svelte into src/shadcn and its demos into the site, three-way
  * per file against `.upstream/`. The rules and why: ../docs/decisions.md. */
 
 //   pnpm sync:shadcn          fetch, vendor, apply, report
@@ -8,7 +8,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { basename, dirname, resolve } from "node:path";
+import { basename, dirname, relative, resolve } from "node:path";
 import {
   CHECK,
   classify,
@@ -56,16 +56,16 @@ const REROUTE = {
 
 const DOCS = "https://raw.githubusercontent.com/huntabyte/shadcn-svelte/main/docs";
 const DEMO_VENDOR = `${PKG}/.upstream/shadcn-demos`;
-const DEMO_LOCAL = `${PKG}/src/showcase/demos/shadcn`;
+const DEMO_LOCAL = `${ROOT}/site/src/lib/shadcn-demos`;
 const DEMO_MANIFEST = `${DEMO_LOCAL}/index.ts`;
 
 /* The docs site's aliases. A demo is a docs file, not a registry payload, so it
  * carries `$lib/...` rather than the registry's `$UI$`. */
 const DEMO_ALIASES = [
-  ["$lib/registry/ui/", "#src/shadcn/"],
+  ["$lib/registry/ui/", "@heyramzi/ui/shadcn/"],
   // A handful reach their neighbour by relative path instead of the alias.
-  ["../ui/", "#src/shadcn/"],
-  ["$lib/registry/hooks/", "#src/shadcn/hooks/"],
+  ["../ui/", "@heyramzi/ui/shadcn/"],
+  ["$lib/registry/hooks/", "@heyramzi/ui/shadcn/hooks/"],
   ["$lib/utils.js", "@heyramzi/utils"],
   // The peer here is the runes build, published under its own name.
   ["@tabler/icons-svelte/", "@tabler/icons-svelte-runes/"],
@@ -107,12 +107,16 @@ const NO_DEMO = new Set([
 ]);
 
 const adapt = (text) => ALIASES.reduce((acc, [from, to]) => acc.replaceAll(from, to), text);
+/* The site imports the kit the way a consumer does, so the exports map names a
+ * primitive without its `/index.js` and a hook without its `.js`. */
 const adaptDemo = (text) =>
-  DEMO_ALIASES.reduce((acc, [from, to]) => acc.replaceAll(from, to), text);
+  DEMO_ALIASES.reduce((acc, [from, to]) => acc.replaceAll(from, to), text)
+    .replace(/(@heyramzi\/ui\/shadcn\/[a-z-]+)\/index\.js/g, "$1")
+    .replace(/(@heyramzi\/ui\/shadcn\/hooks\/[a-z-]+(?:\.svelte)?)\.js/g, "$1");
 const readIf = (path) => (existsSync(path) ? readFileSync(path, "utf8") : null);
 const route = (name, target) => `${PKG}/${REROUTE[`${name}/${target}`] ?? `src/shadcn/${target}`}`;
 /** Report a file by where it lives here, not by its upstream target. */
-const label = (path) => path.slice(PKG.length + 1);
+const label = (path) => (path.startsWith(`${PKG}/`) ? path.slice(PKG.length + 1) : relative(ROOT, path));
 
 const pascal = (name) => name.replace(/(^|-)([a-z])/g, (_, __, c) => c.toUpperCase());
 
@@ -127,10 +131,10 @@ const meta = (doc, name) => {
   return { title: field("title") ?? pascal(name), note: field("description") ?? "" };
 };
 
-/** The demo's own shadcn imports, respelled as a consumer writes them. */
+/** The demo's own shadcn imports, as it spells them for a consumer. */
 const publicImports = (demo) =>
-  [...demo.matchAll(/import[^;]*?from\s+"#src\/shadcn\/([^"]+?)(?:\/index\.js)?";/g)]
-    .map((m) => m[0].replace(/"[^"]+"/, `"@heyramzi/ui/shadcn/${m[1]}"`))
+  [...demo.matchAll(/import[^;]*?from\s+"@heyramzi\/ui\/shadcn\/[^"]+";/g)]
+    .map((m) => m[0])
     .join("\n");
 
 /* The section's list, generated: a primitive reaches the page by being synced,
@@ -145,7 +149,7 @@ async function writeManifest(demos) {
     " * own, and the sync rewrites this list. */",
     'import type { Component } from "svelte";',
     ...demos.map(
-      (d) => `import ${pascal(d.name)}Demo from "#src/showcase/demos/shadcn/${d.name}.svelte";`,
+      (d) => `import ${pascal(d.name)}Demo from "./${d.name}.svelte";`,
     ),
     "",
     "export type ShadcnDemo = {",
@@ -267,7 +271,7 @@ const ours = readdirSync(LOCAL, { withFileTypes: true })
 for (const name of ours) buckets.unported.push(`${name} — in src/shadcn, not in the registry`);
 
 /* The docs site's own demo for each primitive, vendored on the same three-way
- * rule. Upstream writes them; the showcase renders them. */
+ * rule. Upstream writes them; the site renders them. */
 const demoNames = [...Object.keys(entries), ...LOCAL_ONLY]
   .filter((name) => !NO_DEMO.has(name))
   .toSorted();

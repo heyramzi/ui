@@ -2,15 +2,20 @@
 	import { CaretDown } from "phosphor-svelte";
 	import { Accordion as AccordionPrimitive } from "bits-ui";
 	import { cn, type WithoutChild } from "@heyramzi/utils";
+	import type { Snippet } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		level = 3,
+		indicator,
 		children,
 		...restProps
 	}: WithoutChild<AccordionPrimitive.TriggerProps> & {
 		level?: AccordionPrimitive.HeaderProps["level"];
+		/** Replaces the caret, e.g. a plus that turns into a minus. Style it off
+		 * `group-aria-expanded/accordion-trigger:`. */
+		indicator?: Snippet;
 	} = $props();
 </script>
 
@@ -25,11 +30,15 @@
 		{...restProps}
 	>
 		{@render children?.()}
-		<!-- One caret that turns over, not two that swap. A transform and not a
-		     `d:` path morph, which is Chromium-only. -->
-		<CaretDown
-			data-slot="accordion-trigger-icon"
-			class="cn-accordion-trigger-icon pointer-events-none shrink-0 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-aria-expanded/accordion-trigger:rotate-180 motion-reduce:transition-none"
-		/>
+		{#if indicator}
+			{@render indicator()}
+		{:else}
+			<!-- One caret that turns over, not two that swap. A transform and not a
+			     `d:` path morph, which is Chromium-only. -->
+			<CaretDown
+				data-slot="accordion-trigger-icon"
+				class="cn-accordion-trigger-icon pointer-events-none shrink-0 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-aria-expanded/accordion-trigger:rotate-180 motion-reduce:transition-none"
+			/>
+		{/if}
 	</AccordionPrimitive.Trigger>
 </AccordionPrimitive.Header>

@@ -19,7 +19,7 @@
 		"notification-badge": {
 			"name": "Notification badge",
 			"sha256": "89a20d17b1bf2037",
-			"local": "animations/notification-badge.css"
+			"local": "shadcn/badge/badge.svelte"
 		},
 		"text-states-swap": {
 			"name": "Text states swap",
@@ -39,7 +39,7 @@
 		"panel-reveal": {
 			"name": "Panel reveal",
 			"sha256": "0ce5c8a638f70b4d",
-			"local": "animations/panel.css"
+			"local": "shadcn/sheet/sheet-content.svelte"
 		},
 		"page-side-by-side": {
 			"name": "Page side-by-side",
@@ -49,7 +49,7 @@
 		"icon-swap": {
 			"name": "Icon swap",
 			"sha256": "5f7f0e3e579ccb9a",
-			"local": "animations/icon-swap.css"
+			"local": "effects/theme-toggle/ThemeToggle.svelte"
 		},
 		"success-check": {
 			"name": "Success check",
@@ -74,17 +74,17 @@
 		"skeleton-loader-and-reveal": {
 			"name": "Skeleton loader and reveal",
 			"sha256": "de909a56779acd8f",
-			"local": "animations/skeleton-reveal.css"
+			"local": "shadcn/skeleton/skeleton.svelte"
 		},
 		"texts-reveal": {
 			"name": "Texts reveal",
 			"sha256": "ed37b7cad22a4503",
-			"local": "animations/texts-reveal.css"
+			"local": "effects/reveal/TextEffect.svelte"
 		},
 		"tabs-sliding": {
 			"name": "Tabs sliding",
 			"sha256": "bad0d8f816d26ea1",
-			"local": "animations/tabs-sliding.css"
+			"local": "shadcn/tabs/tabs-list.svelte"
 		},
 		"shimmer-text": {
 			"name": "Shimmer text",
@@ -94,7 +94,7 @@
 		"tooltip-open-close": {
 			"name": "Tooltip open/close",
 			"sha256": "712e8268abd05248",
-			"local": "animations/tooltip.css"
+			"local": "shadcn/tooltip/tooltip-content.svelte"
 		},
 		"3d-tilt": {
 			"name": "3D tilt",
@@ -109,7 +109,7 @@
 		"accordion": {
 			"name": "Accordion",
 			"sha256": "2579a8c31fdb0826",
-			"local": "animations/accordion.css"
+			"local": "shadcn/accordion/accordion-content.svelte"
 		},
 		"toast-open-close": {
 			"name": "Toast open/close",
@@ -149,12 +149,12 @@
 		"reasoning-stream": {
 			"name": "Reasoning stream",
 			"sha256": "601178b114ae5845",
-			"local": "animations/reasoning-stream.css"
+			"local": "ai/reasoning/ReasoningContent.svelte"
 		},
 		"streaming-text": {
 			"name": "Streaming text",
 			"sha256": "2cdcf74e756868cd",
-			"local": "animations/streaming-text.css"
+			"local": "effects/reveal/TextEffect.svelte"
 		},
 		"matrix-dot-loader": {
 			"name": "Matrix dot loader",

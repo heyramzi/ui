@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Collapsible from "#src/shadcn/collapsible/index.js";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import { CaretRight } from "phosphor-svelte";
 	import { cn, type WithoutChild } from "@heyramzi/utils";
 	import TraceIcon from "./trace-icon.svelte";
 	import type { Collapsible as CollapsiblePrimitive } from "bits-ui";
@@ -24,6 +24,6 @@
 >
 	{@render children?.()}
 	<TraceIcon class="transition-transform group-aria-expanded/trace-collapsible-trigger:rotate-90">
-		<ChevronRightIcon />
+		<CaretRight />
 	</TraceIcon>
 </Collapsible.Trigger>

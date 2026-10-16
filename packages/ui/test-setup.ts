@@ -1,5 +1,5 @@
 /*
- * jsdom ships no layout engine, so the browser APIs the showcase components call on mount are stubbed here as no-ops.
+ * jsdom ships no layout engine, so the browser APIs the gallery demos call on mount are stubbed here as no-ops.
  */
 
 class ResizeObserverStub {

@@ -106,6 +106,7 @@ function pick(next: T) {
 					icon={option.icon}
 					image={option.image}
 					done={option.done}
+					badge={option.badge}
 					{active}
 				/>
 			</button>

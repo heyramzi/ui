@@ -4,6 +4,7 @@
 </script>
 
 <script lang="ts">
+	import "#src/shadcn/sheet/sheet.css";
 	import { Dialog as SheetPrimitive } from "bits-ui";
 	import type { Snippet } from "svelte";
 	import SheetPortal from "#src/shadcn/sheet/sheet-portal.svelte";

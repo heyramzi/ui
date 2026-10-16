@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { MessageScroller as MessageScrollerPrimitive } from "@shadcn-svelte/primitives/message-scroller";
-	import ArrowDownIcon from "@lucide/svelte/icons/arrow-down";
+	import { ArrowDown } from "phosphor-svelte";
 	import { Button } from "#src/shadcn/button/index.js";
 	import type { ButtonSize, ButtonVariant } from "#src/shadcn/button/index.js";
 	import { cn } from "@heyramzi/utils";
@@ -41,7 +41,7 @@
 				{#if children}
 					{@render children()}
 				{:else}
-					<ArrowDownIcon />
+					<ArrowDown />
 					<span class="sr-only">
 						{direction === "end" ? "Scroll to end" : "Scroll to start"}
 					</span>
