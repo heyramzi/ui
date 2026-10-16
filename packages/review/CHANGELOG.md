@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Bug Fixes
+
+* fix(review): import `revealTheme` from `@heyramzi/ui/lib/theme-transition.js`, since the `./lib/*.ts` export is gone
+
 ## [0.2.0](https://github.com/heyramzi/ui/compare/review-v0.1.0...review-v0.2.0) (2026-10-06)
 
 ### Features

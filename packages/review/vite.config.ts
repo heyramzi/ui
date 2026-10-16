@@ -14,5 +14,10 @@ export default defineConfig({
     cssCodeSplit: false,
     lib: { entry: "src/index.ts", formats: ["es"], fileName: "review", cssFileName: "review" },
   },
-  test: { environment: "jsdom", include: ["src/**/*.test.ts", "scripts/**/*.test.ts"] },
+  // WHY inline: @heyramzi/utils ships TypeScript source, and node refuses to strip types under node_modules.
+  test: {
+    environment: "jsdom",
+    include: ["src/**/*.test.ts", "scripts/**/*.test.ts"],
+    server: { deps: { inline: ["@heyramzi/utils"] } },
+  },
 });

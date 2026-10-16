@@ -1,4 +1,4 @@
-import { revealTheme } from "@heyramzi/ui/lib/theme-transition.ts";
+import { revealTheme } from "@heyramzi/ui/lib/theme-transition.js";
 
 const KEY = "editor-os.theme";
 
