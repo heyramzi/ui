@@ -148,12 +148,18 @@ git commit -m "chore: release ${targets}" -- "${release_files[@]}"
 git push origin main
 
 # npmjs is the public install. GitHub Packages stays because every Studio app maps the whole
-# @heyramzi scope there for the private packages. The scope flag beats --registry, so set both.
+# @heyramzi scope there for the private packages. This repo's .npmrc maps the scope too, and
+# pnpm 12 lets that beat --registry, so pack once and npm-publish the tarball from outside the repo.
 publish_both() {
-  (cd "$1" && pnpm publish --no-git-checks --access public \
-    --registry=https://registry.npmjs.org --@heyramzi:registry=https://registry.npmjs.org)
-  (cd "$1" && pnpm publish --no-git-checks \
-    --registry=https://npm.pkg.github.com --@heyramzi:registry=https://npm.pkg.github.com)
+  local out tgz
+  out=$(mktemp -d)
+  (cd "$1" && pnpm pack --pack-destination "$out" >/dev/null)
+  tgz=$(ls "$out"/*.tgz)
+  for registry in https://registry.npmjs.org/ https://npm.pkg.github.com/; do
+    (cd "$out" && npm publish "$tgz" --access public \
+      --registry="$registry" "--@heyramzi:registry=$registry")
+  done
+  rm -rf "${out:?}"
 }
 
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
