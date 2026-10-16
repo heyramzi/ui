@@ -6,6 +6,9 @@
 #   pnpm release            # publish every package with changes since its last tag
 #   DRY_RUN=1 pnpm release  # print the plan, change nothing
 #   BUMP="ui=major" pnpm release  # force a bump the commit types don't show
+#   ONLY="ui charts" pnpm release # release these and hold the rest, e.g. one
+#                                 # with another session's uncommitted work in it,
+#                                 # since the publish packs the working tree
 #
 # For each package with commits since its last <component>-v<version> tag, this
 # bumps the version from the conventional-commit types (feat -> minor,
@@ -30,6 +33,9 @@ slides packages/slides"
 plan=""
 while read -r component dir; do
   [ -n "$component" ] || continue
+  if [ -n "${ONLY:-}" ] && [[ " $ONLY " != *" $component "* ]]; then
+    continue
+  fi
   version=$(node -p "require('./$dir/package.json').version")
   tag="$component-v$version"
   if git rev-parse "$tag" >/dev/null 2>&1; then
