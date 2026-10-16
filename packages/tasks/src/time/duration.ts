@@ -1,4 +1,4 @@
-import type { Tone } from "../status-types.js";
+import type { Tone } from "@heyramzi/ui/lib/tone.js";
 
 /** "90", "45m", "1h", "1.5h", "1h30", "1h 30m" and "1:30" to whole minutes. Null when it isn't a duration. */
 export function parseMinutes(text: string): number | null {

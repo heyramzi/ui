@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from "../lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 
 	type Props = {
 		/** Pulses while true. The dot takes its color from the text around it. */

@@ -1,6 +1,3 @@
-// Vite's ?raw import hands back the file as a string. Declared here so svelte-check passes
-// without pulling in vite/client.
-declare module "*.svg?raw" {
-	const svg: string;
-	export default svg;
-}
+// A kit component pulls its stylesheet in with a side-effect import. Vite handles it at
+// build time; this declaration lets svelte-check accept it without pulling in vite/client.
+declare module "*.css";

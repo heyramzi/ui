@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Component } from "svelte";
 	import StatusDot from "./status-dot.svelte";
-	import { cn } from "./lib/cn.js";
-	import { TONE_ICON } from "./tone.js";
+	import { cn } from "@heyramzi/utils";
+	import { TONE_ICON } from "@heyramzi/ui/lib/tone.js";
 	import type { Statuses } from "./status-types.js";
 
 	type Props = {

@@ -6,11 +6,12 @@ Status badges, dots and icons come from one map too. Live at
 [ui.heyramzi.com/tasks](https://ui.heyramzi.com/tasks).
 
 Every view knows nothing about your data. You pass items and a few accessors,
-and it hands back a change to persist. No runtime dependencies: `svelte` is the
-only peer. This package was `@heyramzi/board` up to 0.2.
+and it hands back a change to persist. It builds on `@heyramzi/ui` and
+`phosphor-svelte`, which are peers, plus `svelte`. This package was
+`@heyramzi/board` up to 0.2.
 
 ```
-pnpm add @heyramzi/tasks
+pnpm add @heyramzi/tasks @heyramzi/ui phosphor-svelte
 ```
 
 ## Board
@@ -194,10 +195,34 @@ It opens scrolled to today, a third of the way in. Call `scrollToToday()` on a
 
 ## View switch
 
-`TaskViewSwitch` is the segmented control the demo uses to flip between views,
-with a pill that slides to the active option. Pass `views`
-(`{ id, label, icon? }[]`) and `bind:value`. `BoardIcon`, `ListIcon` and
-`GanttIcon` are exported for it.
+There is no switch in this package. The demo flips between views with
+`SegmentedFilter` from `@heyramzi/ui/components/segmented` and the Phosphor
+icons `Kanban`, `ListBullets` and `ChartBarHorizontal`. Phosphor has no gantt
+icon, so `ChartBarHorizontal` stands in.
+
+## Side panel
+
+`SidePanel` is a sheet for one record: a title, a description, status chips, doors
+out to other tools (`openIn`), a copy-a-prompt `handoff`, a strip of `stats`, then
+the body and an optional pinned `footer`. You pass the tools; the panel knows none.
+Import it from `@heyramzi/tasks` or alone from `@heyramzi/tasks/side-panel`.
+
+```svelte
+<SidePanel
+  bind:open
+  title="Pricing page"
+  description="Ada, due Friday"
+  badges={[{ label: "Review", tone: "warning" }]}
+  openIn={[{ tool: github, href: issueUrl, label: "Open the issue on GitHub" }]}
+  stats={[{ label: "Logged", value: "6h 30m", sub: "of 8h" }]}
+>
+  ...
+</SidePanel>
+```
+
+`tool` is an `OpenInTool` from `@heyramzi/ui/components/open-in`:
+`{ name, action, icon }`. `bare` hands the whole panel to the body, and `width`
+runs from `sm` to `2xl`.
 
 ## Time tracking
 
@@ -258,11 +283,13 @@ exported helpers.
 - `StatusBadge`, `StatusDot`, `StatusIcon`: chips, dots and icons from one config.
   A badge also takes its text as children, for a caller that already has the word.
 - `defineStatuses`: builds a status registry from a plain map.
-- `TONE_CLASS`, `TONE_COLOR`, `TONE_ICON`, `TONE_TEXT`, `insetWellClass`: the severity scale.
+- `SidePanel`: a sheet for one record, above.
 - `salesStatuses`: an example pipeline map.
 
 ## Styling
 
+The severity scale (`TONE_CLASS`, `TONE_TEXT`, `TONE_ICON`, `TONE_COLOR`) lives in
+`@heyramzi/ui/lib/tone.js`, and `insetWellClass` in `@heyramzi/ui/lib/panel.js`.
 The accent tone reads `--tone-accent` and falls back to `--color-primary`. Set
 `--tone-accent` when your primary is a neutral and your accent is a brand color.
 
@@ -275,7 +302,7 @@ same values when they aren't. Everything goes still under
 
 ## Demo
 
-`src/demo.svelte` puts one task list behind a Board, List and Gantt switch, with
+`src/demo.svelte` puts one task list behind a Board, List and Gantt filter, with
 sorting, a Days and Weeks scale and a status badge strip.
 
 The fractional ordering in `board-order.ts` is the CC0 algorithm from

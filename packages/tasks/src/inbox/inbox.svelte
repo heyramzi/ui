@@ -6,7 +6,7 @@
 	import { Kbd, KbdGroup } from "@heyramzi/ui/shadcn/kbd";
 	import { Tabs, TabsList, TabsTrigger } from "@heyramzi/ui/shadcn/tabs";
 	import { ToggleGroup, ToggleGroupItem } from "@heyramzi/ui/shadcn/toggle-group";
-	import { cn } from "../lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 	import StatusDot from "../status-dot.svelte";
 	import InboxCard from "./inbox-card.svelte";
 	import { flatten, groupByProject, inLane, isTyping, laneOf } from "./inbox-logic.js";

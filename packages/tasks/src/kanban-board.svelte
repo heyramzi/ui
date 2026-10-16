@@ -7,9 +7,9 @@
 	import KanbanColumn from "./kanban-column.svelte";
 	import { liftDragImage } from "./kanban-drag.js";
 	import { boardOrderAt } from "./board-order.js";
-	import { cn } from "./lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 	import { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
-	import chevronDownIcon from "./icons/chevron-down.svg?raw";
+	import { CaretDown } from "phosphor-svelte";
 	import type {
 		KanbanCardContext,
 		KanbanColumn as KanbanColumnDef,
@@ -447,7 +447,7 @@
 						"size-2.5 transition-transform duration-[var(--duration-fast,160ms)] ease-[var(--ease-smooth-out,ease-out)] [&>svg]:size-full",
 						!railOpen && "-rotate-90",
 					)}
-					aria-hidden="true">{@html chevronDownIcon}</span
+					aria-hidden="true"><CaretDown weight="bold" /></span
 				>
 				{hiddenLabel}
 			</button>

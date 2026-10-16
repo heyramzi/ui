@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
-	import { cn } from "./lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 
 	type Props = {
 		/** Any CSS color. Only shows while a card is held over the column. */

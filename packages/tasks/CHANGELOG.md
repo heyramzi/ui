@@ -2,7 +2,22 @@
 
 ## Unreleased
 
+### Breaking changes
+
+* feat(tasks)!: remove `TaskViewSwitch`, `BoardIcon`, `ListIcon`, `GanttIcon` and the `TaskView` type; use `SegmentedFilter` from `@heyramzi/ui/components/segmented` with the Phosphor `Kanban`, `ListBullets` and `ChartBarHorizontal` icons
+* feat(tasks)!: remove `TONE_CLASS`, `TONE_COLOR`, `TONE_ICON`, `TONE_TEXT`, `insetWellClass` and the `Tone` type; import them from `@heyramzi/ui/lib/tone.js` and `@heyramzi/ui/lib/panel.js`
+* feat(tasks)!: `phosphor-svelte` is a peer dependency, and `@heyramzi/utils` a dependency
+
 ### Features
+
+* feat(tasks): `SidePanel`, a sheet for one record with badges, doors out to other tools, a copy-a-prompt handoff and a stats strip, also at `@heyramzi/tasks/side-panel`
+* feat(tasks): `StatusBadge` renders the kit `Badge`, and its busy state renders the kit `Spinner`
+* feat(tasks): `StatusBadge` takes `dot`, a dot in the tone's colour before the label, and passes `title`, `aria-*` and other attributes to the badge
+
+### Bug Fixes
+
+* fix(tasks): `class` on a task component overrides its defaults, because `cn` now merges conflicting Tailwind classes
+* fix(tasks): every icon is a Phosphor icon, not a private SVG
 
 * feat(tasks): TaskList and TaskGantt take `flat`, which drops the card border, radius and fill
 * feat(tasks): TimeTracker, an optional time log for one task with a start and stop timer, quick entry, day groups, a per-person split and an estimate ring

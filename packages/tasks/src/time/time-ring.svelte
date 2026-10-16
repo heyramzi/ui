@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import { cn } from "../lib/cn.js";
-	import { TONE_TEXT } from "../tone.js";
+	import { cn } from "@heyramzi/utils";
+	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
 	import { budgetTone } from "./duration.js";
 
 	type Props = {

@@ -4,10 +4,10 @@
 	import { PixelLoader } from "@heyramzi/ui/ai/loading-state";
 	import { Button } from "@heyramzi/ui/shadcn/button";
 	import { Textarea } from "@heyramzi/ui/shadcn/textarea";
-	import { cn } from "../lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 	import StatusBadge from "../status-badge.svelte";
 	import StatusDot from "../status-dot.svelte";
-	import { TONE_TEXT } from "../tone.js";
+	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
 	import InboxDraftEditor from "./inbox-draft.svelte";
 	import { canUndo, isOpen, startDraft } from "./inbox-logic.js";
 	import {
@@ -37,6 +37,7 @@
 	let open = $derived(isOpen(item));
 	let level = $derived(confidenceLevel(item.confidence.score));
 	let tone = $derived(inboxConfidence.tone(level));
+	let SourceIcon = $derived(SOURCE_ICON[item.trace.source.type]);
 
 	let pickedDraft = $state<string>();
 	let edits = $state<InboxDraftEdits>({});
@@ -185,7 +186,7 @@
 
 	<div class="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-1 pl-6 text-xs">
 		<span class="inline-flex items-center gap-1.5">
-			<span class="size-3.5 [&>svg]:size-full" aria-hidden="true">{@html SOURCE_ICON[item.trace.source.type]}</span>
+			<SourceIcon size={14} aria-hidden="true" />
 			{SOURCE_LABEL[item.trace.source.type]}, {item.trace.source.at}
 		</span>
 		<span class={cn("inline-flex items-center gap-1.5 tabular-nums", TONE_TEXT[tone])}>

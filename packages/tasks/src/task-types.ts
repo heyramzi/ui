@@ -1,5 +1,3 @@
-import type { Component } from "svelte";
-
 /** Second argument handed to the list row snippet. */
 export type TaskListRowContext = {
   groupId: string;
@@ -23,14 +21,6 @@ export type GanttChange = {
   start: string;
   /** ISO date, inclusive. A one-day task has `end === start`. */
   end: string;
-};
-
-/** One option in the view switch. */
-export type TaskView = {
-  id: string;
-  label: string;
-  /** Any Svelte component that takes `size` and `class`, e.g. `BoardIcon`. */
-  icon?: Component<{ size?: number; class?: string }>;
 };
 
 /** Second argument handed to the gantt label snippet. */

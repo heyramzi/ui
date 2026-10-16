@@ -2,8 +2,8 @@
 	import { Input } from "@heyramzi/ui/shadcn/input";
 	import { Textarea } from "@heyramzi/ui/shadcn/textarea";
 	import { ToggleGroup, ToggleGroupItem } from "@heyramzi/ui/shadcn/toggle-group";
-	import { cn } from "../lib/cn.js";
-	import { insetWellClass } from "../tone.js";
+	import { cn } from "@heyramzi/utils";
+	import { insetWellClass } from "@heyramzi/ui/lib/panel.js";
 	import type { InboxDraft, InboxDraftEdits } from "./inbox-types.js";
 
 	type Props = {

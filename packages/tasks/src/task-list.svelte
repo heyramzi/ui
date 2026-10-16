@@ -4,9 +4,9 @@
 	import { cubicOut } from "svelte/easing";
 	import { liftDragImage } from "./kanban-drag.js";
 	import { boardOrderAt } from "./board-order.js";
-	import { cn } from "./lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 	import { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
-	import chevronIcon from "./icons/chevron-right.svg?raw";
+	import { CaretRight } from "phosphor-svelte";
 	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "./kanban-types.js";
 	import type { TaskListGroupContext, TaskListRowContext } from "./task-types.js";
 
@@ -228,7 +228,7 @@
 					class="-ml-1 grid size-6 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
 				>
 					<span class="tl-chevron size-3.5 [&>svg]:size-full" class:tl-chevron-open={open} aria-hidden="true">
-						{@html chevronIcon}
+						<CaretRight weight="bold" />
 					</span>
 				</button>
 			{/if}

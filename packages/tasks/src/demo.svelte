@@ -2,12 +2,10 @@
 	import KanbanBoard from "./kanban-board.svelte";
 	import TaskList from "./task-list.svelte";
 	import TaskGantt from "./task-gantt.svelte";
-	import TaskViewSwitch from "./task-view-switch.svelte";
+	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
+	import { ChartBarHorizontal, Kanban, ListBullets } from "phosphor-svelte";
 	import StatusBadge from "./status-badge.svelte";
 	import StatusDot from "./status-dot.svelte";
-	import BoardIcon from "./icons/board-icon.svelte";
-	import ListIcon from "./icons/list-icon.svelte";
-	import GanttIcon from "./icons/gantt-icon.svelte";
 	import { defineStatuses } from "./define-statuses.js";
 	import { addDays, dayNumber, todayIso } from "./dates.js";
 	import { salesStatuses } from "./presets/sales.js";
@@ -63,12 +61,16 @@
 	]);
 
 	const views = [
-		{ id: "board", label: "Board", icon: BoardIcon },
-		{ id: "list", label: "List", icon: ListIcon },
-		{ id: "gantt", label: "Gantt", icon: GanttIcon },
-	];
+		{ value: "board", label: "Board", icon: Kanban },
+		{ value: "list", label: "List", icon: ListBullets },
+		{ value: "gantt", label: "Gantt", icon: ChartBarHorizontal },
+	] as const;
+	const scales = [
+		{ value: "days", label: "Days" },
+		{ value: "weeks", label: "Weeks" },
+	] as const;
 
-	let view = $state("board");
+	let view = $state<(typeof views)[number]["value"]>("board");
 	let sortKey = $state("manual");
 	let scale = $state<"days" | "weeks">("days");
 
@@ -172,21 +174,14 @@
 <div class="flex flex-col gap-6 rounded-xl border border-border bg-background p-4">
 	<div class="flex h-[600px] flex-col gap-3">
 		<div class="flex flex-wrap items-center gap-2">
-			<TaskViewSwitch {views} bind:value={view} label="Task view" />
+			<SegmentedFilter options={views} bind:value={view} ariaLabel="Task view" block={false} />
 			<div class="ml-auto flex items-center gap-3">
 				<label class="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-muted-foreground">
 					<input type="checkbox" bind:checked={tracking} class="size-3.5 accent-[var(--tone-accent,var(--color-primary))]" />
 					Time tracking
 				</label>
 				{#if view === "gantt"}
-					<TaskViewSwitch
-						views={[
-							{ id: "days", label: "Days" },
-							{ id: "weeks", label: "Weeks" },
-						]}
-						bind:value={scale}
-						label="Timeline scale"
-					/>
+					<SegmentedFilter options={scales} bind:value={scale} ariaLabel="Timeline scale" block={false} />
 				{:else}
 					<label for="tasks-sort" class="text-xs font-medium text-muted-foreground">Sort</label>
 					<select

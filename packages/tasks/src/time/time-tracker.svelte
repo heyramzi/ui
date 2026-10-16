@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
 	import type { Snippet } from "svelte";
-	import { cn } from "../lib/cn.js";
-	import { TONE_TEXT } from "../tone.js";
+	import { cn } from "@heyramzi/utils";
+	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
 	import {
 		budgetTone,
 		dayLabel,
@@ -15,8 +15,7 @@
 	import type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "./time-types.js";
 	import TimeDot from "./time-dot.svelte";
 	import TimeRing from "./time-ring.svelte";
-	import closeIcon from "../icons/close.svg?raw";
-	import playIcon from "../icons/play.svg?raw";
+	import { Play, Stop, X } from "phosphor-svelte";
 
 	type Props<T> = {
 		/** Every entry logged on the task. Order within a day is kept. */
@@ -255,11 +254,9 @@
 				class:is-running={!!running}
 			>
 				{#if running}
-					<svg viewBox="0 0 24 24" class="size-4.5" fill="currentColor" aria-hidden="true">
-						<rect x="6" y="6" width="12" height="12" rx="2.5" />
-					</svg>
+					<Stop weight="fill" class="size-4.5" aria-hidden="true" />
 				{:else}
-					<span class="size-5 translate-x-px [&>svg]:size-full" aria-hidden="true">{@html playIcon}</span>
+					<span class="size-5 translate-x-px [&>svg]:size-full" aria-hidden="true"><Play weight="fill" /></span>
 				{/if}
 			</button>
 		</div>
@@ -404,7 +401,7 @@
 										aria-label={labels.deleteEntry(formatMinutes(getMinutes(entry)))}
 										class="time-delete -my-1 -me-1 grid size-8 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
 									>
-										<span class="size-3.5 [&>svg]:size-full" aria-hidden="true">{@html closeIcon}</span>
+										<span class="size-3.5 [&>svg]:size-full" aria-hidden="true"><X weight="bold" /></span>
 									</button>
 								{/if}
 							</li>

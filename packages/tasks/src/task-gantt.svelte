@@ -1,11 +1,10 @@
 <script lang="ts" generics="T">
 	import type { Snippet } from "svelte";
-	import { cn } from "./lib/cn.js";
+	import { cn } from "@heyramzi/utils";
 	import { dayNumber, isoFromDay, todayIso, weekday } from "./dates.js";
 	import type { KanbanColumn as KanbanColumnDef } from "./kanban-types.js";
 	import type { GanttChange, GanttLabelContext } from "./task-types.js";
-	import chevronIcon from "./icons/chevron-right.svg?raw";
-	import flagIcon from "./icons/milestone-flag.svg?raw";
+	import { CaretRight, FlagPennant } from "phosphor-svelte";
 
 	type Props<T> = {
 		items: T[];
@@ -534,7 +533,7 @@
 										class="-ml-1 grid size-5 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
 									>
 										<span class="g-chevron size-3.5 [&>svg]:size-full" class:g-chevron-open={row.open} aria-hidden="true">
-											{@html chevronIcon}
+											<CaretRight weight="bold" />
 										</span>
 									</button>
 								{:else}
@@ -567,7 +566,7 @@
 									onpointerenter={() => (hoveredId = row.id)}
 									onpointerleave={() => (hoveredId = hoveredId === row.id ? null : hoveredId)}
 								>
-									<span class="size-5 [&>svg]:size-full" aria-hidden="true">{@html flagIcon}</span>
+									<span class="size-5 [&>svg]:size-full" aria-hidden="true"><FlagPennant weight="fill" /></span>
 								</button>
 							{:else if !row.own}
 								<!-- A parent with no dates of its own: the span of what is below it. Not draggable. -->

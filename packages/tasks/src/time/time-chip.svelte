@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { cn } from "../lib/cn.js";
-	import { TONE_CLASS, TONE_TEXT } from "../tone.js";
+	import { cn } from "@heyramzi/utils";
+	import { TONE_CLASS, TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
 	import { budgetTone, formatMinutes } from "./duration.js";
 	import TimeDot from "./time-dot.svelte";
 	import TimeRing from "./time-ring.svelte";
-	import clockIcon from "../icons/clock.svg?raw";
+	import { Clock } from "phosphor-svelte";
 
 	type Props = {
 		/** Minutes logged on the task. */
@@ -53,7 +53,7 @@
 		{:else if estimate}
 			<TimeRing value={minutes} max={estimate} size={12} stroke={6} />
 		{:else}
-			<span class="size-3 shrink-0 [&>svg]:size-full" aria-hidden="true">{@html clockIcon}</span>
+			<span class="size-3 shrink-0 [&>svg]:size-full" aria-hidden="true"><Clock /></span>
 		{/if}
 		<span aria-hidden="true">
 			{formatMinutes(minutes)}{#if estimate}<span class={cn("font-normal", tone === "neutral" ? "text-muted-foreground/70" : TONE_TEXT[tone])}> / {formatMinutes(estimate)}</span>{/if}

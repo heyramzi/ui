@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { cn } from "./lib/cn.js";
-	import { TONE_COLOR } from "./tone.js";
+	import { cn } from "@heyramzi/utils";
+	import { TONE_COLOR } from "@heyramzi/ui/lib/tone.js";
 	import type { StatusDotVariant, Statuses } from "./status-types.js";
 
 	interface Props {

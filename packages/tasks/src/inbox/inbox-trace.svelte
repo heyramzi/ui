@@ -8,13 +8,14 @@
 	let { trace }: Props = $props();
 
 	let count = $derived(trace.evidence.length);
+	let SourceIcon = $derived(SOURCE_ICON[trace.source.type]);
 </script>
 
 <!-- WHY the shared Reasoning and not a local disclosure: it is already the
      collapsed-by-default "how the agent got here" pattern, with the same chevron. -->
 <Reasoning>
 	<ReasoningTrigger class="w-auto">
-		<span class="size-3.5 shrink-0 [&>svg]:size-full" aria-hidden="true">{@html SOURCE_ICON[trace.source.type]}</span>
+		<SourceIcon size={14} class="shrink-0" aria-hidden="true" />
 		<span>
 			Trace: {SOURCE_LABEL[trace.source.type]}, {trace.source.at}, {count}
 			{count === 1 ? "quote" : "quotes"}

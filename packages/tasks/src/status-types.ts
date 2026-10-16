@@ -1,7 +1,5 @@
 import type { Component } from "svelte";
-
-/** The one severity scale the kit ships. */
-export type Tone = "neutral" | "accent" | "info" | "success" | "warning" | "destructive";
+import type { Tone } from "@heyramzi/ui/lib/tone.js";
 
 /**
  * The shape the dot can take. `progress` needs a `progress` value between 0 and 1.

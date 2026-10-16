@@ -1,8 +1,6 @@
 import { defineStatuses } from "../define-statuses.js";
-import callIcon from "./icons/call.svg?raw";
-import emailIcon from "./icons/email.svg?raw";
-import formIcon from "./icons/form.svg?raw";
-import slackIcon from "./icons/slack.svg?raw";
+import { ClipboardText, EnvelopeSimple, Hash, Phone } from "phosphor-svelte";
+import type { PhosphorIcon } from "@heyramzi/ui/lib/icon-types.js";
 import type { InboxSourceType } from "./inbox-types.js";
 
 /** The lifecycle of an item. The dot and the badge both read this one map. */
@@ -35,11 +33,11 @@ export function confidenceLevel(score: number): "high" | "medium" | "low" {
 	return "low";
 }
 
-export const SOURCE_ICON: Record<InboxSourceType, string> = {
-	call: callIcon,
-	email: emailIcon,
-	slack: slackIcon,
-	form: formIcon,
+export const SOURCE_ICON: Record<InboxSourceType, PhosphorIcon> = {
+	call: Phone,
+	email: EnvelopeSimple,
+	slack: Hash,
+	form: ClipboardText,
 };
 
 export const SOURCE_LABEL: Record<InboxSourceType, string> = {

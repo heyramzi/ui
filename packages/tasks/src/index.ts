@@ -17,28 +17,23 @@ export { default as StatusBadge } from "./status-badge.svelte";
 export { default as StatusDot } from "./status-dot.svelte";
 export { default as StatusIcon } from "./status-icon.svelte";
 export { defineStatuses } from "./define-statuses.js";
-export { TONE_CLASS, TONE_COLOR, TONE_ICON, TONE_TEXT, insetWellClass } from "./tone.js";
 export type {
 	StatusDef,
 	StatusDotVariant,
 	StatusId,
 	StatusMap,
 	Statuses,
-	Tone,
 } from "./status-types.js";
+export { default as SidePanel } from "./side-panel.svelte";
+export type { PanelStat, SidePanelWidth } from "./side-panel.svelte";
 export { default as TaskList } from "./task-list.svelte";
 export { default as TaskGantt } from "./task-gantt.svelte";
-export { default as TaskViewSwitch } from "./task-view-switch.svelte";
-export { default as BoardIcon } from "./icons/board-icon.svelte";
-export { default as ListIcon } from "./icons/list-icon.svelte";
-export { default as GanttIcon } from "./icons/gantt-icon.svelte";
 export { addDays, dayNumber, isoFromDay, todayIso } from "./dates.js";
 export type {
 	GanttChange,
 	GanttLabelContext,
 	TaskListGroupContext,
 	TaskListRowContext,
-	TaskView,
 } from "./task-types.js";
 export { default as TimeTracker } from "./time/time-tracker.svelte";
 export { default as TimeChip } from "./time/time-chip.svelte";

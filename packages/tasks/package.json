@@ -74,6 +74,11 @@
       "types": "./src/inbox/index.ts",
       "default": "./src/inbox/index.ts"
     },
+    "./side-panel": {
+      "svelte": "./src/side-panel.svelte",
+      "types": "./src/side-panel.svelte",
+      "default": "./src/side-panel.svelte"
+    },
     "./presets/sales": {
       "svelte": "./src/presets/sales.ts",
       "types": "./src/presets/sales.ts",
@@ -88,13 +93,18 @@
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
+  "dependencies": {
+    "@heyramzi/utils": "^1.3.3"
+  },
   "peerDependencies": {
     "@heyramzi/ui": "*",
+    "phosphor-svelte": "^3.1.0",
     "svelte": "^5.0.0"
   },
   "devDependencies": {
     "@heyramzi/ui": "workspace:*",
     "@types/node": "^26.6.4",
+    "phosphor-svelte": "^3.1.0",
     "svelte-check": "^4.7.6",
     "typescript": "~7.0.2"
   }
