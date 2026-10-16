@@ -87,7 +87,7 @@
 
 					<blockquote class="mb-3 text-sm leading-relaxed text-foreground">
 						<div
-							class={`testimonial-content ${needsClamp && !isExpanded ? "is-clamped" : "is-expanded"}`}
+							class={`testimonial-content ${needsClamp ? "can-clamp" : ""} ${needsClamp && !isExpanded ? "is-clamped" : ""}`}
 						>
 							<p>"<!-- eslint-disable-next-line svelte/no-at-html-tags -->{@html rendered}"</p>
 						</div>
@@ -153,17 +153,22 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
+	/* WHY grid rows: 0fr to 1fr animates to the text's real height with no
+	   max-height guess, and the row never goes below the five-line floor. */
 	.testimonial-content {
 		position: relative;
+		display: grid;
+		grid-template-rows: 1fr;
+		transition: grid-template-rows 360ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.testimonial-content > p {
 		overflow: hidden;
-		transition: max-height 360ms cubic-bezier(0.4, 0, 0.2, 1);
-		will-change: max-height;
+	}
+	.testimonial-content.can-clamp > p {
+		min-height: calc(1.625em * 5);
 	}
 	.testimonial-content.is-clamped {
-		max-height: calc(1.625em * 5);
-	}
-	.testimonial-content.is-expanded {
-		max-height: 200vh;
+		grid-template-rows: 0fr;
 	}
 	.testimonial-content.is-clamped::after {
 		content: "";
