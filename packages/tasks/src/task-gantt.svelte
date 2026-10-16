@@ -463,7 +463,10 @@
 								onkeydown={(e) => onBarKeyDown(e, row.item, row.id)}
 							>
 								{#if progress > 0}
-									<span class="g-progress absolute inset-y-0 left-0 rounded-l-lg" class:rounded-r-lg={progress >= 1} style:width="{progress * 100}%"></span>
+									<!-- The clip keeps the bar's rounded corners while the fill scales. -->
+									<span class="absolute inset-0 overflow-hidden rounded-lg" aria-hidden="true">
+										<span class="g-progress absolute inset-0 origin-left" style:transform="scaleX({progress})"></span>
+									</span>
 								{/if}
 								{#if width >= INLINE_TITLE_MIN}
 									<span class="relative truncate px-2.5 text-xs font-medium text-foreground">{title}</span>
@@ -545,7 +548,7 @@
 
 	.g-progress {
 		background: color-mix(in oklab, var(--g-hue) 32%, var(--color-card, white));
-		transition: width var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: transform var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 
 	/* Resize grips: a wide invisible hit area, a slim pill that shows on hover. */
