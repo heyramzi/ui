@@ -63,7 +63,30 @@ The `@source` line matters: the chart markup carries Tailwind classes, and Tailw
 | `Legend`, `Figure`, `EdgeFade` | Legend rows, a captioned figure frame and an edge mask |
 | `ChartContainer`, `ChartTooltip`, `ChartStyle`, `useChart` | The shadcn-style wrapper, for a chart you build yourself on LayerChart |
 
-`@heyramzi/charts/showcase` is the demo section the kit renders for these charts. It needs `@heyramzi/ui` for its stage chrome, so it's the one optional peer.
+## Dashboard
+
+`@heyramzi/charts/dashboard` is the page kit around the charts: the parts a reporting page repeats. It sits on `@heyramzi/ui` (the segmented control, the data table pager, the panel label), so it needs that peer at 8 or newer. The charts above don't.
+
+| Export | What it is |
+| --- | --- |
+| `DashboardSection`, `PanelGrid`, `StatBand` | A named area, a row of panels side by side, a row of number cards |
+| `StatTile` | A number card on `NumberChart`: a delta, a share track, a trend shape behind the figure, an optional link |
+| `DataPanel`, `DashboardEmpty` | A titled panel for a table or chart, and the dashed empty state |
+| `MetricTable`, `DataSortHead`, `RatingChip` | A ranked table with sortable heads, an A to E grade chip |
+| `PeriodFilter`, `DAY_WINDOWS` | The 7, 30 and 90 day window, as a filter or as links |
+| `CHART_HEIGHT`, `dataTableClass` and friends | The one chart height and the table skin |
+
+```svelte
+<script lang="ts">
+  import { DashboardSection, StatBand, StatTile } from "@heyramzi/charts/dashboard";
+</script>
+
+<DashboardSection title="Revenue" note="Last 30 days">
+  <StatBand>
+    <StatTile label="Sales" value="$12,480" deltaPct={8.2} direction="up-good" lead />
+  </StatBand>
+</DashboardSection>
+```
 
 ## Moving from `@heyramzi/ui/charts`
 

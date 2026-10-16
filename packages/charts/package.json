@@ -26,9 +26,10 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
-    "./showcase": {
-      "svelte": "./src/showcase/ChartsSection.svelte",
-      "default": "./src/showcase/ChartsSection.svelte"
+    "./dashboard": {
+      "svelte": "./src/dashboard/index.ts",
+      "types": "./src/dashboard/index.ts",
+      "default": "./src/dashboard/index.ts"
     }
   },
   "scripts": {
@@ -54,7 +55,7 @@
     "vitest": "^5.0.3"
   },
   "peerDependencies": {
-    "@heyramzi/ui": ">=6.0.0",
+    "@heyramzi/ui": ">=8.0.0",
     "svelte": "^5.57.2"
   },
   "peerDependenciesMeta": {

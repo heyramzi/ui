@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import "./ring-chart.css";
+	import type { Snippet } from "svelte";
 	import { cn } from "@heyramzi/utils";
 	import AnimatedValue from "./animated-value.svelte";
 
@@ -41,6 +42,8 @@
 		onHoverChange?: (index: number | null) => void;
 		minWidth?: number;
 		ariaLabel?: string;
+		/** Replaces the center readout, for a number that isn't the ring's own value. */
+		children?: Snippet;
 		class?: string;
 	};
 
@@ -62,6 +65,7 @@
 		onHoverChange,
 		minWidth = 170,
 		ariaLabel,
+		children,
 		class: className,
 	}: Props = $props();
 
@@ -127,6 +131,7 @@
 				{@const dimmed = hoveredIndex !== null && hoveredIndex !== ring.index}
 				<circle
 					class="fill"
+					role="presentation"
 					class:animate
 					cx={center}
 					cy={center}
@@ -147,12 +152,16 @@
 		</g>
 	</svg>
 
-	<div class="center">
-		<span class="value">
-			<AnimatedValue value={hoveredRing ? hoveredRing.value : total} format={formatValue} />
-		</span>
-		{#key hoveredRing?.label ?? defaultLabel}
-			<span class="label">{hoveredRing ? hoveredRing.label : defaultLabel}</span>
-		{/key}
+	<div class="center" class:custom={children}>
+		{#if children}
+			{@render children()}
+		{:else}
+			<span class="value">
+				<AnimatedValue value={hoveredRing ? hoveredRing.value : total} format={formatValue} />
+			</span>
+			{#key hoveredRing?.label ?? defaultLabel}
+				<span class="label">{hoveredRing ? hoveredRing.label : defaultLabel}</span>
+			{/key}
+		{/if}
 	</div>
 </div>

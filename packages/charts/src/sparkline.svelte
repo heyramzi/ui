@@ -15,7 +15,8 @@
 		xKey: keyof TData & string;
 		yKey: keyof TData & string;
 		color?: string;
-		height?: number;
+		/** Pixels, or any CSS length such as `calc(30px * var(--scale))`. */
+		height?: number | string;
 		smooth?: boolean;
 		/** Show a dot at the latest point */
 		endCap?: boolean;
@@ -95,7 +96,7 @@
 	onpointerleave={() => (active = null)}
 >
 	{#if data.length > 0}
-		<div class="hr-sparkline-chart" style:height="{height}px">
+		<div class="hr-sparkline-chart" style:height={typeof height === "number" ? `${height}px` : height}>
 			<Chart {data} x={xKey} y={yKey} {padding} tooltipContext={{ mode: "bisect-x" }}>
 				<Svg>
 					<LinearGradient id={uid} vertical>

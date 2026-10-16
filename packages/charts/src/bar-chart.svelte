@@ -39,6 +39,8 @@
 		xLabel?: string;
 		/** Column header for the y values in the sr-only table, and the tooltip's label. */
 		yLabel?: string;
+		/** Extra tooltip rows under the value, for a second measure of the same row. */
+		details?: (d: TData) => { label: string; value: string }[];
 		/** Show the value/label figure above the chart. */
 		showFigure?: boolean;
 		class?: string;
@@ -63,6 +65,7 @@
 		label,
 		xLabel,
 		yLabel,
+		details,
 		showFigure = true,
 		class: className,
 	}: Props = $props();
@@ -227,6 +230,9 @@
 									value={formatValue(valueOf(d as TData))}
 									color={colorOf ? colorOf(d as TData) : color}
 								/>
+								{#each details?.(d as TData) ?? [] as row (row.label)}
+									<Tooltip.Item label={row.label} value={row.value} />
+								{/each}
 							{/if}
 						</Tooltip.List>
 					{/snippet}

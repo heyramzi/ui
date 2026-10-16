@@ -60,6 +60,12 @@
   text-align: center;
 }
 
+/* WHY: a custom center fills the innermost ring's clear area instead of the
+   readout's narrower cap. */
+.hr-ring .center.custom {
+  max-width: none;
+}
+
 .hr-ring .value {
   font-size: max(0.75rem, 9.5cqmin);
   font-weight: 650;
