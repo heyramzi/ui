@@ -53,8 +53,8 @@ One behaviour, one implementation. Where a component already did the job, the up
 
 | Upstream | Where it lives instead |
 | --- | --- |
-| `toggle` | `shadcn/switch/switch.css` — the thumb slide, on our switch. |
-| `checkbox-check` | `shadcn/checkbox/checkbox.css` — the mark draw, on our checkbox. |
+| `toggle` | `shadcn/switch/switch.svelte` — the thumb slide, on our switch. |
+| `checkbox-check` | `shadcn/checkbox/checkbox.svelte` — the fill and border, on our checkbox. |
 | `toast-open-close` | `shadcn/sonner` — svelte-sonner owns toast motion. |
 | `banner-stacking` | `shadcn/sonner` — stacking and hover spread are what it does. |
 | `matrix-dot-loader` | `ai/loading-state` — `PixelLoader` is the dot-grid loader. |
@@ -81,4 +81,4 @@ Every transition reads semantic CSS variables (`--modal-open-dur`, `--tilt-follo
 
 So the scale is single-sourced when the design layer is imported, and the transition still runs at the shipped value when it is not. A value the scale has no token for — a 1000ms tilt return, a 90ms reel stagger — stays a literal rather than being rounded onto the nearest rung. Override any of them at `:root` or per-scope to retune without forking the CSS.
 
-See the [transitions.dev SKILL](../../../../ai-doc/skills/design/motion/transitions-dev/SKILL.md) for the full token list and the per-transition variables.
+See the `transitions-dev` skill in vibe-kit (`ai-doc/skills/design/motion/transitions-dev/SKILL.md`) for the full token list and the per-transition variables.
