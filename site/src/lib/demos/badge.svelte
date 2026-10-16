@@ -8,3 +8,10 @@
   <Badge variant="outline">Outline</Badge>
   <Badge variant="destructive">Failed</Badge>
 </div>
+<div class="mt-3 flex flex-wrap items-center justify-center gap-3">
+  <Badge tone="neutral">Draft</Badge>
+  <Badge tone="info">Syncing</Badge>
+  <Badge tone="success">Approved</Badge>
+  <Badge tone="warning">Pending</Badge>
+  <Badge tone="destructive">Failed</Badge>
+</div>

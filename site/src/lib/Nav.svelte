@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
   import ThemeToggle from "@heyramzi/ui/effects/theme-toggle";
-  import githubIcon from "./icons/github.svg?raw";
+  import { GithubLogo } from "phosphor-svelte";
 
   const links = [
     ["/components", "Components"],
@@ -36,7 +36,7 @@
       {/each}
     </nav>
     <a href="https://github.com/heyramzi/ui" aria-label="GitHub" class="grid size-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-      <span class="size-4 [&>svg]:size-full" aria-hidden="true">{@html githubIcon}</span>
+      <GithubLogo weight="fill" class="size-4" aria-hidden="true" />
     </a>
     <ThemeToggle {isDark} variant="ghost" class="rounded-full" onToggle={toggle} />
   </div>

@@ -1,6 +1,7 @@
 import type { Component } from "svelte";
+import { SHADCN_DEMOS } from "./shadcn-demos/index.js";
 
-export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage"|"inbox";
+export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage"|"inbox"|"sidepanel"|"editor";
 
 /** What the tile is for, which drives the filter on /components. The package is `pkg`. */
 export type Group = "primitives" | "effects" | "ai" | "charts" | "tasks" | "pages";
@@ -33,6 +34,15 @@ const componentSources: Record<string, string[]> = {
   "stat-card": ["packages/charts/src/stat-card.svelte"],
   "number-chart": ["packages/charts/src/number-chart.svelte"],
   "time-series-chart": ["packages/charts/src/time-series-chart.svelte"],
+  "chart-variants": ["packages/charts/src/legend.svelte"],
+  dashboard: [
+    "packages/charts/src/dashboard/dashboard-section.svelte",
+    "packages/charts/src/dashboard/stat-band.svelte",
+    "packages/charts/src/dashboard/stat-tile.svelte",
+    "packages/charts/src/dashboard/panel-grid.svelte",
+    "packages/charts/src/dashboard/data-panel.svelte",
+    "packages/charts/src/dashboard/period-filter.svelte",
+  ],
   button: ["packages/ui/src/shadcn/button/button.svelte"],
   badge: ["packages/ui/src/shadcn/badge/badge.svelte"],
   "form-controls": [
@@ -43,6 +53,11 @@ const componentSources: Record<string, string[]> = {
   ],
   card: ["packages/ui/src/shadcn/card/card.svelte"],
   tabs: ["packages/ui/src/shadcn/tabs/tabs-list.svelte", "packages/ui/src/lib/sliding-pill.ts"],
+  segmented: ["packages/ui/src/components/segmented/animated-tabs.svelte", "packages/ui/src/components/segmented/segmented-filter.svelte", "packages/ui/src/components/segmented/segmented-track.svelte"],
+  picker: ["packages/ui/src/components/picker/picker.svelte"],
+  "copy-button": ["packages/ui/src/components/copy/copy-button.svelte"],
+  "hold-to-confirm": ["packages/ui/src/components/hold-to-confirm/hold-to-confirm.svelte"],
+  "simple-field": ["packages/ui/src/shadcn/field/simple-field.svelte"],
   dialog: ["packages/ui/src/shadcn/dialog/dialog.svelte", "packages/ui/src/shadcn/dialog/dialog-content.svelte"],
   select: ["packages/ui/src/shadcn/select/select.svelte"],
   accordion: ["packages/ui/src/shadcn/accordion/accordion.svelte"],
@@ -51,6 +66,7 @@ const componentSources: Record<string, string[]> = {
   "border-beam": ["packages/ui/src/effects/border-beam/BorderBeam.svelte"],
   "text-effect": ["packages/ui/src/effects/reveal/TextEffect.svelte"],
   spotlight: ["packages/ui/src/effects/spotlight/Spotlight.svelte"],
+  "magic-card": ["packages/ui/src/effects/magic-card/MagicCard.svelte"],
   "theme-toggle": ["packages/ui/src/effects/theme-toggle/ThemeToggle.svelte", "packages/ui/src/lib/theme-transition.ts"],
   "image-comparison": ["packages/ui/src/effects/image-comparison/ImageComparison.svelte"],
   "animated-beam": ["packages/ui/src/effects/animated-beam/AnimatedBeam.svelte"],
@@ -68,12 +84,21 @@ const componentSources: Record<string, string[]> = {
   "slide-deck": ["packages/slides/src/Deck.svelte", "packages/slides/src/Slide.svelte", "packages/slides/src/Fragment.svelte"],
   "ai-prompt": ["packages/ui/src/ai/prompt-input/PromptInput.svelte"],
   "ai-thinking": ["packages/ui/src/ai/thinking-dots/ThinkingDots.svelte"],
-  "chat-composer": ["packages/ui/src/ai/composer/Composer.svelte"],
   "chat-typing": ["packages/ui/src/ai/typing-dots/TypingDots.svelte"],
   "trade-icon": ["packages/ui/src/icons/TradeIcon.svelte"],
   "brand-tokens": ["packages/marketing/src/brand/index.ts"],
   "testimonial-highlight": ["packages/marketing/src/testimonials/svelte/TestimonialHighlight.svelte"],
   "review-page": ["packages/review/src/mount.ts"],
+  "side-panel": ["packages/tasks/src/side-panel.svelte"],
+  "rich-editor": ["packages/rich-editor/src/editor.svelte"],
+  "in-view": ["packages/ui/src/effects/reveal/InView.svelte"],
+  magnetic: ["packages/ui/src/effects/magnetic/magnetic.ts"],
+  "progressive-blur": ["packages/ui/src/effects/progressive-blur/ProgressiveBlur.svelte"],
+  confirmation: ["packages/ui/src/ai/confirmation/Confirmation.svelte"],
+  "loading-state": ["packages/ui/src/ai/loading-state/PixelLoader.svelte"],
+  reasoning: ["packages/ui/src/ai/reasoning/Reasoning.svelte"],
+  "voice-waveform": ["packages/ui/src/ai/voice-waveform/VoiceWaveform.svelte"],
+  motion: ["packages/ui/src/animations/text-swap.ts"],
 };
 
 export { componentSources };
@@ -88,29 +113,37 @@ const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" |
   sparkline: { title: "Sparkline", group: "charts", icon: "activity", description: "A tiny trend line for tables and cards, with a dot on the latest value.", height: 240 },
   "stat-card": { title: "Stat card", group: "charts", icon: "dashboard", description: "A headline number that counts up, a trend pill and a chart in one card.", height: 360 },
   "number-chart": { title: "Number chart", group: "charts", icon: "hash", description: "A big figure with a delta that knows whether up is good news.", height: 240 },
+  dashboard: { title: "Dashboard", group: "charts", icon: "dashboard", description: "A named section, number cards with a trend behind them, and panels in a row.", height: 560 },
+  "chart-variants": { title: "Chart variants", group: "charts", icon: "dashboard", description: "The legend, the sparkline, number and stat card variants, the center-value gauge and the five chart tokens.", height: 1200 },
   "time-series-chart": { title: "Time series chart", group: "charts", icon: "spline", description: "Dates on the x axis, a comparison line and a crosshair tooltip.", height: 420 },
   button: { title: "Button", group: "primitives", icon: "click", description: "Five variants and sizes, one source of truth.", height: 220 },
-  badge: { title: "Badge", group: "primitives", icon: "tag", description: "Filled, tinted and outlined labels.", height: 200 },
+  badge: { title: "Badge", group: "primitives", icon: "tag", description: "Filled, tinted and outlined labels, and a tone for severity.", height: 200 },
   "form-controls": { title: "Form controls", group: "primitives", icon: "form", description: "Input, switch, checkbox and progress on the same tokens.", height: 380 },
   card: { title: "Card", group: "primitives", icon: "square", description: "A surface with a header, content and footer.", height: 300 },
   tabs: { title: "Tabs", group: "primitives", icon: "tabs", description: "Tabs with a sliding indicator.", height: 260 },
+  segmented: { title: "Segmented control", group: "primitives", icon: "tabs", description: "Tabs, filter or nav links on one bordered track, with a sliding pill, a badge note on a segment, an underline variant and an overflow menu.", height: 380 },
+  picker: { title: "Picker", group: "primitives", icon: "select", description: "A command palette at popover scale: search, groups, hints and a footer.", height: 340 },
+  "copy-button": { title: "Copy button", group: "primitives", icon: "click", description: "An icon or a chip that copies a value, then shows a check.", height: 200 },
+  "hold-to-confirm": { title: "Hold to confirm", group: "primitives", icon: "click", description: "Press and hold to confirm a destructive action.", height: 200 },
+  "simple-field": { title: "Simple field", group: "primitives", icon: "form", description: "A label, a hint or an error, and the control, with the message linked to it.", height: 280 },
   dialog: { title: "Dialog", group: "primitives", icon: "dialog", description: "A modal with a header, fields and a footer.", height: 240 },
   select: { title: "Select", group: "primitives", icon: "select", description: "A themed menu with grouped options.", height: 240 },
   accordion: { title: "Accordion", group: "primitives", icon: "accordion", description: "Stacked sections that open one at a time.", height: 320 },
   avatar: { title: "Avatar", group: "primitives", icon: "avataricon", description: "Initials that stand in for photos.", height: 200 },
-  marquee: { title: "Marquee", group: "effects", icon: "move", description: "An endless ticker that pauses on hover.", height: 200 },
+  marquee: { title: "Marquee", group: "effects", icon: "move", description: "An endless ticker that pauses on hover, or a line of text that scrolls only when it overflows.", height: 200 },
   "border-beam": { title: "Border beam", group: "effects", icon: "sparkles", description: "A light that travels around a card's edge.", height: 240 },
   "text-effect": { title: "Text effect", group: "effects", icon: "type", description: "Words that fade in one after another.", height: 200 },
   spotlight: { title: "Spotlight", group: "effects", icon: "spotlight", description: "A soft beam that sweeps in on mount.", height: 220 },
-  "theme-toggle": { title: "Theme toggle", group: "effects", icon: "click", description: "A sun, moon and monitor button that wipes the new theme out from the click.", height: 200 },
-  "image-comparison": { title: "Image comparison", group: "effects", icon: "compare", description: "A wipe handle between before and after.", height: 300 },
+  "magic-card": { title: "Magic card", group: "effects", icon: "spotlight", description: "A frosted card with a glow that follows the pointer.", height: 240 },
+  "theme-toggle": { title: "Theme toggle", group: "effects", icon: "click", description: "A sun, moon and monitor button, or a sliding pill, that wipes the new theme out from the click.", height: 200 },
+  "image-comparison": { title: "Image comparison", group: "effects", icon: "compare", description: "A wipe handle between before and after, with a bindable position, badges over each side, picture sources and an opening hint sweep.", height: 340 },
   "animated-beam": { title: "Animated beam", group: "effects", icon: "beam", description: "A gradient pulse that runs between two nodes.", height: 220 },
   "animated-group": { title: "Animated group", group: "effects", icon: "animate", description: "Staggered entrances with one replay button.", height: 220 },
   "image-reveal": { title: "Image reveal", group: "effects", icon: "reveal", description: "Photos that dissolve in through a pixel pass.", height: 340 },
   "kanban-board": { title: "Kanban board", group: "tasks", icon: "kanban", description: "Drag cards between lanes, by mouse or by keyboard.", height: 440 },
   "task-list": { title: "Task list", group: "tasks", icon: "list", description: "Rows grouped by status that fold, with drag between groups.", height: 440 },
   "task-gantt": { title: "Gantt", group: "tasks", icon: "gantt", description: "Bars you drag and resize by the day, with arrows between tasks.", height: 440 },
-  "status-badge": { title: "Status badge", group: "tasks", icon: "tag", description: "Chips from one status config, with a busy spinner.", height: 200 },
+  "status-badge": { title: "Status badge", group: "tasks", icon: "tag", description: "Chips from one status config, with a tone dot and a busy spinner.", height: 200 },
   "status-dot": { title: "Status dot", group: "tasks", icon: "dot", description: "Dots in five shapes, from open ring to filled check.", height: 260 },
   "status-icon": { title: "Status icon", group: "tasks", icon: "statusicon", description: "Registry icons with a dot fallback for the rest.", height: 220 },
   inbox: { title: "Inbox", group: "tasks", icon: "inbox", description: "Approve, decline or steer what an agent isn't sure about, with the trace one click away.", height: 600 },
@@ -119,12 +152,21 @@ const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" |
   "slide-deck": { title: "Slide deck", group: "pages", icon: "deck", description: "A deck with reveals, overview and print, on a canvas that scales.", height: 380 },
   "ai-prompt": { title: "Prompt input", group: "ai", icon: "prompt", description: "Ask box with suggestions and send states.", height: 300 },
   "ai-thinking": { title: "Thinking dots", group: "ai", icon: "thinking", description: "Three dots while the answer forms.", height: 200 },
-  "chat-composer": { title: "Composer", group: "ai", icon: "composer", description: "Message box with send on Enter.", height: 300 },
   "chat-typing": { title: "Typing dots", group: "ai", icon: "typing", description: "Who is typing, in three dots.", height: 200 },
   "trade-icon": { title: "Trade icon", group: "primitives", icon: "tradeicon", description: "One glyph per trade, same stroke.", height: 240 },
   "brand-tokens": { title: "Brand tokens", group: "pages", icon: "brand", description: "The palette as swatches, one source.", height: 240 },
   "testimonial-highlight": { title: "Testimonial", group: "pages", icon: "testimonial", description: "One featured quote, ready to place.", height: 360 },
+  "side-panel": { title: "Side panel", group: "tasks", icon: "sidepanel", description: "A sheet for one record: badges, doors out to other tools, a copy-a-prompt handoff and a stats strip.", height: 220 },
+  "rich-editor": { title: "Rich editor", group: "primitives", icon: "editor", description: "A Tiptap editor with a slash menu, an image toolbar and a Markdown bridge.", height: 420 },
   "review-page": { title: "Review page", group: "pages", icon: "reviewpage", description: "The full review UI mounted in a box.", height: 420 },
+  "in-view": { title: "In view", group: "effects", icon: "reveal", description: "A block that animates in as it scrolls into view, and again each time it comes back.", height: 260 },
+  magnetic: { title: "Magnetic", group: "effects", icon: "click", description: "A button that leans toward the pointer.", height: 200 },
+  "progressive-blur": { title: "Progressive blur", group: "effects", icon: "sparkles", description: "A backdrop blur that ramps up toward one edge, with no runtime.", height: 260 },
+  motion: { title: "Motion", group: "effects", icon: "animate", description: "Every CSS animation the kit ships, one live example each, with its import.", height: 900 },
+  confirmation: { title: "Confirmation", group: "ai", icon: "dialog", description: "An agent asks before a risky step, then shows what was decided.", height: 300 },
+  "loading-state": { title: "Pixel loader", group: "ai", icon: "thinking", description: "A pixel spinner with a label and a running clock.", height: 220 },
+  reasoning: { title: "Reasoning", group: "ai", icon: "conversation", description: "A collapsible thought trail with how long it took.", height: 240 },
+  "voice-waveform": { title: "Voice waveform", group: "ai", icon: "activity", description: "Bars that move while someone speaks. Click to pause.", height: 200 },
 };
 
 const components = import.meta.glob<{ default: Component }>("./demos/*.svelte", { eager: true });
@@ -137,7 +179,7 @@ const packageOf = (slug: string) => {
   return file.split("/")[1] ?? "ui";
 };
 
-export const entries: Entry[] = Object.keys(meta).map((slug) => {
+const written: Entry[] = Object.keys(meta).map((slug) => {
   const path = `./demos/${slug}.svelte`;
   return {
     slug,
@@ -148,6 +190,28 @@ export const entries: Entry[] = Object.keys(meta).map((slug) => {
     sourceFiles: componentSources[slug] ?? [],
   };
 });
+
+const primitiveSources = import.meta.glob<string>("./shadcn-demos/*.svelte", { eager: true, query: "?raw", import: "default" });
+
+/**
+ * The other shadcn primitives, each shown by upstream's own demo. `pnpm sync:shadcn` writes the files
+ * and the list, so a primitive reaches the site by being synced, never by being typed here. A name a
+ * demo above already uses keeps that demo.
+ */
+const primitives: Entry[] = SHADCN_DEMOS.filter((demo) => !(demo.name in meta)).map((demo) => ({
+  slug: demo.name,
+  title: demo.title,
+  group: "primitives",
+  pkg: "ui",
+  icon: "square",
+  description: demo.note || `The ${demo.title} primitive.`,
+  height: 280,
+  component: demo.Comp,
+  source: primitiveSources[`./shadcn-demos/${demo.name}.svelte`].trim(),
+  sourceFiles: [],
+}));
+
+export const entries: Entry[] = [...written, ...primitives];
 
 export const groups: { id: Group; label: string }[] = [
   { id: "primitives", label: "Primitives" },
@@ -168,6 +232,7 @@ export const packages: Package[] = [
   { id: "tasks", name: "@heyramzi/tasks", title: "Tasks", blurb: "One set of tasks as a board, a list or a gantt, plus status badges, dots and icons from one config." },
   { id: "slides", name: "@heyramzi/slides", title: "Slides", blurb: "Decks on a fixed canvas: reveals, overview, presenter view and print." },
   { id: "marketing", name: "@heyramzi/marketing", title: "Marketing", blurb: "Brand tokens and testimonials. It also ships Umami analytics, Sentry errors and an HTML-to-image pipeline, which run on the server and have nothing to show here." },
+  { id: "rich-editor", name: "@heyramzi/rich-editor", title: "Rich editor", blurb: "A Tiptap editor, an SSR renderer for the saved JSON and a Markdown bridge." },
   { id: "review", name: "@heyramzi/review", title: "Review", blurb: "The review page, mounted anywhere." },
 ];
 

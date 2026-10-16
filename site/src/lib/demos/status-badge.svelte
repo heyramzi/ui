@@ -8,4 +8,7 @@
     <StatusBadge statuses={salesStatuses} status={id} />
   {/each}
   <StatusBadge statuses={salesStatuses} status="proposal" busy />
+  <StatusBadge tone="success" dot>Connected</StatusBadge>
+  <StatusBadge tone="warning" dot>Reconnect</StatusBadge>
+  <StatusBadge tone="destructive" dot>Error</StatusBadge>
 </div>

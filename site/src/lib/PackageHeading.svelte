@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Link from "@lucide/svelte/icons/link";
+  import { Link } from "phosphor-svelte";
 
   // The heading of one package section. `id` is the package id, so /#charts, /#ui and
   // /#board stay the same address for as long as the package keeps its id.

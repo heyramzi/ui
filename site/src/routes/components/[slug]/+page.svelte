@@ -3,7 +3,7 @@
   import Viewer from "#lib/Viewer.svelte";
   import Tile from "#lib/Tile.svelte";
   import { page } from "$app/state";
-  import ArrowLeft from "@lucide/svelte/icons/arrow-left";
+  import { ArrowLeft } from "phosphor-svelte";
 
   const entry = $derived(bySlug(page.params.slug!)!);
   const related = $derived(entries.filter((e) => e.group === entry.group && e.slug !== entry.slug).slice(0, 3));

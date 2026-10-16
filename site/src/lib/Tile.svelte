@@ -2,8 +2,7 @@
   import type { Entry } from "#lib/registry.js";
   import EntryIcon from "#lib/EntryIcon.svelte";
   import { copyAiContext } from "#lib/ai-context.js";
-  import Check from "@lucide/svelte/icons/check";
-  import Copy from "@lucide/svelte/icons/copy";
+  import { Check, Copy } from "phosphor-svelte";
 
   let { entry }: { entry: Entry } = $props();
   let width = $state(0);

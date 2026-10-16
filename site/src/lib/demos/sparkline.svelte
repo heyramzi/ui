@@ -14,4 +14,8 @@
     <span class="text-sm text-muted-foreground">Churn</span>
     <div class="w-28"><Sparkline data={down} xKey="i" yKey="v" color="var(--chart-4)" /></div>
   </div>
+  <div class="flex items-center justify-between gap-4">
+    <span class="text-sm text-muted-foreground">Ornament</span>
+    <div class="w-28"><Sparkline data={up} xKey="i" yKey="v" bare height="2rem" /></div>
+  </div>
 </div>

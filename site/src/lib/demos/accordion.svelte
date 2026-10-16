@@ -22,3 +22,22 @@
     </Accordion.Content>
   </Accordion.Item>
 </Accordion.Root>
+
+<Accordion.Root type="single" class="mt-8 w-full max-w-md">
+  <Accordion.Item value="plus">
+    <Accordion.Trigger>
+      A plus that turns into a minus
+      {#snippet indicator()}
+        <span class="relative mt-1 inline-block size-4 shrink-0" aria-hidden="true">
+          <i class="absolute top-[7px] left-0 h-0.5 w-4 rounded-[1px] bg-current"></i>
+          <i
+            class="absolute top-0 left-[7px] h-4 w-0.5 rounded-[1px] bg-current transition-transform duration-200 group-aria-expanded/accordion-trigger:scale-y-0"
+          ></i>
+        </span>
+      {/snippet}
+    </Accordion.Trigger>
+    <Accordion.Content>
+      <p>Pass an indicator snippet in place of the caret and style it off the trigger's expanded state.</p>
+    </Accordion.Content>
+  </Accordion.Item>
+</Accordion.Root>
