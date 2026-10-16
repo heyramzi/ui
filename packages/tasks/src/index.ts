@@ -53,5 +53,26 @@ export {
 	parseMinutes,
 	personColor,
 } from "./time/duration.js";
+export { Inbox, confidenceLevel, inboxConfidence, inboxKinds, inboxStates } from "./inbox/index.js";
+export type {
+	InboxAgent,
+	InboxConfidence,
+	InboxDraft,
+	InboxDraftEdit,
+	InboxDraftEdits,
+	InboxEvidence,
+	InboxItem,
+	InboxKind,
+	InboxKindFilter,
+	InboxLane,
+	InboxOutcome,
+	InboxProject,
+	InboxProposal,
+	InboxSourceType,
+	InboxState,
+	InboxTier,
+	InboxTrace,
+	InboxVerdict,
+} from "./inbox/index.js";
 export { DEFAULT_TIME_LABELS } from "./time/time-types.js";
 export type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "./time/time-types.js";

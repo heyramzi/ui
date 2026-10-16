@@ -54,10 +54,25 @@
       "types": "./src/status-badge.svelte",
       "default": "./src/status-badge.svelte"
     },
+    "./status-dot": {
+      "svelte": "./src/status-dot.svelte",
+      "types": "./src/status-dot.svelte",
+      "default": "./src/status-dot.svelte"
+    },
+    "./statuses": {
+      "svelte": "./src/define-statuses.ts",
+      "types": "./src/define-statuses.ts",
+      "default": "./src/define-statuses.ts"
+    },
     "./time": {
       "svelte": "./src/time/time-tracker.svelte",
       "types": "./src/time/time-tracker.svelte",
       "default": "./src/time/time-tracker.svelte"
+    },
+    "./inbox": {
+      "svelte": "./src/inbox/index.ts",
+      "types": "./src/inbox/index.ts",
+      "default": "./src/inbox/index.ts"
     },
     "./presets/sales": {
       "svelte": "./src/presets/sales.ts",
@@ -74,9 +89,12 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "peerDependencies": {
+    "@heyramzi/ui": "*",
     "svelte": "^5.0.0"
   },
   "devDependencies": {
+    "@heyramzi/ui": "workspace:*",
+    "@types/node": "^26.6.4",
     "svelte-check": "^4.7.6",
     "typescript": "~7.0.2"
   }

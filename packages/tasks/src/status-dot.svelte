@@ -3,7 +3,7 @@
 	import { TONE_COLOR } from "./tone.js";
 	import type { StatusDotVariant, Statuses } from "./status-types.js";
 
-	type Props = {
+	interface Props {
 		/** A registry from `defineStatuses`. Resolves color, variant and progress. */
 		statuses?: Statuses;
 		status?: string;
@@ -14,7 +14,7 @@
 		size?: number;
 		animate?: boolean;
 		class?: string;
-	};
+	}
 
 	let {
 		statuses,
@@ -66,17 +66,16 @@
 		viewBox="0 0 14 14"
 		fill="none"
 		aria-hidden="true"
-		class={cn("shrink-0", className)}
+		class={cn("sd", className)}
 	>
 		<circle cx="7" cy="7" r="6" fill={resolvedColor} class={animate ? "sd-pop" : ""}></circle>
 		<polyline
 			points="4.5,7 6.5,9 9.5,5"
 			fill="none"
-			stroke="white"
+			class={cn("sd-mark", animate && "sd-check")}
 			stroke-width="1.5"
 			stroke-linecap="round"
 			stroke-linejoin="round"
-			class={animate ? "sd-check" : ""}
 		></polyline>
 	</svg>
 {:else if resolvedVariant === "lost"}
@@ -86,10 +85,10 @@
 		viewBox="0 0 14 14"
 		fill="none"
 		aria-hidden="true"
-		class={cn("shrink-0", className)}
+		class={cn("sd", className)}
 	>
 		<circle cx="7" cy="7" r="6" fill={resolvedColor} class={animate ? "sd-pop" : ""}></circle>
-		<g stroke="white" stroke-width="1.5" stroke-linecap="round">
+		<g class="sd-mark" stroke-width="1.5" stroke-linecap="round">
 			<line x1="5" y1="5" x2="9" y2="9" class={animate ? "sd-cross" : ""}></line>
 			<line x1="9" y1="5" x2="5" y2="9" class={animate ? "sd-cross sd-cross-second" : ""}></line>
 		</g>
@@ -101,7 +100,7 @@
 		viewBox="0 0 14 14"
 		fill="none"
 		aria-hidden="true"
-		class={cn("shrink-0", className)}
+		class={cn("sd", className)}
 	>
 		<circle cx="7" cy="7" r="6" fill={resolvedColor} class={animate ? "sd-pop" : ""}></circle>
 	</svg>
@@ -112,9 +111,16 @@
 		viewBox="0 0 14 14"
 		fill="none"
 		aria-hidden="true"
-		class={cn("shrink-0", className)}
+		class={cn("sd", className)}
 	>
-		<circle cx="7" cy="7" r="5.5" stroke={resolvedColor} stroke-width="1.5"></circle>
+		<circle
+			cx="7"
+			cy="7"
+			r="5.5"
+			stroke={resolvedColor}
+			stroke-width="1.5"
+			class={resolvedVariant === "dashed" ? "sd-dashed" : ""}
+		></circle>
 		{#if dasharray}
 			<circle
 				cx="7"
@@ -133,6 +139,20 @@
 {/if}
 
 <style>
+	.sd {
+		flex-shrink: 0;
+	}
+
+	/* The tick and cross read as cut out of the disc. A host sets the mark to its own ground. */
+	.sd-mark {
+		stroke: var(--status-dot-mark, white);
+	}
+
+	/* 12 dashes that close evenly: 2 * PI * 5.5 = 34.56, cut into 12 periods of 2.88. */
+	.sd-dashed {
+		stroke-dasharray: 1.3 1.58;
+	}
+
 	.sd-fill {
 		transform-origin: 7px 7px;
 		animation: sd-fill-in var(--duration-slow, 320ms) var(--ease-smooth-out, ease-out) forwards;

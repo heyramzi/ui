@@ -260,6 +260,9 @@ importers:
 
   packages/review:
     devDependencies:
+      '@heyramzi/tasks':
+        specifier: workspace:*
+        version: link:../tasks
       '@heyramzi/ui':
         specifier: workspace:*
         version: link:../ui
@@ -315,6 +318,12 @@ importers:
         specifier: ^5.0.0
         version: 5.57.2
     devDependencies:
+      '@heyramzi/ui':
+        specifier: workspace:*
+        version: link:../ui
+      '@types/node':
+        specifier: ^26.6.4
+        version: 26.6.4
       svelte-check:
         specifier: ^4.7.6
         version: 4.7.6(picomatch@4.0.7)(svelte@5.57.2)

@@ -3,8 +3,11 @@ import type { Component } from "svelte";
 /** The one severity scale the kit ships. */
 export type Tone = "neutral" | "accent" | "info" | "success" | "warning" | "destructive";
 
-/** The shape the dot can take. `progress` needs a `progress` value between 0 and 1. */
-export type StatusDotVariant = "open" | "progress" | "filled" | "completed" | "lost";
+/**
+ * The shape the dot can take. `progress` needs a `progress` value between 0 and 1.
+ * `dashed` is an open ring cut into dashes, for an aggregate such as "All".
+ */
+export type StatusDotVariant = "open" | "dashed" | "progress" | "filled" | "completed" | "lost";
 
 export type StatusDef = {
 	label: string;
