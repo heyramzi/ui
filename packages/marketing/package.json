@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/marketing",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Umami analytics for client, server, and Svelte, plus a satori-based HTML-to-image pipeline.",
   "license": "MIT",
   "repository": {

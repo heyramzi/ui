@@ -181,3 +181,10 @@
 
 * fix(ui,marketing): accept any @heyramzi/utils 1.x from 1.3.3
 
+
+## [2.1.0](https://github.com/heyramzi/ui/compare/marketing-v2.0.1...marketing-v2.1.0) (2026-10-16)
+
+### Features
+
+* feat(marketing): UpSys deck tokens in brand/deck
+

@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/slides",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Slide decks for Svelte 5: a fixed canvas that scales, reveals, overview, presenter view, print and data-driven slide types.",
   "license": "MIT",
   "repository": {
