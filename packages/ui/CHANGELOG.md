@@ -1,0 +1,613 @@
+# Changelog
+
+## [4.5.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.4.1...ui-v4.5.0) (2026-10-01)
+
+
+### Features
+
+* **claude:** add claude skills and references ([29137b5](https://github.com/heyramzi/vibe-kit/commit/29137b591a75e24fb2204740b793f063764fe2f3))
+* **packages:** devtools, review ui, and studio library ([c0beedf](https://github.com/heyramzi/vibe-kit/commit/c0beedffd09b1e482e565e61fe498a15542ece7c))
+
+## [4.4.1](https://github.com/heyramzi/vibe-kit/compare/ui-v4.4.0...ui-v4.4.1) (2026-09-29)
+
+
+### Bug Fixes
+
+* **ui:** chart hover band centers on the dot and reaches a little less far ([0355693](https://github.com/heyramzi/vibe-kit/commit/03556939d411eff5c4538c622aac78affbc6d74d))
+
+## [4.4.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.3.0...ui-v4.4.0) (2026-09-26)
+
+
+### Features
+
+* **ui:** FaceIcon is Neuro, the bot-avatars face whose eyes read while it works ([a48c4d9](https://github.com/heyramzi/vibe-kit/commit/a48c4d9d6dfd11e63a734bdb41aa3a8f11c3d804))
+
+
+### Bug Fixes
+
+* **lint:** clear the errors that blocked every push ([e1f2ef7](https://github.com/heyramzi/vibe-kit/commit/e1f2ef7f8124a43d070f4d49178074c1a21887cf))
+
+## [4.3.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.2.1...ui-v4.3.0) (2026-09-22)
+
+
+### Features
+
+* **ui:** chart hover matches bklit-ui, and the line stops jittering ([8dc4354](https://github.com/heyramzi/vibe-kit/commit/8dc43549dc2c6b60688f48d5a87eabced1ad5627))
+
+## [4.2.1](https://github.com/heyramzi/vibe-kit/compare/ui-v4.2.0...ui-v4.2.1) (2026-09-22)
+
+
+### Bug Fixes
+
+* **ui:** publish with relative imports, so Vite consumers resolve the package ([838678c](https://github.com/heyramzi/vibe-kit/commit/838678c999fb15f7f11656ed4a6f2b17add9791d))
+
+## [4.2.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.1.0...ui-v4.2.0) (2026-09-22)
+
+
+### Features
+
+* **ui:** charts enter on one reveal, a faded crosshair and a springier tooltip ([989da69](https://github.com/heyramzi/vibe-kit/commit/989da693e639cef2e0513664b88f3b36eae88b08))
+
+## [4.1.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.0.0...ui-v4.1.0) (2026-09-22)
+
+
+### Features
+
+* **ui:** BarChart stacks series and colors each bar by its band ([cdeb958](https://github.com/heyramzi/vibe-kit/commit/cdeb958c50e4f5e1e661aae59d15b04dac5b53f1))
+
+
+### Bug Fixes
+
+* gate after path aliases ([f76b88a](https://github.com/heyramzi/vibe-kit/commit/f76b88ab65462d36083b0c92d1dbf5769e7b670d))
+
+## [4.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v3.1.0...ui-v4.0.0) (2026-09-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ui:** LineChart no longer takes `fill` and Sparkline no longer takes `area`; delete the prop, the gradient is always drawn. `edgeFade` still controls the soft ends.
+
+### Features
+
+* **ui:** every LineChart and Sparkline draws its gradient fill ([d69ea5c](https://github.com/heyramzi/vibe-kit/commit/d69ea5c6af7b7cc8c0b649f306de42ca4ab0447f))
+
+## [3.1.0](https://github.com/heyramzi/vibe-kit/compare/ui-v3.0.0...ui-v3.1.0) (2026-09-16)
+
+
+### Features
+
+* **ui:** 24 symbols the Wavenote library and iPhone replicas draw, read off the Mac ([ecf0683](https://github.com/heyramzi/vibe-kit/commit/ecf06837271f8dda5408b73ae7ffe501611dcd21))
+
+
+### Bug Fixes
+
+* **ui:** oxfmt ne compte plus comme une retouche dans le sync ([51ebecc](https://github.com/heyramzi/vibe-kit/commit/51ebecc1815a26b71b15813c6b542ff2b9faa045))
+
+## [3.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v2.1.0...ui-v3.0.0) (2026-09-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ui:** le kit change d'aspect. Les hauteurs, les ombres, les rayons et les icônes sont ceux d'upsys; un consommateur doit importer `@heyramzi/ui/design` et ajouter `@source "../node_modules/@heyramzi/ui/src";` à son app.css, sans quoi Tailwind ne génère aucune de ces classes.
+
+### Features
+
+* **ui:** le kit shadcn d'upsys monte ici, et upsys le réexporte ([f4d71e0](https://github.com/heyramzi/vibe-kit/commit/f4d71e03c7d651c94566af196e956d33cb441fef))
+
+## [2.1.0](https://github.com/heyramzi/vibe-kit/compare/ui-v2.0.0...ui-v2.1.0) (2026-09-14)
+
+
+### Features
+
+* **ui:** les trente-deux transitions gratuites et les scripts de synchronisation ([34ea17b](https://github.com/heyramzi/vibe-kit/commit/34ea17b7f9a8fffbbd2f882040fddc76298839ca))
+* **ui:** the showcase holds the whole package, and the shadcn demos arrive by script ([3f5d300](https://github.com/heyramzi/vibe-kit/commit/3f5d300d163eab7c2d6f11d6304aa2197e043b23))
+
+## [2.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.0.8...ui-v2.0.0) (2026-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ui:** `@heyramzi/ui/chat` n'exporte plus Message, MessageContent, MessageAvatar, MessageActions, MessageAction ni MessageCopy. Le remplacement est `@heyramzi/ui/shadcn/message` plus `@heyramzi/ui/shadcn/bubble` : `from="self"` devient `align="end"` et la bulle passe en `variant="default"`, `from="other"` devient `align="start"` en `variant="muted"`. Conversation, Composer et TypingDots ne bougent pas.
+* **ui:** Button and InputGroup.Button no longer take `size="icon"`, `size="icon-sm"`, `size="icon-lg"`, `size="icon-xs"` or `size="cta"`; use the nearest height with the new `icon` prop (`size="sm" icon`). Button drops the `gradient`, `secondary` and `link` variants, and Sheet.Content drops `side="top"`.
+
+### Features
+
+* **ui:** a component offers three variants, not eight ([6e989e3](https://github.com/heyramzi/vibe-kit/commit/6e989e3d1a35d8f89dcb281ab60bc493196e7782))
+* **ui:** six motion-primitives ports, written as CSS ([b0061a9](https://github.com/heyramzi/vibe-kit/commit/b0061a9340d4acfc95c3289b1805b54f41c508c7))
+* **ui:** the shadcn Message and Bubble replace the in-house chat set ([3682da6](https://github.com/heyramzi/vibe-kit/commit/3682da6ecbdbf6a2ccfcbb4bedfd63dca2133c85))
+
+
+### Bug Fixes
+
+* **descript:** layout cards prints where a card stands, not where its paragraph starts ([97b85fd](https://github.com/heyramzi/vibe-kit/commit/97b85fdf3a50e5d919acedf5cf82799cc53bbcd5))
+* **ui:** a static-colour beam keeps its brightness and saturation ([f85b5e6](https://github.com/heyramzi/vibe-kit/commit/f85b5e63847330f8b42a4c1cdaf4de2f6e58f9f0))
+
+## [1.0.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.0.0...ui-v1.0.1) (2026-09-06)
+
+
+### Bug Fixes
+
+* **ui:** a static-colour beam keeps its brightness and saturation ([f85b5e6](https://github.com/heyramzi/vibe-kit/commit/f85b5e63847330f8b42a4c1cdaf4de2f6e58f9f0))
+
+## [1.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.42.0...ui-v1.0.0) (2026-09-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ui:** Button and InputGroup.Button no longer take `size="icon"`, `size="icon-sm"`, `size="icon-lg"`, `size="icon-xs"` or `size="cta"`; use the nearest height with the new `icon` prop (`size="sm" icon`). Button drops the `gradient`, `secondary` and `link` variants, and Sheet.Content drops `side="top"`.
+
+### Features
+
+* **ui:** a component offers three variants, not eight ([6e989e3](https://github.com/heyramzi/vibe-kit/commit/6e989e3d1a35d8f89dcb281ab60bc493196e7782))
+* **ui:** six motion-primitives ports, written as CSS ([b0061a9](https://github.com/heyramzi/vibe-kit/commit/b0061a9340d4acfc95c3289b1805b54f41c508c7))
+
+
+### Bug Fixes
+
+* **descript:** layout cards prints where a card stands, not where its paragraph starts ([97b85fd](https://github.com/heyramzi/vibe-kit/commit/97b85fdf3a50e5d919acedf5cf82799cc53bbcd5))
+
+## [0.42.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.41.0...ui-v0.42.0) (2026-08-30)
+
+
+### Features
+
+* **ui:** the chart a single figure gets ([91192ea](https://github.com/heyramzi/vibe-kit/commit/91192ea4ed7f9d386e417f067ceba00dcf1eff6b))
+
+## [0.41.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.40.1...ui-v0.41.0) (2026-08-28)
+
+
+### Features
+
+* **ui:** the AI kit is one item per row, and ten more of them ([d1c6628](https://github.com/heyramzi/vibe-kit/commit/d1c66287e953ec9a36ec606316c87dc5d0389d6c))
+
+## [0.40.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.40.0...ui-v0.40.1) (2026-08-27)
+
+
+### Bug Fixes
+
+* **ui:** the showcase rail drops its rule, and search results number from one ([6f48f1f](https://github.com/heyramzi/vibe-kit/commit/6f48f1f9b9bc86316a865f17e2551fcfd5a24636))
+
+## [0.40.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.39.0...ui-v0.40.0) (2026-08-26)
+
+
+### Features
+
+* **ui:** the AI showcase is one grid, and coloured text clears AA ([3d47638](https://github.com/heyramzi/vibe-kit/commit/3d476388f1b5f396445aedeb3675e4539da5e608))
+
+## [0.39.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.38.0...ui-v0.39.0) (2026-08-26)
+
+
+### Features
+
+* **ui:** the craft layer ships in the package, and the showcase gets its shell ([31d1036](https://github.com/heyramzi/vibe-kit/commit/31d1036ca301953ca3ac2e9a2efcf7cc4cf357c8))
+
+## [0.38.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.37.2...ui-v0.38.0) (2026-08-25)
+
+
+### Features
+
+* **skool:** the rules endpoints, and the cover design language ([ab7019b](https://github.com/heyramzi/vibe-kit/commit/ab7019b1046f30f1148bfa190e6bf9c060299aae))
+
+
+### Bug Fixes
+
+* **ui:** deep-import phosphor icons instead of the barrel ([882f19b](https://github.com/heyramzi/vibe-kit/commit/882f19be2a89373a979ca9355a4449d381f92b37))
+* **ui:** the shader field frames itself with a long lens, and the skill learns the fifth artifact ([e2a8a6e](https://github.com/heyramzi/vibe-kit/commit/e2a8a6e1cb1a47db643d6ee01a5811c24093b305))
+
+## [0.37.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.37.1...ui-v0.37.2) (2026-08-19)
+
+
+### Bug Fixes
+
+* **ui:** shadcn/chart points at the maintained primitives instead of rotting ([#113](https://github.com/heyramzi/vibe-kit/issues/113)) ([6f0eba5](https://github.com/heyramzi/vibe-kit/commit/6f0eba54b1e8269709f835a523eb71ae2e261174))
+
+## [0.37.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.37.0...ui-v0.37.1) (2026-08-19)
+
+
+### Bug Fixes
+
+* **ui:** form fields bind again, because the snippet gave a value where a store was expected ([e3b5e49](https://github.com/heyramzi/vibe-kit/commit/e3b5e49ced2823827dd1c2d719cab24d215cb858))
+
+## [0.37.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.36.0...ui-v0.37.0) (2026-08-19)
+
+
+### Features
+
+* **ui:** area fills dissolve at the plot edges instead of stopping flat ([#110](https://github.com/heyramzi/vibe-kit/issues/110)) ([0bab0c1](https://github.com/heyramzi/vibe-kit/commit/0bab0c13f330ef43ed7eb232401539c1989ff9f2))
+
+## [0.36.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.3...ui-v0.36.0) (2026-08-17)
+
+
+### Features
+
+* **ui:** export the ports board and the showcase components ([7e9f219](https://github.com/heyramzi/vibe-kit/commit/7e9f219be131c86f0ddc8e9ea43e3065907c559a))
+* **ui:** recover the animation, effects, AI and chart showcase ([369287b](https://github.com/heyramzi/vibe-kit/commit/369287be1f903534697923be391f0dbac10611dd))
+
+## [0.35.3](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.2...ui-v0.35.3) (2026-08-16)
+
+
+### Bug Fixes
+
+* **ui:** a lost WebGL context drops the field instead of painting it black ([b606568](https://github.com/heyramzi/vibe-kit/commit/b606568f8d3dbde2f615d4583776118793991767))
+
+## [0.35.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.1...ui-v0.35.2) (2026-08-16)
+
+
+### Bug Fixes
+
+* **ui:** the shader gradient stops drawing hard lines across itself ([36c0c08](https://github.com/heyramzi/vibe-kit/commit/36c0c0870c89592ce18a84b827582722682b468f))
+
+## [0.35.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.0...ui-v0.35.1) (2026-08-16)
+
+
+### Bug Fixes
+
+* **ui:** the shader gradient covers a wide frame ([38fe85c](https://github.com/heyramzi/vibe-kit/commit/38fe85c6f7a68e340c1cf4472aa5ce3146fac237))
+
+## [0.35.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.34.0...ui-v0.35.0) (2026-08-16)
+
+
+### Features
+
+* **ui:** a shader gradient that carries no three.js ([b2bee9e](https://github.com/heyramzi/vibe-kit/commit/b2bee9e18f9c23bf7d0f98090818282ac10c6762))
+
+## [0.34.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.33.0...ui-v0.34.0) (2026-08-10)
+
+
+### Features
+
+* **ui:** note.text and record.circle, the two symbols the Notes panes wear ([#95](https://github.com/heyramzi/vibe-kit/issues/95)) ([636b150](https://github.com/heyramzi/vibe-kit/commit/636b150dede632d3c2a68bd58697d0ab57437329))
+
+## [0.33.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.32.0...ui-v0.33.0) (2026-08-10)
+
+
+### Features
+
+* **ui:** macwindow and character.bubble.fill, read off the Mac ([a107de9](https://github.com/heyramzi/vibe-kit/commit/a107de923f6a1ffe7d8f684e24fe91e33d45b070))
+
+## [0.32.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.3...ui-v0.32.0) (2026-08-10)
+
+
+### Features
+
+* **ui:** SF-named icons, drawn here rather than exported ([808f1b7](https://github.com/heyramzi/vibe-kit/commit/808f1b7fb3f538d4e0d43fc7537a04658b0b6613))
+* **ui:** the icons are Apple's own, and the note says why that changed ([73ced3e](https://github.com/heyramzi/vibe-kit/commit/73ced3e0941db91010161a6ffa08cbf76bcc46eb))
+* **ui:** the symbol table is importable on its own ([e2e7a67](https://github.com/heyramzi/vibe-kit/commit/e2e7a675ee0414a76f88f391d86d6411d3d2762d))
+
+## [0.31.3](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.2...ui-v0.31.3) (2026-06-17)
+
+
+### Bug Fixes
+
+* **ui:** ship chat/ai/effects styles as plain CSS instead of &lt;style&gt; blocks ([#67](https://github.com/heyramzi/vibe-kit/issues/67)) ([1261471](https://github.com/heyramzi/vibe-kit/commit/126147103cc21654d8b7008729ad5da61faf3638))
+
+## [0.31.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.1...ui-v0.31.2) (2026-06-17)
+
+
+### Bug Fixes
+
+* **ui:** ship chart styles as plain CSS instead of &lt;style&gt; blocks ([#64](https://github.com/heyramzi/vibe-kit/issues/64)) ([237a155](https://github.com/heyramzi/vibe-kit/commit/237a155a64b8278c0ac677f4bf6cd301327900e7))
+
+## [0.31.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.0...ui-v0.31.1) (2026-06-17)
+
+
+### Bug Fixes
+
+* **ui:** show period in chart tooltips + fix hover tracking ([a73d560](https://github.com/heyramzi/vibe-kit/commit/a73d56007d3f0d4f12f359e06e92c3c37fab1cc1))
+
+## [0.31.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.30.1...ui-v0.31.0) (2026-06-16)
+
+
+### Features
+
+* **packages:** add descriptions to ai, auth, marketing, ui, utils manifests ([2e6630b](https://github.com/heyramzi/vibe-kit/commit/2e6630be49a6b97ec505e1bf6b8f011a4eaf5627))
+* **ui:** add @heyramzi/ui/chat human-chat module, slim ai/ to AI-only ([ac0f4ce](https://github.com/heyramzi/vibe-kit/commit/ac0f4ce5ecd260c0c70f0f70ac16f71870c3de55))
+* **ui:** add ai subpath with chat primitives ([9683760](https://github.com/heyramzi/vibe-kit/commit/96837605e10590a1a416aa7c55429b5cd7b9a2b3))
+* **ui:** add AnimatedBeam, Spotlight, Marquee, ImageReveal effects ([97fbb4e](https://github.com/heyramzi/vibe-kit/commit/97fbb4e170a58f0e3796a2e3ac2a258e1b809213))
+* **ui:** add charts subpath with layerchart wrappers ([f90de43](https://github.com/heyramzi/vibe-kit/commit/f90de43f8fb6271847fcc13d6d03a8c267fd2c24))
+* **ui:** add gauge, ring, legend charts and theme the tooltip ([d3d9135](https://github.com/heyramzi/vibe-kit/commit/d3d91350f0afd1c7aaa2a4acdf148808f2eb7ddc))
+* **ui:** add height="fill" to BarChart ([5b0a349](https://github.com/heyramzi/vibe-kit/commit/5b0a3491cbc7f60c62a64350ec753ee0fff1f473))
+* **ui:** add shadcn-svelte primitives under @heyramzi/ui/shadcn/* ([4ea5ad0](https://github.com/heyramzi/vibe-kit/commit/4ea5ad0635dd12aa1714b6a59108d09c7e24de43))
+* **ui:** add StatCard charts block, standalone Legend demo, shared chart tokens ([39ca7d0](https://github.com/heyramzi/vibe-kit/commit/39ca7d074b638565e538b40524b044b6dd9fe3d5))
+* **ui:** add StatCard gauge variant (figure left, gauge right) (0.29.0) ([289cd09](https://github.com/heyramzi/vibe-kit/commit/289cd0965bcbec0483cd5d6b87c0ae3b0b60b624))
+* **ui:** add ThemeToggle with view-transition reveal ([b212e40](https://github.com/heyramzi/vibe-kit/commit/b212e40e4e47f09b8b12d5d0cd507f24d926c7a5))
+* **ui:** BorderBeam bloom + offscreen-pause props, reduced-motion respect ([de4de48](https://github.com/heyramzi/vibe-kit/commit/de4de4819e9bc81b8fcf058dd921068ede8ee834))
+* **ui:** commit forms primitives + bump to 0.7.0 ([bfde6e8](https://github.com/heyramzi/vibe-kit/commit/bfde6e8b8d6a016970ab6efe72d16af88276074e))
+* **ui:** make chat the single source for conversation container + dots + avatar ([23bbb04](https://github.com/heyramzi/vibe-kit/commit/23bbb049a63ab8978e5a4b329734814c3445b729))
+* **ui:** rewrite charts with primitive composition + add transitions.dev animations ([959f2f6](https://github.com/heyramzi/vibe-kit/commit/959f2f6906a551d096d64bd5e728ae56fa831f51))
+* **ui:** sheet animation, dropdown delayed-open, dialog/alert refinements ([b0bc699](https://github.com/heyramzi/vibe-kit/commit/b0bc69918ded03d44040c8ec8254a756a2f011d9))
+* **ui:** thread BorderBeam colors prop through gradient helpers (0.14.0) ([7235d34](https://github.com/heyramzi/vibe-kit/commit/7235d34225cc619ba3dee025281aa63e87640f1d))
+* **ui:** unify chart headers on Figure, centralize layerchart chrome (0.28.0) ([2a84b4b](https://github.com/heyramzi/vibe-kit/commit/2a84b4b3c9bf4db01ad7df1d293b9e94b6927f33))
+
+
+### Bug Fixes
+
+* **ci:** make release-please changelog-path package-relative ([af35ed4](https://github.com/heyramzi/vibe-kit/commit/af35ed48c39349ec1581073be236c24d675e94d4))
+* **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
+* **ui:** align icon-swap demo markup with package CSS contract; pick up bar/area chart polish ([edefa61](https://github.com/heyramzi/vibe-kit/commit/edefa619e7681744868cd40c83eb1d68c2167ba5))
+* **ui:** anchor FaceIcon thinking gradient at top and dissolve cone edge ([6ef356d](https://github.com/heyramzi/vibe-kit/commit/6ef356dec207ceb30b06881d78a002d5d9a42766))
+* **ui:** blur thinking-state brain overlay so gradient feels softer ([362285f](https://github.com/heyramzi/vibe-kit/commit/362285f4ffc7aaeda98610c87f47960d37fe2f1f))
+* **ui:** brand-color stat-card hover dot, snap to cursor, tighten edge fade ([10c8946](https://github.com/heyramzi/vibe-kit/commit/10c8946588e762ac609c32107082db056f209026))
+* **ui:** drop isolation+contain from BorderBeam host (0.14.1) ([cb67c2f](https://github.com/heyramzi/vibe-kit/commit/cb67c2fda6f675e30c19d5a5d5cfa55e9a271539))
+* **ui:** drop unused colors arg from BorderBeam gradient helpers ([b89318f](https://github.com/heyramzi/vibe-kit/commit/b89318f0606f287602ffb4c9117cd4dd385f2ab7))
+* **ui:** exact replica CSS for transitions.dev animations + port their dark/light demo theming ([32a42d8](https://github.com/heyramzi/vibe-kit/commit/32a42d8495c3cdc17d450751a43031eb928fd7f8))
+* **ui:** import superForm from /client in use-form helper ([5cd3917](https://github.com/heyramzi/vibe-kit/commit/5cd391774d639c1a7a5df45bf0b27911d07009b1))
+* **ui:** import superValidate from /server in form helpers ([8428fcd](https://github.com/heyramzi/vibe-kit/commit/8428fcdf741921cf9ee71a3d5978d579ca71be43))
+* **ui:** inline Writable type in use-field-value to avoid import-type parse error in Rolldown optimizer; bump 0.7.1 ([73038a0](https://github.com/heyramzi/vibe-kit/commit/73038a0ef33a765e23f02b4d701893b211e2879d))
+* **ui:** Marquee honors --duration/--gap class overrides ([2026671](https://github.com/heyramzi/vibe-kit/commit/20266715e6efd31def320b03acae3acf3788f6d1))
+* **ui:** match bklit line stroke fade + smoother curve, fill the gauge on entry ([3cd920a](https://github.com/heyramzi/vibe-kit/commit/3cd920aed3453bd3bff573e32fbc040d7b28aa55))
+* **ui:** narrow vaul-svelte peer to &gt;=1.0.0-next.7 only ([c88707b](https://github.com/heyramzi/vibe-kit/commit/c88707b14305dd43afa731a32a7ac3a0c4ae3860))
+* **ui:** register BorderBeam [@property](https://github.com/property) values via CSS.registerProperty (0.14.2) ([95212c6](https://github.com/heyramzi/vibe-kit/commit/95212c6c762a51b09200105df80e7a3d1d090b0a))
+* **ui:** relax vaul-svelte peer to accept stable 0.3.x or pre-release 1.0+ (0.15.2) ([0f3bd4c](https://github.com/heyramzi/vibe-kit/commit/0f3bd4c6d342557eb55e4b7dc5f501ea5d40341f))
+* **ui:** rename Confirmation `state` prop to `kind` ([9e126dc](https://github.com/heyramzi/vibe-kit/commit/9e126dcea7bc5d41838343f59fb9dc427cc6206e))
+* **ui:** replace template-expression state mutations with FieldSync component ([975d41e](https://github.com/heyramzi/vibe-kit/commit/975d41e4fe80f48bca355f001c868242fb3004d5))
+* **ui:** set form context synchronously, not in $effect ([ba6ccb3](https://github.com/heyramzi/vibe-kit/commit/ba6ccb313b9276216fccd8bfa493d33cdbedaaf3))
+* **ui:** untrack fieldCtx writes in form-field snippets ([94cf361](https://github.com/heyramzi/vibe-kit/commit/94cf3614c6f9d2465fd34bc18d9dee6b32dc33ed))
+* **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
+* **ui:** wrap form-field Label inside Control for formsnap v2 compat ([4444d7c](https://github.com/heyramzi/vibe-kit/commit/4444d7cdf7dfb7069f54632a68b491a65187249a))
+* **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
+
+## [0.29.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.28.0...ui-v0.29.0) (2026-06-14)
+
+
+### Features
+
+* **ui:** add a gauge variant to StatCard (figure on the left, radial gauge on the right) and make StatCard's data/series props optional so a gauge card needs only a gaugeValue
+
+
+## [0.28.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.27.0...ui-v0.28.0) (2026-06-14)
+
+
+### Features
+
+* **ui:** add Figure and TrendPill chart modules; StatCard and the area/bar/line chart headers now compose the shared Figure so there is one KPI metric pattern across the chart system
+
+
+### Improvements
+
+* **ui:** centralize the layerchart axis, grid, and highlight chrome in charts.css so it is defined once across every chart instead of duplicated per component
+
+
+## [0.27.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.26.0...ui-v0.27.0) (2026-06-14)
+
+
+### Features
+
+* **ui:** add StatCard to charts: bklit-style KPI block with line, area, and bar variants, edge-to-edge chart, trend pill, count-up value, and a figureOnly bare-figure mode
+* **ui:** add a standalone Legend demo and shared chart design tokens (label, grid, motion, easing, elevation) in charts.css as one source of truth
+
+
+### Bug Fixes
+
+* **ui:** animate the Legend progress bar with transform scaleX instead of width to remove layout thrash
+* **ui:** StatCard line variant now fades the stroke to transparent at both ends (bklit-style gradient stroke) and uses curveBasis for a smoother line
+* **ui:** gauge entry animation fills the arc by fading notches in order instead of popping each one in from the centre
+
+
+## [0.26.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.25.0...ui-v0.26.0) (2026-06-13)
+
+
+### Features
+
+* **ui:** make chat the single source for the conversation container, typing dots, and avatar ([23bbb04](https://github.com/heyramzi/vibe-kit/commit/23bbb049))
+
+
+## [0.25.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.24.0...ui-v0.25.0) (2026-06-12)
+
+
+### Features
+
+* **ui:** add the @heyramzi/ui/chat human-chat module and slim ai/ to AI-only ([ac0f4ce](https://github.com/heyramzi/vibe-kit/commit/ac0f4ce5))
+
+
+## [0.24.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.23.0...ui-v0.24.0) (2026-06-12)
+
+
+### Features
+
+* **ui:** add gauge, ring, and legend charts and theme the layerchart tooltip ([d3d9135](https://github.com/heyramzi/vibe-kit/commit/d3d91350))
+* **ui:** add AnimatedBeam, Spotlight, Marquee, and ImageReveal effects ([97fbb4e](https://github.com/heyramzi/vibe-kit/commit/97fbb4e1))
+* **ui:** add package descriptions to the workspace manifests ([2e6630b](https://github.com/heyramzi/vibe-kit/commit/2e6630be))
+
+
+### Bug Fixes
+
+* **ui:** Marquee honors --duration/--gap class overrides ([2026671](https://github.com/heyramzi/vibe-kit/commit/20266715))
+
+
+## [0.23.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.22.6...ui-v0.23.0) (2026-06-01)
+
+
+### Features
+
+* **ui:** add ai subpath with chat primitives ([9683760](https://github.com/heyramzi/vibe-kit/commit/96837605e10590a1a416aa7c55429b5cd7b9a2b3))
+* **ui:** add charts subpath with layerchart wrappers ([f90de43](https://github.com/heyramzi/vibe-kit/commit/f90de43f8fb6271847fcc13d6d03a8c267fd2c24))
+* **ui:** add shadcn-svelte primitives under @heyramzi/ui/shadcn/* ([4ea5ad0](https://github.com/heyramzi/vibe-kit/commit/4ea5ad0635dd12aa1714b6a59108d09c7e24de43))
+* **ui:** add ThemeToggle with view-transition reveal ([b212e40](https://github.com/heyramzi/vibe-kit/commit/b212e40e4e47f09b8b12d5d0cd507f24d926c7a5))
+* **ui:** BorderBeam bloom + offscreen-pause props, reduced-motion respect ([de4de48](https://github.com/heyramzi/vibe-kit/commit/de4de4819e9bc81b8fcf058dd921068ede8ee834))
+* **ui:** commit forms primitives + bump to 0.7.0 ([bfde6e8](https://github.com/heyramzi/vibe-kit/commit/bfde6e8b8d6a016970ab6efe72d16af88276074e))
+* **ui:** rewrite charts with primitive composition + add transitions.dev animations ([959f2f6](https://github.com/heyramzi/vibe-kit/commit/959f2f6906a551d096d64bd5e728ae56fa831f51))
+* **ui:** sheet animation, dropdown delayed-open, dialog/alert refinements ([b0bc699](https://github.com/heyramzi/vibe-kit/commit/b0bc69918ded03d44040c8ec8254a756a2f011d9))
+* **ui:** thread BorderBeam colors prop through gradient helpers (0.14.0) ([7235d34](https://github.com/heyramzi/vibe-kit/commit/7235d34225cc619ba3dee025281aa63e87640f1d))
+
+
+### Bug Fixes
+
+* **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
+* **ui:** align icon-swap demo markup with package CSS contract; pick up bar/area chart polish ([edefa61](https://github.com/heyramzi/vibe-kit/commit/edefa619e7681744868cd40c83eb1d68c2167ba5))
+* **ui:** anchor FaceIcon thinking gradient at top and dissolve cone edge ([6ef356d](https://github.com/heyramzi/vibe-kit/commit/6ef356dec207ceb30b06881d78a002d5d9a42766))
+* **ui:** blur thinking-state brain overlay so gradient feels softer ([362285f](https://github.com/heyramzi/vibe-kit/commit/362285f4ffc7aaeda98610c87f47960d37fe2f1f))
+* **ui:** drop isolation+contain from BorderBeam host (0.14.1) ([cb67c2f](https://github.com/heyramzi/vibe-kit/commit/cb67c2fda6f675e30c19d5a5d5cfa55e9a271539))
+* **ui:** drop unused colors arg from BorderBeam gradient helpers ([b89318f](https://github.com/heyramzi/vibe-kit/commit/b89318f0606f287602ffb4c9117cd4dd385f2ab7))
+* **ui:** exact replica CSS for transitions.dev animations + port their dark/light demo theming ([32a42d8](https://github.com/heyramzi/vibe-kit/commit/32a42d8495c3cdc17d450751a43031eb928fd7f8))
+* **ui:** import superForm from /client in use-form helper ([5cd3917](https://github.com/heyramzi/vibe-kit/commit/5cd391774d639c1a7a5df45bf0b27911d07009b1))
+* **ui:** import superValidate from /server in form helpers ([8428fcd](https://github.com/heyramzi/vibe-kit/commit/8428fcdf741921cf9ee71a3d5978d579ca71be43))
+* **ui:** inline Writable type in use-field-value to avoid import-type parse error in Rolldown optimizer; bump 0.7.1 ([73038a0](https://github.com/heyramzi/vibe-kit/commit/73038a0ef33a765e23f02b4d701893b211e2879d))
+* **ui:** narrow vaul-svelte peer to &gt;=1.0.0-next.7 only ([c88707b](https://github.com/heyramzi/vibe-kit/commit/c88707b14305dd43afa731a32a7ac3a0c4ae3860))
+* **ui:** register BorderBeam [@property](https://github.com/property) values via CSS.registerProperty (0.14.2) ([95212c6](https://github.com/heyramzi/vibe-kit/commit/95212c6c762a51b09200105df80e7a3d1d090b0a))
+* **ui:** relax vaul-svelte peer to accept stable 0.3.x or pre-release 1.0+ (0.15.2) ([0f3bd4c](https://github.com/heyramzi/vibe-kit/commit/0f3bd4c6d342557eb55e4b7dc5f501ea5d40341f))
+* **ui:** rename Confirmation `state` prop to `kind` ([9e126dc](https://github.com/heyramzi/vibe-kit/commit/9e126dcea7bc5d41838343f59fb9dc427cc6206e))
+* **ui:** replace template-expression state mutations with FieldSync component ([975d41e](https://github.com/heyramzi/vibe-kit/commit/975d41e4fe80f48bca355f001c868242fb3004d5))
+* **ui:** set form context synchronously, not in $effect ([ba6ccb3](https://github.com/heyramzi/vibe-kit/commit/ba6ccb313b9276216fccd8bfa493d33cdbedaaf3))
+* **ui:** untrack fieldCtx writes in form-field snippets ([94cf361](https://github.com/heyramzi/vibe-kit/commit/94cf3614c6f9d2465fd34bc18d9dee6b32dc33ed))
+* **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
+* **ui:** wrap form-field Label inside Control for formsnap v2 compat ([4444d7c](https://github.com/heyramzi/vibe-kit/commit/4444d7cdf7dfb7069f54632a68b491a65187249a))
+* **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
+
+## [0.15.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.15.0...ui-v0.15.1) (2026-05-09)
+
+
+### Bug Fixes
+
+* **ui:** register BorderBeam [@property](https://github.com/property) values via CSS.registerProperty (0.14.2) ([95212c6](https://github.com/heyramzi/vibe-kit/commit/95212c6c762a51b09200105df80e7a3d1d090b0a))
+
+## [0.15.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.14.0...ui-v0.15.0) (2026-05-09)
+
+
+### Features
+
+* **ui:** add charts subpath with layerchart wrappers ([f90de43](https://github.com/heyramzi/vibe-kit/commit/f90de43f8fb6271847fcc13d6d03a8c267fd2c24))
+* **ui:** add shadcn-svelte primitives under @heyramzi/ui/shadcn/* ([4ea5ad0](https://github.com/heyramzi/vibe-kit/commit/4ea5ad0635dd12aa1714b6a59108d09c7e24de43))
+* **ui:** BorderBeam bloom + offscreen-pause props, reduced-motion respect ([de4de48](https://github.com/heyramzi/vibe-kit/commit/de4de4819e9bc81b8fcf058dd921068ede8ee834))
+* **ui:** commit forms primitives + bump to 0.7.0 ([bfde6e8](https://github.com/heyramzi/vibe-kit/commit/bfde6e8b8d6a016970ab6efe72d16af88276074e))
+* **ui:** rewrite charts with primitive composition + add transitions.dev animations ([959f2f6](https://github.com/heyramzi/vibe-kit/commit/959f2f6906a551d096d64bd5e728ae56fa831f51))
+* **ui:** sheet animation, dropdown delayed-open, dialog/alert refinements ([b0bc699](https://github.com/heyramzi/vibe-kit/commit/b0bc69918ded03d44040c8ec8254a756a2f011d9))
+* **ui:** thread BorderBeam colors prop through gradient helpers (0.14.0) ([7235d34](https://github.com/heyramzi/vibe-kit/commit/7235d34225cc619ba3dee025281aa63e87640f1d))
+
+
+### Bug Fixes
+
+* **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
+* **ui:** align icon-swap demo markup with package CSS contract; pick up bar/area chart polish ([edefa61](https://github.com/heyramzi/vibe-kit/commit/edefa619e7681744868cd40c83eb1d68c2167ba5))
+* **ui:** drop isolation+contain from BorderBeam host (0.14.1) ([cb67c2f](https://github.com/heyramzi/vibe-kit/commit/cb67c2fda6f675e30c19d5a5d5cfa55e9a271539))
+* **ui:** drop unused colors arg from BorderBeam gradient helpers ([b89318f](https://github.com/heyramzi/vibe-kit/commit/b89318f0606f287602ffb4c9117cd4dd385f2ab7))
+* **ui:** exact replica CSS for transitions.dev animations + port their dark/light demo theming ([32a42d8](https://github.com/heyramzi/vibe-kit/commit/32a42d8495c3cdc17d450751a43031eb928fd7f8))
+* **ui:** import superForm from /client in use-form helper ([5cd3917](https://github.com/heyramzi/vibe-kit/commit/5cd391774d639c1a7a5df45bf0b27911d07009b1))
+* **ui:** import superValidate from /server in form helpers ([8428fcd](https://github.com/heyramzi/vibe-kit/commit/8428fcdf741921cf9ee71a3d5978d579ca71be43))
+* **ui:** inline Writable type in use-field-value to avoid import-type parse error in Rolldown optimizer; bump 0.7.1 ([73038a0](https://github.com/heyramzi/vibe-kit/commit/73038a0ef33a765e23f02b4d701893b211e2879d))
+* **ui:** set form context synchronously, not in $effect ([ba6ccb3](https://github.com/heyramzi/vibe-kit/commit/ba6ccb313b9276216fccd8bfa493d33cdbedaaf3))
+* **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
+* **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
+
+## [0.13.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.13.1...ui-v0.13.2) (2026-05-09)
+
+
+### Bug Fixes
+
+* **ui:** drop unused colors arg from BorderBeam gradient helpers ([b89318f](https://github.com/heyramzi/vibe-kit/commit/b89318f0606f287602ffb4c9117cd4dd385f2ab7))
+
+## [0.13.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.13.0...ui-v0.13.1) (2026-05-09)
+
+
+### Bug Fixes
+
+* **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
+
+## [0.13.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.12.3...ui-v0.13.0) (2026-05-08)
+
+
+### Features
+
+* **ui:** add charts subpath with layerchart wrappers ([f90de43](https://github.com/heyramzi/vibe-kit/commit/f90de43f8fb6271847fcc13d6d03a8c267fd2c24))
+* **ui:** add shadcn-svelte primitives under @heyramzi/ui/shadcn/* ([4ea5ad0](https://github.com/heyramzi/vibe-kit/commit/4ea5ad0635dd12aa1714b6a59108d09c7e24de43))
+* **ui:** BorderBeam bloom + offscreen-pause props, reduced-motion respect ([de4de48](https://github.com/heyramzi/vibe-kit/commit/de4de4819e9bc81b8fcf058dd921068ede8ee834))
+* **ui:** commit forms primitives + bump to 0.7.0 ([bfde6e8](https://github.com/heyramzi/vibe-kit/commit/bfde6e8b8d6a016970ab6efe72d16af88276074e))
+* **ui:** rewrite charts with primitive composition + add transitions.dev animations ([959f2f6](https://github.com/heyramzi/vibe-kit/commit/959f2f6906a551d096d64bd5e728ae56fa831f51))
+* **ui:** sheet animation, dropdown delayed-open, dialog/alert refinements ([b0bc699](https://github.com/heyramzi/vibe-kit/commit/b0bc69918ded03d44040c8ec8254a756a2f011d9))
+
+
+### Bug Fixes
+
+* **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
+* **ui:** align icon-swap demo markup with package CSS contract; pick up bar/area chart polish ([edefa61](https://github.com/heyramzi/vibe-kit/commit/edefa619e7681744868cd40c83eb1d68c2167ba5))
+* **ui:** exact replica CSS for transitions.dev animations + port their dark/light demo theming ([32a42d8](https://github.com/heyramzi/vibe-kit/commit/32a42d8495c3cdc17d450751a43031eb928fd7f8))
+* **ui:** import superForm from /client in use-form helper ([5cd3917](https://github.com/heyramzi/vibe-kit/commit/5cd391774d639c1a7a5df45bf0b27911d07009b1))
+* **ui:** import superValidate from /server in form helpers ([8428fcd](https://github.com/heyramzi/vibe-kit/commit/8428fcdf741921cf9ee71a3d5978d579ca71be43))
+* **ui:** inline Writable type in use-field-value to avoid import-type parse error in Rolldown optimizer; bump 0.7.1 ([73038a0](https://github.com/heyramzi/vibe-kit/commit/73038a0ef33a765e23f02b4d701893b211e2879d))
+* **ui:** set form context synchronously, not in $effect ([ba6ccb3](https://github.com/heyramzi/vibe-kit/commit/ba6ccb313b9276216fccd8bfa493d33cdbedaaf3))
+* **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
+
+## [0.5.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.4.0...ui-v0.5.0) (2026-05-03)
+
+
+### Features
+
+* **ui:** add charts subpath with layerchart wrappers ([f90de43](https://github.com/heyramzi/vibe-kit/commit/f90de43f8fb6271847fcc13d6d03a8c267fd2c24))
+* **ui:** add shadcn-svelte primitives under @heyramzi/ui/shadcn/* ([4ea5ad0](https://github.com/heyramzi/vibe-kit/commit/4ea5ad0635dd12aa1714b6a59108d09c7e24de43))
+
+
+### Bug Fixes
+
+* **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
+
+## [4.6.0](https://github.com/heyramzi/ui/compare/ui-v4.5.0...ui-v4.6.0) (2026-10-06)
+
+### Features
+
+* feat: move vibe-kit UI packages here, hub home page, private repo with password
+* feat: initial Svelte 5 library: ui, kanban, status, agents, slides
+
+
+## [4.7.0](https://github.com/heyramzi/ui/compare/ui-v4.6.0...ui-v4.7.0) (2026-10-07)
+
+### Features
+
+* feat(review): agent dock, layout library, pace pill and a pill radius token
+
+### Bug Fixes
+
+* fix(ui): stat card header overlap and the showcase nav trapping the wheel
+
+
+## [4.7.1](https://github.com/heyramzi/ui/compare/ui-v4.7.0...ui-v4.7.1) (2026-10-07)
+
+### Bug Fixes
+
+* fix(ui): keep server form helpers out of the client forms barrel
+
+
+## [5.0.0](https://github.com/heyramzi/ui/compare/ui-v4.7.1...ui-v5.0.0) (2026-10-09)
+
+### Breaking Changes
+
+* `src/components`, 16 shadcn modules and 17 ai modules no product imported are deleted, along with forms and ports (upsys owns those now).
+* `chat` is merged into `ai`: import Composer and the chat parts from `@heyramzi/ui/ai`.
+* Only singletons stay peers; dep and peer ranges are realigned.
+
+### Features
+
+* feat(ui): one revealTheme helper, a 3-mode ThemeToggle and a bottom Sheet
+
+### Bug Fixes
+
+* fix(ui): strip control bytes before the Response link check and render images as links
+
+
+## [5.0.1](https://github.com/heyramzi/ui/compare/ui-v5.0.0...ui-v5.0.1) (2026-10-09)
+
+### Bug Fixes
+
+* fix(ui,marketing): accept any @heyramzi/utils 1.x from 1.3.3
+
+
+## [5.0.2](https://github.com/heyramzi/ui/compare/ui-v5.0.1...ui-v5.0.2) (2026-10-14)
+
+### Bug Fixes
+
+* fix(ui): small controls keep a 32px hit area (44px on touch) without growing
+* fix(ui): type errors in reasoning, conversation, charts and image-reveal; site check skips build/
+
+
+## [6.0.0](https://github.com/heyramzi/ui/compare/ui-v5.0.2...ui-v6.0.0) (2026-10-14)
+
+### Features
+
+* feat(ui)!: retire --ease-bounce and --ease-bounce-strong
+
+
+## [6.0.1](https://github.com/heyramzi/ui/compare/ui-v6.0.0...ui-v6.0.1) (2026-10-14)
+
+### Bug Fixes
+
+* fix(ui): the last overshoot curves settle on --ease-smooth-out
+

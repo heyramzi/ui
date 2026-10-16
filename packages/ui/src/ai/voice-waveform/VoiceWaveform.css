@@ -1,0 +1,40 @@
+.waveform {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 28px;
+}
+
+.waveform span {
+  width: 3px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.45;
+  transition:
+    height 180ms cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 180ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.waveform.active span {
+  height: var(--bar-height);
+  opacity: 0.9;
+  animation: voice-bar 760ms cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes voice-bar {
+  0%,
+  100% {
+    transform: scaleY(0.7);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveform.active span {
+    animation: none;
+  }
+}

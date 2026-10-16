@@ -1,0 +1,56 @@
+/* Styles for DonutChart. Plain stylesheet (see area-chart.css for why).
+   Selectors are namespaced under `.hr-donut-chart`. */
+
+.hr-donut-chart {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hr-donut-chart .empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 1px dashed var(--chart-grid, oklch(0.5 0.01 286 / 0.2));
+  border-radius: 0.5rem;
+}
+.hr-donut-chart .empty p {
+  font-size: 0.8125rem;
+  color: var(--chart-label, oklch(0.5 0.01 286));
+  margin: 0;
+}
+
+/* The slice slides out a little slower than it slides back: a close is always the quicker. */
+.hr-donut-chart .hr-donut-arc {
+  cursor: pointer;
+  transition:
+    opacity var(--chart-motion-fast, 150ms) ease,
+    translate var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+}
+.hr-donut-chart .hr-donut-arc[data-hovered] {
+  transition:
+    opacity var(--chart-motion-fast, 150ms) ease,
+    translate var(--duration-fast, 250ms) var(--ease-smooth-out);
+}
+
+.hr-donut-chart .hr-donut-center-value {
+  fill: var(--foreground, oklch(0.18 0.02 240));
+  font-size: 16px;
+  font-weight: 600;
+  font-feature-settings: "tnum";
+  transition: opacity 180ms ease;
+}
+
+.hr-donut-chart .hr-donut-center-label {
+  fill: var(--chart-label, oklch(0.5 0.01 286));
+  font-size: 11px;
+  transition: opacity 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hr-donut-chart .hr-donut-arc,
+  .hr-donut-chart .hr-donut-arc[data-hovered] {
+    transition: opacity 120ms ease;
+  }
+}

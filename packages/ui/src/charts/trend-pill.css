@@ -1,0 +1,38 @@
+/* Styles for TrendPill. Plain stylesheet (see area-chart.css for why). All
+   selectors are already namespaced under `.hr-trend`. */
+
+.hr-trend {
+  display: inline-flex;
+  /* WHY no shrink: the delta is the row's point, and it is only three characters wide. */
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.1875rem;
+  padding: 0.1875rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--stat-trend, currentColor) 22%, transparent);
+  background: color-mix(in srgb, var(--stat-trend, currentColor) 10%, transparent);
+  /* WHY the mix: a trend colour is picked to read as a mark, and at 12px on its
+	   own 10% wash the raw hue measured 3.5:1. Mixing toward --foreground darkens
+	   it on a light page and lightens it on a dark one, so one rule serves both
+	   themes and the package needs to know nothing about which is on. */
+  color: color-mix(
+    in oklab,
+    var(--stat-trend, var(--muted-foreground, oklch(0.5 0.01 286))) 72%,
+    var(--foreground, oklch(0.2 0.01 286))
+  );
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-feature-settings: "tnum";
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.hr-trend[data-trend="up"] {
+  --stat-trend: var(--stat-up, oklch(0.6 0.13 163));
+}
+.hr-trend[data-trend="down"] {
+  --stat-trend: var(--stat-down, oklch(0.58 0.22 25));
+}
+.hr-trend-arrow {
+  font-size: 0.8125rem;
+  line-height: 1;
+}

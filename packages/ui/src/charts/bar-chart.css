@@ -1,0 +1,119 @@
+/* Styles for BarChart. Plain stylesheet (see area-chart.css for why). Selectors
+   are namespaced under `.hr-bar-chart`. */
+
+/* WHY: self-contained visually-hidden styling so the data table reaches
+   screen readers without depending on the consumer's CSS framework. */
+.hr-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.hr-bar-chart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.hr-bar-chart .hr-chart-body {
+  width: 100%;
+}
+
+/* WHY: height="fill" grows the chart to its parent's height (e.g. a card that
+   stretches to match a taller sibling) instead of the fixed body height. The
+   parent must be a flex column that gives this a determinate height. */
+.hr-bar-chart.hr-bar-fill {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.hr-bar-chart.hr-bar-fill .hr-chart-body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.hr-bar-chart .empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px dashed var(--chart-grid, oklch(0.5 0.01 286 / 0.2));
+  border-radius: 0.5rem;
+}
+.hr-bar-chart .empty p {
+  font-size: 0.8125rem;
+  color: var(--chart-label, oklch(0.5 0.01 286));
+  margin: 0;
+}
+
+/* WHY: Bars render as <path> elements, not <rect>. Selectors target the path's class directly. */
+.hr-bar-chart .hr-bar-bars {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: hr-bar-grow var(--chart-motion-reveal, 1100ms)
+    var(--chart-ease-reveal, cubic-bezier(0.85, 0, 0.15, 1)) both;
+  transition: opacity var(--chart-motion-fast, 150ms) ease-in-out;
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(2) {
+  animation-delay: var(--chart-stagger, 30ms);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(3) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 2);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(4) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 3);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(5) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 4);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(6) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 5);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(7) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 6);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(8) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 7);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(9) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 8);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(10) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 9);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(11) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 10);
+}
+.hr-bar-chart .hr-bar-bars:nth-of-type(n + 12) {
+  animation-delay: calc(var(--chart-stagger, 30ms) * 11);
+}
+@keyframes hr-bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+.hr-bar-horizontal .hr-bar-bars {
+  transform-origin: left;
+  animation-name: hr-bar-grow-x;
+}
+@keyframes hr-bar-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+.hr-bar-chart.hr-bar-has-active .hr-bar-bars {
+  opacity: 0.3;
+}
+.hr-bar-chart .hr-bar-active {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hr-bar-chart .hr-bar-bars {
+    animation: none;
+  }
+}

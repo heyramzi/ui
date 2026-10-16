@@ -1,0 +1,70 @@
+{
+  "name": "@heyramzi/marketing",
+  "version": "2.0.1",
+  "description": "Umami analytics for client, server, and Svelte, plus a satori-based HTML-to-image pipeline.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/ui.git",
+    "directory": "packages/marketing"
+  },
+  "files": [
+    "src",
+    "package.json"
+  ],
+  "type": "module",
+  "imports": {
+    "#src/*.js": "./src/*.ts",
+    "#src/*": "./src/*"
+  },
+  "exports": {
+    "./analytics/server": "./src/analytics/server.ts",
+    "./analytics/svelte": "./src/analytics/svelte.ts",
+    "./analytics/umami/protocol": "./src/analytics/umami/protocol.ts",
+    "./analytics/umami/reporting": "./src/analytics/umami/reporting.ts",
+    "./analytics/unified": "./src/analytics/unified.ts",
+    "./imagegen": "./src/imagegen/index.ts",
+    "./brand": "./src/brand/index.ts",
+    "./testimonials/types": "./src/testimonials/types.ts",
+    "./testimonials/server": "./src/testimonials/server.ts",
+    "./testimonials/render-content": "./src/testimonials/render-content.ts",
+    "./testimonials/svelte": {
+      "svelte": "./src/testimonials/svelte/index.ts",
+      "types": "./src/testimonials/svelte/index.ts",
+      "default": "./src/testimonials/svelte/index.ts"
+    },
+    "./errors/sentry": "./src/errors/sentry/index.ts",
+    "./errors/sentry/protocol": "./src/errors/sentry/protocol.ts"
+  },
+  "scripts": {
+    "test": "vp test run"
+  },
+  "dependencies": {
+    "satori": "^0.35.0",
+    "satori-html": "^0.3.2",
+    "ultrahtml": "^1.7.0",
+    "wawoff2": "^2.0.1"
+  },
+  "devDependencies": {
+    "vite-plus": "^1.0.0",
+    "vitest": "^5.0.3"
+  },
+  "peerDependencies": {
+    "@heyramzi/utils": "^1.3.3",
+    "@mux/mux-player": ">=3.0.0",
+    "@umami/node": ">=0.4.0",
+    "phosphor-svelte": ">=3.0.0",
+    "sharp": ">=0.33.0"
+  },
+  "peerDependenciesMeta": {
+    "@umami/node": {
+      "optional": true
+    },
+    "phosphor-svelte": {
+      "optional": true
+    },
+    "@mux/mux-player": {
+      "optional": true
+    }
+  }
+}

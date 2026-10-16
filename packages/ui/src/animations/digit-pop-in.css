@@ -1,0 +1,78 @@
+/* Transitions.dev — Number pop-in */
+/* Source: https://github.com/Jakubantalik/transitions.dev */
+
+/*
+  Usage:
+    <span class="t-digit-group is-animating">
+      <span class="t-digit">1</span>
+      <span class="t-digit">2</span>
+      <span class="t-digit" data-stagger="1">.</span>
+      <span class="t-digit" data-stagger="2">3</span>
+    </span>
+
+  Replay:
+    Remove `.is-animating`, re-render digits (or swap text),
+    force a reflow, then re-add `.is-animating`.
+
+  Direction:
+    --digit-dir-x / --digit-dir-y are unit-less multipliers
+    (e.g. 1, -1, 0) applied to --digit-distance.
+*/
+
+:root {
+  --digit-dur: var(--duration-very-slow, 500ms);
+  --digit-distance: var(--distance-base, 8px);
+  --digit-stagger: 70ms;
+  --digit-blur: var(--blur-small, 2px);
+  --digit-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --digit-dir-x: 0;
+  --digit-dir-y: 1;
+}
+
+@keyframes t-digit-pop-in {
+  0% {
+    transform: translate(
+      calc(var(--digit-distance) * var(--digit-dir-x)),
+      calc(var(--digit-distance) * var(--digit-dir-y))
+    );
+    opacity: 0;
+    filter: blur(var(--digit-blur));
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.t-digit-group {
+  display: inline-flex;
+  align-items: baseline;
+}
+.t-digit {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+.t-digit-group.is-animating .t-digit {
+  animation: t-digit-pop-in var(--digit-dur) var(--digit-ease) both;
+}
+.t-digit-group.is-animating .t-digit[data-stagger="1"] {
+  animation-delay: var(--digit-stagger);
+}
+.t-digit-group.is-animating .t-digit[data-stagger="2"] {
+  animation-delay: calc(var(--digit-stagger) * 2);
+}
+
+/* === Extension: support more than 2 stagger steps for longer numbers === */
+.t-digit-group.is-animating .t-digit[data-stagger="3"] {
+  animation-delay: calc(var(--digit-stagger) * 3);
+}
+.t-digit-group.is-animating .t-digit[data-stagger="4"] {
+  animation-delay: calc(var(--digit-stagger) * 4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-digit-group .t-digit {
+    animation: none !important;
+  }
+}

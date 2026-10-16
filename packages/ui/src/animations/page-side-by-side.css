@@ -1,0 +1,63 @@
+/* Transitions.dev — Page side-by-side */
+/* Source: https://github.com/Jakubantalik/transitions.dev */
+
+/*
+  Usage:
+    <div class="t-page-slide" data-page="1">
+      <section class="t-page" data-page-id="1">…</section>
+      <section class="t-page" data-page-id="2">…</section>
+    </div>
+
+  State:
+    Set data-page="1" or "2" on .t-page-slide.
+    Page 1 exits to the left, page 2 exits to the right.
+    --page-exit-enabled (0/1) disables the outgoing slide.
+*/
+
+:root {
+  --page-slide-dur: 200ms;
+  --page-fade-dur: 200ms;
+  --page-slide-distance: var(--distance-base, 8px);
+  --page-blur: var(--blur-medium, 3px);
+  --page-stagger: 0ms;
+  --page-exit-enabled: 1;
+  --page-slide-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --page-fade-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.t-page-slide {
+  position: relative;
+}
+.t-page-slide .t-page[data-page-id="1"] {
+  --t-page-from-x: calc(var(--page-slide-distance) * -1);
+}
+.t-page-slide .t-page[data-page-id="2"] {
+  --t-page-from-x: var(--page-slide-distance);
+}
+.t-page-slide .t-page {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(calc(var(--t-page-from-x, 0px) * var(--page-exit-enabled)));
+  filter: blur(calc(var(--page-blur) * var(--page-exit-enabled)));
+  transition:
+    opacity var(--page-fade-dur) var(--page-fade-ease),
+    transform var(--page-slide-dur) var(--page-slide-ease),
+    filter var(--page-slide-dur) var(--page-slide-ease);
+  will-change: opacity, transform, filter;
+}
+.t-page-slide[data-page="1"] .t-page[data-page-id="1"],
+.t-page-slide[data-page="2"] .t-page[data-page-id="2"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  filter: blur(0);
+  transition-delay: var(--page-stagger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-page-slide .t-page {
+    transition: none !important;
+  }
+}

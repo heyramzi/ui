@@ -1,0 +1,168 @@
+/* Styles for NumberChart. Plain stylesheet (see area-chart.css for why). All
+   selectors are already namespaced under `.hr-number-chart`. */
+
+.hr-number-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border, oklch(0.92 0.004 286));
+  border-radius: 0.75rem;
+  background: var(--card, white);
+  box-shadow: var(--chart-card-shadow);
+  transition: border-color var(--chart-motion, 250ms) var(--chart-ease-out, ease);
+}
+.hr-number-chart:hover {
+  border-color: color-mix(in srgb, var(--ring, var(--chart-1)) 28%, var(--border, transparent));
+}
+/* WHY a bare mode and not a second component: a band is one panel with
+   hairlines through it, so a figure inside it must bring no edge of its own.
+   Same object, one less border. */
+.hr-number-chart[data-bare] {
+  padding: 1rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.hr-number-chart[data-bare]:hover {
+  border-color: transparent;
+}
+
+.hr-number-label {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--muted-foreground, oklch(0.5 0.01 286));
+}
+.hr-number-label-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hr-number-icon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.hr-number-trailing {
+  margin-left: auto;
+  flex: none;
+  font-size: 0.625rem;
+}
+
+/* WHY the row is baseline-aligned and top-anchored: a band mixes figures that
+   carry a caption with figures that do not, and every value in the row has to
+   sit on one line. The slack falls to the bottom, where nothing reads it. */
+.hr-number-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* WHY the heading family and not the body one: a figure is structure, not
+   prose, and tabular digits are what makes a column of them scannable. */
+.hr-number-value {
+  font-family: var(--font-heading, inherit);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--foreground, oklch(0.2 0.01 286));
+  min-width: 0;
+}
+.hr-number-chart[data-size="md"] .hr-number-value {
+  font-size: 1.25rem;
+}
+/* WHY the lead figure is size and not colour: the accent is spent on actions,
+   active states, marks and links. A number is none of those. */
+.hr-number-chart[data-size="lg"] .hr-number-value {
+  font-size: 1.5rem;
+}
+
+.hr-number-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--muted-foreground, oklch(0.5 0.01 286));
+}
+.hr-number-delta-text {
+  font-variant-numeric: tabular-nums;
+}
+/* The readable form of a trend colour: a hue picked to read as a mark measures
+   about 3.5:1 as 12px text, so it is mixed toward the page foreground. One rule
+   serves both themes and the package needs to know nothing about which is on. */
+.hr-number-delta[data-tone="up"] {
+  color: color-mix(
+    in oklab,
+    var(--stat-up, var(--success, oklch(0.6 0.13 163))) 72%,
+    var(--foreground, oklch(0.2 0.01 286))
+  );
+}
+.hr-number-delta[data-tone="down"] {
+  color: color-mix(
+    in oklab,
+    var(--stat-down, var(--destructive, oklch(0.58 0.22 25))) 72%,
+    var(--foreground, oklch(0.2 0.01 286))
+  );
+}
+.hr-number-delta[data-tone="none"] {
+  color: color-mix(in srgb, var(--muted-foreground, oklch(0.5 0.01 286)) 40%, transparent);
+}
+.hr-number-chart .hr-number-arrow {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex: none;
+}
+
+.hr-number-track {
+  height: 0.25rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--border, oklch(0.92 0.004 286)) 80%, transparent);
+}
+.hr-number-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left center;
+  animation: hr-number-fill-in var(--chart-motion-slow, 800ms) var(--chart-ease-out, ease) both;
+  transition: width var(--chart-motion, 250ms) var(--chart-ease-out, ease);
+}
+@keyframes hr-number-fill-in {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.hr-number-caption {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted-foreground, oklch(0.5 0.01 286));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hr-number-share {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--foreground, oklch(0.2 0.01 286));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hr-number-fill {
+    animation: none;
+  }
+}

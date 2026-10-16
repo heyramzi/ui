@@ -1,0 +1,11 @@
+{
+  "name": "heyramzi-ui",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.10.1",
+  "scripts": {
+    "check": "pnpm -r check",
+    "build": "pnpm -r build",
+    "release": "bash scripts/release.sh"
+  }
+}

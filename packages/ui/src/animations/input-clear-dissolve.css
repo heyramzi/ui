@@ -1,0 +1,86 @@
+/* Transitions.dev — Input clear with dissolve */
+/* Source: https://github.com/Jakubantalik/transitions.dev */
+
+/*
+  Usage:
+      <div class="t-clear has-value">
+        <input type="text" value="…" />
+        <div class="t-clear-mirror" aria-hidden="true">…</div>
+        <div class="t-clear-placeholder" aria-hidden="true">Search</div>
+        <div class="t-clear-glow" aria-hidden="true"></div>
+        <button class="t-clear-btn" aria-label="Clear">…</button>
+      </div>
+
+  The transitions live in JS (per-frame transform/opacity/filter
+  writes): the streak envelope and per-word gradient stack cannot
+  be expressed as static @keyframes. This stylesheet only owns the
+  resting state + the variables JS reads.
+*/
+
+:root {
+  --clear-dur: 1000ms;
+  --clear-out-dur: var(--duration-slow, 400ms);
+  --clear-in-dur: var(--duration-slow, 400ms);
+  --clear-out-fly: 12px;
+  --clear-in-fly: 12px;
+  --clear-out-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --clear-in-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --clear-blur: var(--blur-small, 2px);
+  --glow-delay: 50ms;
+  --glow-peak-at: 0.15;
+  --glow-opacity: 0.42;
+  --glow-spread: 1.5;
+}
+
+/* The wrap clips the glow to its rounded box. Bring your own
+   width / height / border-radius / surface color. */
+.t-clear {
+  position: relative;
+  overflow: hidden;
+}
+.t-clear-mirror,
+.t-clear-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 2;
+}
+.t-clear-mirror {
+  opacity: 0;
+}
+.t-clear.has-value .t-clear-mirror,
+.t-clear.is-clearing .t-clear-mirror {
+  opacity: 1;
+}
+/* Hide the input's own glyphs while the mirror owns them so the
+   cleared text doesn't double-render with the fly-up. */
+.t-clear.has-value > input,
+.t-clear.is-clearing > input {
+  -webkit-text-fill-color: transparent;
+}
+.t-clear.has-value .t-clear-placeholder {
+  opacity: 0;
+}
+/* The streak overlay: empty by default; JS writes a stack of
+   radial-gradient(...) layers into background during a clear,
+   then animates opacity. mix-blend-mode: multiply darkens the
+   underlying input; flip to screen in dark mode so the same
+   alpha values lighten instead of vanish. */
+.t-clear-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 3;
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-clear-glow {
+    opacity: 0 !important;
+  }
+}

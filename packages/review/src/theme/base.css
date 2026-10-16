@@ -1,0 +1,346 @@
+/* Reset, type and the few shared classes every screen uses. All of it lives under .rv. */
+
+.rv {
+  font: 400 var(--fs-sm) / 1.5 var(--sans);
+  color: var(--text);
+  background: var(--ground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+  accent-color: var(--accent);
+}
+.rv,
+.rv *,
+.rv *::before,
+.rv *::after {
+  box-sizing: border-box;
+}
+.rv :is(h1, h2, h3, p, ul, ol, figure) {
+  margin: 0;
+}
+.rv :is(ul, ol) {
+  padding: 0;
+  list-style: none;
+}
+.rv button,
+.rv input,
+.rv textarea,
+.rv select {
+  font: inherit;
+  color: inherit;
+}
+.rv button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: inherit;
+}
+.rv :is(button, [role="button"], a):focus-visible,
+.rv :is(input, textarea, select):focus-visible,
+.rv [tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.rv ::selection {
+  background: color-mix(in oklab, var(--accent) 38%, transparent);
+}
+.rv ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.rv ::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: var(--radius-lg);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.rv ::-webkit-scrollbar-thumb:hover {
+  background: var(--line-strong);
+  background-clip: content-box;
+  border: 3px solid transparent;
+}
+.rv {
+  scrollbar-color: var(--line) transparent;
+}
+
+.rv .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.rv .num {
+  font-variant-numeric: tabular-nums;
+}
+.rv .ic {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rv .ic.sm {
+  width: 14px;
+  height: 14px;
+}
+
+/* Tone helpers: a class sets --tone, everything else reads it. */
+.rv .tone-neutral {
+  --tone: var(--dim);
+  --tone-soft: var(--raised);
+}
+.rv .tone-accent {
+  --tone: var(--accent);
+  --tone-soft: var(--accent-soft);
+}
+.rv .tone-ok {
+  --tone: var(--ok);
+  --tone-soft: var(--ok-soft);
+}
+.rv .tone-warn {
+  --tone: var(--warn-text);
+  --tone-soft: var(--warn-soft);
+}
+.rv .tone-bad {
+  --tone: var(--bad);
+  --tone-soft: var(--bad-soft);
+}
+.rv .tone-bot {
+  --tone: var(--bot);
+  --tone-soft: var(--bot-soft);
+}
+
+/* Buttons. Quiet by default, so a screen of them doesn't shout. */
+.rv .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: var(--control);
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--dim);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--duration-quick) var(--ease-smooth-out),
+    color var(--duration-quick) var(--ease-smooth-out),
+    border-color var(--duration-quick) var(--ease-smooth-out),
+    transform var(--duration-micro) var(--ease-smooth-out);
+}
+.rv .btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.rv .btn:active {
+  background: var(--press);
+  transform: scale(var(--scale-medium));
+}
+.rv .btn:disabled,
+.rv .btn[aria-disabled="true"] {
+  color: var(--faint);
+  cursor: not-allowed;
+}
+/* WHY: still hoverable so its data-tip can say why. Faded by colour, since opacity would fade the tip too. */
+.rv .btn:is(:disabled, [aria-disabled="true"]):is(:hover, :active) {
+  background: transparent;
+  color: var(--faint);
+  transform: none;
+}
+.rv .btn:is(.solid, .primary):is(:disabled, [aria-disabled="true"]),
+.rv .btn:is(.solid, .primary):is(:disabled, [aria-disabled="true"]):is(:hover, :active) {
+  background: var(--raised);
+  border-color: var(--line);
+  color: var(--faint);
+}
+.rv .btn.solid {
+  background: var(--raised);
+  border-color: var(--line);
+  color: var(--text);
+}
+.rv .btn.solid:hover {
+  border-color: var(--line-strong);
+  background: color-mix(in oklab, var(--raised) 86%, var(--text));
+}
+.rv .btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+.rv .btn.primary:hover {
+  background: color-mix(in oklab, var(--accent) 86%, var(--text));
+}
+.rv .btn.primary:active {
+  background: color-mix(in oklab, var(--accent) 78%, var(--text));
+}
+.rv .btn.icon {
+  width: var(--control);
+  padding: 0;
+}
+.rv .btn[aria-pressed="true"] {
+  color: var(--text);
+  background: var(--press);
+}
+.rv .btn.ok {
+  color: var(--ok);
+}
+.rv .btn.ok:hover {
+  background: var(--ok-soft);
+}
+.rv .btn.bad:hover {
+  color: var(--bad);
+  background: var(--bad-soft);
+}
+@media (pointer: coarse) {
+  .rv .btn {
+    min-height: 40px;
+  }
+  .rv .btn.icon {
+    width: 40px;
+  }
+}
+
+/* The key cap. */
+.rv kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-xs);
+  background: var(--surface);
+  color: var(--dim);
+  font: 500 var(--fs-xs) / 1 var(--mono);
+}
+/* No keyboard in reach, so a key cap only takes room. */
+@media (hover: none), (pointer: coarse) {
+  .rv kbd {
+    display: none;
+  }
+}
+
+/* A small labelled fact: a time, a kind, a count. */
+.rv .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 22px;
+  padding: 0 7px;
+  border-radius: var(--radius-sm);
+  background: var(--raised);
+  color: var(--dim);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+.rv .chip.tinted {
+  background: var(--tone-soft);
+  color: var(--tone);
+}
+
+/* Tooltip, on the transitions-dev tooltip tokens. Pure CSS: a data-tip on anything. */
+.rv [data-tip] {
+  position: relative;
+}
+.rv [data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
+  max-width: 260px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--raised) 92%, var(--text));
+  box-shadow: var(--shadow-pop);
+  color: var(--text);
+  font: 500 var(--fs-xs) / 1.4 var(--sans);
+  text-align: left;
+  text-wrap: pretty;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  scale: var(--tt-scale);
+  transform-origin: top center;
+  transition:
+    opacity var(--tt-out-dur) var(--ease-out),
+    scale var(--tt-out-dur) var(--ease-out);
+}
+.rv [data-tip][data-tip-end]::after {
+  left: auto;
+  right: 0;
+  translate: 0 0;
+  transform-origin: top right;
+}
+.rv [data-tip]:hover::after,
+.rv [data-tip]:focus-visible::after {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity var(--tt-in-dur) var(--ease-out) var(--tt-delay),
+    scale var(--tt-in-dur) var(--ease-out) var(--tt-delay);
+}
+@media (hover: none) {
+  .rv [data-tip]::after {
+    display: none;
+  }
+}
+
+/* Skeletons pulse instead of shimmering across text they can't yet say. */
+.rv .skel {
+  background: var(--raised);
+  border-radius: var(--radius-sm);
+  animation: rv-pulse var(--pulse-dur) var(--ease-in-out) infinite alternate;
+}
+@keyframes rv-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+/* A number or word that changed: the old one is gone, the new one slides and un-blurs in. */
+@keyframes rv-swap {
+  from {
+    opacity: 0;
+    transform: translateY(var(--text-swap-translate-y));
+    filter: blur(var(--text-swap-blur));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv .skel {
+    animation: none;
+  }
+}
+
+/* The theme switch paints the new theme as a circle (see hooks/theme.svelte.ts); the browser's own cross-fade would fight it. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}

@@ -1,0 +1,30 @@
+<script lang="ts">
+	import type { Component } from "svelte";
+	import StatusDot from "./status-dot.svelte";
+	import { cn } from "./lib/cn.js";
+	import { TONE_ICON } from "./tone.js";
+	import type { Statuses } from "./status-types.js";
+
+	type Props = {
+		statuses: Statuses;
+		status: string;
+		size?: number;
+		animate?: boolean;
+		class?: string;
+	};
+
+	let { statuses, status, size = 14, animate = true, class: className }: Props = $props();
+
+	// An icon in the map wins; otherwise the status falls back to its dot.
+	let icon = $derived(
+		statuses.icon(status) as Component<{ size?: number; class?: string }> | undefined,
+	);
+	let tone = $derived(statuses.tone(status));
+</script>
+
+{#if icon}
+	{@const Icon = icon}
+	<Icon {size} class={cn("shrink-0", TONE_ICON[tone], className)} />
+{:else}
+	<StatusDot {statuses} {status} {size} {animate} class={className} />
+{/if}

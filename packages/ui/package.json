@@ -1,0 +1,212 @@
+{
+  "name": "@heyramzi/ui",
+  "version": "6.0.1",
+  "description": "Svelte 5 UI primitives: effects, animations, and shared component CSS.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/ui.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://ui.heyramzi.com",
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "files": [
+    "src",
+    "scripts",
+    "package.json",
+    "README.md",
+    "COMPONENTS.md"
+  ],
+  "imports": {
+    "#scripts/*": "./scripts/*",
+    "#src/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "svelte": "./src/index.ts",
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./tokens.css": "./src/tokens.css",
+    "./lib/*": "./src/lib/*",
+    "./border-beam": {
+      "svelte": "./src/effects/border-beam/BorderBeam.svelte",
+      "default": "./src/effects/border-beam/BorderBeam.svelte"
+    },
+    "./effects/border-beam": {
+      "svelte": "./src/effects/border-beam/BorderBeam.svelte",
+      "default": "./src/effects/border-beam/BorderBeam.svelte"
+    },
+    "./theme-toggle": {
+      "svelte": "./src/effects/theme-toggle/ThemeToggle.svelte",
+      "default": "./src/effects/theme-toggle/ThemeToggle.svelte"
+    },
+    "./effects/theme-toggle": {
+      "svelte": "./src/effects/theme-toggle/ThemeToggle.svelte",
+      "default": "./src/effects/theme-toggle/ThemeToggle.svelte"
+    },
+    "./effects/animated-beam": {
+      "svelte": "./src/effects/animated-beam/index.ts",
+      "types": "./src/effects/animated-beam/index.ts",
+      "default": "./src/effects/animated-beam/index.ts"
+    },
+    "./effects/spotlight": {
+      "svelte": "./src/effects/spotlight/Spotlight.svelte",
+      "default": "./src/effects/spotlight/Spotlight.svelte"
+    },
+    "./effects/marquee": {
+      "svelte": "./src/effects/marquee/Marquee.svelte",
+      "default": "./src/effects/marquee/Marquee.svelte"
+    },
+    "./effects/image-reveal": {
+      "svelte": "./src/effects/image-reveal/index.ts",
+      "types": "./src/effects/image-reveal/index.ts",
+      "default": "./src/effects/image-reveal/index.ts"
+    },
+    "./effects/shader-gradient": {
+      "svelte": "./src/effects/shader-gradient/index.ts",
+      "types": "./src/effects/shader-gradient/index.ts",
+      "default": "./src/effects/shader-gradient/index.ts"
+    },
+    "./effects/reveal": {
+      "svelte": "./src/effects/reveal/index.ts",
+      "types": "./src/effects/reveal/index.ts",
+      "default": "./src/effects/reveal/index.ts"
+    },
+    "./effects/progressive-blur": {
+      "svelte": "./src/effects/progressive-blur/ProgressiveBlur.svelte",
+      "default": "./src/effects/progressive-blur/ProgressiveBlur.svelte"
+    },
+    "./effects/image-comparison": {
+      "svelte": "./src/effects/image-comparison/ImageComparison.svelte",
+      "default": "./src/effects/image-comparison/ImageComparison.svelte"
+    },
+    "./effects/magnetic": {
+      "svelte": "./src/effects/magnetic/magnetic.ts",
+      "types": "./src/effects/magnetic/magnetic.ts",
+      "default": "./src/effects/magnetic/magnetic.ts"
+    },
+    "./icons/sf-symbols": {
+      "svelte": "./src/icons/sf-symbols.ts",
+      "types": "./src/icons/sf-symbols.ts",
+      "default": "./src/icons/sf-symbols.ts"
+    },
+    "./icons/trades": {
+      "svelte": "./src/icons/trades.ts",
+      "types": "./src/icons/trades.ts",
+      "default": "./src/icons/trades.ts"
+    },
+    "./icons/TradeIcon": {
+      "svelte": "./src/icons/TradeIcon.svelte",
+      "default": "./src/icons/TradeIcon.svelte"
+    },
+    "./design": {
+      "style": "./src/design/index.css",
+      "default": "./src/design/index.css"
+    },
+    "./animations": {
+      "style": "./src/animations/index.css",
+      "default": "./src/animations/index.css"
+    },
+    "./animations/text-swap": {
+      "default": "./src/animations/text-swap.ts"
+    },
+    "./animations/*": {
+      "default": "./src/animations/*"
+    },
+    "./charts": {
+      "svelte": "./src/charts/index.ts",
+      "types": "./src/charts/index.ts",
+      "default": "./src/charts/index.ts"
+    },
+    "./showcase": {
+      "svelte": "./src/showcase/index.ts",
+      "types": "./src/showcase/index.ts",
+      "default": "./src/showcase/index.ts"
+    },
+    "./showcase/kit": {
+      "svelte": "./src/showcase/kit.ts",
+      "types": "./src/showcase/kit.ts",
+      "default": "./src/showcase/kit.ts"
+    },
+    "./shadcn/hooks/is-mobile.svelte": {
+      "svelte": "./src/shadcn/hooks/is-mobile.svelte.ts",
+      "types": "./src/shadcn/hooks/is-mobile.svelte.ts",
+      "default": "./src/shadcn/hooks/is-mobile.svelte.ts"
+    },
+    "./shadcn/*": {
+      "svelte": "./src/shadcn/*/index.ts",
+      "types": "./src/shadcn/*/index.ts",
+      "default": "./src/shadcn/*/index.ts"
+    },
+    "./shadcn/utilities.css": {
+      "style": "./src/shadcn/utilities.css",
+      "default": "./src/shadcn/utilities.css"
+    },
+    "./ai": {
+      "svelte": "./src/ai/index.ts",
+      "types": "./src/ai/index.ts",
+      "default": "./src/ai/index.ts"
+    },
+    "./ai/*": {
+      "svelte": "./src/ai/*/index.ts",
+      "types": "./src/ai/*/index.ts",
+      "default": "./src/ai/*/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "vp test run",
+    "sync:transitions": "node scripts/sync-transitions.mjs",
+    "sync:shadcn": "node scripts/sync-shadcn.mjs",
+    "sync": "pnpm sync:transitions && pnpm sync:shadcn",
+    "sync:check": "node scripts/sync-transitions.mjs --check && node scripts/sync-shadcn.mjs --check"
+  },
+  "dependencies": {
+    "@heyramzi/utils": "^1.3.3",
+    "@lucide/svelte": "^1.52.0",
+    "clsx": "^2.1.1",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "layerchart": "^2.5.1",
+    "marked": "^18.1.0",
+    "phosphor-svelte": "^3.1.0",
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "^3.3.1"
+  },
+  "devDependencies": {
+    "@internationalized/date": "^3.12.4",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.2.0",
+    "bits-ui": "^2.19.5",
+    "jsdom": "^30.1.2",
+    "mode-watcher": "^1.1.0",
+    "svelte": "^5.57.2",
+    "svelte-sonner": "^1.2.1",
+    "vite-plus": "^1.0.0",
+    "vitest": "^5.0.3"
+  },
+  "peerDependencies": {
+    "@internationalized/date": "^3.12.4",
+    "@tabler/icons-svelte-runes": "^3.46.0",
+    "bits-ui": "^2.19.5",
+    "mode-watcher": "^1.1.0",
+    "svelte": "^5.57.2",
+    "svelte-sonner": "^1.2.1"
+  },
+  "peerDependenciesMeta": {
+    "mode-watcher": {
+      "optional": true
+    },
+    "svelte-sonner": {
+      "optional": true
+    },
+    "@internationalized/date": {
+      "optional": true
+    },
+    "@tabler/icons-svelte-runes": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,188 @@
+/*
+ * The only file that may hold a colour, a radius or a duration. Everything is declared under
+ * :where() so it has no specificity, and any host stylesheet overrides it by just setting the name.
+ */
+
+:where(:root) {
+  color-scheme: dark;
+
+  /* Set here, not on .rv, so a brand's own --on-accent on :root reaches the buttons. */
+  --on-accent: oklch(0.12 0.04 258);
+  --ground: oklch(0.12 0.04 258);
+  --surface: oklch(0.16 0.045 260);
+  --raised: oklch(0.205 0.05 262);
+  --line: oklch(0.27 0.055 264);
+  --line-soft: oklch(0.22 0.05 262);
+
+  --text: oklch(0.97 0.01 55);
+  --dim: oklch(0.76 0.02 262);
+  --faint: oklch(0.63 0.02 262);
+
+  --accent: oklch(0.68 0.16 272);
+  --bot: oklch(0.72 0.12 305);
+  /* The GrokBot face from the old Shorts room (github.com/zhulin025/LaoA-GrokBot, MIT), and the colours it cycles while thinking. */
+  --bot-think-a: #4f7cf6;
+  --bot-think-b: #d15cf0;
+  --ok: oklch(0.72 0.16 150);
+  --warn: oklch(0.8 0.13 75);
+  /* Warn as text. Light darkens it; keep --warn for dots and fills. */
+  --warn-text: var(--warn);
+  --bad: oklch(0.65 0.19 25);
+
+  /* The cover over the video frame stays dark with light text in both themes, like a player's. */
+  --cover-scrim-low: oklch(0 0 0 / 0.84);
+  --cover-scrim-mid: oklch(0 0 0 / 0.5);
+  --cover-scrim-top: oklch(0 0 0 / 0.4);
+  --cover-band: oklch(0.14 0.012 262);
+  --cover-text: oklch(1 0 0);
+  --cover-track: oklch(1 0 0 / 0.22);
+  --cover-fill: oklch(0.68 0.16 272);
+
+  /* The layout diagram is a fixed dark scene of a presenter at a desk, so it doesn't follow the theme. */
+  --scene-canvas: #0b0b0c;
+  --scene-room-top: #34363c;
+  --scene-room-bottom: #1a1b1f;
+  --scene-glow: #ffffff;
+  --scene-skin-top: #b9bcc4;
+  --scene-skin-bottom: #8c9099;
+  --scene-shirt: #565a64;
+  --scene-neck: #9a9ea7;
+  --scene-shadow: #000000;
+  --scene-collar: #484b54;
+  --scene-arm: #4a4e57;
+  --scene-screen: #181b22;
+  --scene-screen-bar: #232731;
+  --scene-dot: #3d4350;
+  --scene-pane: #20242d;
+  --scene-line: #2f3542;
+  --scene-media: #26232e;
+  --scene-media-ink: #4c4659;
+  --scene-edge: rgb(255 255 255 / 0.08);
+  --scene-grid: rgb(255 255 255 / 0.06);
+  --scene-words: #ffffff;
+
+  --sans: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Space Grotesk", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* The one corner knob. Every other radius is a multiple of it. */
+  --radius: 10px;
+
+  /* Motion, on the transitions-dev names. */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --distance-micro: 4px;
+  --distance-base: 8px;
+  --scale-large: 0.96;
+  --scale-medium: 0.97;
+  --scale-small: 0.98;
+  --scale-tiny: 0.99;
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --pulse-dur: 1000ms;
+  --bot-think-dur: 2400ms;
+  --shimmer-dur: 2000ms;
+
+  --text-swap-dur: var(--duration-quick);
+  --text-swap-translate-y: var(--distance-micro);
+  --text-swap-blur: var(--blur-small);
+  --page-slide-dur: var(--duration-fast);
+  --page-slide-distance: var(--distance-base);
+  --page-blur: var(--blur-medium);
+  --dropdown-open-dur: var(--duration-fast);
+  --dropdown-close-dur: var(--duration-quick);
+  --dropdown-pre-scale: var(--scale-medium);
+  --panel-open-dur: var(--duration-slow);
+  --panel-close-dur: var(--duration-medium);
+  --tabs-dur: var(--duration-fast);
+  --tabs-ease: var(--ease-smooth-out);
+  --tt-in-dur: var(--duration-quick);
+  --tt-out-dur: 50ms;
+  --tt-delay: var(--duration-micro);
+  --tt-scale: var(--scale-small);
+}
+
+:where(:root[data-theme="light"]) {
+  color-scheme: light;
+
+  --on-accent: oklch(0.975 0.006 60);
+  --ground: oklch(0.975 0.006 60);
+  --surface: oklch(0.995 0.002 60);
+  --raised: oklch(0.945 0.008 60);
+  --line: oklch(0.86 0.012 260);
+  --line-soft: oklch(0.91 0.01 260);
+
+  --text: oklch(0.2 0.03 262);
+  --dim: oklch(0.38 0.025 262);
+  --faint: oklch(0.5 0.02 262);
+
+  --accent: oklch(0.5 0.2 272);
+  --bot: oklch(0.52 0.15 305);
+  --ok: oklch(0.52 0.14 150);
+  --warn: oklch(0.62 0.15 70);
+  --warn-text: oklch(0.48 0.11 70);
+  --bad: oklch(0.55 0.2 25);
+}
+
+/* WHY: one switch for every animation and transition that reads a token. */
+@media (prefers-reduced-motion: reduce) {
+  :where(:root) {
+    --duration-stagger: 0ms;
+    --duration-micro: 0ms;
+    --duration-quick: 0ms;
+    --duration-fast: 0ms;
+    --duration-medium: 0ms;
+    --duration-slow: 0ms;
+    --duration-very-slow: 0ms;
+    --pulse-dur: 0ms;
+    --bot-think-dur: 0ms;
+    --shimmer-dur: 0ms;
+  }
+}
+
+/* The derived tokens live on the page root, so an override anywhere above it is followed. */
+:where(.rv) {
+  --radius-xs: calc(var(--radius) * 0.35);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-lg: calc(var(--radius) * 1.4);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-pill: 999px;
+
+  --hover: color-mix(in oklab, var(--text) 6%, transparent);
+  --press: color-mix(in oklab, var(--text) 11%, transparent);
+  --scrim: color-mix(in oklab, var(--ground) 64%, transparent);
+  --line-strong: color-mix(in oklab, var(--line) 70%, var(--dim));
+  --accent-soft: color-mix(in oklab, var(--accent) 16%, var(--surface));
+  --accent-line: color-mix(in oklab, var(--accent) 48%, var(--line));
+  --ok-soft: color-mix(in oklab, var(--ok) 15%, var(--surface));
+  --warn-soft: color-mix(in oklab, var(--warn) 16%, var(--surface));
+  --bad-soft: color-mix(in oklab, var(--bad) 16%, var(--surface));
+  --bot-soft: color-mix(in oklab, var(--bot) 15%, var(--surface));
+
+  --shadow-pop:
+    0 1px 0 color-mix(in oklab, var(--text) 5%, transparent) inset,
+    0 12px 32px color-mix(in oklab, var(--ground) 65%, transparent), 0 0 0 1px var(--line);
+  --shadow-sheet:
+    0 -16px 48px color-mix(in oklab, var(--ground) 70%, transparent), 0 0 0 1px var(--line);
+  --shadow-lift: 0 6px 18px color-mix(in oklab, var(--ground) 55%, transparent);
+
+  --fs-2xs: 0.6875rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.875rem;
+  --fs-lg: 1rem;
+  --fs-xl: 1.25rem;
+  /* 32px is the desktop floor for a button; the coarse-pointer rule lifts it to 40px. */
+  --control: 32px;
+  --gutter: 16px;
+}

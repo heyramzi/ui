@@ -1,0 +1,552 @@
+{
+	"source": "https://github.com/huntabyte/shadcn-svelte",
+	"registry": "https://shadcn-svelte.com/registry/styles/vega/index.json",
+	"fetchedAt": "2026-10-09",
+	"components": 45,
+	"localOnly": [
+		"hooks"
+	],
+	"entries": {
+		"accordion": {
+			"type": "registry:ui",
+			"files": 5,
+			"sha256": "1d4844e9f62daf9c",
+			"adapted": [
+				"accordion/accordion-content.svelte",
+				"accordion/accordion-trigger.svelte",
+				"accordion/accordion.svelte",
+				"accordion/index.ts"
+			]
+		},
+		"alert": {
+			"type": "registry:ui",
+			"files": 5,
+			"sha256": "b785892e7de0d4ba",
+			"adapted": [
+				"alert/alert-description.svelte",
+				"alert/alert-title.svelte",
+				"alert/alert.svelte",
+				"alert/index.ts"
+			]
+		},
+		"alert-dialog": {
+			"type": "registry:ui",
+			"files": 13,
+			"sha256": "4dee3d315dea5df8",
+			"adapted": [
+				"alert-dialog/alert-dialog-action.svelte",
+				"alert-dialog/alert-dialog-cancel.svelte",
+				"alert-dialog/alert-dialog-content.svelte",
+				"alert-dialog/alert-dialog-description.svelte",
+				"alert-dialog/alert-dialog-footer.svelte",
+				"alert-dialog/alert-dialog-header.svelte",
+				"alert-dialog/alert-dialog-overlay.svelte",
+				"alert-dialog/alert-dialog-title.svelte",
+				"alert-dialog/index.ts"
+			]
+		},
+		"attachment": {
+			"type": "registry:ui",
+			"files": 10,
+			"sha256": "9ed2c1512cfeaa6e",
+			"adapted": [
+				"attachment/attachment-action.svelte",
+				"attachment/attachment-actions.svelte",
+				"attachment/attachment-content.svelte",
+				"attachment/attachment-description.svelte",
+				"attachment/attachment-group.svelte",
+				"attachment/attachment-media.svelte",
+				"attachment/attachment-title.svelte",
+				"attachment/attachment-trigger.svelte",
+				"attachment/attachment.svelte",
+				"attachment/index.ts"
+			]
+		},
+		"avatar": {
+			"type": "registry:ui",
+			"files": 7,
+			"sha256": "62ba9c2d81d6a0a0",
+			"adapted": [
+				"avatar/avatar-badge.svelte",
+				"avatar/avatar-group-count.svelte",
+				"avatar/avatar-group.svelte",
+				"avatar/avatar.svelte",
+				"avatar/index.ts"
+			]
+		},
+		"badge": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "5f4d306cd4aad100",
+			"adapted": [
+				"badge/badge.svelte",
+				"badge/index.ts"
+			]
+		},
+		"breadcrumb": {
+			"type": "registry:ui",
+			"files": 8,
+			"sha256": "5267366500c668f9",
+			"adapted": [
+				"breadcrumb/breadcrumb-ellipsis.svelte",
+				"breadcrumb/breadcrumb-item.svelte",
+				"breadcrumb/breadcrumb-link.svelte",
+				"breadcrumb/breadcrumb-list.svelte",
+				"breadcrumb/breadcrumb-page.svelte",
+				"breadcrumb/breadcrumb-separator.svelte",
+				"breadcrumb/breadcrumb.svelte",
+				"breadcrumb/index.ts"
+			]
+		},
+		"bubble": {
+			"type": "registry:ui",
+			"files": 5,
+			"sha256": "68dddd0b2c9fc812",
+			"adapted": [
+				"bubble/bubble-content.svelte",
+				"bubble/bubble-group.svelte",
+				"bubble/bubble-reactions.svelte",
+				"bubble/bubble.svelte",
+				"bubble/index.ts"
+			]
+		},
+		"button": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "b66ae9f1b449cad9",
+			"adapted": [
+				"button/button.svelte",
+				"button/index.ts"
+			]
+		},
+		"calendar": {
+			"type": "registry:ui",
+			"files": 19,
+			"sha256": "e633e116bb462506",
+			"adapted": [
+				"calendar/calendar-caption.svelte",
+				"calendar/calendar-cell.svelte",
+				"calendar/calendar-day.svelte",
+				"calendar/calendar-grid.svelte",
+				"calendar/calendar-head-cell.svelte",
+				"calendar/calendar-month-select.svelte",
+				"calendar/calendar-month.svelte",
+				"calendar/calendar-months.svelte",
+				"calendar/calendar-next-button.svelte",
+				"calendar/calendar-prev-button.svelte",
+				"calendar/calendar-year-select.svelte",
+				"calendar/calendar.svelte",
+				"calendar/index.ts"
+			]
+		},
+		"card": {
+			"type": "registry:ui",
+			"files": 8,
+			"sha256": "44f36469b3c10d62",
+			"adapted": [
+				"card/card-action.svelte",
+				"card/card-content.svelte",
+				"card/card-description.svelte",
+				"card/card-footer.svelte",
+				"card/card-header.svelte",
+				"card/card-title.svelte",
+				"card/card.svelte",
+				"card/index.ts"
+			]
+		},
+		"checkbox": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "fa650770e2ed3c7a",
+			"adapted": [
+				"checkbox/checkbox.svelte",
+				"checkbox/index.ts"
+			]
+		},
+		"collapsible": {
+			"type": "registry:ui",
+			"files": 4,
+			"sha256": "2a4fe5a26c427528",
+			"adapted": [
+				"collapsible/index.ts"
+			]
+		},
+		"command": {
+			"type": "registry:ui",
+			"files": 12,
+			"sha256": "377385a726fb6142",
+			"adapted": [
+				"command/command-dialog.svelte",
+				"command/command-group.svelte",
+				"command/command-input.svelte",
+				"command/command-item.svelte",
+				"command/command-link-item.svelte",
+				"command/command-list.svelte",
+				"command/command-shortcut.svelte",
+				"command/command.svelte",
+				"command/index.ts"
+			]
+		},
+		"context-menu": {
+			"type": "registry:ui",
+			"files": 17,
+			"sha256": "f675086234318cab",
+			"adapted": [
+				"context-menu/context-menu-checkbox-item.svelte",
+				"context-menu/context-menu-content.svelte",
+				"context-menu/context-menu-group-heading.svelte",
+				"context-menu/context-menu-item.svelte",
+				"context-menu/context-menu-label.svelte",
+				"context-menu/context-menu-radio-item.svelte",
+				"context-menu/context-menu-shortcut.svelte",
+				"context-menu/context-menu-sub-content.svelte",
+				"context-menu/context-menu-sub-trigger.svelte",
+				"context-menu/context-menu-trigger.svelte",
+				"context-menu/index.ts"
+			]
+		},
+		"dialog": {
+			"type": "registry:ui",
+			"files": 11,
+			"sha256": "d1f9aaaa0a3b0848",
+			"adapted": [
+				"dialog/dialog-content.svelte",
+				"dialog/dialog-description.svelte",
+				"dialog/dialog-footer.svelte",
+				"dialog/dialog-header.svelte",
+				"dialog/dialog-overlay.svelte",
+				"dialog/dialog-title.svelte",
+				"dialog/index.ts"
+			]
+		},
+		"dropdown-menu": {
+			"type": "registry:ui",
+			"files": 18,
+			"sha256": "b09b3d4a0ad97ee8",
+			"adapted": [
+				"dropdown-menu/dropdown-menu-checkbox-item.svelte",
+				"dropdown-menu/dropdown-menu-content.svelte",
+				"dropdown-menu/dropdown-menu-group-heading.svelte",
+				"dropdown-menu/dropdown-menu-item.svelte",
+				"dropdown-menu/dropdown-menu-label.svelte",
+				"dropdown-menu/dropdown-menu-radio-item.svelte",
+				"dropdown-menu/dropdown-menu-shortcut.svelte",
+				"dropdown-menu/dropdown-menu-sub-content.svelte",
+				"dropdown-menu/dropdown-menu-sub-trigger.svelte",
+				"dropdown-menu/index.ts"
+			]
+		},
+		"empty": {
+			"type": "registry:ui",
+			"files": 7,
+			"sha256": "4dbdee6867fcedfd",
+			"adapted": [
+				"empty/empty-content.svelte",
+				"empty/empty-description.svelte",
+				"empty/empty-media.svelte",
+				"empty/empty-title.svelte",
+				"empty/empty.svelte",
+				"empty/index.ts"
+			]
+		},
+		"field": {
+			"type": "registry:ui",
+			"files": 11,
+			"sha256": "1c9550ac3d155502",
+			"adapted": [
+				"field/field-content.svelte",
+				"field/field-description.svelte",
+				"field/field-error.svelte",
+				"field/field-group.svelte",
+				"field/field-label.svelte",
+				"field/field-legend.svelte",
+				"field/field-separator.svelte",
+				"field/field-set.svelte",
+				"field/field-title.svelte",
+				"field/field.svelte",
+				"field/index.ts"
+			]
+		},
+		"hover-card": {
+			"type": "registry:ui",
+			"files": 5,
+			"sha256": "75867de9ad018c67",
+			"adapted": [
+				"hover-card/hover-card-content.svelte",
+				"hover-card/index.ts"
+			]
+		},
+		"input": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "232427e89411ad6c",
+			"adapted": [
+				"input/index.ts",
+				"input/input.svelte"
+			]
+		},
+		"input-otp": {
+			"type": "registry:ui",
+			"files": 5,
+			"sha256": "24b0206559b23cc5",
+			"adapted": [
+				"input-otp/index.ts",
+				"input-otp/input-otp-group.svelte",
+				"input-otp/input-otp-separator.svelte",
+				"input-otp/input-otp-slot.svelte",
+				"input-otp/input-otp.svelte"
+			]
+		},
+		"label": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "c18092b99e526f55",
+			"adapted": [
+				"label/index.ts"
+			]
+		},
+		"marker": {
+			"type": "registry:ui",
+			"files": 4,
+			"sha256": "8bcb96af8c603ab2",
+			"adapted": [
+				"marker/index.ts",
+				"marker/marker-content.svelte",
+				"marker/marker-icon.svelte",
+				"marker/marker.svelte"
+			]
+		},
+		"message": {
+			"type": "registry:ui",
+			"files": 7,
+			"sha256": "00cc93d098bd295f",
+			"adapted": [
+				"message/index.ts",
+				"message/message-avatar.svelte",
+				"message/message-content.svelte",
+				"message/message-footer.svelte",
+				"message/message-group.svelte",
+				"message/message-header.svelte",
+				"message/message.svelte"
+			]
+		},
+		"popover": {
+			"type": "registry:ui",
+			"files": 9,
+			"sha256": "4dcb6059f1c1721a",
+			"adapted": [
+				"popover/index.ts",
+				"popover/popover-content.svelte",
+				"popover/popover-description.svelte",
+				"popover/popover-header.svelte",
+				"popover/popover-title.svelte",
+				"popover/popover-trigger.svelte"
+			]
+		},
+		"progress": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "1a4a99d8c279fb5b",
+			"adapted": [
+				"progress/index.ts",
+				"progress/progress.svelte"
+			]
+		},
+		"radio-group": {
+			"type": "registry:ui",
+			"files": 3,
+			"sha256": "5b64c443cdddef2e",
+			"adapted": [
+				"radio-group/index.ts",
+				"radio-group/radio-group-item.svelte",
+				"radio-group/radio-group.svelte"
+			]
+		},
+		"scroll-area": {
+			"type": "registry:ui",
+			"files": 3,
+			"sha256": "66ced48403f092ea",
+			"adapted": [
+				"scroll-area/index.ts",
+				"scroll-area/scroll-area-scrollbar.svelte",
+				"scroll-area/scroll-area.svelte"
+			]
+		},
+		"select": {
+			"type": "registry:ui",
+			"files": 13,
+			"sha256": "16dc0fd9568c95fe",
+			"adapted": [
+				"select/index.ts",
+				"select/select-content.svelte",
+				"select/select-item.svelte",
+				"select/select-scroll-down-button.svelte",
+				"select/select-scroll-up-button.svelte",
+				"select/select-separator.svelte",
+				"select/select-trigger.svelte"
+			]
+		},
+		"separator": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "12e3a347df5b3cd4",
+			"adapted": [
+				"separator/index.ts",
+				"separator/separator.svelte"
+			]
+		},
+		"sheet": {
+			"type": "registry:ui",
+			"files": 11,
+			"sha256": "7b514f348877a35c",
+			"adapted": [
+				"sheet/index.ts",
+				"sheet/sheet-content.svelte",
+				"sheet/sheet-header.svelte",
+				"sheet/sheet-overlay.svelte",
+				"sheet/sheet-title.svelte"
+			]
+		},
+		"sidebar": {
+			"type": "registry:ui",
+			"files": 26,
+			"sha256": "27240770eb7b2cd3",
+			"adapted": [
+				"sidebar/constants.ts",
+				"sidebar/context.svelte.ts",
+				"sidebar/index.ts",
+				"sidebar/sidebar-content.svelte",
+				"sidebar/sidebar-footer.svelte",
+				"sidebar/sidebar-group-action.svelte",
+				"sidebar/sidebar-group-label.svelte",
+				"sidebar/sidebar-group.svelte",
+				"sidebar/sidebar-header.svelte",
+				"sidebar/sidebar-input.svelte",
+				"sidebar/sidebar-inset.svelte",
+				"sidebar/sidebar-menu-action.svelte",
+				"sidebar/sidebar-menu-button.svelte",
+				"sidebar/sidebar-menu-skeleton.svelte",
+				"sidebar/sidebar-menu-sub-button.svelte",
+				"sidebar/sidebar-menu-sub.svelte",
+				"sidebar/sidebar-menu.svelte",
+				"sidebar/sidebar-provider.svelte",
+				"sidebar/sidebar-rail.svelte",
+				"sidebar/sidebar-trigger.svelte",
+				"sidebar/sidebar.svelte"
+			]
+		},
+		"skeleton": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "b2e08534791653bd",
+			"adapted": [
+				"skeleton/index.ts"
+			]
+		},
+		"slider": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "d2acc43ff02de951",
+			"adapted": [
+				"slider/index.ts",
+				"slider/slider.svelte"
+			]
+		},
+		"sonner": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "7f3743860f16ef10",
+			"adapted": [
+				"sonner/index.ts",
+				"sonner/sonner.svelte"
+			]
+		},
+		"spinner": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "51deed98e2f5db5b",
+			"adapted": [
+				"spinner/index.ts",
+				"spinner/spinner.svelte"
+			]
+		},
+		"switch": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "7c12d536a08ac4ca",
+			"adapted": [
+				"switch/index.ts",
+				"switch/switch.svelte"
+			]
+		},
+		"table": {
+			"type": "registry:ui",
+			"files": 9,
+			"sha256": "963bd250ffa76ef0",
+			"adapted": [
+				"table/index.ts",
+				"table/table-head.svelte",
+				"table/table-header.svelte",
+				"table/table-row.svelte",
+				"table/table.svelte"
+			]
+		},
+		"tabs": {
+			"type": "registry:ui",
+			"files": 5,
+			"sha256": "fedc5ed38bd5bdd5",
+			"adapted": [
+				"tabs/index.ts",
+				"tabs/tabs-content.svelte",
+				"tabs/tabs-list.svelte",
+				"tabs/tabs-trigger.svelte",
+				"tabs/tabs.svelte"
+			]
+		},
+		"textarea": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "36fb3baf408b84e9",
+			"adapted": [
+				"textarea/index.ts",
+				"textarea/textarea.svelte"
+			]
+		},
+		"toggle": {
+			"type": "registry:ui",
+			"files": 2,
+			"sha256": "3d16d5cb71ed0198",
+			"adapted": [
+				"toggle/index.ts",
+				"toggle/toggle.svelte"
+			]
+		},
+		"toggle-group": {
+			"type": "registry:ui",
+			"files": 3,
+			"sha256": "9d298ede2b429aaf",
+			"adapted": [
+				"toggle-group/index.ts",
+				"toggle-group/toggle-group-item.svelte",
+				"toggle-group/toggle-group.svelte"
+			]
+		},
+		"tooltip": {
+			"type": "registry:ui",
+			"files": 6,
+			"sha256": "a50a0530f2d6ba62",
+			"adapted": [
+				"tooltip/index.ts",
+				"tooltip/tooltip-content.svelte",
+				"tooltip/tooltip-provider.svelte",
+				"tooltip/tooltip-trigger.svelte",
+				"tooltip/tooltip.svelte"
+			]
+		},
+		"is-mobile": {
+			"type": "registry:hook",
+			"files": 1,
+			"sha256": "d1531dab938681b4"
+		}
+	}
+}

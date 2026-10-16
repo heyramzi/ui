@@ -1,0 +1,44 @@
+{
+  "name": "@heyramzi/draw",
+  "version": "0.3.0",
+  "private": true,
+  "description": "A Svelte 5 whiteboard engine: a headless core for shapes, tools, history and hand-drawn rendering, plus a Svelte renderer.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/ui.git",
+    "directory": "packages/draw"
+  },
+  "files": [
+    "src",
+    "package.json"
+  ],
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "exports": {
+    ".": {
+      "svelte": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./core": "./src/core/index.ts"
+  },
+  "scripts": {
+    "test": "vp test run",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json --threshold error"
+  },
+  "dependencies": {
+    "perfect-freehand": "^1.2.3",
+    "roughjs": "^4.6.6"
+  },
+  "peerDependencies": {
+    "svelte": "^5.57.2"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
+    "typescript": "^7.0.2",
+    "vite-plus": "^1.0.0",
+    "vitest": "^5.0.3"
+  }
+}

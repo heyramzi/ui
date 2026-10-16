@@ -1,0 +1,29 @@
+<script lang="ts">
+	import type { HTMLAttributes } from "svelte/elements";
+	import { cn, type WithElementRef } from "@heyramzi/utils";
+
+	// WHY: card titles render as a div by default for backwards compatibility,
+
+	// but a page whose sections are all cards ends up with no headings below the h1, so screen readers cannot navigate it by heading (WCAG 2.4.6).
+
+	// Pass `as="h2"` on real section titles.
+	let {
+		ref = $bindable(null),
+		class: className,
+		as = "div",
+		children,
+		...restProps
+	}: WithElementRef<HTMLAttributes<HTMLElement>> & {
+		as?: "div" | "h2" | "h3" | "h4" | "h5" | "h6";
+	} = $props();
+</script>
+
+<svelte:element
+	this={as}
+	bind:this={ref}
+	data-slot="card-title"
+	class={cn("text-base leading-normal font-medium group-data-[size=sm]/card:text-sm", className)}
+	{...restProps}
+>
+	{@render children?.()}
+</svelte:element>

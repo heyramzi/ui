@@ -1,0 +1,12 @@
+node_modules
+.svelte-kit
+build
+dist
+.DS_Store
+
+# Local tooling, not published
+.github/skills/
+.github/agents/
+.github/hooks/
+.impeccable/
+.wrangler/

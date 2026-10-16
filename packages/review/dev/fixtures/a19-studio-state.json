@@ -1,0 +1,2887 @@
+{
+  "name": "a19-ai-project-manager",
+  "dir": "projects/a19-ai-project-manager",
+  "route": "descript",
+  "code": "A19",
+  "cut": "",
+  "project": "85008660-b447-4f2b-8fb8-800c6fa1829a",
+  "comp": "1cc8b72a-6eb2-403d-ba11-484c116b56ce",
+  "stage": 3,
+  "passes": [
+    {
+      "name": "organise",
+      "label": "Organise",
+      "state": "done",
+      "evidence": "descript tracks: gates clean; one live per sequence (MIC), CAM/SCREEN muted and out of script; files in ai-project-manager/ with RAW names, Music/Motion/B-roll folders, SEQ A19 names; lint blocking 0"
+    },
+    {
+      "name": "cut",
+      "label": "Cut",
+      "state": "done",
+      "evidence": "prove_cuts.py on a fresh dump: 5 of 5 needles gone (pass-2 Sonnet clause read: 17 proposed, 10 applied via descript edits); live 983.6s (16:23) from 1209s in the sequence, 3398 of 3877 words (12% cut: the take was hand-cut in Descript before registering); candidates.py --live 38 all dismissed (anaphora/list), seams 12 read fine, gaps close: none over 0.81; coaching not re-runnable, the raw restarts were already cut"
+    },
+    {
+      "name": "reorder",
+      "label": "Reorder",
+      "state": "done",
+      "evidence": "descript marker: 12 chapters read back from descript script, first at 0:00 (Cold open) through Close; reorder read: no second pain after the promise, no double ask split by an objection, so no descript move needed"
+    },
+    {
+      "name": "rhythm",
+      "label": "Rhythm",
+      "state": "done",
+      "evidence": "layout cards: 32 cards, every one carries a named state (Cam 100-130 and Screen + Square from layout pace and layout apply; the 2 Blueprint-break cards are camera-full on that sequence's MIC track); visuals.py check: Sonnet shot read gave 11 briefs, 11 resolved, all become pass-5 slots; sequence.py audit still FAILS (median gap 8.2s, 0% overlay), its dead stretches are the pass 5/6 brief; sequence.py plan crashes on this doc (extend() gets a dict for SPAN)"
+    },
+    {
+      "name": "music",
+      "label": "Music",
+      "state": "done",
+      "evidence": "editor-os music offer: 3 options on the project page (Inspiring Upbeat Corporate 2:24, Minimal Techno 2:31, Side By Side (instrumental) 3:12), pulled with descript stock music pull into ai-project-manager/Music/; no style saved so one track per style (upbeat corporate, minimal electronic, calm lofi); no bed laid, descript music reads none"
+    },
+    {
+      "name": "motion",
+      "label": "Motion",
+      "state": "done",
+      "evidence": "Look 3 (Band over the screen, dark full-frame) picked; 11 motion clips rendered via @upsys/motion, 11 MP4s in Motion/, drafts ready in .drafts/"
+    },
+    {
+      "name": "broll",
+      "label": "B-roll",
+      "state": "done",
+      "evidence": "source.py shot read: 2 found-shot beats, 1 fetched (This is Fine, 5s, muted, punch-in, bar checked, watched at 3s), 1 rejected (firing scenes cast the speaker as the boss); licence in broll/sources.json (Standard YouTube, free video only, no paid cut); descript import read back by descript tree in ai-project-manager/B-roll/, not placed"
+    },
+    {
+      "name": "review",
+      "label": "Review",
+      "state": "started",
+      "evidence": "Live on http://localhost:3350/p/a19-ai-project-manager: 287 transcript lines, 8 layout choices, 12 inserts with playable video drafts, 3 music options + 5 SFX beats"
+    },
+    { "name": "handoff", "label": "Handoff", "state": "", "evidence": "" }
+  ],
+  "slots": [
+    {
+      "id": "s1",
+      "at": 0,
+      "dur": 6,
+      "line": "This AI agent is capable of automatically setting",
+      "anchor": "this ai agent is capable of automatically setting",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "1 [00-28] Capacity Planning Steps.mp4",
+        "file": "projects/a19-ai-project-manager/motion/1 [00-28] Capacity Planning Steps.mp4"
+      },
+      "sourceCode": "1",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s2",
+      "at": 6,
+      "dur": 5,
+      "line": "At a base of 100 an hour",
+      "anchor": "at a base of 100 an hour",
+      "lane": "drawn",
+      "brief": "Screen Full",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "2 [01-08] Base Rate 1200 Saved.mp4",
+        "file": "projects/a19-ai-project-manager/motion/2 [01-08] Base Rate 1200 Saved.mp4"
+      },
+      "sourceCode": "2",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s3",
+      "at": 11,
+      "dur": 5,
+      "line": "Are you good with your task this week",
+      "anchor": "are you good with your task this week",
+      "lane": "drawn",
+      "brief": "Screen Full",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "1 [00-05] Dog says this is fine in burning room.mp4",
+        "file": "projects/a19-ai-project-manager/broll/1 [00-05] Dog says this is fine in burning room.mp4"
+      },
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s4",
+      "at": 16,
+      "dur": 8,
+      "line": "This slipped tag actually gets added",
+      "anchor": "this slipped tag actually gets added",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "3 [03-00] Slipped Tag Added.mp4",
+        "file": "projects/a19-ai-project-manager/motion/3 [03-00] Slipped Tag Added.mp4"
+      },
+      "sourceCode": "3",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s5",
+      "at": 24,
+      "dur": 6,
+      "line": "it's relying on one extra document",
+      "anchor": "its relying on one extra document",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "4 [03-39] Prompt and SOP Bridge.mp4",
+        "file": "projects/a19-ai-project-manager/motion/4 [03-39] Prompt and SOP Bridge.mp4"
+      },
+      "sourceCode": "4",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s6",
+      "at": 30,
+      "dur": 6,
+      "line": "Now this whole documentation, as well as the whole prompt, is available in Agency Master",
+      "anchor": "now this whole documentation as well as the whole prompt is available in agency master",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "5 [04-15] Agency Master Included.mp4",
+        "file": "projects/a19-ai-project-manager/motion/5 [04-15] Agency Master Included.mp4"
+      },
+      "sourceCode": "5",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s7",
+      "at": 36,
+      "dur": 6,
+      "line": "There are three ways you can use ClickUp Super Agents",
+      "anchor": "there are three ways you can use clickup super agents",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "6 [07-11] Super Agent Triggers.mp4",
+        "file": "projects/a19-ai-project-manager/motion/6 [07-11] Super Agent Triggers.mp4"
+      },
+      "sourceCode": "6",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s8",
+      "at": 42,
+      "dur": 10,
+      "line": "the one that are gonna set the start and due date based off of the batch",
+      "anchor": "the one that are gonna set the start and due date based off of the batch",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "7 [08-22] Two-Way Batch Sync Loop.mp4",
+        "file": "projects/a19-ai-project-manager/motion/7 [08-22] Two-Way Batch Sync Loop.mp4"
+      },
+      "sourceCode": "7",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s9",
+      "at": 52,
+      "dur": 9,
+      "line": "if you don't wanna create a loop where the start date and due date change",
+      "anchor": "if you dont wanna create a loop where the start date and due date change",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "8 [10-49] Guarded Loop Trap.mp4",
+        "file": "projects/a19-ai-project-manager/motion/8 [10-49] Guarded Loop Trap.mp4"
+      },
+      "sourceCode": "8",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s10",
+      "at": 61,
+      "dur": 10,
+      "line": "every new client webdesign request comes in through here",
+      "anchor": "every new client webdesign request comes in through here",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "9 [11-51] Client Intake Pipeline.mp4",
+        "file": "projects/a19-ai-project-manager/motion/9 [11-51] Client Intake Pipeline.mp4"
+      },
+      "sourceCode": "9",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s11",
+      "at": 71,
+      "dur": 6,
+      "line": "by adding that extra layer of memory",
+      "anchor": "by adding that extra layer of memory",
+      "lane": "drawn",
+      "brief": "Screen + Square",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "10 [12-51] Agent Memory Layers.mp4",
+        "file": "projects/a19-ai-project-manager/motion/10 [12-51] Agent Memory Layers.mp4"
+      },
+      "sourceCode": "10",
+      "orphaned": false,
+      "notes": []
+    },
+    {
+      "id": "s12",
+      "at": 77,
+      "dur": 8,
+      "line": "Your agent is responsible for doing that every Friday at six PM",
+      "anchor": "your agent is responsible for doing that every friday at six pm",
+      "lane": "drawn",
+      "brief": "Screen Full",
+      "state": "proposed",
+      "pick": {
+        "kind": "media",
+        "name": "11 [14-40] Friday Six PM Cron.mp4",
+        "file": "projects/a19-ai-project-manager/motion/11 [14-40] Friday Six PM Cron.mp4"
+      },
+      "sourceCode": "11",
+      "orphaned": false,
+      "notes": []
+    }
+  ],
+  "notes": [
+    {
+      "id": "f1",
+      "slot": "motion:1",
+      "anchor": "",
+      "text": "Use an alpha layer instead.",
+      "status": "answered",
+      "createdAt": "2026-09-29T22:21:33.297Z",
+      "reply": "Insert 1 is now an alpha layer: no ground, only the steps card keys over the picture (4.9s, ARGB .mov). Old MP4 kept. The draft here plays it flattened on gray."
+    }
+  ],
+  "music": {
+    "options": [
+      {
+        "id": "346800990",
+        "title": "Inspiring Upbeat Corporate",
+        "seconds": 144,
+        "mood": "upbeat and driving",
+        "playable": true
+      },
+      {
+        "id": "191960",
+        "title": "Minimal Techno",
+        "seconds": 151,
+        "mood": "clean electronic pulse",
+        "playable": true
+      },
+      {
+        "id": "346951960",
+        "title": "Side By Side (instrumental)",
+        "seconds": 192,
+        "mood": "calm and warm",
+        "playable": true
+      }
+    ],
+    "decision": "undecided",
+    "more": false,
+    "asked": 0,
+    "at": "2026-09-29T17:50:01.315Z"
+  },
+  "review": {
+    "steps": {},
+    "transcript": [
+      {
+        "at": "0:00",
+        "seconds": 0,
+        "chapter": "Cold open: the Monday question",
+        "text": "Every Monday you ask your team the same question,"
+      },
+      { "at": "0:02", "seconds": 2, "text": "and every Monday you get the same answer. \"" },
+      { "at": "0:05", "seconds": 5, "text": "Are you good with your task this week?\" \"" },
+      { "at": "0:07", "seconds": 7, "text": "Yep, I'm good.\"" },
+      { "at": "0:08", "seconds": 8, "text": "And the truth is they" },
+      { "at": "0:09", "seconds": 9, "text": "don't really know." },
+      { "at": "0:11", "seconds": 11, "text": "So they'd rather say yes" },
+      { "at": "0:12", "seconds": 12, "text": "than say they don't know" },
+      {
+        "at": "0:14",
+        "seconds": 14,
+        "text": "And it's not their fault. The job of your delivery team is to get the tasks done."
+      },
+      { "at": "0:18", "seconds": 18, "text": "It's not to know" },
+      { "at": "0:19", "seconds": 19, "text": "if they can still do more or if they're overboard" },
+      { "at": "0:22", "seconds": 22, "text": "But today" },
+      { "at": "0:22", "seconds": 22, "text": "I'm building the thing that answers this" },
+      { "at": "0:25", "seconds": 25, "text": "question:" },
+      { "at": "0:25", "seconds": 25, "text": "Is your team under or over capacity?" },
+      {
+        "at": "0:28",
+        "seconds": 28,
+        "text": "This AI agent is capable of automatically setting your task's effort,"
+      },
+      { "at": "0:33", "seconds": 33, "text": "start date, and estimates" },
+      { "at": "0:34", "seconds": 34, "text": "based on who works in your agency" },
+      { "at": "0:36", "seconds": 36, "text": "and what's their workload." },
+      { "at": "0:38", "seconds": 38, "text": "It's got a brain that knows and learns" },
+      {
+        "at": "0:40",
+        "seconds": 40,
+        "text": "about your agency, the roles, responsibilities, clients, and delivery formats"
+      },
+      {
+        "at": "0:45",
+        "seconds": 45,
+        "chapter": "Proof: hours and billables",
+        "text": "I've installed this agent in social media agency last week,"
+      },
+      {
+        "at": "0:49",
+        "seconds": 49,
+        "text": "and they have saved one hour to every single team member that week"
+      },
+      { "at": "0:53", "seconds": 53, "text": "because there's no more meetings" },
+      { "at": "0:54", "seconds": 54, "text": "needed for planning the capacity." },
+      { "at": "0:56", "seconds": 56, "text": "This agent does it for you," },
+      {
+        "at": "0:58",
+        "seconds": 58,
+        "text": "and then all you have to do is do a quick review for your team"
+      },
+      { "at": "1:01", "seconds": 61, "text": "There were 12 clients working," },
+      {
+        "at": "1:03",
+        "seconds": 63,
+        "text": "and they had 12 people working on client social media."
+      },
+      { "at": "1:05", "seconds": 65, "text": "That's 12 billable hours freed up." },
+      { "at": "1:08", "seconds": 68, "text": "At a base of 100 an hour, $1,200" },
+      { "at": "1:11", "seconds": 71, "text": "every single week that they can bill to clients" },
+      { "at": "1:14", "seconds": 74, "text": "back again." },
+      { "at": "1:15", "seconds": 75, "text": "And" },
+      { "at": "1:15", "seconds": 75, "text": "that's conservative," },
+      {
+        "at": "1:16",
+        "seconds": 76,
+        "text": "the bigger their grow, the more the AI gets context and the more billable hours they're freed up."
+      },
+      { "at": "1:21", "seconds": 81, "text": "So the more they scale, the more they save money" },
+      { "at": "1:23", "seconds": 83, "text": "and time" },
+      {
+        "at": "1:24",
+        "seconds": 84,
+        "chapter": "What this video covers",
+        "text": "In this video, I'm gonna show you how I've built this AI agent"
+      },
+      {
+        "at": "1:27",
+        "seconds": 87,
+        "text": "and what it's capable of doing in the ClickUp workload view"
+      },
+      {
+        "at": "1:30",
+        "seconds": 90,
+        "text": "so that you as a founder get clarity over is the work balanced and who's overboard or who's underperforming."
+      },
+      {
+        "at": "1:38",
+        "seconds": 98,
+        "text": "You're gonna be able to make real business decisions for your agency based off of a virtual project manager that's gonna assist you every single day"
+      },
+      { "at": "1:47", "seconds": 107, "text": "Quick break here." },
+      {
+        "at": "1:48",
+        "seconds": 108,
+        "text": "If you want to understand exactly how the batch methodology works and how to plan your team's workload in a week,"
+      },
+      { "at": "1:54", "seconds": 114, "text": "you need to go for the Agency Blueprint." },
+      {
+        "at": "1:57",
+        "seconds": 117,
+        "text": "It's a playbook I've put down below that explains exactly how to architecture your ClickUp workspace"
+      },
+      { "at": "2:02", "seconds": 122, "text": "with the spaces, folders, and lists to set up." },
+      {
+        "at": "2:05",
+        "seconds": 125,
+        "text": "And most importantly, for the content of this video, it's the perfect complement"
+      },
+      {
+        "at": "2:09",
+        "seconds": 129,
+        "text": "Because it explains exactly what's the batch method made of,"
+      },
+      {
+        "at": "2:12",
+        "seconds": 132,
+        "text": "the batch endpoints custom field, and how to set up a workload view inside of ClickUp."
+      },
+      { "at": "2:18", "seconds": 138, "text": "Now go grab it down below, it's completely free," },
+      { "at": "2:20", "seconds": 140, "text": "and let's get going" },
+      {
+        "at": "2:22",
+        "seconds": 142,
+        "chapter": "Setup: Batch, Points, Slipped",
+        "text": "But before we build this capacity planning agent here that we have in front of us,"
+      },
+      {
+        "at": "2:26",
+        "seconds": 146,
+        "text": "we need to understand two things that I have added to my ClickUp so that it works."
+      },
+      { "at": "2:30", "seconds": 150, "text": "I have added two custom fields," },
+      { "at": "2:32", "seconds": 152, "text": "one called the Batch and the other one called" },
+      { "at": "2:35", "seconds": 155, "text": "the Points." },
+      { "at": "2:36", "seconds": 156, "text": "And if I bring that down," },
+      { "at": "2:38", "seconds": 158, "text": "we can see it here, and we can see" },
+      { "at": "2:41", "seconds": 161, "text": "that these" },
+      { "at": "2:42", "seconds": 162, "text": "two fields" },
+      { "at": "2:42", "seconds": 162, "text": "are filled up for my tasks." },
+      { "at": "2:44", "seconds": 164, "text": "The AI agent actually took care of that." },
+      {
+        "at": "2:46",
+        "seconds": 166,
+        "text": "Another thing I've added is a tag that says slipped."
+      },
+      { "at": "2:49", "seconds": 169, "text": "This slipped tag actually gets added" },
+      { "at": "2:52", "seconds": 172, "text": "every time a task becomes overdue." },
+      {
+        "at": "2:54",
+        "seconds": 174,
+        "text": "So say you have a task that was planned for this Friday,"
+      },
+      {
+        "at": "2:57",
+        "seconds": 177,
+        "text": "as soon as we reach Saturday and if someone hasn't closed it,"
+      },
+      {
+        "at": "3:00",
+        "seconds": 180,
+        "text": "it goes with the tag slipped. What that means is that we are tagging as soon as someone in your team"
+      },
+      { "at": "3:06", "seconds": 186, "text": "is overdue on their work." },
+      {
+        "at": "3:08",
+        "seconds": 188,
+        "text": "this doesn't mean you should straight away fire them."
+      },
+      { "at": "3:11", "seconds": 191, "text": "I'm sure you won't," },
+      {
+        "at": "3:12",
+        "seconds": 192,
+        "text": "But this indicates when you start to have a lot of tasks piling up for someone."
+      },
+      { "at": "3:16", "seconds": 196, "text": "Now," },
+      {
+        "at": "3:17",
+        "seconds": 197,
+        "text": "with these three concepts, the batch, the points, and the slip tag,"
+      },
+      { "at": "3:21", "seconds": 201, "text": "we're able to trigger our AI agent." },
+      { "at": "3:23", "seconds": 203, "text": "Now, the AI agent's already built." },
+      {
+        "at": "3:25",
+        "seconds": 205,
+        "chapter": "The agent and its company memory",
+        "text": "It is already inside of ClickUp. It's using the Super Agents feature, which are"
+      },
+      { "at": "3:29", "seconds": 209, "text": "AI agents rebranded by ClickUp," },
+      { "at": "3:31", "seconds": 211, "text": "and it's got a whole prompt here." },
+      { "at": "3:33", "seconds": 213, "text": "So it's" },
+      {
+        "at": "3:34",
+        "seconds": 214,
+        "text": "explaining everything about how we work, the rules not to break, what to report, and everything,"
+      },
+      { "at": "3:39", "seconds": 219, "text": "and it's relying on one extra document" },
+      { "at": "3:42", "seconds": 222, "text": "This document" },
+      { "at": "3:43", "seconds": 223, "text": "contains all the SOPs of our agencies," },
+      {
+        "at": "3:47",
+        "seconds": 227,
+        "text": "how we work, who are our clients, who works on which topic. Do we have this person taking care of delivery, this person taking care of"
+      },
+      {
+        "at": "3:55",
+        "seconds": 235,
+        "text": "client relationship, this person taking care of video editing?"
+      },
+      {
+        "at": "3:57",
+        "seconds": 237,
+        "text": "So it tells the roles and responsibilities of everyone in the team,"
+      },
+      {
+        "at": "4:01",
+        "seconds": 241,
+        "text": "and everything is stored in here so that the agent knows exactly"
+      },
+      {
+        "at": "4:05",
+        "seconds": 245,
+        "text": "how to plan a task, when to plan it, to whom, and how much effort to put on every task. Because you're gonna see in the workload view, this determines your capacity planning"
+      },
+      {
+        "at": "4:15",
+        "seconds": 255,
+        "text": "Now this whole documentation, as well as the whole prompt, is available in Agency Master if you want to save yourself time and reduce the risk of making mistakes with the agents you're gonna build."
+      },
+      {
+        "at": "4:26",
+        "seconds": 266,
+        "chapter": "Build the agent live",
+        "text": "For the sake of this video, I'm gonna show you"
+      },
+      { "at": "4:28", "seconds": 268, "text": "how you can build your own agent." },
+      { "at": "4:29", "seconds": 269, "text": "Now, if I get back here," },
+      {
+        "at": "4:31",
+        "seconds": 271,
+        "text": "we're gonna build our agent. It's gonna be called the capacity planning agent."
+      },
+      {
+        "at": "4:35",
+        "seconds": 275,
+        "text": "I'm gonna say build a capacity planning agent capable of setting start dates, due dates, and batches based off of the batch custom field, as well as setting points based off of the points rule, with one point being two hours, two point being four hours, and three points being eight hours of workload. Also take into account the whole company memory available in the delivery space."
+      },
+      { "at": "4:59", "seconds": 299, "text": "Now it's gonna start building the agent." },
+      {
+        "at": "5:01",
+        "seconds": 301,
+        "text": "This is not how I actually have built the agent in Agency Master. I've actually iterated quite a lot of time to get to that final super prompt."
+      },
+      {
+        "at": "5:09",
+        "seconds": 309,
+        "text": "But you can get started with that, and you're gonna get pretty decent results."
+      },
+      {
+        "at": "5:13",
+        "seconds": 313,
+        "text": "So what ClickUp is gonna do, it's gonna look in your memory and start asking you questions."
+      },
+      { "at": "5:17", "seconds": 317, "text": "It already know about the roles, about the" },
+      {
+        "at": "5:19",
+        "seconds": 319,
+        "text": "delivery three point O, the spaces, and then you can answer the different cues that ClickUp asks you for"
+      },
+      {
+        "at": "5:25",
+        "seconds": 325,
+        "text": "So I'm gonna use these triggers. Okay, I'm gonna accept that"
+      },
+      {
+        "at": "5:28",
+        "seconds": 328,
+        "text": "So then it set the rules of the different batches, and then, okay,"
+      },
+      { "at": "5:32", "seconds": 332, "text": "batches are weekly." },
+      {
+        "at": "5:33",
+        "seconds": 333,
+        "text": "Batch one this week, next week, next week after that. All right."
+      },
+      {
+        "at": "5:36",
+        "seconds": 336,
+        "text": "As you can see, it's smart enough to go read the tasks and get to understand"
+      },
+      { "at": "5:39", "seconds": 339, "text": "the context" },
+      {
+        "at": "5:40",
+        "seconds": 340,
+        "text": "So next it's asking about where it should work, and it's gonna ask us a bunch of question"
+      },
+      {
+        "at": "5:44",
+        "seconds": 344,
+        "text": "Next up is asking us about the agency wiki batching methodology, and I actually happen to have it here."
+      },
+      {
+        "at": "5:50",
+        "seconds": 350,
+        "text": "It explains everything about the batch method, the carryover,"
+      },
+      { "at": "5:53", "seconds": 353, "text": "and it's got a bunch of documents." },
+      { "at": "5:54", "seconds": 354, "text": "So I'm gonna copy the agency wiki" },
+      { "at": "5:56", "seconds": 356, "text": "and give it as a context to the agent." },
+      { "at": "5:58", "seconds": 358, "text": "So you have to build your own wiki, obviously." },
+      {
+        "at": "6:00",
+        "seconds": 360,
+        "text": "If you already have your rules for planning and assigning, you're good to go. If you don't, you have to build them from scratch before."
+      },
+      {
+        "at": "6:06",
+        "seconds": 366,
+        "text": "Now provide those rules in the agency wiki in Agency Master"
+      },
+      {
+        "at": "6:10",
+        "seconds": 370,
+        "text": "So you're gonna iterate like that with your agent and you're gonna start building it."
+      },
+      {
+        "at": "6:13",
+        "seconds": 373,
+        "text": "Now, I'm not gonna build the whole agent here because I am not sure the quality of this agent's gonna be as good as the one that I have built"
+      },
+      { "at": "6:19", "seconds": 379, "text": "in Agency Master, but this is just to show" },
+      { "at": "6:21", "seconds": 381, "text": "you how it works." },
+      {
+        "at": "6:22",
+        "seconds": 382,
+        "text": "I'm gonna use the existing capacity planning agent,"
+      },
+      { "at": "6:24", "seconds": 384, "text": "which does have access to the agency knowledge" },
+      { "at": "6:27", "seconds": 387, "text": "and the different documentations and everything." },
+      {
+        "at": "6:30",
+        "seconds": 390,
+        "chapter": "The automations",
+        "text": "One of the most important features our capacity planning agent has"
+      },
+      {
+        "at": "6:33",
+        "seconds": 393,
+        "text": "is it's able to start capacity planning every time a task is created."
+      },
+      {
+        "at": "6:38",
+        "seconds": 398,
+        "text": "So what it does is it reads the trigger task, it finds the product, it sets up the right"
+      },
+      { "at": "6:44", "seconds": 404, "text": "product" },
+      { "at": "6:44", "seconds": 404, "text": "Now our capacity planning agent is" },
+      {
+        "at": "6:46",
+        "seconds": 406,
+        "text": "built. It's called the Delivery Capacity Planner. You can set the avatar if you wanted,"
+      },
+      {
+        "at": "6:50",
+        "seconds": 410,
+        "text": "and you can set the schedules and the automations."
+      },
+      {
+        "at": "6:53",
+        "seconds": 413,
+        "text": "Now, I'm not gonna use this agent, but I'm gonna use the one that I've already created because I think that it's a little bit more reliable and I've worked on the prompt a little bit better, so it's gonna work slightly better."
+      },
+      {
+        "at": "7:03",
+        "seconds": 423,
+        "text": "On top of that, it's got more context, it's got a better agency knowledge,"
+      },
+      { "at": "7:06", "seconds": 426, "text": "and it has the automation set up." },
+      {
+        "at": "7:08",
+        "seconds": 428,
+        "chapter": "Three ways to run an agent",
+        "text": "So that brings me to how you can use your agent."
+      },
+      {
+        "at": "7:11",
+        "seconds": 431,
+        "text": "There are three ways you can use ClickUp Super Agents."
+      },
+      { "at": "7:15", "seconds": 435, "text": "Number one, you can trigger them on demand. It's" },
+      { "at": "7:17", "seconds": 437, "text": "like chatting with an employee. You just" },
+      { "at": "7:19", "seconds": 439, "text": "start chatting here," },
+      { "at": "7:20", "seconds": 440, "text": "and it'll do whatever you ask it." },
+      { "at": "7:21", "seconds": 441, "text": "Number two, you can trigger it on schedule." },
+      { "at": "7:23", "seconds": 443, "text": "So" },
+      { "at": "7:24", "seconds": 444, "text": "you can say every Friday at 5:00 PM," },
+      { "at": "7:26", "seconds": 446, "text": "you're gonna have to run and do these tasks." },
+      {
+        "at": "7:28",
+        "seconds": 448,
+        "text": "Po-potentially, you're gonna set the start date, due date, the batch, the points, whatever."
+      },
+      {
+        "at": "7:32",
+        "seconds": 452,
+        "text": "And then the third way is automated. So every time something happens in ClickUp, you wake up and triggers."
+      },
+      {
+        "at": "7:38",
+        "seconds": 458,
+        "text": "Every time I change the status, every time I add a tag,"
+      },
+      { "at": "7:40", "seconds": 460, "text": "you're gonna do whatever." },
+      {
+        "at": "7:41",
+        "seconds": 461,
+        "text": "And for this agent, I've created one scheduled run and three automations that I'm gonna show you."
+      },
+      { "at": "7:46", "seconds": 466, "text": "Now," },
+      {
+        "at": "7:46",
+        "seconds": 466,
+        "text": "you can create as many as you want, but try to keep it simple, and I feel like these are the most common for any type of agency."
+      },
+      {
+        "at": "7:52",
+        "seconds": 472,
+        "text": "So the first one, weekly on Friday, what the agent's gonna do, it's gonna"
+      },
+      { "at": "7:55", "seconds": 475, "text": "start planning your tasks." },
+      {
+        "at": "7:56",
+        "seconds": 476,
+        "text": "So it's gonna set the start dates, due dates, estimates, assignees"
+      },
+      { "at": "8:00", "seconds": 480, "text": "based off of everything" },
+      { "at": "8:02", "seconds": 482, "text": "that is in your task." },
+      {
+        "at": "8:03",
+        "seconds": 483,
+        "text": "It's gonna know based on the knowledge and the prompt that you have"
+      },
+      { "at": "8:06", "seconds": 486, "text": "exactly how to set things up." },
+      { "at": "8:08", "seconds": 488, "text": "Next up, we can set some automations," },
+      {
+        "at": "8:10",
+        "seconds": 490,
+        "text": "and the first automations I wanted to set is the batch automations."
+      },
+      { "at": "8:14", "seconds": 494, "text": "So" },
+      {
+        "at": "8:14",
+        "seconds": 494,
+        "text": "every time I set the batch custom fields, please change the start date or the due date accordingly."
+      },
+      { "at": "8:19", "seconds": 499, "text": "So we have two automations that I wanna show you," },
+      {
+        "at": "8:22",
+        "seconds": 502,
+        "text": "the one that are gonna set the start and due date based off of the batch, and the one that's gonna set the batch based off of the start and due date."
+      },
+      { "at": "8:28", "seconds": 508, "text": "Both," },
+      { "at": "8:28", "seconds": 508, "text": "work together, so" },
+      {
+        "at": "8:29",
+        "seconds": 509,
+        "text": "if the due date changes, please reschedule the batch value."
+      },
+      {
+        "at": "8:33",
+        "seconds": 513,
+        "text": "And if the batch value changes, please reschedule the start and due date."
+      },
+      {
+        "at": "8:38",
+        "seconds": 518,
+        "text": "You wanna do that because you want to keep the same source of truth between the start and due date and the batch."
+      },
+      {
+        "at": "8:43",
+        "seconds": 523,
+        "text": "If someone sets the batch and the starts and due dates doesn't adapt by mistake, your workload view is not gonna work. You're not gonna see your team's workload."
+      },
+      {
+        "at": "8:50",
+        "seconds": 530,
+        "text": "Whereas if you set both, you're gonna at least keep that source of truth."
+      },
+      {
+        "at": "8:54",
+        "seconds": 534,
+        "chapter": "Demo: rebalancing the workload",
+        "text": "And now I'm gonna show you how this agent works. We're gonna use it in the delivery space."
+      },
+      {
+        "at": "8:58",
+        "seconds": 538,
+        "text": "We have the space here to manage our client delivery, and as I've shown you, it is set by batch"
+      },
+      {
+        "at": "9:04",
+        "seconds": 544,
+        "text": "so we have our tasks here and they're already set, and you can see that we have a beautiful workload here if I go into the workload view."
+      },
+      {
+        "at": "9:10",
+        "seconds": 550,
+        "text": "But what if I were to change things? So say I'm setting a new start date and due date for the SEO audit and handover for this person"
+      },
+      { "at": "9:19", "seconds": 559, "text": "because they're going on holidays that week." },
+      {
+        "at": "9:21",
+        "seconds": 561,
+        "text": "So right now the value is set to this week and the start date is three days ago to tomorrow. So"
+      },
+      { "at": "9:27", "seconds": 567, "text": "we're Thursday, it makes sense." },
+      {
+        "at": "9:28",
+        "seconds": 568,
+        "text": "But if I were to reassign this and rebalance the workload to a week where they actually have to work,"
+      },
+      { "at": "9:33", "seconds": 573, "text": "I want everything here to reflect correctly" },
+      {
+        "at": "9:36",
+        "seconds": 576,
+        "text": "and the source of truth to be kept. So hopefully this task will be updated"
+      },
+      { "at": "9:40", "seconds": 580, "text": "by my agent" },
+      { "at": "9:41", "seconds": 581, "text": "into the next week" },
+      {
+        "at": "9:42",
+        "seconds": 582,
+        "text": "The same way, if I were to rebalance the workload because I feel like"
+      },
+      {
+        "at": "9:46",
+        "seconds": 586,
+        "text": "this person might have too many tasks and just change the value of the batch to next week,"
+      },
+      { "at": "9:50", "seconds": 590, "text": "I want not only the task to go into the next" },
+      { "at": "9:53", "seconds": 593, "text": "slot of batches," },
+      {
+        "at": "9:54",
+        "seconds": 594,
+        "text": "but also the start and due date to be rebalanced here"
+      },
+      {
+        "at": "9:58",
+        "seconds": 598,
+        "text": "accordingly so that it's reflected in the workload view for Sarah."
+      },
+      { "at": "10:01", "seconds": 601, "text": "So that task should be moved to the next" },
+      { "at": "10:03", "seconds": 603, "text": "batch here as well." },
+      { "at": "10:04", "seconds": 604, "text": "So that's what this agent does." },
+      { "at": "10:05", "seconds": 605, "text": "It" },
+      {
+        "at": "10:05",
+        "seconds": 605,
+        "text": "sorts out your start dates, due dates, and batches"
+      },
+      { "at": "10:08", "seconds": 608, "text": "And as you've seen," },
+      { "at": "10:09", "seconds": 609, "text": "my screen has refreshed" },
+      {
+        "at": "10:10",
+        "seconds": 610,
+        "text": "and the start date and due date has been rebalanced,"
+      },
+      {
+        "at": "10:13",
+        "seconds": 613,
+        "text": "and same thing here. The batch has been removed from here,"
+      },
+      {
+        "at": "10:17",
+        "seconds": 617,
+        "text": "And as you see, the task has been rebalanced. The agent has done its work."
+      },
+      { "at": "10:21", "seconds": 621, "text": "And if I go back to my view by batch," },
+      {
+        "at": "10:25",
+        "seconds": 625,
+        "text": "you can see that the task that was assigned to me has gone to next week."
+      },
+      { "at": "10:28", "seconds": 628, "text": "And if you wanna see your past agent executions," },
+      { "at": "10:30", "seconds": 630, "text": "you can actually get here and manage the agents" },
+      {
+        "at": "10:33",
+        "seconds": 633,
+        "text": "and see their activity. So you can see when they have worked and what they have done."
+      },
+      { "at": "10:37", "seconds": 637, "text": "So what's queued and what's successful." },
+      {
+        "at": "10:39",
+        "seconds": 639,
+        "text": "If you go into the activity, into the automations."
+      },
+      { "at": "10:41", "seconds": 641, "text": "That's" },
+      {
+        "at": "10:42",
+        "seconds": 642,
+        "text": "it. My agent is doing its job of setting the batch"
+      },
+      { "at": "10:44", "seconds": 644, "text": "due date and start date" },
+      { "at": "10:46", "seconds": 646, "text": "And" },
+      {
+        "at": "10:46",
+        "seconds": 646,
+        "text": "every time your agent does some work, it actually says what it did in the comments."
+      },
+      {
+        "at": "10:49",
+        "seconds": 649,
+        "text": "One detail that's important, if you don't wanna create a loop where the start date and due date change,"
+      },
+      { "at": "10:54", "seconds": 654, "text": "so the bat changes and triggers the agent again" },
+      {
+        "at": "10:57",
+        "seconds": 657,
+        "text": "and create an infinite loop where you run out of automations,"
+      },
+      {
+        "at": "11:00",
+        "seconds": 660,
+        "text": "make sure that it's always the same agent doing both."
+      },
+      {
+        "at": "11:03",
+        "seconds": 663,
+        "text": "Otherwise, you're gonna end up spending a lot of money on that"
+      },
+      {
+        "at": "11:06",
+        "seconds": 666,
+        "chapter": "Demo: client ticket triage",
+        "text": "The second automation that our agent is capable of doing, I haven't shared exactly how it works, but you saw its name here."
+      },
+      { "at": "11:13", "seconds": 673, "text": "It is the client ticket triage." },
+      {
+        "at": "11:16",
+        "seconds": 676,
+        "text": "It is the one that's capable that each time we receive a client ticket"
+      },
+      { "at": "11:19", "seconds": 679, "text": "to," },
+      { "at": "11:19", "seconds": 679, "text": "from an email into ClickUp," },
+      { "at": "11:21", "seconds": 681, "text": "to know exactly who it's for" },
+      {
+        "at": "11:24",
+        "seconds": 684,
+        "text": "and know exactly what it's about and sort it out and assign it"
+      },
+      { "at": "11:27", "seconds": 687, "text": "So to show you how it works," },
+      {
+        "at": "11:29",
+        "seconds": 689,
+        "text": "I am basically gonna send myself an email into this ClickUp list, and the agent will take over"
+      },
+      {
+        "at": "11:35",
+        "seconds": 695,
+        "text": "If you don't know about the email to ClickUp feature, I've made a video about it. But"
+      },
+      {
+        "at": "11:39",
+        "seconds": 699,
+        "text": "if you right click on any list in ClickUp, then go to email to list."
+      },
+      {
+        "at": "11:42",
+        "seconds": 702,
+        "text": "You can copy that email address and automate it so that your"
+      },
+      {
+        "at": "11:45",
+        "seconds": 705,
+        "text": "company mailbox, for example, forwards everything here."
+      },
+      {
+        "at": "11:47",
+        "seconds": 707,
+        "text": "We've actually set these automations for a software agency recently"
+      },
+      {
+        "at": "11:51",
+        "seconds": 711,
+        "text": "where every new client webdesign request comes in through here, then the AI agent takes over, triages it to the correct list, and then the team can start working on it 'cause it goes either in their current batch if they have enough workload capacity or in the next batch."
+      },
+      { "at": "12:06", "seconds": 726, "text": "So you" },
+      {
+        "at": "12:06",
+        "seconds": 726,
+        "text": "have an ambient project manager working for you behind the scenes, and I'm gonna show you how it works. So we have received a few tasks here. These are requests from clients. So you can see the task would arrive like this."
+      },
+      {
+        "at": "12:18",
+        "seconds": 738,
+        "text": "It would also be attached with an HTML of the original email."
+      },
+      {
+        "at": "12:21",
+        "seconds": 741,
+        "text": "And then since the task has been created, the agent knows that 'cause there is an automation running behind the scenes. I've shown you."
+      },
+      { "at": "12:28", "seconds": 748, "text": "It's this one," },
+      { "at": "12:29", "seconds": 749, "text": "the client ticket triage." },
+      {
+        "at": "12:30",
+        "seconds": 750,
+        "text": "And then it knows who it's for because it's capable of reading the context of the email."
+      },
+      { "at": "12:35", "seconds": 755, "text": "It knows," },
+      {
+        "at": "12:35",
+        "seconds": 755,
+        "text": "what's the email domain about, what's the request about, and maybe who works in that agency,"
+      },
+      { "at": "12:41", "seconds": 761, "text": "and maybe who is that client." },
+      {
+        "at": "12:43",
+        "seconds": 763,
+        "text": "If you keep a client one-pager for each of your clients,"
+      },
+      {
+        "at": "12:46",
+        "seconds": 766,
+        "text": "you're gonna also feed in more context to your agent. And remember, your agent can see anything in your ClickUp."
+      },
+      { "at": "12:51", "seconds": 771, "text": "So by adding that extra layer of memory," },
+      {
+        "at": "12:54",
+        "seconds": 774,
+        "text": "you are guaranteeing that your agent is less prone to mistakes"
+      },
+      { "at": "12:57", "seconds": 777, "text": "So my agent is" },
+      {
+        "at": "12:58",
+        "seconds": 778,
+        "text": "gonna start to work. If you wanna see if it got up the automations, you can always go to Manage Agents and then Activity again and have a look. You can see that these are pending and that it's starting to triage the tasks, so it actually is successfully starting to work. Sometimes you wanna give it a minute or two to get to understand everything 'cause it's leveraging AI behind the scenes, and it needs a little bit of thinking"
+      },
+      {
+        "at": "13:21",
+        "seconds": 801,
+        "text": "So as you can see, the triage is complete, and it's actually moved the task to the right client list,"
+      },
+      { "at": "13:25", "seconds": 805, "text": "to Vega Wellness." },
+      {
+        "at": "13:27",
+        "seconds": 807,
+        "text": "And if I get back to my client tickets, I don't have tickets anymore. And that is actually because the agent worked and did its job, and it started setting the tasks here. We have another example. I have set the delivery. I have set the batch. The batch is maybe '"
+      },
+      { "at": "13:42", "seconds": 822, "text": "cause," },
+      {
+        "at": "13:43",
+        "seconds": 823,
+        "text": "we're not sure if we should do it. All right. Maybe as a founder, I actually decide that we should do it next week, and I can update that, and then the agent is gonna set the start and due date in a few seconds. But what the agent did is it knows this task is assigned to Anya because it knows that is related to creation. So it's assigned it to the right person because it knows who in the company is responsible of these type of task."
+      },
+      {
+        "at": "14:08",
+        "seconds": 848,
+        "text": "So I think you got it. If you give your agent enough documentation and enough context, it's capable of knowing who to assign the task to."
+      },
+      {
+        "at": "14:15",
+        "seconds": 855,
+        "chapter": "Context is the moat",
+        "text": "So when you build any AI agent, whether it's in ClickUp or out of it, you need to make sure you give it context. Context is the moat of AI agents. Now,"
+      },
+      {
+        "at": "14:25",
+        "seconds": 865,
+        "text": "I've shown you what this agent's capable of doing based off of automations. So something happens in ClickUp, there's the trigger, and it gets going."
+      },
+      {
+        "at": "14:33",
+        "seconds": 873,
+        "text": "The interesting part is that you will not have to use that at all if your agent works on schedule."
+      },
+      {
+        "at": "14:40",
+        "seconds": 880,
+        "text": "So since you plan your tasks on Fridays, you shouldn't have to re-batch everything during the week. Your agent is responsible for doing that every Friday at six PM because we have a scheduled agent here setting the start date, due date, batch, and points"
+      },
+      {
+        "at": "14:57",
+        "seconds": 897,
+        "text": "so that your team knows exactly what they have to work on when they come to work on Monday."
+      },
+      { "at": "15:03", "seconds": 903, "text": "And the way they do that" },
+      {
+        "at": "15:04",
+        "seconds": 904,
+        "text": "is either they go to that workload view, which is likely to be for you as a founder or as a responsible of ops,"
+      },
+      { "at": "15:10", "seconds": 910, "text": "or" },
+      {
+        "at": "15:10",
+        "seconds": 910,
+        "text": "they can go here to the view by batch and filter on their own task and then see at a glance what they have to do"
+      },
+      {
+        "at": "15:17",
+        "seconds": 917,
+        "text": "every single week. That's what this agent is capable of doing."
+      },
+      { "at": "15:21", "seconds": 921, "text": "If you're" },
+      { "at": "15:22", "seconds": 922, "text": "interested about installing this AI agent," },
+      { "at": "15:24", "seconds": 924, "text": "you can go for Agency Master." },
+      {
+        "at": "15:26",
+        "seconds": 926,
+        "text": "We explain exactly step by step how to set up this agent, as well as the exact prompt so that it's reliable,"
+      },
+      {
+        "at": "15:33",
+        "seconds": 933,
+        "text": "and how to set up your company wiki so that you give it context."
+      },
+      {
+        "at": "15:36",
+        "seconds": 936,
+        "text": "That way, you will have a fractional project manager"
+      },
+      { "at": "15:40", "seconds": 940, "text": "working for you" },
+      { "at": "15:40", "seconds": 940, "text": "inside of ClickUp" },
+      { "at": "15:41", "seconds": 941, "text": "behind the scenes." },
+      { "at": "15:42", "seconds": 942, "text": "Now, Agency Master is available down below." },
+      {
+        "at": "15:45",
+        "seconds": 945,
+        "text": "For now, if you're watching this video in the next weeks of its publishing,"
+      },
+      {
+        "at": "15:49",
+        "seconds": 949,
+        "text": "the price is probably on a discount. So hurry quick"
+      },
+      {
+        "at": "15:52",
+        "seconds": 952,
+        "text": "because I'm probably gonna increase the price in the coming weeks."
+      },
+      {
+        "at": "15:55",
+        "seconds": 955,
+        "text": "I hope I opened your mind to ClickUp Super Agents"
+      },
+      { "at": "15:57", "seconds": 957, "text": "And," },
+      {
+        "at": "15:58",
+        "seconds": 958,
+        "text": "if you want to actually save money and don't wanna use ClickUp for that, you're probably good to go with an agent in n8n or Make.com."
+      },
+      {
+        "at": "16:04",
+        "seconds": 964,
+        "text": "We actually explain how to build this kind of agent in AgencyMaster"
+      },
+      {
+        "at": "16:07",
+        "seconds": 967,
+        "text": "as well, and also offer custom builds and automations"
+      },
+      {
+        "at": "16:11",
+        "seconds": 971,
+        "chapter": "Close",
+        "text": "for agencies. So if you're interested, you can also book a discovery call with us, and we'd be happy to set up these automations and AI agents for you."
+      },
+      { "at": "16:18", "seconds": 978, "text": "Now, thank you for watching this video," },
+      { "at": "16:19", "seconds": 979, "text": "and on my end," },
+      { "at": "16:20", "seconds": 980, "text": "I'll see you on another one." },
+      { "at": "16:21", "seconds": 981, "text": "Until then," },
+      { "at": "16:22", "seconds": 982, "text": "stay productive." }
+    ],
+    "paragraphs": [
+      {
+        "at": "0:00",
+        "chapter": "Cold open: the Monday question",
+        "lines": [
+          {
+            "at": "0:00",
+            "seconds": 0,
+            "chapter": "Cold open: the Monday question",
+            "text": "Every Monday you ask your team the same question,"
+          },
+          { "at": "0:02", "seconds": 2, "text": "and every Monday you get the same answer. \"" },
+          { "at": "0:05", "seconds": 5, "text": "Are you good with your task this week?\" \"" },
+          { "at": "0:07", "seconds": 7, "text": "Yep, I'm good.\"" },
+          { "at": "0:08", "seconds": 8, "text": "And the truth is they" },
+          { "at": "0:09", "seconds": 9, "text": "don't really know." },
+          { "at": "0:11", "seconds": 11, "text": "So they'd rather say yes" },
+          { "at": "0:12", "seconds": 12, "text": "than say they don't know" },
+          {
+            "at": "0:14",
+            "seconds": 14,
+            "text": "And it's not their fault. The job of your delivery team is to get the tasks done."
+          }
+        ]
+      },
+      {
+        "at": "0:18",
+        "lines": [
+          { "at": "0:18", "seconds": 18, "text": "It's not to know" },
+          {
+            "at": "0:19",
+            "seconds": 19,
+            "text": "if they can still do more or if they're overboard"
+          },
+          { "at": "0:22", "seconds": 22, "text": "But today" },
+          { "at": "0:22", "seconds": 22, "text": "I'm building the thing that answers this" },
+          { "at": "0:25", "seconds": 25, "text": "question:" },
+          { "at": "0:25", "seconds": 25, "text": "Is your team under or over capacity?" },
+          {
+            "at": "0:28",
+            "seconds": 28,
+            "text": "This AI agent is capable of automatically setting your task's effort,"
+          },
+          { "at": "0:33", "seconds": 33, "text": "start date, and estimates" },
+          { "at": "0:34", "seconds": 34, "text": "based on who works in your agency" },
+          { "at": "0:36", "seconds": 36, "text": "and what's their workload." }
+        ]
+      },
+      {
+        "at": "0:38",
+        "lines": [
+          { "at": "0:38", "seconds": 38, "text": "It's got a brain that knows and learns" },
+          {
+            "at": "0:40",
+            "seconds": 40,
+            "text": "about your agency, the roles, responsibilities, clients, and delivery formats"
+          }
+        ]
+      },
+      {
+        "at": "0:45",
+        "chapter": "Proof: hours and billables",
+        "lines": [
+          {
+            "at": "0:45",
+            "seconds": 45,
+            "chapter": "Proof: hours and billables",
+            "text": "I've installed this agent in social media agency last week,"
+          },
+          {
+            "at": "0:49",
+            "seconds": 49,
+            "text": "and they have saved one hour to every single team member that week"
+          },
+          { "at": "0:53", "seconds": 53, "text": "because there's no more meetings" },
+          { "at": "0:54", "seconds": 54, "text": "needed for planning the capacity." },
+          { "at": "0:56", "seconds": 56, "text": "This agent does it for you," },
+          {
+            "at": "0:58",
+            "seconds": 58,
+            "text": "and then all you have to do is do a quick review for your team"
+          },
+          { "at": "1:01", "seconds": 61, "text": "There were 12 clients working," },
+          {
+            "at": "1:03",
+            "seconds": 63,
+            "text": "and they had 12 people working on client social media."
+          }
+        ]
+      },
+      {
+        "at": "1:05",
+        "lines": [
+          { "at": "1:05", "seconds": 65, "text": "That's 12 billable hours freed up." },
+          { "at": "1:08", "seconds": 68, "text": "At a base of 100 an hour, $1,200" },
+          {
+            "at": "1:11",
+            "seconds": 71,
+            "text": "every single week that they can bill to clients"
+          },
+          { "at": "1:14", "seconds": 74, "text": "back again." },
+          { "at": "1:15", "seconds": 75, "text": "And" },
+          { "at": "1:15", "seconds": 75, "text": "that's conservative," },
+          {
+            "at": "1:16",
+            "seconds": 76,
+            "text": "the bigger their grow, the more the AI gets context and the more billable hours they're freed up."
+          },
+          {
+            "at": "1:21",
+            "seconds": 81,
+            "text": "So the more they scale, the more they save money"
+          },
+          { "at": "1:23", "seconds": 83, "text": "and time" }
+        ]
+      },
+      {
+        "at": "1:24",
+        "chapter": "What this video covers",
+        "lines": [
+          {
+            "at": "1:24",
+            "seconds": 84,
+            "chapter": "What this video covers",
+            "text": "In this video, I'm gonna show you how I've built this AI agent"
+          },
+          {
+            "at": "1:27",
+            "seconds": 87,
+            "text": "and what it's capable of doing in the ClickUp workload view"
+          },
+          {
+            "at": "1:30",
+            "seconds": 90,
+            "text": "so that you as a founder get clarity over is the work balanced and who's overboard or who's underperforming."
+          },
+          {
+            "at": "1:38",
+            "seconds": 98,
+            "text": "You're gonna be able to make real business decisions for your agency based off of a virtual project manager that's gonna assist you every single day"
+          },
+          { "at": "1:47", "seconds": 107, "text": "Quick break here." }
+        ]
+      },
+      {
+        "at": "1:48",
+        "lines": [
+          {
+            "at": "1:48",
+            "seconds": 108,
+            "text": "If you want to understand exactly how the batch methodology works and how to plan your team's workload in a week,"
+          },
+          { "at": "1:54", "seconds": 114, "text": "you need to go for the Agency Blueprint." },
+          {
+            "at": "1:57",
+            "seconds": 117,
+            "text": "It's a playbook I've put down below that explains exactly how to architecture your ClickUp workspace"
+          },
+          {
+            "at": "2:02",
+            "seconds": 122,
+            "text": "with the spaces, folders, and lists to set up."
+          },
+          {
+            "at": "2:05",
+            "seconds": 125,
+            "text": "And most importantly, for the content of this video, it's the perfect complement"
+          },
+          {
+            "at": "2:09",
+            "seconds": 129,
+            "text": "Because it explains exactly what's the batch method made of,"
+          },
+          {
+            "at": "2:12",
+            "seconds": 132,
+            "text": "the batch endpoints custom field, and how to set up a workload view inside of ClickUp."
+          }
+        ]
+      },
+      {
+        "at": "2:18",
+        "lines": [
+          {
+            "at": "2:18",
+            "seconds": 138,
+            "text": "Now go grab it down below, it's completely free,"
+          },
+          { "at": "2:20", "seconds": 140, "text": "and let's get going" }
+        ]
+      },
+      {
+        "at": "2:22",
+        "chapter": "Setup: Batch, Points, Slipped",
+        "lines": [
+          {
+            "at": "2:22",
+            "seconds": 142,
+            "chapter": "Setup: Batch, Points, Slipped",
+            "text": "But before we build this capacity planning agent here that we have in front of us,"
+          },
+          {
+            "at": "2:26",
+            "seconds": 146,
+            "text": "we need to understand two things that I have added to my ClickUp so that it works."
+          },
+          { "at": "2:30", "seconds": 150, "text": "I have added two custom fields," },
+          { "at": "2:32", "seconds": 152, "text": "one called the Batch and the other one called" },
+          { "at": "2:35", "seconds": 155, "text": "the Points." },
+          { "at": "2:36", "seconds": 156, "text": "And if I bring that down," },
+          { "at": "2:38", "seconds": 158, "text": "we can see it here, and we can see" },
+          { "at": "2:41", "seconds": 161, "text": "that these" },
+          { "at": "2:42", "seconds": 162, "text": "two fields" },
+          { "at": "2:42", "seconds": 162, "text": "are filled up for my tasks." }
+        ]
+      },
+      {
+        "at": "2:44",
+        "lines": [
+          { "at": "2:44", "seconds": 164, "text": "The AI agent actually took care of that." },
+          {
+            "at": "2:46",
+            "seconds": 166,
+            "text": "Another thing I've added is a tag that says slipped."
+          },
+          { "at": "2:49", "seconds": 169, "text": "This slipped tag actually gets added" },
+          { "at": "2:52", "seconds": 172, "text": "every time a task becomes overdue." },
+          {
+            "at": "2:54",
+            "seconds": 174,
+            "text": "So say you have a task that was planned for this Friday,"
+          },
+          {
+            "at": "2:57",
+            "seconds": 177,
+            "text": "as soon as we reach Saturday and if someone hasn't closed it,"
+          },
+          {
+            "at": "3:00",
+            "seconds": 180,
+            "text": "it goes with the tag slipped. What that means is that we are tagging as soon as someone in your team"
+          },
+          { "at": "3:06", "seconds": 186, "text": "is overdue on their work." }
+        ]
+      },
+      {
+        "at": "3:08",
+        "lines": [
+          {
+            "at": "3:08",
+            "seconds": 188,
+            "text": "this doesn't mean you should straight away fire them."
+          },
+          { "at": "3:11", "seconds": 191, "text": "I'm sure you won't," },
+          {
+            "at": "3:12",
+            "seconds": 192,
+            "text": "But this indicates when you start to have a lot of tasks piling up for someone."
+          },
+          { "at": "3:16", "seconds": 196, "text": "Now," },
+          {
+            "at": "3:17",
+            "seconds": 197,
+            "text": "with these three concepts, the batch, the points, and the slip tag,"
+          },
+          { "at": "3:21", "seconds": 201, "text": "we're able to trigger our AI agent." },
+          { "at": "3:23", "seconds": 203, "text": "Now, the AI agent's already built." }
+        ]
+      },
+      {
+        "at": "3:25",
+        "chapter": "The agent and its company memory",
+        "lines": [
+          {
+            "at": "3:25",
+            "seconds": 205,
+            "chapter": "The agent and its company memory",
+            "text": "It is already inside of ClickUp. It's using the Super Agents feature, which are"
+          },
+          { "at": "3:29", "seconds": 209, "text": "AI agents rebranded by ClickUp," },
+          { "at": "3:31", "seconds": 211, "text": "and it's got a whole prompt here." },
+          { "at": "3:33", "seconds": 213, "text": "So it's" },
+          {
+            "at": "3:34",
+            "seconds": 214,
+            "text": "explaining everything about how we work, the rules not to break, what to report, and everything,"
+          },
+          { "at": "3:39", "seconds": 219, "text": "and it's relying on one extra document" },
+          { "at": "3:42", "seconds": 222, "text": "This document" },
+          { "at": "3:43", "seconds": 223, "text": "contains all the SOPs of our agencies," },
+          {
+            "at": "3:47",
+            "seconds": 227,
+            "text": "how we work, who are our clients, who works on which topic. Do we have this person taking care of delivery, this person taking care of"
+          },
+          {
+            "at": "3:55",
+            "seconds": 235,
+            "text": "client relationship, this person taking care of video editing?"
+          }
+        ]
+      },
+      {
+        "at": "3:57",
+        "lines": [
+          {
+            "at": "3:57",
+            "seconds": 237,
+            "text": "So it tells the roles and responsibilities of everyone in the team,"
+          },
+          {
+            "at": "4:01",
+            "seconds": 241,
+            "text": "and everything is stored in here so that the agent knows exactly"
+          },
+          {
+            "at": "4:05",
+            "seconds": 245,
+            "text": "how to plan a task, when to plan it, to whom, and how much effort to put on every task. Because you're gonna see in the workload view, this determines your capacity planning"
+          },
+          {
+            "at": "4:15",
+            "seconds": 255,
+            "text": "Now this whole documentation, as well as the whole prompt, is available in Agency Master if you want to save yourself time and reduce the risk of making mistakes with the agents you're gonna build."
+          }
+        ]
+      },
+      {
+        "at": "4:26",
+        "chapter": "Build the agent live",
+        "lines": [
+          {
+            "at": "4:26",
+            "seconds": 266,
+            "chapter": "Build the agent live",
+            "text": "For the sake of this video, I'm gonna show you"
+          },
+          { "at": "4:28", "seconds": 268, "text": "how you can build your own agent." },
+          { "at": "4:29", "seconds": 269, "text": "Now, if I get back here," },
+          {
+            "at": "4:31",
+            "seconds": 271,
+            "text": "we're gonna build our agent. It's gonna be called the capacity planning agent."
+          },
+          {
+            "at": "4:35",
+            "seconds": 275,
+            "text": "I'm gonna say build a capacity planning agent capable of setting start dates, due dates, and batches based off of the batch custom field, as well as setting points based off of the points rule, with one point being two hours, two point being four hours, and three points being eight hours of workload. Also take into account the whole company memory available in the delivery space."
+          }
+        ]
+      },
+      {
+        "at": "4:59",
+        "lines": [
+          { "at": "4:59", "seconds": 299, "text": "Now it's gonna start building the agent." },
+          {
+            "at": "5:01",
+            "seconds": 301,
+            "text": "This is not how I actually have built the agent in Agency Master. I've actually iterated quite a lot of time to get to that final super prompt."
+          },
+          {
+            "at": "5:09",
+            "seconds": 309,
+            "text": "But you can get started with that, and you're gonna get pretty decent results."
+          },
+          {
+            "at": "5:13",
+            "seconds": 313,
+            "text": "So what ClickUp is gonna do, it's gonna look in your memory and start asking you questions."
+          }
+        ]
+      },
+      {
+        "at": "5:17",
+        "lines": [
+          { "at": "5:17", "seconds": 317, "text": "It already know about the roles, about the" },
+          {
+            "at": "5:19",
+            "seconds": 319,
+            "text": "delivery three point O, the spaces, and then you can answer the different cues that ClickUp asks you for"
+          },
+          {
+            "at": "5:25",
+            "seconds": 325,
+            "text": "So I'm gonna use these triggers. Okay, I'm gonna accept that"
+          },
+          {
+            "at": "5:28",
+            "seconds": 328,
+            "text": "So then it set the rules of the different batches, and then, okay,"
+          },
+          { "at": "5:32", "seconds": 332, "text": "batches are weekly." },
+          {
+            "at": "5:33",
+            "seconds": 333,
+            "text": "Batch one this week, next week, next week after that. All right."
+          }
+        ]
+      },
+      {
+        "at": "5:36",
+        "lines": [
+          {
+            "at": "5:36",
+            "seconds": 336,
+            "text": "As you can see, it's smart enough to go read the tasks and get to understand"
+          },
+          { "at": "5:39", "seconds": 339, "text": "the context" },
+          {
+            "at": "5:40",
+            "seconds": 340,
+            "text": "So next it's asking about where it should work, and it's gonna ask us a bunch of question"
+          },
+          {
+            "at": "5:44",
+            "seconds": 344,
+            "text": "Next up is asking us about the agency wiki batching methodology, and I actually happen to have it here."
+          },
+          {
+            "at": "5:50",
+            "seconds": 350,
+            "text": "It explains everything about the batch method, the carryover,"
+          },
+          { "at": "5:53", "seconds": 353, "text": "and it's got a bunch of documents." }
+        ]
+      },
+      {
+        "at": "5:54",
+        "lines": [
+          { "at": "5:54", "seconds": 354, "text": "So I'm gonna copy the agency wiki" },
+          { "at": "5:56", "seconds": 356, "text": "and give it as a context to the agent." },
+          {
+            "at": "5:58",
+            "seconds": 358,
+            "text": "So you have to build your own wiki, obviously."
+          },
+          {
+            "at": "6:00",
+            "seconds": 360,
+            "text": "If you already have your rules for planning and assigning, you're good to go. If you don't, you have to build them from scratch before."
+          },
+          {
+            "at": "6:06",
+            "seconds": 366,
+            "text": "Now provide those rules in the agency wiki in Agency Master"
+          },
+          {
+            "at": "6:10",
+            "seconds": 370,
+            "text": "So you're gonna iterate like that with your agent and you're gonna start building it."
+          }
+        ]
+      },
+      {
+        "at": "6:13",
+        "lines": [
+          {
+            "at": "6:13",
+            "seconds": 373,
+            "text": "Now, I'm not gonna build the whole agent here because I am not sure the quality of this agent's gonna be as good as the one that I have built"
+          },
+          { "at": "6:19", "seconds": 379, "text": "in Agency Master, but this is just to show" },
+          { "at": "6:21", "seconds": 381, "text": "you how it works." },
+          {
+            "at": "6:22",
+            "seconds": 382,
+            "text": "I'm gonna use the existing capacity planning agent,"
+          },
+          {
+            "at": "6:24",
+            "seconds": 384,
+            "text": "which does have access to the agency knowledge"
+          },
+          {
+            "at": "6:27",
+            "seconds": 387,
+            "text": "and the different documentations and everything."
+          }
+        ]
+      },
+      {
+        "at": "6:30",
+        "chapter": "The automations",
+        "lines": [
+          {
+            "at": "6:30",
+            "seconds": 390,
+            "chapter": "The automations",
+            "text": "One of the most important features our capacity planning agent has"
+          },
+          {
+            "at": "6:33",
+            "seconds": 393,
+            "text": "is it's able to start capacity planning every time a task is created."
+          },
+          {
+            "at": "6:38",
+            "seconds": 398,
+            "text": "So what it does is it reads the trigger task, it finds the product, it sets up the right"
+          },
+          { "at": "6:44", "seconds": 404, "text": "product" },
+          { "at": "6:44", "seconds": 404, "text": "Now our capacity planning agent is" },
+          {
+            "at": "6:46",
+            "seconds": 406,
+            "text": "built. It's called the Delivery Capacity Planner. You can set the avatar if you wanted,"
+          },
+          {
+            "at": "6:50",
+            "seconds": 410,
+            "text": "and you can set the schedules and the automations."
+          }
+        ]
+      },
+      {
+        "at": "6:53",
+        "lines": [
+          {
+            "at": "6:53",
+            "seconds": 413,
+            "text": "Now, I'm not gonna use this agent, but I'm gonna use the one that I've already created because I think that it's a little bit more reliable and I've worked on the prompt a little bit better, so it's gonna work slightly better."
+          },
+          {
+            "at": "7:03",
+            "seconds": 423,
+            "text": "On top of that, it's got more context, it's got a better agency knowledge,"
+          },
+          { "at": "7:06", "seconds": 426, "text": "and it has the automation set up." }
+        ]
+      },
+      {
+        "at": "7:08",
+        "chapter": "Three ways to run an agent",
+        "lines": [
+          {
+            "at": "7:08",
+            "seconds": 428,
+            "chapter": "Three ways to run an agent",
+            "text": "So that brings me to how you can use your agent."
+          },
+          {
+            "at": "7:11",
+            "seconds": 431,
+            "text": "There are three ways you can use ClickUp Super Agents."
+          },
+          {
+            "at": "7:15",
+            "seconds": 435,
+            "text": "Number one, you can trigger them on demand. It's"
+          },
+          { "at": "7:17", "seconds": 437, "text": "like chatting with an employee. You just" },
+          { "at": "7:19", "seconds": 439, "text": "start chatting here," },
+          { "at": "7:20", "seconds": 440, "text": "and it'll do whatever you ask it." },
+          { "at": "7:21", "seconds": 441, "text": "Number two, you can trigger it on schedule." },
+          { "at": "7:23", "seconds": 443, "text": "So" },
+          { "at": "7:24", "seconds": 444, "text": "you can say every Friday at 5:00 PM," },
+          { "at": "7:26", "seconds": 446, "text": "you're gonna have to run and do these tasks." }
+        ]
+      },
+      {
+        "at": "7:28",
+        "lines": [
+          {
+            "at": "7:28",
+            "seconds": 448,
+            "text": "Po-potentially, you're gonna set the start date, due date, the batch, the points, whatever."
+          },
+          {
+            "at": "7:32",
+            "seconds": 452,
+            "text": "And then the third way is automated. So every time something happens in ClickUp, you wake up and triggers."
+          },
+          {
+            "at": "7:38",
+            "seconds": 458,
+            "text": "Every time I change the status, every time I add a tag,"
+          },
+          { "at": "7:40", "seconds": 460, "text": "you're gonna do whatever." },
+          {
+            "at": "7:41",
+            "seconds": 461,
+            "text": "And for this agent, I've created one scheduled run and three automations that I'm gonna show you."
+          }
+        ]
+      },
+      {
+        "at": "7:46",
+        "lines": [
+          { "at": "7:46", "seconds": 466, "text": "Now," },
+          {
+            "at": "7:46",
+            "seconds": 466,
+            "text": "you can create as many as you want, but try to keep it simple, and I feel like these are the most common for any type of agency."
+          },
+          {
+            "at": "7:52",
+            "seconds": 472,
+            "text": "So the first one, weekly on Friday, what the agent's gonna do, it's gonna"
+          },
+          { "at": "7:55", "seconds": 475, "text": "start planning your tasks." },
+          {
+            "at": "7:56",
+            "seconds": 476,
+            "text": "So it's gonna set the start dates, due dates, estimates, assignees"
+          },
+          { "at": "8:00", "seconds": 480, "text": "based off of everything" },
+          { "at": "8:02", "seconds": 482, "text": "that is in your task." }
+        ]
+      },
+      {
+        "at": "8:03",
+        "lines": [
+          {
+            "at": "8:03",
+            "seconds": 483,
+            "text": "It's gonna know based on the knowledge and the prompt that you have"
+          },
+          { "at": "8:06", "seconds": 486, "text": "exactly how to set things up." },
+          { "at": "8:08", "seconds": 488, "text": "Next up, we can set some automations," },
+          {
+            "at": "8:10",
+            "seconds": 490,
+            "text": "and the first automations I wanted to set is the batch automations."
+          },
+          { "at": "8:14", "seconds": 494, "text": "So" },
+          {
+            "at": "8:14",
+            "seconds": 494,
+            "text": "every time I set the batch custom fields, please change the start date or the due date accordingly."
+          },
+          {
+            "at": "8:19",
+            "seconds": 499,
+            "text": "So we have two automations that I wanna show you,"
+          },
+          {
+            "at": "8:22",
+            "seconds": 502,
+            "text": "the one that are gonna set the start and due date based off of the batch, and the one that's gonna set the batch based off of the start and due date."
+          }
+        ]
+      },
+      {
+        "at": "8:28",
+        "lines": [
+          { "at": "8:28", "seconds": 508, "text": "Both," },
+          { "at": "8:28", "seconds": 508, "text": "work together, so" },
+          {
+            "at": "8:29",
+            "seconds": 509,
+            "text": "if the due date changes, please reschedule the batch value."
+          },
+          {
+            "at": "8:33",
+            "seconds": 513,
+            "text": "And if the batch value changes, please reschedule the start and due date."
+          },
+          {
+            "at": "8:38",
+            "seconds": 518,
+            "text": "You wanna do that because you want to keep the same source of truth between the start and due date and the batch."
+          },
+          {
+            "at": "8:43",
+            "seconds": 523,
+            "text": "If someone sets the batch and the starts and due dates doesn't adapt by mistake, your workload view is not gonna work. You're not gonna see your team's workload."
+          }
+        ]
+      },
+      {
+        "at": "8:50",
+        "lines": [
+          {
+            "at": "8:50",
+            "seconds": 530,
+            "text": "Whereas if you set both, you're gonna at least keep that source of truth."
+          }
+        ]
+      },
+      {
+        "at": "8:54",
+        "chapter": "Demo: rebalancing the workload",
+        "lines": [
+          {
+            "at": "8:54",
+            "seconds": 534,
+            "chapter": "Demo: rebalancing the workload",
+            "text": "And now I'm gonna show you how this agent works. We're gonna use it in the delivery space."
+          },
+          {
+            "at": "8:58",
+            "seconds": 538,
+            "text": "We have the space here to manage our client delivery, and as I've shown you, it is set by batch"
+          },
+          {
+            "at": "9:04",
+            "seconds": 544,
+            "text": "so we have our tasks here and they're already set, and you can see that we have a beautiful workload here if I go into the workload view."
+          }
+        ]
+      },
+      {
+        "at": "9:10",
+        "lines": [
+          {
+            "at": "9:10",
+            "seconds": 550,
+            "text": "But what if I were to change things? So say I'm setting a new start date and due date for the SEO audit and handover for this person"
+          },
+          { "at": "9:19", "seconds": 559, "text": "because they're going on holidays that week." },
+          {
+            "at": "9:21",
+            "seconds": 561,
+            "text": "So right now the value is set to this week and the start date is three days ago to tomorrow. So"
+          },
+          { "at": "9:27", "seconds": 567, "text": "we're Thursday, it makes sense." },
+          {
+            "at": "9:28",
+            "seconds": 568,
+            "text": "But if I were to reassign this and rebalance the workload to a week where they actually have to work,"
+          },
+          { "at": "9:33", "seconds": 573, "text": "I want everything here to reflect correctly" },
+          {
+            "at": "9:36",
+            "seconds": 576,
+            "text": "and the source of truth to be kept. So hopefully this task will be updated"
+          }
+        ]
+      },
+      {
+        "at": "9:40",
+        "lines": [
+          { "at": "9:40", "seconds": 580, "text": "by my agent" },
+          { "at": "9:41", "seconds": 581, "text": "into the next week" },
+          {
+            "at": "9:42",
+            "seconds": 582,
+            "text": "The same way, if I were to rebalance the workload because I feel like"
+          },
+          {
+            "at": "9:46",
+            "seconds": 586,
+            "text": "this person might have too many tasks and just change the value of the batch to next week,"
+          },
+          { "at": "9:50", "seconds": 590, "text": "I want not only the task to go into the next" },
+          { "at": "9:53", "seconds": 593, "text": "slot of batches," },
+          {
+            "at": "9:54",
+            "seconds": 594,
+            "text": "but also the start and due date to be rebalanced here"
+          },
+          {
+            "at": "9:58",
+            "seconds": 598,
+            "text": "accordingly so that it's reflected in the workload view for Sarah."
+          }
+        ]
+      },
+      {
+        "at": "10:01",
+        "lines": [
+          { "at": "10:01", "seconds": 601, "text": "So that task should be moved to the next" },
+          { "at": "10:03", "seconds": 603, "text": "batch here as well." },
+          { "at": "10:04", "seconds": 604, "text": "So that's what this agent does." },
+          { "at": "10:05", "seconds": 605, "text": "It" },
+          {
+            "at": "10:05",
+            "seconds": 605,
+            "text": "sorts out your start dates, due dates, and batches"
+          },
+          { "at": "10:08", "seconds": 608, "text": "And as you've seen," },
+          { "at": "10:09", "seconds": 609, "text": "my screen has refreshed" },
+          {
+            "at": "10:10",
+            "seconds": 610,
+            "text": "and the start date and due date has been rebalanced,"
+          },
+          {
+            "at": "10:13",
+            "seconds": 613,
+            "text": "and same thing here. The batch has been removed from here,"
+          },
+          {
+            "at": "10:17",
+            "seconds": 617,
+            "text": "And as you see, the task has been rebalanced. The agent has done its work."
+          }
+        ]
+      },
+      {
+        "at": "10:21",
+        "lines": [
+          { "at": "10:21", "seconds": 621, "text": "And if I go back to my view by batch," },
+          {
+            "at": "10:25",
+            "seconds": 625,
+            "text": "you can see that the task that was assigned to me has gone to next week."
+          },
+          {
+            "at": "10:28",
+            "seconds": 628,
+            "text": "And if you wanna see your past agent executions,"
+          },
+          {
+            "at": "10:30",
+            "seconds": 630,
+            "text": "you can actually get here and manage the agents"
+          },
+          {
+            "at": "10:33",
+            "seconds": 633,
+            "text": "and see their activity. So you can see when they have worked and what they have done."
+          },
+          { "at": "10:37", "seconds": 637, "text": "So what's queued and what's successful." }
+        ]
+      },
+      {
+        "at": "10:39",
+        "lines": [
+          {
+            "at": "10:39",
+            "seconds": 639,
+            "text": "If you go into the activity, into the automations."
+          },
+          { "at": "10:41", "seconds": 641, "text": "That's" },
+          {
+            "at": "10:42",
+            "seconds": 642,
+            "text": "it. My agent is doing its job of setting the batch"
+          },
+          { "at": "10:44", "seconds": 644, "text": "due date and start date" },
+          { "at": "10:46", "seconds": 646, "text": "And" },
+          {
+            "at": "10:46",
+            "seconds": 646,
+            "text": "every time your agent does some work, it actually says what it did in the comments."
+          },
+          {
+            "at": "10:49",
+            "seconds": 649,
+            "text": "One detail that's important, if you don't wanna create a loop where the start date and due date change,"
+          },
+          {
+            "at": "10:54",
+            "seconds": 654,
+            "text": "so the bat changes and triggers the agent again"
+          },
+          {
+            "at": "10:57",
+            "seconds": 657,
+            "text": "and create an infinite loop where you run out of automations,"
+          },
+          {
+            "at": "11:00",
+            "seconds": 660,
+            "text": "make sure that it's always the same agent doing both."
+          }
+        ]
+      },
+      {
+        "at": "11:03",
+        "lines": [
+          {
+            "at": "11:03",
+            "seconds": 663,
+            "text": "Otherwise, you're gonna end up spending a lot of money on that"
+          }
+        ]
+      },
+      {
+        "at": "11:06",
+        "chapter": "Demo: client ticket triage",
+        "lines": [
+          {
+            "at": "11:06",
+            "seconds": 666,
+            "chapter": "Demo: client ticket triage",
+            "text": "The second automation that our agent is capable of doing, I haven't shared exactly how it works, but you saw its name here."
+          },
+          { "at": "11:13", "seconds": 673, "text": "It is the client ticket triage." },
+          {
+            "at": "11:16",
+            "seconds": 676,
+            "text": "It is the one that's capable that each time we receive a client ticket"
+          },
+          { "at": "11:19", "seconds": 679, "text": "to," },
+          { "at": "11:19", "seconds": 679, "text": "from an email into ClickUp," },
+          { "at": "11:21", "seconds": 681, "text": "to know exactly who it's for" },
+          {
+            "at": "11:24",
+            "seconds": 684,
+            "text": "and know exactly what it's about and sort it out and assign it"
+          },
+          { "at": "11:27", "seconds": 687, "text": "So to show you how it works," },
+          {
+            "at": "11:29",
+            "seconds": 689,
+            "text": "I am basically gonna send myself an email into this ClickUp list, and the agent will take over"
+          },
+          {
+            "at": "11:35",
+            "seconds": 695,
+            "text": "If you don't know about the email to ClickUp feature, I've made a video about it. But"
+          }
+        ]
+      },
+      {
+        "at": "11:39",
+        "lines": [
+          {
+            "at": "11:39",
+            "seconds": 699,
+            "text": "if you right click on any list in ClickUp, then go to email to list."
+          },
+          {
+            "at": "11:42",
+            "seconds": 702,
+            "text": "You can copy that email address and automate it so that your"
+          },
+          {
+            "at": "11:45",
+            "seconds": 705,
+            "text": "company mailbox, for example, forwards everything here."
+          },
+          {
+            "at": "11:47",
+            "seconds": 707,
+            "text": "We've actually set these automations for a software agency recently"
+          },
+          {
+            "at": "11:51",
+            "seconds": 711,
+            "text": "where every new client webdesign request comes in through here, then the AI agent takes over, triages it to the correct list, and then the team can start working on it 'cause it goes either in their current batch if they have enough workload capacity or in the next batch."
+          }
+        ]
+      },
+      {
+        "at": "12:06",
+        "lines": [
+          { "at": "12:06", "seconds": 726, "text": "So you" },
+          {
+            "at": "12:06",
+            "seconds": 726,
+            "text": "have an ambient project manager working for you behind the scenes, and I'm gonna show you how it works. So we have received a few tasks here. These are requests from clients. So you can see the task would arrive like this."
+          }
+        ]
+      },
+      {
+        "at": "12:18",
+        "lines": [
+          {
+            "at": "12:18",
+            "seconds": 738,
+            "text": "It would also be attached with an HTML of the original email."
+          },
+          {
+            "at": "12:21",
+            "seconds": 741,
+            "text": "And then since the task has been created, the agent knows that 'cause there is an automation running behind the scenes. I've shown you."
+          },
+          { "at": "12:28", "seconds": 748, "text": "It's this one," },
+          { "at": "12:29", "seconds": 749, "text": "the client ticket triage." },
+          {
+            "at": "12:30",
+            "seconds": 750,
+            "text": "And then it knows who it's for because it's capable of reading the context of the email."
+          }
+        ]
+      },
+      {
+        "at": "12:35",
+        "lines": [
+          { "at": "12:35", "seconds": 755, "text": "It knows," },
+          {
+            "at": "12:35",
+            "seconds": 755,
+            "text": "what's the email domain about, what's the request about, and maybe who works in that agency,"
+          },
+          { "at": "12:41", "seconds": 761, "text": "and maybe who is that client." },
+          {
+            "at": "12:43",
+            "seconds": 763,
+            "text": "If you keep a client one-pager for each of your clients,"
+          },
+          {
+            "at": "12:46",
+            "seconds": 766,
+            "text": "you're gonna also feed in more context to your agent. And remember, your agent can see anything in your ClickUp."
+          },
+          { "at": "12:51", "seconds": 771, "text": "So by adding that extra layer of memory," },
+          {
+            "at": "12:54",
+            "seconds": 774,
+            "text": "you are guaranteeing that your agent is less prone to mistakes"
+          },
+          { "at": "12:57", "seconds": 777, "text": "So my agent is" },
+          {
+            "at": "12:58",
+            "seconds": 778,
+            "text": "gonna start to work. If you wanna see if it got up the automations, you can always go to Manage Agents and then Activity again and have a look. You can see that these are pending and that it's starting to triage the tasks, so it actually is successfully starting to work. Sometimes you wanna give it a minute or two to get to understand everything 'cause it's leveraging AI behind the scenes, and it needs a little bit of thinking"
+          }
+        ]
+      },
+      {
+        "at": "13:21",
+        "lines": [
+          {
+            "at": "13:21",
+            "seconds": 801,
+            "text": "So as you can see, the triage is complete, and it's actually moved the task to the right client list,"
+          },
+          { "at": "13:25", "seconds": 805, "text": "to Vega Wellness." },
+          {
+            "at": "13:27",
+            "seconds": 807,
+            "text": "And if I get back to my client tickets, I don't have tickets anymore. And that is actually because the agent worked and did its job, and it started setting the tasks here. We have another example. I have set the delivery. I have set the batch. The batch is maybe '"
+          }
+        ]
+      },
+      {
+        "at": "13:42",
+        "lines": [
+          { "at": "13:42", "seconds": 822, "text": "cause," },
+          {
+            "at": "13:43",
+            "seconds": 823,
+            "text": "we're not sure if we should do it. All right. Maybe as a founder, I actually decide that we should do it next week, and I can update that, and then the agent is gonna set the start and due date in a few seconds. But what the agent did is it knows this task is assigned to Anya because it knows that is related to creation. So it's assigned it to the right person because it knows who in the company is responsible of these type of task."
+          }
+        ]
+      },
+      {
+        "at": "14:08",
+        "lines": [
+          {
+            "at": "14:08",
+            "seconds": 848,
+            "text": "So I think you got it. If you give your agent enough documentation and enough context, it's capable of knowing who to assign the task to."
+          }
+        ]
+      },
+      {
+        "at": "14:15",
+        "chapter": "Context is the moat",
+        "lines": [
+          {
+            "at": "14:15",
+            "seconds": 855,
+            "chapter": "Context is the moat",
+            "text": "So when you build any AI agent, whether it's in ClickUp or out of it, you need to make sure you give it context. Context is the moat of AI agents. Now,"
+          },
+          {
+            "at": "14:25",
+            "seconds": 865,
+            "text": "I've shown you what this agent's capable of doing based off of automations. So something happens in ClickUp, there's the trigger, and it gets going."
+          },
+          {
+            "at": "14:33",
+            "seconds": 873,
+            "text": "The interesting part is that you will not have to use that at all if your agent works on schedule."
+          }
+        ]
+      },
+      {
+        "at": "14:40",
+        "lines": [
+          {
+            "at": "14:40",
+            "seconds": 880,
+            "text": "So since you plan your tasks on Fridays, you shouldn't have to re-batch everything during the week. Your agent is responsible for doing that every Friday at six PM because we have a scheduled agent here setting the start date, due date, batch, and points"
+          }
+        ]
+      },
+      {
+        "at": "14:57",
+        "lines": [
+          {
+            "at": "14:57",
+            "seconds": 897,
+            "text": "so that your team knows exactly what they have to work on when they come to work on Monday."
+          },
+          { "at": "15:03", "seconds": 903, "text": "And the way they do that" },
+          {
+            "at": "15:04",
+            "seconds": 904,
+            "text": "is either they go to that workload view, which is likely to be for you as a founder or as a responsible of ops,"
+          },
+          { "at": "15:10", "seconds": 910, "text": "or" },
+          {
+            "at": "15:10",
+            "seconds": 910,
+            "text": "they can go here to the view by batch and filter on their own task and then see at a glance what they have to do"
+          },
+          {
+            "at": "15:17",
+            "seconds": 917,
+            "text": "every single week. That's what this agent is capable of doing."
+          }
+        ]
+      },
+      {
+        "at": "15:21",
+        "lines": [
+          { "at": "15:21", "seconds": 921, "text": "If you're" },
+          { "at": "15:22", "seconds": 922, "text": "interested about installing this AI agent," },
+          { "at": "15:24", "seconds": 924, "text": "you can go for Agency Master." },
+          {
+            "at": "15:26",
+            "seconds": 926,
+            "text": "We explain exactly step by step how to set up this agent, as well as the exact prompt so that it's reliable,"
+          },
+          {
+            "at": "15:33",
+            "seconds": 933,
+            "text": "and how to set up your company wiki so that you give it context."
+          },
+          {
+            "at": "15:36",
+            "seconds": 936,
+            "text": "That way, you will have a fractional project manager"
+          },
+          { "at": "15:40", "seconds": 940, "text": "working for you" },
+          { "at": "15:40", "seconds": 940, "text": "inside of ClickUp" },
+          { "at": "15:41", "seconds": 941, "text": "behind the scenes." }
+        ]
+      },
+      {
+        "at": "15:42",
+        "lines": [
+          { "at": "15:42", "seconds": 942, "text": "Now, Agency Master is available down below." },
+          {
+            "at": "15:45",
+            "seconds": 945,
+            "text": "For now, if you're watching this video in the next weeks of its publishing,"
+          },
+          {
+            "at": "15:49",
+            "seconds": 949,
+            "text": "the price is probably on a discount. So hurry quick"
+          },
+          {
+            "at": "15:52",
+            "seconds": 952,
+            "text": "because I'm probably gonna increase the price in the coming weeks."
+          },
+          {
+            "at": "15:55",
+            "seconds": 955,
+            "text": "I hope I opened your mind to ClickUp Super Agents"
+          },
+          { "at": "15:57", "seconds": 957, "text": "And," },
+          {
+            "at": "15:58",
+            "seconds": 958,
+            "text": "if you want to actually save money and don't wanna use ClickUp for that, you're probably good to go with an agent in n8n or Make.com."
+          }
+        ]
+      },
+      {
+        "at": "16:04",
+        "lines": [
+          {
+            "at": "16:04",
+            "seconds": 964,
+            "text": "We actually explain how to build this kind of agent in AgencyMaster"
+          },
+          {
+            "at": "16:07",
+            "seconds": 967,
+            "text": "as well, and also offer custom builds and automations"
+          }
+        ]
+      },
+      {
+        "at": "16:11",
+        "chapter": "Close",
+        "lines": [
+          {
+            "at": "16:11",
+            "seconds": 971,
+            "chapter": "Close",
+            "text": "for agencies. So if you're interested, you can also book a discovery call with us, and we'd be happy to set up these automations and AI agents for you."
+          },
+          { "at": "16:18", "seconds": 978, "text": "Now, thank you for watching this video," },
+          { "at": "16:19", "seconds": 979, "text": "and on my end," },
+          { "at": "16:20", "seconds": 980, "text": "I'll see you on another one." },
+          { "at": "16:21", "seconds": 981, "text": "Until then," },
+          { "at": "16:22", "seconds": 982, "text": "stay productive." }
+        ]
+      }
+    ],
+    "layouts": [
+      {
+        "id": "layout:L1",
+        "at": "0:00",
+        "seconds": 0,
+        "line": "Cold open",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Cam 100",
+            "name": "Cam 100",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          },
+          {
+            "id": "Intro Zoom",
+            "name": "Intro Zoom",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          }
+        ],
+        "state": "approved",
+        "pick": "Cam 100"
+      },
+      {
+        "id": "layout:L2",
+        "at": "0:28",
+        "seconds": 28,
+        "line": "automatically setting your task effort",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Cam 120",
+            "name": "Cam 120",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          },
+          {
+            "id": "Screen + Square",
+            "name": "Screen + Square",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [
+                { "x": 1650, "y": 810, "w": 250, "h": 250, "role": "cam" },
+                { "x": 30, "y": 30, "w": 1860, "h": 1020, "role": "screen" },
+                { "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "bg" }
+              ]
+            }
+          }
+        ],
+        "state": "approved",
+        "pick": "Cam 120"
+      },
+      {
+        "id": "layout:L3",
+        "at": "1:08",
+        "seconds": 68,
+        "line": "At a base of 100 an hour",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Cam 110",
+            "name": "Cam 110",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          },
+          { "id": "Screen Full", "name": "Screen Full", "kind": "layout" }
+        ],
+        "state": "approved",
+        "pick": "Cam 110"
+      },
+      {
+        "id": "layout:L4",
+        "at": "1:47",
+        "seconds": 107,
+        "line": "Agency Blueprint",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Cam 100",
+            "name": "Cam 100",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          },
+          { "id": "Blueprint Break", "name": "Blueprint Break", "kind": "layout" }
+        ],
+        "state": "approved",
+        "pick": "Cam 100"
+      },
+      {
+        "id": "layout:L5",
+        "at": "2:22",
+        "seconds": 142,
+        "line": "Live ClickUp screen begins",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Screen + Square",
+            "name": "Screen + Square",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [
+                { "x": 1650, "y": 810, "w": 250, "h": 250, "role": "cam" },
+                { "x": 30, "y": 30, "w": 1860, "h": 1020, "role": "screen" },
+                { "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "bg" }
+              ]
+            }
+          },
+          { "id": "Screen Full", "name": "Screen Full", "kind": "layout" }
+        ],
+        "state": "approved",
+        "pick": "Screen + Square"
+      },
+      {
+        "id": "layout:L6",
+        "at": "8:22",
+        "seconds": 502,
+        "line": "Batch and Start/Due Loop",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Screen + Square",
+            "name": "Screen + Square",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [
+                { "x": 1650, "y": 810, "w": 250, "h": 250, "role": "cam" },
+                { "x": 30, "y": 30, "w": 1860, "h": 1020, "role": "screen" },
+                { "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "bg" }
+              ]
+            }
+          },
+          { "id": "Band Bottom", "name": "Band Bottom", "kind": "layout" }
+        ],
+        "state": "approved",
+        "pick": "Screen + Square"
+      },
+      {
+        "id": "layout:L7",
+        "at": "14:15",
+        "seconds": 855,
+        "line": "Context is the moat",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Cam 130",
+            "name": "Cam 130",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          },
+          {
+            "id": "Screen + Square",
+            "name": "Screen + Square",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [
+                { "x": 1650, "y": 810, "w": 250, "h": 250, "role": "cam" },
+                { "x": 30, "y": 30, "w": 1860, "h": 1020, "role": "screen" },
+                { "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "bg" }
+              ]
+            }
+          }
+        ],
+        "state": "approved",
+        "pick": "Cam 130"
+      },
+      {
+        "id": "layout:L8",
+        "at": "16:11",
+        "seconds": 971,
+        "line": "Close",
+        "kind": "layout",
+        "options": [
+          {
+            "id": "Cam 100",
+            "name": "Cam 100",
+            "kind": "layout",
+            "preview": {
+              "w": 1920,
+              "h": 1080,
+              "boxes": [{ "x": 0, "y": 0, "w": 1920, "h": 1080, "role": "cam" }]
+            }
+          },
+          { "id": "Outro Full", "name": "Outro Full", "kind": "layout" }
+        ],
+        "state": "approved",
+        "pick": "Cam 100"
+      }
+    ],
+    "inserts": [
+      {
+        "id": "motion:1",
+        "at": "0:28",
+        "seconds": 28,
+        "line": "This AI agent is capable of automatically setting",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/1 [00-28] Capacity Planning Steps alpha.mov",
+            "name": "1 [00-28] Capacity Planning Steps alpha",
+            "media": "motion/1 [00-28] Capacity Planning Steps alpha.mov",
+            "kind": "video"
+          },
+          {
+            "id": "motion/1 [00-28] Capacity Planning Steps.mp4",
+            "name": "1 [00-28] Capacity Planning Steps",
+            "media": "motion/1 [00-28] Capacity Planning Steps.mp4",
+            "kind": "video"
+          },
+          {
+            "id": "motion/10 [12-51] Agent Memory Layers.mp4",
+            "name": "10 [12-51] Agent Memory Layers",
+            "media": "motion/10 [12-51] Agent Memory Layers.mp4",
+            "kind": "video"
+          },
+          {
+            "id": "motion/11 [14-40] Friday Six PM Cron.mp4",
+            "name": "11 [14-40] Friday Six PM Cron",
+            "media": "motion/11 [14-40] Friday Six PM Cron.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/1 [00-28] Capacity Planning Steps.mp4"
+      },
+      {
+        "id": "motion:2",
+        "at": "1:08",
+        "seconds": 68,
+        "line": "At a base of 100 an hour",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/2 [01-08] Base Rate 1200 Saved.mp4",
+            "name": "2 [01-08] Base Rate 1200 Saved",
+            "media": "motion/2 [01-08] Base Rate 1200 Saved.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/2 [01-08] Base Rate 1200 Saved.mp4"
+      },
+      {
+        "id": "broll:1",
+        "at": "1:36",
+        "seconds": 96,
+        "line": "Are you good with your task this week",
+        "kind": "broll",
+        "options": [
+          {
+            "id": "broll/1 [00-05] Dog says this is fine in burning room.mp4",
+            "name": "1 [00-05] Dog says this is fine in burning room",
+            "media": "broll/1 [00-05] Dog says this is fine in burning room.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/1 [00-28] Capacity Planning Steps.mp4"
+      },
+      {
+        "id": "motion:3",
+        "at": "3:00",
+        "seconds": 180,
+        "line": "This slipped tag actually gets added",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/3 [03-00] Slipped Tag Added.mp4",
+            "name": "3 [03-00] Slipped Tag Added",
+            "media": "motion/3 [03-00] Slipped Tag Added.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/3 [03-00] Slipped Tag Added.mp4"
+      },
+      {
+        "id": "motion:4",
+        "at": "3:39",
+        "seconds": 219,
+        "line": "it's relying on one extra document",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/4 [03-39] Prompt and SOP Bridge.mp4",
+            "name": "4 [03-39] Prompt and SOP Bridge",
+            "media": "motion/4 [03-39] Prompt and SOP Bridge.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/4 [03-39] Prompt and SOP Bridge.mp4"
+      },
+      {
+        "id": "motion:5",
+        "at": "4:15",
+        "seconds": 255,
+        "line": "Now this whole documentation, as well as the whole prompt, is available in Agency Master",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/5 [04-15] Agency Master Included.mp4",
+            "name": "5 [04-15] Agency Master Included",
+            "media": "motion/5 [04-15] Agency Master Included.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/5 [04-15] Agency Master Included.mp4"
+      },
+      {
+        "id": "motion:6",
+        "at": "7:11",
+        "seconds": 431,
+        "line": "There are three ways you can use ClickUp Super Agents",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/6 [07-11] Super Agent Triggers.mp4",
+            "name": "6 [07-11] Super Agent Triggers",
+            "media": "motion/6 [07-11] Super Agent Triggers.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/6 [07-11] Super Agent Triggers.mp4"
+      },
+      {
+        "id": "motion:7",
+        "at": "8:22",
+        "seconds": 502,
+        "line": "the one that are gonna set the start and due date based off of the batch",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/7 [08-22] Two-Way Batch Sync Loop.mp4",
+            "name": "7 [08-22] Two-Way Batch Sync Loop",
+            "media": "motion/7 [08-22] Two-Way Batch Sync Loop.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/7 [08-22] Two-Way Batch Sync Loop.mp4"
+      },
+      {
+        "id": "motion:8",
+        "at": "10:49",
+        "seconds": 649,
+        "line": "if you don't wanna create a loop where the start date and due date change",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/8 [10-49] Guarded Loop Trap.mp4",
+            "name": "8 [10-49] Guarded Loop Trap",
+            "media": "motion/8 [10-49] Guarded Loop Trap.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/8 [10-49] Guarded Loop Trap.mp4"
+      },
+      {
+        "id": "motion:9",
+        "at": "11:51",
+        "seconds": 711,
+        "line": "every new client webdesign request comes in through here",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/9 [11-51] Client Intake Pipeline.mp4",
+            "name": "9 [11-51] Client Intake Pipeline",
+            "media": "motion/9 [11-51] Client Intake Pipeline.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/9 [11-51] Client Intake Pipeline.mp4"
+      },
+      {
+        "id": "motion:10",
+        "at": "12:51",
+        "seconds": 771,
+        "line": "by adding that extra layer of memory",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/10 [12-51] Agent Memory Layers.mp4",
+            "name": "10 [12-51] Agent Memory Layers",
+            "media": "motion/10 [12-51] Agent Memory Layers.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/10 [12-51] Agent Memory Layers.mp4"
+      },
+      {
+        "id": "motion:11",
+        "at": "14:40",
+        "seconds": 880,
+        "line": "Your agent is responsible for doing that every Friday at six PM",
+        "kind": "motion",
+        "options": [
+          {
+            "id": "motion/11 [14-40] Friday Six PM Cron.mp4",
+            "name": "11 [14-40] Friday Six PM Cron",
+            "media": "motion/11 [14-40] Friday Six PM Cron.mp4",
+            "kind": "video"
+          }
+        ],
+        "state": "proposed",
+        "pick": "motion/11 [14-40] Friday Six PM Cron.mp4"
+      }
+    ],
+    "sound": [
+      {
+        "id": "sound:1",
+        "at": "0:28",
+        "seconds": 28,
+        "line": "Effort auto-set whoosh",
+        "kind": "sound",
+        "options": [],
+        "state": "proposed"
+      },
+      {
+        "id": "sound:2",
+        "at": "1:08",
+        "seconds": 68,
+        "line": "Counter count-up tick",
+        "kind": "sound",
+        "options": [],
+        "state": "proposed"
+      },
+      {
+        "id": "sound:3",
+        "at": "3:00",
+        "seconds": 180,
+        "line": "Slipped tag drop",
+        "kind": "sound",
+        "options": [],
+        "state": "proposed"
+      },
+      {
+        "id": "sound:4",
+        "at": "8:22",
+        "seconds": 502,
+        "line": "Sync loop click",
+        "kind": "sound",
+        "options": [],
+        "state": "proposed"
+      },
+      {
+        "id": "sound:5",
+        "at": "14:40",
+        "seconds": 880,
+        "line": "Friday cron chime",
+        "kind": "sound",
+        "options": [],
+        "state": "proposed"
+      }
+    ]
+  },
+  "placed": false,
+  "canPlace": false,
+  "canProject": true
+}

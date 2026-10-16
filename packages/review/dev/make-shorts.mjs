@@ -1,0 +1,244 @@
+// A small Shorts OS shaped fixture: a rendered cut with lanes, and notes on times, spans and frames.
+import { writeFileSync } from "node:fs";
+
+const lines = [
+  "Stop planning your week on Sunday night.",
+  "Here is what I do instead, in three moves.",
+  "First, I let the board tell me what's late.",
+  "Second, I cap every person at eighty percent.",
+  "Third, I read the numbers before Monday, not after.",
+  "That's the whole trick. Try it this week.",
+];
+const at = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+const paragraphs = [
+  {
+    at: "0:00",
+    lines: lines.map((text, i) => ({
+      at: at(i * 4),
+      seconds: i * 4,
+      text,
+      ...(i === 3 ? { marks: ["cut"] } : {}),
+    })),
+  },
+];
+const cam = { w: 1080, h: 1920, boxes: [{ x: 0, y: 0, w: 1080, h: 1920, role: "cam" }] };
+const split = {
+  w: 1080,
+  h: 1920,
+  boxes: [
+    { x: 0, y: 0, w: 1080, h: 1000, role: "screen" },
+    { x: 0, y: 1000, w: 1080, h: 920, role: "cam" },
+    { x: 60, y: 1500, w: 960, h: 260, role: "text" },
+  ],
+};
+const layouts = [
+  { id: "cam", name: "Camera full", kind: "layout", preview: cam },
+  { id: "split", name: "Screen and camera", kind: "layout", preview: split },
+];
+const working = {
+  text: "Moving captions up 80px",
+  at: new Date(Date.now() - 90_000).toISOString(),
+  agent: "Agent",
+};
+
+const model = {
+  id: "shorts-demo",
+  title: "Stop planning on Sunday",
+  route: "On this computer",
+  status: { tone: "accent", text: "Reviewing captions" },
+  groups: [
+    { id: "edit", label: "Edit" },
+    { id: "dress", label: "Dress" },
+    { id: "ship", label: "Ship" },
+  ],
+  passes: [
+    {
+      id: "cut",
+      label: "Cut",
+      group: "edit",
+      state: "done",
+      view: "transcript",
+      lens: "cut",
+    },
+    {
+      id: "layout",
+      label: "Layout",
+      group: "dress",
+      state: "review",
+      view: "beats",
+      kinds: ["layout"],
+    },
+    {
+      id: "captions",
+      label: "Captions",
+      group: "dress",
+      state: "review",
+      view: "beats",
+      kinds: ["caption", "zoom"],
+    },
+    { id: "sound", label: "Music", group: "dress", state: "todo", view: "music" },
+    { id: "handoff", label: "Handoff", group: "ship", state: "todo", view: "none" },
+  ],
+  kinds: [
+    { id: "layout", label: "Layout", icon: "layout", tone: "neutral" },
+    { id: "caption", label: "Caption", icon: "caption", tone: "accent" },
+    { id: "zoom", label: "Zoom", icon: "zoom", tone: "warn" },
+  ],
+  paragraphs,
+  beats: [
+    {
+      id: "layout:1",
+      kind: "layout",
+      seconds: 0,
+      at: "0:00",
+      line: lines[0],
+      state: "approved",
+      pick: "cam",
+      options: layouts,
+    },
+    {
+      id: "layout:2",
+      kind: "layout",
+      seconds: 8,
+      at: "0:08",
+      line: lines[2],
+      state: "proposed",
+      pick: "split",
+      options: layouts,
+    },
+    {
+      id: "caption:1",
+      kind: "caption",
+      seconds: 4,
+      at: "0:04",
+      line: lines[1],
+      state: "proposed",
+      options: [{ id: "c1", name: "Bold, lower third", kind: "layout", preview: split }],
+    },
+    {
+      id: "zoom:1",
+      kind: "zoom",
+      seconds: 16,
+      at: "0:16",
+      line: lines[4],
+      state: "proposed",
+      options: [{ id: "z1", name: "Punch in 115%", kind: "layout", preview: split }],
+    },
+  ],
+  music: {
+    decision: "undecided",
+    more: false,
+    options: [
+      {
+        id: "t1",
+        title: "Slow Burn",
+        mood: "calm and warm",
+        seconds: 20,
+        src: "media:music/tone-1.mp3",
+      },
+      {
+        id: "t2",
+        title: "Quick Clock",
+        mood: "driving",
+        seconds: 20,
+        src: "media:music/tone-2.mp3",
+      },
+    ],
+  },
+  player: {
+    src: "media:shorts.mp4",
+    duration: 24,
+    lanes: [
+      {
+        id: "cam",
+        label: "Camera",
+        spans: [
+          { from: 0, to: 8, label: "Full", tone: "accent" },
+          { from: 8, to: 16, label: "Split", tone: "ok" },
+          { from: 16, to: 24, label: "Full", tone: "accent" },
+        ],
+      },
+      {
+        id: "cap",
+        label: "Captions",
+        spans: [{ from: 0.5, to: 23, label: "Word timed", tone: "neutral" }],
+      },
+      { id: "fx", label: "Zoom", spans: [{ from: 16, to: 19, label: "Punch in", tone: "warn" }] },
+    ],
+  },
+  notes: [
+    {
+      id: "n1",
+      target: { kind: "time", at: 6.5 },
+      text: "Music is too loud under the second line. Try [motion: slide-up] for the entrance.",
+      status: "answered",
+      by: "person",
+      pass: "sound",
+      reply: "Ducked the bed by 6 dB under speech from 5s to 9s.",
+      createdAt: "2026-09-29T21:00:00.000Z",
+    },
+    {
+      id: "n2",
+      target: { kind: "time", at: 12, span: 3, frame: { x: 0.2, y: 0.55, w: 0.6, h: 0.2 } },
+      text: "Caption covers the chart. Use [layout: split] here.",
+      status: "working",
+      by: "person",
+      pass: "captions",
+      working,
+      createdAt: "2026-09-29T21:05:00.000Z",
+    },
+    {
+      id: "n3",
+      target: { kind: "time", at: 3, frame: { x: 0.5, y: 0.3 } },
+      text: "Nice framing here, keep it.",
+      status: "proposal",
+      by: "agent",
+      pass: "layout",
+      createdAt: "2026-09-29T21:08:00.000Z",
+    },
+    {
+      id: "n4",
+      target: { kind: "video" },
+      text: "The hook could be a second shorter.",
+      status: "open",
+      by: "person",
+      createdAt: "2026-09-29T21:09:00.000Z",
+    },
+    {
+      id: "n5",
+      target: {
+        kind: "time",
+        at: 8,
+        span: 4,
+        frame: { x: 0.15, y: 0.5, w: 0.7, h: 0.25 },
+        anchor: { source: "take-2", at: 31.4 },
+      },
+      text: "Swap this for [layout: split] and drop [motion: pop-in] on the number, with [broll: desk] under it.",
+      status: "open",
+      by: "person",
+      pass: "layout",
+      createdAt: "2026-09-29T21:12:00.000Z",
+    },
+    {
+      id: "n6",
+      target: { kind: "time", at: 18, span: 5 },
+      text: "The music swells too early.",
+      status: "open",
+      by: "person",
+      pass: "sound",
+      createdAt: "2026-09-29T21:14:00.000Z",
+    },
+    {
+      id: "n7",
+      target: { kind: "time", at: 21 },
+      text: "This line was cut out.",
+      status: "open",
+      by: "person",
+      orphaned: true,
+      createdAt: "2026-09-29T21:15:00.000Z",
+    },
+  ],
+  session: "idle",
+};
+writeFileSync("dev/fixtures/shorts.json", `${JSON.stringify({ root: "", model }, null, 1)}\n`);
+console.log("wrote dev/fixtures/shorts.json");

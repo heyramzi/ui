@@ -1,0 +1,93 @@
+/* Like button — transitions.dev 23.
+   Toggle `data-liked` to fill and pop the heart; add `.is-bursting` for
+   one particle duration to fire the spray, writing --px/--py/--pdur/--pdelay
+   per dot in JS so no two bursts match. */
+:root {
+  --like-color: #f40051;
+  --like-fill: var(--duration-quick, 150ms);
+  --like-pop: var(--duration-medium, 350ms);
+  --like-pop-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --like-particle-dur: 600ms;
+  --like-particle-dist: 20px;
+  --like-particle-size: 2.5px;
+  --like-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.t-like-heart {
+  color: currentcolor;
+  transition: color var(--like-fill) var(--like-ease);
+}
+.t-like-heart path {
+  fill: transparent;
+  stroke: currentcolor;
+  transition:
+    fill var(--like-fill) var(--like-ease),
+    stroke var(--like-fill) var(--like-ease);
+}
+.t-like[data-liked="true"] .t-like-heart {
+  color: var(--like-color);
+}
+.t-like[data-liked="true"] .t-like-heart path {
+  fill: currentcolor;
+}
+
+/* The pop scales an HTML wrapper, never the <svg>: transforming an inline SVG
+   makes Chromium rasterise it at 1x, which is visibly soft on hi-DPI. */
+.t-like[data-liked="true"] .t-like-icon {
+  animation: t-like-pop var(--like-pop) var(--like-pop-ease);
+}
+@keyframes t-like-pop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(0.82);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.t-like-particles {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  color: var(--like-color);
+}
+.t-like-particles i {
+  position: absolute;
+  left: calc(var(--like-particle-size) * var(--psize, 1) / -2);
+  top: calc(var(--like-particle-size) * var(--psize, 1) / -2);
+  width: calc(var(--like-particle-size) * var(--psize, 1));
+  height: calc(var(--like-particle-size) * var(--psize, 1));
+  border-radius: 50%;
+  background: currentcolor;
+  opacity: 0;
+}
+@keyframes t-like-burst {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(calc(var(--px) * 0.25), calc(var(--py) * 0.25)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--px), var(--py)) scale(var(--p-end-scale, 0.6));
+  }
+}
+.t-like.is-bursting .t-like-particles i {
+  animation: t-like-burst var(--pdur, var(--like-particle-dur)) ease-out var(--pdelay, 0ms) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-like-icon,
+  .t-like-particles i {
+    animation: none !important;
+  }
+}

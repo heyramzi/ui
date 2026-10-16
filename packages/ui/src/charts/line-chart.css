@@ -1,0 +1,26 @@
+/* Styles for LineChart. Plain stylesheet (see area-chart.css for why). Selectors
+   are namespaced under `.hr-line-chart`. */
+
+.hr-line-chart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.hr-line-chart .hr-chart-body {
+  width: 100%;
+}
+
+.hr-line-chart .empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px dashed var(--chart-grid, oklch(0.5 0.01 286 / 0.2));
+  border-radius: 0.5rem;
+}
+.hr-line-chart .empty p {
+  font-size: 0.8125rem;
+  color: var(--chart-label, oklch(0.5 0.01 286));
+  margin: 0;
+}

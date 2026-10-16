@@ -1,0 +1,48 @@
+/* Learn more hover — transitions.dev 24.
+   The chevron shifts along the direction it goes and its two arms rotate
+   apart about the apex, so the arrow leans into the move. Pure CSS.
+   `transform-box: view-box` is what makes the arm origin resolve against
+   the viewBox rather than each path's own bounding box. */
+:root {
+  --learn-shift: 2px;
+  --learn-spread: 8deg;
+  --learn-in: var(--duration-medium, 350ms);
+  --learn-out: var(--duration-medium, 350ms);
+  --learn-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.t-learn-chevron {
+  display: inline-flex;
+  transform: translateX(0);
+  transition: transform var(--learn-out) var(--learn-ease);
+}
+.t-learn-arm {
+  transform-box: view-box;
+  transform-origin: 10px 8px;
+  vector-effect: non-scaling-stroke;
+  transition: transform var(--learn-out) var(--learn-ease);
+}
+.t-learn:hover .t-learn-chevron,
+.t-learn:focus-visible .t-learn-chevron {
+  transform: translateX(var(--learn-shift));
+  transition-duration: var(--learn-in);
+}
+.t-learn:hover .t-learn-arm,
+.t-learn:focus-visible .t-learn-arm {
+  transition-duration: var(--learn-in);
+}
+.t-learn:hover .t-learn-arm-top,
+.t-learn:focus-visible .t-learn-arm-top {
+  transform: rotate(var(--learn-spread));
+}
+.t-learn:hover .t-learn-arm-bot,
+.t-learn:focus-visible .t-learn-arm-bot {
+  transform: rotate(calc(var(--learn-spread) * -1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-learn-chevron,
+  .t-learn-arm {
+    transition: none !important;
+  }
+}

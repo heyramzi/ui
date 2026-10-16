@@ -1,0 +1,170 @@
+{
+	"source": "https://github.com/Jakubantalik/transitions.dev",
+	"data": "https://raw.githubusercontent.com/Jakubantalik/transitions.dev/main/scripts/transitions-data.json",
+	"ref": "859ef7a820aae7559fb74a034d8a517287eb6c96",
+	"fetchedAt": "2026-10-09",
+	"free": 32,
+	"skippedPro": 11,
+	"entries": {
+		"card-resize": {
+			"name": "Card resize",
+			"sha256": "493b7680c36d51bf",
+			"local": "animations/resize.css"
+		},
+		"number-pop-in": {
+			"name": "Number pop-in",
+			"sha256": "f77ac869d00d8e4e",
+			"local": "animations/digit-pop-in.css"
+		},
+		"notification-badge": {
+			"name": "Notification badge",
+			"sha256": "89a20d17b1bf2037",
+			"local": "animations/notification-badge.css"
+		},
+		"text-states-swap": {
+			"name": "Text states swap",
+			"sha256": "0706db34cb22930b",
+			"local": "animations/text-swap.css"
+		},
+		"menu-dropdown": {
+			"name": "Menu dropdown",
+			"sha256": "ecce7ae65254b5f4",
+			"local": "animations/dropdown.css"
+		},
+		"modal-open-close": {
+			"name": "Modal open/close",
+			"sha256": "937252cbf0b8bd42",
+			"local": "animations/modal.css"
+		},
+		"panel-reveal": {
+			"name": "Panel reveal",
+			"sha256": "0ce5c8a638f70b4d",
+			"local": "animations/panel.css"
+		},
+		"page-side-by-side": {
+			"name": "Page side-by-side",
+			"sha256": "7a80dc4612b2711f",
+			"local": "animations/page-side-by-side.css"
+		},
+		"icon-swap": {
+			"name": "Icon swap",
+			"sha256": "5f7f0e3e579ccb9a",
+			"local": "animations/icon-swap.css"
+		},
+		"success-check": {
+			"name": "Success check",
+			"sha256": "b7e1cd8f3aacf099",
+			"local": "animations/success-check.css"
+		},
+		"avatar-group-hover": {
+			"name": "Avatar group hover",
+			"sha256": "573ffbaa9ddde034",
+			"local": "animations/avatar-group-hover.css"
+		},
+		"error-state-shake": {
+			"name": "Error state shake",
+			"sha256": "30926d24325b6d28",
+			"local": "animations/input-shake.css"
+		},
+		"input-clear-with-dissolve": {
+			"name": "Input clear with dissolve",
+			"sha256": "2e5d621a842c3446",
+			"local": "animations/input-clear-dissolve.css"
+		},
+		"skeleton-loader-and-reveal": {
+			"name": "Skeleton loader and reveal",
+			"sha256": "de909a56779acd8f",
+			"local": "animations/skeleton-reveal.css"
+		},
+		"texts-reveal": {
+			"name": "Texts reveal",
+			"sha256": "ed37b7cad22a4503",
+			"local": "animations/texts-reveal.css"
+		},
+		"tabs-sliding": {
+			"name": "Tabs sliding",
+			"sha256": "bad0d8f816d26ea1",
+			"local": "animations/tabs-sliding.css"
+		},
+		"shimmer-text": {
+			"name": "Shimmer text",
+			"sha256": "6f1f76fb7063995a",
+			"local": "animations/shimmer-text.css"
+		},
+		"tooltip-open-close": {
+			"name": "Tooltip open/close",
+			"sha256": "712e8268abd05248",
+			"local": "animations/tooltip.css"
+		},
+		"3d-tilt": {
+			"name": "3D tilt",
+			"sha256": "7f38b62e38c26a86",
+			"local": "animations/card-tilt.css"
+		},
+		"dropdown-menu-morph": {
+			"name": "Dropdown menu morph",
+			"sha256": "c0c1f9fc429fe889",
+			"local": "animations/plus-menu-morph.css"
+		},
+		"accordion": {
+			"name": "Accordion",
+			"sha256": "2579a8c31fdb0826",
+			"local": "animations/accordion.css"
+		},
+		"toast-open-close": {
+			"name": "Toast open/close",
+			"sha256": "70c958413e3685f0",
+			"local": "shadcn/sonner/sonner.svelte"
+		},
+		"like-button": {
+			"name": "Like button",
+			"sha256": "f9d14f26a3c972b1",
+			"local": "animations/like-button.css"
+		},
+		"learn-more-hover": {
+			"name": "Learn more hover",
+			"sha256": "1ce3eb34a7ed4b01",
+			"local": "animations/learn-more-hover.css"
+		},
+		"checkbox-check": {
+			"name": "Checkbox check",
+			"sha256": "126cee2b6169dce1",
+			"local": "shadcn/checkbox/checkbox.svelte"
+		},
+		"spinning-counter": {
+			"name": "Spinning counter",
+			"sha256": "9816b67aa70976f1",
+			"local": "animations/spinning-counter.css"
+		},
+		"toggle": {
+			"name": "Toggle",
+			"sha256": "894d6d64890ff982",
+			"local": "shadcn/switch/switch.svelte"
+		},
+		"thinking-states": {
+			"name": "Thinking states",
+			"sha256": "8e09fdcdb10aa42a",
+			"local": "animations/thinking-states.css"
+		},
+		"reasoning-stream": {
+			"name": "Reasoning stream",
+			"sha256": "601178b114ae5845",
+			"local": "animations/reasoning-stream.css"
+		},
+		"streaming-text": {
+			"name": "Streaming text",
+			"sha256": "2cdcf74e756868cd",
+			"local": "animations/streaming-text.css"
+		},
+		"matrix-dot-loader": {
+			"name": "Matrix dot loader",
+			"sha256": "1d3d243472ca91ce",
+			"local": "ai/loading-state/PixelLoader.svelte"
+		},
+		"banner-stacking": {
+			"name": "Banner stacking",
+			"sha256": "811d7e86bc8b0808",
+			"local": "shadcn/sonner/sonner.svelte"
+		}
+	}
+}

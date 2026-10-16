@@ -1,0 +1,270 @@
+/* The craft layer, the opinionated half of a design system.
+ *
+ * A palette says which colours a product uses. This file says how a surface
+ * lifts off the page, how round a control is against a card, and how long an
+ * overlay takes to arrive. Those three answers are what separate a kit that
+ * looks assembled from one that looks made, and they were the part every app
+ * here was re-deciding per component.
+ *
+ * WHY it ships beside the palette rather than inside it: the palette is the
+ * brand and differs per app; elevation, radius and motion are craft and should
+ * not. An app imports this, then tints it with `--elev-tint` and nothing else.
+ *
+ * Studied from beautifului.dev and rareui.com, which both build the same three
+ * ladders: a hairline that is a shadow rather than a border, a radius that
+ * steps by the role of the box, and a close that is faster than its open.
+ *
+ * Import once, after Tailwind:
+ *   @import "@heyramzi/ui/design";
+ */
+
+@import "./polish.css";
+
+/* ── Radius, by role not by size ─────────────────────────────
+   A chip inside a control inside a card has to read as nested, which needs
+   three radii that step, not one radius reused. The Tailwind names are the
+   home so `rounded-lg` on a button already resolves to the control radius and
+   no component has to learn a new class. */
+@theme {
+  --radius-xs: 4px; /* tag, dot, inline code */
+  --radius-sm: 6px; /* chip, badge, small pill */
+  --radius-md: 7px; /* between a chip and a control */
+  --radius-lg: 8px; /* control: button, input, select, menu item */
+  --radius-xl: 10px; /* card, panel, stage */
+  --radius-2xl: 14px; /* overlay: dialog, sheet, command palette */
+  --radius-3xl: 20px; /* hero surface, full-bleed panel */
+}
+
+/* ── Elevation ───────────────────────────────────────────────
+   Four steps of lift, plus the two edges that are not lift.
+
+   WHY the steps are shadow-only and the hairline is its own token: most boxes
+   in a kit already draw a border, and an elevation that bakes a `0 0 0 1px`
+   ring into every step gives those boxes two edges a pixel apart. Compose them
+   where a component drops its border:
+
+     box-shadow: var(--elev-hairline), var(--elev-card);
+
+   WHY each step is stacked rather than one blurred drop: a single shadow reads
+   as a sticker. Depth is several offsets falling off together, which is what
+   the eye reads as distance. They cost nothing extra because every stop is the
+   same colour at a different alpha.
+
+   WHY the blur radii are large and the alphas small: a 4px blur at 20% draws a
+   visible grey edge, which the eye reads as a second border. A 28px blur at 7%
+   is barely a colour anywhere and reads as height. Reach for more blur before
+   more alpha, every time.
+
+   `--elev-tint` is the one knob an app turns. Pure black greys a warm palette
+   out; the hue of the app's own darkest surface keeps the shadow in the
+   family. */
+:root {
+  --elev-tint: oklch(0 0 0);
+
+  /* Resting on the page. A button, a chip, a row. */
+  --elev-btn:
+    0 1px 1px -0.5px color-mix(in oklab, var(--elev-tint) 7%, transparent),
+    0 2px 5px -2px color-mix(in oklab, var(--elev-tint) 6%, transparent);
+
+  /* Sitting on the page. A card, a stage, a panel. */
+  --elev-card:
+    0 1px 2px -1px color-mix(in oklab, var(--elev-tint) 7%, transparent),
+    0 4px 9px -3px color-mix(in oklab, var(--elev-tint) 6%, transparent),
+    0 14px 28px -10px color-mix(in oklab, var(--elev-tint) 7%, transparent);
+
+  /* Lifted off the page. A hovered card, a popover, a menu. */
+  --elev-raised:
+    0 1px 2px -1px color-mix(in oklab, var(--elev-tint) 8%, transparent),
+    0 6px 13px -4px color-mix(in oklab, var(--elev-tint) 9%, transparent),
+    0 20px 40px -12px color-mix(in oklab, var(--elev-tint) 12%, transparent);
+
+  /* Floating over a dimmed page. A dialog, a sheet, a command palette. */
+  --elev-overlay:
+    0 2px 4px -1px color-mix(in oklab, var(--elev-tint) 8%, transparent),
+    0 12px 26px -8px color-mix(in oklab, var(--elev-tint) 12%, transparent),
+    0 40px 72px -20px color-mix(in oklab, var(--elev-tint) 20%, transparent);
+
+  /* The two edges. A hairline separates a surface from what is behind it; a rim
+     is the light catching its top edge, which is what makes a filled control
+     read as a physical key rather than a coloured rectangle. */
+  --elev-hairline: 0 0 0 1px var(--color-border, var(--border));
+  --elev-rim: inset 0 1px 0 color-mix(in oklab, white 16%, transparent);
+
+  /* A field is the one box that goes in rather than up. */
+  --elev-field: inset 0 1px 2px color-mix(in oklab, var(--elev-tint) 7%, transparent);
+}
+
+/* A dark surface cannot cast a darker shadow than the page it sits on, so the
+   hairline does the separating and the shadow only sinks what is behind it. On
+   dark the hairline is white at a low alpha, which is what reads as a lit edge
+   rather than as a drawn border. */
+.dark {
+  --elev-btn: 0 1px 2px color-mix(in oklab, black 30%, transparent);
+  --elev-card:
+    0 1px 2px color-mix(in oklab, black 24%, transparent),
+    0 4px 12px -4px color-mix(in oklab, black 30%, transparent);
+  --elev-raised:
+    0 2px 6px color-mix(in oklab, black 30%, transparent),
+    0 10px 24px -6px color-mix(in oklab, black 38%, transparent);
+  --elev-overlay:
+    0 4px 10px color-mix(in oklab, black 34%, transparent),
+    0 24px 56px -12px color-mix(in oklab, black 50%, transparent);
+
+  --elev-hairline: 0 0 0 1px color-mix(in oklab, white 10%, transparent);
+  --elev-rim: inset 0 1px 0 color-mix(in oklab, white 10%, transparent);
+  --elev-field: inset 0 1px 2px color-mix(in oklab, black 40%, transparent);
+}
+
+/* ── Focus ───────────────────────────────────────────────────
+   One ring, two parts: a solid edge that redraws the control's own outline in
+   the accent, and a soft halo that carries it off the surface. Written as a
+   variable so a component spends one line on it and every control focuses the
+   same way. */
+:root {
+  --ring-color: var(--color-ring, var(--ring));
+  --ring-halo: color-mix(in oklab, var(--ring-color) 16%, transparent);
+  /* A solid pixel redrawing the control's own edge, then a wide soft band. At a
+     higher alpha the band reads as a second border rather than as a glow, which
+     is why it is 16% over 4px and not 30% over 2px. */
+  --ring-focus: 0 0 0 1px var(--ring-color), 0 0 0 5px var(--ring-halo);
+}
+
+/* ── Motion ──────────────────────────────────────────────────
+   The transitions-dev scale, verbatim, so a snippet pasted from that skill and
+   a component written here read from the same names.
+
+   The doctrine in one line: an open is an invitation and a close should get out
+   of the way, so every close is shorter than its open and no close bounces. */
+:root {
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms; /* every close, text swap, tooltip in */
+  --duration-fast: 250ms; /* every open, tabs, icon swap, page slide */
+  --duration-medium: 350ms; /* panel close, toast close */
+  --duration-slow: 400ms; /* panel open, skeleton reveal */
+  --duration-very-slow: 500ms; /* emphasis: badge, text reveal, success check */
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1); /* all surface motion */
+  --ease-in-out: ease-in-out; /* swaps and cross-fades */
+  --ease-out: ease-out; /* tooltips */
+  --ease-linear: linear; /* shimmer, pulse, spinner */
+
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --distance-large: 30px;
+
+  --scale-large: 0.96; /* modal */
+  --scale-medium: 0.97; /* dropdown, popover open */
+  --scale-small: 0.98; /* tooltip */
+  --scale-tiny: 0.99; /* dropdown close */
+
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --blur-large: 8px;
+}
+
+/* Tailwind utility aliases, so `shadow-card`, `duration-fast` and
+   `ease-smooth-out` exist as classes and a component can stay in utilities
+   instead of dropping into a style block for one shadow. */
+@theme inline {
+  --shadow-hairline: var(--elev-hairline);
+  --shadow-btn: var(--elev-btn);
+  --shadow-card: var(--elev-card);
+  --shadow-raised: var(--elev-raised);
+  --shadow-overlay: var(--elev-overlay);
+  --shadow-field: var(--elev-field);
+  --shadow-rim: var(--elev-rim);
+  /* A filled control: the lit top edge and the resting lift, in one class,
+     because the two never appear apart and utilities cannot be stacked. */
+  --shadow-key: var(--elev-rim), var(--elev-btn);
+  /* The composed pair, for a surface that draws no border of its own. */
+  --shadow-edge-card: var(--elev-hairline), var(--elev-card);
+  --shadow-edge-raised: var(--elev-hairline), var(--elev-raised);
+  --shadow-edge-overlay: var(--elev-hairline), var(--elev-overlay);
+
+  --ease-smooth-out: var(--ease-smooth-out);
+
+  /* WHY the durations are re-declared under a second name: Tailwind's
+     `duration-*` utility reads `--transition-duration-*`, not `--duration-*`, so
+     the six names above generated no class at all. `duration-fast` therefore
+     compiled to nothing and the element ended up at `transition-duration: 0s`:
+     no error, no warning, and a component that simply does not animate. The
+     comment at the top of this block had claimed `duration-fast` was a class
+     since the block was written. Found 31 Aug 2026 by probing a live page. */
+  --transition-duration-micro: var(--duration-micro);
+  --transition-duration-quick: var(--duration-quick);
+  --transition-duration-fast: var(--duration-fast);
+  --transition-duration-medium: var(--duration-medium);
+  --transition-duration-slow: var(--duration-slow);
+  --transition-duration-very-slow: var(--duration-very-slow);
+}
+
+/* The bits-ui state variants every primitive in `./shadcn` is written against.
+ *
+ * bits-ui v2 writes `data-checked` / `data-open` and v1 wrote
+ * `data-state="checked"`, so each variant matches both and a component does not
+ * have to know which it is talking to. They live here rather than in a
+ * consumer's stylesheet because the classes that need them ship in this
+ * package: an app that defines only the palette rendered a switch that never
+ * moved. Moved out of upsys `tokens.css` on 14 Sep 2026, with the kit. */
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-checked {
+  &:where([data-state="checked"]),
+  &:where([data-checked]:not([data-checked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]),
+  &:where([data-unchecked]:not([data-unchecked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-selected {
+  &:where([data-selected]) {
+    @slot;
+  }
+}
+
+@custom-variant data-disabled {
+  &:where([data-disabled="true"]),
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-active {
+  &:where([data-state="active"]),
+  &:where([data-active]:not([data-active="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-vertical {
+  &:where([data-orientation="vertical"]) {
+    @slot;
+  }
+}

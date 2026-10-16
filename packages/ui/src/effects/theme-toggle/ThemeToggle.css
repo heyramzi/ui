@@ -1,0 +1,21 @@
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-toggle:active {
+  transform: scale(0.97);
+}
+
+.theme-toggle--inverted {
+  border: 1px solid color-mix(in oklch, var(--color-background) 30%, transparent);
+  background: color-mix(in oklch, var(--color-background) 8%, transparent);
+  color: color-mix(in oklch, var(--color-background) 70%, transparent);
+}
+
+.theme-toggle--inverted:hover {
+  border-color: color-mix(in oklch, var(--color-background) 40%, transparent);
+  background: color-mix(in oklch, var(--color-background) 12%, transparent);
+  color: var(--color-background);
+}

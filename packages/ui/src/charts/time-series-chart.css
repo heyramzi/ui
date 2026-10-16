@@ -1,0 +1,28 @@
+/* Styles for TimeSeriesChart. Shipped as a plain stylesheet (imported by the
+   component) instead of a Svelte `<style>` block: a `<style>` block becomes a
+   `?type=style&lang.css` virtual module that Tailwind v4's Vite plugin mis-parses
+   when this package is consumed as source from node_modules (tailwindlabs/
+   tailwindcss#20000). Selectors are namespaced under `.hr-ts-chart`. */
+
+.hr-ts-chart {
+  width: 100%;
+  overflow: hidden;
+}
+
+.hr-ts-chart .empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 1px dashed var(--chart-grid, oklch(0.5 0.01 286 / 0.2));
+  border-radius: 0.5rem;
+}
+.hr-ts-chart .empty p {
+  font-size: 0.875rem;
+  color: var(--chart-label, oklch(0.5 0.01 286));
+  margin: 0;
+}
+
+.hr-ts-chart .hr-ts-grid {
+  stroke: var(--chart-grid, oklch(0.5 0.01 286 / 0.2));
+}

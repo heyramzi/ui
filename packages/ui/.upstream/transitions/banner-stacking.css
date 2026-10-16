@@ -1,0 +1,101 @@
+/* Transitions.dev — Banner stacking */
+
+/*
+  Usage:
+    <div class="t-stack">
+      <div class="t-stack-banner" data-depth="0">…</div>
+    </div>
+
+  Sonner-style. Append a new banner with .is-enter + data-depth
+  0, step every older banner's data-depth one back, force one
+  reflow, then remove .is-enter in the same task (a rAF hop is
+  skipped when the frame clock is throttled). A fourth banner
+  gets .is-leaving; remove it after --stack-close. Hover spread
+  is geometry in JS: pointer inside the collapsed stack box adds
+  .is-spread, and it holds until the pointer leaves the taller
+  spread column ((stack height + gap) * 2 above).
+*/
+
+:root {
+  --stack-open: 350ms;
+  --stack-close: 250ms;
+  --stack-rise: 80px;
+  --stack-blur: 2px;
+  --stack-scale: 0.97;
+  --stack-peek: 12px;
+  --stack-spread-gap: 8px;
+  --stack-depth-scale: 0.06;
+  --stack-depth-fade: 0.4;
+  --stack-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.t-stack { position: relative; }
+.t-stack-banner {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  /* Centre origin so an arriving banner scales like a toast; the
+     push-back depths switch to the bottom edge, which they can do
+     freely because the swap happens at identity. */
+  transform-origin: 50% 50%;
+  /* Explicit blur(0) rather than an unset filter — blur → none is
+     not reliably interpolated, and the cross-blur would snap. */
+  filter: blur(0);
+  will-change: transform, opacity, filter;
+  transition:
+    transform var(--stack-open) var(--stack-ease),
+    opacity var(--stack-open) var(--stack-ease),
+    filter var(--stack-open) var(--stack-ease);
+}
+.t-stack-banner[data-depth="0"] {
+  z-index: 3;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.t-stack-banner[data-depth="1"] {
+  z-index: 2;
+  transform-origin: 50% 100%;
+  transform: translateY(calc(var(--stack-peek) * -1))
+             scale(calc(1 - var(--stack-depth-scale)));
+  opacity: calc(1 - var(--stack-depth-fade));
+}
+.t-stack-banner[data-depth="2"] {
+  z-index: 1;
+  transform-origin: 50% 100%;
+  transform: translateY(calc(var(--stack-peek) * -2))
+             scale(calc(1 - var(--stack-depth-scale) * 2));
+  opacity: calc(1 - var(--stack-depth-fade) * 1.6);
+}
+/* Spread: newest stays put, older ones climb one banner height
+   each (100% = the banner's own height). Driven by a class, not
+   :hover — the gaps between spread banners belong to no element. */
+.t-stack.is-spread .t-stack-banner[data-depth="1"],
+.t-stack.is-spread .t-stack-banner[data-depth="2"] { opacity: 1; }
+.t-stack.is-spread .t-stack-banner[data-depth="1"] {
+  transform: translateY(calc((100% + var(--stack-spread-gap)) * -1)) scale(1);
+}
+.t-stack.is-spread .t-stack-banner[data-depth="2"] {
+  transform: translateY(calc((100% + var(--stack-spread-gap)) * -2)) scale(1);
+}
+.t-stack-banner.is-enter {
+  transition: none;
+  transform: translateY(var(--stack-rise)) scale(var(--stack-scale));
+  opacity: 0;
+  filter: blur(var(--stack-blur));
+}
+.t-stack-banner.is-leaving {
+  z-index: 0;
+  transform-origin: 50% 100%;
+  transform: translateY(calc(var(--stack-peek) * -3))
+             scale(calc(1 - var(--stack-depth-scale) * 3));
+  opacity: 0;
+  filter: blur(var(--stack-blur));
+  transition:
+    transform var(--stack-close) var(--stack-ease),
+    opacity var(--stack-close) var(--stack-ease),
+    filter var(--stack-close) var(--stack-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-stack-banner { transition: none !important; transform: none !important; filter: none !important; }
+}

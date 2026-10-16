@@ -1,0 +1,52 @@
+.marquee {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap, 1rem);
+  overflow: hidden;
+  padding: 0.5rem;
+}
+.marquee--vertical {
+  flex-direction: column;
+}
+.marquee__track {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  justify-content: space-around;
+  gap: var(--gap, 1rem);
+  animation: marquee-x var(--duration, 40s) linear infinite;
+}
+.marquee--vertical .marquee__track {
+  flex-direction: column;
+  animation-name: marquee-y;
+}
+.marquee__track--reverse {
+  animation-direction: reverse;
+}
+.marquee[data-pause-hover]:hover .marquee__track {
+  animation-play-state: paused;
+}
+.marquee[data-paused] .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+}
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap, 1rem)));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+}

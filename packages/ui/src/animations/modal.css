@@ -1,0 +1,75 @@
+/* Transitions.dev — Modal open/close */
+/* Source: https://github.com/Jakubantalik/transitions.dev */
+
+:root {
+  --modal-open-dur: var(--duration-fast, 250ms);
+  --modal-close-dur: var(--duration-quick, 150ms);
+  --modal-scale: var(--scale-large, 0.96);
+  --modal-scale-close: var(--scale-large, 0.96);
+  --modal-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --modal-backdrop-color: rgb(0 0 0 / 0.5);
+}
+
+/* === Upstream: class-based toggle === */
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+/* === Extension: bits-ui data-state integration === */
+.t-modal[data-state="open"] {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal[data-state="closed"] {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+/* === Extension: backdrop helper === */
+/* WHY: pair .t-modal-backdrop with the modal so the overlay fades in sync. */
+.t-modal-backdrop {
+  background: var(--modal-backdrop-color);
+  opacity: 0;
+  transition: opacity var(--modal-open-dur) var(--modal-ease);
+}
+.t-modal-backdrop.is-open,
+.t-modal-backdrop[data-state="open"] {
+  opacity: 1;
+}
+.t-modal-backdrop.is-closing,
+.t-modal-backdrop[data-state="closed"] {
+  opacity: 0;
+  transition: opacity var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-modal,
+  .t-modal-backdrop {
+    transition: none !important;
+  }
+}

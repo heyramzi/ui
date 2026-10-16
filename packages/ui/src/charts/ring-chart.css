@@ -1,0 +1,96 @@
+/* Styles for RingChart. Plain stylesheet (see area-chart.css for why).
+   Selectors are namespaced under `.hr-ring` (the generic ones below would
+   otherwise collide with GaugeChart's identical names once they are no longer
+   Svelte-scoped). */
+
+.hr-ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  aspect-ratio: 1;
+  container-type: size;
+}
+
+.hr-ring svg {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hr-ring .track {
+  opacity: 0.14;
+}
+
+.hr-ring .fill {
+  stroke-dasharray: 100;
+  cursor: pointer;
+  outline: none;
+  transition:
+    stroke-dashoffset var(--chart-motion-slow, 1.1s)
+      var(--chart-ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+    opacity 200ms ease;
+}
+
+.hr-ring .fill.animate {
+  animation: hr-ring-sweep var(--chart-motion-reveal, 1100ms)
+    var(--chart-ease-reveal, cubic-bezier(0.85, 0, 0.15, 1)) both;
+}
+
+.hr-ring.glow .fill:hover {
+  filter: drop-shadow(0 0 5px var(--ring-color));
+}
+
+@keyframes hr-ring-sweep {
+  from {
+    stroke-dashoffset: 100;
+  }
+}
+
+.hr-ring .center {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* WHY: keep the readout inside the innermost ring's clear center so the
+	   number never collides with the green ring. */
+  max-width: 40cqmin;
+  pointer-events: none;
+  text-align: center;
+}
+
+.hr-ring .value {
+  font-size: max(0.75rem, 9.5cqmin);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+}
+
+.hr-ring .label {
+  margin-top: 1.5cqmin;
+  font-size: max(0.5rem, 5cqmin);
+  font-weight: 500;
+  color: var(--muted-foreground);
+  animation: hr-ring-label-in 180ms ease-out both;
+}
+
+@keyframes hr-ring-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hr-ring .fill,
+  .hr-ring .fill.animate {
+    transition: opacity 120ms ease;
+    animation: none;
+  }
+  .hr-ring .label {
+    animation: none;
+  }
+}

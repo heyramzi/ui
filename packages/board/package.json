@@ -1,0 +1,57 @@
+{
+  "name": "@heyramzi/board",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Generic Svelte 5 kanban board with native drag and drop, plus configuration-driven status badges, dots and icons.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/ui.git",
+    "directory": "packages/board"
+  },
+  "homepage": "https://ui.heyramzi.com",
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "package.json"
+  ],
+  "exports": {
+    ".": {
+      "svelte": "./src/index.ts",
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./kanban": {
+      "svelte": "./src/kanban-board.svelte",
+      "types": "./src/kanban-board.svelte",
+      "default": "./src/kanban-board.svelte"
+    },
+    "./status": {
+      "svelte": "./src/status-badge.svelte",
+      "types": "./src/status-badge.svelte",
+      "default": "./src/status-badge.svelte"
+    },
+    "./presets/sales": {
+      "svelte": "./src/presets/sales.ts",
+      "types": "./src/presets/sales.ts",
+      "default": "./src/presets/sales.ts"
+    },
+    "./demo": {
+      "svelte": "./src/demo.svelte",
+      "default": "./src/demo.svelte"
+    },
+    "./demo.svelte": "./src/demo.svelte"
+  },
+  "scripts": {
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "svelte-check": "^4.7.6",
+    "typescript": "~7.0.2"
+  }
+}

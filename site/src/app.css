@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@import "@heyramzi/ui/tokens.css";
+@import "@heyramzi/ui/animations";
+@import "@heyramzi/ui/shadcn/utilities.css";
+
+/* Tailwind only scans the app by default. The library's classes live in the workspace packages. */
+@source "../../packages";
+
+@theme {
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-heading: "Geist", system-ui, sans-serif;
+}
+
+:root {
+  --font-satoshi: "Geist", system-ui, sans-serif;
+  --font-manrope: "Geist", system-ui, sans-serif;
+  --font-space-grotesk: "Geist Mono", ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background: var(--background);
+  color: var(--foreground);
+}
+::selection { background: color-mix(in oklab, var(--brand-indigo) 30%, transparent); }
+
+/* The dotted canvas behind every live preview. */
+.canvas-dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 14%, transparent) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Code tab colours */
+.code-block { --tok-c: oklch(0.6 0 0); --tok-s: oklch(0.52 0.13 150); --tok-t: oklch(0.5 0.2 272); --tok-k: oklch(0.55 0.2 330); --tok-n: oklch(0.58 0.15 55); }
+.dark .code-block { --tok-c: oklch(0.6 0 0); --tok-s: oklch(0.8 0.12 150); --tok-t: oklch(0.78 0.12 272); --tok-k: oklch(0.78 0.14 330); --tok-n: oklch(0.82 0.12 55); }
+.tok-c { color: var(--tok-c); font-style: italic; }
+.tok-s { color: var(--tok-s); }
+.tok-t { color: var(--tok-t); }
+.tok-k { color: var(--tok-k); }
+.tok-n { color: var(--tok-n); }

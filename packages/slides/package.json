@@ -1,0 +1,41 @@
+{
+  "name": "@heyramzi/slides",
+  "version": "0.2.0",
+  "private": true,
+  "description": "A presentation library for Svelte 5.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/ui.git",
+    "directory": "packages/slides"
+  },
+  "homepage": "https://ui.heyramzi.com",
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "svelte": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./demo": {
+      "svelte": "./src/demo.svelte",
+      "default": "./src/demo.svelte"
+    },
+    "./demo.svelte": "./src/demo.svelte"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "svelte-check": "^4.7.6",
+    "typescript": "~7.0.2"
+  }
+}

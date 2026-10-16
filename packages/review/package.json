@@ -1,0 +1,75 @@
+{
+  "name": "@heyramzi/review",
+  "version": "0.3.1",
+  "private": true,
+  "description": "The one review UI for Editor OS, Shorts OS and any client tool. A Svelte 5 page built to two static files, plus the Node handler that serves it.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heyramzi/ui.git",
+    "directory": "packages/review"
+  },
+  "files": [
+    "dist",
+    "src/core",
+    "src/server",
+    "src/theme",
+    "src/index.ts",
+    "src/diagrams/placeholder.ts",
+    "package.json"
+  ],
+  "type": "module",
+  "imports": {
+    "#src/*.js": "./src/*.ts",
+    "#src/*.svelte": "./src/*.svelte",
+    "#src/*.css": "./src/*.css",
+    "#src/*.svg": "./src/*.svg",
+    "#dev/*.js": "./dev/*.ts",
+    "#scripts/*": "./scripts/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/review.js"
+    },
+    "./review.css": "./dist/review.css",
+    "./tokens.css": "./src/theme/tokens.css",
+    "./server": {
+      "types": "./src/server/index.ts",
+      "default": "./src/server/index.ts"
+    },
+    "./types": {
+      "types": "./src/core/types.ts",
+      "default": "./src/core/types.ts"
+    },
+    "./figure": {
+      "types": "./src/diagrams/figure.ts",
+      "default": "./src/diagrams/figure.ts"
+    },
+    "./placeholder": {
+      "types": "./src/diagrams/placeholder.ts",
+      "default": "./src/diagrams/placeholder.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vp dev --port 3321 --strictPort",
+    "build": "vp build",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "test": "vp test run",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@heyramzi/agents": "workspace:*",
+    "@playwright/test": "^1.63.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^26.6.4",
+    "jsdom": "^30.1.2",
+    "react-grab": "latest",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
+    "typescript": "~7.0.2",
+    "vite-plus": "^1.0.0",
+    "vitest": "^5.0.3"
+  }
+}

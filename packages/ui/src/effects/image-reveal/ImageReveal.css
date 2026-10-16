@@ -1,0 +1,10 @@
+.hr-image-reveal {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hr-image-reveal canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

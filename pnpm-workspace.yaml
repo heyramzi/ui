@@ -1,0 +1,28 @@
+packages:
+  - site
+  - packages/*
+minimumReleaseAgeExclude:
+  - "@bramus/specificity@2.4.3"
+  - "@sveltejs/kit@3.0.1"
+  - svelte@5.57.2
+  - typebox@1.3.36
+  - vite@8.3.3
+  - "@mux/mux-data-google-ima@0.3.18"
+  - "@mux/mux-player@3.14.0"
+  - "@mux/mux-video@0.31.5"
+  - "@mux/playback-core@0.36.0"
+  - mux-embed@5.18.2
+overrides:
+  cookie@<0.7.0: ">=0.7.2 <1"
+  fflate@>=0.7.0 <0.7.5: ">=0.8.3 <1"
+  sharp@<0.35.5: ">=0.35.5 <1"
+packageExtensions:
+  svelte-check@4.7.6:
+    dependencies:
+      typescript: ^6.0.3
+# WHY: pnpm 12 fails the install (ERR_PNPM_IGNORED_BUILDS) when a dependency has an
+# unreviewed build script. esbuild and workerd fetch or link their native binary in
+# postinstall, so they have to run.
+allowBuilds:
+  esbuild: true
+  workerd: true

@@ -1,0 +1,100 @@
+/* Styles for Figure. Plain stylesheet (see area-chart.css for why). All
+   selectors are already namespaced under `.hr-figure`. */
+
+.hr-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+  min-width: 0;
+}
+.hr-figure[data-align="center"] {
+  align-items: center;
+  text-align: center;
+}
+
+/* WHY the title truncates: title and pill share one narrow row (the gauge card
+   leaves it ~160px), and a shrunken title box let the word paint over the pill. */
+.hr-figure-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.hr-figure-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  min-width: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--foreground, oklch(0.2 0.01 286));
+  letter-spacing: -0.005em;
+}
+.hr-figure-title-text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hr-figure-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hr-figure-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+.hr-figure-value-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.375rem;
+}
+
+.hr-figure-value {
+  font-feature-settings: "tnum";
+  line-height: 1.1;
+  transition: color 180ms ease;
+}
+/* md: chart header (monospace, compact). */
+.hr-figure[data-size="md"] .hr-figure-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+/* lg: KPI card headline. */
+.hr-figure[data-size="lg"] .hr-figure-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--foreground, oklch(0.2 0.01 286));
+}
+
+.hr-figure-series-label {
+  font-size: 0.6875rem;
+}
+
+/* The readable form of a series colour: see the note in figure.svelte. The wash
+   and the line keep the raw hue; only text is pulled toward the foreground. */
+.hr-figure-value.is-series,
+.hr-figure-series-label.is-series {
+  color: color-mix(
+    in oklab,
+    var(--hr-series, currentColor) 70%,
+    var(--foreground, oklch(0.2 0.01 286))
+  );
+}
+.hr-figure-caption {
+  font-size: 0.75rem;
+  color: var(--muted-foreground, oklch(0.5 0.01 286));
+}
+.hr-figure-eyebrow {
+  font-size: 0.6875rem;
+  color: var(--chart-label, var(--muted-foreground, oklch(0.5 0.01 286)));
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

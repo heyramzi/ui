@@ -1,0 +1,74 @@
+/* Card hover tilt — transitions.dev `3d-tilt`.
+   Bind pointermove to the flat outer `.t-tilt`, never the card: the rotating
+   edges slip under the cursor and the hover flickers. JS writes --tilt-rx/ry
+   and --tilt-gx/gy, adds `.is-tilting` while moving and `.is-hover` for the
+   glare. Return and glare clocks have no token at their length, by design:
+   the settle is meant to read slower than any surface. */
+:root {
+  --tilt-perspective: 1000px;
+  --tilt-return: 1000ms;
+  --tilt-return-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --tilt-follow: var(--duration-slow, 400ms);
+  --tilt-follow-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --tilt-glare-opacity: 0.32;
+  --tilt-glare-fade: 300ms;
+  --tilt-glare-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+/* touch-action lets a finger drag the tilt instead of scrolling the page. */
+.t-tilt {
+  touch-action: none;
+}
+
+.t-tilt-card {
+  position: relative;
+  border-radius: var(--radius-xl, 10px);
+  overflow: hidden;
+  transform: perspective(var(--tilt-perspective)) rotateX(var(--tilt-rx, 0deg))
+    rotateY(var(--tilt-ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform var(--tilt-return) var(--tilt-return-ease);
+  will-change: transform;
+}
+/* A short follow clock while the pointer moves, so the tilt tracks it 1:1. */
+.t-tilt-card.is-tilting {
+  transition: transform var(--tilt-follow) var(--tilt-follow-ease);
+}
+
+/* Layered soft circles that add like light at the pointer position. */
+.t-tilt-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(
+      circle 95px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+      rgb(255 255 255 / 0.48),
+      rgb(255 255 255 / 0.06) 52%,
+      rgb(255 255 255 / 0) 84%
+    ),
+    radial-gradient(
+      circle 200px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+      rgb(255 255 255 / 0.22),
+      rgb(255 255 255 / 0.04) 58%,
+      rgb(255 255 255 / 0) 78%
+    ),
+    radial-gradient(
+      circle 360px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+      rgb(255 255 255 / 0.1),
+      rgb(255 255 255 / 0) 88%
+    );
+  transition: opacity var(--tilt-glare-fade) var(--tilt-glare-ease);
+}
+.t-tilt.is-hover .t-tilt-glare {
+  opacity: var(--tilt-glare-opacity);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-tilt-card {
+    transform: none !important;
+    transition: none !important;
+  }
+}

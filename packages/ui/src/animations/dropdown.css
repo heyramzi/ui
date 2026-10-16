@@ -1,0 +1,121 @@
+/* Transitions.dev — Menu dropdown */
+/* Source: https://github.com/Jakubantalik/transitions.dev */
+
+:root {
+  --dropdown-open-dur: var(--duration-fast, 250ms);
+  --dropdown-close-dur: var(--duration-quick, 150ms);
+  --dropdown-pre-scale: var(--scale-medium, 0.97);
+  --dropdown-closing-scale: var(--scale-tiny, 0.99);
+  --dropdown-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+/* === Upstream: class-based toggle === */
+.t-dropdown {
+  transform-origin: top left;
+  transform: scale(var(--dropdown-pre-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-open-dur) var(--dropdown-ease),
+    opacity var(--dropdown-open-dur) var(--dropdown-ease);
+  will-change: transform, opacity;
+}
+.t-dropdown[data-origin="top-right"] {
+  transform-origin: top right;
+}
+.t-dropdown[data-origin="top-center"] {
+  transform-origin: top center;
+}
+.t-dropdown[data-origin="bottom-left"] {
+  transform-origin: bottom left;
+}
+.t-dropdown[data-origin="bottom-center"] {
+  transform-origin: bottom center;
+}
+.t-dropdown[data-origin="bottom-right"] {
+  transform-origin: bottom right;
+}
+
+.t-dropdown.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-dropdown.is-closing {
+  transform: scale(var(--dropdown-closing-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-close-dur) var(--dropdown-ease),
+    opacity var(--dropdown-close-dur) var(--dropdown-ease);
+}
+
+/* === Extension: bits-ui data-state integration === */
+/* WHY: bits-ui mounts content with [data-state] and [data-side]/[data-align]
+   attributes. These selectors mirror the upstream states so consumers can drop
+   .t-dropdown on a Popover/Menu/Tooltip Content.
+
+   WHY "instant-open" is in the list: a tooltip reports three open states, not
+   two. It says "delayed-open" when it waited out the hover delay and
+   "instant-open" when it skipped that delay, which is every open while
+   delayDuration is 0 and every neighbour opened inside the skip window. That
+   third name was missing here, so those tooltips mounted, took no open rule,
+   and stayed at opacity 0: present in the DOM, never on screen. Found
+   11 Sep 2026 in upsys, where the kit's provider defaulted delayDuration to 0
+   and so produced nothing but "instant-open". */
+.t-dropdown[data-state="open"],
+.t-dropdown[data-state="delayed-open"],
+.t-dropdown[data-state="instant-open"] {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-dropdown[data-state="closed"] {
+  transform: scale(var(--dropdown-closing-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dropdown-close-dur) var(--dropdown-ease),
+    opacity var(--dropdown-close-dur) var(--dropdown-ease);
+}
+.t-dropdown[data-side="bottom"][data-align="start"] {
+  transform-origin: top left;
+}
+.t-dropdown[data-side="bottom"][data-align="center"] {
+  transform-origin: top center;
+}
+.t-dropdown[data-side="bottom"][data-align="end"] {
+  transform-origin: top right;
+}
+.t-dropdown[data-side="top"][data-align="start"] {
+  transform-origin: bottom left;
+}
+.t-dropdown[data-side="top"][data-align="center"] {
+  transform-origin: bottom center;
+}
+.t-dropdown[data-side="top"][data-align="end"] {
+  transform-origin: bottom right;
+}
+.t-dropdown[data-side="left"],
+.t-dropdown[data-side="inline-end"] {
+  transform-origin: right center;
+}
+.t-dropdown[data-side="right"],
+.t-dropdown[data-side="inline-start"] {
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-dropdown {
+    transition: none !important;
+  }
+}
+
+/* A tooltip that skipped its delay skips its entrance too. The first one in a
+   group waits and animates in; the neighbours the pointer travels to inside the
+   skip window are already open by the time the eye arrives, so animating them
+   only adds a wait the delay was there to hide. Scoped to the tooltip slot
+   because a menu or popover never reports this state. */
+[data-slot="tooltip-content"].t-dropdown[data-state="instant-open"] {
+  transition: none;
+}

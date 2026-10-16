@@ -1,0 +1,159 @@
+/* The rules the craft layer applies for itself.
+ *
+ * Two layers, on purpose. `base` holds the element defaults (focus, selection,
+ * scrollbars) so any component class or utility beats them. `components` holds
+ * the three motion primitives, so a utility still beats those too.
+ *
+ * WHY the layers are not optional: an `@import` at the top of an app stylesheet
+ * lands OUTSIDE Tailwind's layers, and unlayered CSS beats every layered rule
+ * whatever its specificity. Written bare, a `:where()` selector here would
+ * silently outrank `focus-visible:ring-3` on every control in the app.
+ *
+ * Imported by ./index.css. Do not import it on its own, because it reads the tokens
+ * that file declares. */
+
+@layer base {
+  /* One ring for the whole kit. `:where` keeps it at specificity zero on top of
+     the layer, so a control that needs a different ring writes one and wins. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: none;
+    box-shadow: var(--ring-focus);
+  }
+
+  /* The accent at a low alpha, not the browser blue, because a selected word is
+     the one moment the palette shows up inside running text. */
+  ::selection {
+    background: color-mix(in oklab, var(--ring-color) 24%, transparent);
+  }
+
+  /* A default macOS overlay scrollbar paints a black bar on a dark panel. Track
+     transparent, thumb on the line token, so it belongs to whatever surface it
+     is over. The border is what insets the thumb without a second element. */
+  :where(html) {
+    scrollbar-color: var(--color-border, var(--border)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+    background-color: var(--color-border, var(--border));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-muted-foreground, var(--muted-foreground));
+  }
+}
+
+@layer components {
+  /* Three moves the kit repeats. They are classes rather than tokens because a
+     component wants one name, not four declarations, and because the reduced
+     motion guard then lives in one place instead of in every component.
+
+     Namespaced `t-` to match the transitions-dev snippets, which these sit
+     beside rather than duplicate. */
+
+  /* A control that reads as a key: it travels down a pixel under the finger.
+     The travel is what sells it, because a colour change alone reads as a hover
+     state, not as a press. */
+  .t-press {
+    transition:
+      background-color var(--duration-quick) var(--ease-smooth-out),
+      border-color var(--duration-quick) var(--ease-smooth-out),
+      color var(--duration-quick) var(--ease-smooth-out),
+      box-shadow var(--duration-quick) var(--ease-smooth-out),
+      transform var(--duration-micro) var(--ease-smooth-out);
+  }
+
+  .t-press:active:not(:disabled, [aria-disabled="true"]) {
+    transform: translateY(1px);
+  }
+
+  /* A card that answers the pointer. It rises by a pixel and gains the next
+     step of elevation, so the hover reads as the card coming forward rather
+     than as its border changing colour. */
+  .t-lift {
+    transition:
+      box-shadow var(--duration-fast) var(--ease-smooth-out),
+      transform var(--duration-fast) var(--ease-smooth-out);
+  }
+
+  .t-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--elev-raised);
+  }
+
+  /* A surface arriving. The open carries the distance, the scale and the blur;
+     the close drops all three and takes less time, per the open/close
+     asymmetry rule in transitions-dev. */
+  .t-enter {
+    animation: t-enter var(--duration-fast) var(--ease-smooth-out) both;
+  }
+
+  .t-exit {
+    animation: t-exit var(--duration-quick) var(--ease-smooth-out) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-press,
+    .t-lift {
+      transition: none;
+    }
+
+    .t-press:active,
+    .t-lift:hover {
+      transform: none;
+    }
+
+    .t-enter,
+    .t-exit {
+      animation-duration: 1ms;
+    }
+  }
+}
+
+@keyframes t-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-micro)) scale(var(--scale-medium));
+    filter: blur(var(--blur-small));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* A mark confirming a state that has already changed: it arrives after the box
+   it sits in, so it overshoots slightly instead of fading. */
+@keyframes t-check {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes t-exit {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: scale(var(--scale-tiny));
+  }
+}

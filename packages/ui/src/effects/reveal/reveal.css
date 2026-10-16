@@ -1,0 +1,141 @@
+/* Reveal engine shared by InView, AnimatedGroup and TextEffect. */
+/* Preset geometry from motion-primitives (MIT); timing from @heyramzi/ui/design. */
+
+.hr-reveal {
+  --hr-reveal-name: hr-reveal-fade;
+  --hr-reveal-play: paused;
+  --hr-reveal-duration: var(--duration-slow, 400ms);
+  --hr-reveal-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --hr-reveal-stagger: var(--duration-stagger, 40ms);
+  --hr-reveal-delay: 0ms;
+  --hr-reveal-distance: 20px;
+  --hr-reveal-blur: 12px;
+  --hr-reveal-scale: 0.9;
+}
+
+/* WHY: every knob is an inherited custom property, so one attribute on the root
+   drives the root itself and every descendant item without a paired selector. */
+.hr-reveal[data-reveal="in"] {
+  --hr-reveal-play: running;
+}
+
+.hr-reveal__item {
+  --i: 0;
+  animation-name: var(--hr-reveal-name);
+  animation-duration: var(--hr-reveal-duration);
+  animation-timing-function: var(--hr-reveal-ease);
+  animation-fill-mode: both;
+  animation-play-state: var(--hr-reveal-play);
+  animation-delay: calc(var(--hr-reveal-delay) + var(--i) * var(--hr-reveal-stagger));
+}
+
+.hr-reveal[data-preset="fade"] {
+  --hr-reveal-name: hr-reveal-fade;
+}
+.hr-reveal[data-preset="slide"] {
+  --hr-reveal-name: hr-reveal-slide;
+}
+.hr-reveal[data-preset="blur"] {
+  --hr-reveal-name: hr-reveal-blur;
+}
+.hr-reveal[data-preset="blur-slide"] {
+  --hr-reveal-name: hr-reveal-blur-slide;
+}
+.hr-reveal[data-preset="scale"] {
+  --hr-reveal-name: hr-reveal-scale;
+}
+.hr-reveal[data-preset="zoom"] {
+  --hr-reveal-name: hr-reveal-zoom;
+  --hr-reveal-ease: var(--ease-smooth-out);
+}
+
+@keyframes hr-reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hr-reveal-slide {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hr-reveal-distance));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hr-reveal-blur {
+  from {
+    opacity: 0;
+    filter: blur(var(--hr-reveal-blur));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes hr-reveal-blur-slide {
+  from {
+    opacity: 0;
+    filter: blur(var(--hr-reveal-blur));
+    transform: translateY(var(--hr-reveal-distance));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+@keyframes hr-reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(var(--hr-reveal-scale));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes hr-reveal-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Segment spans TextEffect emits; per-char needs the space kept and the box laid out. */
+.hr-reveal__segment {
+  display: inline-block;
+  white-space: pre;
+}
+.hr-reveal__segment--line {
+  display: block;
+  white-space: normal;
+}
+.hr-reveal__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hr-reveal__item {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}

@@ -1,0 +1,15 @@
+/* One demo per row, the rule ShowcaseSection states for `.sc-stack`: in a grid
+   of narrow cards a table gets the width of a button. The dashed rule is a
+   separator, not a card edge — these are entries in one list. */
+.sc-stacked {
+  display: flex;
+  flex-direction: column;
+}
+
+.sc-stacked > .sc-stage {
+  border-bottom: 1px dashed color-mix(in oklab, var(--color-border, var(--border)) 80%, transparent);
+}
+
+.sc-stacked > .sc-stage:last-child {
+  border-bottom: 0;
+}
