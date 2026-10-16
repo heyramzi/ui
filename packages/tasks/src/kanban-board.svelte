@@ -368,6 +368,8 @@
 			{#if dnd.showIndicatorBefore(column.id, id) && !isSource && idAt(cards, index - 1) !== dnd.draggedId}
 				{@render dropSlot()}
 			{/if}
+			<!-- WHY: a card is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
+			<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
 			<div
 				role="listitem"
 				tabindex="0"

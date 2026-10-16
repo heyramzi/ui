@@ -236,6 +236,8 @@
 								dnd.showIndicatorBefore(group.id, id) &&
 								!dnd.isDragSource(id) &&
 								idAt(rows, index - 1) !== dnd.draggedId}
+							<!-- WHY: a row is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
+							<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
 							<div
 								role="listitem"
 								tabindex={draggable ? 0 : undefined}
