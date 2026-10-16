@@ -2,6 +2,7 @@
 	import { cn } from "./lib/cn.js";
 	import { TONE_CLASS } from "./tone.js";
 	import type { Tone, Statuses } from "./status-types.js";
+	import spinnerIcon from "./icons/spinner.svg?raw";
 
 	type Props = {
 		/** A registry from `defineStatuses`. Supplies the label and tone. */
@@ -37,15 +38,7 @@
 	)}
 >
 	{#if busy}
-		<svg class="size-3 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-			<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity="0.25"></circle>
-			<path
-				d="M21 12a9 9 0 0 0-9-9"
-				stroke="currentColor"
-				stroke-width="3"
-				stroke-linecap="round"
-			></path>
-		</svg>
+		<span class="size-3 animate-spin [&>svg]:size-full" aria-hidden="true">{@html spinnerIcon}</span>
 	{/if}
 	{resolvedLabel}
 </span>

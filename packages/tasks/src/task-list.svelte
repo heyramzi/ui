@@ -6,6 +6,7 @@
 	import { boardOrderAt } from "./board-order.js";
 	import { cn } from "./lib/cn.js";
 	import { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
+	import chevronIcon from "./icons/chevron-right.svg?raw";
 	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "./kanban-types.js";
 	import type { TaskListGroupContext, TaskListRowContext } from "./task-types.js";
 
@@ -169,9 +170,9 @@
 						onclick={() => toggle(group.id)}
 						class="-ml-1 grid size-6 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
 					>
-						<svg class="tl-chevron size-3.5" class:tl-chevron-open={open} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-							<path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
-						</svg>
+						<span class="tl-chevron size-3.5 [&>svg]:size-full" class:tl-chevron-open={open} aria-hidden="true">
+							{@html chevronIcon}
+						</span>
 					</button>
 				{/if}
 				{#if groupHeader}
