@@ -611,3 +611,10 @@
 
 * fix(ui): the last overshoot curves settle on --ease-smooth-out
 
+
+## [6.1.0](https://github.com/heyramzi/ui/compare/ui-v6.0.1...ui-v6.1.0) (2026-10-16)
+
+### Features
+
+* feat(ui): agents move into @heyramzi/ui/agents, draw is retired, marketing gets a site page
+
