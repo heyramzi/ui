@@ -194,3 +194,10 @@
 
 * feat(marketing): UpSys deck tokens in brand/deck
 
+
+## [3.0.0](https://github.com/heyramzi/ui/compare/marketing-v2.1.0...marketing-v3.0.0) (2026-10-16)
+
+### Features
+
+* initial publish from this repo
+

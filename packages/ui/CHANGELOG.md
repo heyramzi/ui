@@ -669,3 +669,15 @@
 * feat(ui): tabs slide one shared pill, and the unused 1024px is-mobile copy goes
 * feat(charts)!: the charts move out of @heyramzi/ui into @heyramzi/charts
 
+
+## [8.0.0](https://github.com/heyramzi/ui/compare/ui-v7.0.0...ui-v8.0.0) (2026-10-16)
+
+### Features
+
+* feat(ui): a components folder with picker, segmented, mark and icon, computeCommandScore export and lib subpath exports
+
+### Bug Fixes
+
+* fix(ui): Reasoning and ToggleGroup pass live props to their context, so svelte-check stops warning in linking apps
+* fix(ui): svelte-check in a linking app reads the sources without the vite config
+

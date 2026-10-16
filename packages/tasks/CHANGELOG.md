@@ -67,3 +67,10 @@
 * fix(tasks): the board card and list row keep focus for the Alt+arrow move without an a11y warning
 * fix(tasks): the gantt flag, the time tracker's play and delete, the rail chevron and the clock are .svg files, not inline paths
 
+
+## [0.5.0](https://github.com/heyramzi/ui/compare/tasks-v0.4.0...tasks-v0.5.0) (2026-10-16)
+
+### Features
+
+* initial publish from this repo
+
