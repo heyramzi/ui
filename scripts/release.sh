@@ -28,7 +28,8 @@ COMPONENTS="ui packages/ui
 charts packages/charts
 tasks packages/tasks
 marketing packages/marketing
-slides packages/slides"
+slides packages/slides
+rich-editor packages/rich-editor"
 
 plan=""
 while read -r component dir; do
