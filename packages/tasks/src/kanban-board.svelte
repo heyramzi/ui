@@ -9,6 +9,7 @@
 	import { boardOrderAt } from "./board-order.js";
 	import { cn } from "./lib/cn.js";
 	import { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
+	import chevronDownIcon from "./icons/chevron-down.svg?raw";
 	import type {
 		KanbanCardContext,
 		KanbanColumn as KanbanColumnDef,
@@ -439,21 +440,13 @@
 				onclick={() => (railOpen = !railOpen)}
 				class="flex h-8 items-center gap-1.5 rounded-md px-2 text-start text-xs text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,120ms)] hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-ring/60"
 			>
-				<svg
-					viewBox="0 0 10 10"
+				<span
 					class={cn(
-						"size-2.5 transition-transform duration-[var(--duration-fast,160ms)] ease-[var(--ease-smooth-out,ease-out)]",
+						"size-2.5 transition-transform duration-[var(--duration-fast,160ms)] ease-[var(--ease-smooth-out,ease-out)] [&>svg]:size-full",
 						!railOpen && "-rotate-90",
 					)}
-					fill="none"
-					stroke="currentColor"
-					stroke-width="1.6"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					aria-hidden="true"
+					aria-hidden="true">{@html chevronDownIcon}</span
 				>
-					<path d="M2 3.5 5 6.5 8 3.5" />
-				</svg>
 				{hiddenLabel}
 			</button>
 

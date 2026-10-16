@@ -15,6 +15,8 @@
 	import type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "./time-types.js";
 	import TimeDot from "./time-dot.svelte";
 	import TimeRing from "./time-ring.svelte";
+	import closeIcon from "../icons/close.svg?raw";
+	import playIcon from "../icons/play.svg?raw";
 
 	type Props<T> = {
 		/** Every entry logged on the task. Order within a day is kept. */
@@ -257,9 +259,7 @@
 						<rect x="6" y="6" width="12" height="12" rx="2.5" />
 					</svg>
 				{:else}
-					<svg viewBox="0 0 24 24" class="size-5 translate-x-px" fill="currentColor" aria-hidden="true">
-						<path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.6-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6Z" />
-					</svg>
+					<span class="size-5 translate-x-px [&>svg]:size-full" aria-hidden="true">{@html playIcon}</span>
 				{/if}
 			</button>
 		</div>
@@ -404,9 +404,7 @@
 										aria-label={labels.deleteEntry(formatMinutes(getMinutes(entry)))}
 										class="time-delete -my-1 -me-1 grid size-8 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
 									>
-										<svg viewBox="0 0 16 16" class="size-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-											<path d="m4 4 8 8M12 4l-8 8" />
-										</svg>
+										<span class="size-3.5 [&>svg]:size-full" aria-hidden="true">{@html closeIcon}</span>
 									</button>
 								{/if}
 							</li>

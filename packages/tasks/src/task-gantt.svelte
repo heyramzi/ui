@@ -5,6 +5,7 @@
 	import type { KanbanColumn as KanbanColumnDef } from "./kanban-types.js";
 	import type { GanttChange, GanttLabelContext } from "./task-types.js";
 	import chevronIcon from "./icons/chevron-right.svg?raw";
+	import flagIcon from "./icons/milestone-flag.svg?raw";
 
 	type Props<T> = {
 		items: T[];
@@ -566,10 +567,7 @@
 									onpointerenter={() => (hoveredId = row.id)}
 									onpointerleave={() => (hoveredId = hoveredId === row.id ? null : hoveredId)}
 								>
-									<svg viewBox="0 0 16 16" class="size-5" aria-hidden="true">
-										<path d="M4 2v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" />
-										<path d="M4.75 2.75h8l-2 3 2 3h-8z" fill="currentColor" />
-									</svg>
+									<span class="size-5 [&>svg]:size-full" aria-hidden="true">{@html flagIcon}</span>
 								</button>
 							{:else if !row.own}
 								<!-- A parent with no dates of its own: the span of what is below it. Not draggable. -->
