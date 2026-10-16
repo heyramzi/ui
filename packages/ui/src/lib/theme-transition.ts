@@ -3,6 +3,8 @@ export interface RevealThemeOptions {
   skip?: boolean;
   /** Wipe length in ms. */
   duration?: number;
+  /** Wipe easing, any CSS easing value. */
+  easing?: string;
 }
 
 const DEFAULT_DURATION = 400;
@@ -20,7 +22,7 @@ export function revealTheme(
   apply: () => void,
   options: RevealThemeOptions = {},
 ): void {
-  const { skip = false, duration = DEFAULT_DURATION } = options;
+  const { skip = false, duration = DEFAULT_DURATION, easing = "ease-in-out" } = options;
   const origin = event.currentTarget;
 
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -45,7 +47,7 @@ export function revealTheme(
   transition.ready.then(() => {
     document.documentElement.animate(
       { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
-      { duration, easing: "ease-in-out", pseudoElement: "::view-transition-new(root)" },
+      { duration, easing, pseudoElement: "::view-transition-new(root)" },
     );
   });
 }

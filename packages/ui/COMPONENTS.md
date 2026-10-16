@@ -66,7 +66,7 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `reveal` — InView, AnimatedGroup, TextEffect, observeInView, RevealPreset, RevealPer
 - `shader-gradient` — ShaderGradient, ShaderGradientProps, ShaderGradientUniforms
 - `spotlight` — Spotlight
-- `theme-toggle` — ThemeToggle, revealTheme. Props: `isDark`, `mode` (`light`, `dark`, `system`; swaps in the Monitor icon), `onToggle`, `variant` (`outline`, `ghost`, `inverted`; `inverted` boolean is an alias), `size`, `label`, `title`, `skipTransition`, `class`. `revealTheme(event, apply, { skip, duration })` is the circular wipe on its own: `import { revealTheme } from "@heyramzi/ui"` (the `./lib/*` subpath points at `.js` and the source is `.ts`).
+- `theme-toggle` — ThemeToggle, revealTheme. Props: `isDark`, `mode` (`light`, `dark`, `system`; swaps in the Monitor icon), `onToggle`, `variant` (`outline`, `ghost`, `inverted`; `inverted` boolean is an alias), `size`, `label`, `title`, `skipTransition`, `class`. `revealTheme(event, apply, { skip, duration, easing })` is the circular wipe on its own: `import { revealTheme } from "@heyramzi/ui"` (the `./lib/*` subpath points at `.js` and the source is `.ts`).
 
 ## Animations (`src/animations`)
 
