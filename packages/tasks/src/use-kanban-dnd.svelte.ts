@@ -132,9 +132,14 @@ export function createKanbanDnd<T>(config: KanbanDndConfig<T>) {
       .getColumnItems(targetColumnId)
       .filter((entry) => config.getId(entry) !== movedId);
     const index = manualInsertIndex(column, overId, targetColumnId);
+    const before = column[index - 1];
+    const after = column[index];
+    const orderOf = config.boardOrder;
     void config.onMove(movedId, {
       columnId: targetColumnId,
-      boardOrder: boardOrderAt(column, index, config.boardOrder ?? (() => null)),
+      ...(orderOf ? { boardOrder: boardOrderAt(column, index, orderOf) } : {}),
+      beforeId: before === undefined ? null : config.getId(before),
+      afterId: after === undefined ? null : config.getId(after),
     });
   }
 

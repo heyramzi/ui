@@ -35,7 +35,23 @@ export { default as GanttIcon } from "./icons/gantt-icon.svelte";
 export { addDays, dayNumber, isoFromDay, todayIso } from "./dates.js";
 export type {
 	GanttChange,
+	GanttLabelContext,
 	TaskListGroupContext,
 	TaskListRowContext,
 	TaskView,
 } from "./task-types.js";
+export { default as TimeTracker } from "./time/time-tracker.svelte";
+export { default as TimeChip } from "./time/time-chip.svelte";
+export { default as TimeRing } from "./time/time-ring.svelte";
+export { default as TimeDot } from "./time/time-dot.svelte";
+export {
+	budgetTone,
+	dayLabel,
+	formatClock,
+	formatMinutes,
+	localDay,
+	parseMinutes,
+	personColor,
+} from "./time/duration.js";
+export { DEFAULT_TIME_LABELS } from "./time/time-types.js";
+export type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "./time/time-types.js";

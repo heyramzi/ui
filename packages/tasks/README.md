@@ -73,12 +73,26 @@ isn't a drop target (an Overdue lane, say).
 | `sortKey`       | `string`                                                | Active sort. Defaults to `"manual"`.                        |
 | `columnHeader`  | `Snippet<[KanbanColumn, { count, active }]>`            | Optional header. Defaults to label plus count.              |
 | `emptyLabel`    | `string`                                                | Shown in an empty column.                                   |
-| `dropAtTop`     | `(columnId: string) => boolean`                         | Drops on a capped column go to the top.                     |
+| `dropAtTop`     | `(columnId: string) => boolean`                         | Drops on a capped column go to the top. Defaults to "is `limit` hiding its tail".  |
 | `isDroppable`   | `(columnId: string) => boolean`                         | Overrides the per-column `droppable` flag.                  |
+| `manualTiebreak` | `(a: T, b: T) => number`                               | Settles two cards with the same manual key, or none.        |
+| `getLabel`      | `(item: T) => string`                                   | The screen-reader name of a card. Defaults to a keyboard hint. |
+| `onSelect`      | `(id: string) => void`                                  | Enter or Space on a focused card.                           |
+| `columnFooter`  | `Snippet<[Column, KanbanColumnContext]>`                | Under a column's cards: a "Show all" or an add button.      |
+| `wrapColumn`    | `Snippet<[Column, Snippet<[props]>]>`                   | Wraps a whole column, for a context menu. Render the inner snippet once with the props you are handed. |
+| `limit`         | `(columnId: string) => number \| undefined`             | Cards a column shows before the rest fold. `expanded` and `onExpandedChange` lift it per column. |
+| `hidden`        | `string[]`                                              | Columns folded into a rail on the right. Fold and unfold animate, and a card dropped on a rail entry brings the column back. `onHiddenChange`, `hiddenLabel`, `showAllLabel` and `hiddenItem` go with it. |
 
-`onMove` gives `{ columnId, boardOrder? }`. `boardOrder` is only set for manual
-sorting. It's a fractional key that places the card in its new slot, so a move
-writes one row instead of renumbering a column.
+`columns` can be your own type, as long as it extends `KanbanColumn`: the
+header, footer and wrap snippets get it back as you passed it, so a column can
+carry a status or a stage for your own markup. The header and footer context is
+`{ count, active, shown, capped, hide, expand }`.
+
+`onMove` gives `{ columnId, boardOrder?, beforeId?, afterId? }`. On a manual
+drop `beforeId` and `afterId` name the cards above and below the new slot (null
+at an end), for a backend that orders by neighbour. `boardOrder` is set when you
+pass a `boardOrder` accessor. It's a fractional key that places the card in its
+new slot, so a move writes one row instead of renumbering a column.
 
 ## List
 
@@ -107,8 +121,12 @@ group. Rows slide into their new place when the order changes.
 ```
 
 Beyond the board's props it takes `head` (a sticky header row), `groupHeader`
-(`Snippet<[group, { count, active, open }]>`), `collapsible` (default true) and
-`collapsed` (group ids that start folded).
+(`Snippet<[group, { count, active, open }]>`), `actions` (controls at the end of
+a group header, shown on hover), `groupFooter` (an add-task row under the rows),
+`collapsible` (default true), `collapsed` (group ids that start folded) and
+`onCollapsedChange`. Pass `flat` to drop the card border, radius and fill so the list sits on the page (the gantt takes it too); group dividers stay. Pass `draggable={false}` for a list that only groups: rows
+lose the drag handlers and the keyboard move, so links and buttons inside them
+keep every key.
 
 ## Gantt
 
@@ -135,14 +153,18 @@ its end. Leave out `onChange` and the chart is read only.
 | Prop           | Type                                      | Notes                                                       |
 | -------------- | ----------------------------------------- | ----------------------------------------------------------- |
 | `items`, `getId`, `getTitle` |                             | Required.                                                   |
-| `getStart`, `getEnd` | `(item: T) => string`               | ISO dates, inclusive. A one-day task has the same start and end. |
+| `getStart`, `getEnd` | `(item: T) => string \| null \| undefined` | ISO dates, inclusive. A one-day task has the same start and end. One date alone is a one-day task, none is undated. A parent with no dates draws the span of its children as an outline bar. |
 | `onChange`     | `(id, { start, end }) => void \| Promise<void>` | Called after a drag, a resize or a key nudge.        |
 | `onSelect`     | `(id) => void`                            | A click or Enter that didn't move the bar.                  |
 | `getHue`       | `(item: T) => string \| undefined`         | Bar color. Falls back to the group hue, then `--color-primary`. |
 | `getProgress`  | `(item: T) => number \| undefined`         | 0 to 1, filled from the left.                               |
 | `getDependsOn` | `(item: T) => string[] \| undefined`       | Draws an arrow from each listed task's end to this one's start. |
 | `groups`, `getGroup` |                                     | Optional. Groups rows under a header with a span line.      |
-| `renderLabel`  | `Snippet<[T]>`                            | The left column. Defaults to the title.                     |
+| `getParent`    | `(item: T) => string \| null \| undefined` | Nests a task under another by id: indented, foldable, depth first. |
+| `collapsed`    | `string[]`                                | Parent ids that start folded.                               |
+| `isMilestone`  | `(item: T) => boolean`                    | Draws a flag at the end date instead of a bar. Not draggable. |
+| `noDatesLabel` | `string`                                  | Shown for a task with no dates. Default "No dates".         |
+| `renderLabel`  | `Snippet<[T, { depth, hasChildren, open }]>` | The left column. Defaults to the title.                  |
 | `from`, `to`   | `string`                                  | The shown range. Defaults to the tasks' span, padded, from a Monday. |
 | `today`        | `string`                                  | Where the today line sits. Defaults to the viewer's today.  |
 | `dayWidth`     | `number`                                  | Default 32. Under 18 the header shows week starts only.     |
@@ -158,6 +180,54 @@ with a pill that slides to the active option. Pass `views`
 (`{ id, label, icon? }[]`) and `bind:value`. `BoardIcon`, `ListIcon` and
 `GanttIcon` are exported for it.
 
+## Time tracking
+
+Optional. `TimeTracker` logs time against one task: a start and stop timer, quick
+entry that reads `1h30`, `90m`, `1.5h` or `1:30`, a date and a note, entries
+grouped by day with day totals, a per-person split and an optional estimate shown
+as a ring that turns warning at 90% and destructive past 100%. It holds no data
+and fetches nothing. You pass entries in and persist what it hands back.
+
+```svelte
+<TimeTracker
+  entries={entries}
+  getId={(e) => e.id}
+  getMinutes={(e) => e.minutes}
+  getDay={(e) => e.day}
+  getPerson={(e) => e.person}
+  estimate={480}
+  {running}
+  onStart={() => (running = { startedAt: Date.now() })}
+  onStop={(info) => save(info.minutes, info.day)}
+  onLog={(input) => save(input.minutes, input.day, input.note)}
+  onDelete={(entry) => remove(entry.id)}
+/>
+```
+
+| Prop | Type | Notes |
+| --- | --- | --- |
+| `entries` | `T[]` | Every entry on the task. |
+| `getId`, `getMinutes`, `getDay`, `getPerson` | accessors | `getDay` returns `YYYY-MM-DD`. |
+| `getPersonId`, `getNote` | accessors | Optional. The id keeps two people with one name apart. |
+| `running` | `{ startedAt } \| null` | The host stores it, so it survives a reload. |
+| `estimate` | `number` | Minutes budgeted. Draws the ring. |
+| `onStart` | `() => void` | The host sets `running`. |
+| `onStop` | `(info) => void` | `info` is `{ minutes, startedAt, stoppedAt, day }`. Clear `running` after saving. |
+| `onLog` | `(input) => void \| boolean` | `input` is `{ minutes, day, note? }`. Return `false` to keep the fields. |
+| `onDelete`, `canDelete` | callback | The delete button shows when `onDelete` is set and `canDelete` allows it. |
+| `renderMeta` | `Snippet<[T]>` | Extra text after a row's note. |
+| `flat` | `boolean` | Drops the card (border, radius, background, shadow, padding) for a host that already has a panel. The running state then shows through the dot, readout and button. |
+| `locale`, `labels`, `class` | | `labels` overrides any string in `DEFAULT_TIME_LABELS`. |
+
+Alt+S starts and stops the timer. A screen reader hears the start, one update a
+minute and the stop. Import it alone from `@heyramzi/tasks/time`.
+
+For boards and lists: `TimeChip` (`minutes`, `estimate?`, `running?`) shows the
+logged total, with a pulsing dot while a timer runs and a small ring against an
+estimate. `TimeRing` and `TimeDot` are the pieces under it.
+`parseMinutes`, `formatMinutes`, `formatClock`, `budgetTone` and `localDay` are
+exported helpers.
+
 ## Also exported
 
 - `KanbanColumn`: the column shell, if you want to build your own board.
@@ -167,11 +237,15 @@ with a pill that slides to the active option. Pass `views`
 - `reorderByIds`: move an item to another item's index in a flat list.
 - `addDays`, `dayNumber`, `isoFromDay`, `todayIso`: the date helpers the gantt uses.
 - `StatusBadge`, `StatusDot`, `StatusIcon`: chips, dots and icons from one config.
+  A badge also takes its text as children, for a caller that already has the word.
 - `defineStatuses`: builds a status registry from a plain map.
 - `TONE_CLASS`, `TONE_COLOR`, `TONE_ICON`, `TONE_TEXT`, `insetWellClass`: the severity scale.
 - `salesStatuses`: an example pipeline map.
 
 ## Styling
+
+The accent tone reads `--tone-accent` and falls back to `--color-primary`. Set
+`--tone-accent` when your primary is a neutral and your accent is a brand color.
 
 Classes are Tailwind, on shadcn-style tokens (`bg-card`, `border-border`,
 `text-muted-foreground`, `--color-primary`). Point Tailwind at the package with

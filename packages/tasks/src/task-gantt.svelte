@@ -3,16 +3,31 @@
 	import { cn } from "./lib/cn.js";
 	import { dayNumber, isoFromDay, todayIso, weekday } from "./dates.js";
 	import type { KanbanColumn as KanbanColumnDef } from "./kanban-types.js";
-	import type { GanttChange } from "./task-types.js";
+	import type { GanttChange, GanttLabelContext } from "./task-types.js";
+	import chevronIcon from "./icons/chevron-right.svg?raw";
 
 	type Props<T> = {
 		items: T[];
 		getId: (item: T) => string;
 		getTitle: (item: T) => string;
-		/** ISO date, inclusive. */
-		getStart: (item: T) => string;
-		/** ISO date, inclusive. */
-		getEnd: (item: T) => string;
+		/**
+		 * ISO date, inclusive. Null or empty means undated: with an end date alone the task
+		 * starts the same day, and with neither it has no bar of its own.
+		 */
+		getStart: (item: T) => string | null | undefined;
+		/** ISO date, inclusive. See `getStart`. */
+		getEnd: (item: T) => string | null | undefined;
+		/**
+		 * The id of the task this one sits under. Children nest under their parent, indented
+		 * and foldable. A parent with no dates of its own draws the span of what is below it.
+		 */
+		getParent?: (item: T) => string | null | undefined;
+		/** Draws a flag at the end date instead of a bar. Milestones are not draggable. */
+		isMilestone?: (item: T) => boolean;
+		/** Parent ids that start folded. */
+		collapsed?: string[];
+		/** Shown in place of a bar for an undated task. */
+		noDatesLabel?: string;
 		/** Any CSS color for the bar. Falls back to the group hue, then the primary color. */
 		getHue?: (item: T) => string | undefined;
 		/** 0 to 1. Fills the bar from the left. */
@@ -27,7 +42,7 @@
 		/** Called on a click or Enter that did not move the bar. */
 		onSelect?: (id: string) => void;
 		/** The left column for a row. Defaults to the title. */
-		renderLabel?: Snippet<[T]>;
+		renderLabel?: Snippet<[T, GanttLabelContext]>;
 		/** First and last day shown. Default: the tasks' span, padded, starting on a Monday. */
 		from?: string;
 		to?: string;
@@ -39,6 +54,8 @@
 		labelWidth?: number;
 		labelHeading?: string;
 		locale?: string;
+		/** Drops the card chrome (border, radius, fill) so the chart sits flat on the page. */
+		flat?: boolean;
 		class?: string;
 	};
 
@@ -48,6 +65,10 @@
 		getTitle,
 		getStart,
 		getEnd,
+		getParent,
+		isMilestone,
+		collapsed = [],
+		noDatesLabel = "No dates",
 		getHue,
 		getProgress,
 		getDependsOn,
@@ -64,6 +85,7 @@
 		labelWidth = 240,
 		labelHeading = "Task",
 		locale = "en-US",
+		flat = false,
 		class: className,
 	}: Props<T> = $props();
 
@@ -71,13 +93,25 @@
 	type Drag = { id: string; mode: "move" | "start" | "end"; originX: number; dx: number };
 	type Row =
 		| { kind: "group"; group: KanbanColumnDef; count: number; span: Span | null }
-		| { kind: "task"; item: T; id: string; order: number };
+		| {
+				kind: "task";
+				item: T;
+				id: string;
+				order: number;
+				depth: number;
+				hasChildren: boolean;
+				open: boolean;
+				/** The task's own dates, with a live drag applied. Null when undated. */
+				own: Span | null;
+				/** What the row draws: its own span, else the span of what is below it. */
+				span: Span | null;
+		  };
 
 	// Bars past this row enter together, so a long chart never waits on its stagger.
 	const STAGGER_CAP = 10;
 	// A bar narrower than this shows its title outside, to the right.
 	const INLINE_TITLE_MIN = 72;
-	const BAR_INSET = 3;
+	const INDENT = 14;
 
 	let scroller = $state<HTMLDivElement>();
 	let corner = $state<HTMLDivElement>();
@@ -87,13 +121,26 @@
 
 	let todayDay = $derived(dayNumber(today));
 	let editable = $derived(!!onChange);
+	// Under 18px a day is too narrow for a gap either side of a bar.
+	let inset = $derived(dayWidth >= 18 ? 3 : 0);
+	// svelte-ignore state_referenced_locally
+	let folded = $state(new Set(collapsed));
+
+	function toggle(id: string): void {
+		const next = new Set(folded);
+		if (next.has(id)) next.delete(id);
+		else next.add(id);
+		folded = next;
+	}
 
 	let range = $derived.by(() => {
 		let lo = todayDay;
 		let hi = todayDay;
 		for (const item of items) {
-			lo = Math.min(lo, dayNumber(getStart(item)));
-			hi = Math.max(hi, dayNumber(getEnd(item)));
+			const span = spanOf(item);
+			if (!span) continue;
+			lo = Math.min(lo, span.start);
+			hi = Math.max(hi, span.end);
 		}
 		let first = from ? dayNumber(from) : lo - 7;
 		// Day 0 was a Thursday. Step back to the Monday on or before `first`.
@@ -128,15 +175,19 @@
 		return out;
 	});
 
-	function spanOf(item: T): Span {
-		const start = dayNumber(getStart(item));
-		return { start, end: Math.max(start, dayNumber(getEnd(item))) };
+	/** The task's own dates. A lone date stands for a one-day task. */
+	function spanOf(item: T): Span | null {
+		const first = getStart(item) || getEnd(item);
+		const last = getEnd(item) || getStart(item);
+		if (!first || !last) return null;
+		const start = dayNumber(first);
+		return { start, end: Math.max(start, dayNumber(last)) };
 	}
 
 	/** A bar's span, with the live drag applied. Resizes never cross the other edge. */
-	function liveSpan(item: T, id: string): Span {
+	function liveSpan(item: T, id: string): Span | null {
 		const span = spanOf(item);
-		if (drag?.id !== id || drag.dx === 0) return span;
+		if (!span || drag?.id !== id || drag.dx === 0) return span;
 		if (drag.mode === "move") return { start: span.start + drag.dx, end: span.end + drag.dx };
 		if (drag.mode === "start") return { start: Math.min(span.start + drag.dx, span.end), end: span.end };
 		return { start: span.start, end: Math.max(span.end + drag.dx, span.start) };
@@ -145,20 +196,55 @@
 	let rows = $derived.by(() => {
 		const out: Row[] = [];
 		let order = 0;
-		const push = (item: T) => out.push({ kind: "task", item, id: getId(item), order: order++ });
+		const join = (a: Span | null, b: Span | null): Span | null =>
+			!a ? b : !b ? a : { start: Math.min(a.start, b.start), end: Math.max(a.end, b.end) };
+
+		// Depth first, so a parent's row comes before its children. A parent's span is known
+		// only after its children are, so the row is pushed first and filled in after.
+		const emit = (members: T[]) => {
+			if (!getParent) {
+				for (const item of members) {
+					const id = getId(item);
+					const own = liveSpan(item, id);
+					out.push({ kind: "task", item, id, order: order++, depth: 0, hasChildren: false, open: true, own, span: own });
+				}
+				return;
+			}
+			const ids = new Set(members.map((item) => getId(item)));
+			const kids = new Map<string | null, T[]>();
+			for (const item of members) {
+				const parent = getParent(item);
+				const key = parent && ids.has(parent) ? parent : null;
+				kids.set(key, [...(kids.get(key) ?? []), item]);
+			}
+			const walk = (item: T, depth: number, visible: boolean): Span | null => {
+				const id = getId(item);
+				const children = kids.get(id) ?? [];
+				const open = !folded.has(id);
+				const own = liveSpan(item, id);
+				const row: Row = { kind: "task", item, id, order: 0, depth, hasChildren: children.length > 0, open, own, span: own };
+				if (visible) {
+					row.order = order++;
+					out.push(row);
+				}
+				let below: Span | null = null;
+				for (const child of children) below = join(below, walk(child, depth + 1, visible && open));
+				if (!own) row.span = below;
+				return join(own, below);
+			};
+			for (const item of kids.get(null) ?? []) walk(item, 0, true);
+		};
+
 		if (!groups || !getGroup) {
-			items.forEach(push);
+			emit(items);
 			return out;
 		}
 		for (const group of groups) {
 			const members = items.filter((item) => getGroup(item) === group.id);
 			let span: Span | null = null;
-			for (const item of members) {
-				const s = liveSpan(item, getId(item));
-				span = span ? { start: Math.min(span.start, s.start), end: Math.max(span.end, s.end) } : s;
-			}
+			for (const item of members) span = join(span, liveSpan(item, getId(item)));
 			out.push({ kind: "group", group, count: members.length, span });
-			members.forEach(push);
+			emit(members);
 		}
 		return out;
 	});
@@ -196,7 +282,7 @@
 		if (!getDependsOn) return [];
 		const at = new Map<string, { row: number; span: Span }>();
 		rows.forEach((row, index) => {
-			if (row.kind === "task") at.set(row.id, { row: index, span: liveSpan(row.item, row.id) });
+			if (row.kind === "task" && row.span) at.set(row.id, { row: index, span: row.span });
 		});
 		const out: { key: string; d: string; head: string; from: string; to: string }[] = [];
 		for (const row of rows) {
@@ -206,9 +292,9 @@
 			for (const dep of getDependsOn(row.item) ?? []) {
 				const source = at.get(dep);
 				if (!source) continue;
-				const x1 = x(source.span.end + 1) - BAR_INSET;
+				const x1 = x(source.span.end + 1) - inset;
 				const y1 = source.row * rowHeight + rowHeight / 2;
-				const x2 = x(target.span.start) + BAR_INSET;
+				const x2 = x(target.span.start) + inset;
 				const y2 = target.row * rowHeight + rowHeight / 2;
 				// Room between the bars: one bend in the gap. No room: out, round the row gap, and back in.
 				const points: [number, number][] =
@@ -267,7 +353,7 @@
 		const moved = drag.dx !== 0;
 		const span = liveSpan(item, id);
 		drag = null;
-		if (moved) void onChange?.(id, { start: isoFromDay(span.start), end: isoFromDay(span.end) });
+		if (moved && span) void onChange?.(id, { start: isoFromDay(span.start), end: isoFromDay(span.end) });
 		else onSelect?.(id);
 	}
 
@@ -282,6 +368,7 @@
 		e.preventDefault();
 		const step = e.key === "ArrowRight" ? 1 : -1;
 		const span = spanOf(item);
+		if (!span) return;
 		const next = e.shiftKey
 			? { start: span.start, end: Math.max(span.start, span.end + step) }
 			: { start: span.start + step, end: span.end + step };
@@ -298,7 +385,8 @@
 <div
 	bind:this={scroller}
 	class={cn(
-		"task-gantt relative min-h-0 flex-1 overflow-auto overscroll-x-contain rounded-xl border border-border bg-card text-card-foreground",
+		"task-gantt relative min-h-0 flex-1 overflow-auto overscroll-x-contain",
+		flat ? "bg-background" : "rounded-xl border border-border bg-card text-card-foreground",
 		drag && "select-none",
 		className,
 	)}
@@ -412,15 +500,16 @@
 									class="g-summary absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full"
 									style:--g-hue={hue}
 									style:--g-i={Math.min(index, STAGGER_CAP)}
-									style:left="{x(row.span.start) + BAR_INSET}px"
-									style:width="{(row.span.end - row.span.start + 1) * dayWidth - BAR_INSET * 2}px"
+									style:left="{x(row.span.start) + inset}px"
+									style:width="{Math.max((row.span.end - row.span.start + 1) * dayWidth - inset * 2, 8)}px"
 								></div>
 							{/if}
 						</div>
 					</div>
 				{:else}
-					{@const span = liveSpan(row.item, row.id)}
-					{@const width = (span.end - span.start + 1) * dayWidth - BAR_INSET * 2}
+					{@const span = row.span}
+					{@const width = span ? Math.max((span.end - span.start + 1) * dayWidth - inset * 2, 8) : 0}
+					{@const ctx = { depth: row.depth, hasChildren: row.hasChildren, open: row.open }}
 					{@const progress = Math.max(0, Math.min(1, getProgress?.(row.item) ?? 0))}
 					{@const title = getTitle(row.item)}
 					{@const dragging = drag?.id === row.id}
@@ -430,14 +519,77 @@
 						class:g-row-hot={hoveredId === row.id || dragging}
 						style:height="{rowHeight}px"
 					>
-						<div class="sticky left-0 z-10 flex w-(--g-label) shrink-0 items-center gap-2 border-r border-border bg-card px-3 text-sm">
+						<div
+							class="sticky left-0 z-10 flex w-(--g-label) shrink-0 items-center gap-2 border-r border-border bg-card px-3 text-sm"
+							style:padding-inline-start={getParent ? `${row.depth * INDENT + 12}px` : undefined}
+						>
+							{#if getParent}
+								{#if row.hasChildren}
+									<button
+										type="button"
+										aria-expanded={row.open}
+										aria-label="{row.open ? 'Fold' : 'Unfold'} {title}"
+										onclick={() => toggle(row.id)}
+										class="-ml-1 grid size-5 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
+									>
+										<span class="g-chevron size-3.5 [&>svg]:size-full" class:g-chevron-open={row.open} aria-hidden="true">
+											{@html chevronIcon}
+										</span>
+									</button>
+								{:else}
+									<span class="-ml-1 size-5 shrink-0" aria-hidden="true"></span>
+								{/if}
+							{/if}
 							{#if renderLabel}
-								{@render renderLabel(row.item)}
+								{@render renderLabel(row.item, ctx)}
 							{:else}
 								<span class="truncate text-foreground">{title}</span>
 							{/if}
 						</div>
 						<div class="relative shrink-0" style:width="{timelineWidth}px">
+							{#if !span}
+								<span
+									class="pointer-events-none absolute top-1/2 -translate-y-1/2 text-xs whitespace-nowrap text-muted-foreground/70"
+									style:left="{Math.max(x(todayDay) - 40, 0) + 8}px"
+								>
+									{noDatesLabel}
+								</span>
+							{:else if isMilestone?.(row.item) && row.own}
+								<button
+									type="button"
+									aria-label="{title}, {rangeLabel(span)}"
+									title="{title}, {rangeLabel(span)}"
+									class="g-flag absolute top-1/2 grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+									style:--g-hue={hueOf(row.item)}
+									style:left="{x(span.end) + dayWidth / 2}px"
+									onclick={() => onSelect?.(row.id)}
+									onpointerenter={() => (hoveredId = row.id)}
+									onpointerleave={() => (hoveredId = hoveredId === row.id ? null : hoveredId)}
+								>
+									<svg viewBox="0 0 16 16" class="size-5" aria-hidden="true">
+										<path d="M4 2v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" />
+										<path d="M4.75 2.75h8l-2 3 2 3h-8z" fill="currentColor" />
+									</svg>
+								</button>
+							{:else if !row.own}
+								<!-- A parent with no dates of its own: the span of what is below it. Not draggable. -->
+								<div
+									role="button"
+									tabindex="0"
+									aria-label="{title}, {rangeLabel(span)}"
+									title="{title}, {rangeLabel(span)}"
+									class="g-derived absolute top-1/2 -translate-y-1/2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+									style:--g-hue={hueOf(row.item)}
+									style:--g-i={Math.min(row.order, STAGGER_CAP)}
+									style:left="{x(span.start) + inset}px"
+									style:width="{width}px"
+									style:height="{Math.max(rowHeight - 24, 10)}px"
+									onclick={() => onSelect?.(row.id)}
+									onkeydown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onSelect?.(row.id))}
+									onpointerenter={() => (hoveredId = row.id)}
+									onpointerleave={() => (hoveredId = hoveredId === row.id ? null : hoveredId)}
+								></div>
+							{:else}
 							<div
 								data-bar
 								role="button"
@@ -451,7 +603,7 @@
 								)}
 								style:--g-hue={hueOf(row.item)}
 								style:--g-i={Math.min(row.order, STAGGER_CAP)}
-								style:left="{x(span.start) + BAR_INSET}px"
+								style:left="{x(span.start) + inset}px"
 								style:width="{width}px"
 								style:height="{rowHeight - 14}px"
 								onpointerdown={(e) => onPointerDown(e, row.id, "move")}
@@ -502,6 +654,7 @@
 								>
 									{title}
 								</span>
+							{/if}
 							{/if}
 						</div>
 					</div>
@@ -581,6 +734,26 @@
 		opacity: 0.6;
 	}
 
+	.g-chevron {
+		transition: rotate var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+	}
+
+	.g-chevron-open {
+		rotate: 90deg;
+	}
+
+	/* A summary of what is below: an outline, so it never reads as a task you can drag. */
+	.g-derived {
+		background: color-mix(in oklab, var(--g-hue) 10%, transparent);
+		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 45%, transparent);
+		animation: g-bar-in var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation-delay: calc(var(--g-i, 0) * var(--duration-stagger, 40ms));
+	}
+
+	.g-flag {
+		color: var(--g-hue);
+	}
+
 	.g-summary {
 		background: color-mix(in oklab, var(--g-hue) 45%, transparent);
 		animation: g-bar-in var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
@@ -657,6 +830,7 @@
 	@media (prefers-reduced-motion: reduce) {
 		.g-bar,
 		.g-summary,
+		.g-derived,
 		.g-tip,
 		.g-today,
 		.g-arrow-line,
@@ -665,7 +839,8 @@
 		}
 		.g-bar,
 		.g-summary,
-		.g-progress {
+		.g-progress,
+		.g-chevron {
 			transition: none;
 		}
 	}

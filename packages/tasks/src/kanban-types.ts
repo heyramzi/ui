@@ -23,6 +23,13 @@ export type KanbanMove = {
    * card in its new slot. Ignore it when you persist order some other way.
    */
   boardOrder?: string;
+  /**
+   * The cards that sit above and below the drop slot once the dragged card is
+   * set aside. Set on manual drops only, null at an end. For a backend that
+   * orders by neighbour instead of by key.
+   */
+  beforeId?: string | null;
+  afterId?: string | null;
 };
 
 /** A named sort the board can apply instead of manual (`boardOrder`) ordering. */
@@ -38,10 +45,20 @@ export type KanbanCardContext = {
   index: number;
 };
 
-/** Second argument handed to the column header snippet. */
+/** Second argument handed to the column header and footer snippets. */
 export type KanbanColumnContext = {
+  /** Every card in the column, including the ones a `limit` keeps out of view. */
   count: number;
+  /** A card is held over the column. */
   active: boolean;
+  /** How many cards render. Fewer than `count` while the column is capped. */
+  shown: number;
+  /** The column's `limit` is hiding its tail. */
+  capped: boolean;
+  /** Fold the column into the hidden rail. Needs `hidden` or `onHiddenChange` on the board. */
+  hide: () => void;
+  /** Lift the `limit` so every card shows. */
+  expand: () => void;
 };
 
 /** The default header renderer when no `columnHeader` snippet is given. */

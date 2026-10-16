@@ -54,6 +54,11 @@
       "types": "./src/status-badge.svelte",
       "default": "./src/status-badge.svelte"
     },
+    "./time": {
+      "svelte": "./src/time/time-tracker.svelte",
+      "types": "./src/time/time-tracker.svelte",
+      "default": "./src/time/time-tracker.svelte"
+    },
     "./presets/sales": {
       "svelte": "./src/presets/sales.ts",
       "types": "./src/presets/sales.ts",

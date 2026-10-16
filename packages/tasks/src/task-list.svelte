@@ -1,4 +1,4 @@
-<script lang="ts" generics="T">
+<script lang="ts" generics="T, C extends KanbanColumnDef = KanbanColumnDef">
 	import type { Snippet } from "svelte";
 	import { flip } from "svelte/animate";
 	import { cubicOut } from "svelte/easing";
@@ -10,9 +10,9 @@
 	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "./kanban-types.js";
 	import type { TaskListGroupContext, TaskListRowContext } from "./task-types.js";
 
-	type Props<T> = {
+	type Props<T, C extends KanbanColumnDef> = {
 		/** The same shape as board columns, so one config feeds both views. */
-		groups: KanbanColumnDef[];
+		groups: C[];
 		items: T[];
 		getId: (item: T) => string;
 		/** The group id a row belongs to. */
@@ -22,8 +22,23 @@
 		renderRow: Snippet<[T, TaskListRowContext]>;
 		/** Optional sticky header row above every group, e.g. column labels. */
 		head?: Snippet;
-		groupHeader?: Snippet<[KanbanColumnDef, TaskListGroupContext]>;
+		groupHeader?: Snippet<[C, TaskListGroupContext]>;
+		/** Controls at the end of a group header, shown on hover, focus or a coarse pointer. */
+		actions?: Snippet<[C, TaskListGroupContext]>;
+		/** Rendered under a group's rows, e.g. an add-task row. Folds with the group. */
+		groupFooter?: Snippet<[C, TaskListGroupContext]>;
 		boardOrder?: (item: T) => string | null | undefined;
+		/** Breaks a tie in manual order: two rows with the same key, or both without one. */
+		manualTiebreak?: (a: T, b: T) => number;
+		/**
+		 * Rows are draggable and take Alt plus Up or Down. Turn it off for a list that only groups,
+		 * where rows hold their own links and buttons and a drop makes no sense.
+		 */
+		draggable?: boolean;
+		/** The screen-reader name of a row. Defaults to a hint about the keyboard move. */
+		getLabel?: (item: T) => string;
+		/** Fires when a group is folded or unfolded, with every folded id. */
+		onCollapsedChange?: (ids: string[]) => void;
 		sortKeys?: KanbanSortKey<T>[];
 		sortKey?: string;
 		/** Groups can be folded from their header. Defaults to true. */
@@ -32,6 +47,8 @@
 		collapsed?: string[];
 		emptyLabel?: string;
 		isDroppable?: (groupId: string) => boolean;
+		/** Drops the card chrome (border, radius, fill) so the list sits flat on the page. Group dividers stay. */
+		flat?: boolean;
 		class?: string;
 	};
 
@@ -44,15 +61,22 @@
 		renderRow,
 		head,
 		groupHeader,
+		actions,
+		groupFooter,
 		boardOrder,
+		manualTiebreak,
+		draggable = true,
+		getLabel,
+		onCollapsedChange,
 		sortKeys = [],
 		sortKey = "manual",
 		collapsible = true,
 		collapsed = [],
 		emptyLabel = "Nothing here yet",
 		isDroppable,
+		flat = false,
 		class: className,
-	}: Props<T> = $props();
+	}: Props<T, C> = $props();
 
 	// Rows past this index enter together, so a long list never waits on its stagger.
 	const STAGGER_CAP = 8;
@@ -62,13 +86,14 @@
 
 	function compare(a: T, b: T): number {
 		if (sortKey === "manual") {
-			if (!boardOrder) return 0;
+			const tie = manualTiebreak?.(a, b) ?? 0;
+			if (!boardOrder) return tie;
 			const ao = boardOrder(a);
 			const bo = boardOrder(b);
-			if (ao == null && bo == null) return 0;
+			if (ao == null && bo == null) return tie;
 			if (ao == null) return 1;
 			if (bo == null) return -1;
-			return ao < bo ? -1 : ao > bo ? 1 : 0;
+			return ao < bo ? -1 : ao > bo ? 1 : tie;
 		}
 		const key = sortKeys.find((entry) => entry.id === sortKey);
 		return key ? key.compare(a, b) : 0;
@@ -103,6 +128,7 @@
 		if (next.has(groupId)) next.delete(groupId);
 		else next.add(groupId);
 		folded = next;
+		onCollapsedChange?.([...next]);
 	}
 
 	/** Alt + ArrowUp/Down sends the focused row to the end of the group above or below. */
@@ -118,11 +144,16 @@
 			const target = groups[i];
 			if (!canDrop(target.id)) continue;
 			e.preventDefault();
-			if (sortKey === "manual" && boardOrder) {
+			if (sortKey === "manual") {
 				const rows = sortedByGroup(target.id).filter((entry) => getId(entry) !== id);
+				const last = rows.at(-1);
 				void onMove(id, {
 					columnId: target.id,
-					boardOrder: boardOrderAt(rows, rows.length, (entry) => boardOrder(entry)),
+					...(boardOrder
+						? { boardOrder: boardOrderAt(rows, rows.length, (entry) => boardOrder(entry)) }
+						: {}),
+					beforeId: last === undefined ? null : getId(last),
+					afterId: null,
 				});
 			} else {
 				void onMove(id, { columnId: target.id });
@@ -136,13 +167,14 @@
 
 <div
 	class={cn(
-		"task-list flex min-h-0 flex-1 flex-col overflow-y-auto rounded-xl border border-border bg-card text-card-foreground",
+		"task-list flex min-h-0 flex-1 flex-col overflow-y-auto",
+		flat ? "bg-background" : "rounded-xl border border-border bg-card text-card-foreground",
 		className,
 	)}
 >
 	{#if head}
 		<div
-			class="sticky top-0 z-20 flex h-9 shrink-0 items-center border-b border-border bg-card/90 text-xs font-medium text-muted-foreground backdrop-blur-sm"
+			class={cn("sticky top-0 z-20 flex h-9 shrink-0 items-center border-b border-border text-xs font-medium text-muted-foreground backdrop-blur-sm", flat ? "bg-background/90" : "bg-card/90")}
 		>
 			{@render head()}
 		</div>
@@ -154,14 +186,14 @@
 		{@const hue = group.hue ?? "var(--color-primary)"}
 		<section
 			aria-label={group.ariaLabel ?? group.label}
-			class="tl-group border-b border-border last:border-b-0"
+			class="tl-group group/tl border-b border-border last:border-b-0"
 			class:tl-group-active={active}
 			style:--tl-hue={hue}
 			ondragover={(e) => dnd.onColumnDragOver(e, group.id)}
 			ondragleave={dnd.onDragLeave}
 			ondrop={(e) => dnd.onDrop(e, group.id)}
 		>
-			<div class={cn("sticky z-10 flex h-10 items-center gap-2 bg-card/90 px-3 backdrop-blur-sm", head ? "top-9" : "top-0")}>
+			<div class={cn("sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm", flat ? "bg-background/90" : "bg-card/90", head ? "top-9" : "top-0")}>
 				{#if collapsible}
 					<button
 						type="button"
@@ -186,6 +218,13 @@
 						{rows.length}
 					</span>
 				{/if}
+				{#if actions}
+					<div
+						class="tl-actions ms-auto flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-[var(--duration-quick,150ms)] focus-within:opacity-100 any-pointer-coarse:opacity-100"
+					>
+						{@render actions(group, { count: rows.length, active, open })}
+					</div>
+				{/if}
 			</div>
 
 			<div class="tl-fold" class:tl-fold-open={open}>
@@ -199,20 +238,27 @@
 								idAt(rows, index - 1) !== dnd.draggedId}
 							<div
 								role="listitem"
-								tabindex="0"
-								aria-label="Row. Press Alt plus Up or Down arrow to move between groups."
-								draggable="true"
+								tabindex={draggable ? 0 : undefined}
+								aria-label={getLabel?.(item) ??
+									(draggable ? "Row. Press Alt plus Up or Down arrow to move between groups." : undefined)}
+								aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
+								draggable={draggable ? "true" : undefined}
 								animate:flip={{ duration: 250, easing: cubicOut }}
-								ondragstart={(e) => {
-									liftDragImage(e, -1);
-									dnd.onDragStart(e, id);
-								}}
-								ondragend={() => dnd.resetDrag()}
-								ondragover={(e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))}
-								onkeydown={(e) => onRowKeyDown(e, id)}
+								ondragstart={draggable
+									? (e) => {
+											liftDragImage(e, -1);
+											dnd.onDragStart(e, id);
+										}
+									: undefined}
+								ondragend={draggable ? () => dnd.resetDrag() : undefined}
+								ondragover={draggable
+									? (e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))
+									: undefined}
+								onkeydown={draggable ? (e) => onRowKeyDown(e, id) : undefined}
 								style:--tl-i={Math.min(index, STAGGER_CAP)}
 								class={cn(
-									"tl-row relative mx-1.5 cursor-grab rounded-lg outline-none active:cursor-grabbing focus-visible:ring-2 focus-visible:ring-ring/60",
+									"tl-row relative mx-1.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+									draggable && "cursor-grab active:cursor-grabbing",
 									dropBefore && "tl-drop-before",
 									dnd.isDragSource(id) && "opacity-40",
 								)}
@@ -223,6 +269,10 @@
 
 						{#if dnd.showIndicatorEnd(group.id) && idAt(rows, rows.length - 1) !== dnd.draggedId}
 							<div class="tl-drop-end relative mx-1.5 h-2" aria-hidden="true"></div>
+						{/if}
+
+						{#if groupFooter}
+							{@render groupFooter(group, { count: rows.length, active, open })}
 						{/if}
 
 						{#if rows.length === 0 && !active}
@@ -240,6 +290,11 @@
 <style>
 	.tl-group {
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+	}
+
+	.tl-group:hover :global(.tl-actions),
+	.tl-group :global(.tl-actions:focus-within) {
+		opacity: 1;
 	}
 
 	.tl-group-active {

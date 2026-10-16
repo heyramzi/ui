@@ -28,3 +28,12 @@ export type TaskView = {
   /** Any Svelte component that takes `size` and `class`, e.g. `BoardIcon`. */
   icon?: Component<{ size?: number; class?: string }>;
 };
+
+/** Second argument handed to the gantt label snippet. */
+export type GanttLabelContext = {
+  /** 0 for a top-level task. Only grows when `getParent` is set. */
+  depth: number;
+  hasChildren: boolean;
+  /** False when the task's children are folded away. */
+  open: boolean;
+};

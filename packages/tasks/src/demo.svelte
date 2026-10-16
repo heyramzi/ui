@@ -13,6 +13,9 @@
 	import { salesStatuses } from "./presets/sales.js";
 	import type { KanbanMove } from "./kanban-types.js";
 	import type { GanttChange } from "./task-types.js";
+	import TimeTracker from "./time/time-tracker.svelte";
+	import TimeChip from "./time/time-chip.svelte";
+	import type { TimeLogInput, TimeStopInfo } from "./time/time-types.js";
 
 	type Priority = "low" | "medium" | "high";
 
@@ -107,6 +110,52 @@
 		tasks = tasks.map((task) => (task.id === id ? { ...task, ...change } : task));
 	}
 
+	// ---- time tracking, an option the host turns on
+	type Entry = { id: string; taskId: string; person: string; day: string; minutes: number; note?: string };
+
+	const estimates: Record<string, number> = { t3: 360, t4: 480, t5: 180, t6: 240 };
+
+	let tracking = $state(true);
+	let timeTaskId = $state("t4");
+	let nextEntry = 100;
+	let entries = $state<Entry[]>([
+		{ id: "e1", taskId: "t4", person: "Dana", day: on(-3), minutes: 150, note: "Signup and email step" },
+		{ id: "e2", taskId: "t4", person: "Ada", day: on(-2), minutes: 95, note: "Copy for the welcome screen" },
+		{ id: "e3", taskId: "t4", person: "Dana", day: on(-2), minutes: 125, note: "Progress bar and empty states" },
+		{ id: "e4", taskId: "t4", person: "Dana", day: on(-1), minutes: 80 },
+		{ id: "e5", taskId: "t3", person: "Ada", day: on(-5), minutes: 210, note: "First draft" },
+		{ id: "e6", taskId: "t3", person: "Bo", day: on(-3), minutes: 95, note: "Pricing table" },
+		{ id: "e7", taskId: "t3", person: "Ada", day: on(-1), minutes: 85, note: "Review changes" },
+		{ id: "e8", taskId: "t5", person: "Bo", day: on(0), minutes: 40 },
+		{ id: "e9", taskId: "t1", person: "Bo", day: on(-12), minutes: 60 },
+	]);
+	// The host keeps the running timer. A reload would read it back from storage.
+	let timer = $state<{ taskId: string; startedAt: number } | null>({
+		taskId: "t4",
+		startedAt: Date.now() - (12 * 60 + 41) * 1000,
+	});
+
+	let minutesByTask = $derived.by(() => {
+		const totals: Record<string, number> = {};
+		for (const entry of entries) totals[entry.taskId] = (totals[entry.taskId] ?? 0) + entry.minutes;
+		return totals;
+	});
+	let timeEntries = $derived(entries.filter((entry) => entry.taskId === timeTaskId));
+	let timeRunning = $derived(timer?.taskId === timeTaskId ? { startedAt: timer.startedAt } : null);
+
+	function addEntry(taskId: string, day: string, minutes: number, note?: string) {
+		entries = [{ id: `e${nextEntry++}`, taskId, person: "Dana", day, minutes, note }, ...entries];
+	}
+
+	function onLog(input: TimeLogInput) {
+		addEntry(timeTaskId, input.day, input.minutes, input.note);
+	}
+
+	function onStop(info: TimeStopInfo) {
+		if (timer) addEntry(timer.taskId, info.day, info.minutes);
+		timer = null;
+	}
+
 	const listGrid = "grid grid-cols-[minmax(0,1fr)_7rem_5.5rem_4.5rem] items-center gap-3 max-sm:grid-cols-[minmax(0,1fr)_4.5rem]";
 </script>
 
@@ -124,7 +173,11 @@
 	<div class="flex h-[600px] flex-col gap-3">
 		<div class="flex flex-wrap items-center gap-2">
 			<TaskViewSwitch {views} bind:value={view} label="Task view" />
-			<div class="ml-auto flex items-center gap-2">
+			<div class="ml-auto flex items-center gap-3">
+				<label class="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-muted-foreground">
+					<input type="checkbox" bind:checked={tracking} class="size-3.5 accent-[var(--tone-accent,var(--color-primary))]" />
+					Time tracking
+				</label>
 				{#if view === "gantt"}
 					<TaskViewSwitch
 						views={[
@@ -170,6 +223,9 @@
 								<div class="mt-2.5 flex items-center gap-2 text-xs">
 									{@render avatar(task.assignee)}
 									<span class={d.late ? "font-medium text-destructive" : "text-muted-foreground"}>{d.label}</span>
+									{#if tracking}
+										<TimeChip minutes={minutesByTask[task.id] ?? 0} estimate={estimates[task.id]} running={timer?.taskId === task.id} />
+									{/if}
 									<span class="ml-auto rounded-full px-1.5 py-0.5 font-medium capitalize {priorityClass[task.priority]}">
 										{task.priority}
 									</span>
@@ -206,6 +262,9 @@
 									<span class="truncate" class:text-muted-foreground={task.status === "done"} class:line-through={task.status === "done"}>
 										{task.title}
 									</span>
+									{#if tracking}
+										<TimeChip minutes={minutesByTask[task.id] ?? 0} estimate={estimates[task.id]} running={timer?.taskId === task.id} />
+									{/if}
 								</span>
 								<span class="flex min-w-0 items-center gap-2 text-muted-foreground max-sm:hidden">
 									{@render avatar(task.assignee)}
@@ -258,6 +317,42 @@
 			{/if}
 		</p>
 	</div>
+
+	{#if tracking}
+		<section class="flex flex-col gap-3 border-t border-border pt-4">
+			<div class="flex items-center justify-between gap-3">
+				<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Task time</h3>
+				<select
+					bind:value={timeTaskId}
+					aria-label="Task"
+					class="h-8 max-w-[60%] rounded-md border border-border bg-background px-2 text-xs text-foreground"
+				>
+					{#each tasks as task (task.id)}
+						<option value={task.id}>{task.title}</option>
+					{/each}
+				</select>
+			</div>
+			<TimeTracker
+				class="mx-auto w-full max-w-xl"
+				entries={timeEntries}
+				getId={(entry) => entry.id}
+				getMinutes={(entry) => entry.minutes}
+				getDay={(entry) => entry.day}
+				getPerson={(entry) => entry.person}
+				getNote={(entry) => entry.note}
+				estimate={estimates[timeTaskId]}
+				running={timeRunning}
+				onStart={() => {
+					timer = { taskId: timeTaskId, startedAt: Date.now() };
+				}}
+				{onStop}
+				{onLog}
+				onDelete={(entry) => {
+					entries = entries.filter((row) => row.id !== entry.id);
+				}}
+			/>
+		</section>
+	{/if}
 
 	<section class="flex flex-col gap-2 border-t border-border pt-4">
 		<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Status badges</h3>
