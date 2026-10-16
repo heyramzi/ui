@@ -618,3 +618,13 @@
 
 * feat(ui): agents move into @heyramzi/ui/agents, draw is retired, marketing gets a site page
 
+
+## [7.0.0](https://github.com/heyramzi/ui/compare/ui-v6.1.0...ui-v7.0.0) (2026-10-16)
+
+### Features
+
+* feat(ui)!: shadcn CodeBlock, Trace and MessageScroller, and MessageScroller replaces ai/conversation
+* feat(ui): a shadcn Kbd and KbdGroup, and revealTheme takes an easing
+* feat(ui): tabs slide one shared pill, and the unused 1024px is-mobile copy goes
+* feat(charts)!: the charts move out of @heyramzi/ui into @heyramzi/charts
+
