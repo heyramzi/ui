@@ -1,7 +1,7 @@
 <script lang="ts" module>
   /** The demo's type pairing. A deck sets these two variables and every slide follows. */
   export const demoStyle =
-    "--deck-font:'Instrument Sans',ui-sans-serif,system-ui,sans-serif;--deck-font-display:'Bricolage Grotesque','Instrument Sans',ui-sans-serif,sans-serif;";
+    "--deck-font:'Schibsted Grotesk',ui-sans-serif,system-ui,sans-serif;--deck-font-display:'Bricolage Grotesque','Schibsted Grotesk',ui-sans-serif,sans-serif;";
 </script>
 
 <script lang="ts">
@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Schibsted+Grotesk:wght@400;500;600&display=swap"
   />
 </svelte:head>
 
