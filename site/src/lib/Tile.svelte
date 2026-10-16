@@ -7,8 +7,33 @@
 
   let { entry }: { entry: Entry } = $props();
   let width = $state(0);
+  let height = $state(0);
+  let stage: HTMLDivElement;
+  // Lay the demo out near the tile's own width, so one that fills its row is not drawn
+  // at 760px and shrunk to a third. 400px keeps charts and forms from cramping.
+  const stageWidth = $derived(width ? Math.min(760, Math.max(400, width - 48)) : 760);
+  // The demo's own footprint, unscaled: offset sizes ignore the CSS scale.
+  let content = $state({ w: 760, h: 0 });
   let copiedAi = $state(false);
-  const scale = $derived(width ? Math.min((width - 56) / 760, 0.75) : 0.46);
+  // Shrink a demo only as far as it needs to fit. A small one stays at full size.
+  const scale = $derived(
+    width && content.h ? Math.min(1, (width - 48) / content.w, (height - 40) / content.h) : 0.46,
+  );
+
+  $effect(() => {
+    const measure = () => {
+      const kids = [...stage.children] as HTMLElement[];
+      const left = Math.min(...kids.map((k) => k.offsetLeft));
+      const right = Math.max(...kids.map((k) => k.offsetLeft + k.offsetWidth));
+      const w = kids.length ? Math.max(1, right - left) : stageWidth;
+      content = { w, h: Math.max(1, stage.offsetHeight) };
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(stage);
+    for (const kid of stage.children) observer.observe(kid);
+    measure();
+    return () => observer.disconnect();
+  });
 
   async function copyAi(e: MouseEvent) {
     e.preventDefault();
@@ -24,9 +49,9 @@
   href="/components/{entry.slug}"
   class="group flex flex-col rounded-[26px] border border-border bg-card/60 p-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-xl"
 >
-  <div class="canvas-dots relative h-60 overflow-hidden rounded-[20px] border border-border bg-background" bind:clientWidth={width}>
-    <div class="pointer-events-none absolute left-1/2 top-1/2 w-[760px] origin-center -translate-x-1/2 -translate-y-1/2" style="scale:{scale}" aria-hidden="true">
-      <div class="flex w-full justify-center">
+  <div class="canvas-dots relative h-60 overflow-hidden rounded-[20px] border border-border bg-background" bind:clientWidth={width} bind:clientHeight={height}>
+    <div class="pointer-events-none absolute left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2" style="width:{stageWidth}px; scale:{scale}" aria-hidden="true">
+      <div class="flex w-full justify-center" bind:this={stage}>
         <entry.component />
       </div>
     </div>

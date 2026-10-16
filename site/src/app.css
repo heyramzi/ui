@@ -29,7 +29,7 @@ body {
 
 /* The dotted canvas behind every live preview. */
 .canvas-dots {
-  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 14%, transparent) 1px, transparent 1px);
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 8%, transparent) 1px, transparent 1px);
   background-size: 16px 16px;
 }
 
