@@ -1,94 +1,179 @@
 <script lang="ts">
   import { getContext, setContext, type Snippet } from 'svelte';
-  import { DECK_KEY, SLIDE_KEY, type DeckApi, type SlideApi } from './types';
+  import type { DeckController, SlideEntry } from './deck-controller.svelte';
+  import { DECK_KEY, SLIDE_KEY, type SlideAlign, type SlideContext, type SlideNotes } from './types';
 
   type Props = {
-    /** Accessible name for the slide. */
+    /** Accessible name, read after "Slide 3 of 12". */
     label?: string;
+    /** Speaker notes for the presenter view. */
+    notes?: SlideNotes;
+    /** Skipped by paging and left out of the overview and print. */
+    hidden?: boolean;
+    /** `center` (default), `start`, or `bare` to lay the canvas out yourself. */
+    align?: SlideAlign;
     class?: string;
     style?: string;
     children?: Snippet;
   };
 
-  let { label, class: className, style, children }: Props = $props();
+  let { label, notes, hidden = false, align = 'center', class: className, style, children }: Props = $props();
 
-  const deck = getContext<DeckApi | undefined>(DECK_KEY);
+  const deck = getContext<DeckController | undefined>(DECK_KEY);
   if (!deck) throw new Error('<Slide> must be rendered inside <Deck>.');
 
-  const id = Symbol('slide');
-
-  /* Fragments register their step here. The slide's step count is the highest
-     step any fragment asked for, so the deck can walk them before advancing. */
-  const counts = new Map<number, number>();
+  let el = $state<HTMLElement | null>(null);
   let steps = $state(0);
+  /* Fragments per step, so one leaving doesn't drop a step another still asks for. */
+  const counts = new Map<number, number>();
 
-  function recompute() {
-    steps = counts.size ? Math.max(...counts.keys()) : 0;
-  }
-
-  function registerFragment(fragmentStep: number) {
-    counts.set(fragmentStep, (counts.get(fragmentStep) ?? 0) + 1);
-    recompute();
-    return () => {
-      const left = (counts.get(fragmentStep) ?? 1) - 1;
-      if (left <= 0) counts.delete(fragmentStep);
-      else counts.set(fragmentStep, left);
-      recompute();
-    };
-  }
-
-  const active = $derived(deck.isActive(id));
-
-  const slideApi: SlideApi = {
-    isActive: () => active,
-    activeStep: () => (active ? deck.step() : 0),
-    registerFragment,
+  const entry: SlideEntry = {
+    id: Symbol('slide'),
+    get steps() {
+      return steps;
+    },
+    get hidden() {
+      return hidden;
+    },
+    get label() {
+      return label;
+    },
+    get notes() {
+      return notes;
+    },
+    get el() {
+      return el;
+    },
   };
-  setContext(SLIDE_KEY, slideApi);
 
-  $effect(() => deck.registerSlide(id, () => steps));
+  $effect(() => deck.register(entry));
 
-  const rootClass = $derived(['slide', className].filter(Boolean).join(' '));
+  const index = $derived(deck.entries.indexOf(entry));
+  const active = $derived(index >= 0 && deck.position.index === index);
+  const box = $derived(deck.boxOf(index));
+  const order = $derived(Math.max(0, deck.visible.indexOf(index)));
+
+  /* A slide that is leaving keeps the step it left at, so its fragments don't vanish mid-fade. */
+  let held = $state(0);
+  $effect.pre(() => {
+    if (active) held = deck.position.step;
+  });
+
+  const recount = () => (steps = counts.size ? Math.max(...counts.keys()) : 0);
+
+  setContext<SlideContext>(SLIDE_KEY, {
+    shown: (step) => deck.revealAll || step <= (active ? deck.position.step : held),
+    join(step) {
+      const order = counts.get(step) ?? 0;
+      counts.set(step, order + 1);
+      recount();
+      return {
+        order,
+        leave() {
+          const left = (counts.get(step) ?? 1) - 1;
+          if (left <= 0) counts.delete(step);
+          else counts.set(step, left);
+          recount();
+        },
+      };
+    },
+  });
+
+  /* A View Transition needs one element per name, so only the active slide holds its morph names. */
+  $effect(() => {
+    const names = el?.querySelectorAll<HTMLElement>('[data-morph]') ?? [];
+    for (const node of names) node.style.viewTransitionName = active ? (node.dataset.morph ?? '') : '';
+  });
+
+  const where = $derived(deck.labels.slide(order + 1, deck.visible.length));
+  const name = $derived(label ? `${where}: ${label}` : where);
 </script>
 
 <section
-  class={rootClass}
-  style={style}
+  bind:this={el}
+  class={['slide', className]}
+  style:--slide-w="{deck.canvas.w}px"
+  style:--slide-h="{deck.canvas.h}px"
+  style:--slide-scale={box?.scale}
+  style:--i={order}
+  style:transform={box ? `translate3d(${box.x}px, ${box.y}px, 0) scale(${box.scale})` : undefined}
+  {style}
+  {hidden}
   data-active={active}
+  role="group"
+  aria-roledescription={deck.labels.slideRole}
+  aria-label={name}
   aria-hidden={!active}
-  inert={!active}
-  aria-label={label}
+  inert={!active || deck.overview}
 >
-  <div class="slide__inner">
+  <div class="slide__surface" data-align={align}>
     {@render children?.()}
   </div>
 </section>
 
 <style>
+  /* The box is a full canvas, moved and scaled from its top-left. */
   .slide {
     position: absolute;
-    inset: 0;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--deck-pad);
-    opacity: 0;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: var(--slide-w);
+    height: var(--slide-h);
+    transform-origin: 0 0;
     visibility: hidden;
-    transform: translateY(1.5%);
-    transition:
-      opacity 0.45s ease,
-      transform 0.45s ease,
-      visibility 0.45s;
+    /* The old slide stays drawn for the length of the enter animation. */
+    transition: visibility 0s linear var(--deck-t-slide);
+  }
+  .slide[hidden] {
+    display: none;
   }
   .slide[data-active='true'] {
-    opacity: 1;
+    z-index: 2;
     visibility: visible;
-    transform: none;
+    transition-delay: 0s;
   }
-  .slide__inner {
+
+  /* The overview shows every slide. They all leave the stack at once and settle in turn, later ones slower. */
+  :global(.deck[data-view='overview']) .slide {
+    visibility: visible;
+  }
+  :global(.deck[data-morphing]) .slide {
+    transition:
+      visibility 0s linear calc(var(--deck-t-morph) + 10 * var(--deck-stagger)),
+      transform calc(var(--deck-t-morph) + min(var(--i), 10) * var(--deck-stagger)) var(--deck-ease);
+  }
+  /* Opening shows the slides at once, so only closing waits before hiding them. */
+  :global(.deck[data-morphing][data-view='overview']) .slide {
+    transition-delay: 0s;
+  }
+
+  .slide__surface {
+    position: relative;
+    box-sizing: border-box;
     width: 100%;
-    max-width: 58rem;
+    height: 100%;
+    overflow: hidden;
+    color: var(--deck-fg);
+    background: var(--deck-bg);
+    font-family: var(--deck-font);
+    animation: var(--deck-t-slide) var(--deck-ease) backwards;
+  }
+  :global(.deck[data-view='overview']) .slide__surface {
+    /* Design px, so divide by the scale to get the same corner on every thumbnail. */
+    border-radius: calc(10px / var(--slide-scale, 1));
+    box-shadow: 0 0 0 calc(1px / var(--slide-scale, 1)) var(--deck-line);
+  }
+
+  .slide__surface[data-align='center'],
+  .slide__surface[data-align='start'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--deck-pad);
+  }
+  .slide__surface[data-align='center'] {
+    align-items: center;
     text-align: center;
   }
 </style>

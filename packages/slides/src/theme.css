@@ -1,0 +1,205 @@
+/*
+ * Everything global to a deck: tokens, authored type, the enter keyframes and print.
+ * Components keep their own box mechanics in scoped styles. Sizes are design px,
+ * because the whole canvas scales, so a 28px heading is 28px on a 960px canvas at any zoom.
+ * Colours are flat hex: Chromium's PDF pipeline shifts oklch.
+ */
+
+.deck,
+.deck-surface {
+  color-scheme: dark;
+
+  --deck-bg: light-dark(#f2f1ec, #0e1014);
+  --deck-fg: light-dark(#15171b, #f3f1ea);
+  --deck-accent: light-dark(#3e6b00, #c8f15a);
+  --deck-on-accent: light-dark(#f6f6f0, #0e1014);
+  --deck-muted: color-mix(in srgb, var(--deck-fg) 66%, transparent);
+  --deck-line: color-mix(in srgb, var(--deck-fg) 14%, transparent);
+  --deck-surface: color-mix(in srgb, var(--deck-fg) 6%, transparent);
+  --deck-letterbox: color-mix(in srgb, var(--deck-bg) 86%, var(--deck-fg));
+
+  --deck-font: ui-sans-serif, system-ui, sans-serif;
+  --deck-font-display: var(--deck-font);
+
+  --deck-pad: 64px;
+  --deck-text-display: 76px;
+  --deck-text-title: 46px;
+  --deck-text-heading: 28px;
+  --deck-text-lead: 22px;
+  --deck-text-body: 17px;
+  --deck-text-caption: 13px;
+
+  --deck-t-slide: var(--duration-fast, 250ms);
+  --deck-t-morph: var(--duration-slow, 400ms);
+  --deck-t-quick: var(--duration-quick, 150ms);
+  --deck-stagger: var(--duration-stagger, 40ms);
+  --deck-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --deck-shift: var(--distance-medium, 12px);
+}
+.deck--paper {
+  color-scheme: light;
+}
+.deck--auto {
+  color-scheme: light dark;
+}
+
+/* Authored type. Slides use these classes. */
+.deck .deck-display,
+.deck .deck-title,
+.deck .deck-heading {
+  margin: 0;
+  font-family: var(--deck-font-display);
+  color: var(--deck-fg);
+  text-wrap: balance;
+}
+.deck .deck-display {
+  font-size: var(--deck-text-display);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.deck .deck-title {
+  font-size: var(--deck-text-title);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+.deck .deck-heading {
+  font-size: var(--deck-text-heading);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.deck .deck-lead,
+.deck .deck-body,
+.deck .deck-caption {
+  margin: 0;
+  color: var(--deck-muted);
+  text-wrap: pretty;
+}
+.deck .deck-lead {
+  font-size: var(--deck-text-lead);
+  line-height: 1.4;
+}
+.deck .deck-body {
+  font-size: var(--deck-text-body);
+  line-height: 1.5;
+}
+.deck .deck-caption {
+  font-size: var(--deck-text-caption);
+  line-height: 1.4;
+}
+.deck .deck-label {
+  margin: 0;
+  font-size: var(--deck-text-caption);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--deck-accent);
+}
+.deck .deck-accent {
+  color: var(--deck-accent);
+}
+
+/* How a slide enters. The slide it replaces stays put underneath, so no frame shows the page behind. */
+@keyframes deck-fade {
+  from {
+    opacity: 0;
+    transform: translateY(var(--deck-shift));
+  }
+}
+@keyframes deck-slide {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--deck-dir, 1) * 48px));
+  }
+}
+@keyframes deck-zoom {
+  from {
+    opacity: 0;
+    transform: scale(var(--scale-large, 0.96));
+  }
+}
+.deck[data-transition='fade'] .slide[data-active='true'] .slide__surface {
+  animation-name: deck-fade;
+}
+.deck[data-transition='slide'] .slide[data-active='true'] .slide__surface {
+  animation-name: deck-slide;
+}
+.deck[data-transition='zoom'] .slide[data-active='true'] .slide__surface {
+  animation-name: deck-zoom;
+}
+.deck[data-morphing] .slide__surface {
+  animation: none !important;
+}
+
+/* A morph runs on the whole page, so it gets the deck's timing while it plays. */
+html[data-deck-vt] ::view-transition-group(*) {
+  animation-duration: var(--duration-slow, 400ms);
+  animation-timing-function: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck .slide__surface {
+    animation: none !important;
+  }
+  .deck .slide {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  html[data-deck-vt] ::view-transition-group(*) {
+    animation-duration: 0s;
+  }
+}
+
+/* Print: one canvas per page, every reveal shown, no chrome. The @page size comes from the Deck. */
+@media print {
+  .deck {
+    position: static !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+    background: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .deck .deck__stage {
+    position: static !important;
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: none !important;
+  }
+  .deck .slide {
+    position: relative !important;
+    display: block !important;
+    visibility: visible !important;
+    width: var(--slide-w) !important;
+    height: var(--slide-h) !important;
+    overflow: hidden !important;
+    transform: none !important;
+    transition: none !important;
+    break-inside: avoid;
+    /* Chrome rounds the page a fraction of a px short of the canvas, which would add a blank last page. */
+    margin-bottom: -1px;
+  }
+  .deck .slide[hidden] {
+    display: none !important;
+  }
+  .deck .slide ~ .slide {
+    break-before: page;
+  }
+  .deck .slide__surface {
+    animation: none !important;
+    border-radius: 0 !important;
+  }
+  .deck .deck-fragment {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .deck .deck__chrome {
+    display: none !important;
+  }
+}

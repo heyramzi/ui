@@ -1,98 +1,89 @@
 # @heyramzi/slides
 
-A presentation library for Svelte 5. `<Deck>`, `<Slide>` and `<Fragment>` give you keyboard and swipe navigation, a progress bar, staged reveals, themes driven by CSS variables, and a print stylesheet that turns the deck into a PDF.
-
-## Install
-
-Copy `src/` into your project. The package has no dependencies beyond Svelte 5.
-
-```bash
-pnpm add @heyramzi/slides
-```
-
-## Usage
+Slide decks for Svelte 5. Slides lay out on a fixed canvas (960 by 540 px by default) and the whole canvas scales to fit its container. Reveals, an overview grid, a presenter view, print and data-driven slide types are in the box. Theming is CSS variables only, so the core has no brand.
 
 ```svelte
 <script>
   import { Deck, Slide, Fragment } from '@heyramzi/slides';
 </script>
 
-<Deck>
-  <Slide label="Cover">
-    <p class="deck-eyebrow">Svelte 5</p>
-    <h1 class="deck-title">
-      Presentations
-      <span class="deck-named">in your app</span>
-    </h1>
-    <p class="deck-body">One line, then get out of the way.</p>
+<Deck title="Q3 review" urlSync presenter="/present">
+  <Slide notes="Open on the number.">
+    <h1 class="deck-display">Revenue is up</h1>
   </Slide>
-
-  <Slide label="Steps">
-    <h1 class="deck-title">Reveal on cue</h1>
-    <Fragment step={1}><p class="deck-body">First.</p></Fragment>
-    <Fragment step={2}><p class="deck-body">Then this.</p></Fragment>
+  <Slide>
+    <Fragment step={1}>First point</Fragment>
+    <Fragment step={2}>Second point</Fragment>
   </Slide>
 </Deck>
 ```
 
-## Deck
+Keys: arrows, Space (Shift+Space back), PageUp/PageDown, Home/End, `O` overview, `F` fullscreen, `P` presenter. Swipe works on touch. With several decks on a page, only the sole, focused or hovered deck answers keys.
 
-`<Deck>` fills its container and sizes the slides to it. Give it a height.
+## Deck props
 
-| Prop         | Default | What it does                                                        |
-| ------------ | ------- | ------------------------------------------------------------------- |
-| `index`      | `0`     | Active slide. Bindable.                                              |
-| `step`       | `0`     | Active fragment step. Bindable.                                      |
-| `theme`      | `ink`   | `ink` (dark), `paper` (warm light) or `auto` (follows the system).   |
-| `transition` | `fade`  | `fade`, `slide` or `none`.                                          |
-| `progress`   | `true`  | Show the bottom progress bar.                                        |
-| `controls`   | `true`  | Show previous, next, counter and fullscreen buttons.                 |
-| `loop`       | `false` | Wrap around at the first and last slide.                            |
-| `onchange`   | none    | Called with `(index, step)` after any move.                         |
+| Prop | Default | |
+| --- | --- | --- |
+| `index`, `step` | 0 | Bindable. `index` counts hidden slides. |
+| `canvas` | `{ w: 960, h: 540 }` | Design size in px. |
+| `theme` | `'ink'` | `ink`, `paper` or `auto`. |
+| `transition` | `'fade'` | `fade`, `slide`, `zoom`, `morph` (View Transitions, elements with a shared `data-morph` name) or `none`. |
+| `keyboard` | `true` | Turn off when a slide holds a form. |
+| `fragments` | `true` | Off shows every step at once. |
+| `loop`, `progress`, `controls` | `false`, `true`, `true` | |
+| `urlSync` | `false` | Keeps `?s=` (1 based). Pass `{ param, write }` to rename it or write the URL yourself, for example with SvelteKit's `replaceState`. |
+| `bridge` | `false` | postMessage for iframes. In: `{type:'deck:nav', delta}`, `{type:'deck:go', index, step?}`. Out: `{type:'deck:change', index, step, total}`. Same origin unless `{ origin }`. |
+| `sync` | | Name that mirrors the deck across windows over BroadcastChannel. |
+| `presenter` | | URL of the presenter view. Adds a button and the `p` key. |
+| `labels` | | Partial `DeckLabels` to translate every string. |
+| `controller` | | Bindable `DeckController`: `next()`, `prev()`, `go(i, step)`, `toggleOverview()`, `position`, `ordinal`. |
+| `id`, `title`, `locale`, `onchange`, `class`, `style` | | |
 
-Bind an instance and drive it from code:
+`Slide`: `notes` (string or snippet), `hidden`, `label`, `align` (`center`, `start`, `bare`). `Fragment`: `step`, `reveal` (`rise`, `fade`, `scale`), `as`. Fragments that share a step stagger. Authored type classes: `deck-display`, `deck-title`, `deck-heading`, `deck-lead`, `deck-body`, `deck-caption`, `deck-label`, `deck-accent`.
 
-```svelte
-<Deck bind:this={decklet} bind:index bind:step>…</Deck>
-<button onclick={() => decklet.next()}>Next</button>
+## Theming
+
+Set variables on `.deck`: `--deck-bg`, `--deck-fg`, `--deck-accent`, `--deck-on-accent`, `--deck-font`, `--deck-font-display`, `--deck-pad`, `--deck-text-*` (design px) and the timing tokens `--deck-t-slide`, `--deck-t-morph`, `--deck-stagger`, `--deck-ease`. They default to the `@heyramzi/ui` motion tokens when present. Motion is transform and opacity only and stops under `prefers-reduced-motion`.
+
+## Data-driven decks
+
+```ts
+import { defineRegistry, defineSlideType } from '@heyramzi/slides/model';
+
+const cover = defineSlideType({ type: 'cover', label: 'Cover', layout: CoverLayout });
+const registry = defineRegistry([cover]);
 ```
 
-The instance exposes `next()`, `prev()`, `go(index)` and `toggleFullscreen()`.
-
-## Navigation
-
-- Right arrow, Page Down, Space: next fragment, then next slide.
-- Left arrow, Page Up: previous fragment, then previous slide. Going back reveals the fragments.
-- Home, End: first and last slide.
-- F: toggle fullscreen.
-- Swipe left or right on a touch screen.
-
-## Slide
-
-`<Slide>` holds one slide. It is positioned absolutely and shown when active. `label` sets its accessible name. Inactive slides are `inert` and hidden from assistive tech.
-
-Authored classes get the deck's type styles for free: `deck-eyebrow`, `deck-title`, `deck-named` (the italic accent line), `deck-body`, `deck-accent`, `deck-rule`, `deck-grid` and `deck-card`.
-
-## Fragment
-
-`<Fragment step={n}>` reveals its content once the deck reaches step `n` on that slide. The deck walks every fragment on a slide before it moves on, and the progress bar tracks along.
-
-## Themes
-
-Every colour, font, radius and spacing value is a CSS variable on `.deck`. Override any of them inline or from a parent:
-
 ```svelte
-<Deck style="--deck-accent: #22d3ee; --deck-bg: #07131a; --deck-font-display: 'Georgia';">
-  …
-</Deck>
+<Deck {...deck} {registry} />
 ```
 
-The useful variables are `--deck-bg`, `--deck-fg`, `--deck-muted`, `--deck-accent`, `--deck-accent-glow`, `--deck-line`, `--deck-font`, `--deck-font-display`, `--deck-pad`, `--deck-radius`, `--deck-grain` and `--deck-bloom`. The `ink` and `paper` themes are just preset values for these, so you can start from either and adjust a single token.
+`deck` is a `DeckData` (`id`, `title`, `locale?`, `canvas`, `theme?`, `slides: SlideInstance[]`). A slide is `{ id, type, content, notes?, hidden? }`. Validate content where it comes in, with the schema you already use.
 
-## Print to PDF
+## Presenter view
 
-The deck ships a print stylesheet. Every slide becomes one full page in landscape, the bloom, grain, progress and controls are hidden, and the inactive slides are shown. Use the browser's Print and pick "Save as PDF". No server render step.
+Mount it on its own route and give the audience deck the same `sync` name:
 
-## Demo
+```svelte
+<Presenter sync="q3" title="Q3 review"><Slides /></Presenter>
+```
 
-`src/demo.svelte` is the page the site imports. It is a five slide deck with a theme toggle and a fragment slide.
+It shows the current slide, the next one, notes and a timer, in step with the audience window. Pass the same children or `slides` and `registry` as the audience deck.
+
+## Print
+
+Print gives one canvas per page, sized by an injected `@page` rule (960 by 540 px is 10 by 5.625 in), with every fragment shown and the chrome hidden. Hidden slides are skipped.
+
+## Export
+
+`@heyramzi/slides/export` is Node only. It drives the Playwright browser and pages you pass in, and the `ffmpeg` on your path, so the package depends on neither.
+
+- `launchChromium(chromium)`: headless Chromium, falling back to installed Chrome.
+- `capturePage` and `captureEach`: PNGs of a page or each slide at a canvas size and device scale.
+- `printUrl`, `printHtml` and `printPage`: a PDF at the page size, after fonts, images and an optional `ready` selector settle.
+- `imagesToPdf`: one page per PNG, for colour that has to match the PNGs exactly.
+- `renderLoop` and `encodeFrames`: an mp4 from captured frames.
+
+## Accessibility
+
+The deck is a labelled region, inactive slides are `inert`, the progress bar has `role="progressbar"`, and a live region announces "Slide 3 of 12".

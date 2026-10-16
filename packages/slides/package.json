@@ -1,8 +1,7 @@
 {
   "name": "@heyramzi/slides",
   "version": "0.2.0",
-  "private": true,
-  "description": "A presentation library for Svelte 5.",
+  "description": "Slide decks for Svelte 5: a fixed canvas that scales, reveals, overview, presenter view, print and data-driven slide types.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -18,24 +17,44 @@
       "svelte": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./model": {
+      "types": "./src/model.ts",
+      "default": "./src/model.ts"
+    },
+    "./export": {
+      "types": "./src/export/index.ts",
+      "default": "./src/export/index.ts"
+    },
     "./demo": {
       "svelte": "./src/demo.svelte",
       "default": "./src/demo.svelte"
     },
-    "./demo.svelte": "./src/demo.svelte"
+    "./demo.svelte": "./src/demo.svelte",
+    "./demo-slides": {
+      "svelte": "./src/demo-slides.svelte",
+      "default": "./src/demo-slides.svelte"
+    },
+    "./demo-slides.svelte": "./src/demo-slides.svelte"
   },
   "files": [
     "src",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "peerDependencies": {
-    "svelte": "^5.0.0"
+    "svelte": "^5.16.0"
   },
   "devDependencies": {
+    "@types/node": "^26.6.4",
+    "svelte": "^5.57.2",
     "svelte-check": "^4.7.6",
     "typescript": "~7.0.2"
-  }
+  },
+  "sideEffects": [
+    "*.css",
+    "*.svelte"
+  ]
 }
