@@ -6,7 +6,7 @@
 	import Icon from "#src/components/icons/Icon.svelte";
 	import { kindOf, pickedOption } from "#src/core/beats.js";
 	import { createPicker } from "#src/hooks/picker.svelte.js";
-	import { AgentAvatar } from "@heyramzi/agents";
+	import { AgentAvatar } from "@heyramzi/ui/agents";
 	import Kbd from "#src/ui/Kbd.svelte";
 	import RefMenu from "#src/ui/RefMenu.svelte";
 	import RichText from "#src/ui/RichText.svelte";

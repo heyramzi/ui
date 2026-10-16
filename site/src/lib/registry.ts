@@ -1,8 +1,8 @@
 import type { Component } from "svelte";
 
-export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"drawboard"|"drawtools"|"brand"|"testimonial"|"reviewpage";
+export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage";
 
-export type Group = "charts" | "primitives" | "components" | "effects" | "board" | "agents" | "slides" | "draw" | "marketing" | "review";
+export type Group = "charts" | "primitives" | "components" | "effects" | "board" | "agents" | "slides" | "marketing" | "review";
 
 export type Entry = {
   slug: string;
@@ -57,8 +57,8 @@ const componentSources: Record<string, string[]> = {
   "status-badge": ["packages/board/src/status-badge.svelte"],
   "status-dot": ["packages/board/src/status-dot.svelte"],
   "status-icon": ["packages/board/src/status-icon.svelte"],
-  "agent-avatar": ["packages/agents/src/agent-avatar.svelte"],
-  "agent-cast": ["packages/agents/src/agent-cast.svelte"],
+  "agent-avatar": ["packages/ui/src/agents/agent-avatar.svelte"],
+  "agent-cast": ["packages/ui/src/agents/agent-cast.svelte"],
   "slide-deck": ["packages/slides/src/Deck.svelte", "packages/slides/src/Slide.svelte"],
   "ai-prompt": ["packages/ui/src/ai/prompt-input/PromptInput.svelte"],
   "ai-conversation": ["packages/ui/src/ai/conversation/Conversation.svelte", "packages/ui/src/ai/response/Response.svelte"],
@@ -66,8 +66,6 @@ const componentSources: Record<string, string[]> = {
   "chat-composer": ["packages/ui/src/ai/composer/Composer.svelte"],
   "chat-typing": ["packages/ui/src/ai/typing-dots/TypingDots.svelte"],
   "trade-icon": ["packages/ui/src/icons/TradeIcon.svelte"],
-  "draw-board": ["packages/draw/src/Draw.svelte"],
-  "draw-toolbar": ["packages/draw/src/Toolbar.svelte"],
   "brand-tokens": ["packages/marketing/src/brand/index.ts"],
   "testimonial-highlight": ["packages/marketing/src/testimonials/svelte/TestimonialHighlight.svelte"],
   "review-page": ["packages/review/src/mount.ts"],
@@ -117,8 +115,6 @@ const meta: Record<string, Omit<Entry, "slug" | "component" | "source" | "source
   "chat-composer": { title: "Composer", group: "components", icon: "composer", description: "Message box with send on Enter.", height: 300 },
   "chat-typing": { title: "Typing dots", group: "components", icon: "typing", description: "Who is typing, in three dots.", height: 200 },
   "trade-icon": { title: "Trade icon", group: "components", icon: "tradeicon", description: "One glyph per trade, same stroke.", height: 240 },
-  "draw-board": { title: "Whiteboard", group: "draw", icon: "drawboard", description: "A hand-drawn canvas with shapes and history.", height: 380 },
-  "draw-toolbar": { title: "Whiteboard toolbar", group: "draw", icon: "drawtools", description: "Shape, pen and select tools in one strip.", height: 200 },
   "brand-tokens": { title: "Brand tokens", group: "marketing", icon: "brand", description: "The palette as swatches, one source.", height: 240 },
   "testimonial-highlight": { title: "Testimonial", group: "marketing", icon: "testimonial", description: "One featured quote, ready to place.", height: 360 },
   "review-page": { title: "Review page", group: "review", icon: "reviewpage", description: "The full review UI mounted in a box.", height: 420 },
@@ -146,17 +142,15 @@ export const groups: { id: Group; label: string }[] = [
   { id: "board", label: "Board" },
   { id: "agents", label: "Agents" },
   { id: "slides", label: "Slides" },
-  { id: "draw", label: "Draw" },
   { id: "marketing", label: "Marketing" },
   { id: "review", label: "Review" },
 ];
 
 export const packages: { id: string; name: string; blurb: string; groups: Group[] }[] = [
   { id: "ui", name: "@heyramzi/ui", blurb: "Charts, primitives, components and effects.", groups: ["charts", "primitives", "components", "effects"] },
+  { id: "agents", name: "@heyramzi/ui/agents", blurb: "Bot avatars and a cast page.", groups: ["agents"] },
   { id: "board", name: "@heyramzi/board", blurb: "A drag-and-drop board plus status chips, dots and icons.", groups: ["board"] },
-  { id: "agents", name: "@heyramzi/agents", blurb: "Bot avatars and a cast page.", groups: ["agents"] },
   { id: "slides", name: "@heyramzi/slides", blurb: "Keyboard and swipe decks that print.", groups: ["slides"] },
-  { id: "draw", name: "@heyramzi/draw", blurb: "A hand-drawn whiteboard with history.", groups: ["draw"] },
   { id: "marketing", name: "@heyramzi/marketing", blurb: "Brand tokens and testimonial surfaces.", groups: ["marketing"] },
   { id: "review", name: "@heyramzi/review", blurb: "The review page, mounted anywhere.", groups: ["review"] },
 ];

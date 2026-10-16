@@ -137,5 +137,5 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 ---
 
 Skipped on purpose: brand assets (logos, marks, brand renderer, language flags,
-locale switch), the bot avatars (they live in `@heyramzi/agents`), kanban and status
-(they live in `@heyramzi/board`).
+locale switch), kanban and status (they live in `@heyramzi/board`). The bot avatars
+are in `src/agents`, imported from `@heyramzi/ui/agents`.

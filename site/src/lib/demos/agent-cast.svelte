@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AgentCast, type Agent } from "@heyramzi/agents";
+  import { AgentCast, type Agent } from "@heyramzi/ui/agents";
 
   const cast: Agent[] = [
     { id: "ada", name: "Ada", role: "Researcher", shape: "clover", color: "#41C4FF", group: "Research" },

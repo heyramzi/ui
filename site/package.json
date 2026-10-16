@@ -9,9 +9,7 @@
     "deploy": "vite build && wrangler deploy"
   },
   "dependencies": {
-    "@heyramzi/agents": "workspace:*",
     "@heyramzi/board": "workspace:*",
-    "@heyramzi/draw": "workspace:*",
     "@heyramzi/marketing": "workspace:*",
     "@heyramzi/review": "workspace:*",
     "@heyramzi/slides": "workspace:*",

@@ -7,7 +7,6 @@
     board: "Board",
     agents: "Agents",
     slides: "Slides",
-    draw: "Draw",
     marketing: "Marketing",
     review: "Review",
   };
@@ -21,7 +20,7 @@
   </p>
   <h1 class="text-balance text-5xl font-semibold tracking-tight sm:text-6xl">Components for our product teams.</h1>
   <p class="mx-auto mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
-    Svelte 5 building blocks for product teams. Seven packages, every one live below.
+    Svelte 5 building blocks for product teams. Five packages, every one live below.
   </p>
 </section>
 

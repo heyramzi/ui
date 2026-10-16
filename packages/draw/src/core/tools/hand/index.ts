@@ -1,1 +1,0 @@
-export { createHandTool } from "./hand";

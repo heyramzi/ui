@@ -12,7 +12,7 @@
   <Accordion.Item value="item-2">
     <Accordion.Trigger>Which packages are published?</Accordion.Trigger>
     <Accordion.Content class="flex flex-col gap-4 text-balance">
-      <p>Four packages ship to the registry: ui, board, agents and slides. Install only what you need.</p>
+      <p>Two packages ship to npm: ui, with the agents inside it, and marketing. Install only what you need.</p>
     </Accordion.Content>
   </Accordion.Item>
   <Accordion.Item value="item-3">

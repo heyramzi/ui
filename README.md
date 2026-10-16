@@ -6,12 +6,10 @@ Svelte 5 components for our product teams. SvelteKit first, no React ports.
 
 | Package | What it is |
 | --- | --- |
-| `@heyramzi/ui` | Charts, shadcn primitives, effects, animations, and chat and AI surfaces |
+| `@heyramzi/ui` | Charts, shadcn primitives, effects, animations, chat and AI surfaces, and bot avatars at `@heyramzi/ui/agents` (inspired by [bot-avatars](https://github.com/jakubantalik/bot-avatars)) |
 | `@heyramzi/board` | A generic drag-and-drop board plus status badges, dots and icons from one config |
-| `@heyramzi/draw` | A hand-drawn whiteboard engine with history |
 | `@heyramzi/marketing` | Brand tokens and testimonial surfaces |
 | `@heyramzi/review` | The review page, mounted anywhere |
-| `@heyramzi/agents` | Bot avatars and a cast page. Inspired by [bot-avatars](https://github.com/jakubantalik/bot-avatars) |
 | `@heyramzi/slides` | Keyboard and swipe slide decks, with a print stylesheet |
 
 Run the site: `pnpm install && pnpm --filter site dev`.
@@ -26,7 +24,7 @@ The shadcn primitives in `@heyramzi/ui` start from [shadcn-svelte](https://githu
 
 ## Releasing
 
-Releases run from the Mac, for `ui`, `marketing` and `agents` only. `board`, `draw`, `slides` and `review` aren't published yet: use them from a clone.
+Releases run from the Mac, for `ui` and `marketing` only. `board`, `slides` and `review` aren't published yet: use them from a clone. `@heyramzi/agents` moved into `@heyramzi/ui/agents`.
 
 Release steps:
 

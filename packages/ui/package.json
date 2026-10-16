@@ -153,7 +153,13 @@
       "svelte": "./src/ai/*/index.ts",
       "types": "./src/ai/*/index.ts",
       "default": "./src/ai/*/index.ts"
-    }
+    },
+    "./agents": {
+      "svelte": "./src/agents/index.ts",
+      "types": "./src/agents/index.ts",
+      "default": "./src/agents/index.ts"
+    },
+    "./agents/demo.svelte": "./src/agents/demo.svelte"
   },
   "scripts": {
     "test": "vp test run",

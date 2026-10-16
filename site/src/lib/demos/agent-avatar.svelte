@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AgentAvatar } from "@heyramzi/agents";
+  import { AgentAvatar } from "@heyramzi/ui/agents";
 
   const crew = [
     { name: "Ada", role: "Researcher", shape: "clover", color: "#41C4FF" },

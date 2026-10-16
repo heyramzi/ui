@@ -18,6 +18,9 @@ only a convenience.
 - `src/ai` chat and AI surfaces: conversation, composer, prompt input, response, reasoning, confirmation and loaders.
 - `src/charts` SVG charts: line, area, bar, donut, ring, gauge, sparkline,
   time series, and stat cards.
+- `src/agents` bot avatars and a cast grid, imported from `@heyramzi/ui/agents`:
+  `AgentAvatar` draws an eyes-only face from a name, role, shape and colour, and
+  `AgentCast` lays a list of agents out as cards you can pick from.
 
 See [COMPONENTS.md](./COMPONENTS.md) for the full list, one line each.
 
@@ -119,7 +122,9 @@ there, use its page for props and examples:
 Inspired by [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte).
 The reveal, marquee and beam effects are inspired by
 [motion-primitives](https://github.com/ibelick/motion-primitives), and the
-motion vocabulary by [transitions-dev](https://transitions.dev).
+motion vocabulary by [transitions-dev](https://transitions.dev). The agent avatars
+vendor [bot-avatars](https://github.com/jakubantalik/bot-avatars); its licence is in
+`src/agents/vendor/LICENSE`.
 
 ## License
 
