@@ -13,6 +13,7 @@
 * feat(tasks): KanbanBoard takes your own column type, a `limit` per column with `expanded`, a `hidden` rail with animated fold and unfold, a `columnFooter`, a `wrapColumn` for context menus, `getLabel` and `manualTiebreak`
 * feat(tasks): onMove carries `beforeId` and `afterId` on a manual drop, and `boardOrder` only when you pass an accessor
 * feat(tasks): the board folds a held card out of its column and slides a drop slot in, instead of fading the card
+* feat(tasks): TaskList takes `getParent` to nest a group under another, and the group context carries `depth` and `hasChildren`
 * feat(tasks): TaskList takes `actions`, `groupFooter`, `onCollapsedChange`, `getLabel`, `manualTiebreak` and `draggable={false}`
 * feat(tasks): StatusBadge takes its text as children, and `capitalize` turns the capital letters off
 * feat(tasks): the accent tone reads `--tone-accent` and falls back to `--color-primary`

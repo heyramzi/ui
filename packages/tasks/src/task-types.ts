@@ -8,9 +8,13 @@ export type TaskListRowContext = {
 
 /** Second argument handed to the list group header snippet. */
 export type TaskListGroupContext = {
+  /** Rows in the group, and in every group nested under it. */
   count: number;
   active: boolean;
   open: boolean;
+  /** 0 for a top-level group. Only grows when `getParent` is set. */
+  depth: number;
+  hasChildren: boolean;
 };
 
 /** What the gantt asks the caller to persist after a bar is moved or resized. */

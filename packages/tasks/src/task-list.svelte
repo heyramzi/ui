@@ -17,6 +17,11 @@
 		getId: (item: T) => string;
 		/** The group id a row belongs to. */
 		getGroup: (item: T) => string;
+		/**
+		 * Nests a group under another by its id, e.g. a project under its client. A child draws
+		 * inside its parent's section, indented, and folds with it. Return nothing for a top-level group.
+		 */
+		getParent?: (group: C) => string | null | undefined;
 		/** Called on drop with what to persist. Same contract as the board. */
 		onMove: (id: string, move: KanbanMove) => void | Promise<void>;
 		renderRow: Snippet<[T, TaskListRowContext]>;
@@ -57,6 +62,7 @@
 		items,
 		getId,
 		getGroup,
+		getParent,
 		onMove,
 		renderRow,
 		head,
@@ -103,7 +109,34 @@
 		return items.filter((item) => getGroup(item) === groupId).sort(compare);
 	}
 
+	// A group nested under a missing parent is top-level, so no row is ever dropped from view.
+	let groupIds = $derived(new Set(groups.map((g) => g.id)));
+	let roots = $derived(
+		groups.filter((g) => {
+			const parent = getParent?.(g);
+			return !parent || !groupIds.has(parent);
+		})
+	);
+	let childrenOf = $derived.by(() => {
+		const map = new Map<string, C[]>();
+		for (const g of groups) {
+			const parent = getParent?.(g);
+			if (!parent || !groupIds.has(parent)) continue;
+			map.set(parent, [...(map.get(parent) ?? []), g]);
+		}
+		return map;
+	});
+
+	/** Rows in a group and in every group nested under it. */
+	function countWithin(groupId: string): number {
+		let n = sortedByGroup(groupId).length;
+		for (const child of childrenOf.get(groupId) ?? []) n += countWithin(child.id);
+		return n;
+	}
+
 	function canDrop(groupId: string): boolean {
+		// A group that only holds other groups has no rows of its own to drop into.
+		if (childrenOf.has(groupId)) return false;
 		return isDroppable?.(groupId) ?? (groups.find((g) => g.id === groupId)?.droppable ?? true);
 	}
 
@@ -162,8 +195,127 @@
 		}
 	}
 
-	let view = $derived(groups.map((group) => ({ group, rows: sortedByGroup(group.id) })));
 </script>
+
+{#snippet section(group: C, depth: number)}
+	{@const rows = sortedByGroup(group.id)}
+	{@const children = childrenOf.get(group.id) ?? []}
+	{@const count = countWithin(group.id)}
+	{@const active = dnd.dragOver?.columnId === group.id}
+	{@const open = !folded.has(group.id)}
+	{@const hue = group.hue ?? "var(--color-primary)"}
+	{@const context = { count, active, open, depth, hasChildren: children.length > 0 }}
+	<section
+		aria-label={group.ariaLabel ?? group.label}
+		class={cn("tl-group group/tl", depth === 0 ? "border-b border-border last:border-b-0" : "border-t border-border/60")}
+		class:tl-group-active={active}
+		style:--tl-hue={hue}
+		ondragover={children.length ? undefined : (e) => dnd.onColumnDragOver(e, group.id)}
+		ondragleave={children.length ? undefined : dnd.onDragLeave}
+		ondrop={children.length ? undefined : (e) => dnd.onDrop(e, group.id)}
+	>
+		<div
+			class={cn("sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm", flat ? "bg-background/90" : "bg-card/90", depth === 0 && (head ? "top-9" : "top-0"))}
+			style:top={depth > 0 ? `${(head ? 2.25 : 0) + depth * 2.5}rem` : undefined}
+			style:padding-inline-start={depth > 0 ? `${0.75 + depth * 1.25}rem` : undefined}
+		>
+			{#if collapsible}
+				<button
+					type="button"
+					aria-expanded={open}
+					aria-label="{open ? 'Fold' : 'Unfold'} {group.label}"
+					onclick={() => toggle(group.id)}
+					class="-ml-1 grid size-6 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
+				>
+					<span class="tl-chevron size-3.5 [&>svg]:size-full" class:tl-chevron-open={open} aria-hidden="true">
+						{@html chevronIcon}
+					</span>
+				</button>
+			{/if}
+			{#if groupHeader}
+				{@render groupHeader(group, context)}
+			{:else}
+				<span class="size-2 shrink-0 rounded-full" style:background={hue}></span>
+				<span class="truncate text-sm font-medium text-foreground">{group.label}</span>
+				<span
+					class="grid h-5 min-w-5 place-items-center rounded-sm bg-foreground/5 px-1 text-xs font-medium text-muted-foreground tabular-nums"
+				>
+					{count}
+				</span>
+			{/if}
+			{#if actions}
+				<div
+					class="tl-actions ms-auto flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-[var(--duration-quick,150ms)] focus-within:opacity-100 any-pointer-coarse:opacity-100"
+				>
+					{@render actions(group, context)}
+				</div>
+			{/if}
+		</div>
+
+		<div class="tl-fold" class:tl-fold-open={open}>
+			<div class="tl-fold-inner">
+				<div role="list" aria-label={group.label} class="flex flex-col pb-1.5">
+					{#each rows as item, index (getId(item))}
+						{@const id = getId(item)}
+						{@const dropBefore =
+							dnd.showIndicatorBefore(group.id, id) &&
+							!dnd.isDragSource(id) &&
+							idAt(rows, index - 1) !== dnd.draggedId}
+						<!-- WHY: a row is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
+						<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
+						<div
+							role="listitem"
+							tabindex={draggable ? 0 : undefined}
+							aria-label={getLabel?.(item) ??
+								(draggable ? "Row. Press Alt plus Up or Down arrow to move between groups." : undefined)}
+							aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
+							draggable={draggable ? "true" : undefined}
+							animate:flip={{ duration: 250, easing: cubicOut }}
+							ondragstart={draggable
+								? (e) => {
+										liftDragImage(e, -1);
+										dnd.onDragStart(e, id);
+									}
+								: undefined}
+							ondragend={draggable ? () => dnd.resetDrag() : undefined}
+							ondragover={draggable
+								? (e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))
+								: undefined}
+							onkeydown={draggable ? (e) => onRowKeyDown(e, id) : undefined}
+							style:--tl-i={Math.min(index, STAGGER_CAP)}
+							class={cn(
+								"tl-row relative mx-1.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+								draggable && "cursor-grab active:cursor-grabbing",
+								dropBefore && "tl-drop-before",
+								dnd.isDragSource(id) && "opacity-40",
+							)}
+						>
+							{@render renderRow(item, { groupId: group.id, index })}
+						</div>
+					{/each}
+
+					{#if dnd.showIndicatorEnd(group.id) && idAt(rows, rows.length - 1) !== dnd.draggedId}
+						<div class="tl-drop-end relative mx-1.5 h-2" aria-hidden="true"></div>
+					{/if}
+
+					{#if groupFooter}
+						{@render groupFooter(group, context)}
+					{/if}
+
+					{#if rows.length === 0 && children.length === 0 && !active}
+						<p class="mx-1.5 rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground">
+							{emptyLabel}
+						</p>
+					{/if}
+				</div>
+
+				{#each children as child (child.id)}
+					{@render section(child, depth + 1)}
+				{/each}
+			</div>
+		</div>
+	</section>
+{/snippet}
 
 <div
 	class={cn(
@@ -180,112 +332,8 @@
 		</div>
 	{/if}
 
-	{#each view as { group, rows } (group.id)}
-		{@const active = dnd.dragOver?.columnId === group.id}
-		{@const open = !folded.has(group.id)}
-		{@const hue = group.hue ?? "var(--color-primary)"}
-		<section
-			aria-label={group.ariaLabel ?? group.label}
-			class="tl-group group/tl border-b border-border last:border-b-0"
-			class:tl-group-active={active}
-			style:--tl-hue={hue}
-			ondragover={(e) => dnd.onColumnDragOver(e, group.id)}
-			ondragleave={dnd.onDragLeave}
-			ondrop={(e) => dnd.onDrop(e, group.id)}
-		>
-			<div class={cn("sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm", flat ? "bg-background/90" : "bg-card/90", head ? "top-9" : "top-0")}>
-				{#if collapsible}
-					<button
-						type="button"
-						aria-expanded={open}
-						aria-label="{open ? 'Fold' : 'Unfold'} {group.label}"
-						onclick={() => toggle(group.id)}
-						class="-ml-1 grid size-6 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
-					>
-						<span class="tl-chevron size-3.5 [&>svg]:size-full" class:tl-chevron-open={open} aria-hidden="true">
-							{@html chevronIcon}
-						</span>
-					</button>
-				{/if}
-				{#if groupHeader}
-					{@render groupHeader(group, { count: rows.length, active, open })}
-				{:else}
-					<span class="size-2 shrink-0 rounded-full" style:background={hue}></span>
-					<span class="truncate text-sm font-medium text-foreground">{group.label}</span>
-					<span
-						class="grid h-5 min-w-5 place-items-center rounded-sm bg-foreground/5 px-1 text-xs font-medium text-muted-foreground tabular-nums"
-					>
-						{rows.length}
-					</span>
-				{/if}
-				{#if actions}
-					<div
-						class="tl-actions ms-auto flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-[var(--duration-quick,150ms)] focus-within:opacity-100 any-pointer-coarse:opacity-100"
-					>
-						{@render actions(group, { count: rows.length, active, open })}
-					</div>
-				{/if}
-			</div>
-
-			<div class="tl-fold" class:tl-fold-open={open}>
-				<div class="tl-fold-inner">
-					<div role="list" aria-label={group.label} class="flex flex-col pb-1.5">
-						{#each rows as item, index (getId(item))}
-							{@const id = getId(item)}
-							{@const dropBefore =
-								dnd.showIndicatorBefore(group.id, id) &&
-								!dnd.isDragSource(id) &&
-								idAt(rows, index - 1) !== dnd.draggedId}
-							<!-- WHY: a row is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
-							<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
-							<div
-								role="listitem"
-								tabindex={draggable ? 0 : undefined}
-								aria-label={getLabel?.(item) ??
-									(draggable ? "Row. Press Alt plus Up or Down arrow to move between groups." : undefined)}
-								aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
-								draggable={draggable ? "true" : undefined}
-								animate:flip={{ duration: 250, easing: cubicOut }}
-								ondragstart={draggable
-									? (e) => {
-											liftDragImage(e, -1);
-											dnd.onDragStart(e, id);
-										}
-									: undefined}
-								ondragend={draggable ? () => dnd.resetDrag() : undefined}
-								ondragover={draggable
-									? (e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))
-									: undefined}
-								onkeydown={draggable ? (e) => onRowKeyDown(e, id) : undefined}
-								style:--tl-i={Math.min(index, STAGGER_CAP)}
-								class={cn(
-									"tl-row relative mx-1.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
-									draggable && "cursor-grab active:cursor-grabbing",
-									dropBefore && "tl-drop-before",
-									dnd.isDragSource(id) && "opacity-40",
-								)}
-							>
-								{@render renderRow(item, { groupId: group.id, index })}
-							</div>
-						{/each}
-
-						{#if dnd.showIndicatorEnd(group.id) && idAt(rows, rows.length - 1) !== dnd.draggedId}
-							<div class="tl-drop-end relative mx-1.5 h-2" aria-hidden="true"></div>
-						{/if}
-
-						{#if groupFooter}
-							{@render groupFooter(group, { count: rows.length, active, open })}
-						{/if}
-
-						{#if rows.length === 0 && !active}
-							<p class="mx-1.5 rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground">
-								{emptyLabel}
-							</p>
-						{/if}
-					</div>
-				</div>
-			</div>
-		</section>
+	{#each roots as group (group.id)}
+		{@render section(group, 0)}
 	{/each}
 </div>
 

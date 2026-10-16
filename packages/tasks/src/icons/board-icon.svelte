@@ -3,7 +3,9 @@
 </script>
 
 <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true" class={className}>
-	<rect x="2" y="2.5" width="3.5" height="11" rx="1.25" stroke="currentColor" stroke-width="1.5"></rect>
-	<rect x="7" y="2.5" width="3.5" height="7" rx="1.25" stroke="currentColor" stroke-width="1.5"></rect>
-	<rect x="12" y="2.5" width="2" height="9" rx="1" stroke="currentColor" stroke-width="1.5"></rect>
+	<g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+		<line x1="4" y1="3" x2="4" y2="11"></line>
+		<line x1="8" y1="3" x2="8" y2="7.5"></line>
+		<line x1="12" y1="3" x2="12" y2="13"></line>
+	</g>
 </svg>

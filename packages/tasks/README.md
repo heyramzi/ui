@@ -121,12 +121,31 @@ group. Rows slide into their new place when the order changes.
 ```
 
 Beyond the board's props it takes `head` (a sticky header row), `groupHeader`
-(`Snippet<[group, { count, active, open }]>`), `actions` (controls at the end of
+(`Snippet<[group, { count, active, open, depth, hasChildren }]>`), `actions` (controls at the end of
 a group header, shown on hover), `groupFooter` (an add-task row under the rows),
 `collapsible` (default true), `collapsed` (group ids that start folded) and
 `onCollapsedChange`. Pass `flat` to drop the card border, radius and fill so the list sits on the page (the gantt takes it too); group dividers stay. Pass `draggable={false}` for a list that only groups: rows
 lose the drag handlers and the keyboard move, so links and buttons inside them
 keep every key.
+
+Pass `getParent` to nest one group under another, such as a project under its
+client. It takes a group and returns the id of its parent, or nothing for a
+top-level group. A child draws inside its parent's section, indented, with its
+own sticky header under the parent's, and folds when the parent folds. A parent
+takes no drops and its `count` adds up its children. A child whose parent id
+matches no group is drawn at the top level.
+
+```svelte
+<TaskList
+  groups={[
+    { id: "acme", label: "Acme" },
+    { id: "acme-site", label: "Website", parent: "acme" },
+    { id: "acme-audit", label: "Audit", parent: "acme" },
+  ]}
+  getParent={(group) => group.parent}
+  ...
+/>
+```
 
 ## Gantt
 
