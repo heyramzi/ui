@@ -5,27 +5,19 @@
   import Check from "@lucide/svelte/icons/check";
   import Copy from "@lucide/svelte/icons/copy";
   import RotateCcw from "@lucide/svelte/icons/rotate-ccw";
-  import Sparkles from "@lucide/svelte/icons/sparkles";
 
   let { entry, link = false }: { entry: Entry; link?: boolean } = $props();
 
   let tab = $state<"preview" | "code">("preview");
   let run = $state(0);
   let copied = $state(false);
-  let copiedAi = $state(false);
 
+  // One button, the full block: usage and component source. A person pastes the
+  // part they want, an agent gets everything.
   async function copy() {
-    try {
-      await navigator.clipboard.writeText(entry.source);
+    if (await copyAiContext(entry)) {
       copied = true;
       setTimeout(() => (copied = false), 1600);
-    } catch {}
-  }
-
-  async function copyAi() {
-    if (await copyAiContext(entry)) {
-      copiedAi = true;
-      setTimeout(() => (copiedAi = false), 1600);
     }
   }
 </script>
@@ -51,9 +43,6 @@
       </button>
       <button class="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" onclick={copy}>
         {#if copied}<Check class="size-4 text-emerald-500" /> Copied{:else}<Copy class="size-4" /> Copy{/if}
-      </button>
-      <button class="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" onclick={copyAi}>
-        {#if copiedAi}<Check class="size-4 text-emerald-500" /> Copied{:else}<Sparkles class="size-4" /> Copy for AI{/if}
       </button>
     </div>
   </header>

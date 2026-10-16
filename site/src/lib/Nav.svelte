@@ -38,6 +38,6 @@
     <a href="https://github.com/heyramzi/ui" aria-label="GitHub" class="grid size-8 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
       <span class="size-4 [&>svg]:size-full" aria-hidden="true">{@html githubIcon}</span>
     </a>
-    <ThemeToggle {isDark} onToggle={toggle} />
+    <ThemeToggle {isDark} variant="ghost" class="rounded-full" onToggle={toggle} />
   </div>
 </div>

@@ -3,7 +3,7 @@
   import EntryIcon from "#lib/EntryIcon.svelte";
   import { copyAiContext } from "#lib/ai-context.js";
   import Check from "@lucide/svelte/icons/check";
-  import Sparkles from "@lucide/svelte/icons/sparkles";
+  import Copy from "@lucide/svelte/icons/copy";
 
   let { entry }: { entry: Entry } = $props();
   let width = $state(0);
@@ -14,7 +14,7 @@
   const stageWidth = $derived(width ? Math.min(760, Math.max(400, width - 48)) : 760);
   // The demo's own footprint, unscaled: offset sizes ignore the CSS scale.
   let content = $state({ w: 760, h: 0 });
-  let copiedAi = $state(false);
+  let copied = $state(false);
   // Shrink a demo only as far as it needs to fit. A small one stays at full size.
   const scale = $derived(
     width && content.h ? Math.min(1, (width - 48) / content.w, (height - 40) / content.h) : 0.46,
@@ -35,12 +35,12 @@
     return () => observer.disconnect();
   });
 
-  async function copyAi(e: MouseEvent) {
+  async function copy(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (await copyAiContext(entry)) {
-      copiedAi = true;
-      setTimeout(() => (copiedAi = false), 1600);
+      copied = true;
+      setTimeout(() => (copied = false), 1600);
     }
   }
 </script>
@@ -58,11 +58,11 @@
     <button
       type="button"
       class="absolute right-2 top-2 grid size-8 place-items-center rounded-lg border border-border bg-card/80 text-muted-foreground opacity-0 shadow-sm backdrop-blur transition-all hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
-      aria-label="Copy for AI"
-      title="Copy for AI"
-      onclick={copyAi}
+      aria-label="Copy"
+      title="Copy"
+      onclick={copy}
     >
-      {#if copiedAi}<Check class="size-4 text-emerald-500" />{:else}<Sparkles class="size-4" />{/if}
+      {#if copied}<Check class="size-4 text-emerald-500" />{:else}<Copy class="size-4" />{/if}
     </button>
   </div>
   <div class="flex items-center gap-3 p-2.5 pt-3">

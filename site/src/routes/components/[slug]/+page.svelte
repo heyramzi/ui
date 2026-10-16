@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { bySlug, entries } from "#lib/registry.js";
+  import { bySlug, entries, groupLabel } from "#lib/registry.js";
   import Viewer from "#lib/Viewer.svelte";
   import Tile from "#lib/Tile.svelte";
   import { page } from "$app/state";
@@ -17,6 +17,6 @@
   <p class="mt-2 max-w-xl text-muted-foreground">{entry.description}</p>
   <div class="mt-8">{#key entry.slug}<Viewer {entry} />{/key}</div>
 
-  <h2 class="mb-4 mt-16 text-lg font-semibold">More {entry.group}</h2>
+  <h2 class="mb-4 mt-16 text-lg font-semibold">More {groupLabel(entry.group).toLowerCase()}</h2>
   <div class="grid gap-5 sm:grid-cols-3">{#each related as r (r.slug)}<Tile entry={r} />{/each}</div>
 </div>

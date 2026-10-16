@@ -3,6 +3,6 @@
   import PackagePage from "#lib/PackagePage.svelte";
 </script>
 
-<PackagePage name="@heyramzi/ui/agents" title="Agents" blurb="Bot avatars and a cast page.">
+<PackagePage id="agents">
   <Demo />
 </PackagePage>

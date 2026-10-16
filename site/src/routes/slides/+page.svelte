@@ -3,6 +3,6 @@
   import PackagePage from "#lib/PackagePage.svelte";
 </script>
 
-<PackagePage name="@heyramzi/slides" title="Slides" blurb="Keyboard and swipe decks with a print stylesheet.">
+<PackagePage id="slides" blurb="Keyboard and swipe decks with a print stylesheet.">
   <Demo />
 </PackagePage>
