@@ -101,10 +101,7 @@
 			class="btn icon"
 			aria-label={app.theme.theme === "dark" ? "Light mode" : "Dark mode"}
 			data-tip={app.theme.theme === "dark" ? "Light mode" : "Dark mode"}
-			onclick={(event) => {
-				const box = event.currentTarget.getBoundingClientRect();
-				app.theme.toggle({ x: box.left + box.width / 2, y: box.top + box.height / 2 });
-			}}
+			onclick={(event) => app.theme.toggle(event)}
 		>
 			<span class="icon-swap" data-state={app.theme.theme === "dark" ? "a" : "b"}>
 				<span class="swap-icon" data-icon="a"><Icon name="sun" /></span>

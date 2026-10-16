@@ -169,6 +169,14 @@
   --bad-soft: color-mix(in oklab, var(--bad) 16%, var(--surface));
   --bot-soft: color-mix(in oklab, var(--bot) 15%, var(--surface));
 
+  /* The @heyramzi/tasks tone names, read by its status dots, mapped onto review's palette. */
+  --color-muted-foreground: var(--dim);
+  --tone-accent: var(--accent);
+  --color-success: var(--ok);
+  --color-warning: var(--warn);
+  --color-destructive: var(--bad);
+  --status-dot-mark: var(--ground);
+
   --shadow-pop:
     0 1px 0 color-mix(in oklab, var(--text) 5%, transparent) inset,
     0 12px 32px color-mix(in oklab, var(--ground) 65%, transparent), 0 0 0 1px var(--line);

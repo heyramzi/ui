@@ -1,6 +1,7 @@
 <script lang="ts" generics="Id extends string">
 	import { tick } from "svelte";
-	import StatusPie, { type Mark } from "#src/ui/StatusPie.svelte";
+	import StatusDot from "@heyramzi/tasks/status-dot";
+	import { MARKS, type Mark } from "#src/ui/marks.js";
 	import Swap from "#src/ui/Swap.svelte";
 	import { glide } from "#src/ui/glide.js";
 
@@ -87,7 +88,7 @@
 			tabindex={item.id === value ? 0 : -1}
 			onclick={() => onchange(item.id)}
 		>
-			{#if item.mark}<StatusPie mark={item.mark} />{/if}
+			{#if item.mark}<StatusDot statuses={MARKS} status={item.mark} animate={false} />{/if}
 			<span class="text">{item.label}</span>
 			{#if item.count !== undefined}<span class="n"><Swap value={item.count} /></span>{/if}
 		</button>
