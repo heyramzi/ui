@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
 
-export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage";
+export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage"|"inbox";
 
 /** What the tile is for, which drives the filter on /components. The package is `pkg`. */
 export type Group = "primitives" | "effects" | "ai" | "charts" | "tasks" | "pages";
@@ -62,6 +62,7 @@ const componentSources: Record<string, string[]> = {
   "status-badge": ["packages/tasks/src/status-badge.svelte"],
   "status-dot": ["packages/tasks/src/status-dot.svelte"],
   "status-icon": ["packages/tasks/src/status-icon.svelte"],
+  inbox: ["packages/tasks/src/inbox/inbox.svelte", "packages/tasks/src/inbox/inbox-card.svelte", "packages/tasks/src/inbox/inbox-types.ts"],
   "agent-avatar": ["packages/ui/src/agents/agent-avatar.svelte"],
   "agent-cast": ["packages/ui/src/agents/agent-cast.svelte"],
   "slide-deck": ["packages/slides/src/Deck.svelte", "packages/slides/src/Slide.svelte", "packages/slides/src/Fragment.svelte"],
@@ -112,6 +113,7 @@ const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" |
   "task-gantt": { title: "Gantt", group: "tasks", icon: "gantt", description: "Bars you drag and resize by the day, with arrows between tasks.", height: 440 },
   "status-badge": { title: "Status badge", group: "tasks", icon: "tag", description: "Chips from one status config, with a busy spinner.", height: 200 },
   "status-dot": { title: "Status dot", group: "tasks", icon: "dot", description: "Dots in five shapes, from open ring to filled check.", height: 260 },
+  inbox: { title: "Inbox", group: "tasks", icon: "inbox", description: "Approve, decline or steer what an agent isn't sure about, with the trace one click away.", height: 600 },
   "status-icon": { title: "Status icon", group: "tasks", icon: "statusicon", description: "Registry icons with a dot fallback for the rest.", height: 220 },
   "agent-avatar": { title: "Agent avatar", group: "ai", icon: "avatar", description: "A bot face from a seed, eleven shapes and hats.", height: 260 },
   "agent-cast": { title: "Agent cast", group: "ai", icon: "cast", description: "The full cast on one card, ready to pick.", height: 300 },
