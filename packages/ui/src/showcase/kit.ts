@@ -1,5 +1,5 @@
 // The showcase of @heyramzi/ui itself: its shadcn primitives,
-// its motion vocabulary, its visual effects, its chart set and its AI surface.
+// its motion vocabulary, its visual effects and its AI surface. The chart set's own section ships with `@heyramzi/charts/showcase`.
 
 // WHY they ship with the package and not with the app showing them: they demo
 
@@ -13,5 +13,4 @@
 export { default as AnimationsSection } from "#src/showcase/AnimationsSection.svelte";
 export { default as ShadcnSection } from "#src/showcase/ShadcnSection.svelte";
 export { default as EffectsSection } from "#src/showcase/EffectsSection.svelte";
-export { default as ChartsSection } from "#src/showcase/ChartsSection.svelte";
 export { default as AiSection } from "#src/showcase/AiSection.svelte";

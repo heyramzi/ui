@@ -2,12 +2,12 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "#src/charts/donut-chart.css";
+	import "./donut-chart.css";
 	import { Arc, Chart, Group, Pie, Svg, Text } from "layerchart";
 	import { scaleOrdinal } from "d3-scale";
 	import { expoInOut } from "svelte/easing";
 	import { prefersReducedMotion, Tween } from "svelte/motion";
-	import { REVEAL_MS } from "#src/charts/motion.js";
+	import { REVEAL_MS } from "./motion.js";
 
 	// =========================
 	// TYPES

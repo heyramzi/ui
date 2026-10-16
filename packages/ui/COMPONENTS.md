@@ -112,30 +112,9 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `typing-dots` — TypingDots
 - `voice-waveform` — VoiceWaveform
 
-## Charts (`src/charts`)
-
-- `animated-value` — AnimatedValue
-- `area-chart` — AreaChart
-- `bar-chart` — BarChart
-- `crosshair` — Crosshair
-- `donut-chart` — DonutChart
-- `edge-fade` — EdgeFade
-- `figure` — Figure
-- `gauge-chart` — GaugeChart
-- `hover-focus` — HoverFocus
-- `legend` — Legend
-- `line-chart` — LineChart
-- `number-chart` — NumberChart
-- `reveal` — Reveal
-- `ring-chart` — RingChart
-- `sparkline` — Sparkline
-- `stat-card` — StatCard
-- `time-series-chart` — TimeSeriesChart
-- `trend-pill` — TrendPill
-- `primitives` — ChartContainer, ChartTooltip, ChartStyle, ChartConfig, TooltipSeriesItem, getPayloadConfigFromPayload
-
 ---
 
 Skipped on purpose: brand assets (logos, marks, brand renderer, language flags,
-locale switch), kanban and status (they live in `@heyramzi/board`). The bot avatars
+locale switch), kanban, list, gantt and status (they live in `@heyramzi/tasks`), and charts
+(they live in `@heyramzi/charts`). The bot avatars
 are in `src/agents`, imported from `@heyramzi/ui/agents`.

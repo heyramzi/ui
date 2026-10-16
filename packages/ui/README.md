@@ -1,7 +1,7 @@
 # @heyramzi/ui
 
 Svelte 5 UI primitives you copy into your project and own. Components, visual
-effects, CSS animations, charts and a small set of chat and AI surfaces. No build step, no runtime wrapper,
+effects, CSS animations and a small set of chat and AI surfaces. No build step, no runtime wrapper,
 no framework lock-in.
 
 The package is a source registry. Every component is a folder under
@@ -16,8 +16,6 @@ only a convenience.
 - `src/animations` keyframe CSS for dropdowns, modals, tooltips, text swaps,
   success checks and the rest of the motion vocabulary.
 - `src/ai` chat and AI surfaces: conversation, composer, prompt input, response, reasoning, confirmation and loaders.
-- `src/charts` SVG charts: line, area, bar, donut, ring, gauge, sparkline,
-  time series, and stat cards.
 - `src/agents` bot avatars and a cast grid, imported from `@heyramzi/ui/agents`:
   `AgentAvatar` draws an eyes-only face from a name, role, shape and colour, and
   `AgentCast` lays a list of agents out as cards you can pick from.
@@ -42,6 +40,10 @@ import `@heyramzi/ui/shadcn/utilities.css`.
 Retheme by overriding any variable on `:root`, for example
 `--color-brand-indigo` or `--radius-lg`. Dark mode keys off a `.dark`
 class on `html`.
+
+Charts live in their own package now,
+[`@heyramzi/charts`](https://github.com/heyramzi/ui/tree/main/packages/charts). It reads
+the same tokens, so import `tokens.css` once and both work.
 
 React and other framework ports are out of scope. The source is Svelte 5
 runes only.

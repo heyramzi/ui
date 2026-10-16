@@ -1,5 +1,5 @@
 /* Global theming for layerchart-rendered chrome shared by every chart in this
-   package (tooltip surface, header, rows). Ships with `@heyramzi/ui/charts`, so
+   package (tooltip surface, header, rows). Ships with `@heyramzi/charts`, so
    any consumer that defines the shadcn token set gets a legible tooltip in both
    themes for free.
 

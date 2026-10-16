@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TimeSeriesChart } from "@heyramzi/ui/charts";
+  import { TimeSeriesChart } from "@heyramzi/charts";
 
   const data = Array.from({ length: 60 }, (_, i) => {
     const d = new Date(2026, 6, 1 + i);

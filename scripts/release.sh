@@ -22,6 +22,7 @@ NOTES_DIR=$(mktemp -d)
 
 # component -> package dir. slides and review are private workspace packages.
 COMPONENTS="ui packages/ui
+charts packages/charts
 tasks packages/tasks
 marketing packages/marketing"
 

@@ -13,9 +13,8 @@
 		RingChart,
 		Sparkline,
 		StatCard,
-	} from "#src/charts/index.js";
-	import ShowcaseStage from "#src/showcase/ShowcaseStage.svelte";
-	import ShowcaseVariant from "#src/showcase/ShowcaseVariant.svelte";
+	} from "../index.js";
+	import { ShowcaseStage, ShowcaseVariant } from "@heyramzi/ui/showcase";
 
 	// =========================
 	// STATE
@@ -84,7 +83,7 @@
 	<ShowcaseStage
 		title="BarChart"
 		note="single series, vertical"
-		importPath={"import { BarChart } from '@heyramzi/ui/charts';"}
+		importPath={"import { BarChart } from '@heyramzi/charts';"}
 	>
 		<div class="full">
 			<BarChart data={monthly} xKey="month" yKey="revenue" color="var(--chart-1)" />
@@ -94,7 +93,7 @@
 	<ShowcaseStage
 		title="AreaChart"
 		note="multi-series stacked, distinct colors"
-		importPath={"import { AreaChart } from '@heyramzi/ui/charts';"}
+		importPath={"import { AreaChart } from '@heyramzi/charts';"}
 	>
 		<div class="full">
 			<AreaChart
@@ -112,7 +111,7 @@
 	<ShowcaseStage
 		title="LineChart"
 		note="gradient fill, point markers, dashed in-progress tail"
-		importPath={"import { LineChart } from '@heyramzi/ui/charts';"}
+		importPath={"import { LineChart } from '@heyramzi/charts';"}
 	>
 		<div class="full">
 			<LineChart
@@ -129,7 +128,7 @@
 	<ShowcaseStage
 		title="DonutChart"
 		note="explicit colors per slice"
-		importPath={"import { DonutChart } from '@heyramzi/ui/charts';"}
+		importPath={"import { DonutChart } from '@heyramzi/charts';"}
 	>
 		<div class="full">
 			<DonutChart data={distribution} valueKey="users" labelKey="label" colorKey="color" />
@@ -139,7 +138,7 @@
 	<ShowcaseStage
 		title="GaugeChart"
 		note="notched radial meter, count-up center value, format options"
-		importPath={"import { GaugeChart } from '@heyramzi/ui/charts';"}
+		importPath={"import { GaugeChart } from '@heyramzi/charts';"}
 	>
 		<div class="gauge">
 			<GaugeChart
@@ -154,7 +153,7 @@
 	<ShowcaseStage
 		title="RingChart + Legend"
 		note="concentric progress rings, hover-synced legend with progress bars"
-		importPath={"import { RingChart, Legend } from '@heyramzi/ui/charts';"}
+		importPath={"import { RingChart, Legend } from '@heyramzi/charts';"}
 	>
 		<div class="ring-row">
 			<div class="ring-slot">
@@ -167,7 +166,7 @@
 	<ShowcaseStage
 		title="Legend"
 		note="standalone: progress bars, percentages, hover-dim, keyboard focus"
-		importPath={"import { Legend } from '@heyramzi/ui/charts';"}
+		importPath={"import { Legend } from '@heyramzi/charts';"}
 	>
 		<div class="full">
 			<Legend title="Traffic by channel" items={channels} showProgress showPercentage />
@@ -177,7 +176,7 @@
 	<ShowcaseStage
 		title="Sparkline"
 		note="a trendline the width of whatever holds it"
-		importPath={"import { Sparkline } from '@heyramzi/ui/charts';"}
+		importPath={"import { Sparkline } from '@heyramzi/charts';"}
 	>
 		<ShowcaseVariant label="showLast: end-cap dot and inline value">
 			<div class="full">
@@ -216,7 +215,7 @@
 	<ShowcaseStage
 		title="NumberChart"
 		note="a figure on its own, with or without a scale under it"
-		importPath={"import { NumberChart } from '@heyramzi/ui/charts';"}
+		importPath={"import { NumberChart } from '@heyramzi/charts';"}
 	>
 		<ShowcaseVariant label="size=lg: count-up, direction-aware delta">
 			<div class="full">
@@ -265,7 +264,7 @@
 	<ShowcaseStage
 		title="StatCard"
 		note="a Figure over a chart, on a card: three chart kinds"
-		importPath={"import { StatCard } from '@heyramzi/ui/charts';"}
+		importPath={"import { StatCard } from '@heyramzi/charts';"}
 	>
 		<ShowcaseVariant label="variant=area: edge-to-edge chart, trend pill, count-up value">
 			<div class="full">
@@ -330,7 +329,7 @@
 	<ShowcaseStage
 		title="StatCard"
 		note="the two forms that drop half the card"
-		importPath={"import { StatCard } from '@heyramzi/ui/charts';"}
+		importPath={"import { StatCard } from '@heyramzi/charts';"}
 	>
 		<ShowcaseVariant label="variant=gauge: figure left, radial gauge right">
 			<div class="full">

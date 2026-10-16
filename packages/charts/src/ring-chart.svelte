@@ -2,9 +2,9 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "#src/charts/ring-chart.css";
+	import "./ring-chart.css";
 	import { cn } from "@heyramzi/utils";
-	import AnimatedValue from "#src/charts/animated-value.svelte";
+	import AnimatedValue from "./animated-value.svelte";
 
 	// =========================
 	// TYPES

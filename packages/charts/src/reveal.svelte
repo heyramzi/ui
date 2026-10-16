@@ -6,7 +6,7 @@
 	import { onMount, type Snippet } from "svelte";
 	import { expoInOut } from "svelte/easing";
 	import { prefersReducedMotion, Tween } from "svelte/motion";
-	import { REVEAL_MS, tokenMs } from "#src/charts/motion.js";
+	import { REVEAL_MS, tokenMs } from "./motion.js";
 
 	// =========================
 	// TYPES

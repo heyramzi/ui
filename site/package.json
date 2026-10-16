@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heyramzi/tasks": "workspace:*",
+    "@heyramzi/charts": "workspace:*",
     "@heyramzi/marketing": "workspace:*",
     "@heyramzi/review": "workspace:*",
     "@heyramzi/slides": "workspace:*",

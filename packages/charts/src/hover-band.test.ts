@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { hoverBand } from "#src/charts/hover-band.js";
+import { hoverBand } from "./hover-band.js";
 
 const center = (b: { x: number; width: number } | null) => (b ? b.x + b.width / 2 : NaN);
 

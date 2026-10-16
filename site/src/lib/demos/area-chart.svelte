@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AreaChart } from "@heyramzi/ui/charts";
+  import { AreaChart } from "@heyramzi/charts";
 
   const data = [
     { month: "Jan", revenue: 3200, cost: 1800 },

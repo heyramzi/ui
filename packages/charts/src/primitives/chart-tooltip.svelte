@@ -7,7 +7,7 @@
 		getPayloadConfigFromPayload,
 		type TooltipSeriesItem,
 		useChart,
-	} from "#src/charts/primitives/chart-utils.js";
+	} from "./chart-utils.js";
 
 	function defaultFormatter(value: unknown, _series: TooltipSeriesItem[]) {
 		return `${value}`;

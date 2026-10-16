@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "#src/charts/animated-value.css";
+	import "./animated-value.css";
 	import { untrack } from "svelte";
 	import { cn } from "@heyramzi/utils";
 

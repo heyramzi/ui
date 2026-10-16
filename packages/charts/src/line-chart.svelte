@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "#src/charts/line-chart.css";
+	import "./line-chart.css";
 	import {
 		Area,
 		Axis,
@@ -15,13 +15,13 @@
 		Tooltip,
 	} from "layerchart";
 	import { curveMonotoneX } from "d3-shape";
-	import Crosshair from "#src/charts/crosshair.svelte";
-	import EdgeFade from "#src/charts/edge-fade.svelte";
-	import { resolveEdgeFade } from "#src/charts/edge-fade.js";
-	import Figure from "#src/charts/figure.svelte";
-	import HoverFocus from "#src/charts/hover-focus.svelte";
-	import { DOMAIN_MOTION, TOOLTIP_GAP, TOOLTIP_TOP } from "#src/charts/motion.js";
-	import Reveal from "#src/charts/reveal.svelte";
+	import Crosshair from "./crosshair.svelte";
+	import EdgeFade from "./edge-fade.svelte";
+	import { resolveEdgeFade } from "./edge-fade.js";
+	import Figure from "./figure.svelte";
+	import HoverFocus from "./hover-focus.svelte";
+	import { DOMAIN_MOTION, TOOLTIP_GAP, TOOLTIP_TOP } from "./motion.js";
+	import Reveal from "./reveal.svelte";
 
 	// =========================
 	// TYPES

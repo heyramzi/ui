@@ -2,10 +2,10 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "#src/charts/sparkline.css";
+	import "./sparkline.css";
 	import { Area, Chart, Highlight, LinearGradient, Points, Spline, Svg, Tooltip } from "layerchart";
 	import { curveMonotoneX } from "d3-shape";
-	import Reveal from "#src/charts/reveal.svelte";
+	import Reveal from "./reveal.svelte";
 
 	// =========================
 	// TYPES

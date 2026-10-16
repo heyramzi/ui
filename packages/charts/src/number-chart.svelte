@@ -13,11 +13,11 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "#src/charts/number-chart.css";
+	import "./number-chart.css";
 	import { Minus, TrendDown, TrendUp } from "phosphor-svelte";
 	import { cn } from "@heyramzi/utils";
 	import type { Snippet } from "svelte";
-	import AnimatedValue from "#src/charts/animated-value.svelte";
+	import AnimatedValue from "./animated-value.svelte";
 
 	// =========================
 	// TYPES

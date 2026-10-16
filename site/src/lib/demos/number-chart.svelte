@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { NumberChart } from "@heyramzi/ui/charts";
+  import { NumberChart } from "@heyramzi/charts";
 
   const usd = { style: "currency", currency: "USD", maximumFractionDigits: 0 } as const;
 </script>
