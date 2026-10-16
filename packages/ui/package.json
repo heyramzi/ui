@@ -29,7 +29,21 @@
       "default": "./src/index.ts"
     },
     "./tokens.css": "./src/tokens.css",
-    "./lib/*": "./src/lib/*",
+    "./lib/*.js": {
+      "svelte": "./src/lib/*.ts",
+      "types": "./src/lib/*.ts",
+      "default": "./src/lib/*.ts"
+    },
+    "./lib/*.ts": {
+      "svelte": "./src/lib/*.ts",
+      "types": "./src/lib/*.ts",
+      "default": "./src/lib/*.ts"
+    },
+    "./lib/*": {
+      "svelte": "./src/lib/*.ts",
+      "types": "./src/lib/*.ts",
+      "default": "./src/lib/*.ts"
+    },
     "./border-beam": {
       "svelte": "./src/effects/border-beam/BorderBeam.svelte",
       "default": "./src/effects/border-beam/BorderBeam.svelte"
@@ -134,6 +148,11 @@
       "svelte": "./src/shadcn/*/index.ts",
       "types": "./src/shadcn/*/index.ts",
       "default": "./src/shadcn/*/index.ts"
+    },
+    "./components/*": {
+      "svelte": "./src/components/*/index.ts",
+      "types": "./src/components/*/index.ts",
+      "default": "./src/components/*/index.ts"
     },
     "./shadcn/utilities.css": {
       "style": "./src/shadcn/utilities.css",

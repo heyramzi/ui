@@ -1,3 +1,4 @@
+import { computeCommandScore } from "bits-ui";
 import Root from "#src/shadcn/command/command.svelte";
 import Loading from "#src/shadcn/command/command-loading.svelte";
 import Dialog from "#src/shadcn/command/command-dialog.svelte";
@@ -10,7 +11,9 @@ import Separator from "#src/shadcn/command/command-separator.svelte";
 import Shortcut from "#src/shadcn/command/command-shortcut.svelte";
 import LinkItem from "#src/shadcn/command/command-link-item.svelte";
 
+// The scorer Command uses by default, for a custom `filter` that wants to rank its own words.
 export {
+  computeCommandScore,
   Root,
   Dialog,
   Empty,
