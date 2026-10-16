@@ -38,3 +38,17 @@
 * fix(tasks): the list chevron and the badge spinner are .svg files, not inline paths
 * fix(tasks): the gantt progress fill scales instead of animating width
 
+
+## [0.4.0](https://github.com/heyramzi/ui/compare/tasks-v0.3.0...tasks-v0.4.0) (2026-10-16)
+
+### Features
+
+* feat(tasks): TaskList takes getParent to nest a group under another
+* feat(tasks): an Inbox to approve, decline or steer what an agent isn't sure about, and StatusDot gets a dashed ring and drops Tailwind
+* feat(tasks): a time tracker, flat views, and a board, list and gantt that take more of your own config
+
+### Bug Fixes
+
+* fix(tasks): the board card and list row keep focus for the Alt+arrow move without an a11y warning
+* fix(tasks): the gantt flag, the time tracker's play and delete, the rail chevron and the clock are .svg files, not inline paths
+
