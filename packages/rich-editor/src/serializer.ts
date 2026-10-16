@@ -158,15 +158,16 @@ function numString(attrs: Record<string, unknown> | undefined, key: string): str
 }
 
 function renderImage(node: Node): string {
+  const src = strAttr(node.attrs, "src");
+  if (!src) return "";
   const attrs = renderAttributes({
-    src: strAttr(node.attrs, "src") ?? "",
     alt: strAttr(node.attrs, "alt") ?? "",
     title: strAttr(node.attrs, "title"),
     width: numString(node.attrs, "width"),
     height: numString(node.attrs, "height"),
     "data-align": strAttr(node.attrs, "align"),
   });
-  return `<img${attrs} />`;
+  return `<img src="${escapeAttr(src)}"${attrs} />`;
 }
 
 function renderTable(node: Node, ctx: RenderContext): string {
