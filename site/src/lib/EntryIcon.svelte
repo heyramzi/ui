@@ -41,9 +41,11 @@
   import Palette from "@lucide/svelte/icons/palette";
   import Quote from "@lucide/svelte/icons/quote";
   import MonitorPlay from "@lucide/svelte/icons/monitor-play";
+  import ChartGantt from "@lucide/svelte/icons/chart-gantt";
+  import ListTodo from "@lucide/svelte/icons/list-todo";
 
   let { icon, class: className = "size-5" }: { icon: Icon; class?: string } = $props();
-  const map = { area: ChartArea, line: ChartLine, bar: ChartColumn, pie: ChartPie, ring: CircleDot, gauge: Gauge, activity: Activity, dashboard: LayoutDashboard, hash: Hash, spline: ChartSpline, click: MousePointerClick, tag: Tag, form: TextCursorInput, square: Square, tabs: PanelTop, move: MoveHorizontal, sparkles: Sparkles, type: Type, kanban: Kanban, dot: CircleDot, statusicon: BadgeCheck, avatar: Bot, cast: Users, deck: Presentation, spotlight: Sun, compare: Columns2, beam: Spline, animate: Group, reveal: Image, dialog: MessageSquare, accordion: List, select: ChevronDown, avataricon: CircleUserRound, prompt: SquarePen, conversation: MessagesSquare, thinking: Ellipsis, composer: Send, typing: Keyboard, tradeicon: Wrench, brand: Palette, testimonial: Quote, reviewpage: MonitorPlay };
+  const map = { area: ChartArea, line: ChartLine, bar: ChartColumn, pie: ChartPie, ring: CircleDot, gauge: Gauge, activity: Activity, dashboard: LayoutDashboard, hash: Hash, spline: ChartSpline, click: MousePointerClick, tag: Tag, form: TextCursorInput, square: Square, tabs: PanelTop, move: MoveHorizontal, sparkles: Sparkles, type: Type, kanban: Kanban, list: ListTodo, gantt: ChartGantt, dot: CircleDot, statusicon: BadgeCheck, avatar: Bot, cast: Users, deck: Presentation, spotlight: Sun, compare: Columns2, beam: Spline, animate: Group, reveal: Image, dialog: MessageSquare, accordion: List, select: ChevronDown, avataricon: CircleUserRound, prompt: SquarePen, conversation: MessagesSquare, thinking: Ellipsis, composer: Send, typing: Keyboard, tradeicon: Wrench, brand: Palette, testimonial: Quote, reviewpage: MonitorPlay };
   const Cmp = $derived(map[icon]);
 </script>
 

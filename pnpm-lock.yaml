@@ -175,19 +175,6 @@ importers:
 
   .: {}
 
-  packages/board:
-    dependencies:
-      svelte:
-        specifier: ^5.0.0
-        version: 5.57.2
-    devDependencies:
-      svelte-check:
-        specifier: ^4.7.6
-        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.2)
-      typescript:
-        specifier: ~7.0.2
-        version: 7.0.2
-
   packages/marketing:
     dependencies:
       '@heyramzi/utils':
@@ -274,6 +261,19 @@ importers:
         specifier: ~7.0.2
         version: 7.0.2
 
+  packages/tasks:
+    dependencies:
+      svelte:
+        specifier: ^5.0.0
+        version: 5.57.2
+    devDependencies:
+      svelte-check:
+        specifier: ^4.7.6
+        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.2)
+      typescript:
+        specifier: ~7.0.2
+        version: 7.0.2
+
   packages/ui:
     dependencies:
       '@heyramzi/utils':
@@ -346,9 +346,6 @@ importers:
 
   site:
     dependencies:
-      '@heyramzi/board':
-        specifier: workspace:*
-        version: link:../packages/board
       '@heyramzi/marketing':
         specifier: workspace:*
         version: link:../packages/marketing
@@ -358,6 +355,9 @@ importers:
       '@heyramzi/slides':
         specifier: workspace:*
         version: link:../packages/slides
+      '@heyramzi/tasks':
+        specifier: workspace:*
+        version: link:../packages/tasks
       '@heyramzi/ui':
         specifier: workspace:*
         version: link:../packages/ui

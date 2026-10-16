@@ -26,3 +26,16 @@ export type {
 	Statuses,
 	Tone,
 } from "./status-types.js";
+export { default as TaskList } from "./task-list.svelte";
+export { default as TaskGantt } from "./task-gantt.svelte";
+export { default as TaskViewSwitch } from "./task-view-switch.svelte";
+export { default as BoardIcon } from "./icons/board-icon.svelte";
+export { default as ListIcon } from "./icons/list-icon.svelte";
+export { default as GanttIcon } from "./icons/gantt-icon.svelte";
+export { addDays, dayNumber, isoFromDay, todayIso } from "./dates.js";
+export type {
+	GanttChange,
+	TaskListGroupContext,
+	TaskListRowContext,
+	TaskView,
+} from "./task-types.js";

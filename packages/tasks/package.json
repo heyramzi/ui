@@ -1,20 +1,31 @@
 {
-  "name": "@heyramzi/board",
+  "name": "@heyramzi/tasks",
   "version": "0.2.0",
-  "private": true,
-  "description": "Generic Svelte 5 kanban board with native drag and drop, plus configuration-driven status badges, dots and icons.",
+  "description": "Svelte 5 task views: a drag-and-drop board, a grouped list and a gantt timeline from one config, plus status badges, dots and icons.",
+  "keywords": [
+    "svelte",
+    "svelte5",
+    "kanban",
+    "board",
+    "gantt",
+    "timeline",
+    "tasks",
+    "drag-and-drop"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heyramzi/ui.git",
-    "directory": "packages/board"
+    "directory": "packages/tasks"
   },
-  "homepage": "https://ui.heyramzi.com",
+  "homepage": "https://ui.heyramzi.com/tasks",
   "type": "module",
   "svelte": "./src/index.ts",
   "types": "./src/index.ts",
   "files": [
     "src",
+    "README.md",
+    "LICENSE",
     "package.json"
   ],
   "exports": {
@@ -27,6 +38,16 @@
       "svelte": "./src/kanban-board.svelte",
       "types": "./src/kanban-board.svelte",
       "default": "./src/kanban-board.svelte"
+    },
+    "./list": {
+      "svelte": "./src/task-list.svelte",
+      "types": "./src/task-list.svelte",
+      "default": "./src/task-list.svelte"
+    },
+    "./gantt": {
+      "svelte": "./src/task-gantt.svelte",
+      "types": "./src/task-gantt.svelte",
+      "default": "./src/task-gantt.svelte"
     },
     "./status": {
       "svelte": "./src/status-badge.svelte",

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StatusIcon, defineStatuses } from "@heyramzi/board";
+  import { StatusIcon, defineStatuses } from "@heyramzi/tasks";
   import Check from "@lucide/svelte/icons/check";
   import Clock from "@lucide/svelte/icons/clock";
   import X from "@lucide/svelte/icons/x";

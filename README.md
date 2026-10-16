@@ -7,7 +7,7 @@ Svelte 5 components for our product teams. SvelteKit first, no React ports.
 | Package | What it is |
 | --- | --- |
 | `@heyramzi/ui` | Charts, shadcn primitives, effects, animations, chat and AI surfaces, and bot avatars at `@heyramzi/ui/agents` (inspired by [bot-avatars](https://github.com/jakubantalik/bot-avatars)) |
-| `@heyramzi/board` | A generic drag-and-drop board plus status badges, dots and icons from one config |
+| `@heyramzi/tasks` | One set of tasks as a drag-and-drop board, a grouped list or a gantt timeline, plus status badges, dots and icons from one config. Was `@heyramzi/board` |
 | `@heyramzi/marketing` | Brand tokens and testimonial surfaces |
 | `@heyramzi/review` | The review page, mounted anywhere |
 | `@heyramzi/slides` | Keyboard and swipe slide decks, with a print stylesheet |
@@ -24,11 +24,11 @@ The shadcn primitives in `@heyramzi/ui` start from [shadcn-svelte](https://githu
 
 ## Releasing
 
-Releases run from the Mac, for `ui` and `marketing` only. `board`, `slides` and `review` aren't published yet: use them from a clone. `@heyramzi/agents` moved into `@heyramzi/ui/agents`.
+Releases run from the Mac, for `ui`, `tasks` and `marketing` only. `slides` and `review` aren't published yet: use them from a clone. `@heyramzi/agents` moved into `@heyramzi/ui/agents`.
 
 Release steps:
 
-1. Commit with [Conventional Commits](https://www.conventionalcommits.org): `feat(board): ...`, `fix(ui): ...`. A `feat` bumps the minor, a `fix` the patch, and `feat!` the major.
+1. Commit with [Conventional Commits](https://www.conventionalcommits.org): `feat(tasks): ...`, `fix(ui): ...`. A `feat` bumps the minor, a `fix` the patch, and `feat!` the major.
 2. Push to `main`, then run `pnpm release` (or `DRY_RUN=1 pnpm release` to preview). For each package with changes since its last tag, the script bumps the version from the commit types, writes the `CHANGELOG.md` entry, commits the bumps, tags `<name>-v<version>`, creates the GitHub release and publishes to npmjs and to GitHub Packages. Both tokens come from `~/.npmrc`.
 
 Install from npm:

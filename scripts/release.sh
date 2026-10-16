@@ -20,8 +20,9 @@ DRY_RUN="${DRY_RUN:-0}"
 TODAY=$(date +%Y-%m-%d)
 NOTES_DIR=$(mktemp -d)
 
-# component -> package dir. board, slides and review are private workspace packages.
+# component -> package dir. slides and review are private workspace packages.
 COMPONENTS="ui packages/ui
+tasks packages/tasks
 marketing packages/marketing"
 
 plan=""

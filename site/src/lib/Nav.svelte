@@ -6,7 +6,7 @@
   const links = [
     ["/components", "Components"],
     ["/charts", "Charts"],
-    ["/board", "Board"],
+    ["/tasks", "Tasks"],
     ["/agents", "Agents"],
     ["/slides", "Slides"],
     ["/marketing", "Marketing"],

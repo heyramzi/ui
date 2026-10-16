@@ -4,7 +4,7 @@
 
   const titles: Record<string, string> = {
     ui: "UI",
-    board: "Board",
+    tasks: "Tasks",
     agents: "Agents",
     slides: "Slides",
     marketing: "Marketing",

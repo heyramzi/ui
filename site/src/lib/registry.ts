@@ -1,8 +1,8 @@
 import type { Component } from "svelte";
 
-export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage";
+export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"composer"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage";
 
-export type Group = "charts" | "primitives" | "components" | "effects" | "board" | "agents" | "slides" | "marketing" | "review";
+export type Group = "charts" | "primitives" | "components" | "effects" | "tasks" | "agents" | "slides" | "marketing" | "review";
 
 export type Entry = {
   slug: string;
@@ -53,10 +53,12 @@ const componentSources: Record<string, string[]> = {
   "animated-beam": ["packages/ui/src/effects/animated-beam/AnimatedBeam.svelte"],
   "animated-group": ["packages/ui/src/effects/reveal/AnimatedGroup.svelte"],
   "image-reveal": ["packages/ui/src/effects/image-reveal/ImageReveal.svelte"],
-  "kanban-board": ["packages/board/src/kanban-board.svelte"],
-  "status-badge": ["packages/board/src/status-badge.svelte"],
-  "status-dot": ["packages/board/src/status-dot.svelte"],
-  "status-icon": ["packages/board/src/status-icon.svelte"],
+  "kanban-board": ["packages/tasks/src/kanban-board.svelte"],
+  "task-list": ["packages/tasks/src/task-list.svelte"],
+  "task-gantt": ["packages/tasks/src/task-gantt.svelte"],
+  "status-badge": ["packages/tasks/src/status-badge.svelte"],
+  "status-dot": ["packages/tasks/src/status-dot.svelte"],
+  "status-icon": ["packages/tasks/src/status-icon.svelte"],
   "agent-avatar": ["packages/ui/src/agents/agent-avatar.svelte"],
   "agent-cast": ["packages/ui/src/agents/agent-cast.svelte"],
   "slide-deck": ["packages/slides/src/Deck.svelte", "packages/slides/src/Slide.svelte"],
@@ -102,10 +104,12 @@ const meta: Record<string, Omit<Entry, "slug" | "component" | "source" | "source
   "animated-beam": { title: "Animated beam", group: "effects", icon: "beam", description: "A gradient pulse that runs between two nodes.", height: 220 },
   "animated-group": { title: "Animated group", group: "effects", icon: "animate", description: "Staggered entrances with one replay button.", height: 220 },
   "image-reveal": { title: "Image reveal", group: "effects", icon: "reveal", description: "Photos that dissolve in through a pixel pass.", height: 340 },
-  "kanban-board": { title: "Kanban board", group: "board", icon: "kanban", description: "Drag cards between lanes, by mouse or by keyboard.", height: 440 },
-  "status-badge": { title: "Status badge", group: "board", icon: "tag", description: "Chips from one status config, with a busy spinner.", height: 200 },
-  "status-dot": { title: "Status dot", group: "board", icon: "dot", description: "Dots in five shapes, from open ring to filled check.", height: 260 },
-  "status-icon": { title: "Status icon", group: "board", icon: "statusicon", description: "Registry icons with a dot fallback for the rest.", height: 220 },
+  "kanban-board": { title: "Kanban board", group: "tasks", icon: "kanban", description: "Drag cards between lanes, by mouse or by keyboard.", height: 440 },
+  "task-list": { title: "Task list", group: "tasks", icon: "list", description: "Rows grouped by status that fold, with drag between groups.", height: 440 },
+  "task-gantt": { title: "Gantt", group: "tasks", icon: "gantt", description: "Bars you drag and resize by the day, with arrows between tasks.", height: 440 },
+  "status-badge": { title: "Status badge", group: "tasks", icon: "tag", description: "Chips from one status config, with a busy spinner.", height: 200 },
+  "status-dot": { title: "Status dot", group: "tasks", icon: "dot", description: "Dots in five shapes, from open ring to filled check.", height: 260 },
+  "status-icon": { title: "Status icon", group: "tasks", icon: "statusicon", description: "Registry icons with a dot fallback for the rest.", height: 220 },
   "agent-avatar": { title: "Agent avatar", group: "agents", icon: "avatar", description: "A bot face from a seed, eleven shapes and hats.", height: 260 },
   "agent-cast": { title: "Agent cast", group: "agents", icon: "cast", description: "The full cast on one card, ready to pick.", height: 300 },
   "slide-deck": { title: "Slide deck", group: "slides", icon: "deck", description: "Keyboard and swipe decks that print.", height: 380 },
@@ -139,7 +143,7 @@ export const groups: { id: Group; label: string }[] = [
   { id: "primitives", label: "Primitives" },
   { id: "components", label: "Components" },
   { id: "effects", label: "Effects" },
-  { id: "board", label: "Board" },
+  { id: "tasks", label: "Tasks" },
   { id: "agents", label: "Agents" },
   { id: "slides", label: "Slides" },
   { id: "marketing", label: "Marketing" },
@@ -149,7 +153,7 @@ export const groups: { id: Group; label: string }[] = [
 export const packages: { id: string; name: string; blurb: string; groups: Group[] }[] = [
   { id: "ui", name: "@heyramzi/ui", blurb: "Charts, primitives, components and effects.", groups: ["charts", "primitives", "components", "effects"] },
   { id: "agents", name: "@heyramzi/ui/agents", blurb: "Bot avatars and a cast page.", groups: ["agents"] },
-  { id: "board", name: "@heyramzi/board", blurb: "A drag-and-drop board plus status chips, dots and icons.", groups: ["board"] },
+  { id: "tasks", name: "@heyramzi/tasks", blurb: "Board, list and gantt views from one config, plus status chips, dots and icons.", groups: ["tasks"] },
   { id: "slides", name: "@heyramzi/slides", blurb: "Keyboard and swipe decks that print.", groups: ["slides"] },
   { id: "marketing", name: "@heyramzi/marketing", blurb: "Brand tokens and testimonial surfaces.", groups: ["marketing"] },
   { id: "review", name: "@heyramzi/review", blurb: "The review page, mounted anywhere.", groups: ["review"] },

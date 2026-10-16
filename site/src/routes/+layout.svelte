@@ -6,7 +6,7 @@
 
 <svelte:head>
   <title>heyramzi/ui | Svelte 5 components and charts</title>
-  <meta name="description" content="Svelte 5 components for our product teams: UI primitives, charts, effects, board, agents and slides." />
+  <meta name="description" content="Svelte 5 components for our product teams: UI primitives, charts, effects, tasks, agents and slides." />
 </svelte:head>
 
 <Nav />
