@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Entry } from "#lib/registry.js";
-  import { highlight } from "#lib/highlight.js";
+  import * as CodeBlock from "@heyramzi/ui/shadcn/code-block";
+  import { useHighlightedCode } from "@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte";
   import { copyAiContext } from "#lib/ai-context.js";
   import Check from "@lucide/svelte/icons/check";
   import Copy from "@lucide/svelte/icons/copy";
@@ -11,6 +12,7 @@
   let tab = $state<"preview" | "code">("preview");
   let run = $state(0);
   let copied = $state(false);
+  const lines = useHighlightedCode(() => entry.source, () => "svelte");
 
   // One button, the full block: usage and component source. A person pastes the
   // part they want, an agent gets everything.
@@ -58,6 +60,12 @@
       {/key}
     </div>
   {:else}
-    <pre class="code-block max-h-[560px] overflow-auto bg-muted/40 p-5 font-mono text-[13px] leading-relaxed" style="min-height:{Math.min(entry.height ?? 280, 320)}px"><code>{@html highlight(entry.source)}</code></pre>
+    <CodeBlock.Root class="rounded-none border-0">
+      <CodeBlock.Content class="max-h-[560px]" style="min-height:{Math.min(entry.height ?? 280, 320)}px">
+        {#each lines.current as line, index (index)}
+          <CodeBlock.Line code={line} />
+        {/each}
+      </CodeBlock.Content>
+    </CodeBlock.Root>
   {/if}
 </section>

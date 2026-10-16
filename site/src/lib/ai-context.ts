@@ -53,7 +53,6 @@ const sources = import.meta.glob(
     "../../../packages/slides/src/Deck.svelte",
     "../../../packages/slides/src/Slide.svelte",
     "../../../packages/ui/src/ai/prompt-input/PromptInput.svelte",
-    "../../../packages/ui/src/ai/conversation/Conversation.svelte",
     "../../../packages/ui/src/ai/response/Response.svelte",
     "../../../packages/ui/src/ai/thinking-dots/ThinkingDots.svelte",
     "../../../packages/ui/src/ai/composer/Composer.svelte",

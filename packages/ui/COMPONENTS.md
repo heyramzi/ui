@@ -21,6 +21,7 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `calendar` — Calendar
 - `card` — Card
 - `checkbox` — Checkbox
+- `code-block` — CodeBlock. Highlight with `useHighlightedCode` from `@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte` (Shiki, ANSI too)
 - `collapsible` — Collapsible
 - `command` — Command
 - `context-menu` — ContextMenu
@@ -34,6 +35,7 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `label` — Label
 - `marker` — Marker
 - `message` — Message
+- `message-scroller` — MessageScroller, the chat transcript scroller: follows a streamed reply, anchors each turn, keeps place on prepend
 - `popover` — Popover
 - `progress` — Progress
 - `radio-group` — RadioGroup
@@ -53,6 +55,7 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 - `toggle` — toggleVariants, ToggleSize, ToggleVariant, ToggleVariants
 - `toggle-group` — ToggleGroup
 - `tooltip` — Tooltip
+- `trace` — Trace, an agent's steps: reasoning, tool calls and sources as status rows that can expand
 
 ## Effects (`src/effects`)
 
@@ -102,7 +105,6 @@ The style layer lives in [`src/tokens.css`](./src/tokens.css) and the motion CSS
 
 - `composer` — Composer, ComposerProps
 - `confirmation` — Confirmation, ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected, ConfirmationActions, ConfirmationAction
-- `conversation` — Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton
 - `loading-state` — PixelLoader
 - `prompt-input` — PromptInput, PromptInputBody, PromptInputToolbar, PromptInputTextarea, PromptInputSubmit
 - `reasoning` — Reasoning, ReasoningTrigger, ReasoningContent

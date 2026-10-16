@@ -3,7 +3,6 @@
 <!-- ========================== -->
 <script lang="ts">
 	import ShowcaseStage from "#src/showcase/ShowcaseStage.svelte";
-	import Convo from "#src/showcase/demos/ai/conversation.svelte";
 	import Prompt from "#src/showcase/demos/ai/prompt-input.svelte";
 	import LoadingStateDemo from "#src/showcase/demos/ai/loading-state.svelte";
 	import ThinkingDotsDemo from "#src/showcase/demos/ai/thinking-dots.svelte";
@@ -22,12 +21,6 @@
 	// =========================
 	// The order is the order a turn happens in: the surface it is said on, the waiting, the thinking, the decision, and last the voice.
 	const demos: Demo[] = [
-		{
-			title: "Conversation",
-			note: "Chat bubbles, responses and per-message actions.",
-			Comp: Convo,
-			path: "import { Conversation, ConversationContent, Response } from '@heyramzi/ui/ai';\nimport * as Message from '@heyramzi/ui/shadcn/message';\nimport * as Bubble from '@heyramzi/ui/shadcn/bubble';",
-		},
 		{
 			title: "PromptInput",
 			note: "Suggestions, textarea, status-aware submit.",

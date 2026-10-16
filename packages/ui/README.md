@@ -15,7 +15,7 @@ only a convenience.
   image comparison, shimmer gradients and a theme toggle.
 - `src/animations` keyframe CSS for dropdowns, modals, tooltips, text swaps,
   success checks and the rest of the motion vocabulary.
-- `src/ai` chat and AI surfaces: conversation, composer, prompt input, response, reasoning, confirmation and loaders.
+- `src/ai` chat and AI surfaces: composer, prompt input, response, reasoning, confirmation and loaders.
 - `src/agents` bot avatars and a cast grid, imported from `@heyramzi/ui/agents`:
   `AgentAvatar` draws an eyes-only face from a name, role, shape and colour, and
   `AgentCast` lays a list of agents out as cards you can pick from.

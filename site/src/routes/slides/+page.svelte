@@ -1,7 +1,8 @@
 <script lang="ts">
   import Demo from "@heyramzi/slides/demo.svelte";
   import PackagePage from "#lib/PackagePage.svelte";
-  import { highlight } from "#lib/highlight.js";
+  import * as CodeBlock from "@heyramzi/ui/shadcn/code-block";
+  import { useHighlightedCode } from "@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte";
 
   const children = `<script>
   import { Deck, Slide, Fragment } from "@heyramzi/slides";
@@ -23,20 +24,29 @@ const cover = defineSlideType({ type: "cover", label: "Cover", layout: CoverLayo
 const registry = defineRegistry([cover]);
 
 // <Deck {...deck} {registry} />   deck = { id, title, canvas, slides }`;
+
+  const examples = [
+    { title: "Write slides", lines: useHighlightedCode(() => children, () => "svelte") },
+    { title: "Or write data", lines: useHighlightedCode(() => data, () => "typescript") },
+  ];
 </script>
 
 <PackagePage id="slides" blurb="Decks on a fixed canvas that scales to any screen. Press O for the overview.">
   <Demo presenter="/slides/presenter" />
 
   <div class="mt-16 grid gap-6 lg:grid-cols-2 print:hidden">
-    <div>
-      <h2 class="mb-3 text-lg font-semibold tracking-tight">Write slides</h2>
-      <pre class="code-block overflow-auto rounded-2xl border border-border bg-muted/40 p-5 font-mono text-[13px] leading-relaxed"><code>{@html highlight(children)}</code></pre>
-    </div>
-    <div>
-      <h2 class="mb-3 text-lg font-semibold tracking-tight">Or write data</h2>
-      <pre class="code-block overflow-auto rounded-2xl border border-border bg-muted/40 p-5 font-mono text-[13px] leading-relaxed"><code>{@html highlight(data)}</code></pre>
-    </div>
+    {#each examples as example (example.title)}
+      <div>
+        <h2 class="mb-3 text-lg font-semibold tracking-tight">{example.title}</h2>
+        <CodeBlock.Root class="rounded-2xl">
+          <CodeBlock.Content>
+            {#each example.lines.current as line, index (index)}
+              <CodeBlock.Line code={line} />
+            {/each}
+          </CodeBlock.Content>
+        </CodeBlock.Root>
+      </div>
+    {/each}
   </div>
 </PackagePage>
 

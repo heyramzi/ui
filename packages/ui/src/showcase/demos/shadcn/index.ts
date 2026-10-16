@@ -13,6 +13,7 @@ import ButtonDemo from "#src/showcase/demos/shadcn/button.svelte";
 import CalendarDemo from "#src/showcase/demos/shadcn/calendar.svelte";
 import CardDemo from "#src/showcase/demos/shadcn/card.svelte";
 import CheckboxDemo from "#src/showcase/demos/shadcn/checkbox.svelte";
+import CodeBlockDemo from "#src/showcase/demos/shadcn/code-block.svelte";
 import CollapsibleDemo from "#src/showcase/demos/shadcn/collapsible.svelte";
 import CommandDemo from "#src/showcase/demos/shadcn/command.svelte";
 import ContextMenuDemo from "#src/showcase/demos/shadcn/context-menu.svelte";
@@ -26,6 +27,7 @@ import InputOtpDemo from "#src/showcase/demos/shadcn/input-otp.svelte";
 import LabelDemo from "#src/showcase/demos/shadcn/label.svelte";
 import MarkerDemo from "#src/showcase/demos/shadcn/marker.svelte";
 import MessageDemo from "#src/showcase/demos/shadcn/message.svelte";
+import MessageScrollerDemo from "#src/showcase/demos/shadcn/message-scroller.svelte";
 import PopoverDemo from "#src/showcase/demos/shadcn/popover.svelte";
 import ProgressDemo from "#src/showcase/demos/shadcn/progress.svelte";
 import RadioGroupDemo from "#src/showcase/demos/shadcn/radio-group.svelte";
@@ -44,6 +46,7 @@ import TextareaDemo from "#src/showcase/demos/shadcn/textarea.svelte";
 import ToggleDemo from "#src/showcase/demos/shadcn/toggle.svelte";
 import ToggleGroupDemo from "#src/showcase/demos/shadcn/toggle-group.svelte";
 import TooltipDemo from "#src/showcase/demos/shadcn/tooltip.svelte";
+import TraceDemo from "#src/showcase/demos/shadcn/trace.svelte";
 
 export type ShadcnDemo = {
   name: string;
@@ -139,6 +142,13 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
     Comp: CheckboxDemo,
   },
   {
+    name: "code-block",
+    title: "Code Block",
+    note: "Displays code, terminal output and diffs with an optional header, line numbers and a copy button.",
+    path: 'import * as CodeBlock from "@heyramzi/ui/shadcn/code-block";\nimport { useHighlightedCode } from "@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte.js";\nimport { Button } from "@heyramzi/ui/shadcn/button";',
+    Comp: CodeBlockDemo,
+  },
+  {
     name: "collapsible",
     title: "Collapsible",
     note: "An interactive component which expands/collapses a panel.",
@@ -228,6 +238,13 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
     note: "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
     path: 'import * as Avatar from "@heyramzi/ui/shadcn/avatar";\nimport * as Bubble from "@heyramzi/ui/shadcn/bubble";\nimport * as Marker from "@heyramzi/ui/shadcn/marker";\nimport * as Message from "@heyramzi/ui/shadcn/message";',
     Comp: MessageDemo,
+  },
+  {
+    name: "message-scroller",
+    title: "Message Scroller",
+    note: "A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.",
+    path: 'import * as Card from "@heyramzi/ui/shadcn/card";\nimport * as DropdownMenu from "@heyramzi/ui/shadcn/dropdown-menu";\nimport * as Empty from "@heyramzi/ui/shadcn/empty";\nimport * as InputGroup from "@heyramzi/ui/shadcn/input-group";\nimport * as MessageScroller from "@heyramzi/ui/shadcn/message-scroller";\nimport * as Tooltip from "@heyramzi/ui/shadcn/tooltip";\nimport { Button } from "@heyramzi/ui/shadcn/button";',
+    Comp: MessageScrollerDemo,
   },
   {
     name: "popover",
@@ -354,5 +371,12 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
     note: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
     path: 'import * as Tooltip from "@heyramzi/ui/shadcn/tooltip";\nimport { buttonVariants } from "@heyramzi/ui/shadcn/button";',
     Comp: TooltipDemo,
+  },
+  {
+    name: "trace",
+    title: "Trace",
+    note: "The building block for reasoning, tool calls, sources and more.",
+    path: 'import * as Bubble from "@heyramzi/ui/shadcn/bubble";\nimport * as CodeBlock from "@heyramzi/ui/shadcn/code-block";\nimport * as Message from "@heyramzi/ui/shadcn/message";\nimport * as Trace from "@heyramzi/ui/shadcn/trace";\nimport { Button } from "@heyramzi/ui/shadcn/button";',
+    Comp: TraceDemo,
   },
 ];

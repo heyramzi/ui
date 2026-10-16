@@ -1,22 +1,4 @@
 // =========================
-// CONVERSATION (scroll container)
-// =========================
-
-export {
-  Conversation,
-  ConversationContent,
-  ConversationEmptyState,
-  ConversationScrollButton,
-  StickToBottomContext,
-  getStickToBottomContext,
-  setStickToBottomContext,
-  type ConversationProps,
-  type ConversationContentProps,
-  type ConversationEmptyStateProps,
-  type ConversationScrollButtonProps,
-} from "#src/ai/conversation/index.js";
-
-// =========================
 // COMPOSER
 // =========================
 

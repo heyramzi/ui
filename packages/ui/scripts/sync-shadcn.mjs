@@ -42,12 +42,16 @@ const ALIASES = [
   ["$UTILS$.js", "@heyramzi/utils"],
   ["$UI$/", "#src/shadcn/"],
   ["$HOOKS$/", "#src/shadcn/hooks/"],
+  ["$LIB$/", "#src/shadcn/hooks/"],
 ];
 
 /* Upstream target path -> ours, where the two differ. Everything else lands at
  * src/shadcn/<target>. */
 const REROUTE = {
   "is-mobile/is-mobile.svelte.ts": "src/shadcn/hooks/is-mobile.svelte.ts",
+  "highlighter/highlighter.ts": "src/shadcn/hooks/highlighter.ts",
+  "use-highlighted-code/use-highlighted-code.svelte.ts":
+    "src/shadcn/hooks/use-highlighted-code.svelte.ts",
 };
 
 const DOCS = "https://raw.githubusercontent.com/huntabyte/shadcn-svelte/main/docs";
@@ -90,12 +94,17 @@ const NOT_SHIPPED = new Set([
   // `cn` ships from @heyramzi/utils in vibe-kit, so a copy here would be a stray.
   "utils",
   "questionnaire",
-  // Every app chat runs on our ai/conversation, so a second scroller would be two answers to one job.
-  "message-scroller",
 ]);
 
 /* No demo to take: `hooks`, `is-mobile` and `utils` are not components, and `sidebar` demos as a page block. */
-const NO_DEMO = new Set(["hooks", "is-mobile", "sidebar", "utils"]);
+const NO_DEMO = new Set([
+  "hooks",
+  "is-mobile",
+  "highlighter",
+  "use-highlighted-code",
+  "sidebar",
+  "utils",
+]);
 
 const adapt = (text) => ALIASES.reduce((acc, [from, to]) => acc.replaceAll(from, to), text);
 const adaptDemo = (text) =>

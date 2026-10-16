@@ -1,8 +1,8 @@
 {
 	"source": "https://github.com/huntabyte/shadcn-svelte",
 	"registry": "https://shadcn-svelte.com/registry/styles/vega/index.json",
-	"fetchedAt": "2026-10-09",
-	"components": 45,
+	"fetchedAt": "2026-10-16",
+	"components": 50,
 	"localOnly": [
 		"hooks"
 	],
@@ -23,6 +23,7 @@
 			"files": 5,
 			"sha256": "b785892e7de0d4ba",
 			"adapted": [
+				"alert/alert-action.svelte",
 				"alert/alert-description.svelte",
 				"alert/alert-title.svelte",
 				"alert/alert.svelte",
@@ -40,6 +41,7 @@
 				"alert-dialog/alert-dialog-description.svelte",
 				"alert-dialog/alert-dialog-footer.svelte",
 				"alert-dialog/alert-dialog-header.svelte",
+				"alert-dialog/alert-dialog-media.svelte",
 				"alert-dialog/alert-dialog-overlay.svelte",
 				"alert-dialog/alert-dialog-title.svelte",
 				"alert-dialog/index.ts"
@@ -161,6 +163,14 @@
 			"adapted": [
 				"checkbox/checkbox.svelte",
 				"checkbox/index.ts"
+			]
+		},
+		"code-block": {
+			"type": "registry:ui",
+			"files": 9,
+			"sha256": "25bde10a48b6e372",
+			"adapted": [
+				"code-block/code-block-copy-button.svelte"
 			]
 		},
 		"collapsible": {
@@ -330,6 +340,14 @@
 				"message/message.svelte"
 			]
 		},
+		"message-scroller": {
+			"type": "registry:ui",
+			"files": 7,
+			"sha256": "ae333c7b8b142705",
+			"adapted": [
+				"message-scroller/message-scroller-button.svelte"
+			]
+		},
 		"popover": {
 			"type": "registry:ui",
 			"files": 9,
@@ -383,7 +401,8 @@
 				"select/select-scroll-down-button.svelte",
 				"select/select-scroll-up-button.svelte",
 				"select/select-separator.svelte",
-				"select/select-trigger.svelte"
+				"select/select-trigger.svelte",
+				"select/select-value.svelte"
 			]
 		},
 		"separator": {
@@ -543,10 +562,28 @@
 				"tooltip/tooltip.svelte"
 			]
 		},
+		"trace": {
+			"type": "registry:ui",
+			"files": 9,
+			"sha256": "02b08bd48b6dd88e",
+			"adapted": [
+				"trace/trace-collapsible-trigger.svelte"
+			]
+		},
 		"is-mobile": {
 			"type": "registry:hook",
 			"files": 1,
 			"sha256": "d1531dab938681b4"
+		},
+		"use-highlighted-code": {
+			"type": "registry:hook",
+			"files": 1,
+			"sha256": "4182b361007c05fb"
+		},
+		"highlighter": {
+			"type": "registry:lib",
+			"files": 1,
+			"sha256": "7dc14baaefec97fd"
 		}
 	}
 }

@@ -32,12 +32,3 @@ body {
   background-image: radial-gradient(color-mix(in oklab, var(--foreground) 8%, transparent) 1px, transparent 1px);
   background-size: 16px 16px;
 }
-
-/* Code tab colours */
-.code-block { --tok-c: oklch(0.6 0 0); --tok-s: oklch(0.52 0.13 150); --tok-t: oklch(0.5 0.2 272); --tok-k: oklch(0.55 0.2 330); --tok-n: oklch(0.58 0.15 55); }
-.dark .code-block { --tok-c: oklch(0.6 0 0); --tok-s: oklch(0.8 0.12 150); --tok-t: oklch(0.78 0.12 272); --tok-k: oklch(0.78 0.14 330); --tok-n: oklch(0.82 0.12 55); }
-.tok-c { color: var(--tok-c); font-style: italic; }
-.tok-s { color: var(--tok-s); }
-.tok-t { color: var(--tok-t); }
-.tok-k { color: var(--tok-k); }
-.tok-n { color: var(--tok-n); }
