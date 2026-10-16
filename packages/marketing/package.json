@@ -25,6 +25,7 @@
     "./analytics/unified": "./src/analytics/unified.ts",
     "./imagegen": "./src/imagegen/index.ts",
     "./brand": "./src/brand/index.ts",
+    "./brand/deck": "./src/brand/deck.ts",
     "./testimonials/types": "./src/testimonials/types.ts",
     "./testimonials/server": "./src/testimonials/server.ts",
     "./testimonials/render-content": "./src/testimonials/render-content.ts",
