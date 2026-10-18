@@ -4,7 +4,7 @@
 // (see the README credit). Kept inline so this package carries no runtime deps.
 const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const INT_DIGITS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-const ZERO = DIGITS[0];
+const ZERO = DIGITS.charAt(0);
 
 function integerLength(head: string): number {
   const i = INT_DIGITS.indexOf(head);
@@ -14,13 +14,13 @@ function integerLength(head: string): number {
 }
 
 function integerPart(key: string): string {
-  const length = integerLength(key[0]);
+  const length = integerLength(key.charAt(0));
   if (length > key.length) throw new Error("invalid order key: " + key);
   return key.slice(0, length);
 }
 
 function smallestInteger(): string {
-  return INT_DIGITS[0] + ZERO.repeat(INT_DIGITS.length / 2);
+  return INT_DIGITS.charAt(0) + ZERO.repeat(INT_DIGITS.length / 2);
 }
 
 function midpoint(a: string, b: string | null): string {
@@ -33,44 +33,44 @@ function midpoint(a: string, b: string | null): string {
     if (n > 0) return b.slice(0, n) + midpoint(a.slice(n), b.slice(n));
   }
 
-  const digitA = a ? DIGITS.indexOf(a[0]) : 0;
-  const digitB = b != null ? DIGITS.indexOf(b[0]) : DIGITS.length;
+  const digitA = a ? DIGITS.indexOf(a.charAt(0)) : 0;
+  const digitB = b != null ? DIGITS.indexOf(b.charAt(0)) : DIGITS.length;
   if (digitB - digitA > 1) {
-    return DIGITS[Math.round(0.5 * (digitA + digitB))];
+    return DIGITS.charAt(Math.round(0.5 * (digitA + digitB)));
   }
   if (b && b.length > 1) return b.slice(0, 1);
-  return DIGITS[digitA] + midpoint(a.slice(1), null);
+  return DIGITS.charAt(digitA) + midpoint(a.slice(1), null);
 }
 
 function incrementInteger(x: string): string | null {
-  const head = x[0];
+  const head = x.charAt(0);
   let trailing = "";
   for (let i = x.length - 1; i >= 1; i--) {
-    const d = DIGITS.indexOf(x[i]) + 1;
+    const d = DIGITS.indexOf(x.charAt(i)) + 1;
     if (d === DIGITS.length) trailing = ZERO + trailing;
-    else return head + x.slice(1, i) + DIGITS[d] + trailing;
+    else return head + x.slice(1, i) + DIGITS.charAt(d) + trailing;
   }
 
   const headIndex = INT_DIGITS.indexOf(head);
   if (headIndex === INT_DIGITS.length - 1) return null;
-  const h = INT_DIGITS[headIndex + 1];
+  const h = INT_DIGITS.charAt(headIndex + 1);
   const delta = integerLength(h) - integerLength(head);
   return h + (delta > 0 ? trailing + ZERO : delta < 0 ? trailing.slice(1) : trailing);
 }
 
 function decrementInteger(x: string): string | null {
-  const head = x[0];
-  const last = DIGITS[DIGITS.length - 1];
+  const head = x.charAt(0);
+  const last = DIGITS.charAt(DIGITS.length - 1);
   let trailing = "";
   for (let i = x.length - 1; i >= 1; i--) {
-    const d = DIGITS.indexOf(x[i]) - 1;
+    const d = DIGITS.indexOf(x.charAt(i)) - 1;
     if (d === -1) trailing = last + trailing;
-    else return head + x.slice(1, i) + DIGITS[d] + trailing;
+    else return head + x.slice(1, i) + DIGITS.charAt(d) + trailing;
   }
 
   const headIndex = INT_DIGITS.indexOf(head);
   if (headIndex === 0) return null;
-  const h = INT_DIGITS[headIndex - 1];
+  const h = INT_DIGITS.charAt(headIndex - 1);
   const delta = integerLength(h) - integerLength(head);
   return h + (delta > 0 ? trailing + last : delta < 0 ? trailing.slice(1) : trailing);
 }
@@ -80,7 +80,7 @@ export function keyBetween(a: string | null, b: string | null): string {
   if (a != null && b != null && a > b) [a, b] = [b, a];
 
   if (a == null) {
-    if (b == null) return INT_DIGITS[INT_DIGITS.length / 2] + ZERO;
+    if (b == null) return INT_DIGITS.charAt(INT_DIGITS.length / 2) + ZERO;
     const ib = integerPart(b);
     const fb = b.slice(ib.length);
     if (ib === smallestInteger()) return ib + midpoint("", fb);

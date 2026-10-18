@@ -14,7 +14,6 @@ export function reorderByIds<Item extends Identifiable>(
   }
 
   const next = items.slice();
-  const [moved] = next.splice(activeIndex, 1);
-  next.splice(overIndex, 0, moved);
+  next.splice(overIndex, 0, ...next.splice(activeIndex, 1));
   return next;
 }

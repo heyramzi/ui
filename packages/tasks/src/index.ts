@@ -25,7 +25,7 @@ export type {
 	Statuses,
 } from "./status-types.js";
 export { default as SidePanel } from "./side-panel.svelte";
-export type { PanelStat, SidePanelWidth } from "./side-panel.svelte";
+export type { PanelStat, SidePanelWidth } from "./side-panel-types.js";
 export { default as TaskList } from "./task-list.svelte";
 export { default as TaskGantt } from "./task-gantt.svelte";
 export { addDays, dayNumber, isoFromDay, todayIso } from "./dates.js";

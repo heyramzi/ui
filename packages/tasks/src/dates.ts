@@ -4,7 +4,7 @@ const DAY_MS = 86_400_000;
 
 /** Days since 1970-01-01 for an ISO date. Anything after the date part is ignored. */
 export function dayNumber(iso: string): number {
-  const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
+  const [y = 1970, m = 1, d = 1] = iso.slice(0, 10).split("-").map(Number);
   return Math.round(Date.UTC(y, m - 1, d) / DAY_MS);
 }
 
