@@ -74,3 +74,10 @@
 
 * initial publish from this repo
 
+
+## [0.5.1](https://github.com/heyramzi/ui/compare/tasks-v0.5.0...tasks-v0.5.1) (2026-10-18)
+
+### Bug Fixes
+
+* fix(tasks): the barrel typechecks under plain tsc with noUncheckedIndexedAccess
+
