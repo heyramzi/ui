@@ -101,6 +101,12 @@ if [ "$DRY_RUN" = "1" ]; then
   exit 0
 fi
 
+# Run the push gate before the bump: a rejected push after it leaves a local
+# release commit, and a rerun then reads the new version as never tagged.
+if [ -x .git/hooks/pre-push ]; then
+  .git/hooks/pre-push origin "$(git remote get-url origin)" </dev/null
+fi
+
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
   node -e "
     const fs = require('fs');
