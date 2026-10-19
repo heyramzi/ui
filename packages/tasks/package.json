@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/tasks",
-  "version": "0.5.2",
+  "version": "1.2.2",
   "description": "Svelte 5 task views: a drag-and-drop board, a grouped list and a gantt timeline from one config, plus status badges, dots and icons.",
   "keywords": [
     "svelte",
@@ -94,7 +94,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "@heyramzi/utils": "^1.3.3"
+    "@heyramzi/utils": "^1.8.1"
   },
   "peerDependencies": {
     "@heyramzi/ui": "*",

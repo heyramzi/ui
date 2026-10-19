@@ -5,15 +5,15 @@
 # hand off to:
 #   pnpm release            # publish every package with changes since its last tag
 #   DRY_RUN=1 pnpm release  # print the plan, change nothing
-#   BUMP="ui=major" pnpm release  # force a bump the commit types don't show
+#   BUMP="ui=minor" pnpm release  # force a minor the commit types don't show
 #   ONLY="ui charts" pnpm release # release these and hold the rest, e.g. one
 #                                 # with another session's uncommitted work in it,
 #                                 # since the publish packs the working tree
 #
 # For each package with commits since its last <component>-v<version> tag, this
-# bumps the version from the conventional-commit types (feat -> minor,
-# feat!/BREAKING CHANGE -> major, anything else -> patch), writes the
-# CHANGELOG.md entry, commits the bumps,
+# bumps the version from the conventional-commit types (fix and perf -> patch,
+# feat and any breaking change -> minor; a major only from a Release-As: X.0.0
+# footer), writes the CHANGELOG.md entry, commits the bumps,
 # tags <component>-v<version>, creates the GitHub release and publishes to
 # npmjs and GitHub Packages. Both tokens come from ~/.npmrc.
 set -euo pipefail
@@ -42,6 +42,9 @@ while read -r component dir; do
   if git rev-parse "$tag" >/dev/null 2>&1; then
     range="$tag..HEAD"
     first_release=0
+  elif [ -n "$(git tag -l "$component-v*")" ]; then
+    echo "release: $component has tags but none for $version. Put $tag on the release commit first." >&2
+    exit 1
   else
     range="HEAD"
     first_release=1
@@ -56,32 +59,37 @@ while read -r component dir; do
     continue
   fi
 
+  # A breaking change is a minor too: only a Release-As footer cuts a major.
   bump="patch"
-  if printf '%s\n' "$subjects" | grep -qE '^[a-z]+(\(.+\))?!:|BREAKING CHANGE'; then
-    bump="major"
-  elif printf '%s\n' "$subjects" | grep -qE '^feat(\(.+\))?:'; then
-    bump="minor"
-  fi
-  # A package with no tag yet has never published from here: least it can
-  # take is a minor, so a move reads as a feature, never a patch.
-  if [ "$first_release" = "1" ] && [ "$bump" = "patch" ]; then
-    bump="minor"
-  fi
-  if [ "$untracked" = "1" ]; then
+  if printf '%s\n' "$subjects" | grep -qE '^[a-z]+(\(.+\))?!:|BREAKING CHANGE|^feat(\(.+\))?:'; then
     bump="minor"
   fi
   # A removal committed as refactor: reads as a patch, and every app's ^range
-  # would install it. BUMP="ui=major marketing=major" says what the log can't.
+  # would install it. BUMP="ui=minor" says what the log can't.
   for override in ${BUMP:-}; do
     if [ "${override%%=*}" = "$component" ]; then
       bump="${override#*=}"
     fi
   done
+  if [ "$bump" != "patch" ] && [ "$bump" != "minor" ]; then
+    echo "release: $component bump '$bump' is not allowed. Only a Release-As: X.0.0 footer cuts a major." >&2
+    exit 1
+  fi
+  release_as=$(git log "$range" --format=%B -- "$dir" | sed -n 's/^[Rr]elease-[Aa]s: *\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\) *$/\1/p' | head -1)
   next=$(node -e "
     const [M, m, p] = '$version'.split('.').map(Number);
     const b = '$bump';
-    console.log(b === 'major' ? (M + 1) + '.0.0' : b === 'minor' ? M + '.' + (m + 1) + '.0' : M + '.' + m + '.' + (p + 1));
+    console.log(b === 'minor' ? M + '.' + (m + 1) + '.0' : M + '.' + m + '.' + (p + 1));
   ")
+  if [ -n "$release_as" ]; then
+    next="$release_as"
+    bump="release-as"
+  fi
+  # A package's first publish is 1.0.0, whatever its commits say.
+  if [ "$first_release" = "1" ] || [ "$untracked" = "1" ]; then
+    next="1.0.0"
+    bump="first"
+  fi
   plan="$plan$component $dir $version $next $bump $first_release
 "
 done <<< "$COMPONENTS"

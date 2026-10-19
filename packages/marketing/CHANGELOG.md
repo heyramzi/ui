@@ -6,35 +6,45 @@
 
 * feat(marketing)!: remove `VideoEmbed`; `TestimonialVideoPlayer` replaces it and takes `src` where `VideoEmbed` took `url`. It plays YouTube, Vimeo and Loom links, Mux playback ids and file videos. `nativeControls` shows the browser's controls (what `VideoEmbed` did without `playOnly`), `rounded` is on by default, and `title` names the embed frame. A link that is not a known embed now plays as a file video instead of rendering nothing.
 
-## [1.1.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.0.3...marketing-v1.1.0) (2026-10-01)
+## [1.12.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.11.3...marketing-v1.12.0) (2026-10-01)
+
+_Released as 1.1.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **packages:** devtools, review ui, and studio library ([c0beedf](https://github.com/heyramzi/vibe-kit/commit/c0beedffd09b1e482e565e61fe498a15542ece7c))
 
-## [1.0.3](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.0.2...marketing-v1.0.3) (2026-09-28)
+## [1.11.3](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.11.2...marketing-v1.11.3) (2026-09-28)
+
+_Released as 1.0.3 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **utils,marketing:** #src/*.js resolves to the .ts file, so Vite apps load them ([53f0e51](https://github.com/heyramzi/vibe-kit/commit/53f0e51760c20526bb54d64cc69385b9864e2bdc))
 
-## [1.0.2](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.0.1...marketing-v1.0.2) (2026-09-28)
+## [1.11.2](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.11.1...marketing-v1.11.2) (2026-09-28)
+
+_Released as 1.0.2 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **marketing:** every #src import names its file, so apps resolve them ([df1c4fa](https://github.com/heyramzi/vibe-kit/commit/df1c4fa19770c17b8eb52cd6d06d1d56dc4d181e))
 
-## [1.0.1](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.0.0...marketing-v1.0.1) (2026-09-28)
+## [1.11.1](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.11.0...marketing-v1.11.1) (2026-09-28)
+
+_Released as 1.0.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **marketing:** imagegen carries the wawoff2 types to the apps again ([f180920](https://github.com/heyramzi/vibe-kit/commit/f1809203f6d3e6855065526659e1cb16d0e3d904))
 
-## [1.0.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.15.2...marketing-v1.0.0) (2026-09-21)
+## [1.11.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.10.2...marketing-v1.11.0) (2026-09-21)
+
+_Released as 1.0.0 before the 19 Oct 2026 renumbering._
 
 
 ### ⚠ BREAKING CHANGES
@@ -45,21 +55,27 @@
 
 * **marketing:** remove Swetrix ([6c4faaf](https://github.com/heyramzi/vibe-kit/commit/6c4faaf1607f1c747e3bbdcc0535e94f29a3daeb))
 
-## [0.15.2](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.15.1...marketing-v0.15.2) (2026-09-21)
+## [1.10.2](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.10.1...marketing-v1.10.2) (2026-09-21)
+
+_Released as 0.15.2 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **marketing:** internal imports are relative ([076b7f9](https://github.com/heyramzi/vibe-kit/commit/076b7f9f004cc9f0d18671b01cf1f8643c29dab8))
 
-## [0.15.1](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.15.0...marketing-v0.15.1) (2026-09-21)
+## [1.10.1](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.10.0...marketing-v1.10.1) (2026-09-21)
+
+_Released as 0.15.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **marketing:** the Sentry helper imports relatively ([cb384ae](https://github.com/heyramzi/vibe-kit/commit/cb384aeb123f355c637451aa41dad7a3b3fbca91))
 
-## [0.15.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.14.0...marketing-v0.15.0) (2026-09-21)
+## [1.10.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.9.0...marketing-v1.10.0) (2026-09-21)
+
+_Released as 0.15.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -74,7 +90,9 @@
 * gate after path aliases ([0085be5](https://github.com/heyramzi/vibe-kit/commit/0085be500c58074d1adcae408763e8196fa74430))
 * mirror # aliases in tsconfig paths for tsc ([0f967e7](https://github.com/heyramzi/vibe-kit/commit/0f967e7c4166b651e06e72a3cf72f68fc9451a6f))
 
-## [0.14.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.13.1...marketing-v0.14.0) (2026-09-01)
+## [1.9.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.8.1...marketing-v1.9.0) (2026-09-01)
+
+_Released as 0.14.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -82,7 +100,9 @@
 * **marketing:** the traffic dashboard says which pages the traffic went to ([5b8823e](https://github.com/heyramzi/vibe-kit/commit/5b8823e90e20bd12710abc96281b3b4d9b74e52a))
 * **slide-deck:** the surface rebuilt on a measured shape, and FONT.display ([b57c501](https://github.com/heyramzi/vibe-kit/commit/b57c501d6f886b71045c4e6f0f20ad49773d5501))
 
-## [0.13.1](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.13.0...marketing-v0.13.1) (2026-08-25)
+## [1.8.1](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.8.0...marketing-v1.8.1) (2026-08-25)
+
+_Released as 0.13.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
@@ -90,7 +110,9 @@
 * **ai:** deep-import phosphor icons instead of the barrel ([0d36623](https://github.com/heyramzi/vibe-kit/commit/0d3662311af4d5ad33d152cc7610d2566abbc114))
 * **marketing:** Umami names the event-data property `propertyName` ([a2c4d93](https://github.com/heyramzi/vibe-kit/commit/a2c4d93de9784ff73a2ccee19fe5aa793fc5e9b6))
 
-## [0.13.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.12.0...marketing-v0.13.0) (2026-08-17)
+## [1.8.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.7.0...marketing-v1.8.0) (2026-08-17)
+
+_Released as 0.13.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -98,14 +120,18 @@
 * **marketing:** mux testimonial player, plus superpowers doc updates ([ab31c4e](https://github.com/heyramzi/vibe-kit/commit/ab31c4e604ca5ec27e215f6129e7765ab1551287))
 * **marketing:** one Umami reporting client and a shared traffic dashboard ([7d38e7d](https://github.com/heyramzi/vibe-kit/commit/7d38e7dc00f1b24e01da645e40699ac395563fd5))
 
-## [0.12.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.11.0...marketing-v0.12.0) (2026-08-13)
+## [1.7.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.6.0...marketing-v1.7.0) (2026-08-13)
+
+_Released as 0.12.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **marketing:** resolve Mux playback ids in the testimonial video player ([#98](https://github.com/heyramzi/vibe-kit/issues/98)) ([3bac873](https://github.com/heyramzi/vibe-kit/commit/3bac8730e47d4219813a1fb85769c85f62f1f773))
 
-## [0.11.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.10.0...marketing-v0.11.0) (2026-06-16)
+## [1.6.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.5.0...marketing-v1.6.0) (2026-06-16)
+
+_Released as 0.11.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -117,14 +143,18 @@
 
 * **ci:** make release-please changelog-path package-relative ([af35ed4](https://github.com/heyramzi/vibe-kit/commit/af35ed48c39349ec1581073be236c24d675e94d4))
 
-## [0.10.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.9.0...marketing-v0.10.0) (2026-06-01)
+## [1.5.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.4.0...marketing-v1.5.0) (2026-06-01)
+
+_Released as 0.10.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **marketing:** add postPageview and buildPageviewBody for Swetrix pageview ingest ([82d1ce0](https://github.com/heyramzi/vibe-kit/commit/82d1ce052f422e0d8401ceaf6a2a4af84128efbd))
 
-## [0.9.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.8.0...marketing-v0.9.0) (2026-06-01)
+## [1.4.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v1.1.0...marketing-v1.4.0) (2026-06-01)
+
+_Released as 0.9.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -149,7 +179,9 @@
 * **marketing:** consolidate Window.umami declaration to a single source ([ef15a67](https://github.com/heyramzi/vibe-kit/commit/ef15a673e4bca2464d17694c7be15260e111d097))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
-## [0.4.0](https://github.com/heyramzi/vibe-kit/compare/marketing-v0.3.0...marketing-v0.4.0) (2026-05-03)
+## [1.1.0](https://github.com/heyramzi/vibe-kit/releases/tag/marketing-v1.1.0) (2026-05-03)
+
+_Released as 0.4.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -159,21 +191,27 @@
 * **marketing:** add swetrix/protocol + swetrix/extension entrypoints ([be4bc36](https://github.com/heyramzi/vibe-kit/commit/be4bc368ae70905e9d0b2615b684ba443ecff192))
 * **marketing:** add trackServerError for server-side error reporting ([4ea70a8](https://github.com/heyramzi/vibe-kit/commit/4ea70a80ce30911cadef433df816d1c38a131e26))
 
-## [1.2.0](https://github.com/heyramzi/ui/compare/marketing-v1.1.0...marketing-v1.2.0) (2026-10-06)
+## 1.13.0 (2026-10-06)
+
+_Released as 1.2.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * feat: move vibe-kit UI packages here, hub home page, private repo with password
 
 
-## [1.3.0](https://github.com/heyramzi/ui/compare/marketing-v1.2.0...marketing-v1.3.0) (2026-10-07)
+## 1.14.0 (2026-10-07)
+
+_Released as 1.3.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * feat(review): agent dock, layout library, pace pill and a pill radius token
 
 
-## [2.0.0](https://github.com/heyramzi/ui/compare/marketing-v1.3.0...marketing-v2.0.0) (2026-10-09)
+## 1.15.0 (2026-10-09)
+
+_Released as 2.0.0 before the 19 Oct 2026 renumbering._
 
 ### Breaking Changes
 
@@ -181,28 +219,36 @@
 * `./analytics/unified` is one module now. Apps importing `./analytics/client` stay on 1.x until they call `window.umami.track` themselves; the server side is `./analytics/server`.
 
 
-## [2.0.1](https://github.com/heyramzi/ui/compare/marketing-v2.0.0...marketing-v2.0.1) (2026-10-09)
+## [1.15.1](https://github.com/heyramzi/ui/releases/tag/marketing-v1.15.1) (2026-10-09)
+
+_Released as 2.0.1 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
 * fix(ui,marketing): accept any @heyramzi/utils 1.x from 1.3.3
 
 
-## [2.1.0](https://github.com/heyramzi/ui/compare/marketing-v2.0.1...marketing-v2.1.0) (2026-10-16)
+## [1.16.0](https://github.com/heyramzi/ui/compare/marketing-v1.15.1...marketing-v1.16.0) (2026-10-16)
+
+_Released as 2.1.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * feat(marketing): UpSys deck tokens in brand/deck
 
 
-## [3.0.0](https://github.com/heyramzi/ui/compare/marketing-v2.1.0...marketing-v3.0.0) (2026-10-16)
+## [1.17.0](https://github.com/heyramzi/ui/compare/marketing-v1.16.0...marketing-v1.17.0) (2026-10-16)
+
+_Released as 3.0.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * initial publish from this repo
 
 
-## [3.1.0](https://github.com/heyramzi/ui/compare/marketing-v3.0.0...marketing-v3.1.0) (2026-10-19)
+## [1.18.0](https://github.com/heyramzi/ui/compare/marketing-v1.17.0...marketing-v1.18.0) (2026-10-19)
+
+_Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 

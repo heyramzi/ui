@@ -41,7 +41,9 @@
 * feat(ui): every busy state renders `shadcn/spinner`: the toast loader, the prompt submit and infinite scroll
 * feat(rich-editor): new package `@heyramzi/rich-editor` 0.1.0, the Tiptap editor, renderer and Markdown bridge that were inside an app; a comparison table's winner cell carries `data-winner` as the first word of the cell, and a host colours its own products
 
-## [4.5.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.4.1...ui-v4.5.0) (2026-10-01)
+## [1.45.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.44.1...ui-v1.45.0) (2026-10-01)
+
+_Released as 4.5.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -49,14 +51,18 @@
 * **claude:** add claude skills and references ([29137b5](https://github.com/heyramzi/vibe-kit/commit/29137b591a75e24fb2204740b793f063764fe2f3))
 * **packages:** devtools, review ui, and studio library ([c0beedf](https://github.com/heyramzi/vibe-kit/commit/c0beedffd09b1e482e565e61fe498a15542ece7c))
 
-## [4.4.1](https://github.com/heyramzi/vibe-kit/compare/ui-v4.4.0...ui-v4.4.1) (2026-09-29)
+## [1.44.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.44.0...ui-v1.44.1) (2026-09-29)
+
+_Released as 4.4.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** chart hover band centers on the dot and reaches a little less far ([0355693](https://github.com/heyramzi/vibe-kit/commit/03556939d411eff5c4538c622aac78affbc6d74d))
 
-## [4.4.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.3.0...ui-v4.4.0) (2026-09-26)
+## [1.44.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.43.0...ui-v1.44.0) (2026-09-26)
+
+_Released as 4.4.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -68,28 +74,36 @@
 
 * **lint:** clear the errors that blocked every push ([e1f2ef7](https://github.com/heyramzi/vibe-kit/commit/e1f2ef7f8124a43d070f4d49178074c1a21887cf))
 
-## [4.3.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.2.1...ui-v4.3.0) (2026-09-22)
+## [1.43.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.42.1...ui-v1.43.0) (2026-09-22)
+
+_Released as 4.3.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** chart hover matches bklit-ui, and the line stops jittering ([8dc4354](https://github.com/heyramzi/vibe-kit/commit/8dc43549dc2c6b60688f48d5a87eabced1ad5627))
 
-## [4.2.1](https://github.com/heyramzi/vibe-kit/compare/ui-v4.2.0...ui-v4.2.1) (2026-09-22)
+## [1.42.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.42.0...ui-v1.42.1) (2026-09-22)
+
+_Released as 4.2.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** publish with relative imports, so Vite consumers resolve the package ([838678c](https://github.com/heyramzi/vibe-kit/commit/838678c999fb15f7f11656ed4a6f2b17add9791d))
 
-## [4.2.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.1.0...ui-v4.2.0) (2026-09-22)
+## [1.42.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.41.0...ui-v1.42.0) (2026-09-22)
+
+_Released as 4.2.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** charts enter on one reveal, a faded crosshair and a springier tooltip ([989da69](https://github.com/heyramzi/vibe-kit/commit/989da693e639cef2e0513664b88f3b36eae88b08))
 
-## [4.1.0](https://github.com/heyramzi/vibe-kit/compare/ui-v4.0.0...ui-v4.1.0) (2026-09-22)
+## [1.41.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.40.0...ui-v1.41.0) (2026-09-22)
+
+_Released as 4.1.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -101,7 +115,9 @@
 
 * gate after path aliases ([f76b88a](https://github.com/heyramzi/vibe-kit/commit/f76b88ab65462d36083b0c92d1dbf5769e7b670d))
 
-## [4.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v3.1.0...ui-v4.0.0) (2026-09-16)
+## [1.40.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.39.0...ui-v1.40.0) (2026-09-16)
+
+_Released as 4.0.0 before the 19 Oct 2026 renumbering._
 
 
 ### ⚠ BREAKING CHANGES
@@ -112,7 +128,9 @@
 
 * **ui:** every LineChart and Sparkline draws its gradient fill ([d69ea5c](https://github.com/heyramzi/vibe-kit/commit/d69ea5c6af7b7cc8c0b649f306de42ca4ab0447f))
 
-## [3.1.0](https://github.com/heyramzi/vibe-kit/compare/ui-v3.0.0...ui-v3.1.0) (2026-09-16)
+## [1.39.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.38.0...ui-v1.39.0) (2026-09-16)
+
+_Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -124,7 +142,9 @@
 
 * **ui:** oxfmt ne compte plus comme une retouche dans le sync ([51ebecc](https://github.com/heyramzi/vibe-kit/commit/51ebecc1815a26b71b15813c6b542ff2b9faa045))
 
-## [3.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v2.1.0...ui-v3.0.0) (2026-09-14)
+## [1.38.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.37.0...ui-v1.38.0) (2026-09-14)
+
+_Released as 3.0.0 before the 19 Oct 2026 renumbering._
 
 
 ### ⚠ BREAKING CHANGES
@@ -135,7 +155,9 @@
 
 * **ui:** le kit shadcn d'upsys monte ici, et upsys le réexporte ([f4d71e0](https://github.com/heyramzi/vibe-kit/commit/f4d71e03c7d651c94566af196e956d33cb441fef))
 
-## [2.1.0](https://github.com/heyramzi/vibe-kit/compare/ui-v2.0.0...ui-v2.1.0) (2026-09-14)
+## [1.37.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.36.0...ui-v1.37.0) (2026-09-14)
+
+_Released as 2.1.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -143,7 +165,9 @@
 * **ui:** les trente-deux transitions gratuites et les scripts de synchronisation ([34ea17b](https://github.com/heyramzi/vibe-kit/commit/34ea17b7f9a8fffbbd2f882040fddc76298839ca))
 * **ui:** the showcase holds the whole package, and the shadcn demos arrive by script ([3f5d300](https://github.com/heyramzi/vibe-kit/commit/3f5d300d163eab7c2d6f11d6304aa2197e043b23))
 
-## [2.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.0.8...ui-v2.0.0) (2026-09-11)
+## [1.36.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.35.1...ui-v1.36.0) (2026-09-11)
+
+_Released as 2.0.0 before the 19 Oct 2026 renumbering._
 
 
 ### ⚠ BREAKING CHANGES
@@ -163,14 +187,18 @@
 * **descript:** layout cards prints where a card stands, not where its paragraph starts ([97b85fd](https://github.com/heyramzi/vibe-kit/commit/97b85fdf3a50e5d919acedf5cf82799cc53bbcd5))
 * **ui:** a static-colour beam keeps its brightness and saturation ([f85b5e6](https://github.com/heyramzi/vibe-kit/commit/f85b5e63847330f8b42a4c1cdaf4de2f6e58f9f0))
 
-## [1.0.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.0.0...ui-v1.0.1) (2026-09-06)
+## [1.35.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.35.0...ui-v1.35.1) (2026-09-06)
+
+_Released as 1.0.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** a static-colour beam keeps its brightness and saturation ([f85b5e6](https://github.com/heyramzi/vibe-kit/commit/f85b5e63847330f8b42a4c1cdaf4de2f6e58f9f0))
 
-## [1.0.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.42.0...ui-v1.0.0) (2026-09-05)
+## [1.35.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.34.0...ui-v1.35.0) (2026-09-05)
+
+_Released as 1.0.0 before the 19 Oct 2026 renumbering._
 
 
 ### ⚠ BREAKING CHANGES
@@ -187,42 +215,54 @@
 
 * **descript:** layout cards prints where a card stands, not where its paragraph starts ([97b85fd](https://github.com/heyramzi/vibe-kit/commit/97b85fdf3a50e5d919acedf5cf82799cc53bbcd5))
 
-## [0.42.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.41.0...ui-v0.42.0) (2026-08-30)
+## [1.34.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.33.0...ui-v1.34.0) (2026-08-30)
+
+_Released as 0.42.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** the chart a single figure gets ([91192ea](https://github.com/heyramzi/vibe-kit/commit/91192ea4ed7f9d386e417f067ceba00dcf1eff6b))
 
-## [0.41.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.40.1...ui-v0.41.0) (2026-08-28)
+## [1.33.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.32.1...ui-v1.33.0) (2026-08-28)
+
+_Released as 0.41.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** the AI kit is one item per row, and ten more of them ([d1c6628](https://github.com/heyramzi/vibe-kit/commit/d1c66287e953ec9a36ec606316c87dc5d0389d6c))
 
-## [0.40.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.40.0...ui-v0.40.1) (2026-08-27)
+## [1.32.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.32.0...ui-v1.32.1) (2026-08-27)
+
+_Released as 0.40.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** the showcase rail drops its rule, and search results number from one ([6f48f1f](https://github.com/heyramzi/vibe-kit/commit/6f48f1f9b9bc86316a865f17e2551fcfd5a24636))
 
-## [0.40.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.39.0...ui-v0.40.0) (2026-08-26)
+## [1.32.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.31.0...ui-v1.32.0) (2026-08-26)
+
+_Released as 0.40.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** the AI showcase is one grid, and coloured text clears AA ([3d47638](https://github.com/heyramzi/vibe-kit/commit/3d476388f1b5f396445aedeb3675e4539da5e608))
 
-## [0.39.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.38.0...ui-v0.39.0) (2026-08-26)
+## [1.31.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.30.0...ui-v1.31.0) (2026-08-26)
+
+_Released as 0.39.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** the craft layer ships in the package, and the showcase gets its shell ([31d1036](https://github.com/heyramzi/vibe-kit/commit/31d1036ca301953ca3ac2e9a2efcf7cc4cf357c8))
 
-## [0.38.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.37.2...ui-v0.38.0) (2026-08-25)
+## [1.30.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.29.2...ui-v1.30.0) (2026-08-25)
+
+_Released as 0.38.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -235,28 +275,36 @@
 * **ui:** deep-import phosphor icons instead of the barrel ([882f19b](https://github.com/heyramzi/vibe-kit/commit/882f19be2a89373a979ca9355a4449d381f92b37))
 * **ui:** the shader field frames itself with a long lens, and the skill learns the fifth artifact ([e2a8a6e](https://github.com/heyramzi/vibe-kit/commit/e2a8a6e1cb1a47db643d6ee01a5811c24093b305))
 
-## [0.37.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.37.1...ui-v0.37.2) (2026-08-19)
+## [1.29.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.29.1...ui-v1.29.2) (2026-08-19)
+
+_Released as 0.37.2 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** shadcn/chart points at the maintained primitives instead of rotting ([#113](https://github.com/heyramzi/vibe-kit/issues/113)) ([6f0eba5](https://github.com/heyramzi/vibe-kit/commit/6f0eba54b1e8269709f835a523eb71ae2e261174))
 
-## [0.37.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.37.0...ui-v0.37.1) (2026-08-19)
+## [1.29.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.29.0...ui-v1.29.1) (2026-08-19)
+
+_Released as 0.37.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** form fields bind again, because the snippet gave a value where a store was expected ([e3b5e49](https://github.com/heyramzi/vibe-kit/commit/e3b5e49ced2823827dd1c2d719cab24d215cb858))
 
-## [0.37.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.36.0...ui-v0.37.0) (2026-08-19)
+## [1.29.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.28.0...ui-v1.29.0) (2026-08-19)
+
+_Released as 0.37.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** area fills dissolve at the plot edges instead of stopping flat ([#110](https://github.com/heyramzi/vibe-kit/issues/110)) ([0bab0c1](https://github.com/heyramzi/vibe-kit/commit/0bab0c13f330ef43ed7eb232401539c1989ff9f2))
 
-## [0.36.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.3...ui-v0.36.0) (2026-08-17)
+## [1.28.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.3...ui-v1.28.0) (2026-08-17)
+
+_Released as 0.36.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -264,49 +312,63 @@
 * **ui:** export the ports board and the showcase components ([7e9f219](https://github.com/heyramzi/vibe-kit/commit/7e9f219be131c86f0ddc8e9ea43e3065907c559a))
 * **ui:** recover the animation, effects, AI and chart showcase ([369287b](https://github.com/heyramzi/vibe-kit/commit/369287be1f903534697923be391f0dbac10611dd))
 
-## [0.35.3](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.2...ui-v0.35.3) (2026-08-16)
+## [1.27.3](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.2...ui-v1.27.3) (2026-08-16)
+
+_Released as 0.35.3 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** a lost WebGL context drops the field instead of painting it black ([b606568](https://github.com/heyramzi/vibe-kit/commit/b606568f8d3dbde2f615d4583776118793991767))
 
-## [0.35.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.1...ui-v0.35.2) (2026-08-16)
+## [1.27.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.1...ui-v1.27.2) (2026-08-16)
+
+_Released as 0.35.2 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** the shader gradient stops drawing hard lines across itself ([36c0c08](https://github.com/heyramzi/vibe-kit/commit/36c0c0870c89592ce18a84b827582722682b468f))
 
-## [0.35.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.35.0...ui-v0.35.1) (2026-08-16)
+## [1.27.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.0...ui-v1.27.1) (2026-08-16)
+
+_Released as 0.35.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** the shader gradient covers a wide frame ([38fe85c](https://github.com/heyramzi/vibe-kit/commit/38fe85c6f7a68e340c1cf4472aa5ce3146fac237))
 
-## [0.35.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.34.0...ui-v0.35.0) (2026-08-16)
+## [1.27.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.26.0...ui-v1.27.0) (2026-08-16)
+
+_Released as 0.35.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** a shader gradient that carries no three.js ([b2bee9e](https://github.com/heyramzi/vibe-kit/commit/b2bee9e18f9c23bf7d0f98090818282ac10c6762))
 
-## [0.34.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.33.0...ui-v0.34.0) (2026-08-10)
+## [1.26.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.25.0...ui-v1.26.0) (2026-08-10)
+
+_Released as 0.34.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** note.text and record.circle, the two symbols the Notes panes wear ([#95](https://github.com/heyramzi/vibe-kit/issues/95)) ([636b150](https://github.com/heyramzi/vibe-kit/commit/636b150dede632d3c2a68bd58697d0ab57437329))
 
-## [0.33.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.32.0...ui-v0.33.0) (2026-08-10)
+## [1.25.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.24.0...ui-v1.25.0) (2026-08-10)
+
+_Released as 0.33.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
 
 * **ui:** macwindow and character.bubble.fill, read off the Mac ([a107de9](https://github.com/heyramzi/vibe-kit/commit/a107de923f6a1ffe7d8f684e24fe91e33d45b070))
 
-## [0.32.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.3...ui-v0.32.0) (2026-08-10)
+## [1.24.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.3...ui-v1.24.0) (2026-08-10)
+
+_Released as 0.32.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -315,28 +377,36 @@
 * **ui:** the icons are Apple's own, and the note says why that changed ([73ced3e](https://github.com/heyramzi/vibe-kit/commit/73ced3e0941db91010161a6ffa08cbf76bcc46eb))
 * **ui:** the symbol table is importable on its own ([e2e7a67](https://github.com/heyramzi/vibe-kit/commit/e2e7a675ee0414a76f88f391d86d6411d3d2762d))
 
-## [0.31.3](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.2...ui-v0.31.3) (2026-06-17)
+## [1.23.3](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.2...ui-v1.23.3) (2026-06-17)
+
+_Released as 0.31.3 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** ship chat/ai/effects styles as plain CSS instead of &lt;style&gt; blocks ([#67](https://github.com/heyramzi/vibe-kit/issues/67)) ([1261471](https://github.com/heyramzi/vibe-kit/commit/126147103cc21654d8b7008729ad5da61faf3638))
 
-## [0.31.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.1...ui-v0.31.2) (2026-06-17)
+## [1.23.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.1...ui-v1.23.2) (2026-06-17)
+
+_Released as 0.31.2 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** ship chart styles as plain CSS instead of &lt;style&gt; blocks ([#64](https://github.com/heyramzi/vibe-kit/issues/64)) ([237a155](https://github.com/heyramzi/vibe-kit/commit/237a155a64b8278c0ac677f4bf6cd301327900e7))
 
-## [0.31.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.31.0...ui-v0.31.1) (2026-06-17)
+## [1.23.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.0...ui-v1.23.1) (2026-06-17)
+
+_Released as 0.31.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** show period in chart tooltips + fix hover tracking ([a73d560](https://github.com/heyramzi/vibe-kit/commit/a73d56007d3f0d4f12f359e06e92c3c37fab1cc1))
 
-## [0.31.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.30.1...ui-v0.31.0) (2026-06-16)
+## [1.23.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.22.1...ui-v1.23.0) (2026-06-16)
+
+_Released as 0.31.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -388,7 +458,9 @@
 * **ui:** wrap form-field Label inside Control for formsnap v2 compat ([4444d7c](https://github.com/heyramzi/vibe-kit/commit/4444d7cdf7dfb7069f54632a68b491a65187249a))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
-## [0.29.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.28.0...ui-v0.29.0) (2026-06-14)
+## 1.21.0 (2026-06-14)
+
+_Released as 0.29.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -396,7 +468,9 @@
 * **ui:** add a gauge variant to StatCard (figure on the left, radial gauge on the right) and make StatCard's data/series props optional so a gauge card needs only a gaugeValue
 
 
-## [0.28.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.27.0...ui-v0.28.0) (2026-06-14)
+## 1.20.0 (2026-06-14)
+
+_Released as 0.28.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -409,7 +483,9 @@
 * **ui:** centralize the layerchart axis, grid, and highlight chrome in charts.css so it is defined once across every chart instead of duplicated per component
 
 
-## [0.27.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.26.0...ui-v0.27.0) (2026-06-14)
+## 1.19.0 (2026-06-14)
+
+_Released as 0.27.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -425,7 +501,9 @@
 * **ui:** gauge entry animation fills the arc by fading notches in order instead of popping each one in from the centre
 
 
-## [0.26.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.25.0...ui-v0.26.0) (2026-06-13)
+## 1.18.0 (2026-06-13)
+
+_Released as 0.26.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -433,7 +511,9 @@
 * **ui:** make chat the single source for the conversation container, typing dots, and avatar ([23bbb04](https://github.com/heyramzi/vibe-kit/commit/23bbb049))
 
 
-## [0.25.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.24.0...ui-v0.25.0) (2026-06-12)
+## 1.17.0 (2026-06-12)
+
+_Released as 0.25.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -441,7 +521,9 @@
 * **ui:** add the @heyramzi/ui/chat human-chat module and slim ai/ to AI-only ([ac0f4ce](https://github.com/heyramzi/vibe-kit/commit/ac0f4ce5))
 
 
-## [0.24.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.23.0...ui-v0.24.0) (2026-06-12)
+## [1.16.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.15.0...ui-v1.16.0) (2026-06-12)
+
+_Released as 0.24.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -456,7 +538,9 @@
 * **ui:** Marquee honors --duration/--gap class overrides ([2026671](https://github.com/heyramzi/vibe-kit/commit/20266715))
 
 
-## [0.23.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.22.6...ui-v0.23.0) (2026-06-01)
+## [1.15.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.14.6...ui-v1.15.0) (2026-06-01)
+
+_Released as 0.23.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -495,14 +579,18 @@
 * **ui:** wrap form-field Label inside Control for formsnap v2 compat ([4444d7c](https://github.com/heyramzi/vibe-kit/commit/4444d7cdf7dfb7069f54632a68b491a65187249a))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
-## [0.15.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.15.0...ui-v0.15.1) (2026-05-09)
+## [1.8.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.8.0...ui-v1.8.1) (2026-05-09)
+
+_Released as 0.15.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** register BorderBeam [@property](https://github.com/property) values via CSS.registerProperty (0.14.2) ([95212c6](https://github.com/heyramzi/vibe-kit/commit/95212c6c762a51b09200105df80e7a3d1d090b0a))
 
-## [0.15.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.14.0...ui-v0.15.0) (2026-05-09)
+## [1.8.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.6.2...ui-v1.8.0) (2026-05-09)
+
+_Released as 0.15.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -530,21 +618,27 @@
 * **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
-## [0.13.2](https://github.com/heyramzi/vibe-kit/compare/ui-v0.13.1...ui-v0.13.2) (2026-05-09)
+## [1.6.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.6.1...ui-v1.6.2) (2026-05-09)
+
+_Released as 0.13.2 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** drop unused colors arg from BorderBeam gradient helpers ([b89318f](https://github.com/heyramzi/vibe-kit/commit/b89318f0606f287602ffb4c9117cd4dd385f2ab7))
 
-## [0.13.1](https://github.com/heyramzi/vibe-kit/compare/ui-v0.13.0...ui-v0.13.1) (2026-05-09)
+## [1.6.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.6.0...ui-v1.6.1) (2026-05-09)
+
+_Released as 0.13.1 before the 19 Oct 2026 renumbering._
 
 
 ### Bug Fixes
 
 * **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
 
-## [0.13.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.12.3...ui-v0.13.0) (2026-05-08)
+## [1.6.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.1.0...ui-v1.6.0) (2026-05-08)
+
+_Released as 0.13.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -568,7 +662,9 @@
 * **ui:** set form context synchronously, not in $effect ([ba6ccb3](https://github.com/heyramzi/vibe-kit/commit/ba6ccb313b9276216fccd8bfa493d33cdbedaaf3))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
-## [0.5.0](https://github.com/heyramzi/vibe-kit/compare/ui-v0.4.0...ui-v0.5.0) (2026-05-03)
+## [1.1.0](https://github.com/heyramzi/vibe-kit/releases/tag/ui-v1.1.0) (2026-05-03)
+
+_Released as 0.5.0 before the 19 Oct 2026 renumbering._
 
 
 ### Features
@@ -581,7 +677,9 @@
 
 * **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
 
-## [4.6.0](https://github.com/heyramzi/ui/compare/ui-v4.5.0...ui-v4.6.0) (2026-10-06)
+## [1.46.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.45.0...ui-v1.46.0) (2026-10-06)
+
+_Released as 4.6.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
@@ -589,7 +687,9 @@
 * feat: initial Svelte 5 library: ui, kanban, status, agents, slides
 
 
-## [4.7.0](https://github.com/heyramzi/ui/compare/ui-v4.6.0...ui-v4.7.0) (2026-10-07)
+## 1.47.0 (2026-10-07)
+
+_Released as 4.7.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
@@ -600,14 +700,18 @@
 * fix(ui): stat card header overlap and the showcase nav trapping the wheel
 
 
-## [4.7.1](https://github.com/heyramzi/ui/compare/ui-v4.7.0...ui-v4.7.1) (2026-10-07)
+## 1.47.1 (2026-10-07)
+
+_Released as 4.7.1 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
 * fix(ui): keep server form helpers out of the client forms barrel
 
 
-## [5.0.0](https://github.com/heyramzi/ui/compare/ui-v4.7.1...ui-v5.0.0) (2026-10-09)
+## 1.48.0 (2026-10-09)
+
+_Released as 5.0.0 before the 19 Oct 2026 renumbering._
 
 ### Breaking Changes
 
@@ -624,14 +728,18 @@
 * fix(ui): strip control bytes before the Response link check and render images as links
 
 
-## [5.0.1](https://github.com/heyramzi/ui/compare/ui-v5.0.0...ui-v5.0.1) (2026-10-09)
+## 1.48.1 (2026-10-09)
+
+_Released as 5.0.1 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
 * fix(ui,marketing): accept any @heyramzi/utils 1.x from 1.3.3
 
 
-## [5.0.2](https://github.com/heyramzi/ui/compare/ui-v5.0.1...ui-v5.0.2) (2026-10-14)
+## 1.48.2 (2026-10-14)
+
+_Released as 5.0.2 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
@@ -639,28 +747,36 @@
 * fix(ui): type errors in reasoning, conversation, charts and image-reveal; site check skips build/
 
 
-## [6.0.0](https://github.com/heyramzi/ui/compare/ui-v5.0.2...ui-v6.0.0) (2026-10-14)
+## 1.49.0 (2026-10-14)
+
+_Released as 6.0.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * feat(ui)!: retire --ease-bounce and --ease-bounce-strong
 
 
-## [6.0.1](https://github.com/heyramzi/ui/compare/ui-v6.0.0...ui-v6.0.1) (2026-10-14)
+## [1.49.1](https://github.com/heyramzi/ui/releases/tag/ui-v1.49.1) (2026-10-14)
+
+_Released as 6.0.1 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
 * fix(ui): the last overshoot curves settle on --ease-smooth-out
 
 
-## [6.1.0](https://github.com/heyramzi/ui/compare/ui-v6.0.1...ui-v6.1.0) (2026-10-16)
+## [1.50.0](https://github.com/heyramzi/ui/compare/ui-v1.49.1...ui-v1.50.0) (2026-10-16)
+
+_Released as 6.1.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * feat(ui): agents move into @heyramzi/ui/agents, draw is retired, marketing gets a site page
 
 
-## [7.0.0](https://github.com/heyramzi/ui/compare/ui-v6.1.0...ui-v7.0.0) (2026-10-16)
+## [1.51.0](https://github.com/heyramzi/ui/compare/ui-v1.50.0...ui-v1.51.0) (2026-10-16)
+
+_Released as 7.0.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
@@ -670,7 +786,9 @@
 * feat(charts)!: the charts move out of @heyramzi/ui into @heyramzi/charts
 
 
-## [8.0.0](https://github.com/heyramzi/ui/compare/ui-v7.0.0...ui-v8.0.0) (2026-10-16)
+## [1.52.0](https://github.com/heyramzi/ui/compare/ui-v1.51.0...ui-v1.52.0) (2026-10-16)
+
+_Released as 8.0.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
@@ -682,7 +800,9 @@
 * fix(ui): svelte-check in a linking app reads the sources without the vite config
 
 
-## [8.1.0](https://github.com/heyramzi/ui/compare/ui-v8.0.0...ui-v8.1.0) (2026-10-19)
+## [1.53.0](https://github.com/heyramzi/ui/compare/ui-v1.52.0...ui-v1.53.0) (2026-10-19)
+
+_Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 

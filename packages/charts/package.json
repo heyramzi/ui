@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/charts",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "description": "Svelte 5 charts on LayerChart: area, bar, line, donut, ring, gauge, sparkline, time series and stat cards, from one set of tokens.",
   "license": "MIT",
   "repository": {
@@ -37,7 +37,7 @@
     "test": "vp test run"
   },
   "dependencies": {
-    "@heyramzi/utils": "^1.3.3",
+    "@heyramzi/utils": "^1.8.1",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",
     "layerchart": "^2.5.1",
@@ -55,7 +55,7 @@
     "vitest": "^5.0.3"
   },
   "peerDependencies": {
-    "@heyramzi/ui": ">=8.0.0",
+    "@heyramzi/ui": ">=1.52.0",
     "svelte": "^5.57.2"
   },
   "peerDependenciesMeta": {

@@ -42,7 +42,9 @@
 * feat(board): merge kanban and status into one board package
 
 
-## [0.3.0](https://github.com/heyramzi/ui/releases/tag/tasks-v0.3.0) (2026-10-16)
+## [1.0.0](https://github.com/heyramzi/ui/releases/tag/tasks-v1.0.0) (2026-10-16)
+
+_Released as 0.3.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
@@ -54,7 +56,9 @@
 * fix(tasks): the gantt progress fill scales instead of animating width
 
 
-## [0.4.0](https://github.com/heyramzi/ui/compare/tasks-v0.3.0...tasks-v0.4.0) (2026-10-16)
+## [1.1.0](https://github.com/heyramzi/ui/compare/tasks-v1.0.0...tasks-v1.1.0) (2026-10-16)
+
+_Released as 0.4.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
@@ -68,21 +72,27 @@
 * fix(tasks): the gantt flag, the time tracker's play and delete, the rail chevron and the clock are .svg files, not inline paths
 
 
-## [0.5.0](https://github.com/heyramzi/ui/compare/tasks-v0.4.0...tasks-v0.5.0) (2026-10-16)
+## [1.2.0](https://github.com/heyramzi/ui/compare/tasks-v1.1.0...tasks-v1.2.0) (2026-10-16)
+
+_Released as 0.5.0 before the 19 Oct 2026 renumbering._
 
 ### Features
 
 * initial publish from this repo
 
 
-## [0.5.1](https://github.com/heyramzi/ui/compare/tasks-v0.5.0...tasks-v0.5.1) (2026-10-18)
+## [1.2.1](https://github.com/heyramzi/ui/compare/tasks-v1.2.0...tasks-v1.2.1) (2026-10-18)
+
+_Released as 0.5.1 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
 * fix(tasks): the barrel typechecks under plain tsc with noUncheckedIndexedAccess
 
 
-## [0.5.2](https://github.com/heyramzi/ui/compare/tasks-v0.5.1...tasks-v0.5.2) (2026-10-19)
+## [1.2.2](https://github.com/heyramzi/ui/compare/tasks-v1.2.1...tasks-v1.2.2) (2026-10-19)
+
+_Released as 0.5.2 before the 19 Oct 2026 renumbering._
 
 ### Bug Fixes
 
