@@ -1,6 +1,6 @@
 <script lang="ts">
   import AgentAvatar from './agent-avatar.svelte';
-  import type { Agent } from './types';
+  import type { Agent, AgentState } from './types';
 
   type Props = {
     /** The cast to lay out. */
@@ -31,6 +31,12 @@
   }: Props = $props();
 
   const keyOf = (agent: Agent) => agent.id ?? agent.name;
+
+  /* The card under the pointer or focus wakes up and works; the rest idle.
+     A `state` in avatarProps wins. */
+  let awake = $state<string | null>(null);
+  const stateFor = (id: string) =>
+    (avatarProps.state as AgentState | undefined) ?? (awake === id ? 'working' : 'default');
 
   /* Group when any agent asks for one, otherwise a single flat grid. */
   const sections = $derived.by(() => {
@@ -72,8 +78,12 @@
             <button
               type="button"
               class="agent-cast__card"
-              aria-current={id === selectedId ? 'true' : undefined}
+              aria-pressed={onSelect ? id === selectedId : undefined}
               onclick={() => onSelect?.(agent)}
+              onpointerenter={() => (awake = id)}
+              onpointerleave={() => awake === id && (awake = null)}
+              onfocus={() => (awake = id)}
+              onblur={() => awake === id && (awake = null)}
             >
               <span class="agent-cast__slot">
                 <AgentAvatar
@@ -81,7 +91,9 @@
                   role={agent.role}
                   shape={agent.shape ?? 'clover'}
                   color={agent.color}
+                  aria-hidden
                   {...avatarProps}
+                  state={stateFor(id)}
                 />
               </span>
               <span class="agent-cast__meta">
@@ -133,8 +145,16 @@
     border-radius: 0.75rem;
     cursor: pointer;
     transition:
-      border-color 0.15s ease,
-      transform 0.15s ease;
+      border-color var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+      transform var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .agent-cast__card {
+      transition: border-color var(--duration-quick, 150ms) linear;
+    }
+    .agent-cast__card:active {
+      transform: none;
+    }
   }
   .agent-cast__card:hover {
     border-color: color-mix(in oklab, var(--color-foreground, #18181b) 25%, transparent);
@@ -146,13 +166,15 @@
     outline: 2px solid var(--color-ring, #6366f1);
     outline-offset: 2px;
   }
-  .agent-cast__card[aria-current='true'] {
+  .agent-cast__card[aria-pressed='true'] {
     border-color: var(--color-accent, #6366f1);
     box-shadow: 0 0 0 1px var(--color-accent, #6366f1);
   }
+  /* Room above the head, so a hop or a hat never meets the card's edge. */
   .agent-cast__slot {
     display: block;
     width: 100%;
+    padding: 0.5rem 0.5rem 0;
   }
   .agent-cast__meta {
     display: flex;
