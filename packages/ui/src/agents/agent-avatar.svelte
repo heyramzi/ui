@@ -1,55 +1,5 @@
-<script module lang="ts">
-  /* The batching shown-gate and the path caches are shared by every avatar
-     on the page, so a row of them comes in together. Engine: ./vendor. */
-  import { bakesPending as bakesPendingGlobal } from './vendor/plastic';
-
-  const SHOW_WITHIN = 4000;
-  const waiters = new Map<object, { ready: () => boolean; show: () => void }>();
-
-  function showReady() {
-    if (bakesPendingGlobal()) return;
-    for (const w of waiters.values()) if (!w.ready()) return;
-    const all = [...waiters.values()];
-    waiters.clear();
-    for (const w of all) w.show();
-  }
-
-  const pathCache = new Map<string, Path2D>();
-  function bodyPath(d: string): Path2D {
-    let p = pathCache.get(d);
-    if (!p) {
-      p = new Path2D(d);
-      pathCache.set(d, p);
-    }
-    return p;
-  }
-
-  const partsCache = new Map<string, Path2D[]>();
-  function partPaths(d: string): Path2D[] {
-    let p = partsCache.get(d);
-    if (!p) {
-      p = d
-        .split(/(?=M)/)
-        .filter((s) => s.trim())
-        .map((s) => new Path2D(s));
-      partsCache.set(d, p);
-    }
-    return p;
-  }
-
-  let uidSeq = 0;
-  function hashSeed(id: string): number {
-    let h = 2166136261;
-    for (let i = 0; i < id.length; i++) h = Math.imul(h ^ id.charCodeAt(i), 16777619);
-    return ((h >>> 0) % 1000) / 1000;
-  }
-
-  export const reducedMotion = (): boolean =>
-    typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
-</script>
-
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
   import type {
     BotAvatarShading,
     BotAvatarState,
@@ -61,16 +11,29 @@
   import { autoInk, richer, shade } from './vendor/color';
   import { Sim, restPose } from './vendor/engine';
   import { draw, LIGHT_DEFAULTS, OVERSCAN, RISE, type DrawConfig } from './vendor/draw';
-  import {
-    bakesPending,
-    hurry,
-    onLanded,
-    stockLights,
-    takeMissed,
-    warmPlastic,
-    type FurStyle,
-  } from './vendor/plastic';
+  import { bakesPending, hurry, onLanded, takeMissed, warmPlastic, type FurStyle } from './vendor/plastic';
   import { subscribe, pointer } from './vendor/ticker';
+  import {
+    SHOW_WITHIN,
+    bodyPath,
+    nextUid,
+    onThemeChange,
+    partPaths,
+    showReady,
+    waiters,
+  } from './page-state';
+  import {
+    clamp,
+    clampOpt,
+    deviceDpr,
+    hashSeed,
+    lightsFor,
+    pointerStrength,
+    q,
+    reducedMotion,
+    resolveTheme as themeOf,
+    warmIdle,
+  } from './helpers';
 
   type Props = AgentAvatarProps;
 
@@ -83,7 +46,7 @@
     state: botState = 'default',
     size,
     color,
-    ink = '#1E1A33',
+    ink,
     brightness: brightnessProp,
     saturation: saturationProp,
     speed = 1,
@@ -140,20 +103,14 @@
     class: className,
     style,
     'aria-label': ariaLabel,
+    'aria-hidden': ariaHidden,
     onclick: userClick,
     ...rest
   }: Props = $props();
 
-  const clamp = (v: number, lo: number, hi: number) =>
-    Math.min(hi, Math.max(lo, Number.isFinite(v) ? v : 1));
-  const q = (v: number, lo: number, hi: number) => Math.round(clamp(v, lo, hi) * 20) / 20;
-  const clampOpt = (v: number | undefined, d: number, lo: number, hi: number) =>
-    clamp(v ?? d, lo, hi);
   const shapePath = (t: BotAvatarType) => SHAPE_PATHS[t] ?? SHAPE_PATHS.clover;
-  const deviceDpr = () =>
-    Math.min(2, (typeof devicePixelRatio === 'number' && devicePixelRatio) || 1);
 
-  const uid = `ba-${++uidSeq}`;
+  const uid = nextUid();
 
   /* The avatar draws at 75% of its slot so an idle jump has room in the box
      and never clips. A numeric `size` overrides the measurement. */
@@ -205,6 +162,10 @@
   } satisfies FurStyle);
   const material = $derived(shadingMode === 'plastic' || shadingMode === 'fabric');
   const lookKey = $derived(`${shadingMode}|${outlineKey}|${Math.round(drawnSize)}`);
+  /* What the bakes depend on, as strings, so the warm effect re-runs only
+     when one of them changes, not on every prop or every resized pixel. */
+  const warmSize = $derived(Math.round(drawnSize));
+  const furKey = $derived(`${fur.length}|${fur.density}|${fur.fuzz}|${fur.clumps}|${fur.curl}|${fur.gravity}`);
   const interactiveNow = $derived(interactive && !heldPose);
 
   /* Captured once, on purpose: `shown` never returns to false, so a later
@@ -278,19 +239,7 @@
   let holding: (() => void) | null = null;
   const meRef = {};
 
-  function resolveTheme(el: HTMLElement | null): 'dark' | 'light' {
-    if (theme !== 'auto') return theme;
-    const host = el?.closest('[data-theme], .dark, .light') as HTMLElement | null;
-    if (host) {
-      const v = host.getAttribute('data-theme');
-      if (v === 'dark' || v === 'light') return v;
-      if (host.classList.contains('dark')) return 'dark';
-      if (host.classList.contains('light')) return 'light';
-    }
-    return typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: light)').matches
-      ? 'light'
-      : 'dark';
-  }
+  const resolveTheme = (el: HTMLElement | null) => themeOf(theme, el);
 
   function layoutPx(canvas: HTMLCanvasElement) {
     return canvas.clientWidth / OVERSCAN || cssSize || drawnSize || 64;
@@ -365,6 +314,9 @@
 
   function showWhenBaked(paintNow: () => void) {
     showPaint = paintNow;
+    /* No canvas means nothing was drawn, so nothing could report a missed
+       bake. Calling that ready would skip the fade. */
+    if (!canvasEl) return;
     takeMissed();
     paintNow();
     ready = !takeMissed();
@@ -381,30 +333,13 @@
       });
   }
 
-  function lightsFor(lightAt: number) {
-    const a = (lightAt * Math.PI) / 180;
-    const b = ((backLight ?? 0) * Math.PI) / 180;
-    const lights = stockLights(Math.sin(a), -Math.cos(a));
-    if (backLight !== undefined) [lights.bx, lights.by] = [Math.sin(b), -Math.cos(b)];
-    if (lightFront !== undefined) lights.front = (Math.min(85, Math.max(0, lightFront)) * Math.PI) / 180;
-    return lights;
-  }
-
   function warm() {
     if (!material || !cfg?.path) return;
     const c = cfg;
     const dev = (drawnSize || 64) * deviceDpr();
     const lightAt = c.light ?? 295;
-    warmPlastic(outlineKey, c.path, dev, depth, shadingMode === 'fabric', fur, lightAt, lightsFor(lightAt));
-  }
-
-  function warmIdle(fn: () => void): () => void {
-    if (typeof requestIdleCallback === 'function') {
-      const id = requestIdleCallback(fn);
-      return () => cancelIdleCallback(id);
-    }
-    const id = setTimeout(fn, 1);
-    return () => clearTimeout(id);
+    const lights = lightsFor(lightAt, backLight, lightFront);
+    warmPlastic(outlineKey, c.path, dev, depth, shadingMode === 'fabric', fur, lightAt, lights);
   }
 
   function hold() {
@@ -415,7 +350,7 @@
       if (!holding) return;
       holding();
       holding = null;
-      paint();
+      applyPose();
     };
     const off = onLanded(() => {
       if (!bakesPending()) release();
@@ -471,6 +406,8 @@
   /* Sync the rig with the props on every meaningful change: this is the
      React `useLayoutEffect` (which ran each render) made reactive. */
   $effect(() => {
+    /* Until the slot is measured there's no canvas to draw on. */
+    if (drawnSize <= 0) return;
     if (!sim) sim = new Sim(seedValue, stateKey);
     else sim.setState(stateKey);
     sim.setTurn(clamp(turn, 0, 2));
@@ -513,24 +450,35 @@
     };
   });
 
+  /* Once shown, a paused or reduced-motion avatar draws only when asked, so
+     it repaints here and keeps repainting as its bakes land. */
+  $effect(() => {
+    if (!shown) return;
+    untrack(() => {
+      if (canvasEl && drawnSize > 0) applyPose();
+    });
+  });
+
+  $effect(() => {
+    if (theme !== 'auto') return;
+    return onThemeChange(() => {
+      if (canvasEl && drawnSize > 0) applyPose();
+    });
+  });
+
   /* Start the material's bakes on idle time as soon as the shape is known. */
   $effect(() => {
     void shadingMode;
     void outlineKey;
-    void drawnSize;
+    void warmSize;
     void depth;
     void light;
     void backLight;
     void lightFront;
-    if (!material || !cfg?.path) return;
+    void furKey;
+    if (!material || !warmSize || !untrack(() => cfg?.path)) return;
     return warmIdle(warm);
   });
-
-  function pointerStrength(d: number) {
-    if (d < 1) return 1;
-    if (d > 3) return 0;
-    return 1 - (d - 1) / 2;
-  }
 
   function updatePointer(s: Sim, canvas: HTMLCanvasElement) {
     if (!interactiveNow || Number.isNaN(pointer.x)) {
@@ -604,8 +552,10 @@
 
   onMount(() => {
     if (!hostEl) return;
+    /* A hidden parent (a closed tab or panel) reports 0. Keep the last width
+       so the canvas, its picture and its gate survive being hidden. */
     const observer = new ResizeObserver(([entry]) => {
-      if (entry) hostWidth = entry.contentRect.width;
+      if (entry && entry.contentRect.width > 0) hostWidth = entry.contentRect.width;
     });
     observer.observe(hostEl);
     return () => observer.disconnect();
@@ -628,9 +578,12 @@
       data-bot-avatar={type}
       data-face={faceKind}
       data-state={stateKey}
-      role="img"
-      aria-label={ariaLabel ??
-        (name ? `${name}${role ? `, ${role}` : ''}` : `${preset.label} agent, ${stateLabels[stateKey]}`)}
+      role={ariaHidden ? undefined : 'img'}
+      aria-hidden={ariaHidden ? 'true' : undefined}
+      aria-label={ariaHidden
+        ? undefined
+        : (ariaLabel ??
+          (name ? `${name}${role ? `, ${role}` : ''}` : `${preset.label} agent, ${stateLabels[stateKey]}`))}
       style={canvasStyle}
       onclick={handleClick}
       {...rest}

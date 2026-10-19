@@ -61,7 +61,7 @@ export type AgentAvatarProps = Omit<
   shape?: AgentShape;
   /** Face kind. Default `eyes`. */
   face?: BotAvatarFace;
-  /** Face ink. Default `#1E1A33`. */
+  /** Face ink. Default: dark on a light body, light on a dark one. */
   ink?: string;
   /** Rendered size in px. Omit to fill 75% of the slot. */
   size?: number;
@@ -69,4 +69,6 @@ export type AgentAvatarProps = Omit<
   style?: string;
   onclick?: (event: MouseEvent) => void;
   'aria-label'?: string;
+  /** Hide the canvas from assistive tech when a parent already names the agent. */
+  'aria-hidden'?: boolean | 'true' | 'false';
 };
