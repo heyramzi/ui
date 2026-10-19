@@ -4,7 +4,7 @@ import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	icon: PhosphorIcon;
 	size?: number;
 	class?: string;

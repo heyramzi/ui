@@ -43,7 +43,7 @@ export function usePathCalculator() {
 
     // A cubic with horizontal handles, not a quadratic through a raised midpoint.
 
-    // The quadratic put its single control point at `midY - curvature`, which for a fan into one node lands past the far end:
+    // The quadratic put its single control point at `midY` minus `curvature`, which for a fan into one node lands past the far end:
 
     // the top beam dove below the hub and crossed the middle beam before arriving, and three beams bundled into a lens for the last stretch.
 

@@ -36,13 +36,13 @@ import { Mark } from "#src/components/mark/index.js";
 // =========================
 // TYPES
 // =========================
-type Props = SegmentContent & {
+interface Props extends SegmentContent {
 	/**
 	 * `true`/`false` when the caller owns the state. `"auto"` when bits-ui owns it
 	 * in a `data-state` on the trigger, and the stylesheet answers.
 	 */
 	active?: boolean | "auto";
-};
+}
 
 // =========================
 // PROPS

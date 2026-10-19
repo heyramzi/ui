@@ -5,7 +5,7 @@ import { cn } from "@heyramzi/utils";
 import type { SortDirection, SortState } from "#src/components/data-table/data-table.js";
 
 // ========================= TYPES
-type Props = {
+interface Props {
 	key: keyof T & string;
 	sort: SortState<T>;
 	onSort: (key: keyof T & string) => void;

@@ -25,7 +25,7 @@ const POP_WINDOW_MS = 350 + 4 * 40;
 import { Star } from "phosphor-svelte";
 import { cn } from "@heyramzi/utils";
 
-type Props = {
+interface Props {
 	/** Current rating value (0 = unrated). */
 	value: number;
 	/** Maximum rating. Defaults to 5. */

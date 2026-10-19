@@ -1,8 +1,8 @@
 <script lang="ts">
-  import AgentAvatar from './agent-avatar.svelte';
-  import type { Agent, AgentState } from './types';
+  import AgentAvatar from '#src/agents/agent-avatar.svelte';
+  import type { Agent, AgentState } from '#src/agents/types.js';
 
-  type Props = {
+  interface Props {
     /** The cast to lay out. */
     agents: Agent[];
     /** Selected agent id, when the cast is a picker. */

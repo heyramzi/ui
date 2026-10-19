@@ -5,10 +5,14 @@
   import { resolveLabels } from './labels';
   import { DEFAULT_CANVAS, type DeckProps } from './types';
 
-  type Props = Pick<
-    DeckProps,
-    'id' | 'title' | 'locale' | 'canvas' | 'theme' | 'transition' | 'slides' | 'registry' | 'labels' | 'style' | 'children'
-  > & { /** The channel name the audience deck uses as its `sync`. */ sync: string };
+  interface Props
+    extends Pick<
+      DeckProps,
+      'id' | 'title' | 'locale' | 'canvas' | 'theme' | 'transition' | 'slides' | 'registry' | 'labels' | 'style' | 'children'
+    > {
+    /** The channel name the audience deck uses as its `sync`. */
+    sync: string;
+  }
 
   let { sync, id, title, locale, canvas = DEFAULT_CANVAS, theme = 'ink', transition, slides, registry, labels: overrides, style, children }: Props =
     $props();

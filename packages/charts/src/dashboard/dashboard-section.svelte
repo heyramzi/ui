@@ -9,7 +9,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	title: string;
 	/** One line on the right: a window, a provenance, a count. Never a sentence. */
 	note?: string;

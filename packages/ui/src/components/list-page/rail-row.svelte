@@ -10,7 +10,7 @@ import { MASTER_DETAIL_PANE, type MasterDetailPane } from "#src/components/list-
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// One row shape for every queue rail, in a fixed order: identity, preview,
 	// facts. Three pages used to draw three different rows.
 	title: string;

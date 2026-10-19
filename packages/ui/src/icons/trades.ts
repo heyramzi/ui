@@ -1,13 +1,13 @@
 /**
- * Trade icon map — Tabler covers the domain Lucide + Phosphor miss.
+ * Trade icon map. Tabler covers the domain Lucide and Phosphor miss.
  */
 
 /*
- * Lucide/Phosphor gap audit (Sept 2026) against the 14 trade pills in the "NOT SURE? TAP WHAT YOU DO" strip: - Lucide has `hammer`, `wrench`, `hard-hat`, `bolt`, `brick-wall`,
+ * Lucide/Phosphor gap audit (Sept 2026) against the 14 trade pills in the "NOT SURE? TAP WHAT YOU DO" strip. Lucide has `hammer`, `wrench`, `hard-hat`, `bolt`, `brick-wall`,
  */
 
 /*
- * `building`, `car` — but no `trowel`, no tiling grid, no `window` cleaning `spray/squeegee`, no `crane`, no dedicated `handyman` toolset. - Phosphor has `hammer`, `wrench`, `hard-hat`, `paint-roller` — also no `trowel`.
+ * `building`, `car`, but no `trowel`, no tiling grid, no `window` cleaning `spray/squeegee`, no `crane`, no dedicated `handyman` toolset. Phosphor has `hammer`, `wrench`, `hard-hat`, `paint-roller`, and also no `trowel`.
  */
 
 /*

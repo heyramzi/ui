@@ -11,7 +11,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		testimonials: PublicTestimonial[];
 		initialCount?: number;
 		showAllLabel?: string;

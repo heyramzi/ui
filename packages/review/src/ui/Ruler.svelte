@@ -5,11 +5,12 @@
 		$props();
 
 	// Majors stay at least 72px apart, whatever the zoom.
-	const STEPS = [0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300, 600];
+	const STEPS = [0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300];
+	const WIDEST_STEP = 600;
 	const ticks = $derived.by(() => {
 		if (!duration || railW <= 0) return [];
 		const perSecond = railW / duration;
-		const major = STEPS.find((step) => step * perSecond >= 72) ?? STEPS[STEPS.length - 1]!;
+		const major = STEPS.find((step) => step * perSecond >= 72) ?? WIDEST_STEP;
 		const minor = major / 5;
 		const out: { at: number; major: boolean; label: string }[] = [];
 		for (let i = 0; i * minor <= duration + 0.001; i++) {

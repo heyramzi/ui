@@ -12,7 +12,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		src: string;
 		caption?: TestimonialCaption | null;
 		fit?: "cover" | "contain";

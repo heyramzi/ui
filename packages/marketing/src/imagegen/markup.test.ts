@@ -46,7 +46,7 @@ describe("markup", () => {
     expect(serialize(node)).not.toContain("false");
   });
 
-  it("interpolates arrays — escapes strings, inlines RawMarkup", () => {
+  it("interpolates arrays: escapes strings, inlines RawMarkup", () => {
     const children = ["<b>escaped</b>", raw("<span>raw</span>"), 42, null];
     const node = html`<div>${children}</div>`;
     const out = serialize(node);

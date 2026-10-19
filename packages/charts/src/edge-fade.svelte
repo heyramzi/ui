@@ -7,7 +7,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		/** Mask id. Apply it to the shape with `mask="url(#id)"`. */
 		id: string;
 		/** Fraction of the shape's width faded at each side, 0-0.45. */

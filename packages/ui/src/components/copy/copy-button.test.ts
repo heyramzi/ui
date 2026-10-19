@@ -16,8 +16,10 @@ function render(props: Props) {
   document.body.appendChild(target);
   const app = mount(CopyButton, { target, props });
   flushSync();
+  const button = target.querySelector("button");
+  if (!button) throw new Error("CopyButton rendered no button");
   return {
-    button: target.querySelector("button")!,
+    button,
     target,
     done: () => {
       void unmount(app);

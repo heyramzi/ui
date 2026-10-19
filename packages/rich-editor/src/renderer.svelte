@@ -8,7 +8,7 @@ import { renderTiptapContent } from "./serializer.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	content: Record<string, unknown>;
 	/** Optional URL prefix to rewrite in rendered HTML (e.g. storage CDN -> local proxy). */
 	storagePrefix?: string;

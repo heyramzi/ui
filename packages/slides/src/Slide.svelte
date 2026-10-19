@@ -3,7 +3,7 @@
   import type { DeckController, SlideEntry } from './deck-controller.svelte';
   import { DECK_KEY, SLIDE_KEY, type SlideAlign, type SlideContext, type SlideNotes } from './types';
 
-  type Props = {
+  interface Props {
     /** Accessible name, read after "Slide 3 of 12". */
     label?: string;
     /** Speaker notes for the presenter view. */

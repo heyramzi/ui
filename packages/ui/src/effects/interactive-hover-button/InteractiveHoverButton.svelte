@@ -7,7 +7,7 @@ import { ArrowRight } from "phosphor-svelte";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	href?: string;
 	/** `submit` posts the form the button sits in. */
 	type?: "button" | "submit";

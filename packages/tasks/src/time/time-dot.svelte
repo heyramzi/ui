@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from "@heyramzi/utils";
 
-	type Props = {
+	interface Props {
 		/** Pulses while true. The dot takes its color from the text around it. */
 		running?: boolean;
 		size?: number;

@@ -17,7 +17,7 @@ import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// WHY a third component: tabs are a `tablist`, filters a `group` of toggles,
 	// and this goes to sibling pages, so it's a `nav` of links with `aria-current`.
 

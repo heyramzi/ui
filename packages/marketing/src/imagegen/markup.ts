@@ -17,7 +17,7 @@ const RAW_MARKUP: unique symbol = Symbol.for("@heyramzi/marketing/imagegen/RawMa
  */
 
 /*
- * Use for dynamically-built fragments (lists of `<rect>`, `<radialGradient>`, etc.). Never call with user-supplied content — there is no sanitization.
+ * Use for dynamically-built fragments (lists of `<rect>`, `<radialGradient>`, etc.). Never call with user-supplied content: there is no sanitization.
  */
 export function raw(markup: string): RawMarkup {
   const marked = __unsafeHTML(markup) as { value: string };
@@ -30,15 +30,15 @@ export function raw(markup: string): RawMarkup {
  */
 
 /*
- * - `string | number | boolean`: interpolated as escaped text. - `RawMarkup`: interpolated as raw markup (wrap fragment strings with `raw()`). - `null | undefined`: skipped.
+ * `string | number | boolean` is interpolated as escaped text. `RawMarkup` is interpolated as raw markup (wrap fragment strings with `raw()`). `null | undefined` is skipped.
  */
 
 /*
- * - Arrays of the above: concatenated.
+ * Arrays of the above are concatenated.
  */
 
 /*
- * Notably excludes arbitrary objects — this prevents accidentally passing the return value of a nested `html\`...\`` call, which would stringify to `[object Object]` at runtime.
+ * Notably excludes arbitrary objects, which prevents accidentally passing the return value of a nested `html\`...\`` call, which would stringify to `[object Object]` at runtime.
  */
 export type HtmlExpression =
   | string
@@ -60,7 +60,7 @@ export type SatoriNode = ReturnType<typeof satoriHtml>;
  */
 
 /*
- * Rules: - Text interpolations (`${stringVar}`) are HTML-escaped. - Markup interpolations (`${raw(fragment)}`) are inserted verbatim. - Nested `html\`...\`` calls are not supported — compose in a single tag.
+ * Text interpolations (`${stringVar}`) are HTML-escaped. Markup interpolations (`${raw(fragment)}`) are inserted verbatim. Nested `html\`...\`` calls aren't supported, so compose in a single tag.
  */
 
 /*

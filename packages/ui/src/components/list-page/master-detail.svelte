@@ -12,7 +12,7 @@ import { MASTER_DETAIL_PANE, type MasterDetailPane } from "#src/components/list-
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// The list rail (an <aside>) and the content pane. Pages style both; this
 	// shell owns the two columns and the min-h-0/min-w-0 scroll containment.
 	rail: Snippet;

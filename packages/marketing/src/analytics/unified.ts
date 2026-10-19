@@ -61,7 +61,7 @@ export type UmamiOptions = {
   domains?: string[];
   /** Honor the browser's Do-Not-Track signal. Umami v2.17+. Default false. */
   doNotTrack?: boolean;
-  /** Disable automatic pageview/event tracking — call `umami.track()` manually. Default true. */
+  /** Disable automatic pageview/event tracking and call `umami.track()` manually. Default true. */
   autoTrack?: boolean;
   /** Strip URL search params from tracked URLs. Umami v2.11+. Default false. */
   excludeSearch?: boolean;

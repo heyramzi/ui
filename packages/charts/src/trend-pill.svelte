@@ -10,7 +10,7 @@
 	// =========================
 	type Trend = "up" | "down" | "neutral";
 
-	type Props = {
+	interface Props {
 		/** Percentage change. Its sign drives the color/arrow unless `trend` is set. */
 		delta: number;
 		/** Force the direction independent of `delta`'s sign. */

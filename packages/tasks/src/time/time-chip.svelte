@@ -6,7 +6,7 @@
 	import TimeRing from "./time-ring.svelte";
 	import { Clock } from "phosphor-svelte";
 
-	type Props = {
+	interface Props {
 		/** Minutes logged on the task. */
 		minutes: number;
 		/** Minutes budgeted. Draws a small ring and tints the chip as the budget runs out. */

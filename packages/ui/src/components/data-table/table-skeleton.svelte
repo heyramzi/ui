@@ -10,7 +10,7 @@ type ColumnDef = {
 	circle?: boolean;
 };
 
-type Props = {
+interface Props {
 	/** Number of skeleton rows to render */
 	rows?: number;
 	/** Column definitions control skeleton widths and alignment */

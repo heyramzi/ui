@@ -8,7 +8,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		class?: string;
 		fill?: string;
 	};

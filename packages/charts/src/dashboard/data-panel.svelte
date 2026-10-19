@@ -11,7 +11,7 @@ import type { PhosphorIcon } from "@heyramzi/ui/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	/** What this section of the dashboard is. Drawn as the app's one panel label. */
 	label: string;
 	labelIcon?: PhosphorIcon;

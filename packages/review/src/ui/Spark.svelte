@@ -5,7 +5,7 @@
 	/** The round copy-for-AI button on a card. The studio's shelf and Motion cards draw the same one from `.spark` in shelf.html: same size, same states, same placement. */
 	let { label, text }: { label: string; text: string } = $props();
 
-	let state = $state<"idle" | "copied" | "failed">("idle");
+	let phase = $state<"idle" | "copied" | "failed">("idle");
 	let resetAt: ReturnType<typeof setTimeout> | undefined;
 
 	async function copy() {
@@ -20,9 +20,9 @@
 			ok = document.execCommand("copy");
 			box.remove();
 		}
-		state = ok ? "copied" : "failed";
+		phase = ok ? "copied" : "failed";
 		clearTimeout(resetAt);
-		resetAt = setTimeout(() => (state = "idle"), 1800);
+		resetAt = setTimeout(() => (phase = "idle"), 1800);
 	}
 	onDestroy(() => clearTimeout(resetAt));
 </script>
@@ -30,16 +30,16 @@
 <button
 	type="button"
 	class="spark"
-	class:done={state === "copied"}
-	data-state={state === "idle" ? undefined : state}
-	title={state === "copied" ? "Copied" : state === "failed" ? "Couldn't copy. Allow clipboard access and try again." : "Copy for your agent"}
+	class:done={phase === "copied"}
+	data-state={phase === "idle" ? undefined : phase}
+	title={phase === "copied" ? "Copied" : phase === "failed" ? "Couldn't copy. Allow clipboard access and try again." : "Copy for your agent"}
 	aria-label={label}
 	onclick={copy}
 >
 	<span class="glyphs">
-		<Icon name={state === "copied" ? "check" : "spark"} />
+		<Icon name={phase === "copied" ? "check" : "spark"} />
 	</span>
-	<span class="sr" aria-live="polite">{state === "copied" ? "Copied" : state === "failed" ? "Couldn't copy" : ""}</span>
+	<span class="sr" aria-live="polite">{phase === "copied" ? "Copied" : phase === "failed" ? "Couldn't copy" : ""}</span>
 </button>
 
 <style>

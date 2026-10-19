@@ -9,7 +9,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// The fixed top of a queue rail: label, filter, search. A fixed height, so
 	// rows start on the same line on every queue page.
 	label?: string;

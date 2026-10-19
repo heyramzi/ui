@@ -23,7 +23,7 @@
 		actionHref?: string;
 	};
 
-	type Props = {
+	interface Props {
 		isEmpty?: boolean;
 		emptyState?: EmptyConfig;
 		hideToolbarWhenEmpty?: boolean;

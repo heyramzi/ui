@@ -18,7 +18,7 @@ import type { PickerOption } from "#src/components/picker/types.js";
  * wraps `Picker` because the kit strip and the channel row wrote the same two
  * snippets.
  */
-type Props = {
+interface Props {
 	options: PickerOption<V>[];
 	value: V | null;
 	onSelect: (value: V) => void;

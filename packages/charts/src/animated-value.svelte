@@ -9,7 +9,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		/** Target number. The display counts up to it on mount and tweens on change. */
 		value: number;
 		/** Fixed decimal places when no `formatOptions` is given. */

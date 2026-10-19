@@ -21,7 +21,7 @@ import { dataThClass, dataThNumClass } from "./data-table.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	/** True when the table is currently ranked by this column. */
 	active: boolean;
 	/** Which way the active column runs. Ignored while inactive. */

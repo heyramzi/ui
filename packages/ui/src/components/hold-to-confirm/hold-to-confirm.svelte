@@ -6,7 +6,7 @@
 	import type { HTMLButtonAttributes } from "svelte/elements";
 
 	// ========================= TYPES
-	type Props = {
+	interface Props extends Omit<HTMLButtonAttributes, "class"> {
 		duration?: number;
 		onConfirm: () => void;
 		disabled?: boolean;
@@ -19,7 +19,7 @@
 		class?: string;
 		idle: Snippet;
 		holding: Snippet;
-	} & HTMLButtonAttributes;
+	}
 
 	// ========================= PROPS
 	let {

@@ -20,7 +20,7 @@
 	type Variant = "line" | "area" | "bar" | "gauge";
 	type Trend = "up" | "down" | "neutral";
 
-	type Props = {
+	interface Props {
 		/** Series for the line/area/bar variants. Unused by the gauge variant. */
 		data?: TData[];
 		xKey?: keyof TData & string;

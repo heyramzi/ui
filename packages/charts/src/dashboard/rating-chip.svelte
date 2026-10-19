@@ -5,7 +5,7 @@
  */
 import { cn } from "@heyramzi/utils";
 
-type Props = {
+interface Props {
 	grade: string;
 	/** What the letter hides: the score and what it was charged for. */
 	hint?: string;

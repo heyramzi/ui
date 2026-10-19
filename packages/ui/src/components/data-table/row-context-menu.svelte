@@ -10,7 +10,7 @@ import type { Snippet } from "svelte";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	onDelete: () => void;
 	href?: string;
 	id?: string;

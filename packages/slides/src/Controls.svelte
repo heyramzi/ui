@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { DeckController } from './deck-controller.svelte';
 
-  type Props = {
+  interface Props {
     deck: DeckController;
     /** Shown only when the deck has somewhere to open the presenter view. */
     onpresenter?: () => void;

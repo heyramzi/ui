@@ -2,7 +2,7 @@
 	// =========================
 	// PROPS
 	// =========================
-	type Props = {
+	interface Props {
 		id: string;
 		class?: string;
 		width: number;

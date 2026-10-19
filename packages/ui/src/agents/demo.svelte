@@ -1,7 +1,7 @@
 <script lang="ts">
-  import AgentAvatar from './agent-avatar.svelte';
-  import AgentCast from './agent-cast.svelte';
-  import type { Agent, AgentState } from './types';
+  import AgentAvatar from '#src/agents/agent-avatar.svelte';
+  import AgentCast from '#src/agents/agent-cast.svelte';
+  import type { Agent, AgentState } from '#src/agents/types.js';
 
   const cast: Agent[] = [
     { id: 'ada', name: 'Ada', role: 'Researcher', shape: 'clover', color: '#41C4FF', group: 'Research' },

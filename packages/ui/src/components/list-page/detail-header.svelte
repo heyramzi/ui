@@ -8,7 +8,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// Answers three questions in one order: what is this, what state is it in,
 	// what can I do with it. Each queue page used to order them differently.
 	title: string;

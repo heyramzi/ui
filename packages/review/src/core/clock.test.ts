@@ -38,7 +38,7 @@ describe("playlist", () => {
   });
 
   it("counts the render's frames with fps, so many cuts don't drift off the timeline", () => {
-    // 40 ranges of 0.52s: 15.6 frames each at 30 fps. The render plays round(end) - round(start) frames.
+    // 40 ranges of 0.52s: 15.6 frames each at 30 fps. The render plays round(end) minus round(start) frames.
     const ranges = Array.from({ length: 40 }, (_, i) => r("a", i, i + 0.52));
     const list = playlist(ranges, 30);
     expect(list.duration * 30).toBeCloseTo(40 * 16);

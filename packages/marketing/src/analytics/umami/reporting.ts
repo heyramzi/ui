@@ -1,5 +1,5 @@
 /**
- * Umami reporting API client — the read side of Umami.
+ * Umami reporting API client, the read side of Umami.
  */
 
 /*

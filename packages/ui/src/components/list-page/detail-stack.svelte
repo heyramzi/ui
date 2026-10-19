@@ -8,7 +8,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// A flat stack of panels at one gap. `xl:pr-1` keeps the top panel's
 	// corner clear of the shell's scrollbar.
 

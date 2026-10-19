@@ -10,7 +10,7 @@
 	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "./kanban-types.js";
 	import type { TaskListGroupContext, TaskListRowContext } from "./task-types.js";
 
-	type Props<T, C extends KanbanColumnDef> = {
+	interface Props<T, C extends KanbanColumnDef> {
 		/** The same shape as board columns, so one config feeds both views. */
 		groups: C[];
 		items: T[];
@@ -55,7 +55,7 @@
 		/** Drops the card chrome (border, radius, fill) so the list sits flat on the page. Group dividers stay. */
 		flat?: boolean;
 		class?: string;
-	};
+	}
 
 	let {
 		groups,

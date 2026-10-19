@@ -21,6 +21,6 @@ export type RenderOptions = {
   fonts: Font[];
   size: ImageSize;
   format?: ImageFormat;
-  /** PNG/AVIF compression quality, 1–100. Defaults to 90 for PNG, 82 for AVIF. */
+  /** PNG/AVIF compression quality, 1 to 100. Defaults to 90 for PNG, 82 for AVIF. */
   quality?: number;
 };

@@ -10,7 +10,7 @@ import { stepTo } from "#src/components/list-page/step.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	/** Ids in the order the list shows them. */
 	ids: readonly string[];
 	current: string | null | undefined;

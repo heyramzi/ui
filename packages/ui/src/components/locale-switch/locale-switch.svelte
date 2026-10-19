@@ -13,7 +13,7 @@ type LocaleOption = {
 	flag: string;
 };
 
-type Props = {
+interface Props {
 	// Wraps `SegmentedFilter` so it shares one track with every other strip. It
 	// only adds each language's flag.
 	value: string;

@@ -19,7 +19,7 @@
 		color?: string;
 	};
 
-	type Props = {
+	interface Props {
 		data: RingData[];
 		/** Fixed square size in px. Omit to fill the parent (responsive). */
 		size?: number;

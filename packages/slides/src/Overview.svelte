@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { DeckController } from './deck-controller.svelte';
 
-  type Props = { deck: DeckController; returnFocus?: HTMLElement };
+  interface Props { deck: DeckController; returnFocus?: HTMLElement };
 
   let { deck, returnFocus }: Props = $props();
 

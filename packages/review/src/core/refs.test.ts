@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { findItem, insertRef, itemsFor, splitRefs, triggerAt } from "#src/core/refs.js";
 import type { Shelf } from "#src/core/types.js";
+import { must } from "#src/test-support.js";
 
 const shelves: Shelf[] = [
   {
@@ -54,7 +55,7 @@ describe("triggerAt", () => {
 
 describe("picking", () => {
   it("matches every query word and caps a mixed list", () => {
-    const trigger = triggerAt("@motion up", 10, shelves)!;
+    const trigger = must(triggerAt("@motion up", 10, shelves), "a trigger at @motion");
     expect(itemsFor(shelves, trigger).map((p) => p.item.id)).toEqual(["slide"]);
     const many: Shelf[] = [
       {
@@ -62,17 +63,16 @@ describe("picking", () => {
         label: "A",
         items: Array.from({ length: 30 }, (_, i) => ({ id: `i${i}`, name: `n${i}` })),
       },
-      shelves[0]!,
+      must(shelves[0], "the first shelf"),
     ];
-    expect(itemsFor(many, triggerAt("@", 1, many)!).filter((p) => p.shelf.id === "a")).toHaveLength(
-      12,
-    );
+    const bare = must(triggerAt("@", 1, many), "a bare @ trigger");
+    expect(itemsFor(many, bare).filter((p) => p.shelf.id === "a")).toHaveLength(12);
   });
   it("writes the reference and moves the caret past it", () => {
     const text = "Use @motion pop then more";
     const caret = 15;
-    const trigger = triggerAt(text, caret, shelves)!;
-    const pick = itemsFor(shelves, trigger)[0]!;
+    const trigger = must(triggerAt(text, caret, shelves), "a trigger at the caret");
+    const pick = must(itemsFor(shelves, trigger)[0], "the first pick");
     expect(insertRef(text, trigger, caret, pick)).toEqual({
       value: "Use [motion: pop-in]  then more",
       caret: 21,

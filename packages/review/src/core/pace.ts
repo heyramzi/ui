@@ -35,11 +35,13 @@ export function sectionsOf(
 ): Section[] {
   const end = lengthOf(model);
   const starts = model.paragraphs.filter((p) => p.chapter).map((p) => clockToSeconds(p.at));
-  if (starts.length < 3 || end <= 0) return [];
+  const introEnd = starts[1];
+  const outroStart = starts.at(-1);
+  if (starts.length < 3 || end <= 0 || introEnd === undefined || outroStart === undefined) return [];
   return [
-    { id: "intro", label: "Intro", from: 0, to: starts[1]! },
-    { id: "meat", label: "Meat", from: starts[1]!, to: starts.at(-1)! },
-    { id: "outro", label: "Outro", from: starts.at(-1)!, to: end },
+    { id: "intro", label: "Intro", from: 0, to: introEnd },
+    { id: "meat", label: "Meat", from: introEnd, to: outroStart },
+    { id: "outro", label: "Outro", from: outroStart, to: end },
   ];
 }
 

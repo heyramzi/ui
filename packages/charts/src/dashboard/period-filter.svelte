@@ -8,7 +8,7 @@ import { SegmentedFilter, SegmentedNav, type TabDef } from "@heyramzi/ui/compone
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	options: readonly TabDef<T>[];
 	value: T;
 	/**

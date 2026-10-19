@@ -11,7 +11,7 @@ import type { PhosphorIcon } from "#src/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// One panel per idea in a detail pane. Hand-rolled copies drifted between
 	// 8px and 12px corners, so rounded-xl lives here once.
 	label?: string;

@@ -63,7 +63,8 @@
 		const railW = zoom.railW;
 		if (!peaks || !duration || !loudest || railW === 0) return;
 		const css = getComputedStyle(canvas);
-		const at = (x: number) => Math.floor(((x + zoom.scroll) / railW) * peaks!.length);
+		const count = peaks.length;
+		const at = (x: number) => Math.floor(((x + zoom.scroll) / railW) * count);
 		const played = (time / duration) * railW - zoom.scroll;
 		const end = Math.min(w, railW - zoom.scroll);
 		for (let x = 0; x < end; x += 2) {

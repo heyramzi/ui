@@ -1,6 +1,6 @@
-export { default as AgentAvatar } from './agent-avatar.svelte';
-export { default as AgentCast } from './agent-cast.svelte';
-export type { Agent, AgentAvatarProps, AgentShape } from './types';
+export { default as AgentAvatar } from '#src/agents/agent-avatar.svelte';
+export { default as AgentCast } from '#src/agents/agent-cast.svelte';
+export type { Agent, AgentAvatarProps, AgentShape } from '#src/agents/types.js';
 export {
   agentPresets,
   agentShapes,
@@ -8,4 +8,4 @@ export {
   agentStates,
   agentPalette,
   agentStateLabels,
-} from './types';
+} from '#src/agents/types.js';

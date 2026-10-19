@@ -1,5 +1,5 @@
 /* Pure helpers for the avatar: numbers, theme, lights, idle scheduling. */
-import { stockLights } from './vendor/plastic';
+import { stockLights } from '#src/agents/vendor/plastic.js';
 
 export const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, Number.isFinite(v) ? v : 1));

@@ -1,6 +1,6 @@
 /* What every avatar on the page shares: the batching shown-gate, so a row of
    them comes in together, the path caches, and one theme watcher. */
-import { bakesPending } from './vendor/plastic';
+import { bakesPending } from '#src/agents/vendor/plastic.js';
 
 export const SHOW_WITHIN = 4000;
 export const waiters = new Map<object, { ready: () => boolean; show: () => void }>();

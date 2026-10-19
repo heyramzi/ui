@@ -1,4 +1,4 @@
-import type { BotAvatarFace, BotAvatarProps, BotAvatarType } from './vendor/types';
+import type { BotAvatarFace, BotAvatarProps, BotAvatarType } from '#src/agents/vendor/types.js';
 
 /** The body shapes an agent can be drawn as. */
 export type AgentShape = BotAvatarType;
@@ -11,7 +11,7 @@ export type {
   BotAvatarHat as AgentHat,
   BotAvatarGlasses as AgentGlasses,
   BotAvatarPreset as AgentPreset,
-} from './vendor/types';
+} from '#src/agents/vendor/types.js';
 
 export {
   botAvatarPresets as agentPresets,
@@ -20,7 +20,7 @@ export {
   botAvatarStates as agentStates,
   botAvatarPalette as agentPalette,
   stateLabels as agentStateLabels,
-} from './vendor/presets';
+} from '#src/agents/vendor/presets.js';
 
 /** One member of a cast: a name, a role, and the face they draw. */
 export type Agent = {

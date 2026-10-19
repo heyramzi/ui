@@ -4,15 +4,15 @@
     BotAvatarShading,
     BotAvatarState,
     BotAvatarType,
-  } from './vendor/types';
-  import type { AgentAvatarProps } from './types';
-  import { botAvatarPresets, stateLabels } from './vendor/presets';
-  import { SHAPE_PATHS, SHAPE_PARTS } from './vendor/shapes';
-  import { autoInk, richer, shade } from './vendor/color';
-  import { Sim, restPose } from './vendor/engine';
-  import { draw, LIGHT_DEFAULTS, OVERSCAN, RISE, type DrawConfig } from './vendor/draw';
-  import { bakesPending, hurry, onLanded, takeMissed, warmPlastic, type FurStyle } from './vendor/plastic';
-  import { subscribe, pointer } from './vendor/ticker';
+  } from '#src/agents/vendor/types.js';
+  import type { AgentAvatarProps } from '#src/agents/types.js';
+  import { botAvatarPresets, stateLabels } from '#src/agents/vendor/presets.js';
+  import { SHAPE_PATHS, SHAPE_PARTS } from '#src/agents/vendor/shapes.js';
+  import { autoInk, richer, shade } from '#src/agents/vendor/color.js';
+  import { Sim, restPose } from '#src/agents/vendor/engine.js';
+  import { draw, LIGHT_DEFAULTS, OVERSCAN, RISE, type DrawConfig } from '#src/agents/vendor/draw.js';
+  import { bakesPending, hurry, onLanded, takeMissed, warmPlastic, type FurStyle } from '#src/agents/vendor/plastic.js';
+  import { subscribe, pointer } from '#src/agents/vendor/ticker.js';
   import {
     SHOW_WITHIN,
     bodyPath,
@@ -21,7 +21,7 @@
     partPaths,
     showReady,
     waiters,
-  } from './page-state';
+  } from '#src/agents/page-state.js';
   import {
     clamp,
     clampOpt,
@@ -33,9 +33,7 @@
     reducedMotion,
     resolveTheme as themeOf,
     warmIdle,
-  } from './helpers';
-
-  type Props = AgentAvatarProps;
+  } from '#src/agents/helpers.js';
 
   let {
     name,
@@ -106,7 +104,7 @@
     'aria-hidden': ariaHidden,
     onclick: userClick,
     ...rest
-  }: Props = $props();
+  }: AgentAvatarProps = $props();
 
   const shapePath = (t: BotAvatarType) => SHAPE_PATHS[t] ?? SHAPE_PATHS.clover;
 

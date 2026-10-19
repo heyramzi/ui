@@ -40,7 +40,7 @@
 	// WHY re-declare `value` and `onValueChange`: the primitive types them as a
 	// bare `string`, so fourteen pages cast back to their union. Generic now, the
 	// one narrowing happens here.
-	type Props = Omit<TabsPrimitive.RootProps, "value" | "onValueChange"> & {
+	interface Props extends Omit<TabsPrimitive.RootProps, "value" | "onValueChange"> {
 		tabs: readonly TabDef<T>[];
 		value?: T;
 		onValueChange?: (value: T) => void;
@@ -67,7 +67,7 @@
 		max?: number;
 		// What the menu segment says. Translate at the call site.
 		moreLabel?: string;
-	};
+	}
 
 	let {
 		ref = $bindable(null),

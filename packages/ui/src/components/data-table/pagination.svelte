@@ -4,7 +4,7 @@ import { Button } from "#src/shadcn/button/index.js";
 import { totalPages as calcTotalPages } from "#src/components/data-table/data-table.js";
 
 // ========================= TYPES
-type Props = {
+interface Props {
 	page: number;
 	pageSize: number;
 	total: number;

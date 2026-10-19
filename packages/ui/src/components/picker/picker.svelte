@@ -12,7 +12,7 @@
 	// It replaced four pickers in one sidebar, each built differently. Only one
 	// had search, only one had arrow keys, and the check mark sat in three places.
 
-	type Props = {
+	interface Props {
 		/** Flat list. Mutually exclusive with `groups`. */
 		options?: PickerOption<V>[];
 		/** Titled runs, when the menu has a shape worth naming. */

@@ -8,6 +8,7 @@ export function entries() {
 }
 
 export function load({ params }) {
-  if (!bySlug(params.slug)) error(404, "No such component");
-  return {};
+  const entry = bySlug(params.slug);
+  if (!entry) error(404, "No such component");
+  return { entry };
 }

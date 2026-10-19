@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.css";
+  import "#src/app.css";
   import Nav from "#lib/Nav.svelte";
   import { TooltipProvider } from "@heyramzi/ui/shadcn/tooltip";
   let { children } = $props();

@@ -3,7 +3,7 @@
 	import type { HTMLAttributes } from "svelte/elements";
 	import { cn } from "@heyramzi/utils";
 
-	type Props = {
+	interface Props extends HTMLAttributes<HTMLDivElement> {
 		/** Any CSS color. Only shows while a card is held over the column. */
 		hue?: string;
 		active?: boolean;
@@ -17,7 +17,7 @@
 		ondrop?: (e: DragEvent) => void;
 		class?: string;
 		bodyClass?: string;
-	} & HTMLAttributes<HTMLDivElement>;
+	}
 
 	let {
 		hue,

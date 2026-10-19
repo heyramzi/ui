@@ -22,7 +22,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		/** Metric name, above the figure. */
 		label: string;
 		/**

@@ -21,7 +21,7 @@
 	import InboxTraceView from "./inbox-trace.svelte";
 	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "./inbox-types.js";
 
-	type Props = {
+	interface Props {
 		item: InboxItem;
 		/** The keyboard cursor is on this card. */
 		selected?: boolean;

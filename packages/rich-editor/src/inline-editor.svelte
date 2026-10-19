@@ -31,7 +31,7 @@ import { untrack } from "svelte";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
   doc: InlineDoc;
   placeholder?: string;
   class?: string;

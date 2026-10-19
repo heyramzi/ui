@@ -8,7 +8,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	/** `<DataPanel>` children, or tiles standing beside one. */
 	children: Snippet;
 	/**

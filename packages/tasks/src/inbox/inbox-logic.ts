@@ -4,7 +4,6 @@ import type {
 	InboxKindFilter,
 	InboxLane,
 	InboxProject,
-	InboxVerdict,
 } from "./inbox-types.js";
 
 /** Which lane an item sits in. The agent's own work and the person's decisions never share one. */

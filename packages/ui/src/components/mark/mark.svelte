@@ -12,7 +12,7 @@ import { cn } from "@heyramzi/utils";
  * A brand's mark at glyph size: a kit icon, a channel avatar, a client logo.
  * One renderer, because three places each handled a missing file their own way.
  */
-type Props = {
+interface Props {
 	/** The file. A missing or broken one falls back to the label's initial. */
 	src?: string;
 	/** Read for the fallback letter. The mark itself is decorative. */

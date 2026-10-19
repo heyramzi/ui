@@ -18,7 +18,7 @@
 		KanbanSortKey,
 	} from "./kanban-types.js";
 
-	type Props<T, C extends KanbanColumnDef> = {
+	interface Props<T, C extends KanbanColumnDef> {
 		/** Plain column defs, or your own type that extends one. Snippets get it back as you passed it. */
 		columns: C[];
 		items: T[];
@@ -77,7 +77,7 @@
 		 */
 		isDroppable?: (columnId: string) => boolean;
 		class?: string;
-	};
+	}
 
 	let {
 		columns,

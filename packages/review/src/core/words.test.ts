@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Paragraph, TranscriptLine } from "#src/core/types.js";
+import { must } from "#src/test-support.js";
 import { timedWords, wordAt, wordClock, wordKey, wordStart } from "#src/core/words.js";
 
 const line = (text: string, seconds: number, wordSeconds?: number[], cut = false): TranscriptLine => ({
@@ -25,7 +26,7 @@ const paragraphs: Paragraph[] = [
 
 describe("wordStart", () => {
   it("gives each word its own time", () => {
-    const l = paragraphs[0]!.lines[0]!;
+    const l = must(paragraphs[0]?.lines[0], "the first line");
     expect([0, 1, 2].map((i) => wordStart(l, i))).toEqual([0.5, 0.9, 1.4]);
   });
 

@@ -4,7 +4,7 @@
   import DemoSlides, { demoStyle } from './demo-slides.svelte';
   import type { DeckTheme, DeckTransition } from './types';
 
-  type Props = {
+  interface Props {
     /** Where the presenter view is mounted. Leave out to hide the button. */
     presenter?: string;
   };

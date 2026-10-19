@@ -7,7 +7,7 @@
   // A retired group (?g=agents, ?g=slides) shows everything rather than an empty grid.
   $effect(() => {
     const g = page.url.searchParams.get("g");
-    filter = groups.some((x) => x.id === g) ? g! : "all";
+    filter = g !== null && groups.some((x) => x.id === g) ? g : "all";
   });
   const shown = $derived(filter === "all" ? entries : entries.filter((e) => e.group === filter));
 </script>

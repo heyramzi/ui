@@ -4,7 +4,7 @@ import type { Snippet } from "svelte";
 import { Spinner } from "#src/shadcn/spinner/index.js";
 
 // ========================= TYPES
-type Props = {
+interface Props {
 	items: T[];
 	isDone: boolean;
 	isLoading: boolean;

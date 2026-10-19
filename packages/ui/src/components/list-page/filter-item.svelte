@@ -10,7 +10,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	checked: boolean;
 	onclick: () => void;
 	variant?: "checkbox" | "radio";

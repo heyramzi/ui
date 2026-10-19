@@ -4,7 +4,7 @@
 	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
 	import { budgetTone } from "./duration.js";
 
-	type Props = {
+	interface Props {
 		/** Minutes logged. */
 		value: number;
 		/** Minutes budgeted. The ring turns warning at 90% and destructive past 100%. */

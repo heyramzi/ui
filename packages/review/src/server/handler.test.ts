@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { ReviewAction, ReviewAdapter, ReviewModel } from "#src/core/types.js";
 import { createReviewHandler, ReviewError } from "#src/server/index.js";
+import { must } from "#src/test-support.js";
 
 const model: ReviewModel = {
   id: "v1",
@@ -153,7 +154,7 @@ describe("createReviewHandler", () => {
   it("pushes the model over SSE when the adapter says it changed", async () => {
     const res = await fetch(`${url}/review/v1/events`);
     expect(res.headers.get("content-type")).toBe("text/event-stream");
-    const reader = res.body!.getReader();
+    const reader = must(res.body, "an event stream body").getReader();
     const decoder = new TextDecoder();
     let text = "";
     const until = async (needle: string) => {

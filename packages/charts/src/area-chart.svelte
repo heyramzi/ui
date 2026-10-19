@@ -22,7 +22,7 @@
 		color?: string;
 	};
 
-	type Props = {
+	interface Props {
 		data: TData[];
 		xKey: keyof TData & string;
 		yKey?: keyof TData & string;

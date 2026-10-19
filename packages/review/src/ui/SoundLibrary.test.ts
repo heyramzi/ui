@@ -1,6 +1,7 @@
 import { flushSync, mount, unmount } from "svelte";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SoundCard } from "#src/core/types.js";
+import { must } from "#src/test-support.js";
 import SoundLibrary from "#src/ui/SoundLibrary.svelte";
 
 const sound = (id: string, over: Partial<SoundCard> = {}): SoundCard => ({
@@ -97,7 +98,7 @@ describe("SoundLibrary", () => {
 
   it("filters by name, group and job", () => {
     draw([sound("whoosh", { job: "The transition." }), sound("pop", { group: "Pop" })]);
-    const input = document.querySelector<HTMLInputElement>("input[type=search]")!;
+    const input = must(document.querySelector<HTMLInputElement>("input[type=search]"), "the search field");
     input.value = "transition";
     input.dispatchEvent(new Event("input", { bubbles: true }));
     flushSync();

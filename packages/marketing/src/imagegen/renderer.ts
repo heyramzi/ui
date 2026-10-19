@@ -9,8 +9,7 @@ import type { ImageFormat, ImageSize, RenderOptions } from "#src/imagegen/types.
  * - `png` / `avif` pipe the SVG through sharp.
  */
 export async function renderImage(
-  // oxlint-disable-next-line typescript-eslint(no-explicit-any) -- satori markup types are loosely defined
-  markup: any,
+  markup: Parameters<typeof satori>[0],
   options: RenderOptions,
 ): Promise<Uint8Array> {
   const format: ImageFormat = options.format ?? "png";
@@ -45,7 +44,7 @@ export const MIME_TYPES: Record<ImageFormat, string> = {
 type SvgRenderOptions = {
   size: ImageSize;
   format?: ImageFormat;
-  /** PNG/AVIF compression quality, 1–100. Defaults to 90 for PNG, 82 for AVIF. */
+  /** PNG/AVIF compression quality, 1 to 100. Defaults to 90 for PNG, 82 for AVIF. */
   quality?: number;
 };
 
@@ -54,7 +53,7 @@ type SvgRenderOptions = {
  */
 
 /*
- * Use for templates that need features satori can't handle — `<defs>`, `<radialGradient>`, `<clipPath>`, complex SVG gradients. librsvg has full SVG support.
+ * Use for templates that need features satori can't handle: `<defs>`, `<radialGradient>`, `<clipPath>`, complex SVG gradients. librsvg has full SVG support.
  */
 
 /*

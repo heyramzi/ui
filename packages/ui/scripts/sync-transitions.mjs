@@ -12,7 +12,7 @@
  */
 
 /*
- * Paid ones are dropped here and never vendored — Ramzi, 14 Sep 2026: "the pro effects we don't need them".
+ * Paid ones are dropped here and never vendored (Ramzi, 14 Sep 2026: "the pro effects we don't need them").
  */
 
 /*
@@ -100,20 +100,20 @@ for (const { slug, name, css } of free) {
   const hash = sha256(css);
   entries[slug] = { name, sha256: hash, local: PORTED[slug] ?? null };
 
-  if (!previous[slug]) buckets.added.push(`${slug} — ${name}`);
-  else if (previous[slug].sha256 !== hash) buckets.changed.push(`${slug} — ${name}`);
+  if (!previous[slug]) buckets.added.push(`${slug}: ${name}`);
+  else if (previous[slug].sha256 !== hash) buckets.changed.push(`${slug}: ${name}`);
   else unchanged++;
 
-  if (!PORTED[slug]) buckets.unported.push(`${slug} — nothing under src/ owns it`);
+  if (!PORTED[slug]) buckets.unported.push(`${slug}: nothing under src/ owns it`);
   else if (!existsSync(`${SRC}/${PORTED[slug]}`))
-    buckets.unported.push(`${slug} — PORTED says ${PORTED[slug]}, which is missing`);
+    buckets.unported.push(`${slug}: PORTED says ${PORTED[slug]}, which is missing`);
 
   if (!CHECK) await writeFileDeep(`${VENDOR}/${slug}.css`, css);
 }
 
 for (const slug of Object.keys(previous)) {
   if (entries[slug]) continue;
-  buckets.removed.push(`${slug} — gone upstream or moved to pro`);
+  buckets.removed.push(`${slug}: gone upstream or moved to pro`);
   if (!CHECK) await removeDeep(`${VENDOR}/${slug}.css`);
 }
 
@@ -138,7 +138,7 @@ if (!CHECK) {
 
 process.exit(
   report({
-    title: `transitions.dev — ${free.length} free`,
+    title: `transitions.dev: ${free.length} free`,
     buckets,
     unchanged,
     footer: `${paid} pro skipped`,

@@ -9,7 +9,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	value: string;
 	placeholder?: string;
 	size?: "sm" | "default";

@@ -16,7 +16,7 @@
 		color: string;
 	};
 
-	type Props = {
+	interface Props {
 		items: LegendItem[];
 		title?: string;
 		/** Stacked rows vs inline wrap. */

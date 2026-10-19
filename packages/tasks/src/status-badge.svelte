@@ -7,7 +7,7 @@
 	import { TONE_COLOR, type Tone } from "@heyramzi/ui/lib/tone.js";
 	import type { Statuses } from "./status-types.js";
 
-	type Props = Omit<HTMLAttributes<HTMLSpanElement>, "class" | "children"> & {
+	interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "class" | "children"> {
 		/** A registry from `defineStatuses`. Supplies the label and tone. */
 		statuses?: Statuses;
 		/** The status id to look up in `statuses`. Leave it out when you pass `children`. */
@@ -25,7 +25,7 @@
 		/** The chip's text, for a caller that already has the word. Wins over `label` and the registry. */
 		children?: Snippet;
 		class?: string;
-	};
+	}
 
 	let {
 		statuses,

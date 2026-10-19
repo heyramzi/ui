@@ -14,7 +14,7 @@
 	type Trend = "up" | "down" | "neutral";
 	type SeriesValue = { value: number; label?: string; color?: string };
 
-	type Props = {
+	interface Props {
 		/** Single metric value. Numbers count up via AnimatedValue. Ignored when `series` is set. */
 		value?: number | string;
 		/** Multiple value rows (chart headers with more than one series). */

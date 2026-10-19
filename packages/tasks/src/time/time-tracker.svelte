@@ -17,7 +17,7 @@
 	import TimeRing from "./time-ring.svelte";
 	import { Play, Stop, X } from "phosphor-svelte";
 
-	type Props<T> = {
+	interface Props<T> {
 		/** Every entry logged on the task. Order within a day is kept. */
 		entries: T[];
 		getId: (entry: T) => string;
@@ -49,7 +49,7 @@
 		/** Drops the card: no border, radius, background, shadow or padding. For a host that already sits the tracker in a panel. */
 		flat?: boolean;
 		class?: string;
-	};
+	}
 
 	let {
 		entries,

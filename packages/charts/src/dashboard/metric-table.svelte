@@ -44,7 +44,7 @@ import {
 	dataTrClass,
 } from "./data-table.js";
 
-type Props = {
+interface Props {
 	rows: T[];
 	columns: MetricColumn<T>[];
 	rowKey: (row: T) => string;

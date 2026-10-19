@@ -11,7 +11,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		children: Snippet;
 		/** Headroom around the plot so a stroke at the series max is not cut. */
 		bleed?: number;

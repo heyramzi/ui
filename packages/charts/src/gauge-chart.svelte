@@ -15,7 +15,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		/** Arc fill, 0-100 (how many notches light up). */
 		value: number;
 		/** "gauge" = notched arc, "ring" = continuous swept arc. */

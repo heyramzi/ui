@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
-import { SHADCN_DEMOS } from "./shadcn-demos/index.js";
-import { componentSources } from "./component-sources.js";
+import { SHADCN_DEMOS } from "#lib/shadcn-demos/index.js";
+import { componentSources } from "#lib/component-sources.js";
 
 export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage"|"inbox"|"sidepanel"|"editor";
 
@@ -156,7 +156,11 @@ export const packages: Package[] = [
   { id: "review", name: "@heyramzi/review", title: "Review", blurb: "The review page, mounted anywhere." },
 ];
 
-export const packageById = (id: string) => packages.find((p) => p.id === id)!;
+export const packageById = (id: string) => {
+  const found = packages.find((p) => p.id === id);
+  if (!found) throw new Error(`No package "${id}" in the registry`);
+  return found;
+};
 
 export const groupLabel = (id: Group) => groups.find((g) => g.id === id)?.label ?? id;
 

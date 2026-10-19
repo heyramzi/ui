@@ -10,7 +10,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		groups: TGroup[];
 		getKey: (group: TGroup) => string;
 		defaultCollapsed?: string[];

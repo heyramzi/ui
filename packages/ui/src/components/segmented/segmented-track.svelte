@@ -10,7 +10,7 @@ import { slidingPill } from "#src/lib/sliding-pill.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	/** Fill the row rather than sit at its natural width. */
 	fill?: boolean;
 	/** `pill`, a bordered well with a travelling highlight, or `underline`, a travelling rule. */

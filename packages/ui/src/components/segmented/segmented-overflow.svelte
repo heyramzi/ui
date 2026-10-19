@@ -18,7 +18,7 @@ import type { SegmentContent } from "#src/components/segmented/segment.svelte";
 
 // WHY never active: `splitSegments` pulls the current item into a visible slot,
 // so this never fights bits-ui's `data-state="open"`.
-type Props = {
+interface Props {
 	items: readonly (SegmentContent & { value: V })[];
 	onSelect: (value: V) => void;
 	/** What the segment says. Translate at the call site. */

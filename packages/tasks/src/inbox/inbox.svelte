@@ -19,7 +19,7 @@
 		InboxVerdict,
 	} from "./inbox-types.js";
 
-	type Props = {
+	interface Props {
 		items: InboxItem[];
 		/** The host applies the verdict and passes the updated items back. */
 		onverdict: (verdict: InboxVerdict) => void;

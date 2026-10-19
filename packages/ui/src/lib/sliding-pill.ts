@@ -18,8 +18,8 @@ export const slidingPill: Attachment<HTMLElement> = (pill) => {
 
   let settled = false;
 
-  function move(animate: boolean) {
-    const active = list!.querySelector<HTMLElement>(ACTIVE);
+  const move = (animate: boolean) => {
+    const active = list.querySelector<HTMLElement>(ACTIVE);
     if (!active) {
       pill.style.opacity = "0";
       return;
@@ -37,7 +37,7 @@ export const slidingPill: Attachment<HTMLElement> = (pill) => {
     pill.style.width = `${active.offsetWidth}px`;
     void pill.offsetWidth;
     pill.style.transition = "";
-  }
+  };
 
   // Position first, THEN hand the highlight over. Swapped, one frame draws both
   // the trigger's own background and a zero-width pill: a flicker on hydration.

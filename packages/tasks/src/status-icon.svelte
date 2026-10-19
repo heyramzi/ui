@@ -5,7 +5,7 @@
 	import { TONE_ICON } from "@heyramzi/ui/lib/tone.js";
 	import type { Statuses } from "./status-types.js";
 
-	type Props = {
+	interface Props {
 		statuses: Statuses;
 		status: string;
 		size?: number;

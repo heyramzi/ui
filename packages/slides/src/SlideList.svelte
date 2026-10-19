@@ -2,7 +2,7 @@
   import Slide from './Slide.svelte';
   import type { SlideInstance, SlideRegistry } from './model';
 
-  type Props = { slides: SlideInstance[]; registry: SlideRegistry; unknownLabel: (type: string) => string };
+  interface Props { slides: SlideInstance[]; registry: SlideRegistry; unknownLabel: (type: string) => string };
 
   let { slides, registry, unknownLabel }: Props = $props();
 </script>

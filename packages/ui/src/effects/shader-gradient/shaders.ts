@@ -11,7 +11,7 @@
  */
 
 /*
- * irradiance * BRDF_Lambert(diffuse * (1 - metalness)) = (brightness * PI) * (1 / PI) * (base * 0.8) = brightness * 0.8 * base
+ * irradiance * BRDF_Lambert(diffuse * (1 minus metalness)) = (brightness * PI) * (1 / PI) * (base * 0.8) = brightness * 0.8 * base
  */
 
 /*

@@ -9,7 +9,7 @@ import type { PhosphorIcon } from "#src/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// The one label style for panel, rail group and sub-section headers. Retyped
 	// copies drifted to a different tracking value.
 	icon?: PhosphorIcon;

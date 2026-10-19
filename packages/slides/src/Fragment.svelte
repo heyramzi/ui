@@ -2,7 +2,7 @@
   import { getContext, type Snippet } from 'svelte';
   import { SLIDE_KEY, type SlideContext } from './types';
 
-  type Props = {
+  interface Props {
     /** Reveal at this step. `1` is the first press of the arrow key. */
     step?: number;
     /** How it arrives: `rise` (default), `fade` or `scale`. */

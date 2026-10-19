@@ -8,7 +8,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// The scroller under `RailHead`. `min-h-0` makes a flex child scroll instead
 	// of growing its parent, and it's the line hand-rolled rails forgot.
 	children: Snippet;

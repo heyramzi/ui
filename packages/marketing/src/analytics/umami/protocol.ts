@@ -1,5 +1,5 @@
 /**
- * Pure Umami wire-protocol helpers — no I/O, no global dependencies.
+ * Pure Umami wire-protocol helpers: no I/O, no global dependencies.
  */
 
 /*
@@ -11,7 +11,7 @@
  */
 
 /*
- * Umami's `/api/send` accepts one event per request. Authentication is via the website ID embedded in the payload — no API key.
+ * Umami's `/api/send` accepts one event per request. Authentication is via the website ID embedded in the payload, so there's no API key.
  */
 
 /*

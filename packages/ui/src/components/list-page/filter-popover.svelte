@@ -17,7 +17,7 @@ const DefaultFunnelIcon = FunnelIcon as unknown as PhosphorIcon;
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	label: string;
 	icon?: PhosphorIcon;
 	count?: number;

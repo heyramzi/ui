@@ -20,7 +20,7 @@ import type { PhosphorIcon } from "@heyramzi/ui/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	label: string;
 	/** Already formatted. The tile never guesses a currency or a locale. */
 	value: string;

@@ -8,7 +8,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// A hairline band inside `DetailHeader` or `DetailPanel` for the record's
 	// own facts, so the page never nests cards inside cards.
 	muted?: boolean;

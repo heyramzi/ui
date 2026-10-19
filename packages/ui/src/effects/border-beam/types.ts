@@ -24,7 +24,7 @@ export interface BorderBeamProps extends Omit<HTMLAttributes<HTMLDivElement>, "c
   // preset stop is mapped by index (cycling if shorter) so layout/timing
   // stay identical, only hues swap. Accepts hex (#rrggbb), rgb(), rgba().
   colors?: string[];
-  // WHY: the bloom layer is the single most expensive part of the beam — a blurred conic-gradient re-rasterized every frame.
+  // WHY: the bloom layer is the single most expensive part of the beam: a blurred conic-gradient re-rasterized every frame.
 
   // Opt-out gives a 2-3x perf win for callers who only need the stroke and inner shimmer.
   bloom?: boolean;

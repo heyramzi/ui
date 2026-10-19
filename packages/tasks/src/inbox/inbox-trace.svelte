@@ -3,7 +3,7 @@
 	import { SOURCE_ICON, SOURCE_LABEL } from "./inbox-statuses.js";
 	import type { InboxTrace } from "./inbox-types.js";
 
-	type Props = { trace: InboxTrace };
+	interface Props { trace: InboxTrace };
 
 	let { trace }: Props = $props();
 

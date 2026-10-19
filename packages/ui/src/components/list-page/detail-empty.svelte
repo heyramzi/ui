@@ -9,7 +9,7 @@ import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// Shown when nothing is picked or the board is empty. Both mean "content
 	// goes here", so both get a dashed `border-2` edge.
 	icon?: PhosphorIcon;

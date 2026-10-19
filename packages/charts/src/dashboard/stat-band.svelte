@@ -8,7 +8,7 @@ import { cn } from "@heyramzi/utils";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	/** `<StatTile>` children. Four to a row on a desk, two on a phone. */
 	children: Snippet;
 	/**

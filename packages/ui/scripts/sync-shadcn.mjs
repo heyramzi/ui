@@ -238,14 +238,14 @@ for (const { item, payload } of fetched) {
   };
 
   if (!moved.length && !gone.length) unchanged++;
-  else if (fresh) buckets.added.push(`${item.name} — ${files.length} files, new primitive`);
+  else if (fresh) buckets.added.push(`${item.name}: ${files.length} files, new primitive`);
   else if (blocked)
-    for (const s of moved) buckets.port.push(`${label(s.path)} — upstream moved, ${s.state} here`);
+    for (const s of moved) buckets.port.push(`${label(s.path)}: upstream moved, ${s.state} here`);
   else if (apply.length)
-    buckets.synced.push(`${item.name} — ${apply.map((s) => basename(s.path)).join(", ")}`);
+    buckets.synced.push(`${item.name}: ${apply.map((s) => basename(s.path)).join(", ")}`);
 
   for (const g of gone)
-    buckets.removed.push(`${label(g.path)} — gone upstream${g.ours ? ", kept (ours)" : ""}`);
+    buckets.removed.push(`${label(g.path)}: gone upstream${g.ours ? ", kept (ours)" : ""}`);
 
   if (CHECK) continue;
 
@@ -261,14 +261,14 @@ for (const { item, payload } of fetched) {
 
 for (const name of Object.keys(previous)) {
   if (entries[name]) continue;
-  buckets.removed.push(`${name} — gone from the registry`);
+  buckets.removed.push(`${name}: gone from the registry`);
   if (!CHECK) await removeDeep(`${VENDOR}/${name}`);
 }
 
 const ours = readdirSync(LOCAL, { withFileTypes: true })
   .filter((e) => e.isDirectory() && !entries[e.name] && !LOCAL_ONLY.has(e.name))
   .map((e) => e.name);
-for (const name of ours) buckets.unported.push(`${name} — in src/shadcn, not in the registry`);
+for (const name of ours) buckets.unported.push(`${name}: in src/shadcn, not in the registry`);
 
 /* The docs site's own demo for each primitive, vendored on the same three-way
  * rule. Upstream writes them; the site renders them. */
@@ -284,7 +284,7 @@ for (const name of demoNames) {
     fetchTextIf(`${DOCS}/content/components/${name}.md`),
   ]);
   if (raw === null) {
-    buckets.unported.push(`${name} — no demo upstream`);
+    buckets.unported.push(`${name}: no demo upstream`);
     continue;
   }
 
@@ -296,12 +296,12 @@ for (const name of demoNames) {
   // The imports of the demo that renders: ours when kept, upstream's when written.
   const shown = state === "diverged" ? local : next;
 
-  if (state === "dropped") buckets.removed.push(`${label(path)} — dropped here, kept out`);
+  if (state === "dropped") buckets.removed.push(`${label(path)}: dropped here, kept out`);
   else manifest.push({ name, ...meta(doc, name), imports: publicImports(shown) });
 
   if (base !== raw) {
-    if (state === "diverged") buckets.port.push(`${label(path)} — upstream moved, ours here`);
-    else if (state !== "current") buckets.synced.push(`${name} — demo`);
+    if (state === "diverged") buckets.port.push(`${label(path)}: upstream moved, ours here`);
+    else if (state !== "current") buckets.synced.push(`${name}: demo`);
   }
   if (CHECK) continue;
 
@@ -345,7 +345,7 @@ if (!CHECK) {
 
 process.exit(
   report({
-    title: `shadcn-svelte — ${items.length} primitives`,
+    title: `shadcn-svelte: ${items.length} primitives`,
     buckets,
     unchanged,
     footer: `${Object.values(entries).filter((e) => e.adapted).length} adapted here, ${LOCAL_ONLY.size} ours`,

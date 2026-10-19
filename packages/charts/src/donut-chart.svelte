@@ -12,7 +12,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		data: TData[];
 		valueKey: keyof TData & string;
 		labelKey: keyof TData & string;

@@ -15,7 +15,7 @@ const get = (url) => fetch(url, { headers: { "user-agent": "heyramzi-ui-sync" } 
 
 export async function fetchText(url) {
   const res = await get(url);
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${url}`);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}: ${url}`);
   return await res.text();
 }
 

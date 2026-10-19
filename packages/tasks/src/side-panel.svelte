@@ -18,7 +18,7 @@ import StatusBadge from "./status-badge.svelte";
 // =========================
 // PROPS
 // =========================
-type Props = {
+interface Props {
 	open: boolean;
 	/** Names the dialog for screen readers and heads the panel. */
 	title: string;

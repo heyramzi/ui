@@ -6,7 +6,7 @@
 	import { insetWellClass } from "@heyramzi/ui/lib/panel.js";
 	import type { InboxDraft, InboxDraftEdits } from "./inbox-types.js";
 
-	type Props = {
+	interface Props {
 		drafts: InboxDraft[];
 		/** The template the agent picked. Marked in the picker. */
 		recommended?: string;

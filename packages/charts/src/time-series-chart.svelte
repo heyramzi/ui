@@ -90,7 +90,7 @@
 	let yMax = $derived.by(() => {
 		const allValues = [
 			...data.map((d) => d.value),
-			...data.filter((d) => d.value2 != null).map((d) => d.value2!),
+			...data.flatMap((d) => (d.value2 == null ? [] : [d.value2])),
 		];
 		const absMax = Math.max(...allValues);
 

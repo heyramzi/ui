@@ -13,7 +13,7 @@ import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// WHY: picks which rows are listed, with no panel of its own. That's a
 	// segmented control, not a tab set.
 

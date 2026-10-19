@@ -9,7 +9,7 @@ import type { PhosphorIcon } from "@heyramzi/ui/lib/icon-types.js";
 // =========================
 // TYPES
 // =========================
-type Props = {
+interface Props {
 	// Not list-page's `EmptyState`: that one takes exactly one action, and a
 	// dashboard can be empty for reasons (nothing connected, nothing synced)
 	// that need two buttons.

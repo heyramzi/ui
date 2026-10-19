@@ -13,7 +13,7 @@
 	// =========================
 	type Series = { key: keyof TData & string; label: string; color: string };
 
-	type Props = {
+	interface Props {
 		data: TData[];
 		xKey: keyof TData & string;
 		/** The bar's value. Required unless `series` is set. */

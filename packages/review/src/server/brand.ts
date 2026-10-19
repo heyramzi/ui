@@ -42,8 +42,9 @@ export const contrast = (a: string, b: string): number => {
 
 /** `t` is how much of `to` goes into `from`. */
 const mix = (from: string, to: string, t: number): string => {
-  const [a, b] = [rgb(from), rgb(to)];
-  return toHex(a.map((v, i) => v + (b[i]! - v) * t));
+  const [r1, g1, b1] = rgb(from);
+  const [r2, g2, b2] = rgb(to);
+  return toHex([r1 + (r2 - r1) * t, g1 + (g2 - g1) * t, b1 + (b2 - b1) * t]);
 };
 
 /** Walks `color` toward `to` until it reads at `min` against `against`: a brand colour is kept as long as it can be read. */

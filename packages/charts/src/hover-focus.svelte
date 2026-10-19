@@ -11,7 +11,7 @@
 	// =========================
 	// TYPES
 	// =========================
-	type Props = {
+	interface Props {
 		/** The series: dims while a point is hovered. */
 		children: Snippet;
 		/** The strokes alone, redrawn at full strength around the hovered point. */
