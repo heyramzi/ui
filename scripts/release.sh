@@ -185,21 +185,25 @@ publish_both() {
   rm -rf "${out:?}"
 }
 
+# Published code cannot keep #src self-imports, because Vite cannot resolve a package's
+# own hash imports inside node_modules. Rewrite in place for the pack, then put back only
+# the files the rewrite touched, so another session's uncommitted edits survive.
+publish_rewritten() {
+  local backup status=0
+  backup=$(mktemp -d)
+  node scripts/relative-imports.mjs "$backup" "$1"
+  publish_both "$1" || status=$?
+  node scripts/relative-imports.mjs --restore "$backup"
+  rm -rf "${backup:?}"
+  return "$status"
+}
+
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
   tag="$component-v$next"
   git tag "$tag"
   git push origin "$tag"
   gh release create "$tag" --repo heyramzi/ui --title "$tag" --notes-file "$NOTES_DIR/$component.md"
-  if [ "$component" = "ui" ]; then
-    # Published code cannot keep #src self-imports: Vite cannot resolve a
-    # package's own # imports inside node_modules. Rewrite in place for the
-    # publish, then restore the tree.
-    node packages/ui/scripts/relative-imports.mjs
-    publish_both "$dir"
-    git checkout -- packages/ui/src packages/ui/scripts
-  else
-    publish_both "$dir"
-  fi
+  publish_rewritten "$dir"
 done
 
 rm -rf "$NOTES_DIR"
