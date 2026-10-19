@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/rich-editor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Svelte 5 rich text editor on Tiptap: slash menu, image toolbar, block ids, a Markdown bridge and an SSR renderer for the saved JSON.",
   "keywords": [
     "svelte",

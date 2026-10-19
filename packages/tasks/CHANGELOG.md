@@ -98,3 +98,10 @@ _Released as 0.5.2 before the 19 Oct 2026 renumbering._
 
 * fix(tasks): the inbox card's 16px avatar holds still unless the agent is working
 
+
+## [1.2.3](https://github.com/heyramzi/ui/compare/tasks-v1.2.2...tasks-v1.2.3) (2026-10-19)
+
+### Bug Fixes
+
+* fix(ui): gate raw :hover behind (hover: hover) and (pointer: fine)
+

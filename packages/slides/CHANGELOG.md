@@ -18,3 +18,10 @@ _Released as 1.0.0 before the 19 Oct 2026 renumbering._
 
 * feat(slides)!: one deck system on a fixed canvas
 
+
+## [1.1.1](https://github.com/heyramzi/ui/compare/slides-v1.1.0...slides-v1.1.1) (2026-10-19)
+
+### Bug Fixes
+
+* fix(ui): gate raw :hover behind (hover: hover) and (pointer: fine)
+

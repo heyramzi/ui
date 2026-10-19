@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/ui",
-  "version": "1.53.0",
+  "version": "1.53.1",
   "description": "Svelte 5 UI primitives: effects, animations, and shared component CSS.",
   "license": "MIT",
   "repository": {

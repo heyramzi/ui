@@ -17,3 +17,10 @@ _Released as 0.1.1 before the 19 Oct 2026 renumbering._
 
 * fix(rich-editor): an image node with no src serializes to nothing
 
+
+## [1.0.2](https://github.com/heyramzi/ui/compare/rich-editor-v1.0.1...rich-editor-v1.0.2) (2026-10-19)
+
+### Features
+
+* initial publish from this repo
+

@@ -26,3 +26,10 @@ _Released as 2.0.0 before the 19 Oct 2026 renumbering._
 
 * initial publish from this repo
 
+
+## [1.1.1](https://github.com/heyramzi/ui/compare/charts-v1.1.0...charts-v1.1.1) (2026-10-19)
+
+### Features
+
+* initial publish from this repo
+

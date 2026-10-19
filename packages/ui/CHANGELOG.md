@@ -813,3 +813,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * fix(ui): AgentCast's hover border is gated to a fine pointer, so it doesn't stick after a tap
 * fix(ui): agent avatars fade in once measured, pick their own ink, and repaint after the gate
 
+
+## [1.53.1](https://github.com/heyramzi/ui/compare/ui-v1.53.0...ui-v1.53.1) (2026-10-19)
+
+### Bug Fixes
+
+* fix(ui): gate raw :hover behind (hover: hover) and (pointer: fine)
+
