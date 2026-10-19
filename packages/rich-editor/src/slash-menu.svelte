@@ -97,9 +97,14 @@ let { items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Pro
 		transition: background-color var(--duration-micro) var(--ease-smooth-out);
 	}
 
-	.slash-item:hover,
 	.slash-item.selected {
 		background: var(--color-accent);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.slash-item:hover {
+			background: var(--color-accent);
+		}
 	}
 
 	.slash-icon {
@@ -115,10 +120,16 @@ let { items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Pro
 		transition: background-color var(--duration-micro) var(--ease-smooth-out), color var(--duration-micro) var(--ease-smooth-out);
 	}
 
-	.slash-item.selected .slash-icon,
-	.slash-item:hover .slash-icon {
+	.slash-item.selected .slash-icon {
 		background: oklch(from var(--color-brand-indigo) l c h / 0.1);
 		color: var(--color-brand-indigo);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.slash-item:hover .slash-icon {
+			background: oklch(from var(--color-brand-indigo) l c h / 0.1);
+			color: var(--color-brand-indigo);
+		}
 	}
 
 	.slash-text {

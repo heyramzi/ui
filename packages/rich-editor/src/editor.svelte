@@ -363,8 +363,10 @@ $effect(() => {
 		cursor: pointer;
 	}
 
-	.editor-surface :global(.tiptap img:hover) {
-		box-shadow: 0 0 0 2px oklch(from var(--color-brand-indigo) l c h / 0.2);
+	@media (hover: hover) and (pointer: fine) {
+		.editor-surface :global(.tiptap img:hover) {
+			box-shadow: 0 0 0 2px oklch(from var(--color-brand-indigo) l c h / 0.2);
+		}
 	}
 
 	/* ---- DRAG HANDLE ---- */
@@ -384,29 +386,39 @@ $effect(() => {
 		border-radius: var(--radius-xs);
 	}
 
-	.editor-surface :global(.drag-handle:hover) {
-		background: var(--color-accent);
-		color: var(--color-foreground);
+	@media (hover: hover) and (pointer: fine) {
+		.editor-surface :global(.drag-handle:hover) {
+			background: var(--color-accent);
+			color: var(--color-foreground);
+		}
 	}
 
 	.editor-surface :global(.drag-handle:active) {
 		cursor: grabbing;
 	}
 
-	.editor-surface :global(.tiptap > *:hover .drag-handle) {
-		opacity: 0.5;
+	@media (hover: hover) and (pointer: fine) {
+		.editor-surface :global(.tiptap > *:hover .drag-handle) {
+			opacity: 0.5;
+		}
 	}
 
-	.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle) {
-		opacity: 0.5;
+	@media (hover: hover) and (pointer: fine) {
+		.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle) {
+			opacity: 0.5;
+		}
 	}
 
-	.editor-surface :global(.tiptap > *:hover .drag-handle:hover) {
-		opacity: 1;
+	@media (hover: hover) and (pointer: fine) {
+		.editor-surface :global(.tiptap > *:hover .drag-handle:hover) {
+			opacity: 1;
+		}
 	}
 
-	.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle:hover) {
-		opacity: 1;
+	@media (hover: hover) and (pointer: fine) {
+		.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle:hover) {
+			opacity: 1;
+		}
 	}
 
 	/* ---- STATUS BAR ---- */
