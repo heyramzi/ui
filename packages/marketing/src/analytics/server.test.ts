@@ -1,282 +1,165 @@
-import { describe, it, expect, vi, beforeEach } from "vite-plus/test";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vite-plus/test";
 
-// The server module holds module-level singletons (client, _config).
-// Each test resets them by calling vi.resetModules() + re-importing.
+// The server module holds its config at module level, so each test re-imports it.
 
 async function freshImport() {
   vi.resetModules();
   return import("#src/analytics/server.js");
 }
 
+const fetchMock = vi.fn();
+
+function answer(body: string, status = 200) {
+  fetchMock.mockResolvedValue(new Response(body, { status }));
+}
+
+function sent() {
+  const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+  return {
+    url,
+    headers: init.headers as Record<string, string>,
+    body: JSON.parse(init.body as string) as { type: string; payload: Record<string, unknown> },
+  };
+}
+
 beforeEach(() => {
-  vi.resetModules();
+  fetchMock.mockReset();
+  answer('{"cache":"x"}');
+  vi.stubGlobal("fetch", fetchMock);
+  vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
-// ---- initServer ----
-
-describe("initServer", () => {
-  it("stores config so that subsequent trackServer calls succeed", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
-    const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("test_event");
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockTrack).toHaveBeenCalledWith({ name: "test_event" });
-  });
-
-  it("throws when trackServer is called without prior initServer", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    vi.doMock("@umami/node", () => ({ Umami: class {} }));
-
-    const { trackServer } = await freshImport();
-    trackServer("orphan_event");
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "[analytics] Server track failed:",
-      expect.objectContaining({ message: "Call initServer() before tracking events" }),
-    );
-  });
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
-// ---- trackServer ----
+const config = {
+  hostUrl: "https://umami.example.com",
+  websiteId: "abc-123",
+  hostname: "example.com",
+};
 
 describe("trackServer", () => {
-  it("builds a payload with only name when no data or url is given", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
+  it("awaits the POST to /api/send and resolves true", async () => {
     const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("signup");
-    await new Promise((r) => setTimeout(r, 0));
+    initServer(config);
 
-    expect(mockTrack).toHaveBeenCalledWith({ name: "signup" });
-  });
+    await expect(trackServer("signup")).resolves.toBe(true);
 
-  it("includes data in the payload when provided", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
-    const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("feature_used", { feature: "export", count: 5 });
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockTrack).toHaveBeenCalledWith({
-      name: "feature_used",
-      data: { feature: "export", count: 5 },
+    const { url, headers, body } = sent();
+    expect(url).toBe("https://umami.example.com/api/send");
+    expect(headers["User-Agent"]).toMatch(/^Mozilla\/5\.0/);
+    expect(body).toEqual({
+      type: "event",
+      payload: { website: "abc-123", hostname: "example.com", url: "/", name: "signup" },
     });
   });
 
-  it("includes url in the payload when provided", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
+  it("sends data, url and id", async () => {
     const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("page_view", undefined, "/pricing");
-    await new Promise((r) => setTimeout(r, 0));
+    initServer(config);
 
-    expect(mockTrack).toHaveBeenCalledWith({ name: "page_view", url: "/pricing" });
-  });
+    await trackServer("click", { label: "CTA" }, { url: "/home", id: "cs_123" });
 
-  it("includes both data and url when both are provided", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
-    const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("click", { label: "CTA" }, "/home");
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockTrack).toHaveBeenCalledWith({
+    expect(sent().body.payload).toEqual({
+      website: "abc-123",
+      hostname: "example.com",
+      url: "/home",
       name: "click",
       data: { label: "CTA" },
-      url: "/home",
+      id: "cs_123",
     });
   });
 
-  it("logs an error and does not throw when track rejects", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const mockTrack = vi.fn().mockRejectedValue(new Error("network failure"));
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
+  it("still takes the url as a plain string", async () => {
     const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("risky_event");
-    await new Promise((r) => setTimeout(r, 0));
+    initServer(config);
 
-    expect(consoleSpy).toHaveBeenCalledWith("[analytics] Server track failed:", expect.any(Error));
+    await trackServer("page_view", undefined, "/pricing");
+
+    expect(sent().body.payload.url).toBe("/pricing");
+    expect(sent().body.payload).not.toHaveProperty("id");
   });
 
-  it("reuses the same Umami instance across multiple calls", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    let constructorCallCount = 0;
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        constructor() {
-          constructorCallCount++;
-        }
-        track = mockTrack;
-      },
-    }));
-
+  it("strips a trailing slash from hostUrl and forwards a custom userAgent", async () => {
     const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServer("first");
-    // Wait for the first getClient() promise to resolve and set the cached client
-    await new Promise((r) => setTimeout(r, 10));
-    trackServer("second");
-    await new Promise((r) => setTimeout(r, 10));
+    initServer({
+      ...config,
+      hostUrl: "https://umami.example.com/",
+      userAgent: "Mozilla/5.0 Seam/1.0",
+    });
 
-    expect(constructorCallCount).toBe(1);
-    expect(mockTrack).toHaveBeenCalledTimes(2);
+    await trackServer("ua_test");
+
+    expect(sent().url).toBe("https://umami.example.com/api/send");
+    expect(sent().headers["User-Agent"]).toBe("Mozilla/5.0 Seam/1.0");
+  });
+
+  // Umami rejects an event with HTTP 200 and the body `beep`.
+  it("resolves false when Umami answers beep", async () => {
+    answer("beep");
+    const { initServer, trackServer } = await freshImport();
+    initServer(config);
+
+    await expect(trackServer("dropped")).resolves.toBe(false);
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  it("resolves false on an HTTP error", async () => {
+    answer("nope", 500);
+    const { initServer, trackServer } = await freshImport();
+    initServer(config);
+
+    await expect(trackServer("server_error")).resolves.toBe(false);
+  });
+
+  it("resolves false and never throws when fetch rejects", async () => {
+    fetchMock.mockRejectedValue(new Error("network failure"));
+    const { initServer, trackServer } = await freshImport();
+    initServer(config);
+
+    await expect(trackServer("risky_event")).resolves.toBe(false);
+  });
+
+  it("resolves false without initServer and sends nothing", async () => {
+    const { trackServer } = await freshImport();
+
+    await expect(trackServer("orphan_event")).resolves.toBe(false);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });
 
-// ---- trackServerRevenue ----
-
 describe("trackServerRevenue", () => {
-  it("tracks a revenue event with revenue and currency merged into data", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
+  it("merges revenue and currency into data and forwards url and id", async () => {
     const { initServer, trackServerRevenue } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServerRevenue("purchase", 49.99, "USD");
-    await new Promise((r) => setTimeout(r, 0));
+    initServer(config);
 
-    expect(mockTrack).toHaveBeenCalledWith({
-      name: "purchase",
-      data: { revenue: 49.99, currency: "USD" },
-    });
-  });
+    await expect(
+      trackServerRevenue(
+        "Purchase Complete",
+        9.99,
+        "EUR",
+        { plan: "pro" },
+        { url: "/buy", id: "cs_1" },
+      ),
+    ).resolves.toBe(true);
 
-  it("merges extra EventData alongside revenue and currency", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
-    const { initServer, trackServerRevenue } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServerRevenue("subscription", 9.99, "EUR", { plan: "pro" });
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockTrack).toHaveBeenCalledWith({
-      name: "subscription",
+    expect(sent().body.payload).toMatchObject({
+      name: "Purchase Complete",
+      url: "/buy",
+      id: "cs_1",
       data: { plan: "pro", revenue: 9.99, currency: "EUR" },
     });
   });
 
-  it("passes url to the underlying trackServer call", async () => {
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        track = mockTrack;
-      },
-    }));
-
+  it("resolves false when the send fails", async () => {
+    answer("beep");
     const { initServer, trackServerRevenue } = await freshImport();
-    initServer({ hostUrl: "https://umami.example.com", websiteId: "abc-123" });
-    trackServerRevenue("checkout", 19.99, "USD", undefined, "/checkout");
-    await new Promise((r) => setTimeout(r, 0));
+    initServer(config);
 
-    expect(mockTrack).toHaveBeenCalledWith({
-      name: "checkout",
-      data: { revenue: 19.99, currency: "USD" },
-      url: "/checkout",
-    });
-  });
-});
-
-// ---- initServer config forwarding ----
-
-describe("initServer config forwarding", () => {
-  it("passes hostUrl and websiteId to the Umami constructor", async () => {
-    let capturedConfig = null;
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        constructor(cfg: unknown) {
-          capturedConfig = cfg;
-        }
-        track = mockTrack;
-      },
-    }));
-
-    const { initServer, trackServer } = await freshImport();
-    initServer({ hostUrl: "https://analytics.myapp.io", websiteId: "xyz-789" });
-    trackServer("init_test");
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(capturedConfig).toEqual({
-      hostUrl: "https://analytics.myapp.io",
-      websiteId: "xyz-789",
-      userAgent: "Server",
-    });
-  });
-
-  it("forwards a custom userAgent to the Umami constructor", async () => {
-    let capturedConfig = null;
-    const mockTrack = vi.fn().mockResolvedValue(undefined);
-    vi.doMock("@umami/node", () => ({
-      Umami: class {
-        constructor(cfg: unknown) {
-          capturedConfig = cfg;
-        }
-        track = mockTrack;
-      },
-    }));
-
-    const { initServer, trackServer } = await freshImport();
-    initServer({
-      hostUrl: "https://umami.example.com",
-      websiteId: "abc-123",
-      userAgent: "MyBot/1.0",
-    });
-    trackServer("ua_test");
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(capturedConfig).toEqual({
-      hostUrl: "https://umami.example.com",
-      websiteId: "abc-123",
-      userAgent: "MyBot/1.0",
-    });
+    await expect(
+      trackServerRevenue("checkout", 19.99, "USD", undefined, "/checkout"),
+    ).resolves.toBe(false);
   });
 });

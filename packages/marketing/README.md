@@ -26,8 +26,13 @@ The analytics module provides wrappers for Umami tracking across different envir
 ```typescript
 import { initServer, trackServer } from '@heyramzi/marketing/analytics/server';
 
-initServer({ websiteId: process.env.UMAMI_WEBSITE_ID });
-await trackServer('signup', { plan: 'pro' });
+initServer({
+  hostUrl: 'https://umami.example.com',
+  websiteId: process.env.UMAMI_WEBSITE_ID,
+  hostname: 'example.com',
+});
+// Resolves true once Umami recorded it. On a Worker, await it or pass it to waitUntil.
+await trackServer('signup', { plan: 'pro' }, { url: '/signup', id: user.id });
 ```
 
 #### Script tag and browser tracking
