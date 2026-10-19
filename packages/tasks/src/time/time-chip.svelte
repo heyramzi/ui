@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { cn } from "@heyramzi/utils";
 	import { TONE_CLASS, TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
-	import { budgetTone, formatMinutes } from "./duration.js";
-	import TimeDot from "./time-dot.svelte";
-	import TimeRing from "./time-ring.svelte";
+	import { budgetTone, formatMinutes } from "#src/time/duration.js";
+	import TimeDot from "#src/time/time-dot.svelte";
+	import TimeRing from "#src/time/time-ring.svelte";
 	import { Clock } from "phosphor-svelte";
 
 	interface Props {

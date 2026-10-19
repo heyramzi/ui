@@ -5,11 +5,11 @@
 	import { Button } from "@heyramzi/ui/shadcn/button";
 	import { Textarea } from "@heyramzi/ui/shadcn/textarea";
 	import { cn } from "@heyramzi/utils";
-	import StatusBadge from "../status-badge.svelte";
-	import StatusDot from "../status-dot.svelte";
+	import StatusBadge from "#src/status-badge.svelte";
+	import StatusDot from "#src/status-dot.svelte";
 	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
-	import InboxDraftEditor from "./inbox-draft.svelte";
-	import { canUndo, isOpen, startDraft } from "./inbox-logic.js";
+	import InboxDraftEditor from "#src/inbox/inbox-draft.svelte";
+	import { canUndo, isOpen, startDraft } from "#src/inbox/inbox-logic.js";
 	import {
 		SOURCE_ICON,
 		SOURCE_LABEL,
@@ -17,9 +17,9 @@
 		inboxConfidence,
 		inboxKinds,
 		inboxStates,
-	} from "./inbox-statuses.js";
-	import InboxTraceView from "./inbox-trace.svelte";
-	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "./inbox-types.js";
+	} from "#src/inbox/inbox-statuses.js";
+	import InboxTraceView from "#src/inbox/inbox-trace.svelte";
+	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "#src/inbox/inbox-types.js";
 
 	interface Props {
 		item: InboxItem;

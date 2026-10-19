@@ -10,11 +10,11 @@
 		localDay,
 		parseMinutes,
 		personColor,
-	} from "./duration.js";
-	import { DEFAULT_TIME_LABELS } from "./time-types.js";
-	import type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "./time-types.js";
-	import TimeDot from "./time-dot.svelte";
-	import TimeRing from "./time-ring.svelte";
+	} from "#src/time/duration.js";
+	import { DEFAULT_TIME_LABELS } from "#src/time/time-types.js";
+	import type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "#src/time/time-types.js";
+	import TimeDot from "#src/time/time-dot.svelte";
+	import TimeRing from "#src/time/time-ring.svelte";
 	import { Play, Stop, X } from "phosphor-svelte";
 
 	interface Props<T> {

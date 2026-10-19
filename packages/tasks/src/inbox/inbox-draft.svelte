@@ -4,7 +4,7 @@
 	import { ToggleGroup, ToggleGroupItem } from "@heyramzi/ui/shadcn/toggle-group";
 	import { cn } from "@heyramzi/utils";
 	import { insetWellClass } from "@heyramzi/ui/lib/panel.js";
-	import type { InboxDraft, InboxDraftEdits } from "./inbox-types.js";
+	import type { InboxDraft, InboxDraftEdits } from "#src/inbox/inbox-types.js";
 
 	interface Props {
 		drafts: InboxDraft[];

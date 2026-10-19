@@ -1,6 +1,6 @@
-export { default as Inbox } from "./inbox.svelte";
-export { confidenceLevel, inboxConfidence, inboxKinds, inboxStates } from "./inbox-statuses.js";
-export { flatten, groupByProject, inLane, laneOf } from "./inbox-logic.js";
+export { default as Inbox } from "#src/inbox/inbox.svelte";
+export { confidenceLevel, inboxConfidence, inboxKinds, inboxStates } from "#src/inbox/inbox-statuses.js";
+export { flatten, groupByProject, inLane, laneOf } from "#src/inbox/inbox-logic.js";
 export type {
 	InboxAgent,
 	InboxConfidence,
@@ -20,4 +20,4 @@ export type {
 	InboxTier,
 	InboxTrace,
 	InboxVerdict,
-} from "./inbox-types.js";
+} from "#src/inbox/inbox-types.js";

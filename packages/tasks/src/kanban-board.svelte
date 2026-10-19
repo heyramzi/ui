@@ -4,11 +4,11 @@
 	import { prefersReducedMotion } from "svelte/motion";
 	import { cubicOut } from "svelte/easing";
 	import { slide } from "svelte/transition";
-	import KanbanColumn from "./kanban-column.svelte";
-	import { liftDragImage } from "./kanban-drag.js";
-	import { boardOrderAt } from "./board-order.js";
+	import KanbanColumn from "#src/kanban-column.svelte";
+	import { liftDragImage } from "#src/kanban-drag.js";
+	import { boardOrderAt } from "#src/board-order.js";
 	import { cn } from "@heyramzi/utils";
-	import { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
+	import { createKanbanDnd } from "#src/use-kanban-dnd.svelte.js";
 	import { CaretDown } from "phosphor-svelte";
 	import type {
 		KanbanCardContext,
@@ -16,7 +16,7 @@
 		KanbanColumnContext,
 		KanbanMove,
 		KanbanSortKey,
-	} from "./kanban-types.js";
+	} from "#src/kanban-types.js";
 
 	interface Props<T, C extends KanbanColumnDef> {
 		/** Plain column defs, or your own type that extends one. Snippets get it back as you passed it. */

@@ -1,4 +1,4 @@
-import type { StatusDef, StatusId, StatusMap, Statuses } from "./status-types.js";
+import type { StatusDef, StatusId, StatusMap, Statuses } from "#src/status-types.js";
 
 /**
  * Build a status registry from a plain map. The registry keeps the map's keys as

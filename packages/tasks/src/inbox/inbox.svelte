@@ -7,17 +7,17 @@
 	import { Tabs, TabsList, TabsTrigger } from "@heyramzi/ui/shadcn/tabs";
 	import { ToggleGroup, ToggleGroupItem } from "@heyramzi/ui/shadcn/toggle-group";
 	import { cn } from "@heyramzi/utils";
-	import StatusDot from "../status-dot.svelte";
-	import InboxCard from "./inbox-card.svelte";
-	import { flatten, groupByProject, inLane, isTyping, laneOf } from "./inbox-logic.js";
-	import { inboxKinds, inboxStates } from "./inbox-statuses.js";
+	import StatusDot from "#src/status-dot.svelte";
+	import InboxCard from "#src/inbox/inbox-card.svelte";
+	import { flatten, groupByProject, inLane, isTyping, laneOf } from "#src/inbox/inbox-logic.js";
+	import { inboxKinds, inboxStates } from "#src/inbox/inbox-statuses.js";
 	import type {
 		InboxItem,
 		InboxKindFilter,
 		InboxLane,
 		InboxProject,
 		InboxVerdict,
-	} from "./inbox-types.js";
+	} from "#src/inbox/inbox-types.js";
 
 	interface Props {
 		items: InboxItem[];

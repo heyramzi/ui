@@ -1,19 +1,19 @@
 <script lang="ts">
-	import KanbanBoard from "./kanban-board.svelte";
-	import TaskList from "./task-list.svelte";
-	import TaskGantt from "./task-gantt.svelte";
+	import KanbanBoard from "#src/kanban-board.svelte";
+	import TaskList from "#src/task-list.svelte";
+	import TaskGantt from "#src/task-gantt.svelte";
 	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
 	import { ChartBarHorizontal, Kanban, ListBullets } from "phosphor-svelte";
-	import StatusBadge from "./status-badge.svelte";
-	import StatusDot from "./status-dot.svelte";
-	import { defineStatuses } from "./define-statuses.js";
-	import { addDays, dayNumber, todayIso } from "./dates.js";
-	import { salesStatuses } from "./presets/sales.js";
-	import type { KanbanMove } from "./kanban-types.js";
-	import type { GanttChange } from "./task-types.js";
-	import TimeTracker from "./time/time-tracker.svelte";
-	import TimeChip from "./time/time-chip.svelte";
-	import type { TimeLogInput, TimeStopInfo } from "./time/time-types.js";
+	import StatusBadge from "#src/status-badge.svelte";
+	import StatusDot from "#src/status-dot.svelte";
+	import { defineStatuses } from "#src/define-statuses.js";
+	import { addDays, dayNumber, todayIso } from "#src/dates.js";
+	import { salesStatuses } from "#src/presets/sales.js";
+	import type { KanbanMove } from "#src/kanban-types.js";
+	import type { GanttChange } from "#src/task-types.js";
+	import TimeTracker from "#src/time/time-tracker.svelte";
+	import TimeChip from "#src/time/time-chip.svelte";
+	import type { TimeLogInput, TimeStopInfo } from "#src/time/time-types.js";
 
 	type Priority = "low" | "medium" | "high";
 

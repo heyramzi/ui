@@ -1,5 +1,5 @@
-import { boardOrderAt } from "./board-order.js";
-import type { KanbanMove } from "./kanban-types.js";
+import { boardOrderAt } from "#src/board-order.js";
+import type { KanbanMove } from "#src/kanban-types.js";
 
 export type KanbanDragOver = { columnId: string; overId: string | null };
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Reasoning, ReasoningContent, ReasoningTrigger } from "@heyramzi/ui/ai/reasoning";
-	import { SOURCE_ICON, SOURCE_LABEL } from "./inbox-statuses.js";
-	import type { InboxTrace } from "./inbox-types.js";
+	import { SOURCE_ICON, SOURCE_LABEL } from "#src/inbox/inbox-statuses.js";
+	import type { InboxTrace } from "#src/inbox/inbox-types.js";
 
 	interface Props { trace: InboxTrace };
 

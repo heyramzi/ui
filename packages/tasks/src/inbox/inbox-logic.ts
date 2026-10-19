@@ -4,7 +4,7 @@ import type {
 	InboxKindFilter,
 	InboxLane,
 	InboxProject,
-} from "./inbox-types.js";
+} from "#src/inbox/inbox-types.js";
 
 /** Which lane an item sits in. The agent's own work and the person's decisions never share one. */
 export function laneOf(item: InboxItem): InboxLane {

@@ -1,5 +1,5 @@
 <script lang="ts" module>
-import type { PanelStat, SidePanelWidth } from "./side-panel-types.js";
+import type { PanelStat, SidePanelWidth } from "#src/side-panel-types.js";
 export type { PanelStat, SidePanelWidth };
 </script>
 
@@ -13,7 +13,7 @@ import { OpenIn, type OpenInTool } from "@heyramzi/ui/components/open-in";
 import { CopyButton } from "@heyramzi/ui/components/copy";
 import type { Tone } from "@heyramzi/ui/lib/tone.js";
 import { cn } from "@heyramzi/utils";
-import StatusBadge from "./status-badge.svelte";
+import StatusBadge from "#src/status-badge.svelte";
 
 // =========================
 // PROPS

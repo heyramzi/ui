@@ -2,13 +2,13 @@
 	import type { Snippet } from "svelte";
 	import { flip } from "svelte/animate";
 	import { cubicOut } from "svelte/easing";
-	import { liftDragImage } from "./kanban-drag.js";
-	import { boardOrderAt } from "./board-order.js";
+	import { liftDragImage } from "#src/kanban-drag.js";
+	import { boardOrderAt } from "#src/board-order.js";
 	import { cn } from "@heyramzi/utils";
-	import { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
+	import { createKanbanDnd } from "#src/use-kanban-dnd.svelte.js";
 	import { CaretRight } from "phosphor-svelte";
-	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "./kanban-types.js";
-	import type { TaskListGroupContext, TaskListRowContext } from "./task-types.js";
+	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "#src/kanban-types.js";
+	import type { TaskListGroupContext, TaskListRowContext } from "#src/task-types.js";
 
 	interface Props<T, C extends KanbanColumnDef> {
 		/** The same shape as board columns, so one config feeds both views. */

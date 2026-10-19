@@ -5,7 +5,7 @@
 	import { Badge } from "@heyramzi/ui/shadcn/badge";
 	import { Spinner } from "@heyramzi/ui/shadcn/spinner";
 	import { TONE_COLOR, type Tone } from "@heyramzi/ui/lib/tone.js";
-	import type { Statuses } from "./status-types.js";
+	import type { Statuses } from "#src/status-types.js";
 
 	interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "class" | "children"> {
 		/** A registry from `defineStatuses`. Supplies the label and tone. */

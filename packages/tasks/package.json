@@ -20,6 +20,9 @@
   },
   "homepage": "https://ui.heyramzi.com/tasks",
   "type": "module",
+  "imports": {
+    "#src/*": "./src/*"
+  },
   "svelte": "./src/index.ts",
   "types": "./src/index.ts",
   "files": [

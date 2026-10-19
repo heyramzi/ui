@@ -1,7 +1,7 @@
-import { defineStatuses } from "../define-statuses.js";
+import { defineStatuses } from "#src/define-statuses.js";
 import { ClipboardText, EnvelopeSimple, Hash, Phone } from "phosphor-svelte";
 import type { PhosphorIcon } from "@heyramzi/ui/lib/icon-types.js";
-import type { InboxSourceType } from "./inbox-types.js";
+import type { InboxSourceType } from "#src/inbox/inbox-types.js";
 
 /** The lifecycle of an item. The dot and the badge both read this one map. */
 export const inboxStates = defineStatuses({

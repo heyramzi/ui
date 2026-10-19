@@ -1,4 +1,4 @@
-import { defineStatuses } from "../define-statuses.js";
+import { defineStatuses } from "#src/define-statuses.js";
 
 /**
  * An example status map for a sales pipeline. Names are neutral on purpose:

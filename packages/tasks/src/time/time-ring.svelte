@@ -2,7 +2,7 @@
 	import type { Snippet } from "svelte";
 	import { cn } from "@heyramzi/utils";
 	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
-	import { budgetTone } from "./duration.js";
+	import { budgetTone } from "#src/time/duration.js";
 
 	interface Props {
 		/** Minutes logged. */

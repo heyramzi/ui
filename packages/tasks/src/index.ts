@@ -1,10 +1,10 @@
-export { default as KanbanBoard } from "./kanban-board.svelte";
-export { default as KanbanColumn } from "./kanban-column.svelte";
-export { liftDragImage } from "./kanban-drag.js";
-export { createKanbanDnd } from "./use-kanban-dnd.svelte.js";
-export { boardOrderAt, keyBetween } from "./board-order.js";
-export { reorderByIds } from "./reorder.js";
-export type { KanbanDndConfig, KanbanDragOver } from "./use-kanban-dnd.svelte.js";
+export { default as KanbanBoard } from "#src/kanban-board.svelte";
+export { default as KanbanColumn } from "#src/kanban-column.svelte";
+export { liftDragImage } from "#src/kanban-drag.js";
+export { createKanbanDnd } from "#src/use-kanban-dnd.svelte.js";
+export { boardOrderAt, keyBetween } from "#src/board-order.js";
+export { reorderByIds } from "#src/reorder.js";
+export type { KanbanDndConfig, KanbanDragOver } from "#src/use-kanban-dnd.svelte.js";
 export type {
 	KanbanCardContext,
 	KanbanCardSnippet,
@@ -12,33 +12,33 @@ export type {
 	KanbanColumnContext,
 	KanbanMove,
 	KanbanSortKey,
-} from "./kanban-types.js";
-export { default as StatusBadge } from "./status-badge.svelte";
-export { default as StatusDot } from "./status-dot.svelte";
-export { default as StatusIcon } from "./status-icon.svelte";
-export { defineStatuses } from "./define-statuses.js";
+} from "#src/kanban-types.js";
+export { default as StatusBadge } from "#src/status-badge.svelte";
+export { default as StatusDot } from "#src/status-dot.svelte";
+export { default as StatusIcon } from "#src/status-icon.svelte";
+export { defineStatuses } from "#src/define-statuses.js";
 export type {
 	StatusDef,
 	StatusDotVariant,
 	StatusId,
 	StatusMap,
 	Statuses,
-} from "./status-types.js";
-export { default as SidePanel } from "./side-panel.svelte";
-export type { PanelStat, SidePanelWidth } from "./side-panel-types.js";
-export { default as TaskList } from "./task-list.svelte";
-export { default as TaskGantt } from "./task-gantt.svelte";
-export { addDays, dayNumber, isoFromDay, todayIso } from "./dates.js";
+} from "#src/status-types.js";
+export { default as SidePanel } from "#src/side-panel.svelte";
+export type { PanelStat, SidePanelWidth } from "#src/side-panel-types.js";
+export { default as TaskList } from "#src/task-list.svelte";
+export { default as TaskGantt } from "#src/task-gantt.svelte";
+export { addDays, dayNumber, isoFromDay, todayIso } from "#src/dates.js";
 export type {
 	GanttChange,
 	GanttLabelContext,
 	TaskListGroupContext,
 	TaskListRowContext,
-} from "./task-types.js";
-export { default as TimeTracker } from "./time/time-tracker.svelte";
-export { default as TimeChip } from "./time/time-chip.svelte";
-export { default as TimeRing } from "./time/time-ring.svelte";
-export { default as TimeDot } from "./time/time-dot.svelte";
+} from "#src/task-types.js";
+export { default as TimeTracker } from "#src/time/time-tracker.svelte";
+export { default as TimeChip } from "#src/time/time-chip.svelte";
+export { default as TimeRing } from "#src/time/time-ring.svelte";
+export { default as TimeDot } from "#src/time/time-dot.svelte";
 export {
 	budgetTone,
 	dayLabel,
@@ -47,8 +47,8 @@ export {
 	localDay,
 	parseMinutes,
 	personColor,
-} from "./time/duration.js";
-export { Inbox, confidenceLevel, inboxConfidence, inboxKinds, inboxStates } from "./inbox/index.js";
+} from "#src/time/duration.js";
+export { Inbox, confidenceLevel, inboxConfidence, inboxKinds, inboxStates } from "#src/inbox/index.js";
 export type {
 	InboxAgent,
 	InboxConfidence,
@@ -68,6 +68,6 @@ export type {
 	InboxTier,
 	InboxTrace,
 	InboxVerdict,
-} from "./inbox/index.js";
-export { DEFAULT_TIME_LABELS } from "./time/time-types.js";
-export type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "./time/time-types.js";
+} from "#src/inbox/index.js";
+export { DEFAULT_TIME_LABELS } from "#src/time/time-types.js";
+export type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "#src/time/time-types.js";
