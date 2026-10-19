@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./trend-pill.css";
+	import "#src/trend-pill.css";
 	import { cn } from "@heyramzi/utils";
 
 	// =========================

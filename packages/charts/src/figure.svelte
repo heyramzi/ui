@@ -2,11 +2,11 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./figure.css";
+	import "#src/figure.css";
 	import { cn } from "@heyramzi/utils";
 	import type { Snippet } from "svelte";
-	import AnimatedValue from "./animated-value.svelte";
-	import TrendPill from "./trend-pill.svelte";
+	import AnimatedValue from "#src/animated-value.svelte";
+	import TrendPill from "#src/trend-pill.svelte";
 
 	// =========================
 	// TYPES

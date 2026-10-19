@@ -8,9 +8,9 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./gauge-chart.css";
+	import "#src/gauge-chart.css";
 	import { cn } from "@heyramzi/utils";
-	import AnimatedValue from "./animated-value.svelte";
+	import AnimatedValue from "#src/animated-value.svelte";
 
 	// =========================
 	// TYPES
@@ -246,7 +246,6 @@
 		? `${ariaLabel}: ${Math.round(clamped)}%`
 		: `Gauge at ${Math.round(clamped)}%`}
 >
-	<!-- no-inline-svg-ignore -->
 	<svg viewBox="0 0 100 100" aria-hidden="true">
 		{#if effGradient}
 			<defs>

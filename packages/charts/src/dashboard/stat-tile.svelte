@@ -10,8 +10,8 @@ export type StatDirection = "up-good" | "down-good" | "neutral";
 // =========================
 // IMPORTS
 // =========================
-import NumberChart from "../number-chart.svelte";
-import Sparkline from "../sparkline.svelte";
+import NumberChart from "#src/number-chart.svelte";
+import Sparkline from "#src/sparkline.svelte";
 import type { Snippet } from "svelte";
 import { cn } from "@heyramzi/utils";
 import { Icon } from "@heyramzi/ui/components/icon";

@@ -31,8 +31,8 @@ export type MetricColumn<T> = {
  * heads, optional pager. Row detail lives in its side panel.
  */
 import { cn } from "@heyramzi/utils";
-import DataSortHead from "./data-sort-head.svelte";
-import RatingChip from "./rating-chip.svelte";
+import DataSortHead from "#src/dashboard/data-sort-head.svelte";
+import RatingChip from "#src/dashboard/rating-chip.svelte";
 import { Pagination, paginateRows, totalPages } from "@heyramzi/ui/components/data-table";
 import {
 	dataTableClass,
@@ -42,7 +42,7 @@ import {
 	dataThNumClass,
 	dataTheadClass,
 	dataTrClass,
-} from "./data-table.js";
+} from "#src/dashboard/data-table.js";
 
 interface Props {
 	rows: T[];

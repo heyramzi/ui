@@ -1,21 +1,21 @@
-import "./charts.css";
+import "#src/charts.css";
 
-export { default as BarChart } from "./bar-chart.svelte";
-export { default as AreaChart } from "./area-chart.svelte";
-export { default as LineChart } from "./line-chart.svelte";
-export { default as DonutChart } from "./donut-chart.svelte";
-export { default as Sparkline } from "./sparkline.svelte";
-export { default as TimeSeriesChart } from "./time-series-chart.svelte";
-export { default as GaugeChart } from "./gauge-chart.svelte";
-export { default as RingChart } from "./ring-chart.svelte";
-export { default as Legend } from "./legend.svelte";
-export { default as StatCard } from "./stat-card.svelte";
-export { default as NumberChart, type NumberDirection } from "./number-chart.svelte";
-export { default as Figure } from "./figure.svelte";
-export { default as TrendPill } from "./trend-pill.svelte";
-export { default as AnimatedValue } from "./animated-value.svelte";
-export { default as EdgeFade } from "./edge-fade.svelte";
-export { resolveEdgeFade, EDGE_FADE_DEFAULT } from "./edge-fade.js";
+export { default as BarChart } from "#src/bar-chart.svelte";
+export { default as AreaChart } from "#src/area-chart.svelte";
+export { default as LineChart } from "#src/line-chart.svelte";
+export { default as DonutChart } from "#src/donut-chart.svelte";
+export { default as Sparkline } from "#src/sparkline.svelte";
+export { default as TimeSeriesChart } from "#src/time-series-chart.svelte";
+export { default as GaugeChart } from "#src/gauge-chart.svelte";
+export { default as RingChart } from "#src/ring-chart.svelte";
+export { default as Legend } from "#src/legend.svelte";
+export { default as StatCard } from "#src/stat-card.svelte";
+export { default as NumberChart, type NumberDirection } from "#src/number-chart.svelte";
+export { default as Figure } from "#src/figure.svelte";
+export { default as TrendPill } from "#src/trend-pill.svelte";
+export { default as AnimatedValue } from "#src/animated-value.svelte";
+export { default as EdgeFade } from "#src/edge-fade.svelte";
+export { resolveEdgeFade, EDGE_FADE_DEFAULT } from "#src/edge-fade.js";
 
 export {
   ChartContainer,
@@ -27,4 +27,4 @@ export {
   useChart,
   setChartContext,
   THEMES,
-} from "./primitives/index.js";
+} from "#src/primitives/index.js";

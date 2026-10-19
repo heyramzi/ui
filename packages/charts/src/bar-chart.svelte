@@ -2,11 +2,11 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./bar-chart.css";
+	import "#src/bar-chart.css";
 	import { Axis, Bars, Chart, Highlight, Svg, Tooltip } from "layerchart";
 	import { scaleBand } from "d3-scale";
-	import Figure from "./figure.svelte";
-	import { TOOLTIP_GAP, TOOLTIP_TOP } from "./motion.js";
+	import Figure from "#src/figure.svelte";
+	import { TOOLTIP_GAP, TOOLTIP_TOP } from "#src/motion.js";
 
 	// =========================
 	// TYPES

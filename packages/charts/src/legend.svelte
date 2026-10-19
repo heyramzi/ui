@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./legend.css";
+	import "#src/legend.css";
 	import { cn } from "@heyramzi/utils";
 
 	// =========================

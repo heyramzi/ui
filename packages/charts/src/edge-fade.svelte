@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { EDGE_FADE_DEFAULT } from "./edge-fade.js";
+	import { EDGE_FADE_DEFAULT } from "#src/edge-fade.js";
 
 	// =========================
 	// TYPES

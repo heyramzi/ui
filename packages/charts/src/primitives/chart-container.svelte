@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { HTMLAttributes } from "svelte/elements";
 	import { cn, type WithElementRef } from "@heyramzi/utils";
-	import ChartStyle from "./chart-style.svelte";
-	import { type ChartConfig, setChartContext } from "./chart-utils.js";
+	import ChartStyle from "#src/primitives/chart-style.svelte";
+	import { type ChartConfig, setChartContext } from "#src/primitives/chart-utils.js";
 
 	const uid = $props.id();
 

@@ -16,7 +16,7 @@
 import type { Snippet } from "svelte";
 import { CaretDown, CaretUp } from "phosphor-svelte";
 import { cn } from "@heyramzi/utils";
-import { dataThClass, dataThNumClass } from "./data-table.js";
+import { dataThClass, dataThNumClass } from "#src/dashboard/data-table.js";
 
 // =========================
 // TYPES

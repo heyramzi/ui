@@ -1,6 +1,6 @@
-export { default as ChartContainer } from "./chart-container.svelte";
-export { default as ChartTooltip } from "./chart-tooltip.svelte";
-export { default as ChartStyle } from "./chart-style.svelte";
+export { default as ChartContainer } from "#src/primitives/chart-container.svelte";
+export { default as ChartTooltip } from "#src/primitives/chart-tooltip.svelte";
+export { default as ChartStyle } from "#src/primitives/chart-style.svelte";
 export {
   type ChartConfig,
   type TooltipSeriesItem,
@@ -8,4 +8,4 @@ export {
   useChart,
   setChartContext,
   THEMES,
-} from "./chart-utils.js";
+} from "#src/primitives/chart-utils.js";

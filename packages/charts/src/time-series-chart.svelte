@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./time-series-chart.css";
+	import "#src/time-series-chart.css";
 	import { scaleTime } from "d3-scale";
 	import { curveMonotoneX } from "d3-shape";
 	import {
@@ -16,11 +16,11 @@
 		Svg,
 		Tooltip,
 	} from "layerchart";
-	import Crosshair from "./crosshair.svelte";
-	import EdgeFade from "./edge-fade.svelte";
-	import { resolveEdgeFade } from "./edge-fade.js";
-	import { DOMAIN_MOTION } from "./motion.js";
-	import Reveal from "./reveal.svelte";
+	import Crosshair from "#src/crosshair.svelte";
+	import EdgeFade from "#src/edge-fade.svelte";
+	import { resolveEdgeFade } from "#src/edge-fade.js";
+	import { DOMAIN_MOTION } from "#src/motion.js";
+	import Reveal from "#src/reveal.svelte";
 
 	// =========================
 	// TYPES

@@ -2,10 +2,10 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./ring-chart.css";
+	import "#src/ring-chart.css";
 	import type { Snippet } from "svelte";
 	import { cn } from "@heyramzi/utils";
-	import AnimatedValue from "./animated-value.svelte";
+	import AnimatedValue from "#src/animated-value.svelte";
 
 	// =========================
 	// TYPES
@@ -113,7 +113,6 @@
 	role="img"
 	aria-label={ariaLabel ?? `${defaultLabel}: ${formatValue(total)}`}
 >
-	<!-- no-inline-svg-ignore -->
 	<svg viewBox="0 0 {vb} {vb}" aria-hidden="true">
 		<g transform="rotate(-90 {center} {center})">
 			{#each rings as ring (ring.index)}

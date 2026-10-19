@@ -6,7 +6,7 @@
 	import type { Snippet } from "svelte";
 	import { prefersReducedMotion, Spring } from "svelte/motion";
 	import { fade } from "svelte/transition";
-	import { HOVER_BAND_REACH, hoverBand } from "./hover-band.js";
+	import { HOVER_BAND_REACH, hoverBand } from "#src/hover-band.js";
 
 	// =========================
 	// TYPES

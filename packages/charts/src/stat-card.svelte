@@ -2,17 +2,17 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import "./stat-card.css";
+	import "#src/stat-card.css";
 	import { Area, Bars, Chart, Highlight, LinearGradient, Spline, Svg, Tooltip } from "layerchart";
 	import { scaleBand } from "d3-scale";
 	import { curveBasis, curveCardinal } from "d3-shape";
 	import type { Snippet } from "svelte";
-	import Crosshair from "./crosshair.svelte";
-	import EdgeFade from "./edge-fade.svelte";
-	import Reveal from "./reveal.svelte";
-	import { resolveEdgeFade } from "./edge-fade.js";
-	import Figure from "./figure.svelte";
-	import GaugeChart from "./gauge-chart.svelte";
+	import Crosshair from "#src/crosshair.svelte";
+	import EdgeFade from "#src/edge-fade.svelte";
+	import Reveal from "#src/reveal.svelte";
+	import { resolveEdgeFade } from "#src/edge-fade.js";
+	import Figure from "#src/figure.svelte";
+	import GaugeChart from "#src/gauge-chart.svelte";
 
 	// =========================
 	// TYPES
