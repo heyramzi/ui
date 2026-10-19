@@ -207,6 +207,9 @@
 					color={item.agent.color}
 					state={item.state === "working" ? "working" : "default"}
 					size={16}
+					paused={item.state !== "working"}
+					interactive={false}
+					aria-hidden
 				/>
 				{item.agent.name}
 			</span>
