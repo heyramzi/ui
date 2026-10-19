@@ -1,5 +1,5 @@
 import { untrack } from 'svelte';
-import { fitBox, gridBoxes, type Box, type Size } from './layout';
+import { fitBox, gridBoxes, type Box, type Size } from '#src/layout.js';
 import {
   keyAction,
   nextPosition,
@@ -11,9 +11,9 @@ import {
   type KeyAction,
   type Position,
   type SlideState,
-} from './navigation';
-import { resolveLabels, type DeckLabels } from './labels';
-import { DEFAULT_CANVAS, type Canvas, type SlideNotes } from './types';
+} from '#src/navigation.js';
+import { resolveLabels, type DeckLabels } from '#src/labels.js';
+import { DEFAULT_CANVAS, type Canvas, type SlideNotes } from '#src/types.js';
 
 /** What a mounted Slide tells the deck. Properties are getters over the slide's own props. */
 export type SlideEntry = {
@@ -49,6 +49,9 @@ export type ControllerOptions = {
 /* With several decks on a page, keys belong to the one the reader last touched. */
 const live = new Set<DeckController>();
 let active: DeckController | null = null;
+const claimKeys = (deck: DeckController) => {
+  active = deck;
+};
 
 /** Height the controls bar takes at the bottom of the overview, in px. */
 const CONTROLS_ROOM = 56;
@@ -132,12 +135,12 @@ export class DeckController {
 
   /** Marks this deck as the one that owns the keys. Mounting does it too. */
   activate() {
-    active = this;
+    claimKeys(this);
   }
 
   mount(): () => void {
     live.add(this);
-    active = this;
+    claimKeys(this);
     return () => {
       live.delete(this);
       if (active === this) active = null;

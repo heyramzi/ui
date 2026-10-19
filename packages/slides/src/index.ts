@@ -1,12 +1,12 @@
-export { default as Deck } from './Deck.svelte';
-export { default as Slide } from './Slide.svelte';
-export { default as Fragment } from './Fragment.svelte';
-export { default as Presenter } from './Presenter.svelte';
-export { DeckController } from './deck-controller.svelte';
-export type { SlideEntry, Source } from './deck-controller.svelte';
-export { defaultLabels } from './labels';
-export type { DeckLabels } from './labels';
-export type { Position } from './navigation';
+export { default as Deck } from '#src/Deck.svelte';
+export { default as Slide } from '#src/Slide.svelte';
+export { default as Fragment } from '#src/Fragment.svelte';
+export { default as Presenter } from '#src/Presenter.svelte';
+export { DeckController } from '#src/deck-controller.svelte.js';
+export type { SlideEntry, Source } from '#src/deck-controller.svelte.js';
+export { defaultLabels } from '#src/labels.js';
+export type { DeckLabels } from '#src/labels.js';
+export type { Position } from '#src/navigation.js';
 export type {
   BridgeOptions,
   Canvas,
@@ -15,5 +15,5 @@ export type {
   SlideAlign,
   SlideNotes,
   UrlSync,
-} from './types';
-export { DEFAULT_CANVAS } from './types';
+} from '#src/types.js';
+export { DEFAULT_CANVAS } from '#src/types.js';

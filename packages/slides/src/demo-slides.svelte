@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts">
-  import Fragment from './Fragment.svelte';
-  import Slide from './Slide.svelte';
+  import Fragment from '#src/Fragment.svelte';
+  import Slide from '#src/Slide.svelte';
 
   const keys = [
     { does: 'Next', keys: ['→', 'Space', 'PgDn'] },

@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
-import type { DeckController } from './deck-controller.svelte';
-import type { DeckLabels } from './labels';
-import type { SlideInstance, SlideRegistry } from './model';
+import type { DeckController } from '#src/deck-controller.svelte.js';
+import type { DeckLabels } from '#src/labels.js';
+import type { SlideInstance, SlideRegistry } from '#src/model.js';
 
 export const DECK_KEY = Symbol('heyramzi.deck');
 export const SLIDE_KEY = Symbol('heyramzi.slide');

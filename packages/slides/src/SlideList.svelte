@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Slide from './Slide.svelte';
-  import type { SlideInstance, SlideRegistry } from './model';
+  import Slide from '#src/Slide.svelte';
+  import type { SlideInstance, SlideRegistry } from '#src/model.js';
 
   interface Props { slides: SlideInstance[]; registry: SlideRegistry; unknownLabel: (type: string) => string };
 

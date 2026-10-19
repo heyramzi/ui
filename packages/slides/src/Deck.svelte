@@ -1,12 +1,12 @@
 <script lang="ts">
-  import './theme.css';
+  import '#src/theme.css';
   import { flushSync, onMount, setContext, untrack } from 'svelte';
-  import { attachBridge, attachChannel, attachUrlSync } from './bridges';
-  import Controls from './Controls.svelte';
-  import { DeckController } from './deck-controller.svelte';
-  import Overview from './Overview.svelte';
-  import SlideList from './SlideList.svelte';
-  import { DECK_KEY, DEFAULT_CANVAS, type DeckProps } from './types';
+  import { attachBridge, attachChannel, attachUrlSync } from '#src/bridges.js';
+  import Controls from '#src/Controls.svelte';
+  import { DeckController } from '#src/deck-controller.svelte.js';
+  import Overview from '#src/Overview.svelte';
+  import SlideList from '#src/SlideList.svelte';
+  import { DECK_KEY, DEFAULT_CANVAS, type DeckProps } from '#src/types.js';
 
   let {
     index = $bindable(0),

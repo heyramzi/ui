@@ -2,7 +2,7 @@
 
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import type { BrowserLike, LocatorLike, PageLike, Size, WaitUntil } from './types';
+import type { BrowserLike, LocatorLike, PageLike, Size, WaitUntil } from '#src/export/types.js';
 
 /**
  * `networkidle` makes a screenshot land on a finished page and never fires on a

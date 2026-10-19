@@ -1,8 +1,8 @@
 /* The ways a deck talks to the outside: its URL, a parent frame, another window. Each returns a cleanup. */
 
-import type { DeckController } from './deck-controller.svelte';
-import { parseSlideParam } from './navigation';
-import type { BridgeOptions, UrlSync } from './types';
+import type { DeckController } from '#src/deck-controller.svelte.js';
+import { parseSlideParam } from '#src/navigation.js';
+import type { BridgeOptions, UrlSync } from '#src/types.js';
 
 /** Reads `?s=` once, then keeps it at the current slide. The write is a replace, so Back skips it. */
 export function attachUrlSync(deck: DeckController, { param = 's', write }: UrlSync = {}): () => void {

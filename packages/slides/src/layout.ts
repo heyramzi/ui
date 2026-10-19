@@ -1,6 +1,6 @@
 /* Where a slide sits inside the stage: centred to fit, or in the overview grid. */
 
-import type { Canvas } from './types';
+import type { Canvas } from '#src/types.js';
 
 export type Size = { w: number; h: number };
 

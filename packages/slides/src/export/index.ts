@@ -2,8 +2,8 @@
 // depending on Playwright or bundling ffmpeg. Hand it the Playwright pages and
 // browsers you already have.
 
-export * from './capture';
-export * from './ffmpeg';
-export * from './launch';
-export * from './pdf';
-export type * from './types';
+export * from '#src/export/capture.js';
+export * from '#src/export/ffmpeg.js';
+export * from '#src/export/launch.js';
+export * from '#src/export/pdf.js';
+export type * from '#src/export/types.js';

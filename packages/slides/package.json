@@ -10,6 +10,9 @@
   },
   "homepage": "https://ui.heyramzi.com",
   "type": "module",
+  "imports": {
+    "#src/*": "./src/*"
+  },
   "svelte": "./src/index.ts",
   "exports": {
     ".": {

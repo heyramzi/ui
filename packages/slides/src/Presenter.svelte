@@ -1,9 +1,9 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import Deck from './Deck.svelte';
-  import type { DeckController } from './deck-controller.svelte';
-  import { resolveLabels } from './labels';
-  import { DEFAULT_CANVAS, type DeckProps } from './types';
+  import Deck from '#src/Deck.svelte';
+  import type { DeckController } from '#src/deck-controller.svelte.js';
+  import { resolveLabels } from '#src/labels.js';
+  import { DEFAULT_CANVAS, type DeckProps } from '#src/types.js';
 
   interface Props
     extends Pick<

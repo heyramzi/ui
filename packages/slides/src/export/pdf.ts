@@ -1,7 +1,7 @@
 // Print a URL or HTML to PDF at a page size, and assemble captured PNGs into one.
 
 import { readFile } from 'node:fs/promises';
-import type { PageLike, ResponseLike, Size, WaitUntil } from './types';
+import type { PageLike, ResponseLike, Size, WaitUntil } from '#src/export/types.js';
 
 /** Chromium drops backgrounds in its print pipeline without the color-adjust line. */
 export const RESET_CSS = `*{margin:0;padding:0;box-sizing:border-box;}

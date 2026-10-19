@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DeckController } from './deck-controller.svelte';
+  import type { DeckController } from '#src/deck-controller.svelte.js';
 
   interface Props { deck: DeckController; returnFocus?: HTMLElement };
 

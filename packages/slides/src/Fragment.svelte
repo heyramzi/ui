@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext, type Snippet } from 'svelte';
-  import { SLIDE_KEY, type SlideContext } from './types';
+  import { SLIDE_KEY, type SlideContext } from '#src/types.js';
 
   interface Props {
     /** Reveal at this step. `1` is the first press of the arrow key. */

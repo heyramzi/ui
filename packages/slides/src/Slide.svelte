@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext, setContext, type Snippet } from 'svelte';
-  import type { DeckController, SlideEntry } from './deck-controller.svelte';
-  import { DECK_KEY, SLIDE_KEY, type SlideAlign, type SlideContext, type SlideNotes } from './types';
+  import type { DeckController, SlideEntry } from '#src/deck-controller.svelte.js';
+  import { DECK_KEY, SLIDE_KEY, type SlideAlign, type SlideContext, type SlideNotes } from '#src/types.js';
 
   interface Props {
     /** Accessible name, read after "Slide 3 of 12". */

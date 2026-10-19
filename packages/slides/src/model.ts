@@ -1,7 +1,7 @@
 /* Data-driven decks: a deck is JSON, and a registry says how each slide type draws itself. */
 
 import type { Component } from 'svelte';
-import type { Canvas, DeckTheme } from './types';
+import type { Canvas, DeckTheme } from '#src/types.js';
 
 export type SlideInstance<Content = unknown> = {
   id: string;

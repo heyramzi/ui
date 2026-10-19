@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Deck from './Deck.svelte';
-  import type { DeckController } from './deck-controller.svelte';
-  import DemoSlides, { demoStyle } from './demo-slides.svelte';
-  import type { DeckTheme, DeckTransition } from './types';
+  import Deck from '#src/Deck.svelte';
+  import type { DeckController } from '#src/deck-controller.svelte.js';
+  import DemoSlides, { demoStyle } from '#src/demo-slides.svelte';
+  import type { DeckTheme, DeckTransition } from '#src/types.js';
 
   interface Props {
     /** Where the presenter view is mounted. Leave out to hide the button. */
