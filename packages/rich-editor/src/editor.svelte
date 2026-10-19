@@ -3,13 +3,13 @@
 // IMPORTS
 // =========================
 import { Editor } from "@tiptap/core";
-import "./content.css";
-import { buildExtensions } from "./extensions.js";
-import { buildSlashItems, type SlashItem } from "./slash-items.js";
-import { parseYoutubeUrl } from "./youtube-url.js";
-import EditorToolbar from "./editor-toolbar.svelte";
-import SlashMenu from "./slash-menu.svelte";
-import ImageToolbar from "./image-toolbar.svelte";
+import "#src/content.css";
+import { buildExtensions } from "#src/extensions.js";
+import { buildSlashItems, type SlashItem } from "#src/slash-items.js";
+import { parseYoutubeUrl } from "#src/youtube-url.js";
+import EditorToolbar from "#src/editor-toolbar.svelte";
+import SlashMenu from "#src/slash-menu.svelte";
+import ImageToolbar from "#src/image-toolbar.svelte";
 
 // =========================
 // TYPES

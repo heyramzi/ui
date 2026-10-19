@@ -1,15 +1,15 @@
-export { default as RichEditor } from "./editor.svelte";
-export { default as RichRenderer } from "./renderer.svelte";
+export { default as RichEditor } from "#src/editor.svelte";
+export { default as RichRenderer } from "#src/renderer.svelte";
 export {
   renderTiptapContent,
   extractHeadings,
   extractYoutubeVideos,
-} from "./serializer.js";
+} from "#src/serializer.js";
 export type {
   ExtractedHeading,
   ExtractedYoutubeVideo,
-} from "./serializer.js";
-export { BlockIdExtension, generateBlockId } from "./block-id.js";
+} from "#src/serializer.js";
+export { BlockIdExtension, generateBlockId } from "#src/block-id.js";
 
 // WHY: the markdown bridge and block-ops pull in markdown-it, so they aren't
 // re-exported here. Blog pages would bundle it. Import from their subpaths:

@@ -18,6 +18,9 @@
   },
   "homepage": "https://ui.heyramzi.com",
   "type": "module",
+  "imports": {
+    "#src/*": "./src/*"
+  },
   "svelte": "./src/index.ts",
   "types": "./src/index.ts",
   "sideEffects": [

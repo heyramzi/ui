@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { renderTiptapContent } from "./serializer.js";
+import { renderTiptapContent } from "#src/serializer.js";
 
 function row(...cells: string[]) {
   return {

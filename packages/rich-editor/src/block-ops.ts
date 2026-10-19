@@ -3,7 +3,7 @@
 
 // Top-level blocks must carry `id` attrs. An unknown id throws.
 
-import { markdownToTiptap } from "./markdown.js";
+import { markdownToTiptap } from "#src/markdown.js";
 
 // =========================
 // TYPES

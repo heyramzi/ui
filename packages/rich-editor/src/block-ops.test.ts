@@ -6,8 +6,8 @@ import {
   insertBlocksAfter,
   replaceBlock,
   deleteBlock,
-} from "./block-ops.js";
-import { markdownToTiptap } from "./markdown.js";
+} from "#src/block-ops.js";
+import { markdownToTiptap } from "#src/markdown.js";
 
 // Build a test doc from markdown so blocks carry real ids.
 function makeDoc(md: string) {

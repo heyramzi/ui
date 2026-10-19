@@ -2,8 +2,8 @@
 // =========================
 // IMPORTS
 // =========================
-import "./content.css";
-import { renderTiptapContent } from "./serializer.js";
+import "#src/content.css";
+import { renderTiptapContent } from "#src/serializer.js";
 
 // =========================
 // TYPES

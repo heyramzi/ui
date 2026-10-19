@@ -2,7 +2,7 @@
 // =========================
 // IMPORTS
 // =========================
-import type { SlashItem } from "./slash-items.js";
+import type { SlashItem } from "#src/slash-items.js";
 
 // =========================
 // TYPES

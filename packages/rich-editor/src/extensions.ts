@@ -3,7 +3,7 @@ import { StarterKit } from "@tiptap/starter-kit";
 import { Image } from "@tiptap/extension-image";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { DragHandle } from "@tiptap/extension-drag-handle";
-import { BlockIdExtension } from "./block-id.js";
+import { BlockIdExtension } from "#src/block-id.js";
 
 const CmsBlock = TiptapNode.create({
   name: "cmsBlock",

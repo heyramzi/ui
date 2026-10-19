@@ -4,8 +4,8 @@
 
 import MarkdownIt from "markdown-it";
 import type { Token } from "markdown-it";
-import { generateBlockId } from "./block-id.js";
-import { YOUTUBE_ID_RE, parseYoutubeUrl } from "./youtube-url.js";
+import { generateBlockId } from "#src/block-id.js";
+import { YOUTUBE_ID_RE, parseYoutubeUrl } from "#src/youtube-url.js";
 
 // =========================
 // TYPES
