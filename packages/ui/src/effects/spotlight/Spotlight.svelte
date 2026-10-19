@@ -22,7 +22,6 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<!-- no-inline-svg-ignore: static decorative blob, animated via the spotlight keyframe -->
 <svg
 	class={cn(
 		"hr-spotlight pointer-events-none absolute z-[1] h-[169%] w-[138%] animate-spotlight opacity-0 lg:w-[84%]",
