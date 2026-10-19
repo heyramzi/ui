@@ -493,9 +493,14 @@
 		opacity: 0;
 	}
 
-	.time-row:hover .time-delete,
 	.time-row:focus-within .time-delete {
 		opacity: 1;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.time-row:hover .time-delete {
+			opacity: 1;
+		}
 	}
 
 	@media (hover: none) {

@@ -86,10 +86,15 @@ let {
 	.track :global(.ui-segment[data-state="active"] + .ui-segment)::before,
 	.track :global(.ui-segment[aria-current="page"] + .ui-segment)::before,
 	.track :global(.ui-segment[aria-pressed="true"] + .ui-segment)::before,
-	.track :global([data-slot="tabs-list"]:has(> .ui-segment:last-child[data-state="active"]) + .ui-segment)::before,
-	.track :global(.ui-segment:hover)::before,
-	.track :global(.ui-segment:hover + .ui-segment)::before {
+	.track :global([data-slot="tabs-list"]:has(> .ui-segment:last-child[data-state="active"]) + .ui-segment)::before {
 		opacity: 0;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.track :global(.ui-segment:hover)::before,
+		.track :global(.ui-segment:hover + .ui-segment)::before {
+			opacity: 0;
+		}
 	}
 
 	/* The label's colour lands with the pill, on the same fast step. */

@@ -101,8 +101,10 @@
       background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out),
       opacity var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
   }
-  .demo__option:hover {
-    opacity: 1;
+  @media (hover: hover) and (pointer: fine) {
+    .demo__option:hover {
+      opacity: 1;
+    }
   }
   .demo__option[aria-checked='true'] {
     background: color-mix(in srgb, currentColor 14%, transparent);
@@ -140,8 +142,10 @@
     cursor: pointer;
     transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
   }
-  .demo__action:hover {
-    background: color-mix(in srgb, currentColor 8%, transparent);
+  @media (hover: hover) and (pointer: fine) {
+    .demo__action:hover {
+      background: color-mix(in srgb, currentColor 8%, transparent);
+    }
   }
   .demo__option:focus-visible,
   .demo__action:focus-visible,

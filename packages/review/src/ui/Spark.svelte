@@ -69,16 +69,21 @@
 		width: 15px;
 		height: 15px;
 	}
-	:global(.has-spark:hover) .spark,
 	:global(.has-spark:focus-within) .spark,
 	.spark[data-state] {
 		opacity: 1;
 		transform: none;
 	}
-	.spark:hover {
-		color: var(--text);
-		border-color: var(--accent);
-		background: var(--raised);
+	@media (hover: hover) and (pointer: fine) {
+		:global(.has-spark:hover) .spark {
+			opacity: 1;
+			transform: none;
+		}
+		.spark:hover {
+			color: var(--text);
+			border-color: var(--accent);
+			background: var(--raised);
+		}
 	}
 	.spark[data-state="copied"] {
 		color: var(--ok);

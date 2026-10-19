@@ -57,9 +57,13 @@
     opacity: 0.55;
     transition: opacity var(--deck-t-quick) var(--deck-ease);
   }
-  .deck__controls:hover,
   .deck__controls:focus-within {
     opacity: 1;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .deck__controls:hover {
+      opacity: 1;
+    }
   }
   .deck__button {
     display: grid;
@@ -76,8 +80,10 @@
       background-color var(--deck-t-quick) var(--deck-ease),
       transform var(--deck-t-quick) var(--deck-ease);
   }
-  .deck__button:hover:not(:disabled) {
-    background: var(--deck-line);
+  @media (hover: hover) and (pointer: fine) {
+    .deck__button:hover:not(:disabled) {
+      background: var(--deck-line);
+    }
   }
   .deck__button:active:not(:disabled) {
     transform: scale(var(--scale-medium, 0.97));

@@ -342,9 +342,14 @@
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.tl-group:hover :global(.tl-actions),
 	.tl-group :global(.tl-actions:focus-within) {
 		opacity: 1;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.tl-group:hover :global(.tl-actions) {
+			opacity: 1;
+		}
 	}
 
 	.tl-group-active {
@@ -385,8 +390,10 @@
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.tl-row:hover {
-		background: color-mix(in oklab, var(--color-foreground, currentColor) 4%, transparent);
+	@media (hover: hover) and (pointer: fine) {
+		.tl-row:hover {
+			background: color-mix(in oklab, var(--color-foreground, currentColor) 4%, transparent);
+		}
 	}
 
 	/* The drop line: a hairline in the group's hue with a dot where it starts. */

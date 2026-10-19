@@ -187,8 +187,10 @@ function handleLeave() {
 		box-shadow: 0 0 0 2px var(--color-ring);
 	}
 
-	.hit-button:not(.is-disabled):hover {
-		transform: scale(1.1);
+	@media (hover: hover) and (pointer: fine) {
+		.hit-button:not(.is-disabled):hover {
+			transform: scale(1.1);
+		}
 	}
 
 	.hit-button:not(.is-disabled):active {
@@ -248,9 +250,14 @@ function handleLeave() {
 			transition: none;
 		}
 
-		.hit-button:not(.is-disabled):hover,
 		.hit-button:not(.is-disabled):active {
 			transform: none;
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.hit-button:not(.is-disabled):hover {
+				transform: none;
+			}
 		}
 	}
 </style>

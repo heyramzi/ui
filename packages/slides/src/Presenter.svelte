@@ -204,8 +204,10 @@
     cursor: pointer;
     transition: background-color var(--deck-t-quick) var(--deck-ease);
   }
-  .presenter__button:hover {
-    background: var(--deck-line);
+  @media (hover: hover) and (pointer: fine) {
+    .presenter__button:hover {
+      background: var(--deck-line);
+    }
   }
   .presenter__button:focus-visible {
     outline: 2px solid var(--deck-accent);

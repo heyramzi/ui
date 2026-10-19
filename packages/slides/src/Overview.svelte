@@ -80,8 +80,10 @@
     outline-offset: 3px;
     transition: outline-color var(--deck-t-quick) var(--deck-ease);
   }
-  .deck__tile:hover {
-    outline-color: color-mix(in srgb, var(--deck-accent) 55%, transparent);
+  @media (hover: hover) and (pointer: fine) {
+    .deck__tile:hover {
+      outline-color: color-mix(in srgb, var(--deck-accent) 55%, transparent);
+    }
   }
   .deck__tile[aria-current='step'] {
     outline-color: var(--deck-accent);
