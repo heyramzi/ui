@@ -201,3 +201,10 @@
 
 * initial publish from this repo
 
+
+## [3.1.0](https://github.com/heyramzi/ui/compare/marketing-v3.0.0...marketing-v3.1.0) (2026-10-19)
+
+### Features
+
+* feat(marketing): server trackers await the send and return Promise<boolean>
+
