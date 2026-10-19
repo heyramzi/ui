@@ -2,7 +2,7 @@ import type { Entry } from "#lib/registry.js";
 
 /**
  * Component sources, loaded lazily so they never land in the home page bundle.
- * The list matches `componentSources` in the registry one to one; it is spelled
+ * The list matches `componentSources` in component-sources.ts one to one; it is spelled
  * out here because `import.meta.glob` only takes statically analysable patterns.
  * Keys are relative to this file, which is why they start with `../../../`.
  */

@@ -129,7 +129,7 @@ Inspired by [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte).
 The reveal, marquee and beam effects are inspired by
 [motion-primitives](https://github.com/ibelick/motion-primitives), and the
 motion vocabulary by [transitions-dev](https://transitions.dev). The agent avatars
-vendor [bot-avatars](https://github.com/jakubantalik/bot-avatars); its licence is in
+port [bot-avatars](https://github.com/Jakubantalik/Libraries.dev/tree/main/packages/bot-avatars) 0.2.2; its licence is in
 `src/agents/vendor/LICENSE`.
 
 ## License

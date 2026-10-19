@@ -6,7 +6,7 @@ Svelte 5 components for our product teams. SvelteKit first, no React ports.
 
 | Package | What it is |
 | --- | --- |
-| `@heyramzi/ui` | shadcn primitives, effects, animations, chat and AI surfaces, and bot avatars at `@heyramzi/ui/agents` (inspired by [bot-avatars](https://github.com/jakubantalik/bot-avatars)) |
+| `@heyramzi/ui` | shadcn primitives, effects, animations, chat and AI surfaces, and bot avatars at `@heyramzi/ui/agents` (a Svelte port of [bot-avatars](https://github.com/Jakubantalik/Libraries.dev/tree/main/packages/bot-avatars)) |
 | `@heyramzi/charts` | Area, line, bar, donut, ring and gauge charts, sparklines and stat cards on [LayerChart](https://layerchart.com). Moved out of `@heyramzi/ui`, which had them up to 6.x |
 | `@heyramzi/tasks` | One set of tasks as a drag-and-drop board, a grouped list or a gantt timeline, plus status badges, dots and icons from one config. Was `@heyramzi/board` |
 | `@heyramzi/marketing` | Brand tokens and testimonial surfaces |

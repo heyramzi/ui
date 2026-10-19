@@ -1,5 +1,6 @@
 import type { Component } from "svelte";
 import { SHADCN_DEMOS } from "./shadcn-demos/index.js";
+import { componentSources } from "./component-sources.js";
 
 export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage"|"inbox"|"sidepanel"|"editor";
 
@@ -21,87 +22,6 @@ export type Entry = {
   /** Repo-relative paths of the component source file(s) behind this demo, for "Copy". */
   sourceFiles: string[];
 };
-
-/** Where each demo's component lives. Several paths list the main component first. */
-const componentSources: Record<string, string[]> = {
-  "area-chart": ["packages/charts/src/area-chart.svelte"],
-  "line-chart": ["packages/charts/src/line-chart.svelte"],
-  "bar-chart": ["packages/charts/src/bar-chart.svelte"],
-  "donut-chart": ["packages/charts/src/donut-chart.svelte"],
-  "ring-chart": ["packages/charts/src/ring-chart.svelte"],
-  "gauge-chart": ["packages/charts/src/gauge-chart.svelte"],
-  sparkline: ["packages/charts/src/sparkline.svelte"],
-  "stat-card": ["packages/charts/src/stat-card.svelte"],
-  "number-chart": ["packages/charts/src/number-chart.svelte"],
-  "time-series-chart": ["packages/charts/src/time-series-chart.svelte"],
-  "chart-variants": ["packages/charts/src/legend.svelte"],
-  dashboard: [
-    "packages/charts/src/dashboard/dashboard-section.svelte",
-    "packages/charts/src/dashboard/stat-band.svelte",
-    "packages/charts/src/dashboard/stat-tile.svelte",
-    "packages/charts/src/dashboard/panel-grid.svelte",
-    "packages/charts/src/dashboard/data-panel.svelte",
-    "packages/charts/src/dashboard/period-filter.svelte",
-  ],
-  button: ["packages/ui/src/shadcn/button/button.svelte"],
-  badge: ["packages/ui/src/shadcn/badge/badge.svelte"],
-  "form-controls": [
-    "packages/ui/src/shadcn/input/input.svelte",
-    "packages/ui/src/shadcn/switch/switch.svelte",
-    "packages/ui/src/shadcn/checkbox/checkbox.svelte",
-    "packages/ui/src/shadcn/progress/progress.svelte",
-  ],
-  card: ["packages/ui/src/shadcn/card/card.svelte"],
-  tabs: ["packages/ui/src/shadcn/tabs/tabs-list.svelte", "packages/ui/src/lib/sliding-pill.ts"],
-  segmented: ["packages/ui/src/components/segmented/animated-tabs.svelte", "packages/ui/src/components/segmented/segmented-filter.svelte", "packages/ui/src/components/segmented/segmented-track.svelte"],
-  picker: ["packages/ui/src/components/picker/picker.svelte"],
-  "copy-button": ["packages/ui/src/components/copy/copy-button.svelte"],
-  "hold-to-confirm": ["packages/ui/src/components/hold-to-confirm/hold-to-confirm.svelte"],
-  "simple-field": ["packages/ui/src/shadcn/field/simple-field.svelte"],
-  dialog: ["packages/ui/src/shadcn/dialog/dialog.svelte", "packages/ui/src/shadcn/dialog/dialog-content.svelte"],
-  select: ["packages/ui/src/shadcn/select/select.svelte"],
-  accordion: ["packages/ui/src/shadcn/accordion/accordion.svelte"],
-  avatar: ["packages/ui/src/shadcn/avatar/avatar.svelte"],
-  marquee: ["packages/ui/src/effects/marquee/Marquee.svelte"],
-  "border-beam": ["packages/ui/src/effects/border-beam/BorderBeam.svelte"],
-  "text-effect": ["packages/ui/src/effects/reveal/TextEffect.svelte"],
-  spotlight: ["packages/ui/src/effects/spotlight/Spotlight.svelte"],
-  "magic-card": ["packages/ui/src/effects/magic-card/MagicCard.svelte"],
-  "theme-toggle": ["packages/ui/src/effects/theme-toggle/ThemeToggle.svelte", "packages/ui/src/lib/theme-transition.ts"],
-  "image-comparison": ["packages/ui/src/effects/image-comparison/ImageComparison.svelte"],
-  "animated-beam": ["packages/ui/src/effects/animated-beam/AnimatedBeam.svelte"],
-  "animated-group": ["packages/ui/src/effects/reveal/AnimatedGroup.svelte"],
-  "image-reveal": ["packages/ui/src/effects/image-reveal/ImageReveal.svelte"],
-  "kanban-board": ["packages/tasks/src/kanban-board.svelte"],
-  "task-list": ["packages/tasks/src/task-list.svelte"],
-  "task-gantt": ["packages/tasks/src/task-gantt.svelte"],
-  "status-badge": ["packages/tasks/src/status-badge.svelte"],
-  "status-dot": ["packages/tasks/src/status-dot.svelte"],
-  "status-icon": ["packages/tasks/src/status-icon.svelte"],
-  inbox: ["packages/tasks/src/inbox/inbox.svelte", "packages/tasks/src/inbox/inbox-card.svelte", "packages/tasks/src/inbox/inbox-types.ts"],
-  "agent-avatar": ["packages/ui/src/agents/agent-avatar.svelte"],
-  "agent-cast": ["packages/ui/src/agents/agent-cast.svelte"],
-  "slide-deck": ["packages/slides/src/Deck.svelte", "packages/slides/src/Slide.svelte", "packages/slides/src/Fragment.svelte"],
-  "ai-prompt": ["packages/ui/src/ai/prompt-input/PromptInput.svelte"],
-  "ai-thinking": ["packages/ui/src/ai/thinking-dots/ThinkingDots.svelte"],
-  "chat-typing": ["packages/ui/src/ai/typing-dots/TypingDots.svelte"],
-  "trade-icon": ["packages/ui/src/icons/TradeIcon.svelte"],
-  "brand-tokens": ["packages/marketing/src/brand/index.ts"],
-  "testimonial-highlight": ["packages/marketing/src/testimonials/svelte/TestimonialHighlight.svelte"],
-  "review-page": ["packages/review/src/mount.ts"],
-  "side-panel": ["packages/tasks/src/side-panel.svelte"],
-  "rich-editor": ["packages/rich-editor/src/editor.svelte"],
-  "in-view": ["packages/ui/src/effects/reveal/InView.svelte"],
-  magnetic: ["packages/ui/src/effects/magnetic/magnetic.ts"],
-  "progressive-blur": ["packages/ui/src/effects/progressive-blur/ProgressiveBlur.svelte"],
-  confirmation: ["packages/ui/src/ai/confirmation/Confirmation.svelte"],
-  "loading-state": ["packages/ui/src/ai/loading-state/PixelLoader.svelte"],
-  reasoning: ["packages/ui/src/ai/reasoning/Reasoning.svelte"],
-  "voice-waveform": ["packages/ui/src/ai/voice-waveform/VoiceWaveform.svelte"],
-  motion: ["packages/ui/src/animations/text-swap.ts"],
-};
-
-export { componentSources };
 
 const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" | "sourceFiles">> = {
   "area-chart": { title: "Area chart", group: "charts", icon: "area", description: "Stacked or layered areas with a crosshair, soft edges and an entrance sweep.", height: 380 },
@@ -147,7 +67,7 @@ const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" |
   "status-dot": { title: "Status dot", group: "tasks", icon: "dot", description: "Dots in five shapes, from open ring to filled check.", height: 260 },
   "status-icon": { title: "Status icon", group: "tasks", icon: "statusicon", description: "Registry icons with a dot fallback for the rest.", height: 220 },
   inbox: { title: "Inbox", group: "tasks", icon: "inbox", description: "Approve, decline or steer what an agent isn't sure about, with the trace one click away.", height: 600 },
-  "agent-avatar": { title: "Agent avatar", group: "ai", icon: "avatar", description: "A bot face from a seed, eleven shapes and hats.", height: 260 },
+  "agent-avatar": { title: "Agent avatar", group: "ai", icon: "avatar", description: "A bot face in 18 shapes, with hats and glasses.", height: 260 },
   "agent-cast": { title: "Agent cast", group: "ai", icon: "cast", description: "The full cast on one card, ready to pick.", height: 300 },
   "slide-deck": { title: "Slide deck", group: "pages", icon: "deck", description: "A deck with reveals, overview and print, on a canvas that scales.", height: 380 },
   "ai-prompt": { title: "Prompt input", group: "ai", icon: "prompt", description: "Ask box with suggestions and send states.", height: 300 },
