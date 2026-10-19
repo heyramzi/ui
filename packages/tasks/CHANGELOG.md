@@ -81,3 +81,10 @@
 
 * fix(tasks): the barrel typechecks under plain tsc with noUncheckedIndexedAccess
 
+
+## [0.5.2](https://github.com/heyramzi/ui/compare/tasks-v0.5.1...tasks-v0.5.2) (2026-10-19)
+
+### Bug Fixes
+
+* fix(tasks): the inbox card's 16px avatar holds still unless the agent is working
+

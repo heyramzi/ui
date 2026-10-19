@@ -681,3 +681,15 @@
 * fix(ui): Reasoning and ToggleGroup pass live props to their context, so svelte-check stops warning in linking apps
 * fix(ui): svelte-check in a linking app reads the sources without the vite config
 
+
+## [8.1.0](https://github.com/heyramzi/ui/compare/ui-v8.0.0...ui-v8.1.0) (2026-10-19)
+
+### Features
+
+* feat(ui): AgentCast wakes the card under the pointer and names each agent once
+
+### Bug Fixes
+
+* fix(ui): AgentCast's hover border is gated to a fine pointer, so it doesn't stick after a tap
+* fix(ui): agent avatars fade in once measured, pick their own ink, and repaint after the gate
+

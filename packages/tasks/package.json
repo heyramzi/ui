@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/tasks",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Svelte 5 task views: a drag-and-drop board, a grouped list and a gantt timeline from one config, plus status badges, dots and icons.",
   "keywords": [
     "svelte",
