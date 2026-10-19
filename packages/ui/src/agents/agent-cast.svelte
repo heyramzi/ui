@@ -156,8 +156,10 @@
       transform: none;
     }
   }
-  .agent-cast__card:hover {
-    border-color: color-mix(in oklab, var(--color-foreground, #18181b) 25%, transparent);
+  @media (hover: hover) and (pointer: fine) {
+    .agent-cast__card:hover {
+      border-color: color-mix(in oklab, var(--color-foreground, #18181b) 25%, transparent);
+    }
   }
   .agent-cast__card:active {
     transform: scale(0.985);
