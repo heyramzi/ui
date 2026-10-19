@@ -12,6 +12,8 @@ minimumReleaseAgeExclude:
   - "@mux/mux-video@0.31.5"
   - "@mux/playback-core@0.36.0"
   - mux-embed@5.18.2
+  - "@heyramzi/lint@1.32.2"
+  - "@heyramzi/utils@1.8.1"
 overrides:
   cookie@<0.7.0: ">=0.7.2 <1"
   fflate@>=0.7.0 <0.7.5: ">=0.8.3 <1"

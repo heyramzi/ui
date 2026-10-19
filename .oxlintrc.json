@@ -1,0 +1,68 @@
+{
+  "extends": [
+    "./node_modules/@heyramzi/lint/config/oxlintrc.json"
+  ],
+  "jsPlugins": [
+    "@heyramzi/lint"
+  ],
+  "ignorePatterns": [
+    "**/.agents/**",
+    "**/.claude/**",
+    "**/.opencode/**",
+    "**/_generated/**",
+    "**/vendor/**",
+    "**/.upstream/**",
+    "**/*.generated.*",
+    "**/public/**",
+    "**/node_modules/**",
+    "**/dist/**",
+    "build/**",
+    "**/.svelte-kit/**",
+    "**/.next/**",
+    "**/.output/**",
+    "**/.vercel/**",
+    "**/.wrangler/**",
+    "**/coverage/**",
+    "**/scripts/secrets.mjs",
+    "**/scripts/secrets-auto.mjs",
+    "**/scripts/secrets.d.mts",
+    "packages/ui/.upstream/**",
+    "packages/ui/src/shadcn/**",
+    "packages/ui/src/agents/vendor/**",
+    "site/src/lib/shadcn-demos/**"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/packages/charts/src/ring-chart.svelte",
+        "**/packages/charts/src/gauge-chart.svelte",
+        "**/packages/tasks/src/status-dot.svelte",
+        "**/packages/tasks/src/time/time-ring.svelte",
+        "**/packages/tasks/src/task-gantt.svelte"
+      ],
+      "rules": {
+        "@heyramzi/lint/no-inline-svg": "off"
+      }
+    },
+    {
+      "files": [
+        "**/packages/ui/src/effects/spotlight/Spotlight.svelte",
+        "**/packages/ui/src/effects/image-comparison/ImageComparison.svelte",
+        "**/packages/slides/src/Controls.svelte",
+        "**/packages/slides/src/demo-slides.svelte",
+        "**/packages/review/src/ui/LibrarySearch.svelte"
+      ],
+      "rules": {
+        "@heyramzi/lint/no-inline-svg": "off"
+      }
+    },
+    {
+      "files": [
+        "**/packages/slides/src/model.ts"
+      ],
+      "rules": {
+        "typescript/no-explicit-any": "off"
+      }
+    }
+  ]
+}

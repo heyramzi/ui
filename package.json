@@ -6,6 +6,12 @@
   "scripts": {
     "check": "pnpm -r check",
     "build": "pnpm -r build",
+    "lint": "vp lint -c .oxlintrc.json .",
+    "lint:fix": "vp lint -c .oxlintrc.json --fix .",
     "release": "bash scripts/release.sh"
+  },
+  "devDependencies": {
+    "@heyramzi/lint": "^1.32.2",
+    "vite-plus": "^1.0.0"
   }
 }
