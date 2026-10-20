@@ -13,8 +13,10 @@
   box-shadow: var(--chart-card-shadow);
   transition: border-color var(--chart-motion, 250ms) var(--chart-ease-out, ease);
 }
-.hr-number-chart:hover {
-  border-color: color-mix(in srgb, var(--ring, var(--chart-1)) 28%, var(--border, transparent));
+@media (hover: hover) and (pointer: fine) {
+  .hr-number-chart:hover {
+    border-color: color-mix(in srgb, var(--ring, var(--chart-1)) 28%, var(--border, transparent));
+  }
 }
 /* WHY a bare mode and not a second component: a band is one panel with
    hairlines through it, so a figure inside it must bring no edge of its own.
@@ -25,8 +27,10 @@
   border-radius: 0;
   box-shadow: none;
 }
-.hr-number-chart[data-bare]:hover {
-  border-color: transparent;
+@media (hover: hover) and (pointer: fine) {
+  .hr-number-chart[data-bare]:hover {
+    border-color: transparent;
+  }
 }
 
 .hr-number-label {
