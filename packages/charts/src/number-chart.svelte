@@ -171,7 +171,7 @@
 			role="img"
 			aria-label="{label}: {sharePct}% {shareLabel ?? 'of the total'}"
 		>
-			<span class="hr-number-fill" style:width="{pct * 100}%" style:background={color}></span>
+			<span class="hr-number-fill" style:--hr-number-share={pct} style:background={color}></span>
 		</div>
 	{/if}
 

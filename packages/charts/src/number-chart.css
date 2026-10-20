@@ -140,9 +140,12 @@
   display: block;
   height: 100%;
   border-radius: inherit;
+  /* The share is a scale, not a width, so a change never reflows the card. */
+  transform: scaleX(var(--hr-number-share, 0));
   transform-origin: left center;
-  animation: hr-number-fill-in var(--chart-motion-slow, 800ms) var(--chart-ease-out, ease) both;
-  transition: width var(--chart-motion, 250ms) var(--chart-ease-out, ease);
+  /* backwards, not both: once the fill-in ends, the transition owns transform. */
+  animation: hr-number-fill-in var(--chart-motion-slow, 800ms) var(--chart-ease-out, ease) backwards;
+  transition: transform var(--chart-motion, 250ms) var(--chart-ease-out, ease);
 }
 @keyframes hr-number-fill-in {
   from {
