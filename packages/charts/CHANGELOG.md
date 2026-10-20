@@ -26,3 +26,15 @@ _Released as 2.0.0 before the 19 Oct 2026 renumbering._
 
 * initial publish from this repo
 
+
+## [1.2.0](https://github.com/heyramzi/ui/compare/charts-v1.1.0...charts-v1.2.0) (2026-10-20)
+
+### Features
+
+* feat(charts): DataTable replaces MetricTable, a loss reads red and a share past 100% reads true
+
+### Bug Fixes
+
+* fix(charts): the number card's hover border waits for a fine pointer
+* fix(charts): the share fill scales instead of animating width
+
