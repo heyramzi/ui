@@ -1,9 +1,10 @@
 export { default as DataPanel } from "#src/dashboard/data-panel.svelte";
 export { default as DataSortHead } from "#src/dashboard/data-sort-head.svelte";
 export {
-  default as MetricTable,
-  type MetricColumn,
-} from "#src/dashboard/metric-table.svelte";
+  default as DataTable,
+  type DataColumn,
+  type DataColumnBreakpoint,
+} from "#src/dashboard/data-table.svelte";
 export { default as RatingChip } from "#src/dashboard/rating-chip.svelte";
 export { default as DashboardEmpty } from "#src/dashboard/dashboard-empty.svelte";
 export { default as DashboardSection } from "#src/dashboard/dashboard-section.svelte";

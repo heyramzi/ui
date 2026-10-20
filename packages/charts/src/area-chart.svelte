@@ -12,6 +12,7 @@
 	import HoverFocus from "#src/hover-focus.svelte";
 	import { DOMAIN_MOTION, TOOLTIP_GAP, TOOLTIP_TOP } from "#src/motion.js";
 	import Reveal from "#src/reveal.svelte";
+	import ReferenceLine, { type ChartReference } from "#src/reference-line.svelte";
 
 	// =========================
 	// TYPES
@@ -42,6 +43,8 @@
 		formatValue?: (v: number) => string;
 		formatX?: (v: unknown) => string;
 		xTicks?: number;
+		/** A target drawn across the plot, like the deal a cost runs up to. */
+		reference?: ChartReference;
 		class?: string;
 	};
 
@@ -61,6 +64,7 @@
 		formatValue = (v) => v.toLocaleString(),
 		formatX = (v) => String(v),
 		xTicks = 6,
+		reference,
 		class: className,
 	}: Props = $props();
 
@@ -94,12 +98,14 @@
 				? [{ key: yKey, label: yKey, color }]
 				: [],
 	);
-	const yMax = $derived.by(() => {
+	const dataMax = $derived.by(() => {
 		if (stacked) {
 			return Math.max(0, ...data.map((d) => series.reduce((s, k) => s + Number(d[k.key] ?? 0), 0)));
 		}
 		return Math.max(0, ...data.flatMap((d) => series.map((s) => Number(d[s.key] ?? 0))));
 	});
+	// A target above every point would sit off the plot.
+	const yMax = $derived(Math.max(dataMax, reference?.value ?? 0));
 	const curve = $derived(smooth ? curveMonotoneX : undefined);
 	const fade = $derived(resolveEdgeFade(edgeFade));
 	const fadeMask = $derived(fade > 0 ? `url(#${uid}-fade)` : undefined);
@@ -151,6 +157,9 @@
 						<EdgeFade id="{uid}-fade" amount={fade} />
 					{/if}
 					<Crosshair id="{uid}-cross" />
+					{#if reference}
+						<ReferenceLine {reference} />
+					{/if}
 					<HoverFocus>
 						<Reveal>
 							{#each series as s, i (s.key)}

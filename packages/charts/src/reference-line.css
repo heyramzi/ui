@@ -1,0 +1,18 @@
+/* Styles for the reference line. Plain stylesheet (see area-chart.css for why). */
+
+.hr-reference-line line,
+.hr-reference-line path {
+  stroke: var(--hr-reference-color);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  opacity: 0.7;
+}
+
+.hr-reference-line text {
+  fill: var(--hr-reference-color);
+  font-size: 0.75rem;
+  font-weight: 500;
+  stroke: var(--background);
+  stroke-width: 3;
+  paint-order: stroke;
+}

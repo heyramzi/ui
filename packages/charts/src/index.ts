@@ -9,6 +9,7 @@ export { default as TimeSeriesChart } from "#src/time-series-chart.svelte";
 export { default as GaugeChart } from "#src/gauge-chart.svelte";
 export { default as RingChart } from "#src/ring-chart.svelte";
 export { default as Legend } from "#src/legend.svelte";
+export { type ChartReference } from "#src/reference-line.svelte";
 export { default as StatCard } from "#src/stat-card.svelte";
 export { default as NumberChart, type NumberDirection } from "#src/number-chart.svelte";
 export { default as Figure } from "#src/figure.svelte";

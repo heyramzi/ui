@@ -72,7 +72,7 @@ The `@source` line matters: the chart markup carries Tailwind classes, and Tailw
 | `DashboardSection`, `PanelGrid`, `StatBand` | A named area, a row of panels side by side, a row of number cards |
 | `StatTile` | A number card on `NumberChart`: a delta, a share track, a trend shape behind the figure, an optional link |
 | `DataPanel`, `DashboardEmpty` | A titled panel for a table or chart, and the dashed empty state |
-| `MetricTable`, `DataSortHead`, `RatingChip` | A ranked table with sortable heads, an A to E grade chip |
+| `DataTable`, `DataSortHead`, `RatingChip` | The one data table: sortable heads, a row that opens, columns that hide on a phone, share bars, loading and empty states. An A to E grade chip |
 | `PeriodFilter`, `DAY_WINDOWS` | The 7, 30 and 90 day window, as a filter or as links |
 | `CHART_HEIGHT`, `dataTableClass` and friends | The one chart height and the table skin |
 

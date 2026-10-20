@@ -86,6 +86,10 @@
 .hr-number-chart[data-size="lg"] .hr-number-value {
   font-size: 1.5rem;
 }
+/* A loss is the one case where the figure itself carries colour. */
+.hr-number-chart[data-negative] .hr-number-value {
+  color: var(--destructive);
+}
 
 .hr-number-delta {
   display: inline-flex;

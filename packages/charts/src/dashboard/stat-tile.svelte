@@ -68,6 +68,8 @@ interface Props {
 	 * the state it is in. Wins over `hrefLabel`, which is only a hover hint.
 	 */
 	badge?: Snippet;
+	/** A loss or an overrun: the figure turns the destructive colour. */
+	negative?: boolean;
 	class?: string;
 };
 
@@ -90,6 +92,7 @@ let {
 	hrefLabel,
 	target = "_blank",
 	badge,
+	negative = false,
 	class: className,
 }: Props = $props();
 
@@ -141,6 +144,7 @@ let hasSeries = $derived(points.length > 2);
 			"[&_.hr-number-label]:flex-wrap [&_.hr-number-label-text]:shrink-0",
 			deltaPct === undefined && "[&_.hr-number-delta]:hidden!",
 		)}
+		{negative}
 		trailing={badge ?? (href && hrefLabel ? linkHint : undefined)}
 	/>
 

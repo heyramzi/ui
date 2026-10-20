@@ -68,6 +68,8 @@
 		size?: "md" | "lg";
 		/** A quiet line under the figure: the window it covers, or why it is a dash. */
 		caption?: string;
+		/** A loss or an overrun: the figure turns the destructive colour. */
+		negative?: boolean;
 		/**
 		 * Drop the card chrome. For a figure that sits in a band or a panel of its
 		 * own, where a second border would draw a box inside a box.
@@ -97,6 +99,7 @@
 		color = "var(--chart-1)",
 		size = "md",
 		caption,
+		negative = false,
 		bare = false,
 		icon,
 		trailing,
@@ -116,13 +119,20 @@
 		const good = direction === "up-good" ? move > 0 : move < 0;
 		return good ? "up" : "down";
 	});
+	// The track stops at full; the label says the real figure, so a 111% overrun never reads 100%.
 	const pct = $derived(share == null ? null : Math.max(0, Math.min(1, share)));
+	const sharePct = $derived(share == null ? null : Math.round(Math.max(0, share) * 100));
 </script>
 
 <!-- =========================== -->
 <!-- NUMBER CHART -->
 <!-- =========================== -->
-<div class={cn("hr-number-chart", className)} data-size={size} data-bare={bare ? "" : undefined}>
+<div
+	class={cn("hr-number-chart", className)}
+	data-size={size}
+	data-bare={bare ? "" : undefined}
+	data-negative={negative ? "" : undefined}
+>
 	<p class="hr-number-label">
 		{#if icon}<span class="hr-number-icon" style:color>{@render icon()}</span>{/if}
 		<span class="hr-number-label-text">{label}</span>
@@ -159,7 +169,7 @@
 		<div
 			class="hr-number-track"
 			role="img"
-			aria-label="{label}: {Math.round(pct * 100)}% {shareLabel ?? 'of the total'}"
+			aria-label="{label}: {sharePct}% {shareLabel ?? 'of the total'}"
 		>
 			<span class="hr-number-fill" style:width="{pct * 100}%" style:background={color}></span>
 		</div>
@@ -167,7 +177,7 @@
 
 	{#if shareLabel && pct != null}
 		<p class="hr-number-caption">
-			<span class="hr-number-share">{Math.round(pct * 100)}%</span>
+			<span class="hr-number-share">{sharePct}%</span>
 			{shareLabel}
 		</p>
 	{/if}
