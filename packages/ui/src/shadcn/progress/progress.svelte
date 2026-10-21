@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Progress as ProgressPrimitive } from "bits-ui";
-	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import { progressToneClass } from "#src/shadcn/progress/tone.js";
 	import type { Tone } from "#src/lib/tone.js";
 

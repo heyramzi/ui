@@ -5,7 +5,7 @@
 	import { untrack, type Snippet } from "svelte";
 	import { SvelteSet } from "svelte/reactivity";
 	import { CaretDown } from "phosphor-svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	// =========================
 	// TYPES

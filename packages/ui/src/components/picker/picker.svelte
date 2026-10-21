@@ -2,7 +2,7 @@
 	import type { Snippet } from "svelte";
 	import * as Command from "#src/shadcn/command/index.js";
 	import * as Popover from "#src/shadcn/popover/index.js";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { PickerGroup, PickerOption } from "#src/components/picker/types.js";
 
 	/**

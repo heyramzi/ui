@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Sheet from "#src/shadcn/sheet/index.js";
-	import { cn, type WithElementRef } from "@heyramzi/utils";
+	import { cn, type WithElementRef } from "#src/lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { SIDEBAR_WIDTH_MOBILE } from "#src/shadcn/sidebar/constants.js";
 	import { useSidebar } from "#src/shadcn/sidebar/context.svelte.js";

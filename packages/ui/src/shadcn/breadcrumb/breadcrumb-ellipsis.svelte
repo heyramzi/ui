@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DotsThree } from "phosphor-svelte";
 	import type { HTMLAttributes } from "svelte/elements";
-	import { cn, type WithElementRef, type WithoutChildren } from "@heyramzi/utils";
+	import { cn, type WithElementRef, type WithoutChildren } from "#src/lib/utils.js";
 
 	let {
 		ref = $bindable(null),

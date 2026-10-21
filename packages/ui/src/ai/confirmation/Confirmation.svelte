@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { setConfirmationContext } from "#src/ai/confirmation/confirmation-context.svelte.js";
 
 	let {

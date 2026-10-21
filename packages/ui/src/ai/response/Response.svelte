@@ -81,7 +81,7 @@
 	// =========================
 
 	import "#src/ai/response/Response.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	// =========================
 	// PROPS

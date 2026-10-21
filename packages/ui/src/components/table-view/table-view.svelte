@@ -10,7 +10,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import * as Table from "#src/shadcn/table/index.js";
 
 	// =========================

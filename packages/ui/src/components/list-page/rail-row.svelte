@@ -4,7 +4,7 @@
 // =========================
 import type { Snippet } from "svelte";
 import { getContext } from "svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { MASTER_DETAIL_PANE, type MasterDetailPane } from "#src/components/list-page/queue-rail.js";
 
 // =========================

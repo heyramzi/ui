@@ -4,7 +4,7 @@
 // =========================
 import { Input } from "#src/shadcn/input/index.js";
 import { MagnifyingGlass } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 // =========================
 // TYPES

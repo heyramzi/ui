@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Label } from "#src/shadcn/label/index.js";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { ComponentProps } from "svelte";
 
 	let {

@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
 import type { Snippet } from "svelte";
 import { CaretDown, CaretUp, CaretUpDown } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import type { SortDirection, SortState } from "#src/components/data-table/data-table.js";
 
 // ========================= TYPES

@@ -3,7 +3,7 @@
 // IMPORTS
 // =========================
 import EmptyState from "#src/components/list-page/empty-state.svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 
 // =========================

@@ -24,7 +24,7 @@
 
 <script lang="ts">
 	import type { HTMLAnchorAttributes } from "svelte/elements";
-	import { cn, type WithElementRef } from "@heyramzi/utils";
+	import { cn, type WithElementRef } from "#src/lib/utils.js";
 	import { TONE_CLASS, type Tone } from "#src/lib/tone.js";
 
 	let {

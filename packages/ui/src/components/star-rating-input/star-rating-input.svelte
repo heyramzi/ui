@@ -23,7 +23,7 @@ const POP_WINDOW_MS = 350 + 4 * 40;
 
 <script lang="ts">
 import { Star } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 interface Props {
 	/** Current rating value (0 = unrated). */

@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/theme-toggle/ThemeToggle.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { Monitor, Moon, Sun } from "phosphor-svelte";
 	import { revealTheme } from "#src/lib/theme-transition.js";
 

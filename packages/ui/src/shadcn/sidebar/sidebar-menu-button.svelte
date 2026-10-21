@@ -29,7 +29,7 @@
 
 <script lang="ts">
 	import * as Tooltip from "#src/shadcn/tooltip/index.js";
-	import { cn, type WithElementRef, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithElementRef, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import { mergeProps } from "bits-ui";
 	import type { ComponentProps, Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";

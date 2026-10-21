@@ -4,7 +4,7 @@
 // =========================
 import type { Snippet } from "svelte";
 import SectionLabel from "#src/components/list-page/section-label.svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 // =========================
 // TYPES

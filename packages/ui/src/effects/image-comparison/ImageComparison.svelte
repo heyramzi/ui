@@ -18,7 +18,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/image-comparison/ImageComparison.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { untrack } from "svelte";
 	import { positionAt } from "#src/effects/image-comparison/compare.js";
 

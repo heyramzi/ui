@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ScrollArea as ScrollAreaPrimitive } from "bits-ui";
-	import { cn, type WithoutChild } from "@heyramzi/utils";
+	import { cn, type WithoutChild } from "#src/lib/utils.js";
 	import Scrollbar from "#src/shadcn/scroll-area/scroll-area-scrollbar.svelte";
 
 	let {

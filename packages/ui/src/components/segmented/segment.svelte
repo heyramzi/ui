@@ -29,7 +29,7 @@ export type SegmentContent = {
 // =========================
 // IMPORTS
 // =========================
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { Icon } from "#src/components/icon/index.js";
 import { Mark } from "#src/components/mark/index.js";
 

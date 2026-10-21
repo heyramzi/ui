@@ -1,5 +1,3 @@
-import { tryCatchAsync } from "@heyramzi/utils";
-
 /**
  * The one write to the clipboard. A rejected permission, a missing gesture and
  * an insecure origin get one answer: false. The caller decides what to show.
@@ -7,8 +5,12 @@ import { tryCatchAsync } from "@heyramzi/utils";
 
 /** Plain text. Returns false when the browser refused the write. */
 export async function copyText(value: string): Promise<boolean> {
-  const result = await tryCatchAsync(() => navigator.clipboard.writeText(value));
-  return result.ok;
+  try {
+    await navigator.clipboard.writeText(value);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -17,15 +19,17 @@ export async function copyText(value: string): Promise<boolean> {
  */
 export async function copyRichText(html: string, plainText?: string): Promise<boolean> {
   const text = plainText ?? htmlToPlainText(html);
-  const result = await tryCatchAsync(() =>
-    navigator.clipboard.write([
+  try {
+    await navigator.clipboard.write([
       new ClipboardItem({
         "text/html": new Blob([html], { type: "text/html" }),
         "text/plain": new Blob([text], { type: "text/plain" }),
       }),
-    ]),
-  );
-  return result.ok ? true : copyText(text);
+    ]);
+    return true;
+  } catch {
+    return copyText(text);
+  }
 }
 
 /** The plain-text twin of an HTML fragment. */

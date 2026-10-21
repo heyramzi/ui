@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
 	import { Check } from "phosphor-svelte";
-	import { cn, type WithoutChild } from "@heyramzi/utils";
+	import { cn, type WithoutChild } from "#src/lib/utils.js";
 
 	let {
 		ref = $bindable(null),

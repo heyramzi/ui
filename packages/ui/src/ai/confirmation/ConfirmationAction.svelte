@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { getConfirmationContext } from "#src/ai/confirmation/confirmation-context.svelte.js";
 

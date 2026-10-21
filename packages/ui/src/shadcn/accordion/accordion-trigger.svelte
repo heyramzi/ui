@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CaretDown } from "phosphor-svelte";
 	import { Accordion as AccordionPrimitive } from "bits-ui";
-	import { cn, type WithoutChild } from "@heyramzi/utils";
+	import { cn, type WithoutChild } from "#src/lib/utils.js";
 	import type { Snippet } from "svelte";
 
 	let {

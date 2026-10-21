@@ -4,7 +4,7 @@
 // =========================
 import { CaretDown } from "phosphor-svelte";
 import { Mark } from "#src/components/mark/index.js";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import Picker from "#src/components/picker/picker.svelte";
 import { pickerTriggerClass } from "#src/components/picker/trigger.js";
 import type { PickerOption } from "#src/components/picker/types.js";

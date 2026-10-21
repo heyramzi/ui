@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { Spinner } from "#src/shadcn/spinner/index.js";
 	import SendIcon from "phosphor-svelte/lib/PaperPlaneRight";

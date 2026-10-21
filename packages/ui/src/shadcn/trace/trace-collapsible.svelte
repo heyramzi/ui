@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Collapsible from "#src/shadcn/collapsible/index.js";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { Collapsible as CollapsiblePrimitive } from "bits-ui";
 
 	let {

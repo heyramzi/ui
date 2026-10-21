@@ -26,7 +26,7 @@
 
 <script lang="ts" generics="T extends string">
 	import { Tabs as TabsPrimitive } from "bits-ui";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import Segment from "#src/components/segmented/segment.svelte";
 	import SegmentedTrack from "#src/components/segmented/segmented-track.svelte";
 	import SegmentedOverflow from "#src/components/segmented/segmented-overflow.svelte";

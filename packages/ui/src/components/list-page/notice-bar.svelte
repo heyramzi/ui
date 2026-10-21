@@ -4,7 +4,7 @@
 // =========================
 import type { Snippet } from "svelte";
 import { Warning, Info, CheckCircle, WarningCircle } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { Alert } from "#src/shadcn/alert/index.js";
 import { TONE_CLASS, type Tone as SeverityTone } from "#src/lib/tone.js";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";

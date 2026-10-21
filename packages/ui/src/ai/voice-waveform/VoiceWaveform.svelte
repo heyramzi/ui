@@ -4,7 +4,7 @@
 	// =========================
 
 	import "#src/ai/voice-waveform/VoiceWaveform.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 
 	// =========================

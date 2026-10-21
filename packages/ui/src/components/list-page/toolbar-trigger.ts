@@ -1,4 +1,4 @@
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 type ToolbarTriggerOpts = {
   active?: boolean;

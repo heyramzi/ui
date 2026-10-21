@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/spotlight/Spotlight.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	// =========================
 	// TYPES

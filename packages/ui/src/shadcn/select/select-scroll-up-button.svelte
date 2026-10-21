@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Select as SelectPrimitive } from "bits-ui";
-	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import { CaretUp } from "phosphor-svelte";
 
 	let {

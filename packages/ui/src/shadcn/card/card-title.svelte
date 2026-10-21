@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { HTMLAttributes } from "svelte/elements";
-	import { cn, type WithElementRef } from "@heyramzi/utils";
+	import { cn, type WithElementRef } from "#src/lib/utils.js";
 
 	// WHY: card titles render as a div by default for backwards compatibility,
 

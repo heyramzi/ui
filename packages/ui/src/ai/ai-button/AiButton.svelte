@@ -20,7 +20,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { Sparkle } from "phosphor-svelte";
 	import { Spinner } from "#src/shadcn/spinner/index.js";
 	import { Button } from "#src/shadcn/button/index.js";

@@ -3,7 +3,7 @@
 // IMPORTS
 // =========================
 import { CaretRight } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 // =========================
 // TYPES

@@ -5,7 +5,7 @@
 import type { Snippet } from "svelte";
 import * as Popover from "#src/shadcn/popover/index.js";
 import { Funnel as FunnelIcon } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { Button } from "#src/shadcn/button/index.js";
 import { toolbarTriggerClass } from "#src/components/list-page/toolbar-trigger.js";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";

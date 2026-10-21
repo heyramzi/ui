@@ -39,7 +39,7 @@ const LOCAL_ONLY = new Set(["hooks"]);
 /* The registry's aliases, resolved to what this package imports. Absolute
  * `#src/` form, so a nested target resolves without counting `../`. */
 const ALIASES = [
-  ["$UTILS$.js", "@heyramzi/utils"],
+  ["$UTILS$.js", "#src/lib/utils.js"],
   ["$UI$/", "#src/shadcn/"],
   ["$HOOKS$/", "#src/shadcn/hooks/"],
   ["$LIB$/", "#src/shadcn/hooks/"],
@@ -91,7 +91,7 @@ const NOT_SHIPPED = new Set([
   "resizable",
   // Its `pascalToKebab` has no importer, in the registry or here.
   "casing",
-  // `cn` ships from @heyramzi/utils in vibe-kit, so a copy here would be a stray.
+  // The registry's `utils` is ours: src/lib/utils.ts, so a sync never overwrites it.
   "utils",
   "questionnaire",
 ]);

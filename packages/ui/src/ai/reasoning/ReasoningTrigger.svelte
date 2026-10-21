@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import BrainIcon from "phosphor-svelte/lib/Brain";
 	import ChevronDownIcon from "phosphor-svelte/lib/CaretDown";
 	import { CollapsibleTrigger } from "#src/shadcn/collapsible/index.js";

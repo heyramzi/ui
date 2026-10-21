@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { menuItemClass } from "#src/shadcn/dropdown-menu/menu-item.js";
 	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
 

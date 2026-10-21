@@ -11,7 +11,7 @@
 	import SheetOverlay from "#src/shadcn/sheet/sheet-overlay.svelte";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { X } from "phosphor-svelte";
-	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import type { ComponentProps } from "svelte";
 
 	let {

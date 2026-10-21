@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/magic-card/MagicCard.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { Snippet } from "svelte";
 
 	// =========================

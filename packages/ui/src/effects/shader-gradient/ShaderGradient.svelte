@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { untrack } from "svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { resolveColor } from "#src/effects/shader-gradient/color.js";
 	import {
 		createShaderGradientRenderer,

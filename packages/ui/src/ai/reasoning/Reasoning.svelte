@@ -11,7 +11,7 @@
 
 <script lang="ts">
 	import { untrack } from "svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { Collapsible } from "#src/shadcn/collapsible/index.js";
 	import { setReasoningContext } from "#src/ai/reasoning/reasoning-context.svelte.js";
 

@@ -9,7 +9,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { getConfirmationContext } from "#src/ai/confirmation/confirmation-context.svelte.js";
 
 	let { class: className, children, ...rest }: ConfirmationActionsProps = $props();

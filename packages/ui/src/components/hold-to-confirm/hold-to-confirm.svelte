@@ -1,6 +1,6 @@
 <script lang="ts">
 	// ========================= IMPORTS
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { buttonVariants, type ButtonSize, type ButtonVariant } from "#src/shadcn/button/index.js";
 	import type { Snippet } from "svelte";
 	import type { HTMLButtonAttributes } from "svelte/elements";

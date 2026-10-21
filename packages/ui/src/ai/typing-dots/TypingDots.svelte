@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import "#src/ai/typing-dots/TypingDots.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	let { size = 4, class: className, ...rest }: TypingDotsProps = $props();
 </script>

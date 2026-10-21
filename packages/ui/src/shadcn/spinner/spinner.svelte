@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { CircleNotch as SpinnerIcon } from "phosphor-svelte";
 	import type { SVGAttributes } from "svelte/elements";
 

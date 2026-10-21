@@ -2,7 +2,7 @@
 // =========================
 // IMPORTS
 // =========================
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import * as Empty from "#src/shadcn/empty/index.js";
 import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 

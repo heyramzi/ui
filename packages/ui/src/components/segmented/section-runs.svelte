@@ -24,7 +24,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import SegmentedNav from "#src/components/segmented/segmented-nav.svelte";
 
 	// =========================

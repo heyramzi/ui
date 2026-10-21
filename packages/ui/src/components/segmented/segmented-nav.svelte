@@ -9,7 +9,7 @@ export type SegmentedNavItem = SegmentContent & { href: string };
 // =========================
 // IMPORTS
 // =========================
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import Segment from "#src/components/segmented/segment.svelte";
 import SegmentedTrack from "#src/components/segmented/segmented-track.svelte";
 import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";

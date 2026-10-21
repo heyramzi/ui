@@ -4,7 +4,7 @@
 	// =========================
 	import type { Snippet } from "svelte";
 	import EmptyState from "#src/components/list-page/empty-state.svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { pageGutterClass } from "#src/lib/layout.js";
 	import { getSectionHost } from "#src/components/list-page/section-host.js";
 	import SectionRuns from "#src/components/segmented/section-runs.svelte";

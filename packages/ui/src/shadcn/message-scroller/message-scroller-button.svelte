@@ -3,7 +3,7 @@
 	import { ArrowDown } from "phosphor-svelte";
 	import { Button } from "#src/shadcn/button/index.js";
 	import type { ButtonSize, ButtonVariant } from "#src/shadcn/button/index.js";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	let {
 		ref = $bindable(null),

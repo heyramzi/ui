@@ -5,7 +5,7 @@
 	import type { HTMLInputAttributes } from "svelte/elements";
 	import { LockKey, LockKeyOpen } from "phosphor-svelte";
 	import Input from "#src/shadcn/input/input.svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	// =========================
 	// TYPES

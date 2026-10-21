@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import { untrack } from "svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	let {
 		label = "Working",

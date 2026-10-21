@@ -1,4 +1,3 @@
-import { tryCatch } from "@heyramzi/utils";
 import type { BorderBeamSize } from "#src/effects/border-beam/presets.js";
 
 interface PropertyRegistration {
@@ -32,7 +31,10 @@ export function registerBorderBeamProperties(id: string, size: BorderBeamSize): 
   if (typeof registry?.registerProperty !== "function") return;
 
   for (const registration of getBorderBeamPropertyRegistrations(id, size)) {
-    tryCatch(() => registry.registerProperty?.(registration));
+    // A second register of the same name throws. The first one already holds, so there is nothing to do.
+    try {
+      registry.registerProperty?.(registration);
+    } catch {}
   }
 }
 

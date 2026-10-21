@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from "#src/shadcn/button/index.js";
 	import { SidebarSimple } from "phosphor-svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { ComponentProps } from "svelte";
 	import { useSidebar } from "#src/shadcn/sidebar/context.svelte.js";
 

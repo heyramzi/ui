@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import * as Card from "#src/shadcn/card/index.js";
 
 	// =========================

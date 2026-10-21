@@ -3,7 +3,7 @@
 	import type { Snippet } from "svelte";
 	import Command from "#src/shadcn/command/command.svelte";
 	import * as Dialog from "#src/shadcn/dialog/index.js";
-	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 
 	let {
 		open = $bindable(false),

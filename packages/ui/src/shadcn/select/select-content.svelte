@@ -3,9 +3,9 @@
 	import SelectPortal from "#src/shadcn/select/select-portal.svelte";
 	import SelectScrollUpButton from "#src/shadcn/select/select-scroll-up-button.svelte";
 	import SelectScrollDownButton from "#src/shadcn/select/select-scroll-down-button.svelte";
-	import { cn, type WithoutChild } from "@heyramzi/utils";
+	import { cn, type WithoutChild } from "#src/lib/utils.js";
 	import type { ComponentProps } from "svelte";
-	import type { WithoutChildrenOrChild } from "@heyramzi/utils";
+	import type { WithoutChildrenOrChild } from "#src/lib/utils.js";
 
 	let {
 		ref = $bindable(null),

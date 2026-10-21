@@ -6,7 +6,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import BeamSvg from "#src/effects/animated-beam/diagrams/BeamSvg.svelte";
 	import { usePathCalculator } from "#src/effects/animated-beam/path-calculator.svelte.js";
 

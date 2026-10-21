@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import * as Field from "#src/shadcn/field/index.js";
 
 	// =========================

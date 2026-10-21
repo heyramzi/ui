@@ -8,7 +8,7 @@
 // IMPORTS
 // =========================
 import { Check, Copy, StarFour } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { buttonVariants } from "#src/shadcn/button/index.js";
 import type { HTMLButtonAttributes } from "svelte/elements";
 import { copyText } from "#src/components/copy/clipboard.js";

@@ -24,7 +24,7 @@
 // IMPORTS
 // =========================
 import { ArrowSquareOut } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { buttonVariants } from "#src/shadcn/button/index.js";
 
 // =========================

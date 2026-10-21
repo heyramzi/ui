@@ -2,7 +2,7 @@
 	import { Calendar as CalendarPrimitive } from "bits-ui";
 	import { CaretLeft } from "phosphor-svelte";
 	import { buttonVariants, type ButtonVariant } from "#src/shadcn/button/index.js";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	let {
 		ref = $bindable(null),

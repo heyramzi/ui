@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/reveal/reveal.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { observeInView } from "#src/effects/reveal/observe.js";
 	import type { RevealPer, RevealTiming, RevealViewOptions } from "#src/effects/reveal/types.js";
 

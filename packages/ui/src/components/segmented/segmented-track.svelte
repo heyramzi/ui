@@ -3,7 +3,7 @@
 // IMPORTS
 // =========================
 import type { Snippet } from "svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { segmentedTrackClass, type SegmentedVariant } from "#src/components/segmented/segmented.js";
 import { slidingPill } from "#src/lib/sliding-pill.js";
 

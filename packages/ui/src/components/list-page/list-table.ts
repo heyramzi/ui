@@ -1,4 +1,4 @@
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 /**
  * The list-page table rhythm, Attio's: one 40px row, a hairline under each, a flat hover.

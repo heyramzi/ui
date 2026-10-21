@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CaretRight } from "phosphor-svelte";
-	import { cn, type WithElementRef } from "@heyramzi/utils";
+	import { cn, type WithElementRef } from "#src/lib/utils.js";
 	import type { HTMLLiAttributes } from "svelte/elements";
 
 	let {

@@ -14,7 +14,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import { fade } from "svelte/transition";
 
 	let {

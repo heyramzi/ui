@@ -4,7 +4,7 @@
 	// is re-exported from; standard shadcn-svelte shape, not an initialization hazard.
 	// fallow-ignore-next-line circular-dependency
 	import * as Calendar from "#src/shadcn/calendar/index.js";
-	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import type { ButtonVariant } from "#src/shadcn/button/button.svelte";
 	import { isEqualMonth, type DateValue } from "@internationalized/date";
 	import type { Snippet } from "svelte";

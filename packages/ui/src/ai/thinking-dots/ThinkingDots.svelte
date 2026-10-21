@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
 	import TypingDots from "#src/ai/typing-dots/TypingDots.svelte";
 

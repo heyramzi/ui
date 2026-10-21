@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/reveal/reveal.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 	import type { Snippet } from "svelte";
 	import { observeInView } from "#src/effects/reveal/observe.js";
 	import type { RevealTiming, RevealViewOptions } from "#src/effects/reveal/types.js";

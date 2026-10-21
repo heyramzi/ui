@@ -3,7 +3,7 @@
 // IMPORTS
 // =========================
 import { CaretLeft, CaretRight } from "phosphor-svelte";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { Button } from "#src/shadcn/button/index.js";
 import { stepTo } from "#src/components/list-page/step.js";
 

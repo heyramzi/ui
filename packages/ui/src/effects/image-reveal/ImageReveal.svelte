@@ -40,7 +40,7 @@
 	// IMPORTS
 	// =========================
 	import "#src/effects/image-reveal/ImageReveal.css";
-	import { cn } from "@heyramzi/utils";
+	import { cn } from "#src/lib/utils.js";
 
 	// =========================
 	// PROPS

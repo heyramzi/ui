@@ -4,7 +4,7 @@
 // =========================
 import { CaretDown } from "phosphor-svelte";
 import { Picker } from "#src/components/picker/index.js";
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 import { segmentedTriggerClass, type SegmentedVariant } from "#src/components/segmented/segmented.js";
 import type { SegmentContent } from "#src/components/segmented/segment.svelte";
 

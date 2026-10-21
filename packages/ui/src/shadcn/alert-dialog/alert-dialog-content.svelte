@@ -2,7 +2,7 @@
 	import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
 	import AlertDialogPortal from "#src/shadcn/alert-dialog/alert-dialog-portal.svelte";
 	import AlertDialogOverlay from "#src/shadcn/alert-dialog/alert-dialog-overlay.svelte";
-	import { cn, type WithoutChild, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChild, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import type { ComponentProps } from "svelte";
 
 	let {

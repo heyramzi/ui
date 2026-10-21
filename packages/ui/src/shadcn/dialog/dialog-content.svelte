@@ -3,7 +3,7 @@
 	import DialogPortal from "#src/shadcn/dialog/dialog-portal.svelte";
 	import DialogOverlay from "#src/shadcn/dialog/dialog-overlay.svelte";
 	import type { Snippet } from "svelte";
-	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { cn, type WithoutChildrenOrChild } from "#src/lib/utils.js";
 	import type { ComponentProps } from "svelte";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { X } from "phosphor-svelte";

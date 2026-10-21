@@ -1,4 +1,4 @@
-import { cn } from "@heyramzi/utils";
+import { cn } from "#src/lib/utils.js";
 
 // The header for each control group in a toolbar popover, in one place so
 // sections can't drift in size or weight.
