@@ -5,10 +5,10 @@
 	import { X } from "phosphor-svelte";
 	import { swapText } from "@heyramzi/ui/animations/text-swap";
 	import DemoStage from "#lib/DemoStage.svelte";
-	import chevronArms from "./motion/chevron-arms.svg?raw";
-	import heart from "./motion/heart.svg?raw";
-	import plus from "./motion/plus.svg?raw";
-	import successCheck from "./motion/success-check.svg?raw";
+	import chevronArms from "#lib/demos/motion/chevron-arms.svg?raw";
+	import heart from "#lib/demos/motion/heart.svg?raw";
+	import plus from "#lib/demos/motion/plus.svg?raw";
+	import successCheck from "#lib/demos/motion/success-check.svg?raw";
 
 	// =========================
 	// CONST
