@@ -25,8 +25,8 @@ export const pickerTriggerClass = tv({
     // Heights match `segmentedTrackClass`, so a strip and a picker line up.
     // Padding is 6px leading, 10px trailing: an even 8px shunted icon rows right.
     size: {
-      sm: "h-6 ps-1.5 pe-2 any-pointer-coarse:h-9 any-pointer-coarse:pe-2.5",
-      default: "h-7 ps-1.5 pe-2.5 any-pointer-coarse:h-10",
+      sm: "h-6 ps-1.5 pe-2 any-pointer-coarse:h-11 any-pointer-coarse:pe-2.5",
+      default: "h-7 ps-1.5 pe-2.5 any-pointer-coarse:h-11",
     },
     /**
      * Fill the row. Off by default: Linear's property rows sit at natural width

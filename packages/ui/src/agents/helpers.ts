@@ -1,5 +1,14 @@
 /* Pure helpers for the avatar: numbers, theme, lights, idle scheduling. */
+import { DARK_INK, LIGHT_INK, luminance } from '#src/agents/vendor/color.js';
 import { stockLights } from '#src/agents/vendor/plastic.js';
+
+const contrast = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+
+/** Off-black or off-white eyes, whichever reads stronger on the body: the vendor's fixed cutoff left 2:1 eyes on mid blues. */
+export function inkFor(body: string): string {
+  const l = luminance(body);
+  return contrast(l, luminance(DARK_INK)) >= contrast(l, luminance(LIGHT_INK)) ? DARK_INK : LIGHT_INK;
+}
 
 export const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, Number.isFinite(v) ? v : 1));

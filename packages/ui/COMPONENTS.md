@@ -71,7 +71,13 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `mark` — Mark, a logo or photo glyph with an initial fallback
 - `open-in` — OpenIn, a link out to a tool that takes the tool's name, label and mark as a prop
 - `picker` — Picker, MarkPicker, pickerTriggerClass, a command palette at popover scale
+- `docs` — DocPage, OnThisPage, ScrollSpy: one page anatomy for documentation, an icon, title and summary header, a reading column and a contents rail that becomes a bar on a narrow pane
+- `section-card` — SectionCard, a card with a fixed-height header, an h3 title, optional actions and a line under it
+- `section-header` — SectionHeader, a section label with a count chip, a line of description and actions
+- `field-row` — FieldRow, a labelled control with its action button at the control's height
+- `table-view` — TableView, a read-only table from columns and rows: numeric columns, footer row, custom cell
 - `segmented` — AnimatedTabs (pill or underline), SegmentedFilter, SegmentedNav, SectionRuns, one bordered track with a sliding pill, a badge note and an overflow menu
+- `theme` — ThemeProvider, mode, userPrefersMode, setMode, toggleMode, resetMode: the one light and dark system (mode-watcher, optional peer). Mount `<ThemeProvider initial onChange themeColors modeStorageKey />` once; flip with `toggleMode()`, read `mode.current`. Pair with `theme-toggle`'s `revealTheme(event, toggleMode)` for the wipe
 - `star-rating-input` — StarRatingInput
 - `svg` — Svg, an SVG file imported with `?raw`
 

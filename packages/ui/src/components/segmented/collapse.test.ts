@@ -47,3 +47,13 @@ describe("splitSegments", () => {
     expect(splitSegments(items, 2, 5).hidden).toEqual([]);
   });
 });
+
+describe("resolveSegmentMax", () => {
+  it("turns none into a limit nothing reaches, so no tail folds", async () => {
+    const { resolveSegmentMax, splitSegments } = await import("#src/components/segmented/collapse.js");
+    const items = Array.from({ length: 20 }, (_, i) => i);
+    expect(resolveSegmentMax("none")).toBe(Number.POSITIVE_INFINITY);
+    expect(resolveSegmentMax(4)).toBe(4);
+    expect(splitSegments(items, resolveSegmentMax("none"), 15).hidden).toEqual([]);
+  });
+});

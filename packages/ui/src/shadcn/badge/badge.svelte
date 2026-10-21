@@ -11,7 +11,7 @@
 				secondary: "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
 				outline: "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
 				// For a consumer that wants one "this is wrong" badge without a tone prop.
-				destructive: "bg-destructive/10 text-destructive [a]:hover:bg-destructive/20",
+				destructive: "bg-destructive/10 text-destructive-ink [a]:hover:bg-destructive/20",
 			},
 		},
 		defaultVariants: {

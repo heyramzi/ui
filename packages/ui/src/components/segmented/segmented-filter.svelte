@@ -7,7 +7,7 @@ import Segment from "#src/components/segmented/segment.svelte";
 import type { TabDef } from "#src/components/segmented/animated-tabs.svelte";
 import SegmentedTrack from "#src/components/segmented/segmented-track.svelte";
 import SegmentedOverflow from "#src/components/segmented/segmented-overflow.svelte";
-import { SEGMENT_MAX, splitSegments } from "#src/components/segmented/collapse.js";
+import { SEGMENT_MAX, resolveSegmentMax, splitSegments } from "#src/components/segmented/collapse.js";
 import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
 
 // =========================
@@ -33,8 +33,9 @@ interface Props {
 	/** Fill the row rather than sit at its natural width. On for the list-page
 	 *  filter strip, off for a segment sitting in a toolbar beside others. */
 	block?: boolean;
-	/** Objects the row may draw before its tail becomes a menu. See `collapse.ts`. */
-	max?: number;
+	/** Objects the row may draw before its tail becomes a menu. See `collapse.ts`.
+	 *  `"none"` never folds. */
+	max?: number | "none";
 	/** What the menu segment says. Translate at the call site. */
 	moreLabel?: string;
 	class?: string;
@@ -70,7 +71,7 @@ let merged = $derived(
 let split = $derived(
 	splitSegments(
 		merged,
-		max,
+		resolveSegmentMax(max),
 		merged.findIndex((option) => option.value === value),
 	),
 );

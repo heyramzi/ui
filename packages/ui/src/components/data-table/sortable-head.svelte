@@ -50,7 +50,7 @@ function handleKeydown(e: KeyboardEvent) {
 		{:else if direction === "desc"}
 			<CaretDown class="size-3.5 text-foreground" weight="bold" />
 		{:else}
-			<CaretUpDown class="size-3.5 text-muted-foreground/50" />
+			<CaretUpDown class="size-3.5 text-muted-foreground/75" />
 		{/if}
 	</span>
 </th>

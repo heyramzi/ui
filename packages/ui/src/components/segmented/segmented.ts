@@ -15,12 +15,12 @@ export const segmentedTrackClass = tv({
   // drew 30px beside a 28px button. One toolbar row came out at five heights.
 
   // WHY no size variant: `sm` drew 24px, and every tab control must share one height.
-  base: "h-7 any-pointer-coarse:h-10 shrink-0 items-stretch",
+  base: "h-7 any-pointer-coarse:h-11 shrink-0 items-stretch",
   variants: {
     // `pill`: a bordered well with a travelling highlight. `underline`: bare
     // labels over one hairline, the active one marked by a rule that travels.
     variant: {
-      pill: "overflow-hidden rounded-lg border border-border p-0.5",
+      pill: "overflow-hidden rounded-lg border border-border p-0.5 any-pointer-coarse:border-0 any-pointer-coarse:px-[3px] any-pointer-coarse:py-0",
       underline: "gap-5 border-b border-border",
     },
     // Fill the row rather than sit at its natural width. For a narrow rail.

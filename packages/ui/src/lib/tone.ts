@@ -14,7 +14,7 @@ export const TONE_CLASS: Record<Tone, string> = {
   info: "border-info/30 bg-info/10 text-info-800 dark:text-info-400",
   success: "border-success/30 bg-success/10 text-success-800 dark:text-success-400",
   warning: "border-warning/30 bg-warning/10 text-warning-800 dark:text-warning-400",
-  destructive: "border-destructive/30 bg-destructive/10 text-destructive",
+  destructive: "border-destructive/30 bg-destructive/10 text-destructive-ink",
 };
 
 /** The same scale as text, for a verdict inside a line of muted facts. */

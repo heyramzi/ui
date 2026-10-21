@@ -18,6 +18,9 @@
 					"hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
 				destructive:
 					"bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive dark:text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
+				// Quiet text that opens an editor or a menu: a ghost that wraps to as many lines as its
+				// label needs, aligned left, never a fixed-height square.
+				text: "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
 				// WHY a variant and not a class every call site writes: "add another
 
 				// row", "add a step", "attach a call" is one affordance, and it was hand-drawn eleven times across the app with four radii, three text sizes and three different hover hues.
@@ -34,7 +37,7 @@
 
 			// WHY sm carries a hit area: 28px is under the 32px desktop floor and the 40px coarse height is under 44. The ::after box stays the same 32px (44 on coarse) square whatever the visual size, so a dense toolbar keeps its look.
 
-			// Icon buttons grow both axes because they have no label to widen them. any-pointer, not pointer: see the note in tokens.css.
+			// Icon buttons grow both axes because they have no label to widen them. any-pointer, not pointer: see the note in tokens/base.css.
 			size: {
 				sm: "relative after:absolute after:top-1/2 after:left-1/2 after:h-[max(100%,2rem)] after:w-[max(100%,2rem)] after:-translate-x-1/2 after:-translate-y-1/2 any-pointer-coarse:after:h-[max(100%,2.75rem)] any-pointer-coarse:after:w-[max(100%,2.75rem)] h-7 gap-1 px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5 any-pointer-coarse:h-10 any-pointer-coarse:px-3",
 				default:
@@ -45,6 +48,12 @@
 			icon: { true: "", false: "" },
 		},
 		compoundVariants: [
+			// After `size` so its heights lose: a text button is as tall as its lines.
+			{
+				variant: "text",
+				class:
+					"h-auto min-h-7 justify-start py-1 text-left whitespace-normal any-pointer-coarse:h-auto any-pointer-coarse:min-h-11",
+			},
 			{
 				size: "sm",
 				icon: true,

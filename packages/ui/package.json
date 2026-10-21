@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/ui",
-  "version": "1.53.0",
+  "version": "1.53.1",
   "description": "Svelte 5 UI primitives: effects, animations, and shared component CSS.",
   "license": "MIT",
   "repository": {
@@ -28,7 +28,7 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
-    "./tokens.css": "./src/tokens.css",
+    "./tokens.css": "./src/tokens/index.css",
     "./lib/*.js": {
       "svelte": "./src/lib/*.ts",
       "types": "./src/lib/*.ts",

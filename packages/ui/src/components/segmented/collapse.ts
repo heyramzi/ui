@@ -37,3 +37,8 @@ export function splitSegments<S>(
     hidden: items.filter((_, i) => i >= slots - 1 && i !== activeIndex),
   };
 }
+
+/** `"none"` draws every segment: the row scrolls sideways instead of folding a tail into a menu. */
+export function resolveSegmentMax(max: number | "none"): number {
+  return max === "none" ? Number.POSITIVE_INFINITY : max;
+}

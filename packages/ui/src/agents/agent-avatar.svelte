@@ -8,7 +8,7 @@
   import type { AgentAvatarProps } from '#src/agents/types.js';
   import { botAvatarPresets, stateLabels } from '#src/agents/vendor/presets.js';
   import { SHAPE_PATHS, SHAPE_PARTS } from '#src/agents/vendor/shapes.js';
-  import { autoInk, richer, shade } from '#src/agents/vendor/color.js';
+  import { richer, shade } from '#src/agents/vendor/color.js';
   import { Sim, restPose } from '#src/agents/vendor/engine.js';
   import { draw, LIGHT_DEFAULTS, OVERSCAN, RISE, type DrawConfig } from '#src/agents/vendor/draw.js';
   import { bakesPending, hurry, onLanded, takeMissed, warmPlastic, type FurStyle } from '#src/agents/vendor/plastic.js';
@@ -27,6 +27,7 @@
     clampOpt,
     deviceDpr,
     hashSeed,
+    inkFor,
     lightsFor,
     pointerStrength,
     q,
@@ -138,7 +139,7 @@
       vivid,
     ),
   );
-  const inkColor = $derived(ink ?? autoInk(body));
+  const inkColor = $derived(ink ?? inkFor(body));
   const seedValue = $derived(Math.min(1, Math.max(0, seed ?? hashSeed(uid))));
   const stateKey = $derived((botState in stateLabels ? botState : 'default') as BotAvatarState);
   const frozen = $derived(paused || !(speed > 0));

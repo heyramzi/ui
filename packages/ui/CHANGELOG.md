@@ -18,6 +18,7 @@
 
 ### Features
 
+* feat(ui): `shadcn/progress` takes `tone`, the fill's colour on the severity scale; `shadcn/button` has a `text` variant for quiet text that opens an editor, which wraps to its lines and keeps a 44px touch height; `SegmentedFilter` takes `max="none"` to never fold a tail into a menu
 * feat(ui): `CopyButton` takes `variant="inline"` for a chip that sits in running text (the font and colour are the surrounding text's, the icon trails), and `announce="name"` to swap the button's own name to `copiedLabel` instead of a live region
 * feat(ui): `shadcn/accordion` `AccordionTrigger` takes an `indicator` snippet that replaces the caret
 * feat(ui): `lib/panel` exports `insetWellClass`, the inset well for a control block inside a panel
@@ -40,6 +41,24 @@
 * feat(ui): `NoticeBar` and the list-page empty states are built on `shadcn/alert` and `shadcn/empty`
 * feat(ui): every busy state renders `shadcn/spinner`: the toast loader, the prompt submit and infinite scroll
 * feat(rich-editor): new package `@heyramzi/rich-editor` 0.1.0, the Tiptap editor, renderer and Markdown bridge that were inside an app; a comparison table's winner cell carries `data-winner` as the first word of the cell, and a host colours its own products
+
+### Touch and contrast
+
+* feat(ui): on a coarse pointer every control a list page's toolbar draws is 44px: `Input`, `ToolbarSearch`, `toolbarTriggerClass` (the Filters and Display triggers), `Picker` triggers and the pill and underline tracks of `components/segmented`. The pill track keeps its look: the border becomes a ring drawn over a 44px well, and the sliding pill keeps its gap inside it
+* feat(ui): `Checkbox` hit box is 44px on a coarse pointer (it was 38px)
+* feat(ui): a link inside a `TableCell` gets a 44px hit area on a coarse pointer, unless the link positions itself
+* feat(ui): `TableCell` sets `tabular-nums`, so a date or price column lines up in every table
+* feat(ui): tokens `--color-cat-cyan-ink`, `-teal-ink`, `-purple-ink`, `-amber-ink`, `--color-success-ink` and `--color-destructive-ink` (text and icon colours that clear AA on their own tint in both themes), so `text-destructive-ink` is a utility
+* fix(ui): the destructive `Badge` variant and the destructive tone chip use `text-destructive-ink` (3.6:1 became 4.5:1 or better)
+* fix(ui): the sidebar group label is `text-sidebar-foreground/90` (3.3:1 at 70%)
+* fix(ui): `SortableHead`'s unsorted caret is `text-muted-foreground/75` (2.3:1 at 50%, an icon needs 3:1)
+
+### New components
+
+* feat(ui): `components/theme` (`ThemeProvider`, and `mode`, `userPrefersMode`, `setMode`, `toggleMode`, `resetMode` from mode-watcher), the one light and dark system: mount the provider once, no cookie or boot script; `initial` seeds a browser with nothing stored and `onChange` fires on a person's choice so an app can save it on its server
+* fix(ui): `shadcn/dropdown-menu` and `shadcn/context-menu` separators hide when they lead, trail or follow another separator, so a conditional group that draws nothing no longer leaves a double line
+* feat(ui): `components/section-card` (`SectionCard`), `components/section-header` (`SectionHeader`), `components/field-row` (`FieldRow`) and `components/table-view` (`TableView`), the settings and read-only table pieces apps kept rewriting
+* feat(ui): `components/docs` (`DocPage`, `OnThisPage`, `ScrollSpy`), one page anatomy for documentation
 
 ## [1.45.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.44.1...ui-v1.45.0) (2026-10-01)
 

@@ -16,7 +16,7 @@ export function toolbarTriggerClass({
 }: ToolbarTriggerOpts = {}): string {
   return cn(
     "inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-border font-medium transition-colors active:translate-y-px",
-    "h-7 px-2.5 text-xs any-pointer-coarse:h-10 any-pointer-coarse:px-3",
+    "h-7 px-2.5 text-xs any-pointer-coarse:h-11 any-pointer-coarse:px-3",
     active ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground",
     className,
   );

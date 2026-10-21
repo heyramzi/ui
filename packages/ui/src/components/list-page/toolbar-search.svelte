@@ -57,7 +57,7 @@ let {
 		class={cn(
 			"w-full",
 			size === "sm" ? "h-7 pl-7 pr-2.5 text-xs" : "h-7 pl-7 pr-2.5 text-xs",
-			"any-pointer-coarse:h-10 any-pointer-coarse:text-base",
+			"any-pointer-coarse:h-11 any-pointer-coarse:text-base",
 		)}
 	/>
 </div>

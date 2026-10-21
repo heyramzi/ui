@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { Progress as ProgressPrimitive } from "bits-ui";
 	import { cn, type WithoutChildrenOrChild } from "@heyramzi/utils";
+	import { progressToneClass } from "#src/shadcn/progress/tone.js";
+	import type { Tone } from "#src/lib/tone.js";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		max = 100,
 		value,
+		tone,
 		...restProps
-	}: WithoutChildrenOrChild<ProgressPrimitive.RootProps> = $props();
+	}: WithoutChildrenOrChild<ProgressPrimitive.RootProps> & {
+		/** The fill's colour on the severity scale. Left out, the primary colour. */
+		tone?: Tone;
+	} = $props();
 </script>
 
 <ProgressPrimitive.Root
@@ -24,7 +30,7 @@
 >
 	<div
 		data-slot="progress-indicator"
-		class="bg-primary size-full flex-1 transition-transform duration-[var(--duration-slow)] ease-[var(--ease-smooth-out)] motion-reduce:transition-none"
+		class="{progressToneClass(tone)} size-full flex-1 transition-transform duration-[var(--duration-slow)] ease-[var(--ease-smooth-out)] motion-reduce:transition-none"
 		style="transform: translateX(-{100 - (100 * (value ?? 0)) / (max ?? 1)}%)"
 	></div>
 </ProgressPrimitive.Root>

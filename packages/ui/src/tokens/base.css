@@ -1,0 +1,183 @@
+/* The shadow family, now valued by @heyramzi/ui/design. Names stay because
+   170-odd call sites use them. Shadow only, since these elements draw their own border. */
+
+/* New work: use `shadow-btn`, `shadow-card`, `shadow-raised` and `shadow-overlay`. */
+@layer utilities {
+  .shadow-soft-sm {
+    box-shadow: var(--elev-btn);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--elev-card);
+  }
+
+  .shadow-soft-md {
+    box-shadow: var(--elev-raised);
+  }
+
+  /* The one step that answers a pointer rather than describing a resting
+     height, so it borrows the step above whatever it was at rest. */
+  .shadow-soft-hover {
+    box-shadow: var(--elev-raised);
+  }
+}
+
+/* The nine bits-ui state variants moved into `@heyramzi/ui/design` on 14 Sep
+   2026. app.css imports that before this file. */
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.84 0 0) transparent;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: oklch(0.84 0 0);
+    border-radius: 9999px;
+  }
+  .dark & {
+    scrollbar-color: oklch(0.45 0 0) transparent;
+    &::-webkit-scrollbar-thumb {
+      background: oklch(0.45 0 0);
+    }
+  }
+}
+
+/* WHY: below sm the dialog docks as a bottom sheet. The .t-modal scale would lift
+   it off the edge. A sheet enters from the edge it rests on. */
+@media (max-width: 639px) {
+  [data-slot="dialog-content"]:not([data-command-dialog]).t-modal {
+    transform: translateY(100%);
+    transition:
+      transform var(--modal-open-dur) var(--modal-ease),
+      opacity var(--modal-open-dur) var(--modal-ease);
+  }
+  [data-slot="dialog-content"]:not([data-command-dialog]).t-modal[data-state="open"] {
+    transform: translateY(0);
+  }
+  [data-slot="dialog-content"]:not([data-command-dialog]).t-modal[data-state="closed"] {
+    transform: translateY(100%);
+    transition:
+      transform var(--modal-close-dur) var(--modal-ease),
+      opacity var(--modal-close-dur) var(--modal-ease);
+  }
+}
+
+/* ── The palette does not animate ──────────────────────
+   WHY: it's opened by shortcut dozens of times a day, so an entrance feels like
+   lag. Raycast and Spotlight don't animate either. */
+
+/* The backdrop is a sibling in the portal, so it's named via `overlayClass`.
+   Reaching across the portal would also hit a dialog open underneath. */
+[data-slot="dialog-content"][data-command-dialog].t-modal,
+[data-slot="dialog-overlay"].t-modal-backdrop.t-instant {
+  transition: none;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+    scrollbar-color: var(--gray-300) transparent;
+    /* WHY: iOS Safari inflates text in landscape unless this is pinned. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  .dark html,
+  html.dark {
+    scrollbar-color: var(--brand-veil) transparent;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
+  /* WHY: the browser's default highlight is a system blue from no theme. Indigo
+     at 18% keeps text at its own contrast in both modes. */
+  ::selection {
+    background-color: color-mix(in oklab, var(--brand-indigo) 18%, transparent);
+  }
+  .dark ::selection,
+  html.dark ::selection {
+    background-color: color-mix(in oklab, var(--brand-indigo-light) 26%, transparent);
+  }
+
+  /* ── Touch input ───────────────────────────────────────
+     WHY any-pointer: an iPad with a Magic Keyboard reports a fine pointer, and
+     `pointer: coarse` would drop touch sizing while the screen's still tapped. */
+
+  /* iOS paints a gray flash on every tap, which clashes with our own :active
+     feedback, so it's turned off. */
+  @media (any-pointer: coarse) {
+    a,
+    button,
+    label,
+    summary,
+    select,
+    [role="button"],
+    [role="link"],
+    [role="menuitem"],
+    [role="option"],
+    [role="tab"] {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* WHY: rows are built at desk density (28-32px). A thumb needs 44px, and rows
+       stack, so growing them costs only scroll. */
+    [data-slot="dropdown-menu-item"],
+    [data-slot="dropdown-menu-checkbox-item"],
+    [data-slot="dropdown-menu-radio-item"],
+    [data-slot="select-item"],
+    [data-slot="command-item"],
+    [data-slot="context-menu-item"],
+    [data-slot="context-menu-checkbox-item"],
+    [data-slot="context-menu-radio-item"] {
+      min-height: 44px;
+    }
+  }
+}
+
+/* ── Reduced motion, once ──────────────────────────────
+   WHY here: 22 files had no guard and 32 wrote their own. Both app.css files
+   import this, so it's stated once. */
+
+/* A floor, not a kill switch: transitions still run at the micro step, so hover
+   and focus still answer. Entrance delays, loops and long travel go. */
+
+/* Unlayered so it beats utilities and scoped rules. A component that wants
+   different behaviour writes its own reduced-motion block with `!important`. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: var(--duration-micro) !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}
