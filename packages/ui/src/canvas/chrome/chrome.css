@@ -89,15 +89,30 @@
   border-radius: 9999px;
 }
 
-.svelte-flow__node:hover .cv-handle,
+@media (hover: hover) and (pointer: fine) {
+  .svelte-flow__node:hover .cv-handle {
+    opacity: 1;
+    --cv-grow: 1;
+  }
+}
+
 [data-cv-linking] .cv-handle {
   opacity: 1;
   --cv-grow: 1;
 }
 
 /* The dot a link starts from or lands on grows and takes the ring colour. The invisible source takes the pointer, so the visible target reads it through :has. */
-.svelte-flow .svelte-flow__handle.cv-handle:hover,
-.svelte-flow .svelte-flow__handle.cv-handle:has(+ .cv-handle:hover),
+@media (hover: hover) and (pointer: fine) {
+  .svelte-flow .svelte-flow__handle.cv-handle:hover,
+  .svelte-flow .svelte-flow__handle.cv-handle:has(+ .cv-handle:hover) {
+    opacity: 1;
+    --cv-grow: var(--cv-dot-hot-grow);
+    border-color: var(--cv-chrome-surface) !important;
+    background: var(--cv-chrome-ring) !important;
+    box-shadow: 0 0 0 calc(var(--cv-dot) * 0.45) var(--cv-chrome-halo);
+  }
+}
+
 .svelte-flow .svelte-flow__handle.cv-handle.connectingto,
 .svelte-flow .svelte-flow__handle.cv-handle:has(+ .connectingto) {
   opacity: 1;
@@ -108,7 +123,15 @@
 }
 
 /* The card a link would land on glows, so the target is clear before the pointer is released. */
-[data-cv-linking] .svelte-flow__node:hover:not(:has(.connectingfrom)),
+@media (hover: hover) and (pointer: fine) {
+  [data-cv-linking] .svelte-flow__node:hover:not(:has(.connectingfrom)) {
+    border-radius: var(--cv-chrome-radius);
+    box-shadow:
+      0 0 0 2px var(--cv-chrome-ring),
+      0 0 0 7px var(--cv-chrome-halo);
+  }
+}
+
 [data-cv-linking] .svelte-flow__node:has(.connectingto) {
   border-radius: var(--cv-chrome-radius);
   box-shadow:
@@ -184,7 +207,12 @@
   pointer-events: none;
 }
 
-.svelte-flow__node:hover .cv-lock-badge,
+@media (hover: hover) and (pointer: fine) {
+  .svelte-flow__node:hover .cv-lock-badge {
+    opacity: 1;
+  }
+}
+
 .svelte-flow__node.selected .cv-lock-badge {
   opacity: 1;
 }
@@ -195,7 +223,9 @@
     transition: opacity 1ms;
   }
 
-  .svelte-flow .svelte-flow__handle.cv-handle:hover {
-    --cv-grow: 1;
+  @media (hover: hover) and (pointer: fine) {
+    .svelte-flow .svelte-flow__handle.cv-handle:hover {
+      --cv-grow: 1;
+    }
   }
 }

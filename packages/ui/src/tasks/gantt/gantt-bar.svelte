@@ -160,7 +160,15 @@
 			box-shadow var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.g-bar:hover,
+	@media (hover: hover) and (pointer: fine) {
+		.g-bar:hover {
+			box-shadow:
+				inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 55%, transparent),
+				0 1px 2px rgb(0 0 0 / 0.06),
+				0 4px 12px color-mix(in oklab, var(--g-hue) 18%, transparent);
+		}
+	}
+
 	.g-bar-dragging {
 		box-shadow:
 			inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 55%, transparent),
@@ -201,7 +209,12 @@
 		transition: opacity var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.g-bar:hover .g-handle::after,
+	@media (hover: hover) and (pointer: fine) {
+		.g-bar:hover .g-handle::after {
+			opacity: 0.6;
+		}
+	}
+
 	.g-bar:focus-visible .g-handle::after,
 	.g-bar-dragging .g-handle::after {
 		opacity: 0.6;

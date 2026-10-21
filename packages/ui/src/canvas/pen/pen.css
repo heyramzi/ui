@@ -48,7 +48,12 @@
   transition: opacity 120ms ease-out;
 }
 
-.svelte-flow__node-text:hover .pen-handle,
+@media (hover: hover) and (pointer: fine) {
+  .svelte-flow__node-text:hover .pen-handle {
+    opacity: 1;
+  }
+}
+
 .diagram-connecting .pen-handle {
   opacity: 1;
 }

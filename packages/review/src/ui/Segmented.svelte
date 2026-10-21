@@ -137,8 +137,10 @@
 			color var(--tabs-dur) var(--tabs-ease),
 			transform var(--duration-micro) var(--ease-smooth-out);
 	}
-	.tab:hover {
-		color: var(--text);
+	@media (hover: hover) and (pointer: fine) {
+		.tab:hover {
+			color: var(--text);
+		}
 	}
 	.tab:active {
 		transform: scale(var(--scale-medium));
