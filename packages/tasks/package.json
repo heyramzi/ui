@@ -110,7 +110,7 @@
     "test": "vp test run"
   },
   "dependencies": {
-    "@heyramzi/utils": "^1.8.1"
+    "@heyramzi/utils": "^1.9.0"
   },
   "peerDependencies": {
     "@heyramzi/ui": "*",
@@ -119,9 +119,9 @@
   },
   "devDependencies": {
     "@heyramzi/ui": "workspace:*",
-    "@types/node": "^26.6.4",
-    "phosphor-svelte": "^3.1.0",
-    "svelte-check": "^4.7.6",
+    "@types/node": "^26.6.5",
+    "phosphor-svelte": "^3.1.1",
+    "svelte-check": "^4.7.7",
     "typescript": "~7.0.2"
   }
 }

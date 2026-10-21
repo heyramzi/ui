@@ -51,9 +51,9 @@
     "svelte": "^5.16.0"
   },
   "devDependencies": {
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "svelte": "^5.57.2",
-    "svelte-check": "^4.7.6",
+    "svelte-check": "^4.7.7",
     "typescript": "~7.0.2"
   },
   "sideEffects": [
