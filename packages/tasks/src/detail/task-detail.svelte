@@ -259,8 +259,10 @@
 			color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.tk-icon:hover:not(:disabled) {
-		background: var(--color-muted);
+	@media (hover: hover) and (pointer: fine) {
+		.tk-icon:hover:not(:disabled) {
+			background: var(--color-muted);
+		}
 	}
 
 	.tk-icon:focus-visible,
@@ -278,8 +280,10 @@
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.tk-button:hover:not(:disabled) {
-		background: var(--color-muted);
+	@media (hover: hover) and (pointer: fine) {
+		.tk-button:hover:not(:disabled) {
+			background: var(--color-muted);
+		}
 	}
 
 	.tk-button:disabled {
@@ -292,8 +296,10 @@
 		color: var(--color-primary-foreground);
 	}
 
-	.tk-primary:hover:not(:disabled) {
-		background: color-mix(in oklab, var(--color-primary) 90%, transparent);
+	@media (hover: hover) and (pointer: fine) {
+		.tk-primary:hover:not(:disabled) {
+			background: color-mix(in oklab, var(--color-primary) 90%, transparent);
+		}
 	}
 
 	@media (any-pointer: coarse) {

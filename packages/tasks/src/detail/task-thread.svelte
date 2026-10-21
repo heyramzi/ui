@@ -198,9 +198,11 @@
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.thread-icon:hover {
-		background: var(--color-muted);
-		color: var(--color-foreground);
+	@media (hover: hover) and (pointer: fine) {
+		.thread-icon:hover {
+			background: var(--color-muted);
+			color: var(--color-foreground);
+		}
 	}
 
 	.thread-icon:focus-visible,
@@ -218,8 +220,10 @@
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.thread-button:hover:not(:disabled) {
-		background: var(--color-muted);
+	@media (hover: hover) and (pointer: fine) {
+		.thread-button:hover:not(:disabled) {
+			background: var(--color-muted);
+		}
 	}
 
 	.thread-button:disabled {
@@ -240,8 +244,10 @@
 		color: var(--color-muted-foreground);
 	}
 
-	.thread-primary:hover:not(:disabled) {
-		background: color-mix(in oklab, var(--color-primary) 90%, transparent);
+	@media (hover: hover) and (pointer: fine) {
+		.thread-primary:hover:not(:disabled) {
+			background: color-mix(in oklab, var(--color-primary) 90%, transparent);
+		}
 	}
 
 	@media (any-pointer: coarse) {

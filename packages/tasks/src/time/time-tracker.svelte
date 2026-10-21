@@ -411,10 +411,15 @@
 		border-end-end-radius: inherit;
 	}
 
-	.time-toggle:hover,
-	:global(.time-open:hover),
 	:global(.time-open[data-state="open"]) {
 		background: color-mix(in oklab, var(--color-foreground) 7%, transparent);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.time-toggle:hover,
+		:global(.time-open:hover) {
+			background: color-mix(in oklab, var(--color-foreground) 7%, transparent);
+		}
 	}
 
 	.time-toggle:focus-visible,
@@ -477,8 +482,10 @@
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.time-log:hover:not(:disabled) {
-		background: var(--color-muted);
+	@media (hover: hover) and (pointer: fine) {
+		.time-log:hover:not(:disabled) {
+			background: var(--color-muted);
+		}
 	}
 
 	.time-log:focus-visible {
