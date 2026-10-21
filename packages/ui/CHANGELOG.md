@@ -858,3 +858,14 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * fix(ui): ThemeToggle names the properties it animates and grows its icon from 90%
 * fix(ui): install without the private @heyramzi/utils
 
+
+## [2.0.0](https://github.com/heyramzi/ui/compare/ui-v1.54.2...ui-v2.0.0) (2026-10-21)
+
+### Features
+
+* feat(ui): tasks, charts, slides, editor, onboarding and canvas become subpaths of ui
+
+### Bug Fixes
+
+* fix(ui): raw :hover in canvas, gantt and Segmented only fires where a pointer hovers
+
