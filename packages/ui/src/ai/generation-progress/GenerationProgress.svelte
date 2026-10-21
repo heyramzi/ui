@@ -111,10 +111,10 @@
 	/* ── Surface ─────────────────────────────────────────── */
 	.gen {
 		--shimmer-dur: 2200ms;
-		--shimmer-base: var(--color-brand-indigo);
+		--shimmer-base: var(--color-brand);
 		/* The band is darker than the base on a pale tint and lighter on ink.
 		   Otherwise the sweep looks like the label dropping out. */
-		--shimmer-highlight: color-mix(in oklab, black 45%, var(--color-brand-indigo));
+		--shimmer-highlight: color-mix(in oklab, black 45%, var(--color-brand));
 		--shimmer-band: 400%;
 		--shimmer-ease: linear;
 		--digit-dur: var(--duration-very-slow);
@@ -126,11 +126,11 @@
 
 		padding: 0.625rem 0.875rem;
 		border-radius: var(--radius-lg);
-		background: color-mix(in oklab, var(--color-brand-indigo) 10%, transparent);
+		background: color-mix(in oklab, var(--color-brand) 10%, transparent);
 	}
 
 	:global(.dark) .gen {
-		--shimmer-highlight: color-mix(in oklab, white 70%, var(--color-brand-indigo));
+		--shimmer-highlight: color-mix(in oklab, white 70%, var(--color-brand));
 	}
 
 	.gen-failed {
@@ -150,7 +150,7 @@
 		width: 0.375rem;
 		height: 0.375rem;
 		border-radius: 9999px;
-		background: var(--color-brand-indigo);
+		background: var(--color-brand);
 		animation: gen-pulse 1.8s var(--ease-in-out, ease-in-out) infinite;
 	}
 
@@ -166,14 +166,14 @@
 		line-height: 1.4;
 	}
 
-	/* terra-600, not --color-destructive: that token is tuned for fills, and at
+	/* signal-600, not --color-destructive: that token is tuned for fills, and at
 	   L=0.6 small text on the pale tint fails. Dark mode uses the lighter step. */
 	.gen-failed .gen-label {
-		color: var(--color-terra-600);
+		color: var(--color-signal-600);
 	}
 
 	:global(.dark) .gen-failed .gen-label {
-		color: var(--color-terra-400);
+		color: var(--color-signal-400);
 	}
 
 	.gen-meta {
@@ -183,7 +183,7 @@
 		font-size: 0.75rem;
 		font-weight: 500;
 		font-variant-numeric: tabular-nums;
-		color: var(--color-brand-indigo);
+		color: var(--color-brand);
 	}
 
 	.gen-count {
@@ -203,7 +203,7 @@
 		margin-top: 0.5rem;
 		height: 0.25rem;
 		border-radius: 9999px;
-		background: color-mix(in oklab, var(--color-brand-indigo) 22%, transparent);
+		background: color-mix(in oklab, var(--color-brand) 22%, transparent);
 	}
 
 	.gen-fill {
@@ -211,7 +211,7 @@
 		height: 100%;
 		transform-origin: left;
 		border-radius: 9999px;
-		background: var(--color-brand-indigo);
+		background: var(--color-brand);
 		transition: transform var(--duration-slow, 400ms) var(--ease-smooth-out, ease);
 	}
 
@@ -232,7 +232,7 @@
 		text-overflow: ellipsis;
 		/* Mix toward the foreground, not transparent: a 70% indigo wash on its
 		   own track measured 2.9:1. This stays quieter than the label and AA. */
-		color: color-mix(in oklab, var(--color-brand-indigo) 70%, var(--color-foreground));
+		color: color-mix(in oklab, var(--color-brand) 70%, var(--color-foreground));
 		animation: gen-step-in var(--duration-quick, 150ms) var(--ease-in-out, ease-in-out) both;
 	}
 

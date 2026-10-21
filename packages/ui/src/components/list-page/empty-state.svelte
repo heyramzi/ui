@@ -41,7 +41,7 @@ let {
 <Empty.Root class="t-empty py-16">
 	<Empty.Header class="max-w-md">
 		{#if Icon}
-			<Empty.Media class="mb-4 size-16 rounded-2xl bg-brand-indigo/10 text-brand-indigo">
+			<Empty.Media class="mb-4 size-16 rounded-2xl bg-brand/10 text-brand">
 				<Icon weight={iconWeight} class="size-8" />
 			</Empty.Media>
 		{/if}

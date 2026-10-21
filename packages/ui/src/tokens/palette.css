@@ -2,22 +2,16 @@
 
 /* Font families */
 @theme {
-  --font-sans: var(--font-satoshi), system-ui, sans-serif;
-  --font-heading: var(--font-manrope), system-ui, sans-serif;
-  --font-mono: var(--font-space-grotesk), ui-monospace, monospace;
-  --font-quote: var(--font-space-grotesk), ui-monospace, monospace;
+  --font-sans: system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: ui-monospace, monospace;
+  --font-quote: var(--font-mono);
 }
 
 /* OKLCH Color Variables - Single source of truth for all colors */
-/* Palette: indigo, sand and terra, with a neutral gray scale. */
+/* Neutral by default: a gray scale, four brand roles and the surface system, all replaceable. */
 :root {
   color-scheme: light;
-  /* === Font Variables === */
-  /* Each consuming app defines @font-face and sets these to the actual font family names */
-  --font-satoshi: "Satoshi", system-ui, sans-serif;
-  --font-manrope: "Manrope", system-ui, sans-serif;
-  --font-space-grotesk: "Space Grotesk", ui-monospace, monospace;
-
   /* === Core Gray Scale (7 shades, zero-chroma neutral) === */
   --gray-50: oklch(0.98 0 0); /* Almost white — backgrounds */
   --gray-100: oklch(0.94 0 0); /* Very light gray — subtle backgrounds */
@@ -27,44 +21,46 @@
   --gray-700: oklch(0.45 0 0); /* Dark gray — body text */
   --gray-900: oklch(0.15 0 0); /* Near-black — headings, primary text */
 
-  /* === Accent Colors (3 chromatic) — 60/30/10 split === */
-  --brand-indigo: oklch(0.5 0.2 272); /* Primary 60% — CTAs, links, active states, brand mark */
-  --brand-indigo-light: oklch(0.68 0.16 272); /* Dark mode variant */
-  --brand-sand: oklch(0.78 0.08 40); /* Warmth 30% — highlights, badges, soft accents */
-  --brand-terra: oklch(0.65 0.2 30); /* Signal 10% — warnings, attention, energy */
+  /* === Brand roles ===
+     The look of a product, named by what each colour does. These defaults are neutral, and a
+     brand replaces them through `@heyramzi/ui/brand` (typed colours, no build step). Every
+     other token below reads from these, so nothing else in the package names a hue. */
+  --brand: oklch(0.28 0 0); /* The signature colour: focus ring, links, active states, the mark */
+  --brand-on-dark: oklch(0.92 0 0); /* The same colour lifted for a dark page */
+  --brand-highlight: oklch(0.78 0 0); /* Warmth: badges, highlights, soft accents */
+  --brand-signal: oklch(0.62 0.2 28); /* Attention: warnings, errors, energy */
 
-  /* === Surface System (6 named colors) === */
-  /* Dark surfaces (indigo-tinted, h258-264)        Light pendants (warm-tinted, h55)       */
-  --brand-ink: oklch(0.12 0.04 258); /* Base — page background                      */
-  --brand-night: oklch(0.18 0.05 262); /* Surface — cards, panels     ↔ Linen          */
-  --brand-veil: oklch(0.28 0.06 264); /* Borders, dividers          ↔ Mist            */
-  --brand-dusk: oklch(0.22 0.05 262); /* Between night/veil — hover surfaces, inputs  */
-  --brand-cream: oklch(0.97 0.01 55); /* On-dark text, light backgrounds              */
-  --brand-linen: oklch(0.985 0.003 55); /* Light surface — cards      ↔ Night           */
-  --brand-mist: oklch(0.9 0.006 55); /* Light borders, dividers    ↔ Veil            */
+  /* Dark surfaces. Light pendants are surface-light, line-light and paper. */
+  --brand-ink: oklch(0.145 0 0); /* Page background */
+  --brand-surface: oklch(0.19 0 0); /* Cards, panels */
+  --brand-line: oklch(0.29 0 0); /* Borders, dividers */
+  --brand-raised: oklch(0.24 0 0); /* Hover surfaces, inputs, between surface and line */
+  --brand-paper: oklch(0.97 0 0); /* Text on dark, light backgrounds */
+  --brand-surface-light: oklch(0.99 0 0); /* Cards on a light page */
+  --brand-line-light: oklch(0.91 0 0); /* Borders on a light page */
 
-  /* === Indigo Tint Scale (5-step, core = 600) === */
-  --indigo-100: oklch(0.92 0.04 272);
-  --indigo-200: oklch(0.82 0.08 272);
-  --indigo-400: oklch(0.68 0.16 272);
-  --indigo-600: oklch(0.5 0.2 272); /* = --brand-indigo */
-  --indigo-800: oklch(0.34 0.18 272);
+  /* === Tint scales, derived from the three hues so a brand types one colour each ===
+     WHY mixes and not typed steps: a brand that sets `--brand` gets a matching 100 to 800
+     with nothing else to maintain. 400 is the colour lifted for dark, 600 the colour itself. */
+  --brand-100: color-mix(in oklab, var(--brand) 12%, white);
+  --brand-200: color-mix(in oklab, var(--brand) 28%, white);
+  --brand-400: var(--brand-on-dark);
+  --brand-600: var(--brand);
+  --brand-800: color-mix(in oklab, var(--brand) 70%, black);
 
-  /* === Sand Tint Scale (5-step, core = 400) === */
-  --sand-100: oklch(0.94 0.02 40);
-  --sand-200: oklch(0.88 0.04 40);
-  --sand-400: oklch(0.78 0.08 40); /* = --brand-sand */
-  --sand-600: oklch(0.64 0.1 40);
-  --sand-800: oklch(0.5 0.08 40);
+  --highlight-100: color-mix(in oklab, var(--brand-highlight) 22%, white);
+  --highlight-200: color-mix(in oklab, var(--brand-highlight) 45%, white);
+  --highlight-400: var(--brand-highlight);
+  --highlight-600: color-mix(in oklab, var(--brand-highlight) 80%, black);
+  --highlight-800: color-mix(in oklab, var(--brand-highlight) 55%, black);
 
-  /* === Terra Tint Scale (5-step, core = 400) === */
-  --terra-100: oklch(0.92 0.05 30);
-  --terra-200: oklch(0.82 0.1 30);
-  --terra-400: oklch(0.65 0.2 30); /* = --brand-terra */
-  --terra-600: oklch(0.52 0.2 30);
-  --terra-800: oklch(0.38 0.15 30);
+  --signal-100: color-mix(in oklab, var(--brand-signal) 16%, white);
+  --signal-200: color-mix(in oklab, var(--brand-signal) 36%, white);
+  --signal-400: var(--brand-signal);
+  --signal-600: color-mix(in oklab, var(--brand-signal) 80%, black);
+  --signal-800: color-mix(in oklab, var(--brand-signal) 55%, black);
 
-  /* === Status Tint Scales (5-step, mirror indigo/sand/terra) === */
+  /* === Status Tint Scales (5-step, same shape as the brand scales) === */
   /* WHY: status badges use bg-X-100 text-X-600 dark:bg-X-800/30 dark:text-X-400 */
   /* Success (green) — positive states */
   --success-100: oklch(0.94 0.05 150);
@@ -101,7 +97,7 @@
 
   /* === Semantic Colors === */
   --success: oklch(0.62 0.17 145); /* Green — positive states */
-  --error: oklch(0.6 0.2 25); /* Terra-dark — destructive actions */
+  --error: oklch(0.6 0.2 25); /* Red — destructive actions */
   --warning: oklch(0.78 0.14 75); /* Amber — warnings, attention */
   --info: oklch(0.68 0.16 250); /* Blue — informational */
 
@@ -118,12 +114,12 @@
   --sidebar-accent: oklch(0.92 0 0);
   --sidebar-accent-foreground: oklch(0.15 0 0);
   --sidebar-border: oklch(0.91 0 0);
-  --sidebar-ring: var(--brand-indigo);
+  --sidebar-ring: var(--brand);
 
   /* === Shadow tint ===
      The one knob the design layer exposes. Pure black greys out warm surfaces,
      so the shadow takes the darkest surface's hue. Radius, focus and motion live there. */
-  --elev-tint: oklch(0.12 0.04 258); /* = --brand-ink */
+  --elev-tint: var(--brand-ink);
 }
 
 @theme {
@@ -136,36 +132,35 @@
   --color-gray-700: var(--gray-700);
   --color-gray-900: var(--gray-900);
 
-  /* Brand colors (V6 names) */
-  --color-brand-indigo: var(--brand-indigo);
-  --color-brand-indigo-light: var(--brand-indigo-light);
-  --color-brand-sand: var(--brand-sand);
-  --color-brand-terra: var(--brand-terra);
-  /* Surface system */
-  --color-brand-ink: var(--brand-ink);
-  --color-brand-night: var(--brand-night);
-  --color-brand-veil: var(--brand-veil);
-  --color-brand-dusk: var(--brand-dusk);
-  --color-brand-cream: var(--brand-cream);
-  --color-brand-linen: var(--brand-linen);
-  --color-brand-mist: var(--brand-mist);
+  /* Brand roles. bg-brand, text-ink, border-line and the rest read these. */
+  --color-brand: var(--brand);
+  --color-brand-on-dark: var(--brand-on-dark);
+  --color-highlight: var(--brand-highlight);
+  --color-signal: var(--brand-signal);
+  --color-ink: var(--brand-ink);
+  --color-surface: var(--brand-surface);
+  --color-line: var(--brand-line);
+  --color-raised: var(--brand-raised);
+  --color-paper: var(--brand-paper);
+  --color-surface-light: var(--brand-surface-light);
+  --color-line-light: var(--brand-line-light);
 
-  /* Tint scales */
-  --color-indigo-100: var(--indigo-100);
-  --color-indigo-200: var(--indigo-200);
-  --color-indigo-400: var(--indigo-400);
-  --color-indigo-600: var(--indigo-600);
-  --color-indigo-800: var(--indigo-800);
-  --color-sand-100: var(--sand-100);
-  --color-sand-200: var(--sand-200);
-  --color-sand-400: var(--sand-400);
-  --color-sand-600: var(--sand-600);
-  --color-sand-800: var(--sand-800);
-  --color-terra-100: var(--terra-100);
-  --color-terra-200: var(--terra-200);
-  --color-terra-400: var(--terra-400);
-  --color-terra-600: var(--terra-600);
-  --color-terra-800: var(--terra-800);
+  /* Tint scales: bg-brand-100, text-signal-600, dark:bg-highlight-800/30 */
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-400: var(--brand-400);
+  --color-brand-600: var(--brand-600);
+  --color-brand-800: var(--brand-800);
+  --color-highlight-100: var(--highlight-100);
+  --color-highlight-200: var(--highlight-200);
+  --color-highlight-400: var(--highlight-400);
+  --color-highlight-600: var(--highlight-600);
+  --color-highlight-800: var(--highlight-800);
+  --color-signal-100: var(--signal-100);
+  --color-signal-200: var(--signal-200);
+  --color-signal-400: var(--signal-400);
+  --color-signal-600: var(--signal-600);
+  --color-signal-800: var(--signal-800);
 
   /* Semantic colors */
   --color-success: var(--success);
@@ -212,15 +207,15 @@
   --color-success-ink: color-mix(in oklab, var(--color-success) 60%, var(--color-foreground));
   --color-destructive-ink: color-mix(in oklab, var(--color-destructive) 60%, var(--color-foreground));
 
-  /* Light theme color system — uses named surface colors (linen/mist pendants of night/veil) */
+  /* Light theme color system: the light surfaces and lines of the brand roles */
   --color-background: var(--gray-50);
   --color-foreground: var(--gray-900);
   --color-foreground-muted: var(--gray-700);
 
-  --color-card: var(--brand-linen); /* Surface — pendant of night */
+  --color-card: var(--brand-surface-light);
   --color-card-foreground: var(--gray-900);
 
-  --color-popover: var(--brand-linen);
+  --color-popover: var(--brand-surface-light);
   --color-popover-foreground: var(--gray-900);
 
   --color-primary: var(--gray-900);
@@ -238,11 +233,11 @@
   --color-destructive: var(--error);
   --color-destructive-foreground: var(--gray-50);
 
-  --color-border: var(--brand-mist); /* Borders — pendant of veil */
-  --color-input: var(--brand-mist);
+  --color-border: var(--brand-line-light);
+  --color-input: var(--brand-line-light);
   /* WHY the accent, not gray-900: a near-black halo reads as an error first.
      Focus is the one moment the brand speaks in chrome. */
-  --color-ring: var(--brand-indigo);
+  --color-ring: var(--brand);
 
   /* Sidebar colors */
   --color-sidebar: var(--sidebar);
@@ -312,48 +307,48 @@
 .dark {
   /* WHY: LayerChart halos axis labels with light-dark(), which reads color-scheme, not the .dark class. */
   color-scheme: dark;
-  /* Dark theme — named surface system (ink/night/veil) */
-  --color-background: var(--brand-ink); /* Base — page background */
-  --color-foreground: var(--brand-cream);
+  /* Dark theme: the brand's dark surfaces, ink on the page and paper on the text */
+  --color-background: var(--brand-ink);
+  --color-foreground: var(--brand-paper);
   --color-foreground-muted: var(--gray-300);
 
-  --color-card: var(--brand-night); /* Surface — cards, panels */
-  --color-card-foreground: var(--brand-cream);
+  --color-card: var(--brand-surface);
+  --color-card-foreground: var(--brand-paper);
 
-  --color-popover: var(--brand-night);
-  --color-popover-foreground: var(--brand-cream);
+  --color-popover: var(--brand-surface);
+  --color-popover-foreground: var(--brand-paper);
 
-  --color-primary: var(--brand-cream);
+  --color-primary: var(--brand-paper);
   --color-primary-foreground: var(--gray-900);
 
-  --color-secondary: var(--brand-dusk); /* Between night (0.18) and veil (0.28) */
-  --color-secondary-foreground: var(--brand-cream);
+  --color-secondary: var(--brand-raised);
+  --color-secondary-foreground: var(--brand-paper);
 
-  --color-muted: var(--brand-dusk); /* Between night and veil — hover surfaces */
+  --color-muted: var(--brand-raised);
   --color-muted-foreground: var(--gray-300);
 
-  --color-accent: var(--brand-dusk); /* Between night and veil — accent surfaces */
-  --color-accent-foreground: var(--brand-cream);
+  --color-accent: var(--brand-raised);
+  --color-accent-foreground: var(--brand-paper);
 
-  --color-destructive: var(--terra-400); /* Lighter terra for dark bg */
-  --color-destructive-foreground: var(--brand-cream);
+  --color-destructive: var(--signal-400);
+  --color-destructive-foreground: var(--brand-paper);
 
-  --color-border: var(--brand-veil); /* Named border color */
-  --color-input: var(--brand-dusk); /* Between night and veil — input surfaces */
-  --color-ring: var(--brand-indigo-light);
+  --color-border: var(--brand-line);
+  --color-input: var(--brand-raised);
+  --color-ring: var(--brand-on-dark);
 
-  /* Brand colors for dark theme — lighter variants for contrast on ink bg */
-  --color-brand-indigo: var(--brand-indigo-light); /* L=0.68 on ink L=0.12 = ΔL 0.56 ✓ */
+  /* The brand colour lifts for contrast on the dark page. */
+  --color-brand: var(--brand-on-dark);
 
-  /* Dark sidebar — uses named surface system */
-  --sidebar: var(--brand-night);
-  --sidebar-foreground: var(--brand-cream);
-  --sidebar-primary: var(--brand-indigo-light);
+  /* Dark sidebar */
+  --sidebar: var(--brand-surface);
+  --sidebar-foreground: var(--brand-paper);
+  --sidebar-primary: var(--brand-on-dark);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.24 0.05 262); /* Between night and veil */
-  --sidebar-accent-foreground: var(--brand-cream);
-  --sidebar-border: var(--brand-veil);
-  --sidebar-ring: var(--brand-indigo-light);
+  --sidebar-accent: var(--brand-raised);
+  --sidebar-accent-foreground: var(--brand-paper);
+  --sidebar-border: var(--brand-line);
+  --sidebar-ring: var(--brand-on-dark);
 
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -400,11 +395,11 @@
   --input: var(--color-input);
   --ring: var(--color-ring);
 
-  /* Chart series. Indigo leads, green second. Terra sits at 4 since a rate gauge
+  /* Chart series. The brand leads, green second. Signal sits at 4 since a rate gauge
      reads as caution, not identity. Every value has a dark variant. */
-  --chart-1: var(--color-brand-indigo);
+  --chart-1: var(--color-brand);
   --chart-2: var(--cat-green);
-  --chart-3: var(--brand-sand);
-  --chart-4: var(--brand-terra);
+  --chart-3: var(--brand-highlight);
+  --chart-4: var(--brand-signal);
   --chart-5: var(--cat-cyan);
 }

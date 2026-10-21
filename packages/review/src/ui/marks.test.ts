@@ -1,4 +1,4 @@
-import StatusDot from "@heyramzi/tasks/status-dot";
+import StatusDot from "@heyramzi/ui/tasks/status-dot";
 import { flushSync, mount, unmount } from "svelte";
 import { afterEach, describe, expect, it } from "vitest";
 import { must } from "#src/test-support.js";

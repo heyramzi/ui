@@ -1,0 +1,39 @@
+/* The card frame and its resize hit areas. Handle looks come from chrome.css. */
+
+/* A one-row grid: at least the saved height, growing with the content.
+   `min-height: 100%` shows a live drag at once. No position, so grips still anchor to the node. */
+.cv-card-frame {
+  display: grid;
+  grid-template-rows: minmax(var(--cv-card-h, 0px), auto);
+  min-height: 100%;
+}
+
+/* A drag drops the saved floor, so the card can shrink as well as grow. */
+.cv-card-frame[data-resizing] {
+  grid-template-rows: auto;
+}
+
+/* The edges are hit areas only, a finger wide at every zoom. */
+.svelte-flow .svelte-flow__resize-control.line.cv-edge {
+  border-width: 0;
+  background: transparent;
+}
+
+.svelte-flow .svelte-flow__resize-control.line.cv-edge:is(.left, .right) {
+  width: calc(10px * var(--canvas-unzoom, 1));
+}
+
+.svelte-flow .svelte-flow__resize-control.line.cv-edge:is(.top, .bottom) {
+  height: calc(10px * var(--canvas-unzoom, 1));
+}
+
+/* A text card's side grips are sideways-moving pills near the top of the edge, since the middle belongs to the connection dot. */
+.svelte-flow .svelte-flow__resize-control.handle.cv-grip-x {
+  top: calc(22px * var(--canvas-unzoom, 1)) !important;
+  /* Above the card's own positioned content, or half the pill hides behind it. */
+  z-index: 3;
+  width: 8px;
+  height: 20px;
+  border-radius: 9999px;
+  cursor: ew-resize;
+}

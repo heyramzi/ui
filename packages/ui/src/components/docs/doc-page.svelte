@@ -112,7 +112,7 @@
 				<div class="flex items-start gap-4">
 					{#if Icon}
 						<span
-							class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-brand-indigo dark:bg-indigo-800/30 dark:text-brand-indigo-light"
+							class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand dark:bg-brand-800/30 dark:text-brand-light"
 						>
 							<Icon class="size-5" weight="bold" />
 						</span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { GaugeChart, Legend, NumberChart, RingChart, Sparkline, StatCard } from "@heyramzi/charts";
+  import { GaugeChart, Legend, NumberChart, RingChart, Sparkline, StatCard } from "@heyramzi/ui/charts";
   import DemoStage from "#lib/DemoStage.svelte";
 
   const usd = { style: "currency", currency: "USD", maximumFractionDigits: 0 } as const;

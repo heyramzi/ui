@@ -6,7 +6,7 @@
 #   pnpm release            # publish every package with changes since its last tag
 #   DRY_RUN=1 pnpm release  # print the plan, change nothing
 #   BUMP="ui=minor" pnpm release  # force a minor the commit types don't show
-#   ONLY="ui charts" pnpm release # release these and hold the rest, e.g. one
+#   ONLY="ui marketing" pnpm release # release these and hold the rest, e.g. one
 #                                 # with another session's uncommitted work in it,
 #                                 # since the publish packs the working tree
 #
@@ -23,13 +23,10 @@ DRY_RUN="${DRY_RUN:-0}"
 TODAY=$(date +%Y-%m-%d)
 NOTES_DIR=$(mktemp -d)
 
-# component -> package dir. review is a private workspace package.
+# component -> package dir. review is a private workspace package. tasks, charts, slides, the editor,
+# onboarding and the canvas ship inside ui as subpaths.
 COMPONENTS="ui packages/ui
-charts packages/charts
-tasks packages/tasks
-marketing packages/marketing
-slides packages/slides
-rich-editor packages/rich-editor"
+marketing packages/marketing"
 
 plan=""
 while read -r component dir; do
@@ -168,7 +165,7 @@ git add -- "${release_files[@]}"
 targets=$(printf '%s' "$plan" | while read -r component dir version next bump first_release; do printf '%s-v%s, ' "$component" "$next"; done)
 targets=${targets%, }
 git commit -m "chore: release ${targets}" -- "${release_files[@]}"
-git push origin main
+git push origin HEAD
 
 # npmjs is the public install. GitHub Packages stays because every Studio app maps the whole
 # @heyramzi scope there for the private packages. This repo's .npmrc maps the scope too, and

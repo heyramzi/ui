@@ -1,0 +1,593 @@
+/* The Screen card. Colours are the board's tokens; set --sc-* on .cv-screen to restyle. */
+.cv-screen {
+  --sc-bg: var(--background, #fff);
+  --sc-surface: var(--card, #fff);
+  --sc-fill: var(--muted, #f4f4f5);
+  --sc-line: var(--border, #e4e4e9);
+  --sc-line-strong: var(--border-strong, #c9c9d1);
+  --sc-ink: var(--foreground, #1c1c24);
+  --sc-ink-2: var(--muted-foreground, #6b6b78);
+  --sc-accent: var(--primary, #4a4ad8);
+  --sc-on-accent: var(--primary-foreground, #fff);
+  --sc-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--sc-ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* The standalone frame. A host with its own card frame skips this. */
+.cv-frame {
+  overflow: hidden;
+  border: 1px solid var(--border, #e4e4e9);
+  border-radius: var(--radius-xl, 12px);
+  background: var(--card, #fff);
+}
+
+.cv-frame.is-selected {
+  border-color: var(--border-strong, #c9c9d1);
+  box-shadow: var(--elev-raised, 0 4px 12px rgb(0 0 0 / 0.08));
+}
+
+/* ── Bar: name and mode switch ── */
+.cv-title-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 12px;
+  border-bottom: 1px solid var(--sc-line);
+}
+
+.cv-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.cv-switch {
+  display: flex;
+  flex: none;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-lg, 8px);
+  background: var(--sc-fill);
+}
+
+.cv-seg {
+  height: 24px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: var(--radius-sm, 6px);
+  background: transparent;
+  color: var(--sc-ink-2);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
+    color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-seg:hover {
+    color: var(--sc-ink);
+  }
+}
+
+.cv-seg[aria-checked="true"] {
+  background: var(--sc-surface);
+  color: var(--sc-ink);
+  font-weight: 600;
+  box-shadow: var(--elev-hairline, 0 0 0 1px var(--sc-line));
+}
+
+.cv-seg:focus-visible,
+.cv-tile:focus-visible,
+.cv-add:focus-visible,
+.cv-tool:focus-visible,
+.cv-mini:focus-visible,
+.cv-add-item:focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: 1px;
+}
+
+/* ── Stage: the parts, stacked ── */
+.cv-stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-gap);
+  padding: 12px;
+}
+
+.cv-part {
+  position: relative;
+}
+
+/* The words of a part: a bare input that takes the look of its surroundings. */
+.cv-field {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-overflow: ellipsis;
+}
+
+.cv-field::placeholder {
+  color: var(--sc-ink-2);
+}
+
+.cv-field:focus-visible {
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--sc-accent) 35%, transparent);
+}
+
+.cv-field:read-only {
+  cursor: default;
+}
+
+/* ── Row tools ── */
+.cv-tools {
+  position: absolute;
+  top: -11px;
+  right: 6px;
+  z-index: 2;
+  display: flex;
+  gap: 1px;
+  padding: 2px;
+  border: 1px solid var(--sc-line);
+  border-radius: var(--radius-lg, 8px);
+  background: var(--sc-surface);
+  box-shadow: var(--elev-card, 0 1px 3px rgb(0 0 0 / 0.08));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+}
+
+.cv-part:focus-within > .cv-tools {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-part:hover > .cv-tools {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.cv-tool,
+.cv-mini {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm, 6px);
+  background: transparent;
+  color: var(--sc-ink-2);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
+    color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+}
+
+.cv-tool.is-text {
+  padding: 0 6px;
+  font-size: 11px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-tool:hover:not(:disabled),
+  .cv-mini:hover {
+    background: var(--sc-fill);
+    color: var(--sc-ink);
+  }
+}
+
+.cv-tool:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cv-glyph {
+  display: inline-block;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+  background: currentColor;
+  mask: var(--glyph) center / contain no-repeat;
+}
+
+.cv-mini {
+  min-width: 20px;
+  height: 20px;
+  opacity: 0;
+}
+
+.cv-list-row:focus-within .cv-mini {
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-list-row:hover .cv-mini {
+    opacity: 1;
+  }
+}
+
+/* ── Add part ── */
+.cv-add,
+.cv-add-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--sc-ink-2);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+}
+
+.cv-add {
+  justify-content: center;
+  height: 32px;
+  border: 1px dashed var(--sc-line-strong);
+  border-radius: var(--radius-lg, 8px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-add:hover,
+  .cv-add-item:hover {
+    color: var(--sc-ink);
+  }
+}
+
+.cv-tray {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.cv-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px 6px;
+  border: 1px solid var(--sc-line);
+  border-radius: var(--radius-lg, 8px);
+  background: var(--sc-surface);
+  color: var(--sc-ink-2);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
+    color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-tile:hover {
+    border-color: var(--sc-line-strong);
+    color: var(--sc-ink);
+  }
+}
+
+/* =========================
+   Wireframe: grey boxes, crossed image, outline buttons
+   ========================= */
+.cv-screen[data-mode="wireframe"] {
+  --sc-wire: var(--sc-line-strong);
+}
+
+[data-mode="wireframe"] .cv-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--sc-wire);
+  border-radius: 3px;
+  background: var(--sc-fill);
+  color: var(--sc-ink-2);
+}
+
+[data-mode="wireframe"] .cv-brand,
+[data-mode="wireframe"] .cv-menu {
+  display: none;
+}
+
+.cv-button-row {
+  display: flex;
+}
+
+[data-mode="wireframe"] .cv-button {
+  display: inline-flex;
+  min-width: 64px;
+  height: 28px;
+  padding: 0 14px;
+  align-items: center;
+  border: 1px solid var(--sc-wire);
+  border-radius: 14px;
+  color: var(--sc-ink-2);
+}
+
+[data-mode="wireframe"] .cv-button.is-primary {
+  border-width: 2px;
+}
+
+.cv-button .cv-field {
+  width: auto;
+  field-sizing: content;
+  min-width: 2ch;
+  text-align: center;
+  font-weight: inherit;
+}
+
+/* The label sits inside the box, like a placeholder. */
+[data-mode="wireframe"] .cv-input {
+  display: grid;
+}
+
+[data-mode="wireframe"] .cv-input > * {
+  grid-area: 1 / 1;
+}
+
+[data-mode="wireframe"] .cv-input-box {
+  height: 32px;
+  border: 1px solid var(--sc-wire);
+  border-radius: 3px;
+}
+
+[data-mode="wireframe"] .cv-input-box i {
+  display: none;
+}
+
+[data-mode="wireframe"] .cv-input-label {
+  z-index: 1;
+  align-self: center;
+  padding: 0 10px;
+  color: var(--sc-ink-2);
+}
+
+[data-mode="mockup"] .cv-input-box i {
+  display: block;
+  width: 1px;
+  height: 14px;
+  background: var(--sc-ink-2);
+  opacity: 0.6;
+}
+
+[data-mode="wireframe"] .cv-image-box {
+  height: 84px;
+  border: 1px solid var(--sc-wire);
+  border-radius: 3px;
+  background:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 0.5px),
+      var(--sc-wire) calc(50% - 0.5px) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom right,
+      transparent calc(50% - 0.5px),
+      var(--sc-wire) calc(50% - 0.5px) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    ),
+    var(--sc-fill);
+}
+
+.cv-image-box .cv-hills {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+[data-mode="wireframe"] .cv-caption {
+  margin-top: 4px;
+  color: var(--sc-ink-2);
+  font-size: 11px;
+}
+
+[data-mode="wireframe"] .cv-list {
+  border: 1px solid var(--sc-wire);
+  border-radius: 3px;
+}
+
+[data-mode="wireframe"] .cv-list-row i {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--sc-wire);
+  border-radius: 2px;
+}
+
+[data-mode="wireframe"] .cv-list-row {
+  color: var(--sc-ink-2);
+}
+
+[data-mode="wireframe"] .cv-modal {
+  padding: 12px;
+  border: 1px solid var(--sc-wire);
+  border-radius: 3px;
+  background: var(--sc-surface);
+  color: var(--sc-ink-2);
+}
+
+/* =========================
+   Mockup: the same parts in the board's tokens
+   ========================= */
+[data-mode="mockup"] .cv-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 4px 0 2px;
+  border-bottom: 1px solid var(--sc-line);
+}
+
+[data-mode="mockup"] .cv-brand {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--sc-accent);
+}
+
+[data-mode="mockup"] .cv-header-title {
+  font-weight: 600;
+}
+
+[data-mode="mockup"] .cv-menu {
+  display: flex;
+  flex: none;
+  gap: 3px;
+}
+
+[data-mode="mockup"] .cv-menu i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--sc-ink-2);
+}
+
+[data-mode="mockup"] .cv-button {
+  display: inline-flex;
+  min-width: 72px;
+  height: 32px;
+  padding: 0 14px;
+  align-items: center;
+  border-radius: var(--radius-lg, 8px);
+  font-weight: 600;
+}
+
+[data-mode="mockup"] .cv-button.is-primary {
+  background: var(--sc-accent);
+  color: var(--sc-on-accent);
+}
+
+[data-mode="mockup"] .cv-button.is-secondary {
+  border: 1px solid var(--sc-line-strong);
+  background: var(--sc-surface);
+  color: var(--sc-ink);
+}
+
+[data-mode="mockup"] .cv-input-label {
+  margin-bottom: 4px;
+  color: var(--sc-ink-2);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+[data-mode="mockup"] .cv-input-box {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--sc-line-strong);
+  border-radius: var(--radius-lg, 8px);
+  background: var(--sc-bg);
+}
+
+[data-mode="mockup"] .cv-image-box {
+  height: 96px;
+  border-radius: var(--radius-lg, 8px);
+  background: color-mix(in oklch, var(--sc-accent) 14%, var(--sc-fill));
+}
+
+[data-mode="mockup"] .cv-image-box .cv-hills {
+  display: block;
+}
+
+[data-mode="mockup"] .cv-hills {
+  color: color-mix(in oklch, var(--sc-accent) 45%, transparent);
+}
+
+[data-mode="mockup"] .cv-caption {
+  margin-top: 6px;
+  color: var(--sc-ink-2);
+  font-size: 11px;
+}
+
+[data-mode="mockup"] .cv-list-row i {
+  display: none;
+}
+
+[data-mode="mockup"] .cv-list-row:not(.is-add) {
+  border-bottom: 1px solid var(--sc-line);
+}
+
+[data-mode="mockup"] .cv-modal {
+  padding: 14px;
+  border: 1px solid var(--sc-line);
+  border-radius: var(--radius-xl, 12px);
+  background: var(--sc-surface);
+  box-shadow: var(--elev-overlay, 0 8px 24px rgb(0 0 0 / 0.12));
+}
+
+[data-mode="mockup"] .cv-modal-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+[data-mode="mockup"] .cv-modal-text {
+  margin-top: 4px;
+  color: var(--sc-ink-2);
+  font-size: 12px;
+}
+
+/* ── Shared by both modes ── */
+.cv-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-list-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 0 8px;
+}
+
+.cv-list-row.is-add {
+  padding-left: 8px;
+}
+
+.cv-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cv-modal-title {
+  font-weight: 600;
+}
+
+.cv-x {
+  flex: none;
+  color: var(--sc-ink-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-seg,
+  .cv-tool,
+  .cv-mini,
+  .cv-add,
+  .cv-add-item,
+  .cv-tile,
+  .cv-tools {
+    transition: none;
+  }
+}

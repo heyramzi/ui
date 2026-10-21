@@ -2,25 +2,27 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { ModeWatcher, userPrefersMode, type UserPrefersMode } from "mode-watcher";
+	import { ModeWatcher, userPrefersMode } from "mode-watcher";
 	import type { ComponentProps } from "svelte";
 
 	// =========================
 	// TYPES
 	// =========================
 	type WatcherProps = ComponentProps<typeof ModeWatcher>;
+	// mode-watcher exports its store class under the name UserPrefersMode, so the value type comes from the store.
+	type ThemeMode = (typeof userPrefersMode)["current"];
 
 	interface Props extends Omit<WatcherProps, "defaultMode"> {
 		/**
 		 * The choice the server already knows, for a browser that has none stored. A stored
 		 * choice wins, so it seeds a first visit and never overrides a click.
 		 */
-		initial?: UserPrefersMode;
+		initial?: ThemeMode;
 		/**
 		 * Fires when the person changes the mode, never on load. An app that saves the choice
 		 * on its server posts it here.
 		 */
-		onChange?: (mode: UserPrefersMode) => void;
+		onChange?: (mode: ThemeMode) => void;
 	}
 
 	// =========================
@@ -32,7 +34,7 @@
 	// EFFECTS
 	// =========================
 	// The first run is the mode read from storage on mount, which nobody chose.
-	let seen: UserPrefersMode | null = null;
+	let seen: ThemeMode | null = null;
 	$effect(() => {
 		const next = userPrefersMode.current;
 		if (seen !== null && next !== seen) onChange?.(next);

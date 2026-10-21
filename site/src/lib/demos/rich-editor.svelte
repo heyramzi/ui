@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { RichEditor } from "@heyramzi/rich-editor";
+  import { RichEditor } from "@heyramzi/ui/editor";
 
   let doc = $state<Record<string, unknown> | null>({
     type: "doc",

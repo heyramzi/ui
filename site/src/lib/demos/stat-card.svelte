@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StatCard } from "@heyramzi/charts";
+  import { StatCard } from "@heyramzi/ui/charts";
 
   const data = [
     { m: "Jan", v: 3200 },

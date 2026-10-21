@@ -1,5 +1,5 @@
 export const slidesAsMarkup = `<script>
-  import { Deck, Slide, Fragment } from "@heyramzi/slides";
+  import { Deck, Slide, Fragment } from "@heyramzi/ui/slides";
 </script>
 
 <Deck title="Q3 review" urlSync presenter="/present">
@@ -12,7 +12,7 @@ export const slidesAsMarkup = `<script>
   </Slide>
 </Deck>`;
 
-export const slidesAsData = `import { defineRegistry, defineSlideType } from "@heyramzi/slides/model";
+export const slidesAsData = `import { defineRegistry, defineSlideType } from "@heyramzi/ui/slides/model";
 
 const cover = defineSlideType({ type: "cover", label: "Cover", layout: CoverLayout });
 const registry = defineRegistry([cover]);

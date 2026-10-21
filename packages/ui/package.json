@@ -1,7 +1,7 @@
 {
   "name": "@heyramzi/ui",
   "version": "1.54.2",
-  "description": "Svelte 5 UI primitives: effects, animations, and shared component CSS.",
+  "description": "Svelte 5 UI for apps: primitives, effects and animations, plus tasks, charts, slides, an editor, onboarding and a canvas as subpaths.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -29,6 +29,11 @@
       "default": "./src/index.ts"
     },
     "./tokens.css": "./src/tokens/index.css",
+    "./brand": {
+      "svelte": "./src/brand/index.ts",
+      "types": "./src/brand/index.ts",
+      "default": "./src/brand/index.ts"
+    },
     "./lib/*.js": {
       "svelte": "./src/lib/*.ts",
       "types": "./src/lib/*.ts",
@@ -166,33 +171,216 @@
       "types": "./src/agents/index.ts",
       "default": "./src/agents/index.ts"
     },
-    "./agents/demo.svelte": "./src/agents/demo.svelte"
+    "./agents/demo.svelte": "./src/agents/demo.svelte",
+    "./tasks": {
+      "svelte": "./src/tasks/index.ts",
+      "types": "./src/tasks/index.ts",
+      "default": "./src/tasks/index.ts"
+    },
+    "./tasks/kanban": {
+      "svelte": "./src/tasks/kanban-board.svelte",
+      "types": "./src/tasks/kanban-board.svelte",
+      "default": "./src/tasks/kanban-board.svelte"
+    },
+    "./tasks/list": {
+      "svelte": "./src/tasks/task-list.svelte",
+      "types": "./src/tasks/task-list.svelte",
+      "default": "./src/tasks/task-list.svelte"
+    },
+    "./tasks/gantt": {
+      "svelte": "./src/tasks/task-gantt.svelte",
+      "types": "./src/tasks/task-gantt.svelte",
+      "default": "./src/tasks/task-gantt.svelte"
+    },
+    "./tasks/status": {
+      "svelte": "./src/tasks/status-badge.svelte",
+      "types": "./src/tasks/status-badge.svelte",
+      "default": "./src/tasks/status-badge.svelte"
+    },
+    "./tasks/status-dot": {
+      "svelte": "./src/tasks/status-dot.svelte",
+      "types": "./src/tasks/status-dot.svelte",
+      "default": "./src/tasks/status-dot.svelte"
+    },
+    "./tasks/statuses": {
+      "svelte": "./src/tasks/define-statuses.ts",
+      "types": "./src/tasks/define-statuses.ts",
+      "default": "./src/tasks/define-statuses.ts"
+    },
+    "./tasks/time": {
+      "svelte": "./src/tasks/time/time-tracker.svelte",
+      "types": "./src/tasks/time/time-tracker.svelte",
+      "default": "./src/tasks/time/time-tracker.svelte"
+    },
+    "./tasks/inbox": {
+      "svelte": "./src/tasks/inbox/index.ts",
+      "types": "./src/tasks/inbox/index.ts",
+      "default": "./src/tasks/inbox/index.ts"
+    },
+    "./tasks/side-panel": {
+      "svelte": "./src/tasks/side-panel.svelte",
+      "types": "./src/tasks/side-panel.svelte",
+      "default": "./src/tasks/side-panel.svelte"
+    },
+    "./tasks/presets/sales": {
+      "svelte": "./src/tasks/presets/sales.ts",
+      "types": "./src/tasks/presets/sales.ts",
+      "default": "./src/tasks/presets/sales.ts"
+    },
+    "./tasks/detail": {
+      "svelte": "./src/tasks/detail/task-detail.svelte",
+      "types": "./src/tasks/detail/task-detail.svelte",
+      "default": "./src/tasks/detail/task-detail.svelte"
+    },
+    "./tasks/detail-demo.svelte": "./src/tasks/detail/detail-demo.svelte",
+    "./tasks/record": {
+      "svelte": "./src/tasks/record/index.ts",
+      "types": "./src/tasks/record/index.ts",
+      "default": "./src/tasks/record/index.ts"
+    },
+    "./tasks/record-demo.svelte": "./src/tasks/record/record-demo.svelte",
+    "./tasks/demo": {
+      "svelte": "./src/tasks/demo.svelte",
+      "default": "./src/tasks/demo.svelte"
+    },
+    "./tasks/demo.svelte": "./src/tasks/demo.svelte",
+    "./charts": {
+      "svelte": "./src/charts/index.ts",
+      "types": "./src/charts/index.ts",
+      "default": "./src/charts/index.ts"
+    },
+    "./charts/dashboard": {
+      "svelte": "./src/charts/dashboard/index.ts",
+      "types": "./src/charts/dashboard/index.ts",
+      "default": "./src/charts/dashboard/index.ts"
+    },
+    "./slides": {
+      "types": "./src/slides/index.ts",
+      "svelte": "./src/slides/index.ts",
+      "default": "./src/slides/index.ts"
+    },
+    "./slides/model": {
+      "types": "./src/slides/model.ts",
+      "default": "./src/slides/model.ts"
+    },
+    "./slides/export": {
+      "types": "./src/slides/export/index.ts",
+      "default": "./src/slides/export/index.ts"
+    },
+    "./slides/demo": {
+      "svelte": "./src/slides/demo.svelte",
+      "default": "./src/slides/demo.svelte"
+    },
+    "./slides/demo.svelte": "./src/slides/demo.svelte",
+    "./slides/demo-slides": {
+      "svelte": "./src/slides/demo-slides.svelte",
+      "default": "./src/slides/demo-slides.svelte"
+    },
+    "./slides/demo-slides.svelte": "./src/slides/demo-slides.svelte",
+    "./editor": {
+      "svelte": "./src/editor/index.ts",
+      "types": "./src/editor/index.ts",
+      "default": "./src/editor/index.ts"
+    },
+    "./editor/serializer": {
+      "types": "./src/editor/serializer.ts",
+      "default": "./src/editor/serializer.ts"
+    },
+    "./editor/markdown": {
+      "types": "./src/editor/markdown.ts",
+      "default": "./src/editor/markdown.ts"
+    },
+    "./editor/block-ops": {
+      "types": "./src/editor/block-ops.ts",
+      "default": "./src/editor/block-ops.ts"
+    },
+    "./editor/inline-editor": {
+      "svelte": "./src/editor/inline-editor.svelte",
+      "default": "./src/editor/inline-editor.svelte"
+    },
+    "./editor/content.css": {
+      "style": "./src/editor/content.css",
+      "default": "./src/editor/content.css"
+    },
+    "./onboarding": {
+      "svelte": "./src/onboarding/index.ts",
+      "types": "./src/onboarding/index.ts",
+      "default": "./src/onboarding/index.ts"
+    },
+    "./onboarding/stores": {
+      "svelte": "./src/onboarding/stores.ts",
+      "types": "./src/onboarding/stores.ts",
+      "default": "./src/onboarding/stores.ts"
+    },
+    "./onboarding/demo": {
+      "svelte": "./src/onboarding/demo.svelte",
+      "default": "./src/onboarding/demo.svelte"
+    },
+    "./onboarding/demo.svelte": "./src/onboarding/demo.svelte",
+    "./canvas": {
+      "types": "./src/canvas/index.ts",
+      "svelte": "./src/canvas/index.ts",
+      "default": "./src/canvas/index.ts"
+    },
+    "./canvas/*.svelte": {
+      "types": "./src/canvas/*.svelte",
+      "svelte": "./src/canvas/*.svelte",
+      "default": "./src/canvas/*.svelte"
+    },
+    "./canvas/*.css": "./src/canvas/*.css",
+    "./canvas/*.js": {
+      "types": "./src/canvas/*.ts",
+      "svelte": "./src/canvas/*.ts",
+      "default": "./src/canvas/*.ts"
+    }
   },
   "scripts": {
     "test": "vp test run",
     "sync:transitions": "node scripts/sync-transitions.mjs",
     "sync:shadcn": "node scripts/sync-shadcn.mjs",
     "sync": "pnpm sync:transitions && pnpm sync:shadcn",
-    "sync:check": "node scripts/sync-transitions.mjs --check && node scripts/sync-shadcn.mjs --check"
+    "sync:check": "node scripts/sync-transitions.mjs --check && node scripts/sync-shadcn.mjs --check",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^3.1.1",
     "@shadcn-svelte/primitives": "^0.0.1",
+    "@tiptap/core": "^3.31.4",
+    "@tiptap/extension-drag-handle": "^3.31.4",
+    "@tiptap/extension-image": "^3.31.4",
+    "@tiptap/extension-placeholder": "^3.31.4",
+    "@tiptap/pm": "^3.31.4",
+    "@tiptap/starter-kit": "^3.31.4",
+    "@zag-js/svelte": "^1.46.0",
+    "@zag-js/tour": "^1.46.0",
     "clsx": "^2.1.1",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "layerchart": "^2.5.1",
+    "markdown-it": "^15.0.2",
     "marked": "^18.1.0",
+    "perfect-freehand": "^1.2.3",
     "phosphor-svelte": "^3.1.0",
+    "roughjs": "^4.6.6",
     "shiki": "^4.5.0",
     "tailwind-merge": "^3.7.0",
-    "tailwind-variants": "^3.3.1"
+    "tailwind-variants": "^3.3.1",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@internationalized/date": "^3.12.4",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.2.0",
     "@types/node": "^26.6.4",
+    "@xyflow/svelte": "^1.7.0",
     "bits-ui": "^2.19.5",
     "jsdom": "^30.1.2",
     "mode-watcher": "^1.1.0",
     "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
     "svelte-sonner": "^1.2.1",
+    "typescript": "~7.0.2",
     "vite-plus": "^1.0.0",
     "vitest": "^5.0.3"
   },
@@ -202,7 +390,8 @@
     "bits-ui": "^2.19.5",
     "mode-watcher": "^1.1.0",
     "svelte": "^5.57.2",
-    "svelte-sonner": "^1.2.1"
+    "svelte-sonner": "^1.2.1",
+    "@xyflow/svelte": "^1.7.0"
   },
   "peerDependenciesMeta": {
     "mode-watcher": {
@@ -215,6 +404,9 @@
       "optional": true
     },
     "@tabler/icons-svelte-runes": {
+      "optional": true
+    },
+    "@xyflow/svelte": {
       "optional": true
     }
   }

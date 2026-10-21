@@ -33,7 +33,7 @@ let { icon: Icon, children, class: className }: Props = $props();
 	)}
 >
 	{#if Icon}
-		<Icon class="size-4 text-brand-indigo" aria-hidden="true" />
+		<Icon class="size-4 text-brand" aria-hidden="true" />
 	{/if}
 	{@render children()}
 </span>

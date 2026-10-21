@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TaskGantt, addDays, todayIso, type GanttChange } from "@heyramzi/tasks";
+  import { TaskGantt, addDays, todayIso, type GanttChange } from "@heyramzi/ui/tasks";
 
   type Task = { id: string; title: string; start: string; end: string; progress: number; dependsOn?: string[] };
 

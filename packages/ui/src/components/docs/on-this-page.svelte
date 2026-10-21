@@ -110,7 +110,7 @@
 				     the part of the line you're standing on. -->
 				<span
 					aria-hidden="true"
-					class="otp-marker absolute -left-px top-0 w-0.5 rounded-full bg-brand-indigo dark:bg-brand-indigo-light"
+					class="otp-marker absolute -left-px top-0 w-0.5 rounded-full bg-brand dark:bg-brand-light"
 					class:is-ready={marker.ready}
 					style="transform: translateY({marker.y}px); height: {marker.h}px;"
 				></span>
@@ -157,7 +157,7 @@
 		<!-- How far through the reader is. The only motion here, and it is the state. -->
 		<span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px bg-border">
 			<span
-				class="otp-progress block h-full origin-left bg-brand-indigo dark:bg-brand-indigo-light"
+				class="otp-progress block h-full origin-left bg-brand dark:bg-brand-light"
 				style="transform: scaleX({progress});"
 			></span>
 		</span>

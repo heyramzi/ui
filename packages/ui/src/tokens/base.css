@@ -101,7 +101,7 @@
   }
   .dark html,
   html.dark {
-    scrollbar-color: var(--brand-veil) transparent;
+    scrollbar-color: var(--brand-line) transparent;
   }
   h1,
   h2,
@@ -112,14 +112,14 @@
     font-family: var(--font-heading);
   }
 
-  /* WHY: the browser's default highlight is a system blue from no theme. Indigo
-     at 18% keeps text at its own contrast in both modes. */
+  /* WHY: the browser's default highlight is a system blue from no theme.
+     The brand colour at 18% keeps text at its own contrast in both modes. */
   ::selection {
-    background-color: color-mix(in oklab, var(--brand-indigo) 18%, transparent);
+    background-color: color-mix(in oklab, var(--brand) 18%, transparent);
   }
   .dark ::selection,
   html.dark ::selection {
-    background-color: color-mix(in oklab, var(--brand-indigo-light) 26%, transparent);
+    background-color: color-mix(in oklab, var(--brand-on-dark) 26%, transparent);
   }
 
   /* ── Touch input ───────────────────────────────────────

@@ -67,6 +67,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `icon` — Icon, a Phosphor component at a size
 - `language-flag` — LanguageFlag
 - `list-page` — ListPageShell, MasterDetail, GroupedList, RailRow and the rest of the master-detail page kit, NoticeBar, EmptyState, FilterPopover, setSectionHost
+- `toolbar` — Toolbar: one row at any width; search, tabs and the view switch fold into menus in a narrow pane
 - `locale-switch` — LocaleSwitch, a language switch on SegmentedFilter
 - `mark` — Mark, a logo or photo glyph with an initial fallback
 - `open-in` — OpenIn, a link out to a tool that takes the tool's name, label and mark as a prop
@@ -134,6 +135,6 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 
 ---
 
-Skipped on purpose: brand assets (logos, marks, brand renderer), kanban, list, gantt and status (they live in `@heyramzi/tasks`), and charts
-(they live in `@heyramzi/charts`). The bot avatars
+Skipped on purpose: brand assets (logos, marks, brand renderer), kanban, list, gantt and status (they live in `@heyramzi/ui/tasks`), and charts
+(they live in `@heyramzi/ui/charts`). The bot avatars
 are in `src/agents`, imported from `@heyramzi/ui/agents`.

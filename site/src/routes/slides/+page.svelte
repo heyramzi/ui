@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Demo from "@heyramzi/slides/demo.svelte";
+  import Demo from "@heyramzi/ui/slides/demo.svelte";
   import { slidesAsData, slidesAsMarkup } from "#lib/slides-examples.js";
   import PackagePage from "#lib/PackagePage.svelte";
   import * as CodeBlock from "@heyramzi/ui/shadcn/code-block";

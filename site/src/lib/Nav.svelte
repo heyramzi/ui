@@ -7,6 +7,7 @@
     ["/components", "Components"],
     ["/charts", "Charts"],
     ["/tasks", "Tasks"],
+    ["/onboarding", "Onboarding"],
     ["/agents", "Agents"],
     ["/slides", "Slides"],
     ["/marketing", "Marketing"],

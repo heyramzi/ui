@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TaskList, type KanbanMove } from "@heyramzi/tasks";
+  import { TaskList, type KanbanMove } from "@heyramzi/ui/tasks";
 
   type Task = { id: string; status: string; title: string; owner: string; boardOrder: string };
 

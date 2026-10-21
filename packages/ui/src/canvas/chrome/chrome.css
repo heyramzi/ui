@@ -1,0 +1,201 @@
+/* Canvas chrome: dots, resize handles, size chip, lock badge. Each scales by `--canvas-unzoom`, written only on nodes showing chrome. */
+
+:root {
+  --cv-dot: 12px;
+  /* A dot under the pointer grows by this factor, to about 16px. */
+  --cv-dot-hot-grow: 1.34;
+  --cv-handle: 10px;
+  --cv-chrome-ring: var(--cv-selection, var(--ring, #4a4ad8));
+  --cv-chrome-surface: var(--cv-surface, var(--card, #fff));
+  --cv-chrome-line: var(--cv-line, var(--border, #e4e4e9));
+  --cv-chrome-halo: color-mix(in oklch, var(--cv-chrome-ring) 18%, transparent);
+  --cv-chrome-radius: 12px;
+  /* The one selection line: thin, in the accent, and 1.5px on screen at any zoom. */
+  --cv-select-outline: calc(1.5px * var(--canvas-unzoom, 1)) solid var(--cv-chrome-ring);
+}
+
+/* ── Selection ─────────────────────────────────────────── */
+
+/* One selected card shows its grips, size chip and quick-add. A group shows outlines and one box. ChromeZoom sets the flag. */
+[data-cv-multi] .svelte-flow__resize-control,
+[data-cv-multi] .cv-size-chip {
+  display: none;
+}
+
+/* The marquee being dragged: the same line, and a faint wash. */
+.svelte-flow .svelte-flow__selection {
+  border: 1px solid var(--cv-chrome-ring);
+  background: color-mix(in oklch, var(--cv-chrome-ring) 7%, transparent);
+}
+
+/* The box round a multi-selection: one hairline, no fill, so it never hides what it holds. */
+.svelte-flow .svelte-flow__nodesselection-rect {
+  border: 1px solid var(--cv-chrome-ring);
+  border-radius: 4px;
+  background: transparent;
+}
+
+/* ── Connection dots ───────────────────────────────────── */
+
+/* The grow-in animates this number, never `scale` itself: `scale` also carries the zoom correction,
+   and a transition on it would trail every zoom frame. */
+@property --cv-grow {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.4;
+}
+
+/* The doubled `.svelte-flow` outranks a host's utility classes on the same handle (size, border, fill).
+   At zero opacity a dot stays hit-testable. */
+.svelte-flow .svelte-flow__handle.cv-handle {
+  width: var(--cv-dot) !important;
+  height: var(--cv-dot) !important;
+  border: 2px solid var(--cv-chrome-ring) !important;
+  border-radius: 9999px !important;
+  background: var(--cv-chrome-surface) !important;
+  /* Above a card's own positioned content, which would cover the inner half of the dot. */
+  z-index: 2;
+  opacity: 0;
+  /* Scale, not opacity alone: a dot that grows into place reads as an affordance offering itself. */
+  --cv-grow: 0.4;
+  scale: calc(var(--cv-grow) * var(--canvas-unzoom, 1));
+  transition:
+    opacity var(--duration-quick, 120ms) var(--ease-out, ease-out),
+    --cv-grow var(--duration-quick, 120ms) var(--ease-out, ease-out),
+    background-color var(--duration-quick, 120ms) var(--ease-out, ease-out),
+    box-shadow var(--duration-quick, 120ms) var(--ease-out, ease-out);
+}
+
+/* `scale` acts on the box before xyflow's `transform` centres it on the edge, so it grows from
+   the corner that lands there, or the dot drifts off centre. */
+.svelte-flow .svelte-flow__handle-top.cv-handle,
+.svelte-flow .svelte-flow__handle-left.cv-handle {
+  transform-origin: 0 0;
+}
+
+.svelte-flow .svelte-flow__handle-bottom.cv-handle {
+  transform-origin: 0 100%;
+}
+
+.svelte-flow .svelte-flow__handle-right.cv-handle {
+  transform-origin: 100% 0;
+}
+
+/* A wider grab area than the dot, so a link starts without aiming at 12px. */
+.svelte-flow .svelte-flow__handle.cv-handle::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border-radius: 9999px;
+}
+
+.svelte-flow__node:hover .cv-handle,
+[data-cv-linking] .cv-handle {
+  opacity: 1;
+  --cv-grow: 1;
+}
+
+/* The dot a link starts from or lands on grows and takes the ring colour. The invisible source takes the pointer, so the visible target reads it through :has. */
+.svelte-flow .svelte-flow__handle.cv-handle:hover,
+.svelte-flow .svelte-flow__handle.cv-handle:has(+ .cv-handle:hover),
+.svelte-flow .svelte-flow__handle.cv-handle.connectingto,
+.svelte-flow .svelte-flow__handle.cv-handle:has(+ .connectingto) {
+  opacity: 1;
+  --cv-grow: var(--cv-dot-hot-grow);
+  border-color: var(--cv-chrome-surface) !important;
+  background: var(--cv-chrome-ring) !important;
+  box-shadow: 0 0 0 calc(var(--cv-dot) * 0.45) var(--cv-chrome-halo);
+}
+
+/* The card a link would land on glows, so the target is clear before the pointer is released. */
+[data-cv-linking] .svelte-flow__node:hover:not(:has(.connectingfrom)),
+[data-cv-linking] .svelte-flow__node:has(.connectingto) {
+  border-radius: var(--cv-chrome-radius);
+  box-shadow:
+    0 0 0 2px var(--cv-chrome-ring),
+    0 0 0 7px var(--cv-chrome-halo);
+}
+
+.svelte-flow__node {
+  transition: box-shadow var(--duration-quick, 120ms) var(--ease-out, ease-out);
+}
+
+/* ── Resize handles ────────────────────────────────────── */
+
+/* The edge lines are hit areas only; the corner handles exist only while the card is selected. */
+.svelte-flow__resize-control.line {
+  border-color: transparent;
+}
+
+/* `.svelte-flow` in front: xyflow's stylesheet loads later and draws a 5px square. */
+.svelte-flow .svelte-flow__resize-control.handle {
+  width: var(--cv-handle);
+  height: var(--cv-handle);
+  border: 1.5px solid var(--cv-chrome-ring);
+  border-radius: 3px;
+  background: var(--cv-chrome-surface);
+  /* Beats xyflow's inline scale, which only counters zooming out. */
+  scale: var(--canvas-unzoom, 1) !important;
+}
+
+/* ── Size chip ─────────────────────────────────────────── */
+
+.cv-size-chip {
+  position: absolute;
+  top: calc(100% + 10px * var(--canvas-unzoom, 1));
+  left: 50%;
+  z-index: 3;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: var(--cv-chrome-ring);
+  color: var(--cv-chrome-surface);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transform: translateX(-50%) scale(var(--canvas-unzoom, 1));
+  transform-origin: top center;
+  pointer-events: none;
+}
+
+/* ── Lock badge ────────────────────────────────────────── */
+
+/* Shows on hover and selection. */
+.cv-lock-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 3;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cv-chrome-line);
+  border-radius: 9999px;
+  background: var(--cv-chrome-surface);
+  color: var(--cv-ink-muted, var(--muted-foreground, #6b6b78));
+  box-shadow: var(--elev-card, 0 1px 3px rgb(0 0 0 / 0.1));
+  opacity: 0;
+  transform: scale(var(--canvas-unzoom, 1));
+  transform-origin: top right;
+  transition: opacity var(--duration-quick, 120ms) var(--ease-out, ease-out);
+  pointer-events: none;
+}
+
+.svelte-flow__node:hover .cv-lock-badge,
+.svelte-flow__node.selected .cv-lock-badge {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svelte-flow .svelte-flow__handle.cv-handle {
+    --cv-grow: 1;
+    transition: opacity 1ms;
+  }
+
+  .svelte-flow .svelte-flow__handle.cv-handle:hover {
+    --cv-grow: 1;
+  }
+}

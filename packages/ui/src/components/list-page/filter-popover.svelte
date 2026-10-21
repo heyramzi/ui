@@ -71,7 +71,7 @@ let isActive = $derived(active ?? hasCount);
 		{/if}
 		{#if hasCount}
 			<span
-				class="ml-0.5 inline-flex size-4 items-center justify-center rounded-full bg-brand-indigo/15 text-[10px] font-semibold text-brand-indigo dark:text-brand-indigo-light"
+				class="ml-0.5 inline-flex size-4 items-center justify-center rounded-full bg-brand/15 text-[10px] font-semibold text-brand dark:text-brand-light"
 			>
 				{count}
 			</span>

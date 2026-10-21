@@ -42,12 +42,12 @@
 <style>
   .review-demo :global(.rv) {
     color-scheme: dark;
-    --accent: var(--brand-indigo-light);
+    --accent: var(--brand-on-dark);
     --radius: 10px;
   }
 
   :global(:root[data-theme="light"]) .review-demo :global(.rv) {
     color-scheme: light;
-    --accent: var(--brand-indigo);
+    --accent: var(--brand);
   }
 </style>

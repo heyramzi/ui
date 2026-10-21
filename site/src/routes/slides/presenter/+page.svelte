@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Presenter } from "@heyramzi/slides";
-  import DemoSlides, { demoStyle } from "@heyramzi/slides/demo-slides.svelte";
+  import { Presenter } from "@heyramzi/ui/slides";
+  import DemoSlides, { demoStyle } from "@heyramzi/ui/slides/demo-slides.svelte";
 </script>
 
 <!-- The site layout draws a nav and footer. The presenter owns the whole window. -->

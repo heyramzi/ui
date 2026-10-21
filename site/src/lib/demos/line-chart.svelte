@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LineChart } from "@heyramzi/charts";
+  import { LineChart } from "@heyramzi/ui/charts";
 
   const data = [
     { day: "Mon", visits: 1240, signups: 120 },

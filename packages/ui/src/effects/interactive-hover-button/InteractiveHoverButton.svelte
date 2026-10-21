@@ -233,13 +233,13 @@ let classes = $derived(
 		transition: opacity var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out);
 	}
 
-	/* terra-600, not terra-400: the dot becomes the hover fill under a cream
-	   label, and cream on terra-400 is 3.24:1. It works in both themes. */
+	/* signal-600, not signal-400: the dot becomes the hover fill under a paper
+	   label, and paper on signal-400 fails AA. It works in both themes. */
 	.cta-hover__dot {
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		background: var(--color-terra-600);
+		background: var(--color-signal-600);
 		flex-shrink: 0;
 		transition: transform var(--duration-fast) var(--ease-smooth-out);
 	}
@@ -264,9 +264,9 @@ let classes = $derived(
 		transition:
 			transform var(--duration-fast) var(--ease-smooth-out),
 			opacity var(--duration-fast) var(--ease-smooth-out);
-		/* The reveal label always lands on the terra-600 dot fill, where cream
+		/* The reveal label always lands on the signal-600 dot fill, where paper
 		   clears AA at button-label sizes. */
-		color: var(--color-brand-cream);
+		color: var(--color-paper);
 		pointer-events: none;
 	}
 
@@ -279,16 +279,16 @@ let classes = $derived(
 	/* Coral fill, heavier than the ink default. It comes after the .dark rules
 	   so one set of colors covers both themes. */
 	.cta-hover--coral {
-		/* Cream label on terra-600: on terra-400 it's 3.24:1 and fails AA. */
-		color: var(--color-brand-cream);
+		/* Paper label on signal-600: on signal-400 it fails AA. */
+		color: var(--color-paper);
 	}
 
 	.cta-hover--coral::after {
-		background: var(--color-terra-600);
+		background: var(--color-signal-600);
 	}
 
 	.cta-hover--coral.cta-hover--no-beam {
-		background: var(--color-terra-600);
+		background: var(--color-signal-600);
 	}
 
 	.cta-hover--coral::before,
@@ -296,17 +296,17 @@ let classes = $derived(
 		background: conic-gradient(
 			transparent 0deg,
 			transparent 220deg,
-			var(--color-brand-cream) 280deg,
-			var(--color-terra-200) 320deg,
+			var(--color-paper) 280deg,
+			var(--color-signal-200) 320deg,
 			transparent 360deg
 		);
 	}
 
-	/* Ink dot on coral, so hover turns the button black under a cream label
+	/* Ink dot on coral, so hover turns the button black under a paper label
 	   instead of washing it out to cream. */
 	.cta-hover--coral .cta-hover__dot,
 	:global(.dark) .cta-hover--coral .cta-hover__dot {
-		background: var(--color-brand-ink);
+		background: var(--color-ink);
 	}
 
 	@media (hover: hover) and (pointer: fine) {

@@ -12,12 +12,6 @@
   --font-heading: "Geist", system-ui, sans-serif;
 }
 
-:root {
-  --font-satoshi: "Geist", system-ui, sans-serif;
-  --font-manrope: "Geist", system-ui, sans-serif;
-  --font-space-grotesk: "Geist Mono", ui-monospace, monospace;
-}
-
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-sans);
@@ -25,7 +19,7 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
-::selection { background: color-mix(in oklab, var(--brand-indigo) 30%, transparent); }
+::selection { background: color-mix(in oklab, var(--brand) 30%, transparent); }
 
 /* The dotted canvas behind every live preview. */
 .canvas-dots {

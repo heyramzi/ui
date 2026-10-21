@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SidePanel } from "@heyramzi/tasks";
+  import { SidePanel } from "@heyramzi/ui/tasks";
   import { Button } from "@heyramzi/ui/shadcn/button";
   import type { OpenInTool } from "@heyramzi/ui/components/open-in";
   import { GithubLogo } from "phosphor-svelte";

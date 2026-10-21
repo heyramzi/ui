@@ -34,11 +34,11 @@
   "overrides": [
     {
       "files": [
-        "**/packages/charts/src/ring-chart.svelte",
-        "**/packages/charts/src/gauge-chart.svelte",
-        "**/packages/tasks/src/status-dot.svelte",
-        "**/packages/tasks/src/time/time-ring.svelte",
-        "**/packages/tasks/src/task-gantt.svelte"
+        "**/packages/ui/src/charts/ring-chart.svelte",
+        "**/packages/ui/src/charts/gauge-chart.svelte",
+        "**/packages/ui/src/tasks/status-dot.svelte",
+        "**/packages/ui/src/tasks/time/time-ring.svelte",
+        "**/packages/ui/src/tasks/gantt/gantt-grid.svelte"
       ],
       "rules": {
         "@heyramzi/lint/no-inline-svg": "off"
@@ -48,8 +48,8 @@
       "files": [
         "**/packages/ui/src/effects/spotlight/Spotlight.svelte",
         "**/packages/ui/src/effects/image-comparison/ImageComparison.svelte",
-        "**/packages/slides/src/Controls.svelte",
-        "**/packages/slides/src/demo-slides.svelte",
+        "**/packages/ui/src/slides/Controls.svelte",
+        "**/packages/ui/src/slides/demo-slides.svelte",
         "**/packages/review/src/ui/LibrarySearch.svelte"
       ],
       "rules": {
@@ -58,7 +58,7 @@
     },
     {
       "files": [
-        "**/packages/slides/src/model.ts"
+        "**/packages/ui/src/slides/model.ts"
       ],
       "rules": {
         "typescript/no-explicit-any": "off"

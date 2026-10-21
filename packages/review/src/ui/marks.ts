@@ -1,4 +1,4 @@
-import { defineStatuses } from "@heyramzi/tasks/statuses";
+import { defineStatuses } from "@heyramzi/ui/tasks/statuses";
 
 /** The ring each filter tab and stage carries. Warn and faint keep review's text tokens over the tone colour. */
 export const MARKS = defineStatuses({

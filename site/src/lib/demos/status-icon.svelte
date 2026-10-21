@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StatusIcon, defineStatuses } from "@heyramzi/tasks";
+  import { StatusIcon, defineStatuses } from "@heyramzi/ui/tasks";
   import { Check, Clock, X } from "phosphor-svelte";
 
   const statuses = defineStatuses({

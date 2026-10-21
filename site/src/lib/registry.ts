@@ -43,6 +43,7 @@ const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" |
   tabs: { title: "Tabs", group: "primitives", icon: "tabs", description: "Tabs with a sliding indicator.", height: 260 },
   segmented: { title: "Segmented control", group: "primitives", icon: "tabs", description: "Tabs, filter or nav links on one bordered track, with a sliding pill, a badge note on a segment, an underline variant and an overflow menu.", height: 380 },
   picker: { title: "Picker", group: "primitives", icon: "select", description: "A command palette at popover scale: search, groups, hints and a footer.", height: 340 },
+  toolbar: { title: "Toolbar", group: "primitives", icon: "list", description: "One row at any width. Wide, search, tabs and the view switch sit inline. In a narrow pane each folds into a menu and the row never wraps.", height: 360 },
   "copy-button": { title: "Copy button", group: "primitives", icon: "click", description: "An icon or a chip that copies a value, then shows a check.", height: 200 },
   "hold-to-confirm": { title: "Hold to confirm", group: "primitives", icon: "click", description: "Press and hold to confirm a destructive action.", height: 200 },
   "simple-field": { title: "Simple field", group: "primitives", icon: "form", description: "A label, a hint or an error, and the control, with the message linked to it.", height: 280 },
@@ -92,11 +93,14 @@ const meta: Record<string, Omit<Entry, "slug" | "pkg" | "component" | "source" |
 const components = import.meta.glob<{ default: Component }>("./demos/*.svelte", { eager: true });
 const sources = import.meta.glob<string>("./demos/*.svelte", { eager: true, query: "?raw", import: "default" });
 
-/** `packages/<pkg>/src/...`, except the agents, which ship inside ui but get their own section. */
+/** `packages/<pkg>/src/...`. The agents and the subpaths ship inside ui and get their own section. */
+const SUBPATH_PACKAGES: Record<string, string> = { charts: "charts", tasks: "tasks", slides: "slides", editor: "rich-editor", onboarding: "onboarding" };
 const packageOf = (slug: string) => {
   const file = componentSources[slug]?.[0] ?? "";
-  if (file.startsWith("packages/ui/src/agents/")) return "agents";
-  return file.split("/")[1] ?? "ui";
+  const [, pkg, , sub] = file.split("/");
+  if (pkg === "ui" && sub === "agents") return "agents";
+  if (pkg === "ui" && sub && sub in SUBPATH_PACKAGES) return SUBPATH_PACKAGES[sub];
+  return pkg ?? "ui";
 };
 
 const written: Entry[] = Object.keys(meta).map((slug) => {
@@ -147,12 +151,13 @@ export type Package = { id: string; name: string; title: string; blurb: string }
 
 export const packages: Package[] = [
   { id: "ui", name: "@heyramzi/ui", title: "UI", blurb: "Primitives, components and effects." },
-  { id: "charts", name: "@heyramzi/charts", title: "Charts", blurb: "Area, line, bar, donut, ring and gauge charts, sparklines and stat cards on LayerChart, one set of tokens." },
+  { id: "charts", name: "@heyramzi/ui/charts", title: "Charts", blurb: "Area, line, bar, donut, ring and gauge charts, sparklines and stat cards on LayerChart, one set of tokens." },
   { id: "agents", name: "@heyramzi/ui/agents", title: "Agents", blurb: "Bot avatars and a cast page." },
-  { id: "tasks", name: "@heyramzi/tasks", title: "Tasks", blurb: "One set of tasks as a board, a list or a gantt, plus status badges, dots and icons from one config." },
-  { id: "slides", name: "@heyramzi/slides", title: "Slides", blurb: "Decks on a fixed canvas: reveals, overview, presenter view and print." },
+  { id: "tasks", name: "@heyramzi/ui/tasks", title: "Tasks", blurb: "One set of tasks as a board, a list or a gantt, plus status badges, dots and icons from one config." },
+  { id: "onboarding", name: "@heyramzi/ui/onboarding", title: "Onboarding", blurb: "Page tours: a lit element and a short card per step, shown once per page, with replay and a bottom sheet on a phone." },
+  { id: "slides", name: "@heyramzi/ui/slides", title: "Slides", blurb: "Decks on a fixed canvas: reveals, overview, presenter view and print." },
   { id: "marketing", name: "@heyramzi/marketing", title: "Marketing", blurb: "Brand tokens and testimonials. It also ships Umami analytics, Sentry errors and an HTML-to-image pipeline, which run on the server and have nothing to show here." },
-  { id: "rich-editor", name: "@heyramzi/rich-editor", title: "Rich editor", blurb: "A Tiptap editor, an SSR renderer for the saved JSON and a Markdown bridge." },
+  { id: "rich-editor", name: "@heyramzi/ui/editor", title: "Rich editor", blurb: "A Tiptap editor, an SSR renderer for the saved JSON and a Markdown bridge." },
   { id: "review", name: "@heyramzi/review", title: "Review", blurb: "The review page, mounted anywhere." },
 ];
 

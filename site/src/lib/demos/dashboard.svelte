@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AreaChart } from "@heyramzi/charts";
+  import { AreaChart } from "@heyramzi/ui/charts";
   import {
     DataPanel,
     DashboardSection,
@@ -8,7 +8,7 @@
     StatBand,
     StatTile,
     DAY_WINDOWS,
-  } from "@heyramzi/charts/dashboard";
+  } from "@heyramzi/ui/charts/dashboard";
 
   const windows = DAY_WINDOWS.map((days) => ({ value: String(days), label: `${days}d` }));
   let period = $state("30");

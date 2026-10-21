@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { Inbox, type InboxItem, type InboxVerdict } from "@heyramzi/tasks";
+  import { Inbox, type InboxItem, type InboxVerdict } from "@heyramzi/ui/tasks";
 
   const intake = { name: "Intake agent", shape: "clover" } as const;
   const caller = { name: "Call agent", shape: "flower" } as const;

@@ -88,8 +88,8 @@ let on = $derived(active === true);
 			// 20 by 18, so `rounded-full` drew an ellipse.
 			"inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none font-medium tabular-nums",
 			"bg-muted-foreground/15 text-muted-foreground",
-			on && "bg-brand-indigo/14 text-brand-indigo",
-			auto && "group-data-[state=active]/segment:bg-brand-indigo/14 group-data-[state=active]/segment:text-brand-indigo",
+			on && "bg-brand/14 text-brand",
+			auto && "group-data-[state=active]/segment:bg-brand/14 group-data-[state=active]/segment:text-brand",
 		)}
 	>
 		{count}
@@ -98,8 +98,8 @@ let on = $derived(active === true);
 	<span
 		class={cn(
 			"size-1.5 shrink-0 rounded-full bg-muted-foreground/50",
-			on && "bg-brand-indigo",
-			auto && "group-data-[state=active]/segment:bg-brand-indigo",
+			on && "bg-brand",
+			auto && "group-data-[state=active]/segment:bg-brand",
 		)}
 		aria-hidden="true"
 	></span>

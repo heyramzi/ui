@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BarChart } from "@heyramzi/charts";
+  import { BarChart } from "@heyramzi/ui/charts";
 
   const data = [
     { plan: "Free", users: 4200, mrr: 0 },

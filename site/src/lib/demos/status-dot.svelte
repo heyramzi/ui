@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { StatusDot } from "@heyramzi/tasks";
-  import { salesStatuses } from "@heyramzi/tasks/presets/sales";
+  import { StatusDot } from "@heyramzi/ui/tasks";
+  import { salesStatuses } from "@heyramzi/ui/tasks/presets/sales";
 </script>
 
 <ul class="flex w-64 flex-col gap-2">

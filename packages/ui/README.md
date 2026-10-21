@@ -33,21 +33,46 @@ Import the style layer once, after Tailwind:
 @import "@heyramzi/ui/animations";
 ```
 
-`tokens.css` carries the palette, the semantic tokens and the craft layer
+`tokens.css` carries a neutral palette, the semantic tokens and the craft layer
 (radius, elevation, focus, motion). `animations` carries the keyframes the
 components reference. If you use the Attachment or Message component, also
 import `@heyramzi/ui/shadcn/utilities.css`.
 
-Retheme by overriding any variable on `:root`, for example
-`--color-brand-indigo` or `--radius-lg`. Dark mode keys off a `.dark`
-class on `html`.
+## A brand
 
-Rich text lives in [`@heyramzi/rich-editor`](https://github.com/heyramzi/ui/tree/main/packages/rich-editor),
-so the kit doesn't pull Tiptap into every app.
+The default look is neutral, and its colours are named by role: `brand`, `ink`, `surface`,
+`line`, `raised`, `paper`, `highlight` and `signal` (`bg-brand`, `text-ink`, `border-line`).
+A client's look is one typed file with no build step:
 
-Charts live in their own package now,
-[`@heyramzi/charts`](https://github.com/heyramzi/ui/tree/main/packages/charts). It reads
-the same tokens, so import `tokens.css` once and both work.
+```ts
+// brand.ts
+import { defineBrand } from "@heyramzi/ui/brand";
+
+export const brand = defineBrand({
+  colors: { brand: "oklch(0.5 0.2 272)", ink: "oklch(0.12 0.04 258)" },
+  fonts: { sans: '"Satoshi", system-ui, sans-serif' },
+});
+```
+
+Apply it with `brandStyle(brand)` on `<html style>` (right on first paint), `applyBrand(brand)`
+in the browser, or `brandCss(brand)` in a stylesheet. A brand names only the roles it changes; light
+and dark both follow from the tokens, and the tint scales (`brand-100` to `brand-800`) derive
+from the three hues.
+
+## Subpaths
+
+One package, six larger parts, each imported from its own subpath:
+
+| Subpath | What it is |
+| --- | --- |
+| `@heyramzi/ui/tasks` | Board, list, gantt, status badges, task detail, record, time tracker, inbox |
+| `@heyramzi/ui/charts` | LayerChart charts, sparklines, stat cards, and `/charts/dashboard` |
+| `@heyramzi/ui/slides` | Decks on a fixed canvas, plus `/slides/model` and `/slides/export` |
+| `@heyramzi/ui/editor` | The Tiptap editor, its renderer, `/editor/markdown`, `/editor/block-ops` |
+| `@heyramzi/ui/onboarding` | Page tours |
+| `@heyramzi/ui/canvas` | The xyflow canvas with a pen and headless ops. Add `@xyflow/svelte` yourself |
+
+Each has a README next to its source under `src/<subpath>/`.
 
 React and other framework ports are out of scope. The source is Svelte 5
 runes only.

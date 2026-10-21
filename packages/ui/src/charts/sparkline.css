@@ -1,0 +1,45 @@
+/* Styles for Sparkline. Plain stylesheet (see area-chart.css for why).
+   Selectors are namespaced under `.hr-sparkline`. */
+
+.hr-sparkline {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+}
+.hr-sparkline-chart {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Bare is an ornament inside another control: no inline value, so no gap. */
+.hr-sparkline[data-bare] {
+  gap: 0;
+}
+.hr-sparkline-value {
+  flex-shrink: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-feature-settings: "tnum";
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+.hr-sparkline .hr-sparkline-end {
+  filter: drop-shadow(0 0 3px currentColor);
+  opacity: 0.9;
+  transform-box: fill-box;
+  transform-origin: center;
+  /* WHY: the dot lands as the reveal reaches the end of the line. */
+  animation: hr-sparkline-pop var(--duration-fast, 250ms) var(--ease-smooth-out)
+    calc(var(--chart-motion-reveal, 1100ms) * 0.85) both;
+}
+@keyframes hr-sparkline-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hr-sparkline .hr-sparkline-end {
+    animation: none;
+  }
+}

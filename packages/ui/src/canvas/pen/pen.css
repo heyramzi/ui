@@ -1,0 +1,144 @@
+/* Pen colour tokens, light by default and lifted on a dark canvas. Values mirror colors.ts. */
+.svelte-flow,
+.pen-overlay {
+  --pen-ink: #1e1e1e;
+  --pen-red: #e03131;
+  --pen-blue: #1971c2;
+  --pen-green: #2f9e44;
+  --pen-amber: #e8a33d;
+  --pen-violet: #6741d9;
+  --pen-indigo: #414fd2;
+  --pen-terra: #f0503d;
+}
+
+.dark .svelte-flow,
+.svelte-flow.dark,
+.dark .pen-overlay {
+  --pen-ink: #e9ecef;
+  --pen-red: #ff8787;
+  --pen-blue: #74c0fc;
+  --pen-green: #69db7c;
+  --pen-amber: #ffd43b;
+  --pen-violet: #b197fc;
+  --pen-indigo: #8b96ff;
+  --pen-terra: #ff8a78;
+}
+
+/* Ink is an annotation layer, above every card, selected or framed, and in the order it was drawn.
+   The three classes beat a dragging card's own z-index. */
+.svelte-flow .svelte-flow__node.svelte-flow__node-stroke,
+.svelte-flow .svelte-flow__node.svelte-flow__node-text,
+.svelte-flow .svelte-flow__node.svelte-flow__node-shape {
+  z-index: 2000 !important;
+}
+
+/* The node box of a stroke is its bounding rectangle, so only the ink catches the pointer. */
+.svelte-flow__node-stroke {
+  pointer-events: none !important;
+}
+
+/* A text takes arrows on its top and bottom, dots that show on hover like a card's. */
+.svelte-flow__handle.pen-handle {
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--color-background, #fff);
+  border-radius: 9999px;
+  background: var(--color-muted-foreground, #868e96);
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+
+.svelte-flow__node-text:hover .pen-handle,
+.diagram-connecting .pen-handle {
+  opacity: 1;
+}
+
+/* A shape is an outline, so a click inside an empty one reaches the cards beneath it. */
+.svelte-flow__node-shape {
+  pointer-events: none !important;
+}
+
+.svelte-flow__node-shape .svelte-flow__resize-control {
+  pointer-events: auto;
+}
+
+/* Selected ink thickens its own line; no ring or box. `--sw` is the line's own width,
+   and a host may set `--select-stroke`. */
+.svelte-flow__node.selected .pen-line {
+  stroke-width: calc(var(--sw) * var(--select-stroke, 1.7));
+}
+
+/* The resizer's lines are hit areas, not a drawn box; its handles stay small. */
+.svelte-flow__node-shape .svelte-flow__resize-control.line {
+  border-color: transparent;
+}
+
+.svelte-flow__node-shape .svelte-flow__resize-control.handle {
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--pen-blue);
+  border-radius: 9999px;
+  background: var(--color-background, #fff);
+}
+
+/* The words of a pen text and a shape label, plain textarea or the host's formatted field. */
+.pen-field {
+  display: block;
+  margin: 0;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 4px;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.4;
+  min-width: 2ch;
+}
+
+textarea.pen-field {
+  field-sizing: content;
+  resize: none;
+}
+
+/* A drawn page writes in the hand; the host may name the face, else Excalifont. */
+.pen-field.hand {
+  font-family: var(--pen-hand-font, "Excalifont", "Segoe Print", "Bradley Hand", cursive);
+  font-weight: 400;
+}
+
+.pen-field.is-text {
+  max-width: 480px;
+}
+
+.pen-field.is-text.column {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* Selected, the glyphs themselves get heavier in their own ink; a box round
+   free text reads as a second shape. */
+.pen-field.is-text.selected {
+  -webkit-text-stroke: 0.045em currentColor;
+}
+
+.pen-field.is-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  text-align: center;
+  pointer-events: auto;
+}
+
+/* The host's field is as wide as its words, like the textarea it stands in for. */
+.pen-field.is-rich {
+  min-height: 1.4em;
+}
+
+.pen-field.is-rich.is-label,
+.pen-field.is-rich.is-text:not(.column) {
+  width: max-content;
+}

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { StatusBadge } from "@heyramzi/tasks";
-  import { salesStatuses } from "@heyramzi/tasks/presets/sales";
+  import { StatusBadge } from "@heyramzi/ui/tasks";
+  import { salesStatuses } from "@heyramzi/ui/tasks/presets/sales";
 </script>
 
 <div class="flex max-w-md flex-wrap items-center justify-center gap-2">

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DonutChart, Legend } from "@heyramzi/charts";
+  import { DonutChart, Legend } from "@heyramzi/ui/charts";
 
   const data = [
     { source: "Direct", visits: 4200, color: "var(--chart-1)" },

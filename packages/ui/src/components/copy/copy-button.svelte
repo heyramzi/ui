@@ -144,7 +144,7 @@ async function copy(event: MouseEvent) {
 		{#if agent}
 			<StarFour
 				class={cn(
-					"col-start-1 row-start-1 size-full text-brand-indigo/70 transition-[opacity,color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-hover/copy:text-brand-indigo",
+					"col-start-1 row-start-1 size-full text-brand/70 transition-[opacity,color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-hover/copy:text-brand",
 					copied ? "opacity-0" : "opacity-100",
 				)}
 				weight="bold"

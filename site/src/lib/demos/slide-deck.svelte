@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Deck, Slide, Fragment } from "@heyramzi/slides";
+  import { Deck, Slide, Fragment } from "@heyramzi/ui/slides";
 
   let index = $state(0);
   let step = $state(0);

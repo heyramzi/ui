@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { RingChart } from "@heyramzi/charts";
+  import { RingChart } from "@heyramzi/ui/charts";
 
   const data = [
     { label: "Move", value: 520, maxValue: 600, color: "var(--chart-4)" },
