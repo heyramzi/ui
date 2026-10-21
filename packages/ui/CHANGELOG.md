@@ -843,3 +843,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): raw :hover in the token primitives only fires where a pointer hovers
 
+
+## [1.54.1](https://github.com/heyramzi/ui/compare/ui-v1.54.0...ui-v1.54.1) (2026-10-21)
+
+### Bug Fixes
+
+* fix(ui): FieldRow matches a touch-sized Button with a 44px input on a coarse pointer
+
