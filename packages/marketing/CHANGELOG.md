@@ -254,3 +254,10 @@ _Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(marketing): server trackers await the send and return Promise<boolean>
 
+
+## [1.19.0](https://github.com/heyramzi/ui/compare/marketing-v1.18.0...marketing-v1.19.0) (2026-10-21)
+
+### Features
+
+* feat(marketing): SvelteKit error hooks, and the cause chain reaches Sentry
+
