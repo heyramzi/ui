@@ -1,46 +1,131 @@
-// The one source of UpSys deck tokens. The app's Svelte layouts and the
-// standalone proposal deck both read these, so the two cannot drift.
+// The one source of UpSys deck tokens: two palettes, one type ramp, the geometry.
+// The app's Svelte layouts and the standalone proposal deck both read these.
+//
+// Every slide reads `var(--deck-*)` and never a hex, so one `data-deck-theme`
+// attribute flips the whole deck. `deckThemeStyle` writes the variables.
 
 import { BRAND_HEX } from "#src/brand/index.js";
 
-// Flat hex, not oklch: Chromium's print pipeline shifts oklch on the way to PDF.
-// A colour the brand palette already holds comes from BRAND_HEX, never a second literal.
-export const DECK_COLORS = {
-  /** Page ground for every slide except the cover and the close. */
-  ink: BRAND_HEX.ink,
-  /** The cover and the close sit a step lighter so the deck bookends. */
-  night: BRAND_HEX.night,
-  /** Hairlines and the rules under a section. */
-  veil: BRAND_HEX.veil,
-  /** Row separators, quieter than veil. */
-  dusk: "#0d1a32",
-  /** Body text on ink. */
-  cream: BRAND_HEX.cream,
-  /** Headlines and anything that has to read first. */
-  linen: BRAND_HEX.linen,
-  indigo: BRAND_HEX.indigo,
-  /** Links and the sub-line under a cover title. */
-  indigo200: "#b2c2f9",
-  /** Lede paragraphs and the say column beside a screenshot. */
-  indigo100: "#dbe4ff",
-  /** Prices, and the heading of the left column in a two-column slide. */
-  sand: BRAND_HEX.sand,
-  /** The accent rule. One per slide, never decoration. */
-  terra: BRAND_HEX.terra,
-  terra200: "#feac9e",
-  /** The positive green, from `--success-600`, within 0.3 of terra's contrast on ink. */
-  moss: "#2f9f3d",
-  /** Captions. */
-  dim: "#8fa0c0",
-  /** Source lines, the smallest type on any slide. */
-  dimmer: "#5d6d8c",
+// =============================================================================
+// THEMES
+// =============================================================================
+
+export type DeckTheme = "light" | "dark";
+
+export const DECK_THEME_DEFAULT: DeckTheme = "light";
+
+/**
+ * The two palettes. Flat hex, not oklch: Chromium's print pipeline shifts oklch
+ * on the way to PDF. Only the colours change between themes, never a size.
+ */
+export const DECK_THEMES = {
+  light: {
+    ground: "#FCFAF8",
+    /** Every tile, the eyebrow pill and the image frame. */
+    tile: "#F1EEEA",
+    heading: "#000515",
+    text: "#565E75",
+    accent: "#414FD2",
+    /** The one filled tile a slide may carry. */
+    accentTile: "#414FD2",
+    onAccent: "#FCFAF8",
+  },
+  dark: {
+    ground: "#000515",
+    tile: "#0B1428",
+    heading: "#FCFAF8",
+    text: "#9AA8C6",
+    accent: "#B2C2F9",
+    accentTile: "#414FD2",
+    onAccent: "#FCFAF8",
+  },
+} as const satisfies Record<DeckTheme, Record<string, string>>;
+
+export type DeckColorName = keyof (typeof DECK_THEMES)["light"];
+
+// WHY: the slides package owns `--deck-accent` and `--deck-on-accent`, so the text and tile pair use their own names.
+const VAR_NAMES: Record<DeckColorName, string> = {
+  ground: "--deck-ground",
+  tile: "--deck-tile",
+  heading: "--deck-heading",
+  text: "--deck-text",
+  accent: "--deck-accent-text",
+  accentTile: "--deck-accent-tile",
+  onAccent: "--deck-accent-tile-text",
+};
+
+/** What a slide paints with: `style:color={DECK_VARS.heading}`. Resolves under the theme root. */
+export const DECK_VARS = {
+  ground: "var(--deck-ground)",
+  tile: "var(--deck-tile)",
+  heading: "var(--deck-heading)",
+  text: "var(--deck-text)",
+  accent: "var(--deck-accent-text)",
+  accentTile: "var(--deck-accent-tile)",
+  onAccent: "var(--deck-accent-tile-text)",
+} as const satisfies Record<DeckColorName, string>;
+
+/** The palette as an inline `style` string: `--deck-ground:#FCFAF8;...`. */
+export function deckThemeStyle(theme: DeckTheme): string {
+  const palette = DECK_THEMES[theme];
+  return (Object.keys(VAR_NAMES) as DeckColorName[])
+    .map((name) => `${VAR_NAMES[name]}:${palette[name]}`)
+    .join(";");
+}
+
+/** A deck's theme from `presentations.metadata`. Anything but "dark" is light. */
+export function resolveDeckTheme(
+  metadata: { deckTheme?: string | null } | null | undefined,
+): DeckTheme {
+  return metadata?.deckTheme === "dark" ? "dark" : DECK_THEME_DEFAULT;
+}
+
+// =============================================================================
+// GEOMETRY
+// =============================================================================
+
+/** Design pixels on a 960x540 slide. */
+export const DECK_GEOMETRY = {
+  /** Stat, price and tier tiles, the eyebrow pill's cousin chips. */
+  tileRadius: 16,
+  /** The image frame around a 3D tile or a screenshot. */
+  frameRadius: 20,
+  /** Left and right edge, and the footer's inset. */
+  margin: 48,
+  /** Between tiles and between columns. */
+  gap: 16,
+  columns: 12,
+  /** The eyebrow pill's top edge, and the footer's distance from the bottom. */
+  top: 40,
+  bottom: 32,
+  /** Space inside a tile. */
+  tilePad: 24,
+  /** Icons are Phosphor regular at this size, in the accent colour. */
+  icon: 20,
+} as const;
+
+// =============================================================================
+// TYPE
+// =============================================================================
+
+/**
+ * Manrope at weight 500, four sizes, nothing else on a slide. Hero is for stat
+ * numbers only. Display is a title or a big figure. Text is body copy and
+ * labels. Small is a caption, the eyebrow and the source line.
+ */
+export const DECK_SIZES = {
+  hero: { size: 64, weight: 500, tracking: "-0.025em", leading: 1.2 },
+  display: { size: 40, weight: 500, tracking: "-0.025em", leading: 1.1 },
+  text: { size: 16, weight: 500, tracking: "0", leading: 1.45 },
+  small: { size: 13, weight: 500, tracking: "0", leading: 1.4 },
 } as const;
 
 /**
- * The type ramp, in design pixels on a 960x540 slide. The standalone deck uses
- * these times 5/3. Keep the ratios; don't invent a size.
+ * The ramp the sales and support layouts still set in, sizes and weights the new
+ * design drops. @deprecated Each of those layouts moves to DECK_SIZES when it is
+ * rebuilt on the shared pieces, and this block goes with the last of them.
  */
-export const DECK_TYPE = {
+const LEGACY_TYPE = {
   coverTitle: { size: 66, weight: 800, tracking: "-0.03em", leading: 1.02 },
   coverSub: { size: 20, weight: 600, tracking: "-0.02em", leading: 1.2 },
   statement: { size: 42, weight: 800, tracking: "-0.03em", leading: 1.05 },
@@ -48,7 +133,6 @@ export const DECK_TYPE = {
   sayTitle: { size: 22, weight: 700, tracking: "-0.02em", leading: 1.2 },
   figure: { size: 35, weight: 800, tracking: "-0.04em", leading: 1 },
   price: { size: 40, weight: 800, tracking: "-0.04em", leading: 1 },
-  /** One sentence that is the slide. `body` stays at 14 because narrow boxes are measured against it. */
   claim: { size: 18, weight: 400, tracking: "0", leading: 1.45 },
   lede: { size: 17, weight: 400, tracking: "0", leading: 1.5 },
   body: { size: 14, weight: 400, tracking: "0", leading: 1.5 },
@@ -56,14 +140,69 @@ export const DECK_TYPE = {
   label: { size: 10, weight: 400, tracking: "0.08em", leading: 1.4 },
 } as const;
 
+/** Every token a layout may name: the four of the new design, then the legacy ones. */
+export const DECK_TYPE = { ...DECK_SIZES, ...LEGACY_TYPE } as const;
+
 export type DeckTypeToken = keyof typeof DECK_TYPE;
+export type DeckSizeToken = keyof typeof DECK_SIZES;
+
+export const DECK_FONTS = {
+  heading: "Manrope, system-ui, sans-serif",
+  body: "Satoshi, system-ui, sans-serif",
+  mono: '"Space Grotesk", ui-monospace, monospace',
+} as const;
+
+/**
+ * Inline style string for a type token, for `style={...}` on an element. The
+ * four DECK_SIZES tokens are always Manrope, whatever `family` says.
+ * `family` exists for the legacy layouts.
+ */
+export function deckType(token: DeckTypeToken, family: keyof typeof DECK_FONTS = "heading") {
+  const t = DECK_TYPE[token];
+  const face = token in DECK_SIZES ? DECK_FONTS.heading : DECK_FONTS[family];
+  return [
+    `font-family:${face}`,
+    `font-size:${t.size}px`,
+    `font-weight:${t.weight}`,
+    `letter-spacing:${t.tracking}`,
+    `line-height:${t.leading}`,
+  ].join(";");
+}
+
+// =============================================================================
+// LEGACY: sales, support and the standalone sheets
+// =============================================================================
+
+/**
+ * The dark-only palette the sales and support layouts and the standalone print
+ * sheets still read. @deprecated A rebuilt layout reads DECK_VARS and gets both
+ * themes. `sand`, `dusk` and `dimmer` have no place in the new design and go
+ * with the last layout that names them.
+ */
+export const DECK_COLORS = {
+  ink: BRAND_HEX.ink,
+  night: BRAND_HEX.night,
+  veil: BRAND_HEX.veil,
+  dusk: "#0d1a32",
+  cream: BRAND_HEX.cream,
+  linen: BRAND_HEX.linen,
+  indigo: BRAND_HEX.indigo,
+  indigo200: "#b2c2f9",
+  indigo100: "#dbe4ff",
+  sand: BRAND_HEX.sand,
+  terra: BRAND_HEX.terra,
+  terra200: "#feac9e",
+  moss: "#2f9f3d",
+  dim: "#8fa0c0",
+  dimmer: "#5d6d8c",
+} as const;
 
 /**
  * The cover lockup: the client's mark beside the UpSys logo. Design pixels on a
  * 960x540 slide.
  */
 export const DECK_LOCKUP = {
-  /** The tile under the client mark. Client logos ship on white; night eats them. */
+  /** The tile under the client mark. Client logos ship on white, so the tile stays white in both themes. */
   clientTile: 96,
   clientPad: 14,
   clientRadius: 16,
@@ -76,35 +215,16 @@ export const DECK_LOCKUP = {
 } as const;
 
 /**
- * Slide margins in design pixels on a 960x540 slide. One gutter for every
- * slide, so headlines sit on the same vertical line across the deck.
+ * Slide margins of the legacy layouts. @deprecated Rebuilt layouts use
+ * DECK_GEOMETRY and DeckFrame.
  */
 export const DECK_SPACE = {
   gutter: 78,
   top: 53,
   bottom: 35,
-  /** The accent rule above a slide title. One per slide, never decoration. */
   ruleWidth: 72,
   ruleHeight: 3,
 } as const;
 
-/** The UpSys wordmark's ink on the cover ground. The in-app cover and the PDF both draw it. */
+/** The UpSys wordmark's ink on a dark ground. The PDF sheets draw it. */
 export const DECK_AGENCY_LOGO_FILL = "#F3F3F3";
-
-export const DECK_FONTS = {
-  heading: "Manrope, system-ui, sans-serif",
-  body: "Satoshi, system-ui, sans-serif",
-  mono: '"Space Grotesk", ui-monospace, monospace',
-} as const;
-
-/** Inline style string for a type token, for `style={...}` on an element. */
-export function deckType(token: DeckTypeToken, family: keyof typeof DECK_FONTS) {
-  const t = DECK_TYPE[token];
-  return [
-    `font-family:${DECK_FONTS[family]}`,
-    `font-size:${t.size}px`,
-    `font-weight:${t.weight}`,
-    `letter-spacing:${t.tracking}`,
-    `line-height:${t.leading}`,
-  ].join(";");
-}
