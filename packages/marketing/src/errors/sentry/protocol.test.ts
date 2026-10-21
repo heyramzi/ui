@@ -60,4 +60,24 @@ describe("buildErrorRequest", () => {
     const event = JSON.parse((req?.body ?? "").split("\n")[2]);
     expect(event.exception.values[0]).toEqual({ type: "Error", value: "plain" });
   });
+
+  // Drizzle's "Failed query" keeps D1's real message in `cause`; Sentry showed the SQL alone.
+  it("sends the cause chain, root cause first and the thrown error last", () => {
+    const d1 = new Error("D1_ERROR: no such column: x");
+    const failed = new Error("Failed query: select x from t", { cause: d1 });
+    const req = buildErrorRequest({ dsn: DSN, error: failed });
+    const event = JSON.parse((req?.body ?? "").split("\n")[2]);
+    expect(event.exception.values.map((v: { value: string }) => v.value)).toEqual([
+      "D1_ERROR: no such column: x",
+      "Failed query: select x from t",
+    ]);
+  });
+
+  it("stops on a cause loop", () => {
+    const a = new Error("a");
+    const b = new Error("b", { cause: a });
+    a.cause = b;
+    const event = JSON.parse((buildErrorRequest({ dsn: DSN, error: a })?.body ?? "").split("\n")[2]);
+    expect(event.exception.values).toHaveLength(2);
+  });
 });

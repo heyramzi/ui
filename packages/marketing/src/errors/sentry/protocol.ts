@@ -60,7 +60,9 @@ export function parseStack(stack: string | undefined): Frame[] {
   return frames.toReversed();
 }
 
-function describe(error: unknown): { type: string; value: string; stack?: string } {
+type Described = { type: string; value: string; stack?: string };
+
+function describe(error: unknown): Described {
   if (error instanceof Error) {
     return { type: error.name || "Error", value: error.message, stack: error.stack };
   }
@@ -70,6 +72,26 @@ function describe(error: unknown): { type: string; value: string; stack?: string
   } catch {
     return { type: "Error", value: String(error) };
   }
+}
+
+/** Deepest `cause` walked. A wrapper that wraps itself in a loop stops here too. */
+const MAX_CHAIN = 5;
+
+/**
+ * The error and its `cause` chain as Sentry exception values, root cause first and the
+ * thrown error last. Drizzle's "Failed query" keeps D1's real message in `cause`, so
+ * without the chain the event shows the SQL and never why it failed.
+ */
+function describeChain(error: unknown): Described[] {
+  const chain = [describe(error)];
+  const seen = new Set<unknown>([error]);
+  let next = error instanceof Error ? error.cause : undefined;
+  while (next !== undefined && next !== null && !seen.has(next) && chain.length < MAX_CHAIN) {
+    seen.add(next);
+    chain.push(describe(next));
+    next = next instanceof Error ? next.cause : undefined;
+  }
+  return chain.toReversed();
 }
 
 function cleanTags(input: CaptureInput): Record<string, string> {
@@ -87,8 +109,12 @@ export function buildErrorRequest(input: CaptureInput): SentryRequest | null {
   if (!dsn) return null;
   const eventId = input.eventId ?? randomHex32();
   const now = input.now ?? Date.now();
-  const { type, value, stack } = describe(input.error);
-  const frames = parseStack(stack);
+  const values = describeChain(input.error).map(({ type, value, stack }) => {
+    const exception: Record<string, unknown> = { type, value };
+    const frames = parseStack(stack);
+    if (frames.length) exception.stacktrace = { frames };
+    return exception;
+  });
 
   const event: Record<string, unknown> = {
     event_id: eventId,
@@ -96,9 +122,7 @@ export function buildErrorRequest(input: CaptureInput): SentryRequest | null {
     platform: "javascript",
     level: "error",
     tags: cleanTags(input),
-    exception: {
-      values: [{ type, value, ...(frames.length ? { stacktrace: { frames } } : {}) }],
-    },
+    exception: { values },
   };
   if (input.release) event.release = input.release;
   if (input.environment) event.environment = input.environment;

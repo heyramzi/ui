@@ -35,7 +35,8 @@
       "default": "./src/testimonials/svelte/index.ts"
     },
     "./errors/sentry": "./src/errors/sentry/index.ts",
-    "./errors/sentry/protocol": "./src/errors/sentry/protocol.ts"
+    "./errors/sentry/protocol": "./src/errors/sentry/protocol.ts",
+    "./errors/sentry/sveltekit": "./src/errors/sentry/sveltekit.ts"
   },
   "scripts": {
     "test": "vp test run"
