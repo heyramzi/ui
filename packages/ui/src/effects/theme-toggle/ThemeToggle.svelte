@@ -69,8 +69,8 @@
 	}
 
 	function iconClass(show: boolean, tilt: "rotate-90" | "-rotate-90") {
-		return `absolute size-4 transition-all duration-300 ${
-			show ? "scale-100 rotate-0 opacity-100" : `scale-0 ${tilt} opacity-0`
+		return `absolute size-4 transition-[opacity,scale,rotate] duration-300 ${
+			show ? "scale-100 rotate-0 opacity-100" : `scale-90 ${tilt} opacity-0`
 		}`;
 	}
 </script>
@@ -107,7 +107,7 @@
 		aria-label={text}
 		{title}
 		class={cn(
-			"theme-toggle relative flex cursor-pointer items-center justify-center rounded-lg transition-all duration-300",
+			"theme-toggle relative flex cursor-pointer items-center justify-center rounded-lg transition-[background-color,border-color,color] duration-300",
 			size === "sm" ? "size-8" : "size-10",
 			style === "inverted" && "theme-toggle--inverted",
 			style === "ghost" && "text-muted-foreground hover:bg-muted/40 hover:text-foreground",
