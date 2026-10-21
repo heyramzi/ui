@@ -34,8 +34,9 @@ type Frame = { function?: string; filename?: string; lineno?: number; colno?: nu
 /** Parse `https://<key>@<host>/<projectId>`. Returns null for anything else. */
 export function parseDsn(dsn: string): Dsn | null {
   const m = /^(https?):\/\/([^@/]+)@([^/]+)\/(?:.*\/)?(\d+)\/?$/.exec(dsn.trim());
-  if (!m) return null;
-  return { publicKey: m[2], origin: `${m[1]}://${m[3]}`, projectId: m[4] };
+  const [, scheme, publicKey, host, projectId] = m ?? [];
+  if (!scheme || !publicKey || !host || !projectId) return null;
+  return { publicKey, origin: `${scheme}://${host}`, projectId };
 }
 
 function randomHex32(): string {
@@ -57,7 +58,7 @@ export function parseStack(stack: string | undefined): Frame[] {
     if (m[1]) frame.function = m[1];
     frames.push(frame);
   }
-  return frames.toReversed();
+  return frames.reverse();
 }
 
 type Described = { type: string; value: string; stack?: string };
@@ -91,7 +92,7 @@ function describeChain(error: unknown): Described[] {
     chain.push(describe(next));
     next = next instanceof Error ? next.cause : undefined;
   }
-  return chain.toReversed();
+  return chain.reverse();
 }
 
 function cleanTags(input: CaptureInput): Record<string, string> {
