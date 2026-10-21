@@ -10,6 +10,9 @@
 
 ### Features
 
+* feat(tasks): `@heyramzi/tasks/record`, the client and project record as props-in components: `RecordShell`, `RecordHeader`, `WhereWeAre`, `NextUp`, `RecordStats`, `StepsRail`, `RecordTimeline`, `ProjectList`, `FieldSection` and `InfoList`. They load nothing, build no URLs and carry no agency text; links come in as `href` props and text through a `labels` prop with English defaults
+* feat(tasks): the record exports the view types `RecordEvent`, `RecordSummary`, `FieldDef` and `StageDef`, and the pure helpers behind them: `groupEventsByDay`, `mergeClientEvents`, `nextAcrossProjects`, `latestWhereWeAre`, `rollupProjects`, `stepMarkers` and `reorderIds`
+* feat(tasks): `WhereWeAre` opens a clamped note in place with a More button and sets no `title` attribute, so the browser's own tooltip never covers the steps list
 * feat(tasks): `SidePanel`, a sheet for one record with badges, doors out to other tools, a copy-a-prompt handoff and a stats strip, also at `@heyramzi/tasks/side-panel`
 * feat(tasks): `StatusBadge` renders the kit `Badge`, and its busy state renders the kit `Spinner`
 * feat(tasks): `StatusBadge` takes `dot`, a dot in the tone's colour before the label, and passes `title`, `aria-*` and other attributes to the badge

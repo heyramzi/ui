@@ -35,6 +35,12 @@ export type {
 	TaskListGroupContext,
 	TaskListRowContext,
 } from "#src/task-types.js";
+export { default as TaskDetail } from "#src/detail/task-detail.svelte";
+export { default as TaskThread } from "#src/detail/task-thread.svelte";
+export { default as TaskProperty } from "#src/detail/task-property.svelte";
+export { default as TaskChip } from "#src/detail/task-chip.svelte";
+export { DEFAULT_TASK_DETAIL_LABELS } from "#src/detail/detail-types.js";
+export type { TaskComment, TaskDetailLabels } from "#src/detail/detail-types.js";
 export { default as TimeTracker } from "#src/time/time-tracker.svelte";
 export { default as TimeChip } from "#src/time/time-chip.svelte";
 export { default as TimeRing } from "#src/time/time-ring.svelte";
@@ -48,7 +54,13 @@ export {
 	parseMinutes,
 	personColor,
 } from "#src/time/duration.js";
-export { Inbox, confidenceLevel, inboxConfidence, inboxKinds, inboxStates } from "#src/inbox/index.js";
+export {
+	Inbox,
+	confidenceLevel,
+	inboxConfidence,
+	inboxKinds,
+	inboxStates,
+} from "#src/inbox/index.js";
 export type {
 	InboxAgent,
 	InboxConfidence,

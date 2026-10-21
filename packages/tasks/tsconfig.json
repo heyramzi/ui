@@ -10,5 +10,6 @@
     "allowJs": true,
     "types": ["svelte", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.svelte", "src/**/*.svelte.ts"]
+  "include": ["src/**/*.ts", "src/**/*.svelte", "src/**/*.svelte.ts"],
+  "exclude": ["src/**/*.test.ts"]
 }

@@ -521,6 +521,7 @@
 	/* A grid row folds the card out of the column smoothly, so the cards below slide up. */
 	.kanban-card {
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: 1fr;
 		transition:
 			grid-template-rows var(--duration-quick, 180ms) var(--ease-smooth-out, ease-out),

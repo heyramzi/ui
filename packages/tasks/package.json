@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/tasks",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Svelte 5 task views: a drag-and-drop board, a grouped list and a gantt timeline from one config, plus status badges, dots and icons.",
   "keywords": [
     "svelte",
@@ -87,6 +87,18 @@
       "types": "./src/presets/sales.ts",
       "default": "./src/presets/sales.ts"
     },
+    "./detail": {
+      "svelte": "./src/detail/task-detail.svelte",
+      "types": "./src/detail/task-detail.svelte",
+      "default": "./src/detail/task-detail.svelte"
+    },
+    "./detail-demo.svelte": "./src/detail/detail-demo.svelte",
+    "./record": {
+      "svelte": "./src/record/index.ts",
+      "types": "./src/record/index.ts",
+      "default": "./src/record/index.ts"
+    },
+    "./record-demo.svelte": "./src/record/record-demo.svelte",
     "./demo": {
       "svelte": "./src/demo.svelte",
       "default": "./src/demo.svelte"
@@ -94,7 +106,8 @@
     "./demo.svelte": "./src/demo.svelte"
   },
   "scripts": {
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "vp test run"
   },
   "dependencies": {
     "@heyramzi/utils": "^1.8.1"

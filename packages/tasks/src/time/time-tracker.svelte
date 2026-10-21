@@ -1,7 +1,8 @@
 <script lang="ts" generics="T">
 	import type { Snippet } from "svelte";
 	import { cn } from "@heyramzi/utils";
-	import { TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
+	import { TONE_COLOR, TONE_TEXT } from "@heyramzi/ui/lib/tone.js";
+	import * as Popover from "@heyramzi/ui/shadcn/popover";
 	import {
 		budgetTone,
 		dayLabel,
@@ -14,8 +15,7 @@
 	import { DEFAULT_TIME_LABELS } from "#src/time/time-types.js";
 	import type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "#src/time/time-types.js";
 	import TimeDot from "#src/time/time-dot.svelte";
-	import TimeRing from "#src/time/time-ring.svelte";
-	import { Play, Stop, X } from "phosphor-svelte";
+	import { CaretDown, Play, Stop, X } from "phosphor-svelte";
 
 	interface Props<T> {
 		/** Every entry logged on the task. Order within a day is kept. */
@@ -46,7 +46,7 @@
 		/** BCP 47 tag for day names. Defaults to the browser's. */
 		locale?: string;
 		labels?: Partial<TimeLabels>;
-		/** Drops the card: no border, radius, background, shadow or padding. For a host that already sits the tracker in a panel. */
+		/** Kept so existing callers compile. The tracker is always the compact chip now, so it does nothing. */
 		flat?: boolean;
 		class?: string;
 	}
@@ -69,7 +69,6 @@
 		renderMeta,
 		locale,
 		labels: labelOverrides,
-		flat = false,
 		class: className,
 	}: Props<T> = $props();
 
@@ -77,6 +76,7 @@
 
 	// ---- timer
 	let now = $state(Date.now());
+	let open = $state(false);
 	let stoppedNote = $state("");
 	let startedMs = $derived(running ? new Date(running.startedAt).getTime() : null);
 	let elapsedMs = $derived(startedMs === null ? 0 : Math.max(0, now - startedMs));
@@ -206,264 +206,244 @@
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<section
-	class={cn("flex flex-col gap-5", className)}
-	aria-label={labels.title}
-	onkeydown={onRootKeyDown}
->
+<section class={cn("inline-flex", className)} aria-label={labels.title} onkeydown={onRootKeyDown}>
 	<div class="sr-only" role="status" aria-live="polite">{status}</div>
 
-	<!-- Timer and manual entry -->
-	<div
-		class={cn("time-panel", !flat && "rounded-2xl border border-border bg-card p-4 text-card-foreground shadow-sm")}
-		class:is-running={!!running && !flat}
-	>
-		<div class="flex items-center gap-4">
-			<div class="min-w-0 flex-1">
-				<p
-					class={cn(
-						"flex h-5 items-center gap-2 text-xs font-medium",
-						running ? TONE_TEXT.accent : "text-muted-foreground",
-					)}
-				>
-					<TimeDot running={!!running} />
-					<span>{running ? labels.running : labels.timer}</span>
-					{#if running}
-						<span class="font-normal text-muted-foreground">{sinceLabel()}</span>
-					{/if}
-				</p>
-				<p
-					role="timer"
-					aria-label={labels.elapsed}
-					class={cn("time-readout mt-2 flex items-baseline text-[2.5rem] leading-none font-medium tracking-tight tabular-nums", running ? "text-foreground" : "text-muted-foreground/50")}
-				>
-					<span>{clock.hours}</span><span class="time-colon">:</span><span>{clock.minutes}</span><span class="time-colon">:</span><span>{clock.seconds}</span>
-				</p>
-			</div>
-
+	<Popover.Root bind:open>
+		<div class="time-chip" class:is-running={!!running}>
 			<button
 				type="button"
 				onclick={toggle}
 				aria-label={running ? labels.stop : labels.start}
 				aria-keyshortcuts="Alt+S"
 				title="{running ? labels.stop : labels.start} (Alt+S)"
-				class={cn(
-					"time-toggle relative grid size-12 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-card",
-					running ? "bg-foreground text-background" : "bg-primary text-primary-foreground",
-				)}
-				class:is-running={!!running}
+				class="time-toggle"
 			>
 				{#if running}
-					<Stop weight="fill" class="size-4.5" aria-hidden="true" />
+					<Stop weight="fill" class="size-3.5" aria-hidden="true" />
 				{:else}
-					<span class="size-5 translate-x-px [&>svg]:size-full" aria-hidden="true"><Play weight="fill" /></span>
+					<Play weight="fill" class="size-3.5" aria-hidden="true" />
 				{/if}
 			</button>
+			<Popover.Trigger class="time-open" aria-label={labels.title}>
+				{#if running}
+					<TimeDot running size={6} />
+					<span role="timer" aria-label={labels.elapsed}>{clock.hours}:{clock.minutes}:{clock.seconds}</span>
+				{:else if total > 0}
+					<span>{formatMinutes(total)}{#if estimate}<span class="ms-1 font-normal text-muted-foreground">/ {formatMinutes(estimate)}</span>{/if}</span>
+				{:else}
+					<span class="text-muted-foreground">{labels.timer}</span>
+				{/if}
+				<CaretDown class="size-3 text-muted-foreground" aria-hidden="true" />
+			</Popover.Trigger>
 		</div>
 
-		<form
-			onsubmit={submit}
-			class="mt-4 grid grid-cols-2 items-center gap-2 border-t border-border/60 pt-4 sm:grid-cols-[7rem_8.75rem_minmax(0,1fr)_auto]"
-		>
-			<div class="relative">
-				<input
-					bind:this={durationInput}
-					bind:value={duration}
-					oninput={() => (invalid = false)}
-					placeholder={labels.durationPlaceholder}
-					aria-label={labels.duration}
-					aria-invalid={invalid}
-					aria-describedby={invalid ? "time-invalid" : undefined}
-					autocomplete="off"
-					inputmode="text"
-					class={cn("time-field w-full tabular-nums", preview && "pr-12")}
-				/>
-				{#if preview && preview !== duration.trim()}
-					<span class="time-preview pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-xs text-muted-foreground tabular-nums" aria-hidden="true">
-						{preview}
-					</span>
-				{/if}
-			</div>
-			<input
-				type="date"
-				bind:value={day}
-				aria-label={labels.date}
-				class="time-field w-full tabular-nums"
-			/>
-			<input
-				bind:value={note}
-				placeholder={labels.notePlaceholder}
-				aria-label={labels.note}
-				autocomplete="off"
-				class="time-field col-span-2 w-full sm:col-span-1"
-			/>
-			<button
-				type="submit"
-				disabled={saving || !duration.trim()}
-				class="col-span-2 inline-flex h-9 items-center justify-center rounded-md sm:col-span-1 border border-border bg-background px-3.5 text-sm font-medium text-foreground transition-colors outline-none hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
-			>
-				{saving ? labels.saving : labels.log}
-			</button>
-		</form>
-		{#if invalid}
-			<p id="time-invalid" class="mt-2 text-xs text-destructive" role="alert">{labels.invalid}</p>
-		{/if}
-	</div>
-
-	<!-- Total, budget, split -->
-	{#if entries.length > 0 || estimate}
-		<div class="flex flex-col gap-4 px-1">
-			<div class="flex items-center gap-4">
-				{#if estimate}
-					<TimeRing value={liveTotal} max={estimate} size={60} stroke={4}>
-						<span class={cn("text-xs font-semibold tabular-nums", tone === "neutral" ? "text-foreground" : TONE_TEXT[tone])}>{percent}%</span>
-					</TimeRing>
-				{/if}
-				<div class="min-w-0">
-					<p class="text-xs font-medium text-muted-foreground">{labels.logged}</p>
-					{#key total}
-						<p class="time-pop mt-0.5 text-2xl leading-tight font-semibold tracking-tight tabular-nums">
-							{formatMinutes(total)}
-						</p>
-					{/key}
-					{#if estimate}
-						<p class={cn("mt-0.5 text-xs tabular-nums", tone === "neutral" ? "text-muted-foreground" : TONE_TEXT[tone])}>
-							{liveTotal > estimate
-								? labels.over(formatMinutes(liveTotal - estimate), formatMinutes(estimate))
-								: labels.remaining(formatMinutes(estimate - liveTotal), formatMinutes(estimate))}
-						</p>
+		<Popover.Content align="start" class="flex w-80 flex-col gap-3 p-3 text-[13px]">
+			<form onsubmit={submit} class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-2">
+				<div class="relative">
+					<input
+						bind:this={durationInput}
+						bind:value={duration}
+						oninput={() => (invalid = false)}
+						placeholder={labels.durationPlaceholder}
+						aria-label={labels.duration}
+						aria-invalid={invalid}
+						aria-describedby={invalid ? "time-invalid" : undefined}
+						autocomplete="off"
+						inputmode="text"
+						class={cn("time-field w-full tabular-nums", preview && "pr-12")}
+					/>
+					{#if preview && preview !== duration.trim()}
+						<span class="time-preview pointer-events-none absolute inset-y-0 right-2 flex items-center text-xs text-muted-foreground tabular-nums" aria-hidden="true">
+							{preview}
+						</span>
 					{/if}
 				</div>
-			</div>
+				<input type="date" bind:value={day} aria-label={labels.date} class="time-field w-full tabular-nums" />
+				<input
+					bind:value={note}
+					placeholder={labels.notePlaceholder}
+					aria-label={labels.note}
+					autocomplete="off"
+					class="time-field"
+				/>
+				<button type="submit" disabled={saving || !duration.trim()} class="time-log">
+					{saving ? labels.saving : labels.log}
+				</button>
+			</form>
+			{#if invalid}
+				<p id="time-invalid" class="text-xs text-destructive" role="alert">{labels.invalid}</p>
+			{/if}
 
-			{#if people.length > 1}
-				<div>
-					<div class="flex h-1.5 gap-0.5 overflow-hidden rounded-full" aria-hidden="true">
-						{#each people as person (person.key)}
-							<span
-								class="time-segment min-w-1 rounded-full"
-								style:flex-grow={person.minutes}
-								style:background={personColor(person.key)}
-							></span>
-						{/each}
+			{#if entries.length > 0 || estimate}
+				<div class="flex flex-col gap-2 border-t border-border/60 pt-3">
+					<div class="flex items-baseline justify-between gap-2">
+						<span class="text-xs font-medium text-muted-foreground">{labels.logged}</span>
+						{#key total}
+							<span class="time-pop font-medium tabular-nums">{formatMinutes(total)}</span>
+						{/key}
 					</div>
-					<ul class="mt-2.5 flex flex-wrap gap-x-4 gap-y-1">
-						{#each people as person (person.key)}
-							<li class="flex items-center gap-1.5 text-xs">
-								<span class="size-2 rounded-full" style:background={personColor(person.key)} aria-hidden="true"></span>
-								<span class="text-muted-foreground">{person.name}</span>
-								<span class="font-medium tabular-nums">{formatMinutes(person.minutes)}</span>
-							</li>
-						{/each}
-					</ul>
+					{#if estimate}
+						<div class="flex flex-col gap-1">
+							<div class="h-1 overflow-hidden rounded-full bg-muted" aria-hidden="true">
+								<div
+									class="time-segment h-full rounded-full"
+									style:background={tone === "neutral" ? "var(--color-foreground)" : TONE_COLOR[tone]}
+									style:width="{Math.min(100, percent)}%"
+								></div>
+							</div>
+							<p class={cn("text-xs tabular-nums", tone === "neutral" ? "text-muted-foreground" : TONE_TEXT[tone])}>
+								{liveTotal > estimate
+									? labels.over(formatMinutes(liveTotal - estimate), formatMinutes(estimate))
+									: labels.remaining(formatMinutes(estimate - liveTotal), formatMinutes(estimate))}
+							</p>
+						</div>
+					{/if}
+					{#if people.length > 1}
+						<ul class="flex flex-wrap gap-x-3 gap-y-1">
+							{#each people as person (person.key)}
+								<li class="flex items-center gap-1.5 text-xs">
+									<span class="size-2 rounded-full" style:background={personColor(person.key)} aria-hidden="true"></span>
+									<span class="text-muted-foreground">{person.name}</span>
+									<span class="font-medium tabular-nums">{formatMinutes(person.minutes)}</span>
+								</li>
+							{/each}
+						</ul>
+					{/if}
 				</div>
 			{/if}
-		</div>
-	{/if}
 
-	<!-- Entries by day -->
-	{#if groups.length > 0}
-		<div class="flex flex-col gap-4">
-			{#each groups as group (group.day)}
-				<div>
-					<div class="flex items-baseline justify-between border-b border-border/60 px-2 pb-1.5">
-						<h3 class="text-xs font-medium text-muted-foreground">{dayLabel(group.day, locale)}</h3>
-						<span class="text-xs font-medium text-muted-foreground tabular-nums">{formatMinutes(group.minutes)}</span>
-					</div>
-					<ul class="mt-1">
-						{#each group.items as entry (getId(entry))}
-							{@const name = getPerson(entry)}
-							{@const text = getNote?.(entry)}
-							<li
-								class="time-row group flex items-center gap-3 rounded-lg px-2 py-1.5 text-sm transition-colors hover:bg-muted/50 focus-within:bg-muted/50"
-								class:is-new={!firstIds.has(getId(entry))}
-								class:opacity-50={deleting === getId(entry)}
-							>
-								<span
-									class="grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-semibold text-white"
-									style:background={personColor(getPersonId?.(entry) ?? name)}
-									title={name}
-									aria-hidden="true"
-								>
-									{initial(name)}
-								</span>
-								<span class="min-w-0 flex-1 truncate">
-									<span class="sr-only">{name},</span>
-									{#if text}{text}{:else}<span class="text-muted-foreground">{name}</span>{/if}
-									{#if renderMeta}<span class="ms-2 text-xs text-muted-foreground">{@render renderMeta(entry)}</span>{/if}
-								</span>
-								<span class="shrink-0 font-medium tabular-nums">{formatMinutes(getMinutes(entry))}</span>
-								{#if onDelete && (canDelete?.(entry) ?? true)}
-									<button
-										type="button"
-										onclick={() => remove(entry)}
-										disabled={deleting === getId(entry)}
-										aria-label={labels.deleteEntry(formatMinutes(getMinutes(entry)))}
-										class="time-delete -my-1 -me-1 grid size-8 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
+			{#if groups.length > 0}
+				<div class="-mx-1 flex max-h-56 flex-col gap-2 overflow-y-auto px-1">
+					{#each groups as group (group.day)}
+						<div>
+							<div class="flex items-baseline justify-between border-b border-border/60 pb-1">
+								<h3 class="text-xs font-medium text-muted-foreground">{dayLabel(group.day, locale)}</h3>
+								<span class="text-xs font-medium text-muted-foreground tabular-nums">{formatMinutes(group.minutes)}</span>
+							</div>
+							<ul>
+								{#each group.items as entry (getId(entry))}
+									{@const name = getPerson(entry)}
+									{@const text = getNote?.(entry)}
+									<li
+										class="time-row group flex h-7 items-center gap-2 rounded-md px-1 transition-colors hover:bg-muted/50 focus-within:bg-muted/50"
+										class:is-new={!firstIds.has(getId(entry))}
+										class:opacity-50={deleting === getId(entry)}
 									>
-										<span class="size-3.5 [&>svg]:size-full" aria-hidden="true"><X weight="bold" /></span>
-									</button>
-								{/if}
-							</li>
-						{/each}
-					</ul>
+										<span
+											class="grid size-5 shrink-0 place-items-center rounded-full text-xs font-semibold text-white"
+											style:background={personColor(getPersonId?.(entry) ?? name)}
+											title={name}
+											aria-hidden="true"
+										>
+											{initial(name)}
+										</span>
+										<span class="min-w-0 flex-1 truncate">
+											<span class="sr-only">{name},</span>
+											{#if text}{text}{:else}<span class="text-muted-foreground">{name}</span>{/if}
+											{#if renderMeta}<span class="ms-1.5 text-xs text-muted-foreground">{@render renderMeta(entry)}</span>{/if}
+										</span>
+										<span class="shrink-0 font-medium tabular-nums">{formatMinutes(getMinutes(entry))}</span>
+										{#if onDelete && (canDelete?.(entry) ?? true)}
+											<button
+												type="button"
+												onclick={() => remove(entry)}
+												disabled={deleting === getId(entry)}
+												aria-label={labels.deleteEntry(formatMinutes(getMinutes(entry)))}
+												class="time-delete grid size-6 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
+											>
+												<X weight="bold" class="size-3" aria-hidden="true" />
+											</button>
+										{/if}
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/each}
 				</div>
-			{/each}
-		</div>
-	{:else}
-		<p class="px-1 py-6 text-center text-sm text-muted-foreground">{labels.empty}</p>
-	{/if}
+			{:else}
+				<p class="py-2 text-center text-xs text-muted-foreground">{labels.empty}</p>
+			{/if}
+		</Popover.Content>
+	</Popover.Root>
 </section>
 
 <style>
-	.time-panel {
-		transition:
-			border-color var(--duration-medium, 350ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			background-color var(--duration-medium, 350ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+	.time-chip {
+		display: inline-flex;
+		align-items: stretch;
+		height: 1.75rem;
+		border-radius: var(--radius-md, 0.5rem);
+		font-size: 0.8125rem;
+		color: var(--color-foreground);
+		transition: background-color var(--duration-fast, 250ms) var(--ease-smooth-out, ease-out);
 	}
 
-	.time-panel.is-running {
-		border-color: color-mix(in oklab, var(--tone-accent, var(--color-primary)) 32%, var(--color-border));
-		background-color: color-mix(in oklab, var(--tone-accent, var(--color-primary)) 4%, var(--color-card));
+	.time-chip.is-running {
+		background: color-mix(in oklab, var(--tone-accent, var(--color-primary)) 10%, transparent);
 	}
 
-	.time-readout {
-		transition: color var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-		font-feature-settings: "tnum" 1;
+	.time-chip.is-running :global(.time-open) {
+		color: var(--tone-accent, var(--color-primary));
 	}
 
-	.time-colon {
-		margin-inline: 0.04em;
-		opacity: 0.45;
+	.time-toggle,
+	:global(.time-open) {
+		display: inline-flex;
+		align-items: center;
+		outline: none;
+		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
 	.time-toggle {
-		transition:
-			transform var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			background-color var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			color var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		justify-content: center;
+		width: 1.75rem;
+		border-start-start-radius: inherit;
+		border-end-start-radius: inherit;
+	}
+
+	:global(.time-open) {
+		gap: 0.375rem;
+		padding-inline: 0.25rem 0.5rem;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		border-start-end-radius: inherit;
+		border-end-end-radius: inherit;
+	}
+
+	.time-toggle:hover,
+	:global(.time-open:hover),
+	:global(.time-open[data-state="open"]) {
+		background: color-mix(in oklab, var(--color-foreground) 7%, transparent);
+	}
+
+	.time-toggle:focus-visible,
+	:global(.time-open:focus-visible) {
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
 	}
 
 	.time-toggle:active {
 		transform: scale(0.94);
 	}
 
-	.time-toggle.is-running::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		border: 1.5px solid var(--tone-accent, var(--color-primary));
-		animation: time-halo var(--time-pulse-duration, 2000ms) var(--ease-out, ease-out) infinite;
+	@media (any-pointer: coarse) {
+		.time-chip {
+			height: 2.5rem;
+		}
+
+		.time-toggle {
+			width: 2.5rem;
+		}
 	}
 
 	.time-field {
-		height: 2.25rem;
+		height: 1.75rem;
+		min-width: 0;
 		border-radius: var(--radius-md, 0.5rem);
 		border: 1px solid var(--color-input, var(--color-border));
 		background: var(--color-background);
-		padding-inline: 0.625rem;
-		font-size: 0.875rem;
+		padding-inline: 0.5rem;
+		font-size: 0.8125rem;
 		color: var(--color-foreground);
 		outline: none;
 		transition:
@@ -485,8 +465,33 @@
 		border-color: var(--color-destructive);
 	}
 
+	.time-log {
+		height: 1.75rem;
+		border-radius: var(--radius-md, 0.5rem);
+		border: 1px solid var(--color-border);
+		background: var(--color-background);
+		padding-inline: 0.75rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		outline: none;
+		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+	}
+
+	.time-log:hover:not(:disabled) {
+		background: var(--color-muted);
+	}
+
+	.time-log:focus-visible {
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
+	}
+
+	.time-log:disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
 	.time-segment {
-		transition: flex-grow var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: width var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 
 	.time-delete {
@@ -518,17 +523,6 @@
 		animation: time-row-in var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 	}
 
-	@keyframes time-halo {
-		from {
-			transform: scale(1);
-			opacity: 0.55;
-		}
-		to {
-			transform: scale(1.5);
-			opacity: 0;
-		}
-	}
-
 	@keyframes time-pop {
 		from {
 			opacity: 0;
@@ -546,18 +540,13 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.time-panel,
-		.time-readout,
+		.time-chip,
 		.time-toggle,
+		:global(.time-open),
 		.time-field,
+		.time-log,
 		.time-segment {
 			transition: none;
-		}
-
-		.time-toggle.is-running::after {
-			animation: none;
-			transform: scale(1.18);
-			opacity: 0.4;
 		}
 
 		.time-pop,
