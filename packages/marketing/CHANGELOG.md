@@ -261,3 +261,10 @@ _Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(marketing): SvelteKit error hooks, and the cause chain reaches Sentry
 
+
+## [1.19.1](https://github.com/heyramzi/ui/compare/marketing-v1.19.0...marketing-v1.19.1) (2026-10-21)
+
+### Bug Fixes
+
+* fix(marketing): the Sentry protocol compiles under noUncheckedIndexedAccess and pre-ES2023 lib
+
