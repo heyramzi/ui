@@ -850,3 +850,11 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): FieldRow matches a touch-sized Button with a 44px input on a coarse pointer
 
+
+## [1.54.2](https://github.com/heyramzi/ui/compare/ui-v1.54.1...ui-v1.54.2) (2026-10-21)
+
+### Bug Fixes
+
+* fix(ui): ThemeToggle names the properties it animates and grows its icon from 90%
+* fix(ui): install without the private @heyramzi/utils
+
