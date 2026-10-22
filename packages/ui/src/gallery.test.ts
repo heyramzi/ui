@@ -28,7 +28,12 @@ const SITE = join(PKG, "..", "..", "site", "src", "lib");
 
 describe("site gallery coverage", () => {
   it("gives every animation a stage", () => {
-    const section = readFileSync(join(SITE, "demos", "motion.svelte"), "utf8");
+    // Each animation's stage is its own file under demos/motion/.
+    const stages = join(SITE, "demos", "motion");
+    const section = readdirSync(stages)
+      .filter((file) => file.endsWith(".svelte"))
+      .map((file) => readFileSync(join(stages, file), "utf8"))
+      .join("\n");
     const missing = readdirSync(join(PKG, "src", "animations"))
       .filter((file) => file.endsWith(".css") && file !== "index.css")
       .filter((file) => !section.includes(`animations/${file.replace(".css", "")}`));
