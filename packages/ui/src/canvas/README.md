@@ -9,7 +9,7 @@ MIT. It runs on any domain and costs nothing per install.
 ## What's in it
 
 - **Pen layer.** Freehand strokes (perfect-freehand), a highlighter, an eraser, plain text, and rectangle, ellipse and diamond shapes. Colours are token names, so a board drawn in light mode reads fine in dark.
-- **Tool bar.** A floating bar with the tools, undo and redo. Pick from 6 colours and 3 brush sizes. Keys: V, H, P, M, E, T, R, O, D.
+- **Tool bar.** A floating bar with the tools, a colour and a brush size. Pick from 8 colours and 3 brush sizes. Keys: V, H, L, P, M, E, T, R, O, D, F. Undo and redo are yours to wire to `createCanvasDispatcher`.
 - **Plugin API.** Register your own card types, ops and layout passes. One registry builds xyflow's `nodeTypes` for you.
 - **Ops.** 8 core ops (`addNode`, `removeNode`, `patchNode`, `moveNode`, `setParent`, `addEdge`, `removeEdge`, `patchEdge`) as plain functions over nodes and edges. Zod checks every one.
 - **Undo history.** `createCanvasDispatcher` wraps each edit in a transaction. A whole pen stroke is one undo step.
@@ -68,14 +68,15 @@ Drop this in `src/routes/+page.svelte`.
     toolbar: "Canvas tools",
     style: "Style",
     tools: {
-      select: "Select", hand: "Hand", pen: "Pen", highlighter: "Highlighter",
-      eraser: "Eraser", text: "Text", rectangle: "Rectangle", ellipse: "Ellipse",
-      diamond: "Diamond", shapes: "Shapes",
+      select: "Select", hand: "Hand", connect: "Connect", frame: "Frame", pen: "Pen",
+      highlighter: "Highlighter", eraser: "Eraser", text: "Text", rectangle: "Rectangle",
+      ellipse: "Ellipse", diamond: "Diamond", shapes: "Shapes", note: "Note",
     },
-    colors: { ink: "Ink", red: "Red", blue: "Blue", green: "Green", amber: "Amber", violet: "Violet" },
+    colors: {
+      ink: "Ink", red: "Red", blue: "Blue", green: "Green", amber: "Amber",
+      violet: "Violet", indigo: "Indigo", terra: "Terracotta",
+    },
     sizes: ["Small", "Medium", "Large"],
-    undo: "Undo",
-    redo: "Redo",
   } as const;
 </script>
 
@@ -100,10 +101,6 @@ Drop this in `src/routes/+page.svelte`.
       bind:color
       bind:level
       {labels}
-      canUndo={history.canUndo}
-      canRedo={history.canRedo}
-      onUndo={history.undo}
-      onRedo={history.redo}
     />
   </SvelteFlow>
 </div>
@@ -192,7 +189,7 @@ The pen is `PenOverlay` (or `PenLayer` inside xyflow), and it needs 2 callbacks 
 
 The eraser removes whole strokes, never part of one. A swipe across a big shape doesn't wipe it.
 
-The pen has 6 colours: `ink`, `red`, `blue`, `green`, `amber` and `violet`. `pen.css` maps them to CSS variables with a light and a dark value. Dark mode applies under a `.dark` class on an ancestor or on `.svelte-flow`.
+The pen has 8 colours: `ink`, `red`, `blue`, `green`, `amber`, `violet`, `indigo` and `terra`. `pen.css` maps them to CSS variables with a light and a dark value. Dark mode applies under a `.dark` class on an ancestor or on `.svelte-flow`.
 
 ## Headless ops
 
