@@ -7,4 +7,4 @@ paths:
 
 # Imports
 
-**An app that aliases its own `#src` in `kit.alias` needs upsys's `packageImportsOverKitAlias` in its Vite and Vitest configs both.**
+**An app that aliases its own `#src` in `kit.alias` needs `packageImportsOverKitAlias` from `@heyramzi/utils/vite` in its Vite and Vitest configs both.**
