@@ -1,21 +1,20 @@
 <script lang="ts">
-	import { bySlug, entries, sections } from "#lib/registry.js";
+	import { entries, entryOf, sections } from "#lib/registry.js";
 	import Tile from "#lib/Tile.svelte";
 	import { ArrowRight } from "phosphor-svelte";
 
 	// Each section leads with one part per category, picking ones that fit, since a demo taller
 	// than a tile shrinks to mush.
 	const fits = (slug: string | { href: string }): slug is string =>
-		typeof slug === "string" && (bySlug(slug)!.height ?? 280) <= 400;
-	const leads = (id: string) => {
-		const section = sections.find((s) => s.id === id)!;
+		typeof slug === "string" && (entryOf(slug).height ?? 280) <= 400;
+	const leads = (section: (typeof sections)[number]) => {
 		const spread = section.categories
 			.map((c) => c.items.find(fits))
 			.filter((slug): slug is string => slug !== undefined);
 		const rest = section.categories
 			.flatMap((c) => c.items.filter(fits))
 			.filter((slug) => !spread.includes(slug));
-		return [...spread, ...rest].slice(0, 3).map((slug) => bySlug(slug)!);
+		return [...spread, ...rest].slice(0, 3).map(entryOf);
 	};
 	const countOf = (id: string) => entries.filter((e) => e.section === id).length;
 </script>
@@ -73,7 +72,7 @@
 			</a>
 		</div>
 		<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-			{#each leads(section.id) as entry (entry.slug)}<Tile {entry} />{/each}
+			{#each leads(section) as entry (entry.slug)}<Tile {entry} />{/each}
 		</div>
 	</section>
 {/each}

@@ -301,18 +301,23 @@ const primitives: Entry[] = SHADCN_DEMOS.filter((demo) => !(demo.name in meta)).
   sourceFiles: [],
 }));
 
-const all = [...written, ...primitives];
-for (const slug of placement.keys()) {
-  if (!all.some((e) => e.slug === slug))
-    throw new Error(`registry: sections place "${slug}", which has no demo`);
-}
+const all = new Map([...written, ...primitives].map((e) => [e.slug, e]));
 
 /** Every demo, in sidebar order. */
-export const entries: Entry[] = [...placement.keys()].map((slug) =>
-  all.find((e) => e.slug === slug)!,
-);
+export const entries: Entry[] = [...placement.keys()].map((slug) => {
+  const entry = all.get(slug);
+  if (!entry) throw new Error(`registry: sections place "${slug}", which has no demo`);
+  return entry;
+});
 
 export const bySlug = (slug: string) => entries.find((e) => e.slug === slug);
+
+/** A slug the sections place, which the build already proved has a demo. */
+export const entryOf = (slug: string): Entry => {
+  const entry = bySlug(slug);
+  if (!entry) throw new Error(`registry: no demo for "${slug}"`);
+  return entry;
+};
 
 export const sectionById = (id: string) => sections.find((s) => s.id === id);
 
@@ -321,7 +326,7 @@ export const categoryId = (title: string) => title.toLowerCase().replaceAll(" ",
 
 /** A sidebar row's link and label, whether it's a demo or a page. */
 export const itemLink = (item: string | PageLink): PageLink =>
-  typeof item === "string" ? { title: bySlug(item)!.title, href: `/components/${item}` } : item;
+  typeof item === "string" ? { title: entryOf(item).title, href: `/components/${item}` } : item;
 
 /** The import a demo leads with, for the line under its title. */
 export const importOf = (entry: Entry) => entry.source.match(/from "(@heyramzi\/[^"]+)"/)?.[1];
