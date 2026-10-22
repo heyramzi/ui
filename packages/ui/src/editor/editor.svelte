@@ -3,6 +3,7 @@
 // IMPORTS
 // =========================
 import { Editor } from "@tiptap/core";
+import { untrack } from "svelte";
 import "#src/editor/content.css";
 import { buildExtensions } from "#src/editor/extensions.js";
 import { buildSlashItems, type SlashItem } from "#src/editor/slash-items.js";
@@ -176,7 +177,7 @@ function deleteActiveImage() {
 	activeImageElement = null;
 }
 
-$effect(() => {
+function mount() {
 	if (!editorElement || editorInstance) return;
 
 	const extensions = buildExtensions({ preset, placeholder, blockIds });
@@ -270,6 +271,12 @@ $effect(() => {
 		editorInstance?.destroy();
 		editorInstance = null;
 	};
+}
+
+// Only the element mounts the editor. Read tracked, `content` (fed back by onchange) and the
+// `tick++` each transaction makes would destroy and rebuild it until Svelte stops the loop.
+$effect(() => {
+	if (editorElement) return untrack(mount);
 });
 </script>
 
