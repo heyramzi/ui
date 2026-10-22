@@ -1,4 +1,4 @@
-import { defineStatuses } from "#src/tasks/define-statuses.js";
+import { defineStatuses } from "#src/status/define-statuses.js";
 import { ClipboardText, EnvelopeSimple, Hash, Phone } from "phosphor-svelte";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";
 import type { InboxSourceType } from "#src/tasks/inbox/inbox-types.js";

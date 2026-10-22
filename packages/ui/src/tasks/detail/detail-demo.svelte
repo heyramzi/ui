@@ -4,8 +4,8 @@
 	import TaskProperty from "#src/tasks/detail/task-property.svelte";
 	import TaskChip from "#src/tasks/detail/task-chip.svelte";
 	import TimeTracker from "#src/tasks/time/time-tracker.svelte";
-	import StatusDot from "#src/tasks/status-dot.svelte";
-	import { defineStatuses } from "#src/tasks/define-statuses.js";
+	import StatusDot from "#src/status/status-dot.svelte";
+	import { defineStatuses } from "#src/status/define-statuses.js";
 	import type { TaskComment } from "#src/tasks/detail/detail-types.js";
 	import type { TimeLogInput, TimeStopInfo } from "#src/tasks/time/time-types.js";
 

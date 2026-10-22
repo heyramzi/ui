@@ -7,7 +7,7 @@
 	import { Tabs, TabsList, TabsTrigger } from "#src/shadcn/tabs/index.js";
 	import { ToggleGroup, ToggleGroupItem } from "#src/shadcn/toggle-group/index.js";
 	import { cn } from "#src/lib/utils.js";
-	import StatusDot from "#src/tasks/status-dot.svelte";
+	import StatusDot from "#src/status/status-dot.svelte";
 	import InboxCard from "#src/tasks/inbox/inbox-card.svelte";
 	import { flatten, groupByProject, inLane, isTyping, laneOf } from "#src/tasks/inbox/inbox-logic.js";
 	import { inboxKinds, inboxStates } from "#src/tasks/inbox/inbox-statuses.js";

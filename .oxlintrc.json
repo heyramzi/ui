@@ -36,7 +36,7 @@
       "files": [
         "**/packages/ui/src/charts/ring-chart.svelte",
         "**/packages/ui/src/charts/gauge-chart.svelte",
-        "**/packages/ui/src/tasks/status-dot.svelte",
+        "**/packages/ui/src/status/status-dot.svelte",
         "**/packages/ui/src/tasks/time/time-ring.svelte",
         "**/packages/ui/src/tasks/gantt/gantt-grid.svelte"
       ],

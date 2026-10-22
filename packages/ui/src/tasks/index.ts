@@ -13,19 +13,21 @@ export type {
 	KanbanMove,
 	KanbanSortKey,
 } from "#src/tasks/kanban-types.js";
-export { default as StatusBadge } from "#src/tasks/status-badge.svelte";
-export { default as StatusDot } from "#src/tasks/status-dot.svelte";
-export { default as StatusIcon } from "#src/tasks/status-icon.svelte";
-export { defineStatuses } from "#src/tasks/define-statuses.js";
+export {
+	StatusBadge,
+	StatusDot,
+	StatusIcon,
+	defineStatuses,
+} from "#src/status/index.js";
 export type {
 	StatusDef,
 	StatusDotVariant,
 	StatusId,
 	StatusMap,
 	Statuses,
-} from "#src/tasks/status-types.js";
-export { default as SidePanel } from "#src/tasks/side-panel.svelte";
-export type { PanelStat, SidePanelWidth } from "#src/tasks/side-panel-types.js";
+} from "#src/status/index.js";
+export { SidePanel } from "#src/panel/index.js";
+export type { PanelStat, SidePanelWidth } from "#src/panel/index.js";
 export { default as TaskList } from "#src/tasks/task-list.svelte";
 export { default as TaskGantt } from "#src/tasks/task-gantt.svelte";
 export { addDays, dayNumber, isoFromDay, todayIso } from "#src/tasks/dates.js";

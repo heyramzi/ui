@@ -172,6 +172,31 @@
       "default": "./src/agents/index.ts"
     },
     "./agents/demo.svelte": "./src/agents/demo.svelte",
+    "./status": {
+      "svelte": "./src/status/index.ts",
+      "types": "./src/status/index.ts",
+      "default": "./src/status/index.ts"
+    },
+    "./panel": {
+      "svelte": "./src/panel/index.ts",
+      "types": "./src/panel/index.ts",
+      "default": "./src/panel/index.ts"
+    },
+    "./record": {
+      "svelte": "./src/record/index.ts",
+      "types": "./src/record/index.ts",
+      "default": "./src/record/index.ts"
+    },
+    "./thread": {
+      "svelte": "./src/thread/index.ts",
+      "types": "./src/thread/index.ts",
+      "default": "./src/thread/index.ts"
+    },
+    "./inbox": {
+      "svelte": "./src/inbox/index.ts",
+      "types": "./src/inbox/index.ts",
+      "default": "./src/inbox/index.ts"
+    },
     "./tasks": {
       "svelte": "./src/tasks/index.ts",
       "types": "./src/tasks/index.ts",
@@ -193,19 +218,19 @@
       "default": "./src/tasks/task-gantt.svelte"
     },
     "./tasks/status": {
-      "svelte": "./src/tasks/status-badge.svelte",
-      "types": "./src/tasks/status-badge.svelte",
-      "default": "./src/tasks/status-badge.svelte"
+      "svelte": "./src/status/status-badge.svelte",
+      "types": "./src/status/status-badge.svelte",
+      "default": "./src/status/status-badge.svelte"
     },
     "./tasks/status-dot": {
-      "svelte": "./src/tasks/status-dot.svelte",
-      "types": "./src/tasks/status-dot.svelte",
-      "default": "./src/tasks/status-dot.svelte"
+      "svelte": "./src/status/status-dot.svelte",
+      "types": "./src/status/status-dot.svelte",
+      "default": "./src/status/status-dot.svelte"
     },
     "./tasks/statuses": {
-      "svelte": "./src/tasks/define-statuses.ts",
-      "types": "./src/tasks/define-statuses.ts",
-      "default": "./src/tasks/define-statuses.ts"
+      "svelte": "./src/status/define-statuses.ts",
+      "types": "./src/status/define-statuses.ts",
+      "default": "./src/status/define-statuses.ts"
     },
     "./tasks/time": {
       "svelte": "./src/tasks/time/time-tracker.svelte",
@@ -218,9 +243,9 @@
       "default": "./src/tasks/inbox/index.ts"
     },
     "./tasks/side-panel": {
-      "svelte": "./src/tasks/side-panel.svelte",
-      "types": "./src/tasks/side-panel.svelte",
-      "default": "./src/tasks/side-panel.svelte"
+      "svelte": "./src/panel/side-panel.svelte",
+      "types": "./src/panel/side-panel.svelte",
+      "default": "./src/panel/side-panel.svelte"
     },
     "./tasks/presets/sales": {
       "svelte": "./src/tasks/presets/sales.ts",
@@ -234,11 +259,11 @@
     },
     "./tasks/detail-demo.svelte": "./src/tasks/detail/detail-demo.svelte",
     "./tasks/record": {
-      "svelte": "./src/tasks/record/index.ts",
-      "types": "./src/tasks/record/index.ts",
-      "default": "./src/tasks/record/index.ts"
+      "svelte": "./src/record/index.ts",
+      "types": "./src/record/index.ts",
+      "default": "./src/record/index.ts"
     },
-    "./tasks/record-demo.svelte": "./src/tasks/record/record-demo.svelte",
+    "./tasks/record-demo.svelte": "./src/record/record-demo.svelte",
     "./tasks/demo": {
       "svelte": "./src/tasks/demo.svelte",
       "default": "./src/tasks/demo.svelte"

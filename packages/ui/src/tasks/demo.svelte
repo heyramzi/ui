@@ -4,9 +4,9 @@
 	import TaskGantt from "#src/tasks/task-gantt.svelte";
 	import { SegmentedFilter } from "#src/components/segmented/index.js";
 	import { ChartBarHorizontal, Kanban, ListBullets } from "phosphor-svelte";
-	import StatusBadge from "#src/tasks/status-badge.svelte";
-	import StatusDot from "#src/tasks/status-dot.svelte";
-	import { defineStatuses } from "#src/tasks/define-statuses.js";
+	import StatusBadge from "#src/status/status-badge.svelte";
+	import StatusDot from "#src/status/status-dot.svelte";
+	import { defineStatuses } from "#src/status/define-statuses.js";
 	import { addDays, dayNumber, todayIso } from "#src/tasks/dates.js";
 	import { salesStatuses } from "#src/tasks/presets/sales.js";
 	import type { KanbanMove } from "#src/tasks/kanban-types.js";

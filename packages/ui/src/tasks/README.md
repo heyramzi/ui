@@ -204,7 +204,7 @@ icon, so `ChartBarHorizontal` stands in.
 `SidePanel` is a sheet for one record: a title, a description, status chips, doors
 out to other tools (`openIn`), a copy-a-prompt `handoff`, a strip of `stats`, then
 the body and an optional pinned `footer`. You pass the tools; the panel knows none.
-Import it from `@heyramzi/ui/tasks` or alone from `@heyramzi/ui/tasks/side-panel`.
+Import it from `@heyramzi/ui/panel`, or from `@heyramzi/ui/tasks` for now.
 
 ```svelte
 <SidePanel

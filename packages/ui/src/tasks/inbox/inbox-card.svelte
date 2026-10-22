@@ -5,8 +5,8 @@
 	import { Button } from "#src/shadcn/button/index.js";
 	import { Textarea } from "#src/shadcn/textarea/index.js";
 	import { cn } from "#src/lib/utils.js";
-	import StatusBadge from "#src/tasks/status-badge.svelte";
-	import StatusDot from "#src/tasks/status-dot.svelte";
+	import StatusBadge from "#src/status/status-badge.svelte";
+	import StatusDot from "#src/status/status-dot.svelte";
 	import { TONE_TEXT } from "#src/lib/tone.js";
 	import InboxDraftEditor from "#src/tasks/inbox/inbox-draft.svelte";
 	import { canUndo, isOpen, startDraft } from "#src/tasks/inbox/inbox-logic.js";
