@@ -307,22 +307,22 @@ importers:
   packages/rich-editor:
     dependencies:
       '@tiptap/core':
-        specifier: ^3.31.4
+        specifier: ^3.32.0
         version: 3.32.0(@tiptap/pm@3.32.0)
       '@tiptap/extension-drag-handle':
-        specifier: ^3.31.4
+        specifier: ^3.32.0
         version: 3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extension-collaboration@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0)(@tiptap/y-tiptap@3.0.10(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(y-protocols@1.0.7(yjs@13.6.33))(yjs@13.6.33))(yjs@13.6.33))(@tiptap/extension-node-range@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0)(@tiptap/y-tiptap@3.0.10(prosemirror-model@1.25.12)(prosemirror-state@1.4.4)(prosemirror-view@1.42.6)(y-protocols@1.0.7(yjs@13.6.33))(yjs@13.6.33))
       '@tiptap/extension-image':
-        specifier: ^3.31.4
+        specifier: ^3.32.0
         version: 3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))
       '@tiptap/extension-placeholder':
-        specifier: ^3.31.4
+        specifier: ^3.32.0
         version: 3.32.0(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))
       '@tiptap/pm':
-        specifier: ^3.31.4
+        specifier: ^3.32.0
         version: 3.32.0
       '@tiptap/starter-kit':
-        specifier: ^3.31.4
+        specifier: ^3.32.0
         version: 3.32.0
       markdown-it:
         specifier: ^15.0.3
