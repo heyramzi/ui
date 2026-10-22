@@ -79,9 +79,8 @@ function describe(error: unknown): Described {
 const MAX_CHAIN = 5;
 
 /**
- * The error and its `cause` chain as Sentry exception values, root cause first and the
- * thrown error last. Drizzle's "Failed query" keeps D1's real message in `cause`, so
- * without the chain the event shows the SQL and never why it failed.
+ * The whole `cause` chain, root first, because Drizzle's "Failed query" keeps D1's real
+ * message in `cause` and the event would show only the SQL.
  */
 function describeChain(error: unknown): Described[] {
   const chain = [describe(error)];

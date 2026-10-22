@@ -10,12 +10,8 @@ export type Spot = { index: number; source: string; seconds: number };
 const TOUCH = 1e-6;
 
 /**
- * The play list: the kept ranges in array order. A reorder is the array's order, a dropped range is `kept: false`.
- * The output clock counts kept lengths only, so a piece starts where the ones before it end.
- *
- * With `fps`, a range plays the frames its edges round to, at least one, the way `frameClock` in
- * `@heyramzi/cut` counts them for the render. Summing raw seconds drifts up to half a frame a cut, so
- * after a few dozen cuts the live playhead and the timeline's beats and notes disagree.
+ * The kept ranges in order, on an output clock. With `fps`, each range rounds to whole frames like
+ * `frameClock` in `@heyramzi/cut`, since raw seconds drift half a frame per cut.
  */
 export function playlist(ranges: LiveRange[], fps?: number): Playlist {
   const pieces: Piece[] = [];
@@ -55,7 +51,11 @@ export function locate(list: Playlist, time: number): Spot | null {
   const index = found === -1 ? last : found;
   const piece = list.pieces[index];
   if (!piece) return null;
-  return { index, source: piece.source, seconds: piece.start + Math.min(t - piece.at, lengthOf(piece)) };
+  return {
+    index,
+    source: piece.source,
+    seconds: piece.start + Math.min(t - piece.at, lengthOf(piece)),
+  };
 }
 
 /** The take's second back to the cut's second, for the piece that's playing. */

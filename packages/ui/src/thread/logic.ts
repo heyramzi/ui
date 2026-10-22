@@ -15,8 +15,8 @@ function byTime(comments: ThreadComment[]): ThreadComment[] {
 }
 
 /**
- * Roots in time order, each with its replies. A reply to a reply joins the root's list, a reply whose
- * parent is gone becomes a root, and a loop of parents can't hang the walk.
+ * Roots in time order with their replies: a reply to a reply joins the root, an orphan becomes a
+ * root, and a parent loop can't hang the walk.
  */
 export function buildThread(comments: ThreadComment[]): ThreadNode[] {
   const byId = new Map(comments.map((comment) => [comment.id, comment]));

@@ -2,8 +2,8 @@ import { renderWords } from "#src/core/render-words.js";
 import type { JobStatus, RenderProgress } from "#src/core/types.js";
 
 /**
- * The preview file the player should hold. A render rewrites the file in pieces, so the new one
- * waits until the studio says the render is over; a tool that doesn't render has nothing to wait for.
+ * The preview file the player should hold: a render rewrites it in pieces, so the new one waits
+ * until the studio says the render is over.
  */
 export function previewToShow(
   shown: string | undefined,
@@ -26,8 +26,8 @@ export const guessedRenderMs = (videoSeconds: number): number =>
   Math.max(15, videoSeconds * 0.5) * 1000;
 
 /**
- * Time against the expected render, eased so the bar never claims the end: 90% at the expected
- * time, closing on 95% after. The studio only knows when the render is over, so 100% is its to say.
+ * Time against the expected render, eased to 90% at the expected time and 95% after, because
+ * only the studio knows when the render is over and gets to say 100%.
  */
 export function renderEstimate(elapsedMs: number, expectedMs: number): RenderEstimate {
   const expected = Math.max(expectedMs, 1000);
@@ -40,8 +40,8 @@ export function renderEstimate(elapsedMs: number, expectedMs: number): RenderEst
 }
 
 /**
- * The renderer's own progress as a bar and a percent. The matte is about two thirds of a preview's wait
- * (140s of 215s on P04), so it gets half the bar and the parts the other half.
+ * The renderer's progress as a bar and a percent; the matte is about two thirds of the wait
+ * (140s of 215s on P04), so it gets half the bar.
  */
 export function progressOf(progress: RenderProgress): { fraction: number; words: string } {
   if (progress.stage === "preparing") return { fraction: 0.03, words: "getting ready" };
@@ -74,9 +74,17 @@ export function finalButton(final: JobStatus): { label: string; disabled: boolea
     case "current":
       return { label: "Final is up to date", disabled: true };
     case "failed":
-      return { label: "Render final", disabled: false, tip: "The last try didn't finish. Try again." };
+      return {
+        label: "Render final",
+        disabled: false,
+        tip: "The last try didn't finish. Try again.",
+      };
     case "outdated":
-      return { label: "Render final", disabled: false, tip: "The video changed since the last final" };
+      return {
+        label: "Render final",
+        disabled: false,
+        tip: "The video changed since the last final",
+      };
     case "none":
       return { label: "Render final", disabled: false };
   }

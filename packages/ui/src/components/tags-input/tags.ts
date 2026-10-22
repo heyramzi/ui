@@ -1,5 +1,5 @@
-// The rules of a tag list, with no DOM in them. A tag is a label: the options are the values already
-// used, so a spelling is picked and never retyped, and a new one is a deliberate act.
+// The tag list's rules, with no DOM. Options are the values already used, so a spelling gets picked,
+// never retyped, and a new tag is a deliberate act.
 
 /** Splits typed or pasted text on commas and newlines, trimmed, empties dropped. */
 export function splitTags(text: string): string[] {
@@ -52,8 +52,8 @@ function rank(option: string, query: string): number | null {
 }
 
 /**
- * The options to offer for what's typed, closest first: the same, a prefix, a part, a typo away.
- * Options already on the field are left out. With nothing typed, the options in their order.
+ * The options to offer for what's typed, closest first, from exact match down to a typo away.
+ * Options already on the field are left out.
  */
 export function matchOptions(
   options: readonly string[],
@@ -79,8 +79,8 @@ export function findOption(options: readonly string[], input: string): string | 
 }
 
 /**
- * Whether typing `query` may offer "Create". It needs text, creating has to be allowed, and no
- * option or tag may be the same word. A typo's close option is shown above it, never instead.
+ * Whether typing `query` may offer "Create": never for a word an option or tag already is. A
+ * typo's close option shows above it, never instead.
  */
 export function canCreate(
   options: readonly string[],
@@ -94,8 +94,8 @@ export function canCreate(
 }
 
 /**
- * The list after adding the option `name`. Its spelling is the option's, a repeat changes nothing
- * (the same array comes back, so a caller can skip a save), and `max` is kept.
+ * The list after adding the option `name`, in the option's spelling. A repeat returns the same
+ * array, so a caller can skip the save.
  */
 export function addTag(
   tags: readonly string[],

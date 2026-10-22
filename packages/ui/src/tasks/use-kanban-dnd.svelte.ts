@@ -22,9 +22,8 @@ export type KanbanDndConfig<T> = {
 };
 
 /**
- * The drag state and handlers for a board. Native HTML5 drag is deliberate:
- * it reuses the browser's own drop targets, so a card can leave the board and
- * land on any other element a caller wired up.
+ * A board's drag state and handlers, on native HTML5 drag so a card can leave the board for
+ * any drop target a caller wired up.
  */
 export function createKanbanDnd<T>(config: KanbanDndConfig<T>) {
   let draggedId = $state<string | null>(null);

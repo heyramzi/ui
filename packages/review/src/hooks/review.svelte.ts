@@ -80,10 +80,11 @@ export function createReview(client: ReviewClient) {
       setSave("error");
       return;
     }
-    // WHY: a model that arrived while the act was in flight may predate the write (a render or proxy
-    // status push), so it can't retire the act. The act stays on screen, settled, until a model read
-    // after the write does: the stream pushes one, otherwise or if it doesn't, we ask.
-    pending = pending.map((entry) => (entry.key === item.key ? { ...entry, settled: true } : entry));
+    // A model that arrived mid-act may predate the write, so only a model read after the write
+    // retires the act; if the stream doesn't push one, we ask.
+    pending = pending.map((entry) =>
+      entry.key === item.key ? { ...entry, settled: true } : entry,
+    );
     setTimeout(
       () => {
         if (pending.some((entry) => entry.key === item.key)) void load();

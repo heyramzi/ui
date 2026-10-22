@@ -1,15 +1,8 @@
 import type { StatusDef, StatusId, StatusMap, Statuses } from "#src/status/status-types.js";
 
 /**
- * Build a status registry from a plain map. The registry keeps the map's keys as
- * a union, so `statuses.ids` and lookups stay typed.
- *
- * ```ts
- * const statuses = defineStatuses({
- *   draft: { label: "Draft", tone: "neutral" },
- *   sent: { label: "Sent", tone: "info" },
- * });
- * ```
+ * Builds a status registry from a map, keeping its keys as a union so lookups stay typed:
+ * `defineStatuses({ draft: { label: "Draft", tone: "neutral" } })`.
  */
 export function defineStatuses<const M extends StatusMap>(
   map: M,

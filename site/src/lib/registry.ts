@@ -58,9 +58,8 @@ export type Category = { title: string; items: (string | PageLink)[] };
 export type Section = { id: string; title: string; categories: Category[] };
 
 /**
- * The one order the site reads, from the tokens up to whole screens. Each section only builds on
- * the ones above it, and inside a category the simplest part comes first. Every demo sits in
- * exactly one place: the checks at the bottom fail the build otherwise.
+ * The site's one order, tokens up to whole screens, and every demo sits in exactly one place or
+ * the checks at the bottom fail the build.
  */
 export const sections: Section[] = [
   {
@@ -287,9 +286,8 @@ const primitiveSources = import.meta.glob<string>("./shadcn-demos/*.svelte", {
 });
 
 /**
- * The other shadcn primitives, each shown by upstream's own demo. `pnpm sync:shadcn` writes the files
- * and the list, so a primitive reaches the site by being synced, never by being typed here. A name a
- * demo above already uses keeps that demo.
+ * The other shadcn primitives, with upstream's demos: `pnpm sync:shadcn` writes the list, so a
+ * primitive reaches the site by being synced, never typed here.
  */
 const primitives: Entry[] = SHADCN_DEMOS.filter((demo) => !(demo.name in meta)).map((demo) => ({
   slug: demo.name,

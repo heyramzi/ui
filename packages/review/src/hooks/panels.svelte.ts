@@ -81,9 +81,8 @@ export function usePanels() {
     return () => removeEventListener("resize", change);
   });
 
-  // WHY: the rail strips to icons whenever its full width would leave the main column under
-  // MAIN_SIDE, where Main stops putting a Short beside its pass and the frame shrinks.
-  // It holds still mid-drag so the edge under the cursor doesn't vanish.
+  // WHY: the rail strips to icons when its full width would leave Main under MAIN_SIDE, but
+  // holds still mid-drag so the edge under the cursor doesn't vanish.
   $effect(() => {
     if (dragging) return;
     const panel = !panelOpen ? 0 : panelSized ? panelW : clamp(viewport * 0.28, 320, 400);
@@ -140,11 +139,12 @@ export function usePanels() {
       dragging = value;
     },
     toggleRail: () => (railOpen = !railOpen),
-    togglePanel: () => (narrow ? (sheet = sheet === "notes" ? "none" : "notes") : (panelOpen = !panelOpen)),
+    togglePanel: () =>
+      narrow ? (sheet = sheet === "notes" ? "none" : "notes") : (panelOpen = !panelOpen),
     showPanel: () => (narrow ? (sheet = "notes") : (panelOpen = true)),
-    hidePanel: () => (narrow ? (sheet === "notes" && (sheet = "none")) : (panelOpen = false)),
+    hidePanel: () => (narrow ? sheet === "notes" && (sheet = "none") : (panelOpen = false)),
     toggleSteps: () => (sheet = sheet === "steps" ? "none" : "steps"),
-    hideSteps: () => (sheet === "steps" && (sheet = "none")),
+    hideSteps: () => sheet === "steps" && (sheet = "none"),
     hideSheet: () => (sheet = "none"),
     resizeRail: (px: number) => (railW = clamp(px, LIMITS.rail.min, LIMITS.rail.max)),
     resizePanel: (px: number) => {

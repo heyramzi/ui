@@ -2,19 +2,9 @@
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
 /*
-  Usage:
-      <div class="t-clear has-value">
-        <input type="text" value="…" />
-        <div class="t-clear-mirror" aria-hidden="true">…</div>
-        <div class="t-clear-placeholder" aria-hidden="true">Search</div>
-        <div class="t-clear-glow" aria-hidden="true"></div>
-        <button class="t-clear-btn" aria-label="Clear">…</button>
-      </div>
-
-  The transitions live in JS (per-frame transform/opacity/filter
-  writes): the streak envelope and per-word gradient stack cannot
-  be expressed as static @keyframes. This stylesheet only owns the
-  resting state + the variables JS reads.
+  The clear runs in JS, since its per-word streak can't be static
+  @keyframes, so this file owns only the resting state and the
+  variables JS reads.
 */
 
 :root {
@@ -65,11 +55,8 @@
 .t-clear.has-value .t-clear-placeholder {
   opacity: 0;
 }
-/* The streak overlay: empty by default; JS writes a stack of
-   radial-gradient(...) layers into background during a clear,
-   then animates opacity. mix-blend-mode: multiply darkens the
-   underlying input; flip to screen in dark mode so the same
-   alpha values lighten instead of vanish. */
+/* JS paints the streak's gradients here during a clear; dark mode
+   flips multiply to screen so the same alphas lighten, not vanish. */
 .t-clear-glow {
   position: absolute;
   inset: 0;

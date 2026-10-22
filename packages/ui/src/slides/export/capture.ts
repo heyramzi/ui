@@ -11,10 +11,8 @@ import type {
 } from "#src/slides/export/types.js";
 
 /**
- * `networkidle` makes a screenshot land on a finished page and never fires on a
- * page that keeps polling: an analytics beacon, a chat widget, a buffering hero
- * video. So the first attempt asks for idle and a retry falls back to `load`,
- * which always fires; the caller's `wait` settles whatever is left.
+ * `networkidle` never fires on a page that keeps polling, like a chat widget, so a retry
+ * falls back to `load`, which always fires.
  */
 export const DEFAULT_WAITS: readonly WaitUntil[] = ["networkidle", "load"];
 

@@ -1,8 +1,5 @@
-// The one source of UpSys deck tokens: two palettes, one type ramp, the geometry.
-// The app's Svelte layouts and the standalone proposal deck both read these.
-//
-// Every slide reads `var(--deck-*)` and never a hex, so one `data-deck-theme`
-// attribute flips the whole deck. `deckThemeStyle` writes the variables.
+// The one source of UpSys deck tokens. A slide reads `var(--deck-*)`, never a hex, so one
+// `data-deck-theme` attribute flips the whole deck.
 
 import { BRAND_HEX } from "#src/brand/index.js";
 
@@ -109,9 +106,8 @@ export const DECK_GEOMETRY = {
 // =============================================================================
 
 /**
- * Manrope at weight 500, four sizes, nothing else on a slide. Hero is for stat
- * numbers only. Display is a title or a big figure. Text is body copy and
- * labels. Small is a caption, the eyebrow and the source line.
+ * Manrope at weight 500 in these four sizes and nothing else on a slide, with
+ * hero kept for stat numbers only.
  */
 export const DECK_SIZES = {
   hero: { size: 64, weight: 500, tracking: "-0.025em", leading: 1.2 },
@@ -121,9 +117,8 @@ export const DECK_SIZES = {
 } as const;
 
 /**
- * The ramp the sales and support layouts still set in, sizes and weights the new
- * design drops. @deprecated Each of those layouts moves to DECK_SIZES when it is
- * rebuilt on the shared pieces, and this block goes with the last of them.
+ * The old ramp the sales and support layouts still set in. A rebuilt
+ * layout moves to DECK_SIZES, and this goes with the last of them.
  */
 const LEGACY_TYPE = {
   coverTitle: { size: 66, weight: 800, tracking: "-0.03em", leading: 1.02 },
@@ -174,10 +169,8 @@ export function deckType(token: DeckTypeToken, family: keyof typeof DECK_FONTS =
 // =============================================================================
 
 /**
- * The dark-only palette the sales and support layouts and the standalone print
- * sheets still read. @deprecated A rebuilt layout reads DECK_VARS and gets both
- * themes. `sand`, `dusk` and `dimmer` have no place in the new design and go
- * with the last layout that names them.
+ * The dark-only palette the old layouts and print sheets still read.
+ * A rebuilt layout reads DECK_VARS and gets both themes.
  */
 export const DECK_COLORS = {
   ink: BRAND_HEX.ink,
@@ -215,7 +208,7 @@ export const DECK_LOCKUP = {
 } as const;
 
 /**
- * Slide margins of the legacy layouts. @deprecated Rebuilt layouts use
+ * Slide margins of the legacy layouts. Rebuilt layouts use
  * DECK_GEOMETRY and DeckFrame.
  */
 export const DECK_SPACE = {

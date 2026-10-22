@@ -1,5 +1,5 @@
-// The class merge and prop types every shadcn primitive is written against. They live here, not in
-// a shared utils package, so this public package installs with nothing private behind it.
+// The class merge and prop types every shadcn primitive uses, kept here, not in a shared utils
+// package, so this public package installs with nothing private behind it.
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 

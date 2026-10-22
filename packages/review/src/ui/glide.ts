@@ -7,11 +7,8 @@ function ms(raw: string): number {
 }
 
 /**
- * Moves a tab indicator to its new box on transform alone.
- *
- * `write` sets the new box at once. The indicator then starts from where it was on screen, as a
- * translate and scale, and eases to none, so the browser never lays out a width or height mid-move.
- * Timing reads `--tabs-dur` and `--tabs-ease`, which reduced motion sets to 0ms, so it jumps there.
+ * Moves a tab indicator to its new box on transform alone, so the browser never lays out a width or
+ * height mid-move. Reduced motion sets `--tabs-dur` to 0ms.
  */
 export function glide(el: HTMLElement | null | undefined, write: () => void): void {
   if (!el) return write();

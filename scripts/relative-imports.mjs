@@ -1,9 +1,5 @@
-// Rewrites every package-local `#alias/` specifier to a relative path before publish, and puts the files back after.
-// WHY: Vite cannot resolve a package's own `#` imports inside node_modules (ai-doc/references/publishing-packages.md).
-//   node scripts/relative-imports.mjs <backup-dir> <package-dir>...   rewrite, saving what it changed in the backup
-//   node scripts/relative-imports.mjs --restore <backup-dir>          put those files back
-// Restore skips a file edited since the rewrite, so another session's work survives a failed publish.
-// scripts/release.sh is the only caller. It is no `build` script: `pnpm -r build` would rewrite the working tree.
+// Rewrites `#alias/` imports to relative paths for publish, since Vite can't resolve them in
+// node_modules (ai-doc/references/publishing-packages.md). Only scripts/release.sh calls it.
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
 
@@ -37,7 +33,9 @@ async function rewrite(backupDir, pkgDirs) {
     const pkg = JSON.parse(await readFile(join(pkgDir, "package.json"), "utf8"));
     const aliases = aliasesOf(pkgDir, pkg.imports);
     if (aliases.size === 0) continue;
-    const prefixes = [...aliases.keys()].map((prefix) => prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const prefixes = [...aliases.keys()].map((prefix) =>
+      prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+    );
     const specifier = new RegExp(`(["'\`])(${prefixes.join("|")})([^"'\`]+)\\1`, "g");
     for (const root of new Set(aliases.values())) {
       for await (const file of walk(root)) {
@@ -77,6 +75,8 @@ const [first, ...rest] = process.argv.slice(2);
 if (first === "--restore" && rest.length === 1) await restore(resolve(rest[0]));
 else if (first && first !== "--restore" && rest.length > 0) await rewrite(resolve(first), rest);
 else {
-  console.error("usage: relative-imports.mjs <backup-dir> <package-dir>... | --restore <backup-dir>");
+  console.error(
+    "usage: relative-imports.mjs <backup-dir> <package-dir>... | --restore <backup-dir>",
+  );
   process.exit(2);
 }

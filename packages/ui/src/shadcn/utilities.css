@@ -1,11 +1,6 @@
-/* Tailwind utilities the shadcn Attachment and Message components rely on:
-   scroll-fade-x and scrollbar-none for Attachment.Group's snap-scroller,
-   shimmer for a processing/uploading Attachment.Title. Vendored from
-   shadcn-svelte's own tailwind.css bundle (MIT) so this package stays
-   dependency-free (docs/decisions.md, "The package stays dependency-free").
-   `no-scrollbar` is deliberately left out: consumers already define it, and
-   a duplicate @utility breaks their build. Import this file once, after
-   Tailwind, alongside `@heyramzi/ui/design`. */
+/* Utilities the shadcn Attachment and Message parts need, vendored from
+   shadcn-svelte (MIT); `no-scrollbar` stays out because consumers define it
+   and a duplicate @utility breaks their build. */
 
 @utility scrollbar-none {
   -ms-overflow-style: none;

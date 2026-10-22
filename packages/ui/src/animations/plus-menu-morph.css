@@ -1,8 +1,5 @@
-/* Plus to menu morph — transitions.dev `dropdown-menu-morph`.
-   The trigger becomes the surface: width, height and radius animate while the
-   plus and the menu cross-fade through a blur. Set the open footprint on the
-   consumer side; the two sizes here are the upstream demo's. Use `dropdown.css`
-   instead when the surface is a separate popover that merely grows. */
+/* transitions.dev `dropdown-menu-morph`: the trigger itself becomes the menu. Set the open
+   size on the consumer side, since these sizes are the upstream demo's. */
 :root {
   --morph-open-dur: var(--duration-medium, 350ms);
   --morph-close-dur: var(--duration-fast, 250ms);

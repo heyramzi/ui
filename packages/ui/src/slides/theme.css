@@ -1,8 +1,6 @@
 /*
- * Everything global to a deck: tokens, authored type, the enter keyframes and print.
- * Components keep their own box mechanics in scoped styles. Sizes are design px,
- * because the whole canvas scales, so a 28px heading is 28px on a 960px canvas at any zoom.
- * Colours are flat hex: Chromium's PDF pipeline shifts oklch.
+ * Everything global to a deck, in design px since the whole canvas scales, and in flat
+ * hex because Chromium's PDF pipeline shifts oklch.
  */
 
 .deck,

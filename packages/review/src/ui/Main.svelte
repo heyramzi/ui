@@ -24,17 +24,17 @@
 	{#if openScreen}
 		<OpenScreenBar id={model?.id ?? ""} onSync={() => app.review.reload()} />
 	{/if}
-	<div
-		class="body"
-		class:side={staged && app.player.portrait}
-		style:--pane-w={app.panels.paneCss}
-	>
+	<div class="body" class:side={staged && app.player.portrait} style:--pane-w={app.panels.paneCss}>
 		{#if model?.player}<Stage player={model.player} />
 		{:else if waiting}<StageSkeleton ratio={app.player.ratio} />{/if}
 		{#if staged && app.player.portrait && !app.panels.narrow}<Resizer side="pane" />{/if}
 		<div class="pane-scroll">
 			{#if app.review.loadError && !model}
-				<Empty icon="alert" title="Couldn't load this video" hint="If it keeps failing, your agent can fix it.">
+				<Empty
+					icon="alert"
+					title="Couldn't load this video"
+					hint="If it keeps failing, your agent can fix it."
+				>
 					<button class="btn solid" onclick={() => void app.review.refresh()}>Try again</button>
 				</Empty>
 			{:else if !model}
@@ -50,9 +50,7 @@
 							<p><b>This video has a problem.</b> Your agent can fix it.</p>
 							<details><summary>Details for your agent</summary>{model.error}</details>
 						</div>
-						<button class="btn solid" onclick={() => void app.review.refresh()}
-							>Try again</button
-						>
+						<button class="btn solid" onclick={() => void app.review.refresh()}>Try again</button>
 					</div>
 				{/if}
 				{#if pass}
@@ -97,7 +95,7 @@
 	.body :global(.at-pane) {
 		display: none;
 	}
-	/* A vertical cut leaves the width empty, so the pass reads beside the video, timeline below. The pass takes 480px or more and the frame sizes the rest, so a Short never shrinks to a sliver. */
+	/* A vertical cut puts the pass beside the video at 480px or more, and the frame sizes the rest so a Short never shrinks to a sliver. */
 	@container main (min-width: 700px) {
 		.body.side {
 			display: grid;

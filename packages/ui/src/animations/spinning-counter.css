@@ -1,9 +1,5 @@
-/* Spinning counter — transitions.dev 26.
-   One column per digit clips a 0-9 strip; JS translates each strip up by
-   (spins * 10 + digit) cells and staggers the columns. The motion streak is an
-   SVG feGaussianBlur with stdDeviation="0 Y" decayed per column: a CSS blur()
-   is isotropic and would smear the digit sideways. Use `digit-pop-in.css` when
-   a number simply updates in place. */
+/* Spinning counter, transitions.dev 26: the streak is an SVG feGaussianBlur with
+   stdDeviation="0 Y" because a CSS blur() is isotropic and would smear digits sideways. */
 :root {
   --reel-dur: 1400ms;
   --reel-cell: 30px;

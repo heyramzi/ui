@@ -22,9 +22,8 @@
   --gray-900: oklch(0.15 0 0); /* Near-black — headings, primary text */
 
   /* === Brand roles ===
-     The look of a product, named by what each colour does. These defaults are neutral, and a
-     brand replaces them through `@heyramzi/ui/brand` (typed colours, no build step). Every
-     other token below reads from these, so nothing else in the package names a hue. */
+     Neutral defaults a brand replaces through `@heyramzi/ui/brand`; every token below reads
+     from these, so nothing else in the package names a hue. */
   --brand: oklch(0.28 0 0); /* The signature colour: focus ring, links, active states, the mark */
   --brand-on-dark: oklch(0.92 0 0); /* The same colour lifted for a dark page */
   --brand-highlight: oklch(0.78 0 0); /* Warmth: badges, highlights, soft accents */
@@ -39,9 +38,9 @@
   --brand-surface-light: oklch(0.99 0 0); /* Cards on a light page */
   --brand-line-light: oklch(0.91 0 0); /* Borders on a light page */
 
-  /* === Tint scales, derived from the three hues so a brand types one colour each ===
-     WHY mixes and not typed steps: a brand that sets `--brand` gets a matching 100 to 800
-     with nothing else to maintain. 400 is the colour lifted for dark, 600 the colour itself. */
+  /* === Tint scales ===
+     Mixed from the three hues so `--brand` alone yields 100 to 800; 400 is the colour lifted
+     for dark, 600 the colour itself. */
   --brand-100: color-mix(in oklab, var(--brand) 12%, white);
   --brand-200: color-mix(in oklab, var(--brand) 28%, white);
   --brand-400: var(--brand-on-dark);
@@ -117,8 +116,7 @@
   --sidebar-ring: var(--brand);
 
   /* === Shadow tint ===
-     The one knob the design layer exposes. Pure black greys out warm surfaces,
-     so the shadow takes the darkest surface's hue. Radius, focus and motion live there. */
+     Pure black greys out warm surfaces, so the shadow takes the darkest surface's hue. */
   --elev-tint: var(--brand-ink);
 }
 
@@ -198,8 +196,8 @@
   --color-cat-indigo: var(--cat-indigo);
   --color-cat-purple: var(--cat-purple);
 
-  /* A hue as text or icon on its own tint: 40% toward the foreground clears AA in both themes.
-     A tone's 10% tint under plain destructive text is 3.6:1; the ink mix is not. */
+  /* A hue as text on its own tint mixes 40% toward the foreground to clear AA in both themes,
+     where plain destructive text on that tint is 3.6:1. */
   --color-cat-cyan-ink: color-mix(in oklab, var(--color-cat-cyan) 60%, var(--color-foreground));
   --color-cat-teal-ink: color-mix(in oklab, var(--color-cat-teal) 60%, var(--color-foreground));
   --color-cat-purple-ink: color-mix(in oklab, var(--color-cat-purple) 60%, var(--color-foreground));

@@ -42,8 +42,8 @@
 		/** Rendered under a column's cards, e.g. a "Show all 12" or an add button. */
 		columnFooter?: Snippet<[C, KanbanColumnContext]>;
 		/**
-		 * Wraps a whole column, for a context menu or a tooltip around it. Render `column` once and
-		 * spread the `props` it hands you, so the wrapper's trigger lands on the column.
+		 * Wraps a column for a context menu or tooltip: render `column` once and spread the
+		 * `props` it hands you, so the trigger lands on the column.
 		 */
 		wrapColumn?: Snippet<[C, Snippet<[Record<string, unknown>]>]>;
 		/** Enter or Space on a focused card. Leave out when the card holds its own links and buttons. */
@@ -52,8 +52,8 @@
 		getLabel?: (item: T) => string;
 		emptyLabel?: string;
 		/**
-		 * Cards a column shows before the rest fold behind a footer. Return undefined for no cap.
-		 * A capped column's empty space drops on top, since the tail is out of sight.
+		 * Cards a column shows before the rest fold behind a footer, or undefined for no cap; a
+		 * capped column drops on top, since its tail is out of sight.
 		 */
 		limit?: (columnId: string) => number | undefined;
 		/** Column ids whose `limit` is lifted. Controlled; leave out to let the board remember. */
@@ -216,9 +216,8 @@
 	});
 
 	/**
-	 * Keyboard move: Alt + ArrowLeft/Right drops the focused card in the
-	 * adjacent droppable column. Native drag stays the primary path; this
-	 * covers keyboard and touch-reader users with the same onMove contract.
+	 * Alt + ArrowLeft/Right moves the focused card to the next droppable column, so
+	 * keyboard and screen-reader users get drag's onMove contract.
 	 */
 	function onCardKeyDown(e: KeyboardEvent, id: string): void {
 		if (onSelect && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {

@@ -66,11 +66,8 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<!-- WHY a container query: the toolbar sits in a pane that is narrower than the screen, and a
-     breakpoint reads the screen. WHY nowrap: a second row pushes the content down and moves the
-     page as a search is opened. Search, tabs and view are the three that fold, each into the one
-     menu that holds them; both forms are in the DOM and the query shows one, so there is no
-     measuring and no flash on first paint. -->
+<!-- A container query, not a breakpoint, because the toolbar sits in a pane narrower than the
+     screen; both forms stay in the DOM, so nothing flashes. -->
 <div class={cn("@container/toolbar min-w-0", className)}>
 	<div class="flex flex-nowrap items-center gap-2">
 		{#if search !== undefined}

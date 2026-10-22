@@ -1,10 +1,6 @@
 /**
- * SvelteKit `handleError` hooks over the SDK-free Sentry sender. Kit 3 only: it relies on
- * the `kind` field kit 3 added and kit 2 never sent.
- *
- * Imports nothing from `$app/*` or `@sveltejs/kit`. The app passes `dev` and `release`
- * (`dev` and `version` from `$app/env`) and the DSN from its own env module, so the
- * package typechecks and tests without a kit install.
+ * SvelteKit 3 `handleError` hooks. Never import `$app/*` or `@sveltejs/kit` here: the app
+ * passes `dev`, `release` and the DSN, so tests run without kit.
  */
 
 import { captureError } from "#src/errors/sentry/index.js";
@@ -40,9 +36,8 @@ type BaseOptions<R> = {
 
 export type ClientErrorOptions<R> = BaseOptions<R> & {
   /**
-   * Return true to drop an error that would otherwise be reported. Runs only for errors
-   * that pass the status filter, so an expensive check (kit's `updated.check()`) isn't
-   * paid on a 404.
+   * Return true to drop an error. It runs after the status filter, so an expensive check
+   * like `updated.check()` isn't paid on a 404.
    */
   skip?: (input: CaughtInput) => boolean | Promise<boolean>;
 };
@@ -52,10 +47,8 @@ export type ServerErrorOptions<R> = BaseOptions<R>;
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
 /**
- * Whether a caught error is ours to be paged on. An `app` error is one thrown with
- * `error()`, so it's expected. A framework or validation error is ours only at 500 and up
- * (a scanner's 404 isn't). Anything unknown is a bug. Kit 3 dropped `status` from the
- * hook input, so the status comes off the error itself.
+ * Whether a caught error should page us. Kit 3 dropped `status` from the hook input, so the
+ * status comes off the error itself.
  */
 export function shouldReport({ kind, error }: Pick<CaughtInput, "kind" | "error">): boolean {
   if (kind === "app") return false;
@@ -93,9 +86,8 @@ function browserEnv(): ReloadEnv | null {
 }
 
 /**
- * Reload the page to fetch the new build, at most once per window. True when it reloaded.
- * False when it already did (the chunk is really gone, or the network is down) or when
- * storage is blocked, because without the guard a broken chunk would loop reloads.
+ * Reload once per window to fetch the new build, and never when storage is blocked, because
+ * without the guard a broken chunk loops reloads. True when it reloaded.
  */
 export function reloadForStaleChunk(env: ReloadEnv | null = browserEnv()): boolean {
   if (!env) return false;

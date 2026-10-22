@@ -13,9 +13,8 @@
 	let clipFailed = $state<Record<string, boolean>>({});
 
 	/**
-	 * A clip rests on a held frame (it fades in from nothing, so frame 0 is blank) and plays only
-	 * while its card is hovered or focused. On touch there is no hover, so it plays while mostly in
-	 * view. Reduced motion never plays it.
+	 * A clip rests on a held frame, since frame 0 is blank, and plays on hover or focus, on touch
+	 * while mostly in view, never under reduced motion.
 	 */
 	function clip(video: HTMLVideoElement) {
 		if (typeof matchMedia !== "function") return {};
@@ -39,7 +38,8 @@
 		const seen =
 			touch && typeof IntersectionObserver !== "undefined"
 				? new IntersectionObserver(
-						([entry]) => (entry?.isIntersecting && entry.intersectionRatio >= 0.6 ? play() : stop()),
+						([entry]) =>
+							entry?.isIntersecting && entry.intersectionRatio >= 0.6 ? play() : stop(),
 						{ threshold: [0, 0.6] },
 					)
 				: undefined;
@@ -82,7 +82,11 @@
 </script>
 
 <div class="library">
-	<LibrarySearch bind:value={query} label="Search layouts" placeholder="Search {layouts.length} layouts" />
+	<LibrarySearch
+		bind:value={query}
+		label="Search layouts"
+		placeholder="Search {layouts.length} layouts"
+	/>
 	{#each groups as { group, cards, min } (group)}
 		<LibraryGroup title={group} count={cards.length} {min}>
 			{#each cards as card (card.name)}

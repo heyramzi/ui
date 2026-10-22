@@ -1,6 +1,5 @@
-// The slice of a Playwright page the export helpers touch, declared here so the
-// package takes no dependency on Playwright. Playwright's own Page, Locator and
-// Browser satisfy these as they are, whichever version the caller has installed.
+// The slice of Playwright the export helpers touch, declared here so the package
+// takes no Playwright dependency and any installed version fits.
 
 export interface Size {
   width: number;

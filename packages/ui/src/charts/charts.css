@@ -1,16 +1,6 @@
-/* Global theming for layerchart-rendered chrome shared by every chart in this
-   package (tooltip surface, header, rows). Ships with `@heyramzi/ui/charts`, so
-   any consumer that defines the shadcn token set gets a legible tooltip in both
-   themes for free.
-
-   WHY: layerchart's built-in `default` tooltip paints itself with
-   `light-dark(var(--color-surface-100, white), var(--color-surface-300, black))`
-   and a `backdrop-filter` blur. Apps that don't define `--color-surface-*` (and
-   don't set `color-scheme`) fall back to a translucent white card, which is
-   unreadable on a dark page. These rules repaint it with `--popover` /
-   `--border` / `--muted-foreground`, which already flip per theme. The selectors
-   stay unlayered so they beat layerchart's `@layer component` defaults
-   regardless of specificity. */
+/* Layerchart's tooltip falls back to translucent white on a dark page without
+   `--color-surface-*`, so these unlayered rules repaint it with `--popover`,
+   beating its `@layer component` defaults. */
 
 .lc-tooltip-container[data-variant="default"] {
   color: var(--popover-foreground, var(--foreground));
@@ -109,10 +99,8 @@
   --chart-card-shadow: 0 1px 2px 0 oklch(0 0 0 / 0.04), 0 1px 3px 0 oklch(0 0 0 / 0.06);
 }
 
-/* Shared layerchart chrome: axis labels, grid rules, and hover highlights were
-   duplicated identically across every chart's scoped <style>. Centralize them
-   here, scoped to the chart roots, so the look is defined once. `:where()` keeps
-   specificity at 0 so a component can still override locally if it must. */
+/* Axis labels, grid rules and hover highlights for every chart, defined once.
+   `:where()` keeps specificity at 0 so a component can still override them. */
 :where(
     .hr-area-chart,
     .hr-bar-chart,

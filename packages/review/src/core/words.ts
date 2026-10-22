@@ -25,8 +25,8 @@ export function wordClock(paragraphs: Paragraph[]): { key: string; at: number }[
   return clock.sort((a, b) => a.at - b.at);
 }
 
-// WHY: a seek lands on a frame, and a word's start is a frame boundary divided by fps, so the
-// playhead can read a hair under the start it was sent to. Without this the word before lights up.
+// WHY: a seek lands on a frame, so the playhead can read a hair under a word's start, and
+// without this slack the word before lights up.
 const SLACK = 0.002;
 
 /** The word the playhead is on: the last one that has started. Undefined before the first word. */

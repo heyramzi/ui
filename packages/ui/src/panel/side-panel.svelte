@@ -89,9 +89,8 @@
 	// =========================
 	// HANDLERS
 	// =========================
-	// WHY focus goes to the panel unless a text field comes first: the dialog otherwise
-	// opens on its first control, which draws a ring on a record nobody has touched.
-	// A form that opens on its field keeps the default, since that is where you type.
+	// Focus goes to the panel unless a text field comes first, or the first control draws
+	// a ring on a record nobody touched.
 	const FIRST_CONTROL =
 		'a[href], button:not([disabled]), input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])';
 	function onOpenAutoFocus(event: Event) {

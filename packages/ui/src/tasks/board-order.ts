@@ -1,7 +1,5 @@
-// Fractional indexing: an order key that always sorts between its neighbours,
-// so a move writes one row instead of renumbering a column. The algorithm is
-// the CC0 one from https://observablehq.com/@dgreensp/implementing-fractional-indexing
-// (see the README credit). Kept inline so this package carries no runtime deps.
+// Fractional indexing, so a move writes one row instead of renumbering a column; it's the
+// CC0 algorithm from https://observablehq.com/@dgreensp/implementing-fractional-indexing.
 const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const INT_DIGITS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const ZERO = DIGITS.charAt(0);

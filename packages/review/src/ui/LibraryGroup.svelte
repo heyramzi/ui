@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
-	/** One group of a library: a heading with its count, then a grid of cards. The Animations library in the studio draws the same heading and grid, so the three read as one family. */
+	/** A library group's heading, count and card grid. The studio's Animations library draws the same, so keep the two in step. */
 	let {
 		title,
 		count,

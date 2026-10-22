@@ -5,8 +5,8 @@
 	export type TabDef<T extends string = string> = SegmentContent & {
 		value: T;
 		/**
-		 * The group this tab belongs to. A divider is drawn where the group changes between two neighbours,
-		 * and the group's `label`, when it has one, opens it as a quiet heading. Tabs with no group share one.
+		 * The tab's group. A divider marks each change of group, and a group's `label` opens it as a
+		 * quiet heading.
 		 */
 		group?: TabGroup;
 	};

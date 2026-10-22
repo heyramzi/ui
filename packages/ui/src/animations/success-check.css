@@ -2,21 +2,8 @@
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
 /*
-  Usage:
-    Wrap your icon (SVG, image, anything) in .t-success-check.
-    The wrapper drives fade + rotate + blur + Y-bob; if your
-    icon is an SVG <path>, it gets the stroke-draw animation.
-
-      <span class="t-success-check" data-state="out" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none">…</svg>
-      </span>
-
-  Trigger:
-    Cold load is data-state="out" (opacity 0; no animation).
-    Show: set data-state="in".
-
-  Replace the stroke-dasharray placeholder (20) with the result
-  of path.getTotalLength() for your path, or set it inline in JS.
+  Wrap the icon in .t-success-check and flip data-state from "out" to "in".
+  Replace the stroke-dasharray placeholder (20) with your path's getTotalLength().
 */
 
 :root {

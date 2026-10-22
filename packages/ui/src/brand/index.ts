@@ -1,13 +1,6 @@
 /**
- * A client's brand is a typed object in its own `brand.ts`, with no build step:
- *
- *   export const brand = defineBrand({ colors: { brand: "oklch(0.5 0.2 272)" } });
- *
- * `@heyramzi/ui/tokens.css` ships a neutral look. A brand replaces only the roles it names:
- *   - on the server, put `brandStyle(brand)` on the `<html style>` so the first paint is right;
- *   - or call `applyBrand(brand)` once in the browser;
- *   - or write `brandCss(brand)` into a stylesheet.
- * Light and dark come from the tokens, which read these roles, so a brand never types both.
+ * A brand replaces only the token roles it names. Put `brandStyle(brand)` on the server's
+ * `<html style>`, or the first paint shows the neutral look.
  */
 
 /** Any CSS colour: oklch(), hex, a named colour or a var(). */

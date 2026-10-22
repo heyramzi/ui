@@ -28,8 +28,8 @@ export function createFilePlayer(shape = 16 / 9) {
   };
 
   /**
-   * The stage mounts from an `$effect`, and `mountIn` reads `shown`. Tracked, every preview swap would
-   * tear the `<video>` down and build a fresh one at 0, paused. `untrack` ties the effect to its host alone.
+   * Untracked because `mountIn` reads `shown`, so a tracked `$effect` would rebuild the `<video>` at
+   * 0, paused, on every preview swap.
    */
   const mount = (host: HTMLElement): (() => void) => untrack(() => mountIn(host));
 
@@ -87,7 +87,11 @@ export function createFilePlayer(shape = 16 / 9) {
   return {
     mount,
     /** The preview the studio has on disk, and what its render is doing. A new file waits out a running render. */
-    follow(src: string | undefined, cover: string | undefined, render: JobStatus["state"] | undefined) {
+    follow(
+      src: string | undefined,
+      cover: string | undefined,
+      render: JobStatus["state"] | undefined,
+    ) {
       poster = cover;
       if (video) video.poster = cover ?? "";
       const next = previewToShow(shown, src, render);

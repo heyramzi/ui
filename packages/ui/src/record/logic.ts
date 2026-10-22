@@ -100,9 +100,8 @@ export type ProjectEvents = {
 };
 
 /**
- * One client's timeline: its own events and every project's, each project event
- * tagged with where it came from. An id seen twice keeps the first, so a source
- * passed in both lists draws once. Newest first.
+ * One client's timeline, newest first, with project events tagged. An id seen twice keeps the
+ * first, so a source passed in both lists draws once.
  */
 export function mergeClientEvents(
   clientEvents: readonly RecordEvent[],
@@ -198,9 +197,8 @@ export type ClientRollup = {
 };
 
 /**
- * The client's strip. Pipeline is the value of projects in an open or proposal
- * stage, won the value in an ongoing or completed one, paid what came in. A lost
- * project adds to none. Totals stay per currency, because a sum across two is a lie.
+ * The client's pipeline, won and paid totals, kept per currency because a sum across two
+ * currencies is a lie.
  */
 export function rollupProjects(
   projects: readonly RecordSummary[],
@@ -244,9 +242,8 @@ export function stepProgress(steps: readonly StepDef[]): { done: number; total: 
 }
 
 /**
- * One marker per visible step. The current step is the first one not done. Any
- * open step before it, or past its own date, is late. Nothing else is.
- * `today` is an ISO date.
+ * One marker per step. Only an open step before the current one, or past its own date, is
+ * late. `today` is an ISO date.
  */
 export function stepMarkers(steps: readonly StepDef[], today: string): Map<string, StepMarker> {
   const visible = visibleSteps(steps);
@@ -273,9 +270,8 @@ export function stepMarkers(steps: readonly StepDef[], today: string): Map<strin
 export type StepBucket = { key: string; label: string | null; steps: StepDef[] };
 
 /**
- * Buckets by group in the declared order, not by consecutive runs, so a reordered
- * rail still draws one header per group. Steps with no or an unknown group go last,
- * under no header.
+ * Buckets by declared group order, not consecutive runs, so a reordered rail still draws one
+ * header per group. Ungrouped steps go last.
  */
 export function groupSteps(
   steps: readonly StepDef[],

@@ -1,21 +1,6 @@
 #!/usr/bin/env bash
-# Local release for the private ui repo. Hosted runners are off (private minutes
-# are billed), so releases run from the Mac, the same way vibe-kit's release.sh
-# starts them — except this script does the whole job, because there is no CI to
-# hand off to:
-#   pnpm release            # publish every package with changes since its last tag
-#   DRY_RUN=1 pnpm release  # print the plan, change nothing
-#   BUMP="ui=minor" pnpm release  # force a minor the commit types don't show
-#   ONLY="ui marketing" pnpm release # release these and hold the rest, e.g. one
-#                                 # with another session's uncommitted work in it,
-#                                 # since the publish packs the working tree
-#
-# For each package with commits since its last <component>-v<version> tag, this
-# bumps the version from the conventional-commit types (fix and perf -> patch,
-# feat and any breaking change -> minor; a major only from a Release-As: X.0.0
-# footer), writes the CHANGELOG.md entry, commits the bumps,
-# tags <component>-v<version>, creates the GitHub release and publishes to
-# npmjs and GitHub Packages. Both tokens come from ~/.npmrc.
+# Releases from the Mac, since there's no CI. The pack reads the working tree, so
+# ONLY="ui" releases that package alone, holding back any with another session's work.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -168,9 +153,8 @@ targets=${targets%, }
 git commit -m "chore: release ${targets}" -- "${release_files[@]}"
 git push origin HEAD
 
-# npmjs is the public install. GitHub Packages stays because every Studio app maps the whole
-# @heyramzi scope there for the private packages. This repo's .npmrc maps the scope too, and
-# pnpm 12 lets that beat --registry, so pack once and npm-publish the tarball from outside the repo.
+# This repo's .npmrc maps the @heyramzi scope, and pnpm 12 lets that beat --registry, so pack
+# once and npm-publish the tarball from outside the repo.
 publish_both() {
   local out tgz
   out=$(mktemp -d)
@@ -183,9 +167,8 @@ publish_both() {
   rm -rf "${out:?}"
 }
 
-# Published code cannot keep #src self-imports, because Vite cannot resolve a package's
-# own hash imports inside node_modules. Rewrite in place for the pack, then put back only
-# the files the rewrite touched, so another session's uncommitted edits survive.
+# Vite can't resolve a package's own #src imports inside node_modules, so rewrite them for the
+# pack and restore only the touched files, keeping other sessions' edits.
 publish_rewritten() {
   local backup status=0
   backup=$(mktemp -d)

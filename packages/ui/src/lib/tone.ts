@@ -1,10 +1,8 @@
 export type Tone = "neutral" | "accent" | "info" | "success" | "warning" | "destructive";
 
 /**
- * The severity scale, as Tailwind classes for a chip and as CSS colors for the
- * dot. Tokens are plain CSS variables, so a host app can retheme them. The
- * accent tone reads `--tone-accent` and falls back to `--color-primary`, for a
- * host whose primary is a neutral and whose accent is a brand color.
+ * The severity scale as chip classes and dot colors. Accent reads `--tone-accent` before
+ * `--color-primary`, for a host whose primary is a neutral.
  */
 
 export const TONE_CLASS: Record<Tone, string> = {

@@ -31,8 +31,8 @@ export function isPending(entry: InboxEntry): boolean {
 }
 
 /**
- * Group entries into one thread per subject and sort by the newest entry. An entry with no subject id
- * is dropped. A malformed timestamp sorts last, among threads and inside one.
+ * One thread per subject, newest first. An entry with no subject id is dropped, and a malformed
+ * timestamp sorts last.
  */
 export function threadsOf(entries: InboxEntry[], options: ThreadsOptions = {}): InboxThread[] {
   type Row = { entry: InboxEntry; subject: InboxSubject; index: number; time: number };

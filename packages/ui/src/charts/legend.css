@@ -111,9 +111,7 @@
   height: 100%;
   border-radius: 999px;
   /* WHY: scaleX from the left avoids the layout thrash of animating width;
-	   the bar's fill fraction is set inline as --hr-bar-scale. The entrance
-	   sweeps from 0 once (delays match the ring sweep); the transition takes
-	   over for later data changes. */
+	   the bar's fill fraction is set inline as --hr-bar-scale. */
   transform-origin: left center;
   transform: scaleX(var(--hr-bar-scale, 0));
   animation: hr-legend-fill var(--chart-motion-reveal, 1100ms)

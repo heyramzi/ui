@@ -1,5 +1,13 @@
 import { untrack } from "svelte";
-import { locate, nextJump, outputAt, playlist, relocate, type Playlist, type Spot } from "#src/core/clock.js";
+import {
+  locate,
+  nextJump,
+  outputAt,
+  playlist,
+  relocate,
+  type Playlist,
+  type Spot,
+} from "#src/core/clock.js";
 import type { LivePlan } from "#src/core/types.js";
 import type { Playback } from "#src/hooks/playback.js";
 import { claim } from "#src/ui/media.js";
@@ -8,10 +16,8 @@ import { claim } from "#src/ui/media.js";
 type Slot = { el: HTMLVideoElement; piece: number | null; seeking?: () => void };
 
 /**
- * The play-list player: the cut played from edit.json the way an editing app plays an edit list.
- * Two stacked `<video>`s hold the take proxies. One plays the piece in hand; the other waits at the
- * start of the next one, so a jump is a swap, across takes or inside one. The cut's clock is the sum
- * of the kept ranges before the piece plus the second inside it.
+ * Plays the cut from edit.json with two stacked `<video>`s, one playing and one parked at the next
+ * piece, so a jump is a swap, across takes or inside one.
  */
 export function createLivePlayer(shape = 16 / 9) {
   let list = $state.raw<Playlist>({ pieces: [], duration: 0 });
@@ -80,7 +86,10 @@ export function createLivePlayer(shape = 16 / 9) {
       aim(wait(), spot.source, spot.seconds, spot.index);
       on().el.pause();
       cur = 1 - cur;
-      if (!paused) void on().el.play().catch(() => undefined);
+      if (!paused)
+        void on()
+          .el.play()
+          .catch(() => undefined);
     } else aim(on(), spot.source, spot.seconds, spot.index, !paused);
     show();
     time = outputAt(list, spot.index, spot.seconds);
@@ -152,9 +161,8 @@ export function createLivePlayer(shape = 16 / 9) {
   }
 
   /**
-   * The stage calls this from an `$effect`. Mounting reads and writes the player's own state (`mounted`,
-   * `time`, `list`), so left tracked the effect depends on what it writes, tears down and mounts again
-   * without end, and the cover never lifts. `untrack` makes the effect depend on its host alone.
+   * Untracked because mounting writes the state it reads, so a tracked `$effect` would remount
+   * without end and the cover would never lift.
    */
   const mount = (host: HTMLElement): (() => void) => untrack(() => mountIn(host));
 
@@ -231,9 +239,8 @@ export function createLivePlayer(shape = 16 / 9) {
   return {
     mount,
     /**
-     * The edit as it stands: a note that moved a range comes through here, and nothing renders. Called
-     * from an `$effect`, so it's untracked like `mount`: `refresh` reads `time` and `paused`, and a
-     * tracked read reran the effect every frame of playback, each run seeking both videos again.
+     * Untracked like `mount`, because `refresh` reads `time`, and a tracked read reran the `$effect`
+     * every frame of playback, seeking both videos each time.
      */
     follow(plan: LivePlan) {
       untrack(() => {
@@ -296,7 +303,10 @@ export function createLivePlayer(shape = 16 / 9) {
         const spot = locate(list, 0);
         if (spot) enter(spot);
       }
-      if (paused) void on().el.play().catch(() => undefined);
+      if (paused)
+        void on()
+          .el.play()
+          .catch(() => undefined);
       else on().el.pause();
     },
     pause() {

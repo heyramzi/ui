@@ -22,8 +22,8 @@
 		/** The group id a row belongs to. */
 		getGroup: (item: T) => string;
 		/**
-		 * Nests a group under another by its id, e.g. a project under its client. A child draws
-		 * inside its parent's section, indented, and folds with it. Return nothing for a top-level group.
+		 * Nests a group under another by its id, e.g. a project under its client, so it folds with
+		 * its parent. Return nothing for a top-level group.
 		 */
 		getParent?: (group: C) => string | null | undefined;
 		/** Called on drop with what to persist. Same contract as the board. */
@@ -40,8 +40,8 @@
 		/** Breaks a tie in manual order: two rows with the same key, or both without one. */
 		manualTiebreak?: (a: T, b: T) => number;
 		/**
-		 * Rows are draggable and take Alt plus Up or Down. Turn it off for a list that only groups,
-		 * where rows hold their own links and buttons and a drop makes no sense.
+		 * Rows drag and take Alt plus Up or Down. Turn it off for a list that only groups, where
+		 * rows hold their own links and buttons.
 		 */
 		draggable?: boolean;
 		/** The screen-reader name of a row. Defaults to a hint about the keyboard move. */

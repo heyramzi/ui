@@ -28,9 +28,8 @@ const WORDS = {
 };
 
 /**
- * Picks who plays the cut, in one place. Every pass plays the rendered preview, layers and all. The cut
- * pass falls back to the play-list player only while that preview is behind the edit and the take
- * proxies are ready, so a cut shows at once instead of behind a lock. The page talks to `current` only.
+ * Picks who plays the cut: the play-list player only while the preview lags the edit and the take
+ * proxies are ready. The page talks to `current` only.
  */
 export function usePlayback(
   getModel: () => ReviewModel | null,
@@ -49,14 +48,15 @@ export function usePlayback(
 
   $effect(() => {
     const model = getModel();
-    if (model?.player) file.follow(model.player.src, model.player.poster, model.render?.preview.state);
+    if (model?.player)
+      file.follow(model.player.src, model.player.poster, model.render?.preview.state);
   });
   $effect(() => {
     if (plan) live.follow(plan);
   });
 
-  // Switching players keeps the playhead where it was, and keeps playing if it was playing: a render
-  // finishing mid-play swaps the cut pass from the takes to the preview without stopping it.
+  // Switching players keeps the playhead and the play state, so a render finishing mid-play swaps
+  // the takes for the preview without stopping.
   let last: Playback = file;
   $effect(() => {
     const next = current;
@@ -74,14 +74,32 @@ export function usePlayback(
     const model = getModel();
     const render = model?.render;
     const proxies = render?.live;
-    if (plan) return { job: proxies, locks: false, working: false, say: WORDS.live, failed: WORDS.failedLive };
+    if (plan)
+      return {
+        job: proxies,
+        locks: false,
+        working: false,
+        say: WORDS.live,
+        failed: WORDS.failedLive,
+      };
     const job = render?.preview;
     const rendering = job?.state === "queued" || job?.state === "rendering";
     const preview: Gate = { job, locks: rendering, working: rendering, failed: WORDS.failedFile };
-    if (getPass() !== LIVE_PASS || !model?.player?.live || rendering || job?.state === "current") return preview;
+    if (getPass() !== LIVE_PASS || !model?.player?.live || rendering || job?.state === "current")
+      return preview;
     // The cut pass with no current preview waits on the take proxies, and says so, rather than sit black.
-    const building = proxies?.state === "queued" || proxies?.state === "rendering" || proxies?.state === "outdated";
-    if (building) return { job: proxies, locks: true, working: true, say: WORDS.live, failed: WORDS.failedLive };
+    const building =
+      proxies?.state === "queued" ||
+      proxies?.state === "rendering" ||
+      proxies?.state === "outdated";
+    if (building)
+      return {
+        job: proxies,
+        locks: true,
+        working: true,
+        say: WORDS.live,
+        failed: WORDS.failedLive,
+      };
     // Proxies that failed only block the pass when there's no earlier preview to play instead.
     if (proxies?.state === "failed" && (!model.player.src || job?.state === "failed"))
       return { job: proxies, locks: true, working: false, failed: WORDS.failedLive };

@@ -1,16 +1,6 @@
-/* tokens.css
- *
- * The shared style layer for @heyramzi/ui, imported once after Tailwind:
- *
- *   @import "tailwindcss";
- *   @import "@heyramzi/ui/tokens.css";
- *   @import "@heyramzi/ui/animations";
- *   @import "@heyramzi/ui/shadcn/utilities.css"; // only if you use Attachment or Message
- *
- * It carries three things: the color palette and semantic tokens, the craft
- * layer (radius, elevation, focus and motion), and the small set of motion
- * primitives the components share. Override any variable on :root to retheme.
- * The parts load in this order because later blocks read earlier variables.
+/* tokens.css: import once, right after `@import "tailwindcss"`. Override any
+ * variable on :root to retheme; the parts load in this order because later ones
+ * read earlier variables.
  */
 
 @import "./palette.css";

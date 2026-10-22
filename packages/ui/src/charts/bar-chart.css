@@ -24,9 +24,8 @@
   width: 100%;
 }
 
-/* WHY: height="fill" grows the chart to its parent's height (e.g. a card that
-   stretches to match a taller sibling) instead of the fixed body height. The
-   parent must be a flex column that gives this a determinate height. */
+/* height="fill" grows the chart to its parent's height, so the parent must be a
+   flex column with a determinate height. */
 .hr-bar-chart.hr-bar-fill {
   flex: 1 1 auto;
   min-height: 0;

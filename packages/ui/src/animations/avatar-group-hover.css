@@ -2,22 +2,8 @@
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
 /*
-  Usage:
-    Apply .t-avatar to each item in your group (avatar, chip,
-    badge, button). Bring your own size, shape, and stacking;
-    this stylesheet only owns the hover transform + transition.
-
-      <div class="t-avatar-group">
-        <div class="t-avatar">…</div>
-        <div class="t-avatar">…</div>
-      </div>
-
-  Wire-up (JS):
-    On mouseenter of any .t-avatar, walk every sibling and set
-    inline --shift and --scale-active with a distance falloff.
-    Set transition-timing-function inline BEFORE the variable
-    writes — --avatar-ease-in on hover-in, --avatar-ease-out on
-    the root's mouseleave.
+  JS sets each sibling's --shift and --scale-active on hover, and must set
+  transition-timing-function inline before those writes, or the ease is wrong.
 */
 
 :root {

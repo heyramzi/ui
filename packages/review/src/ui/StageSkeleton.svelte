@@ -1,13 +1,15 @@
 <script lang="ts">
-	// The stage before the model arrives, in the shape the host promised, so nothing moves when the video lands.
-	// WHY its own sizing rules: Stage's are scoped to it. These copy its frame, phone and beside-the-pass sizes; change both together.
+	// The stage before the model arrives; Stage's sizing rules are scoped to it, so these copy its
+	// frame, phone and beside-the-pass sizes, and both change together.
 	let { ratio }: { ratio: number } = $props();
 </script>
 
 <section class="stage" aria-hidden="true">
 	<div class="viewer">
 		<div class="fit"><span class="frame skel" style:--ratio={ratio}></span></div>
-		<div class="bar"><span class="skel clock"></span><span class="skel play"></span><span></span></div>
+		<div class="bar">
+			<span class="skel clock"></span><span class="skel play"></span><span></span>
+		</div>
 	</div>
 	<div class="track"><span class="skel strip"></span></div>
 </section>

@@ -1,6 +1,5 @@
-/* WHY: the caret has to attach to the end of marked's {@html} output, which is
-   never touched by Svelte's scoping, so the last direct child is reached with
-   :global() while the parent class stays component-scoped. */
+/* WHY: Svelte never scopes marked's {@html} output, so the caret reaches its last child
+   with :global() while the parent class stays scoped. */
 .ai-response.is-streaming > :last-child::after {
   content: "";
   display: inline-block;

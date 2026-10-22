@@ -214,7 +214,7 @@ export type Note = {
   orphaned?: boolean;
   /** Marked true if the note was added from the CLI (chat). */
   chat?: boolean;
-  /** A failing cut check the studio shows as a note. Only the check clears it, so the page offers no verbs on it. `png` is the filmstrip of its cut, when the check made one. */
+  /** A failing cut check shown as a note. Only the check clears it, so the page offers no verbs; `png` is its cut's filmstrip. */
   check?: { png: string | null };
   createdAt: string;
 };
@@ -241,9 +241,8 @@ export type RenderProgress =
   | { stage: "finishing" };
 
 /**
- * Where one render of a video stands. `current` matches the video's inputs, `none` was never made.
- * `outdated` is a final whose inputs moved since it was made. A preview never sits outdated: it joins the line.
- * `queued` and `rendering` carry `outdated` when a file already on disk is the one they replace.
+ * Where one render of a video stands. Only a final sits `outdated`; a stale preview rejoins the
+ * queue, and `queued` or `rendering` flag `outdated` when replacing a file on disk.
  */
 export type JobStatus =
   | { state: "current" }
@@ -279,8 +278,8 @@ export type RenderStatus = {
 };
 
 /**
- * Speech the transcript check heard and no model could put words to. The page shows it where it
- * plays and takes the line a person types; `seconds` is on the cut's clock, `start` and `end` in the take.
+ * Speech no model could transcribe, for a person to type. `seconds` is on the cut's clock, while
+ * `start` and `end` are on the take's.
  */
 export type SpeechGap = {
   source: string;

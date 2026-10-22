@@ -52,9 +52,8 @@ export const segmentedTriggerClass = tv({
     "h-full text-xs",
   ],
   variants: {
-    // The pill is concentric with the track's border and its 2px inset. The
-    // underline has no well to be concentric with, so no padding either: the
-    // rule under a label is as wide as the label.
+    // The pill sits concentric in the track's 2px inset; the underline has no well, so
+    // no padding, and its rule is as wide as the label.
     variant: {
       pill: "rounded-[calc(var(--radius-lg)-3px)] px-2.5 any-pointer-coarse:px-3.5",
       underline: "rounded-sm px-0",

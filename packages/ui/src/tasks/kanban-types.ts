@@ -24,9 +24,8 @@ export type KanbanMove = {
    */
   boardOrder?: string;
   /**
-   * The cards that sit above and below the drop slot once the dragged card is
-   * set aside. Set on manual drops only, null at an end. For a backend that
-   * orders by neighbour instead of by key.
+   * The drop slot's neighbours, for a backend that orders by neighbour, not by
+   * key. Set on manual drops only, null at an end.
    */
   beforeId?: string | null;
   afterId?: string | null;

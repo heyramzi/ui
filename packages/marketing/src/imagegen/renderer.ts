@@ -9,14 +9,11 @@ import type { ImageFormat, ImageSize, RenderOptions } from "#src/imagegen/types.
  * - `svg` returns the raw SVG bytes from satori.
  * - `png` / `avif` pipe the SVG through sharp.
  */
-export async function renderImage(
-  markup: SatoriNode,
-  options: RenderOptions,
-): Promise<Uint8Array> {
+export async function renderImage(markup: SatoriNode, options: RenderOptions): Promise<Uint8Array> {
   const format: ImageFormat = options.format ?? "png";
 
-  // satori types its input as React's ReactNode, but reads only `{ type, props }`, which is what
-  // satori-html's `html` returns. The cast is the one place the two libraries' types disagree.
+  // satori types its input as React's ReactNode but reads only `{ type, props }`, which is what
+  // satori-html's `html` returns, so this cast bridges the two.
   const svg = await satori(markup as Parameters<typeof satori>[0], {
     width: options.size.width,
     height: options.size.height,

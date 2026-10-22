@@ -1,8 +1,6 @@
 /* ── Radius, by role not by size ─────────────────────────────
-   A chip inside a control inside a card has to read as nested, which needs
-   three radii that step, not one radius reused. The Tailwind names are the
-   home so `rounded-lg` on a button already resolves to the control radius and
-   no component has to learn a new class. */
+   These override Tailwind's own names, so `rounded-lg` on a button already
+   resolves to the control radius. */
 @theme {
   --radius-xs: 4px; /* tag, dot, inline code */
   --radius-sm: 6px; /* chip, badge, small pill */
@@ -14,28 +12,8 @@
 }
 
 /* ── Elevation ───────────────────────────────────────────────
-   Four steps of lift, plus the two edges that are not lift.
-
-   WHY the steps are shadow-only and the hairline is its own token: most boxes
-   in a kit already draw a border, and an elevation that bakes a `0 0 0 1px`
-   ring into every step gives those boxes two edges a pixel apart. Compose them
-   where a component drops its border:
-
-     box-shadow: var(--elev-hairline), var(--elev-card);
-
-   WHY each step is stacked rather than one blurred drop: a single shadow reads
-   as a sticker. Depth is several offsets falling off together, which is what
-   the eye reads as distance. They cost nothing extra because every stop is the
-   same colour at a different alpha.
-
-   WHY the blur radii are large and the alphas small: a 4px blur at 20% draws a
-   visible grey edge, which the eye reads as a second border. A 28px blur at 7%
-   is barely a colour anywhere and reads as height. Reach for more blur before
-   more alpha, every time.
-
-   `--elev-tint` is the one knob an app turns. Pure black greys a warm palette
-   out; the hue of the app's own darkest surface keeps the shadow in the
-   family. */
+   The steps carry no ring, since a bordered box would get two edges a pixel
+   apart; a borderless one adds `var(--elev-hairline)` in front. */
 :root {
   /* Resting on the page. A button, a chip, a row. */
   --elev-btn:
@@ -60,9 +38,8 @@
     0 12px 26px -8px color-mix(in oklab, var(--elev-tint) 12%, transparent),
     0 40px 72px -20px color-mix(in oklab, var(--elev-tint) 20%, transparent);
 
-  /* The two edges. A hairline separates a surface from what is behind it; a rim
-     is the light catching its top edge, which is what makes a filled control
-     read as a physical key rather than a coloured rectangle. */
+  /* A hairline separates a surface from what's behind it; a rim is light on the
+     top edge, which makes a filled control read as a key. */
   --elev-hairline: 0 0 0 1px var(--color-border, var(--border));
   --elev-rim: inset 0 1px 0 color-mix(in oklab, white 16%, transparent);
 
@@ -70,10 +47,8 @@
   --elev-field: inset 0 1px 2px color-mix(in oklab, var(--elev-tint) 7%, transparent);
 }
 
-/* A dark surface cannot cast a darker shadow than the page it sits on, so the
-   hairline does the separating and the shadow only sinks what is behind it. On
-   dark the hairline is white at a low alpha, which is what reads as a lit edge
-   rather than as a drawn border. */
+/* A shadow can't get darker than a dark page, so on dark the low-alpha white
+   hairline does the separating. */
 .dark {
   --elev-btn: 0 1px 2px color-mix(in oklab, black 30%, transparent);
   --elev-card:
@@ -92,25 +67,19 @@
 }
 
 /* ── Focus ───────────────────────────────────────────────────
-   One ring, two parts: a solid edge that redraws the control's own outline in
-   the accent, and a soft halo that carries it off the surface. Written as a
-   variable so a component spends one line on it and every control focuses the
-   same way. */
+   One variable, so every control focuses the same way: a solid accent edge,
+   then a soft halo. */
 :root {
   --ring-color: var(--color-ring, var(--ring));
   --ring-halo: color-mix(in oklab, var(--ring-color) 16%, transparent);
-  /* A solid pixel redrawing the control's own edge, then a wide soft band. At a
-     higher alpha the band reads as a second border rather than as a glow, which
-     is why it is 16% over 4px and not 30% over 2px. */
+  /* The halo is 16% over 4px, not 30% over 2px, because a stronger band reads
+     as a second border instead of a glow. */
   --ring-focus: 0 0 0 1px var(--ring-color), 0 0 0 5px var(--ring-halo);
 }
 
 /* ── Motion ──────────────────────────────────────────────────
-   The transitions-dev scale, verbatim, so a snippet pasted from that skill and
-   a component written here read from the same names.
-
-   The doctrine in one line: an open is an invitation and a close should get out
-   of the way, so every close is shorter than its open and no close bounces. */
+   The transitions-dev scale, verbatim, so a pasted snippet reads the same
+   names. Every close is shorter than its open, and no close bounces. */
 :root {
   --duration-stagger: 40ms;
   --duration-micro: 80ms;
@@ -162,13 +131,9 @@
 
   --ease-smooth-out: var(--ease-smooth-out);
 
-  /* WHY the durations are re-declared under a second name: Tailwind's
-     `duration-*` utility reads `--transition-duration-*`, not `--duration-*`, so
-     the six names above generated no class at all. `duration-fast` therefore
-     compiled to nothing and the element ended up at `transition-duration: 0s`:
-     no error, no warning, and a component that simply does not animate. The
-     comment at the top of this block had claimed `duration-fast` was a class
-     since the block was written. Found 31 Aug 2026 by probing a live page. */
+  /* Tailwind's `duration-*` reads `--transition-duration-*`, so without these
+     `duration-fast` silently compiles to nothing and the element doesn't animate
+     (31 Aug 2026). */
   --transition-duration-micro: var(--duration-micro);
   --transition-duration-quick: var(--duration-quick);
   --transition-duration-fast: var(--duration-fast);

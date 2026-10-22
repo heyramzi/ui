@@ -47,8 +47,8 @@
 	// =========================
 	// EFFECTS
 	// =========================
-	// WHY measure instead of guessing from length: the clamp is two lines, so the
-	// same note fits at 1280px and overflows at 390px. "More" shows only when text is cut.
+	// Measured, not guessed from length: a note that fits two lines at 1280px
+	// overflows at 390px, and "More" shows only when text is cut.
 	$effect(() => {
 		if (!text) return;
 		const el = text;

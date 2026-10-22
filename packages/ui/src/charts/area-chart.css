@@ -1,8 +1,5 @@
-/* Styles for AreaChart. Shipped as a plain stylesheet (imported by the
-   component) instead of a Svelte `<style>` block: a `<style>` block becomes a
-   `?type=style&lang.css` virtual module that Tailwind v4's Vite plugin mis-parses
-   when this package is consumed as source from node_modules (tailwindlabs/
-   tailwindcss#20000). Selectors are namespaced under `.hr-area-chart`. */
+/* A plain stylesheet, not a `<style>` block, because Tailwind v4's Vite plugin mis-parses that
+   virtual module when this package is consumed from node_modules (tailwindcss#20000). */
 
 .hr-area-chart {
   width: 100%;

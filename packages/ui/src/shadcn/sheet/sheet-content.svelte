@@ -29,10 +29,8 @@
 		children: Snippet;
 	} = $props();
 
-	// Side classes are plain utilities, not `data-[side=x]:` variants. An attribute
-	// variant outranks a plain class and tailwind-merge won't dedupe across
-	// modifier sets, so a caller's `sm:max-w-xl` lost to the default 384px.
-	// Plain utilities let `cn` drop the default when a caller passes its own.
+	// Plain side utilities, not `data-[side=x]:` variants, because the variant outranks a
+	// caller's `sm:max-w-xl` and tailwind-merge can't dedupe across modifier sets.
 	const SIDE_CLASS: Record<Side, string> = {
 		// h-dvh, not h-full: on iOS Safari a fixed panel sizes against the layout
 		// viewport, which is taller than the visible area, so h-full hides the footer.

@@ -42,8 +42,6 @@
 	});
 </script>
 
-<!-- WHY it renders ModeWatcher and nothing else: its inline head script sets the class and
-     colour-scheme before the first paint, so there is no flash and no cookie to read.
-     WHY synchronous: `revealTheme` snapshots the page the moment its callback returns, so the
+<!-- WHY synchronous: `revealTheme` snapshots the page the moment its callback returns, so the
      class has to be on the root by then. -->
 <ModeWatcher defaultMode={initial} {synchronousModeChanges} {...watcher} />

@@ -191,9 +191,8 @@
 		box-shadow: inset 0 -2px 0 var(--segmented-rule, var(--color-foreground));
 	}
 
-	/* On a coarse pointer the well is 44px and its segments fill it, so the hit area is the strip.
-	   A clipped well can't hold a hit area that hangs outside it. The border becomes a ring drawn
-	   over the segments, and the pill keeps its 2px gap inside that ring. */
+	/* On a coarse pointer the well grows to 44px and its segments are the hit area, since a
+	   clipped well can't hold one hanging outside it. */
 	@media (any-pointer: coarse) {
 		.track[data-variant="pill"]::after {
 			content: "";

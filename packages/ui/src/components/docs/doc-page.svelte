@@ -81,10 +81,8 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<!-- The anatomy, once: header, then the reading column with its contents rail.
-     A surface supplies content and never lays this out, so two pages can't
-     arrive with different layouts. The pane is its own container, since the
-     room left after the map is what decides the rail, not the window. -->
+<!-- The one anatomy every doc page shares; the pane is its own container, since
+     the room left after the map, not the window, decides the rail. -->
 <div
 	bind:this={scroller}
 	class="doc-page @container/page thin-scrollbar relative min-h-0 flex-1 overflow-y-auto"

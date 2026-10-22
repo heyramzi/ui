@@ -1,6 +1,6 @@
 /*
- * The only file that may hold a colour, a radius or a duration. Everything is declared under
- * :where() so it has no specificity, and any host stylesheet overrides it by just setting the name.
+ * The only file that may hold a colour, a radius or a duration, all under :where() so a host
+ * stylesheet overrides any of them just by setting the name.
  */
 
 :where(:root) {

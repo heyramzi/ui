@@ -1,10 +1,5 @@
-/* Thinking states — transitions.dev 28.
-   A status line that swaps copy while a model works. This file owns only the
-   swap: JS exits the old line upward and enters the new one from below, held
-   back by --think-gap. The sweep is `.t-shimmer` from shimmer-text.css — put
-   both classes on the line and keep data-text in sync with the text, or the
-   shimmer paints the wrong words. The hidden sizer carries your longest state
-   and is what stops the box resizing mid-swap. */
+/* Thinking states, transitions.dev 28: put `.t-shimmer` on the line too and
+   keep data-text in sync with the text, or the shimmer paints the wrong words. */
 :root {
   --think-hold: 2000ms;
   --think-swap: var(--duration-quick, 150ms);

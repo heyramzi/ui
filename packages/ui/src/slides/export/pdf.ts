@@ -63,9 +63,8 @@ export interface PrintResult {
 }
 
 /**
- * Waits until fonts and images have settled and the caller's own signal has
- * fired, then prints the page as it stands. Returns the PDF with its page count
- * and the images that never loaded, so a caller can refuse a half-painted sheet.
+ * Prints the page once fonts, images and the caller's signal settle, returning the images
+ * that never loaded so a caller can refuse a half-painted sheet.
  */
 export async function printPage(page: PageLike, options: PrintOptions = {}): Promise<PrintResult> {
   const { ready } = options;
@@ -129,14 +128,8 @@ export interface ImagesToPdfOptions {
 }
 
 /**
- * Lays PNGs out one per page and prints that, nothing else.
- *
- * Printing the original document would run it through Chromium's print
- * pipeline, which re-rasterises effects instead of compositing them: a blurred
- * backdrop lost 47% of its chroma that way. Handing the pipeline flat bitmaps
- * removes the whole class of drift, so the PDF shows what the PNG shows.
- *
- * Each image is a file path or the bytes themselves.
+ * Prints PNGs one per page, never the original document, because Chromium's print pipeline
+ * re-rasterises effects: a blurred backdrop lost 47% of its chroma.
  */
 export async function imagesToPdf(
   page: PageLike,

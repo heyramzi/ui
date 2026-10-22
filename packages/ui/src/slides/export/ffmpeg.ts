@@ -97,13 +97,8 @@ export function loopFrameCount(seconds: number, fps: number): number {
 }
 
 /**
- * Renders a seamless loop: asks `drawFrame` for t = 0, 1/n, ... (n-1)/n and
- * encodes the result.
- *
- * `t` never reaches 1, so the last frame is one step short of the first and
- * the cut back to frame zero is the same step as every other. Driving all
- * motion off one t is what makes the seam exact by construction. A captured
- * CSS animation loops only when its last frame happens to land on its first.
+ * Renders a seamless loop from `drawFrame` at t = 0 to (n-1)/n, never 1, so the cut back
+ * to frame zero is the same step as every other.
  */
 export async function renderLoop(
   outFile: string,

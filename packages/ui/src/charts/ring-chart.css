@@ -1,7 +1,5 @@
-/* Styles for RingChart. Plain stylesheet (see area-chart.css for why).
-   Selectors are namespaced under `.hr-ring` (the generic ones below would
-   otherwise collide with GaugeChart's identical names once they are no longer
-   Svelte-scoped). */
+/* RingChart styles, namespaced under `.hr-ring` because unscoped, the generic names
+   below collide with GaugeChart's (area-chart.css says why it's plain CSS). */
 
 .hr-ring {
   position: relative;

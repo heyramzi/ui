@@ -1,6 +1,6 @@
 /**
- * What the page asks of whatever plays the cut. Both players answer on the cut's own clock, so the
- * timeline, the notes and the word jumps never learn which one is behind it.
+ * What the page asks of whatever plays the cut. Both players answer on the cut's own clock, so
+ * the page never learns which one is behind it.
  */
 export type Playback = {
   /** Puts the player's own `<video>` elements in the host. Returns the cleanup. */

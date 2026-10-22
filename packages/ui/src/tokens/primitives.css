@@ -1,11 +1,5 @@
-/* The bits-ui state variants every primitive in `./shadcn` is written against.
- *
- * bits-ui v2 writes `data-checked` / `data-open` and v1 wrote
- * `data-state="checked"`, so each variant matches both and a component does not
- * have to know which it is talking to. They live here rather than in a
- * consumer's stylesheet because the classes that need them ship in this
- * package: an app that defines only the palette would render a switch that
- * never moves. */
+/* Each variant matches both bits-ui v2's `data-checked` and v1's `data-state="checked"`, and
+ * ships here because an app that defines only the palette gets a switch that never moves. */
 @custom-variant data-open {
   &:where([data-state="open"]),
   &:where([data-open]:not([data-open="false"])) {
@@ -80,9 +74,8 @@
     background: color-mix(in oklab, var(--ring-color) 24%, transparent);
   }
 
-  /* A default macOS overlay scrollbar paints a black bar on a dark panel. Track
-     transparent, thumb on the line token, so it belongs to whatever surface it
-     is over. The border is what insets the thumb without a second element. */
+  /* A default macOS overlay scrollbar paints a black bar on a dark panel, so the track stays
+     transparent and the thumb takes the line token. */
   :where(html) {
     scrollbar-color: var(--color-border, var(--border)) transparent;
   }
@@ -111,16 +104,11 @@
 }
 
 @layer components {
-  /* Three moves the kit repeats. They are classes rather than tokens because a
-     component wants one name, not four declarations, and because the reduced
-     motion guard then lives in one place instead of in every component.
+  /* Classes, not tokens, so a component takes one name and the reduced-motion guard lives in
+     one place; the `t-` prefix matches the transitions-dev snippets. */
 
-     Namespaced `t-` to match the transitions-dev snippets, which these sit
-     beside rather than duplicate. */
-
-  /* A control that reads as a key: it travels down a pixel under the finger.
-     The travel is what sells it, because a colour change alone reads as a hover
-     state, not as a press. */
+  /* A key-like control travels down a pixel under the finger, because a colour change alone
+     reads as a hover, not a press. */
   .t-press {
     transition:
       background-color var(--duration-quick) var(--ease-smooth-out),
@@ -134,9 +122,8 @@
     transform: translateY(1px);
   }
 
-  /* A card that answers the pointer. It rises by a pixel and gains the next
-     step of elevation, so the hover reads as the card coming forward rather
-     than as its border changing colour. */
+  /* A hover card rises a pixel and gains the next elevation step, so it reads as coming
+     forward, not as its border changing colour. */
   .t-lift {
     transition:
       box-shadow var(--duration-fast) var(--ease-smooth-out),

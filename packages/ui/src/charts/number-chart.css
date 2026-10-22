@@ -18,9 +18,8 @@
     border-color: color-mix(in srgb, var(--ring, var(--chart-1)) 28%, var(--border, transparent));
   }
 }
-/* WHY a bare mode and not a second component: a band is one panel with
-   hairlines through it, so a figure inside it must bring no edge of its own.
-   Same object, one less border. */
+/* A band is one panel with hairlines through it, so a figure inside it must bring no
+   edge of its own. */
 .hr-number-chart[data-bare] {
   padding: 1rem;
   border: 0;
@@ -60,9 +59,8 @@
   font-size: 0.625rem;
 }
 
-/* WHY the row is baseline-aligned and top-anchored: a band mixes figures that
-   carry a caption with figures that do not, and every value in the row has to
-   sit on one line. The slack falls to the bottom, where nothing reads it. */
+/* Baseline-aligned and top-anchored, so values sit on one line even when only some
+   figures carry a caption. */
 .hr-number-row {
   display: flex;
   align-items: baseline;
@@ -108,9 +106,8 @@
 .hr-number-delta-text {
   font-variant-numeric: tabular-nums;
 }
-/* The readable form of a trend colour: a hue picked to read as a mark measures
-   about 3.5:1 as 12px text, so it is mixed toward the page foreground. One rule
-   serves both themes and the package needs to know nothing about which is on. */
+/* A trend hue measures about 3.5:1 as 12px text, so it's mixed toward the foreground,
+   which works in both themes. */
 .hr-number-delta[data-tone="up"] {
   color: color-mix(
     in oklab,

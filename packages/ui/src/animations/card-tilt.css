@@ -1,9 +1,6 @@
-/* Card hover tilt — transitions.dev `3d-tilt`.
-   Bind pointermove to the flat outer `.t-tilt`, never the card: the rotating
-   edges slip under the cursor and the hover flickers. JS writes --tilt-rx/ry
-   and --tilt-gx/gy, adds `.is-tilting` while moving and `.is-hover` for the
-   glare. Return and glare clocks have no token at their length, by design:
-   the settle is meant to read slower than any surface. */
+/* Card hover tilt, transitions.dev `3d-tilt`: bind pointermove to the flat outer
+   `.t-tilt`, never the card, or its rotating edges slip under the cursor and the
+   hover flickers. */
 :root {
   --tilt-perspective: 1000px;
   --tilt-return: 1000ms;

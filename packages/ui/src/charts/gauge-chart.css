@@ -1,7 +1,5 @@
-/* Styles for GaugeChart. Plain stylesheet (see area-chart.css for why).
-   Selectors are namespaced under `.hr-gauge` (the generic ones below would
-   otherwise collide with RingChart's identical `.value`/`.label`/`.center`/
-   `.fill`/`svg` names once they are no longer Svelte-scoped). */
+/* A plain stylesheet (see area-chart.css), namespaced under `.hr-gauge` because RingChart's
+   unscoped `.value`, `.label` and `.center` would otherwise collide. */
 
 .hr-gauge {
   position: relative;
@@ -51,9 +49,8 @@
 /* WHY: active paint comes from the fill attribute (flat or gradient url), so
    no CSS fill here, which would override it. */
 .hr-gauge .fill {
-  /* WHY: each active notch fades up in arc order; the per-notch stagger
-	   sweeps the colour around the arc so the gauge reads as filling, instead
-	   of every notch popping in from the centre at once. */
+  /* WHY: active notches fade up in arc order, so the gauge reads as filling
+	   instead of every notch popping in at once. */
   animation: hr-gauge-notch-in 0.3s var(--chart-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) both;
 }
 

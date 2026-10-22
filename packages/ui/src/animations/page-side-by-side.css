@@ -2,16 +2,8 @@
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
 /*
-  Usage:
-    <div class="t-page-slide" data-page="1">
-      <section class="t-page" data-page-id="1">…</section>
-      <section class="t-page" data-page-id="2">…</section>
-    </div>
-
-  State:
-    Set data-page="1" or "2" on .t-page-slide.
-    Page 1 exits to the left, page 2 exits to the right.
-    --page-exit-enabled (0/1) disables the outgoing slide.
+  Set data-page="1" or "2" on .t-page-slide, which holds two .t-page
+  sections with data-page-id; --page-exit-enabled: 0 turns off the outgoing slide.
 */
 
 :root {

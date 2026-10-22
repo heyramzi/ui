@@ -35,7 +35,7 @@
 
 			// WHY: every height is authored for a mouse. Under a thumb, Apple's floor is 44px, so each size grows wherever a coarse pointer exists.
 
-			// WHY sm carries a hit area: 28px is under the 32px desktop floor and the 40px coarse height is under 44. The ::after box stays the same 32px (44 on coarse) square whatever the visual size, so a dense toolbar keeps its look.
+			// WHY sm carries a hit area: 28px is under the 32px desktop floor, so an ::after box keeps it 32px (44 on coarse) without changing its look.
 
 			// Icon buttons grow both axes because they have no label to widen them. any-pointer, not pointer: see the note in tokens/base.css.
 			size: {

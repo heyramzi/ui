@@ -36,16 +36,13 @@
 		 */
 		size?: "default" | "md" | "sm";
 		/**
-		 * The icon button's `Button` variant: ghost unless it sits beside an outline
-		 * one. `inline` is for the chip: it takes the surrounding text's font and
-		 * colour, and the icon trails it.
+		 * Ghost unless it sits beside an outline button; `inline` is for the chip,
+		 * taking the surrounding text's font and colour.
 		 */
 		variant?: "ghost" | "outline" | "inline";
 		/**
-		 * How a screen reader hears the copy. `region` keeps the name fixed and
-		 * announces `copiedLabel` in a live region. `name` swaps the button's own name
-		 * to `copiedLabel` (write it in full) and has no region, for a page that
-		 * renders hundreds of these.
+		 * `region` announces `copiedLabel` in a live region; `name` swaps the button's
+		 * name to it (write it in full), for a page rendering hundreds of these.
 		 */
 		announce?: "region" | "name";
 		/** Runs after a write that landed, for a toast the call site owns. */

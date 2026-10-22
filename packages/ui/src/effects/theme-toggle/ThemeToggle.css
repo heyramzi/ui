@@ -14,11 +14,8 @@
   color: var(--color-background);
 }
 
-/* The slide variant: a pill track with a thumb that moves to the active side.
-   A caller sets brand colours with custom properties on the class:
-   --theme-toggle-thumb-light, --theme-toggle-thumb-dark, --theme-toggle-track,
-   --theme-toggle-track-hover, --theme-toggle-sun, --theme-toggle-moon,
-   --theme-toggle-thumb-icon and --theme-toggle-glow. */
+/* The slide variant, a pill track with a moving thumb; a caller sets brand
+   colours through the `--theme-toggle-*` custom properties on this class. */
 .theme-toggle-slide {
   --tt-thumb: 1.5rem;
   --tt-pad: 0.25rem;

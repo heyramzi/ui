@@ -1,7 +1,5 @@
-/* Like button — transitions.dev 23.
-   Toggle `data-liked` to fill and pop the heart; add `.is-bursting` for
-   one particle duration to fire the spray, writing --px/--py/--pdur/--pdelay
-   per dot in JS so no two bursts match. */
+/* Like button, transitions.dev 23. For the spray, JS writes --px/--py/--pdur/--pdelay
+   per dot while `.is-bursting` is on, so no two bursts match. */
 :root {
   --like-color: #f40051;
   --like-fill: var(--duration-quick, 150ms);

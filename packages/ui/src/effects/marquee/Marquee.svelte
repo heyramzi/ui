@@ -25,8 +25,8 @@
 		/** Waits this many ms before the first scroll starts. */
 		delay?: number;
 		/**
-		 * Scrolls only while the content is longer than the box, for a line of text with a max width.
-		 * The box shrinks to its content, drops its padding, and shows one still copy when it fits.
+		 * Scrolls only while the content overflows the box; when it fits, the box shrinks to it,
+		 * drops its padding and shows one still copy.
 		 */
 		overflowOnly?: boolean;
 		style?: string;

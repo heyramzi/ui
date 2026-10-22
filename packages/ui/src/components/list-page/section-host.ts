@@ -2,9 +2,8 @@ import { getContext, setContext } from "svelte";
 import type { SectionStrip } from "#src/components/segmented/section-runs.svelte";
 
 /**
- * What an app shell gives a list page so the page's toolbar can draw the
- * section strip. `strip` must be reactive (a `$state` field), and `claim` tells
- * the shell a toolbar is drawing it and returns the release.
+ * What an app shell gives a list page's toolbar to draw the section strip; `strip` must be
+ * reactive (a `$state` field), and `claim` returns the release.
  */
 export interface SectionHost {
   readonly strip: SectionStrip | null;

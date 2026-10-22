@@ -187,8 +187,8 @@
 
 <!-- =========================== -->
 <!-- MARKUP -->
-<!-- WHY the chip radius: the edit frame is --radius-lg with 4px of padding, so the chip inside
-     is --radius-xs (8 - 4). In the read state it takes --radius-sm, a chip on its own. -->
+<!-- WHY: the edit frame is --radius-lg with 4px of padding, so the chip inside is --radius-xs
+     (8 - 4), and a read-state chip on its own takes --radius-sm. -->
 <!-- WHY text-base on the input: below 16px iOS zooms the page when it gets focus. -->
 <!-- =========================== -->
 {#snippet chip(tag: string, removable: boolean)}

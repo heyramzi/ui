@@ -14,10 +14,8 @@ const DEFAULT_DURATION = 400;
 const STYLE_ID = "heyramzi-reveal-theme";
 
 /**
- * Run `apply` inside a circular wipe that grows from the centre of the clicked
- * element, the element, or a point. Falls back to a plain `apply()` when the
- * browser has no view transitions, the user prefers reduced motion, or `skip`
- * is set. It adds the `::view-transition-*(root)` reset itself.
+ * Run `apply` inside a circular wipe from the clicked element or a point, falling back to
+ * plain `apply()` without view transitions, under reduced motion, or with `skip`.
  */
 export function revealTheme(
   origin: RevealOrigin,

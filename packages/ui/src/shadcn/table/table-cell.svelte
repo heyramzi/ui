@@ -19,9 +19,8 @@
 	{@render children?.()}
 </td>
 
-<!-- WHY here: a link in a cell is 20px tall, and a cell is the only place that knows it sits in a
-     row of them. On a coarse pointer the link grows a 44px box centred on it, wider when the link
-     is. A link that positions itself (a stretched row link) keeps its own box. -->
+<!-- A cell's link is 20px tall, so on a coarse pointer it grows a 44px hit box here, unless it
+     positions itself, like a stretched row link. -->
 <style>
 	@media (any-pointer: coarse) {
 		td :global(a[href]:not([class*="absolute"], [class*="fixed"], [class*="sticky"])) {

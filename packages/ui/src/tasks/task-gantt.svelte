@@ -33,8 +33,8 @@
 		/** ISO date, inclusive. See `getStart`. */
 		getEnd: (item: T) => string | null | undefined;
 		/**
-		 * The id of the task this one sits under. Children nest under their parent, indented
-		 * and foldable. A parent with no dates of its own draws the span of what is below it.
+		 * The parent task's id; a parent with no dates of its own draws the span of the
+		 * children nested under it.
 		 */
 		getParent?: (item: T) => string | null | undefined;
 		/** Draws a flag at the end date instead of a bar. Milestones are not draggable. */

@@ -6,9 +6,8 @@
 export type DocHeading = { id: string; label: string };
 
 /**
- * Where a heading sits inside the scroller, in scroller content coordinates.
- * The default reads the live DOM by id. A framed document supplies its own,
- * since its headings live in another document.
+ * A heading's offset in scroller coordinates. A framed document must supply its own, since
+ * its headings live in another document.
  */
 export type LocateHeading = (id: string) => number | null;
 

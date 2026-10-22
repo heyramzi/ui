@@ -2,17 +2,9 @@
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
 /*
-  Usage:
-    Duplicate the visible string into data-text so the ::before
-    layer can mask the gradient onto the same glyphs. Keep them
-    in sync if the text changes.
-
-      <span class="t-shimmer" data-text="Planning next moves">
-        Planning next moves
-      </span>
-
-  Pure CSS — no JS. Tune --shimmer-base / --shimmer-highlight in
-  your own theme rules so the colors follow light / dark mode.
+  Copy the visible text into data-text and keep the two in sync, or the ::before
+  gradient lands on the wrong glyphs:
+  <span class="t-shimmer" data-text="Planning">Planning</span>
 */
 
 :root {
@@ -23,13 +15,8 @@
   --shimmer-ease: var(--ease-linear, linear);
 }
 
-/* Two-layer construction:
-   1. The base text renders normally in --shimmer-base.
-   2. ::before duplicates it via content: attr(data-text),
-      paints a transparent → highlight → transparent gradient
-      onto it, and clips that gradient to the glyphs via
-      background-clip: text. Animating background-position
-      sweeps the band across the text. */
+/* ::before repeats the text from data-text and clips a moving gradient band to its
+   glyphs with background-clip: text. */
 .t-shimmer {
   position: relative;
   display: inline-block;

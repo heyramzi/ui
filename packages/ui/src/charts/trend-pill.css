@@ -11,10 +11,8 @@
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--stat-trend, currentColor) 22%, transparent);
   background: color-mix(in srgb, var(--stat-trend, currentColor) 10%, transparent);
-  /* WHY the mix: a trend colour is picked to read as a mark, and at 12px on its
-	   own 10% wash the raw hue measured 3.5:1. Mixing toward --foreground darkens
-	   it on a light page and lightens it on a dark one, so one rule serves both
-	   themes and the package needs to know nothing about which is on. */
+  /* The raw hue measured 3.5:1 on its own wash, so it mixes toward --foreground,
+	   which fixes the contrast in both themes with one rule. */
   color: color-mix(
     in oklab,
     var(--stat-trend, var(--muted-foreground, oklch(0.5 0.01 286))) 72%,

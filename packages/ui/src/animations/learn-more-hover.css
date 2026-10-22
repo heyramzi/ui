@@ -1,8 +1,5 @@
-/* Learn more hover — transitions.dev 24.
-   The chevron shifts along the direction it goes and its two arms rotate
-   apart about the apex, so the arrow leans into the move. Pure CSS.
-   `transform-box: view-box` is what makes the arm origin resolve against
-   the viewBox rather than each path's own bounding box. */
+/* Learn more hover, transitions.dev 24: `transform-box: view-box` makes the arm origin
+   resolve against the viewBox, not each path's own bounding box. */
 :root {
   --learn-shift: 2px;
   --learn-spread: 8deg;

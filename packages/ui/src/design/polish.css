@@ -1,16 +1,5 @@
-/* The rules the craft layer applies for itself.
- *
- * Two layers, on purpose. `base` holds the element defaults (focus, selection,
- * scrollbars) so any component class or utility beats them. `components` holds
- * the three motion primitives, so a utility still beats those too.
- *
- * WHY the layers are not optional: an `@import` at the top of an app stylesheet
- * lands OUTSIDE Tailwind's layers, and unlayered CSS beats every layered rule
- * whatever its specificity. Written bare, a `:where()` selector here would
- * silently outrank `focus-visible:ring-3` on every control in the app.
- *
- * Imported by ./index.css. Do not import it on its own, because it reads the tokens
- * that file declares. */
+/* Keep every rule here inside a layer: unlayered CSS beats all layered rules, so a bare
+ * `:where()` would silently outrank `focus-visible:ring-3` on every control. */
 
 @layer base {
   /* One ring for the whole kit. `:where` keeps it at specificity zero on top of
@@ -26,9 +15,8 @@
     background: color-mix(in oklab, var(--ring-color) 24%, transparent);
   }
 
-  /* A default macOS overlay scrollbar paints a black bar on a dark panel. Track
-     transparent, thumb on the line token, so it belongs to whatever surface it
-     is over. The border is what insets the thumb without a second element. */
+  /* The default macOS scrollbar paints a black bar on a dark panel, so the track stays
+     transparent and the border insets the thumb. */
   :where(html) {
     scrollbar-color: var(--color-border, var(--border)) transparent;
   }
@@ -55,16 +43,11 @@
 }
 
 @layer components {
-  /* Three moves the kit repeats. They are classes rather than tokens because a
-     component wants one name, not four declarations, and because the reduced
-     motion guard then lives in one place instead of in every component.
+  /* Classes, not tokens, so the reduced motion guard lives here once instead of in
+     every component. */
 
-     Namespaced `t-` to match the transitions-dev snippets, which these sit
-     beside rather than duplicate. */
-
-  /* A control that reads as a key: it travels down a pixel under the finger.
-     The travel is what sells it, because a colour change alone reads as a hover
-     state, not as a press. */
+  /* A key that travels down a pixel when pressed, because a colour change alone
+     reads as hover, not as a press. */
   .t-press {
     transition:
       background-color var(--duration-quick) var(--ease-smooth-out),
@@ -78,9 +61,8 @@
     transform: translateY(1px);
   }
 
-  /* A card that answers the pointer. It rises by a pixel and gains the next
-     step of elevation, so the hover reads as the card coming forward rather
-     than as its border changing colour. */
+  /* The card rises a pixel and gains an elevation step, so hover reads as the card
+     coming forward, not its border changing colour. */
   .t-lift {
     transition:
       box-shadow var(--duration-fast) var(--ease-smooth-out),

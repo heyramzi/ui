@@ -36,9 +36,6 @@ export function observeInView(
 /**
  * Svelte action that calls back when the node enters or leaves the viewport.
  * Options are read at call time, so a `use:onInView={...}` update swaps the callbacks.
- *
- * @example
- * <section use:onInView={{ amount: 0.2, onEnter: () => (visible = true) }}>
  */
 export const onInView: Action<HTMLElement, InViewActionOptions | undefined> = (node, initial) => {
   let options = initial ?? {};

@@ -86,8 +86,8 @@ export type RecordNext = {
 };
 
 /**
- * Each field type with the config it takes and the value it holds. Add a type here, then fix what
- * `pnpm check` raises: `fieldRow` and `INPUT` in `fields.ts` (how it reads), `InfoList` (how it edits).
+ * Each field type with its config and value; after adding one, fix what `pnpm check` raises in
+ * `fieldRow` and `INPUT` (`fields.ts`) and `InfoList`.
  */
 export type FieldTypes = {
   text: { config: Record<never, never>; value: string };

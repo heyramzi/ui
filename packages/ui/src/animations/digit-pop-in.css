@@ -2,21 +2,8 @@
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
 /*
-  Usage:
-    <span class="t-digit-group is-animating">
-      <span class="t-digit">1</span>
-      <span class="t-digit">2</span>
-      <span class="t-digit" data-stagger="1">.</span>
-      <span class="t-digit" data-stagger="2">3</span>
-    </span>
-
-  Replay:
-    Remove `.is-animating`, re-render digits (or swap text),
-    force a reflow, then re-add `.is-animating`.
-
-  Direction:
-    --digit-dir-x / --digit-dir-y are unit-less multipliers
-    (e.g. 1, -1, 0) applied to --digit-distance.
+  To replay, remove `.is-animating` from `.t-digit-group`, swap the digits, force a reflow, then
+  add it back, or the animation won't restart.
 */
 
 :root {
