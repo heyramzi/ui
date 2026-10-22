@@ -268,3 +268,14 @@ _Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(marketing): the Sentry protocol compiles under noUncheckedIndexedAccess and pre-ES2023 lib
 
+
+## [1.20.0](https://github.com/heyramzi/ui/compare/marketing-v1.19.1...marketing-v1.20.0) (2026-10-22)
+
+### Features
+
+* feat(marketing): deck tokens as two themed palettes on --deck-* variables
+
+### Bug Fixes
+
+* fix(marketing): renderImage takes the SatoriNode that html returns
+
