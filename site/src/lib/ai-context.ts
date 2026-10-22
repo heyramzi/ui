@@ -92,7 +92,7 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/components/list-page/rail-row.svelte",
     "../../../packages/ui/src/components/list-page/detail-header.svelte",
     "../../../packages/ui/src/components/list-page/detail-panel.svelte",
-    "../../../packages/ui/src/components/list-page/toolbar-search.svelte",
+    "../../../packages/ui/src/components/toolbar/toolbar-search.svelte",
     "../../../packages/ui/src/components/icon/icon.svelte",
     "../../../packages/ui/src/components/svg/svg.svelte",
     "../../../packages/ui/src/tasks/side-panel.svelte",

@@ -68,6 +68,7 @@ export const sections: Section[] = [
       { title: "Layouts", items: ["section-card", "doc-page", "list-page", "dashboard"] },
       { title: "Onboarding", items: [{ title: "Page tour", href: "/onboarding" }] },
       { title: "Slides", items: ["slide-deck", { title: "Deck and presenter", href: "/slides" }] },
+      { title: "Canvas", items: ["canvas"] },
     ],
   },
 ];
@@ -151,6 +152,7 @@ const meta: Record<string, Meta> = {
   inbox: { title: "Inbox", icon: "inbox", description: "Approve, decline or steer what an agent isn't sure about, with the trace one click away.", height: 600 },
   "agent-avatar": { title: "Agent avatar", icon: "avatar", description: "A bot face in 18 shapes, with hats and glasses.", height: 260 },
   "agent-cast": { title: "Agent cast", icon: "cast", description: "The full cast on one card, ready to pick.", height: 300 },
+  canvas: { title: "Canvas", icon: "move", description: "A board for cards, arrows, shapes and freehand pen strokes.", height: 460 },
   "slide-deck": { title: "Slide deck", icon: "deck", description: "A deck with reveals, overview and print, on a canvas that scales.", height: 380 },
   "ai-prompt": { title: "Prompt input", icon: "prompt", description: "Ask box with suggestions and send states.", height: 300 },
   "ai-thinking": { title: "Thinking dots", icon: "thinking", description: "Three dots while the answer forms.", height: 200 },
