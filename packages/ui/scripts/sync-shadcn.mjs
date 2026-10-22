@@ -69,6 +69,8 @@ const DEMO_ALIASES = [
   ["$lib/utils.js", "@heyramzi/utils"],
   // The peer here is the runes build, published under its own name.
   ["@tabler/icons-svelte/", "@tabler/icons-svelte-runes/"],
+  // Upstream's docs live under /docs/components; ours are at /components, and the prerender follows the link.
+  ['href="/docs/components"', 'href="/components"'],
 ];
 
 /* Registry primitives this package does not ship: no product imports them. Skipped, so a sync does not bring them back. */

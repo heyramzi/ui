@@ -43,6 +43,20 @@ describe("site gallery coverage", () => {
     expect(vendored.filter((name) => !manifest.includes(`name: "${name}"`))).toEqual([]);
   });
 
+  it("gives every component, AI part and effect a place on the site", () => {
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
+        d.isDirectory() ? walk(join(dir, d.name)) : /\.(svelte|ts)$/.test(d.name) ? [join(dir, d.name)] : [],
+      );
+    const site = walk(join(SITE, "..")).map((file) => readFileSync(file, "utf8")).join("\n");
+    const parts = ["components", "ai", "effects"].flatMap((top) =>
+      readdirSync(join(PKG, "src", top), { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => `${top}/${d.name}`),
+    );
+    expect(parts.filter((part) => !site.includes(`${part}/`) && !site.includes(`${part}"`))).toEqual([]);
+  });
+
   it("keeps a demo file behind every listed primitive", () => {
     const manifest = readFileSync(join(SITE, "shadcn-demos", "index.ts"), "utf8");
     const listed = [...manifest.matchAll(/name: "([a-z-]+)"/g)].map((m) => m[1]);
