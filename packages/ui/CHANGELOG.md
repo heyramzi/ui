@@ -894,3 +894,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): gate raw hover styles behind the hover media query
 
+
+## [2.3.0](https://github.com/heyramzi/ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-10-22)
+
+### Features
+
+* feat(ui): TableView takes sortable heads, row links, selection, row menus, groups, sub-rows and loading rows
+

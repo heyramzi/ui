@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/ui",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Svelte 5 UI for apps: primitives, effects and animations, plus tasks, charts, slides, an editor, onboarding and a canvas as subpaths.",
   "homepage": "https://ui.heyramzi.com",
   "license": "MIT",
