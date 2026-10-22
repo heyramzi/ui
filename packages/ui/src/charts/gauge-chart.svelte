@@ -67,7 +67,7 @@
 		/** Accessible description, e.g. "ARR run rate". */
 		ariaLabel?: string;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

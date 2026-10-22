@@ -43,7 +43,7 @@
 		/** `sm` fits a word, `default` a name, `lg` a name and a date. */
 		width?: "sm" | "default" | "lg";
 		disabled?: boolean;
-	};
+	}
 
 	let {
 		options,
@@ -61,7 +61,7 @@
 		open = $bindable(false),
 		align = "start",
 		width = "default",
-		disabled = false
+		disabled = false,
 	}: Props = $props();
 
 	let resolved = $derived<PickerGroup<V>[]>(groups ?? [{ options: options ?? [] }]);
@@ -126,7 +126,9 @@
 									{option.label}
 								</span>
 								{#if option.hint}
-									<span class="text-muted-foreground shrink-0 text-xs tabular-nums">{option.hint}</span>
+									<span class="text-muted-foreground shrink-0 text-xs tabular-nums"
+										>{option.hint}</span
+									>
 								{/if}
 							</Command.Item>
 						{/each}

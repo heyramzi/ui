@@ -80,7 +80,7 @@
 		/** Rendered at the right of the label row. */
 		trailing?: Snippet;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

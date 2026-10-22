@@ -5,7 +5,11 @@
 	import { AgentAvatar } from "#src/agents/index.js";
 	import { TONE_CLASS } from "#src/lib/tone.js";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
-	import { DEFAULT_TASK_DETAIL_LABELS, type TaskComment, type TaskDetailLabels } from "#src/tasks/detail/detail-types.js";
+	import {
+		DEFAULT_TASK_DETAIL_LABELS,
+		type TaskComment,
+		type TaskDetailLabels,
+	} from "#src/tasks/detail/detail-types.js";
 
 	interface Props {
 		comments: TaskComment[];
@@ -31,7 +35,8 @@
 		labels: labelOverrides,
 		agentAvatar,
 		avatar,
-		when = (comment) => new Date(comment.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+		when = (comment) =>
+			new Date(comment.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
 		onSend,
 		onEdit,
 		onDelete,
@@ -100,7 +105,10 @@
 			{#each comments as comment (comment.id)}
 				<li class="group relative flex gap-3">
 					<!-- The rail that ties one avatar to the next, as in an activity feed. -->
-					<span class="absolute start-[11.5px] top-8 -bottom-3 w-px bg-border group-last:hidden" aria-hidden="true"></span>
+					<span
+						class="absolute start-[11.5px] top-8 -bottom-3 w-px bg-border group-last:hidden"
+						aria-hidden="true"
+					></span>
 					<span class="relative size-6 shrink-0">
 						{#if comment.agent}
 							{#if agentAvatar}
@@ -111,7 +119,10 @@
 						{:else if avatar}
 							{@render avatar(comment)}
 						{:else}
-							<span class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground" aria-hidden="true">
+							<span
+								class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground"
+								aria-hidden="true"
+							>
 								{initial(comment.author)}
 							</span>
 						{/if}
@@ -121,7 +132,12 @@
 						<div class="flex h-6 items-center gap-2">
 							<span class="truncate text-[13px] font-medium">{comment.author}</span>
 							{#if comment.agent}
-								<span class={cn("inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium", TONE_CLASS.accent)}>
+								<span
+									class={cn(
+										"inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium",
+										TONE_CLASS.accent,
+									)}
+								>
 									{labels.ai}
 								</span>
 							{/if}
@@ -130,14 +146,26 @@
 								<span class="text-xs text-muted-foreground">{labels.commentEdited}</span>
 							{/if}
 							{#if canEdit(comment) && editingId !== comment.id}
-								<span class="ms-auto flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100">
+								<span
+									class="ms-auto flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100"
+								>
 									{#if onEdit}
-										<button type="button" class="thread-icon" aria-label={labels.commentEdit} onclick={() => startEdit(comment)}>
+										<button
+											type="button"
+											class="thread-icon"
+											aria-label={labels.commentEdit}
+											onclick={() => startEdit(comment)}
+										>
 											<PencilSimple class="size-3.5" aria-hidden="true" />
 										</button>
 									{/if}
 									{#if onDelete}
-										<button type="button" class="thread-icon" aria-label={labels.commentDelete} onclick={() => onDelete?.(comment)}>
+										<button
+											type="button"
+											class="thread-icon"
+											aria-label={labels.commentDelete}
+											onclick={() => onDelete?.(comment)}
+										>
 											<Trash class="size-3.5" aria-hidden="true" />
 										</button>
 									{/if}
@@ -153,8 +181,14 @@
 								class="mt-1 w-full resize-y rounded-md border border-input bg-transparent px-2.5 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
 							></textarea>
 							<div class="mt-2 flex justify-end gap-1.5">
-								<button type="button" class="thread-button" onclick={() => (editingId = null)}>{labels.cancel}</button>
-								<button type="button" class="thread-button thread-primary" onclick={() => saveEdit(comment)}>{labels.save}</button>
+								<button type="button" class="thread-button" onclick={() => (editingId = null)}
+									>{labels.cancel}</button
+								>
+								<button
+									type="button"
+									class="thread-button thread-primary"
+									onclick={() => saveEdit(comment)}>{labels.save}</button
+								>
 							</div>
 						{:else}
 							<p class="text-sm leading-relaxed whitespace-pre-wrap text-pretty">{comment.body}</p>
@@ -168,7 +202,9 @@
 	{/if}
 
 	{#if onSend}
-		<div class="rounded-lg border border-input transition-shadow focus-within:ring-3 focus-within:ring-ring/50">
+		<div
+			class="rounded-lg border border-input transition-shadow focus-within:ring-3 focus-within:ring-ring/50"
+		>
 			<textarea
 				bind:value={draft}
 				onkeydown={onComposerKeydown}
@@ -178,7 +214,12 @@
 				class="block max-h-60 min-h-16 w-full resize-none border-0 bg-transparent px-3 py-2 text-sm leading-relaxed outline-none [field-sizing:content] placeholder:text-muted-foreground"
 			></textarea>
 			<div class="flex justify-end px-2 pb-2">
-				<button type="button" class="thread-button thread-primary" onclick={send} disabled={!canSend}>
+				<button
+					type="button"
+					class="thread-button thread-primary"
+					onclick={send}
+					disabled={!canSend}
+				>
 					{sending ? labels.saving : labels.commentSend}
 				</button>
 			</div>

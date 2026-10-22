@@ -1,101 +1,101 @@
 <script lang="ts">
-/**
- * The one copy control. No `text` prop draws the icon button; `text` draws the
- * chip. `agent` marks a payload written for a model.
- */
-
-// =========================
-// IMPORTS
-// =========================
-import { Check, Copy, StarFour } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { buttonVariants } from "#src/shadcn/button/index.js";
-import type { HTMLButtonAttributes } from "svelte/elements";
-import { copyText } from "#src/components/copy/clipboard.js";
-
-// =========================
-// TYPES
-// =========================
-interface Props extends Omit<HTMLButtonAttributes, "value" | "onclick" | "children"> {
 	/**
-	 * What lands on the clipboard. A function runs on the click, so a long list
-	 * doesn't build every prompt up front. It may return a promise.
+	 * The one copy control. No `text` prop draws the icon button; `text` draws the
+	 * chip. `agent` marks a payload written for a model.
 	 */
-	value: string | (() => string | Promise<string>);
-	/** Names the thing being copied, for a screen reader and the tooltip. */
-	label?: string;
-	/** Announced when the write lands; see `announce`. */
-	copiedLabel?: string;
-	/** The chip's visible text. Its presence is what makes this a chip. */
-	text?: string;
-	/** Marks the payload as an instruction for an AI rather than a raw string. */
-	agent?: boolean;
-	/**
-	 * `sm` matches `OpenIn`, for the icon row inside a calendar chip. `md` is
-	 * the 28px icon `Button`, for a toolbar that sits beside other icon buttons.
-	 */
-	size?: "default" | "md" | "sm";
-	/**
-	 * The icon button's `Button` variant: ghost unless it sits beside an outline
-	 * one. `inline` is for the chip: it takes the surrounding text's font and
-	 * colour, and the icon trails it.
-	 */
-	variant?: "ghost" | "outline" | "inline";
-	/**
-	 * How a screen reader hears the copy. `region` keeps the name fixed and
-	 * announces `copiedLabel` in a live region. `name` swaps the button's own name
-	 * to `copiedLabel` (write it in full) and has no region, for a page that
-	 * renders hundreds of these.
-	 */
-	announce?: "region" | "name";
-	/** Runs after a write that landed, for a toast the call site owns. */
-	onCopied?: () => void;
-	class?: string;
-}
 
-// =========================
-// PROPS
-// =========================
-let {
-	value,
-	label = "Copy",
-	copiedLabel = "Copied",
-	text,
-	agent = false,
-	size = "default",
-	variant = "ghost",
-	announce = "region",
-	onCopied,
-	class: className,
-	...restProps
-}: Props = $props();
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Check, Copy, StarFour } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { buttonVariants } from "#src/shadcn/button/index.js";
+	import type { HTMLButtonAttributes } from "svelte/elements";
+	import { copyText } from "#src/components/copy/clipboard.js";
 
-// =========================
-// STATE
-// =========================
-let copied = $state(false);
-let resetAt: ReturnType<typeof setTimeout> | undefined;
+	// =========================
+	// TYPES
+	// =========================
+	interface Props extends Omit<HTMLButtonAttributes, "value" | "onclick" | "children"> {
+		/**
+		 * What lands on the clipboard. A function runs on the click, so a long list
+		 * doesn't build every prompt up front. It may return a promise.
+		 */
+		value: string | (() => string | Promise<string>);
+		/** Names the thing being copied, for a screen reader and the tooltip. */
+		label?: string;
+		/** Announced when the write lands; see `announce`. */
+		copiedLabel?: string;
+		/** The chip's visible text. Its presence is what makes this a chip. */
+		text?: string;
+		/** Marks the payload as an instruction for an AI rather than a raw string. */
+		agent?: boolean;
+		/**
+		 * `sm` matches `OpenIn`, for the icon row inside a calendar chip. `md` is
+		 * the 28px icon `Button`, for a toolbar that sits beside other icon buttons.
+		 */
+		size?: "default" | "md" | "sm";
+		/**
+		 * The icon button's `Button` variant: ghost unless it sits beside an outline
+		 * one. `inline` is for the chip: it takes the surrounding text's font and
+		 * colour, and the icon trails it.
+		 */
+		variant?: "ghost" | "outline" | "inline";
+		/**
+		 * How a screen reader hears the copy. `region` keeps the name fixed and
+		 * announces `copiedLabel` in a live region. `name` swaps the button's own name
+		 * to `copiedLabel` (write it in full) and has no region, for a page that
+		 * renders hundreds of these.
+		 */
+		announce?: "region" | "name";
+		/** Runs after a write that landed, for a toast the call site owns. */
+		onCopied?: () => void;
+		class?: string;
+	}
 
-// =========================
-// DERIVED
-// =========================
-const inline = $derived(text !== undefined && variant === "inline");
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		value,
+		label = "Copy",
+		copiedLabel = "Copied",
+		text,
+		agent = false,
+		size = "default",
+		variant = "ghost",
+		announce = "region",
+		onCopied,
+		class: className,
+		...restProps
+	}: Props = $props();
 
-// =========================
-// FUNCTIONS
-// =========================
-async function copy(event: MouseEvent) {
-	// Rows and cards are clickable; taking the payload out of one must not also
-	// open the record it belongs to.
-	event.stopPropagation();
-	event.preventDefault();
-	const payload = typeof value === "function" ? await value() : value;
-	if (!(await copyText(payload))) return;
-	copied = true;
-	clearTimeout(resetAt);
-	resetAt = setTimeout(() => (copied = false), 1400);
-	onCopied?.();
-}
+	// =========================
+	// STATE
+	// =========================
+	let copied = $state(false);
+	let resetAt: ReturnType<typeof setTimeout> | undefined;
+
+	// =========================
+	// DERIVED
+	// =========================
+	const inline = $derived(text !== undefined && variant === "inline");
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	async function copy(event: MouseEvent) {
+		// Rows and cards are clickable; taking the payload out of one must not also
+		// open the record it belongs to.
+		event.stopPropagation();
+		event.preventDefault();
+		const payload = typeof value === "function" ? await value() : value;
+		if (!(await copyText(payload))) return;
+		copied = true;
+		clearTimeout(resetAt);
+		resetAt = setTimeout(() => (copied = false), 1400);
+		onCopied?.();
+	}
 </script>
 
 <!-- =========================== -->
@@ -113,10 +113,10 @@ async function copy(event: MouseEvent) {
 			? size === "sm"
 				? "grid size-5 place-items-center rounded-md hover:bg-accent"
 				: buttonVariants({
-					variant: variant === "outline" ? "outline" : "ghost",
-					size: size === "md" ? "sm" : "default",
-					icon: true,
-				})
+						variant: variant === "outline" ? "outline" : "ghost",
+						size: size === "md" ? "sm" : "default",
+						icon: true,
+					})
 			: inline
 				? "inline-flex cursor-copy items-baseline gap-1.5 transition-colors hover:text-foreground"
 				: "flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-xs tabular-nums text-muted-foreground/70 transition-colors hover:bg-muted hover:text-foreground",
@@ -154,9 +154,7 @@ async function copy(event: MouseEvent) {
 			<Copy
 				class={cn(
 					"col-start-1 row-start-1 size-full transition-[opacity,color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]",
-					inline
-						? "text-current"
-						: "text-muted-foreground group-hover/copy:text-foreground",
+					inline ? "text-current" : "text-muted-foreground group-hover/copy:text-foreground",
 					copied ? "opacity-0" : "opacity-100",
 				)}
 				aria-hidden="true"

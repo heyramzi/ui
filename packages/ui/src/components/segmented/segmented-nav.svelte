@@ -1,52 +1,46 @@
 <script lang="ts" module>
-import type { SegmentContent } from "#src/components/segmented/segment.svelte";
+	import type { SegmentContent } from "#src/components/segmented/segment.svelte";
 
-/** One destination. See `SegmentContent` for everything a segment can say. */
-export type SegmentedNavItem = SegmentContent & { href: string };
+	/** One destination. See `SegmentContent` for everything a segment can say. */
+	export type SegmentedNavItem = SegmentContent & { href: string };
 </script>
 
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
-import Segment from "#src/components/segmented/segment.svelte";
-import SegmentedTrack from "#src/components/segmented/segmented-track.svelte";
-import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
+	import Segment from "#src/components/segmented/segment.svelte";
+	import SegmentedTrack from "#src/components/segmented/segmented-track.svelte";
+	import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// WHY a third component: tabs are a `tablist`, filters a `group` of toggles,
-	// and this goes to sibling pages, so it's a `nav` of links with `aria-current`.
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// WHY a third component: tabs are a `tablist`, filters a `group` of toggles,
+		// and this goes to sibling pages, so it's a `nav` of links with `aria-current`.
 
-	// Links give middle-click, bookmarks and the back button. The look comes from
-	// `segmented.ts` and `segment.svelte`, so nothing here can drift.
-	items: readonly SegmentedNavItem[];
-	/** The href that is current. Compared after trailing slashes are dropped. */
-	current: string;
-	ariaLabel: string;
-	/** Fill the row rather than sit at its natural width. */
-	block?: boolean;
-	class?: string;
-};
+		// Links give middle-click, bookmarks and the back button. The look comes from
+		// `segmented.ts` and `segment.svelte`, so nothing here can drift.
+		items: readonly SegmentedNavItem[];
+		/** The href that is current. Compared after trailing slashes are dropped. */
+		current: string;
+		ariaLabel: string;
+		/** Fill the row rather than sit at its natural width. */
+		block?: boolean;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	items,
-	current,
-	ariaLabel,
-	block = false,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { items, current, ariaLabel, block = false, class: className }: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let currentHref = $derived(current.replace(/\/$/, ""));
+	// =========================
+	// DERIVED
+	// =========================
+	let currentHref = $derived(current.replace(/\/$/, ""));
 </script>
 
 <!-- =========================== -->

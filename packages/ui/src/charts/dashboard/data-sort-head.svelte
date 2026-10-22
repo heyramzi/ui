@@ -1,68 +1,68 @@
 <script lang="ts">
-/*
- * A column head that sorts the table under it. Sort buttons above a table
- * never say which column they rank, and read as filter tabs.
- */
+	/*
+	 * A column head that sorts the table under it. Sort buttons above a table
+	 * never say which column they rank, and read as filter tabs.
+	 */
 
-// Every sortable head shows its caret, at 40%, solid on the active column.
-// Hover-only makes people hunt, and it shifts the label under the pointer.
+	// Every sortable head shows its caret, at 40%, solid on the active column.
+	// Hover-only makes people hunt, and it shifts the label under the pointer.
 
-// No padding of its own: it comes from the skin classes, so heads and cells
-// stay in line when a dense table tightens both.
+	// No padding of its own: it comes from the skin classes, so heads and cells
+	// stay in line when a dense table tightens both.
 
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { CaretDown, CaretUp } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { dataThClass, dataThNumClass } from "#src/charts/dashboard/data-table.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { CaretDown, CaretUp } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { dataThClass, dataThNumClass } from "#src/charts/dashboard/data-table.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	/** True when the table is currently ranked by this column. */
-	active: boolean;
-	/** Which way the active column runs. Ignored while inactive. */
-	descending: boolean;
-	/** Called on click and on Enter/Space. Toggling direction is the caller's. */
-	onSort: () => void;
-	/** Numbers right-align to their digits, so their caret leads the label. */
-	numeric?: boolean;
-	/** The long form of an abbreviated head, as the browser tooltip. */
-	title?: string;
-	class?: string;
-	children: Snippet;
-};
-
-// =========================
-// PROPS
-// =========================
-let {
-	active,
-	descending,
-	onSort,
-	numeric = false,
-	title,
-	class: className,
-	children,
-}: Props = $props();
-
-// =========================
-// DERIVED
-// =========================
-const ariaSort = $derived(active ? (descending ? "descending" : "ascending") : "none");
-
-// =========================
-// FUNCTIONS
-// =========================
-function handleKeydown(event: KeyboardEvent) {
-	if (event.key === "Enter" || event.key === " ") {
-		event.preventDefault();
-		onSort();
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		/** True when the table is currently ranked by this column. */
+		active: boolean;
+		/** Which way the active column runs. Ignored while inactive. */
+		descending: boolean;
+		/** Called on click and on Enter/Space. Toggling direction is the caller's. */
+		onSort: () => void;
+		/** Numbers right-align to their digits, so their caret leads the label. */
+		numeric?: boolean;
+		/** The long form of an abbreviated head, as the browser tooltip. */
+		title?: string;
+		class?: string;
+		children: Snippet;
 	}
-}
+
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		active,
+		descending,
+		onSort,
+		numeric = false,
+		title,
+		class: className,
+		children,
+	}: Props = $props();
+
+	// =========================
+	// DERIVED
+	// =========================
+	const ariaSort = $derived(active ? (descending ? "descending" : "ascending") : "none");
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			onSort();
+		}
+	}
 </script>
 
 <!-- =========================== -->

@@ -7,7 +7,11 @@
 	import { cn } from "#src/lib/utils.js";
 	import { createKanbanDnd } from "#src/tasks/use-kanban-dnd.svelte.js";
 	import { CaretRight } from "phosphor-svelte";
-	import type { KanbanColumn as KanbanColumnDef, KanbanMove, KanbanSortKey } from "#src/tasks/kanban-types.js";
+	import type {
+		KanbanColumn as KanbanColumnDef,
+		KanbanMove,
+		KanbanSortKey,
+	} from "#src/tasks/kanban-types.js";
 	import type { TaskListGroupContext, TaskListRowContext } from "#src/tasks/task-types.js";
 
 	interface Props<T, C extends KanbanColumnDef> {
@@ -115,7 +119,7 @@
 		groups.filter((g) => {
 			const parent = getParent?.(g);
 			return !parent || !groupIds.has(parent);
-		})
+		}),
 	);
 	let childrenOf = $derived.by(() => {
 		const map = new Map<string, C[]>();
@@ -137,7 +141,7 @@
 	function canDrop(groupId: string): boolean {
 		// A group that only holds other groups has no rows of its own to drop into.
 		if (childrenOf.has(groupId)) return false;
-		return isDroppable?.(groupId) ?? (groups.find((g) => g.id === groupId)?.droppable ?? true);
+		return isDroppable?.(groupId) ?? groups.find((g) => g.id === groupId)?.droppable ?? true;
 	}
 
 	function idAt(list: T[], index: number): string | null {
@@ -194,7 +198,6 @@
 			return;
 		}
 	}
-
 </script>
 
 {#snippet section(group: C, depth: number)}
@@ -207,7 +210,10 @@
 	{@const context = { count, active, open, depth, hasChildren: children.length > 0 }}
 	<section
 		aria-label={group.ariaLabel ?? group.label}
-		class={cn("tl-group group/tl", depth === 0 ? "border-b border-border last:border-b-0" : "border-t border-border/60")}
+		class={cn(
+			"tl-group group/tl",
+			depth === 0 ? "border-b border-border last:border-b-0" : "border-t border-border/60",
+		)}
 		class:tl-group-active={active}
 		style:--tl-hue={hue}
 		ondragover={children.length ? undefined : (e) => dnd.onColumnDragOver(e, group.id)}
@@ -215,7 +221,11 @@
 		ondrop={children.length ? undefined : (e) => dnd.onDrop(e, group.id)}
 	>
 		<div
-			class={cn("sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm", flat ? "bg-background/90" : "bg-card/90", depth === 0 && (head ? "top-9" : "top-0"))}
+			class={cn(
+				"sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm",
+				flat ? "bg-background/90" : "bg-card/90",
+				depth === 0 && (head ? "top-9" : "top-0"),
+			)}
 			style:top={depth > 0 ? `${(head ? 2.25 : 0) + depth * 2.5}rem` : undefined}
 			style:padding-inline-start={depth > 0 ? `${0.75 + depth * 1.25}rem` : undefined}
 		>
@@ -227,7 +237,11 @@
 					onclick={() => toggle(group.id)}
 					class="-ml-1 grid size-6 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
 				>
-					<span class="tl-chevron size-3.5 [&>svg]:size-full" class:tl-chevron-open={open} aria-hidden="true">
+					<span
+						class="tl-chevron size-3.5 [&>svg]:size-full"
+						class:tl-chevron-open={open}
+						aria-hidden="true"
+					>
 						<CaretRight weight="bold" />
 					</span>
 				</button>
@@ -267,7 +281,9 @@
 							role="listitem"
 							tabindex={draggable ? 0 : undefined}
 							aria-label={getLabel?.(item) ??
-								(draggable ? "Row. Press Alt plus Up or Down arrow to move between groups." : undefined)}
+								(draggable
+									? "Row. Press Alt plus Up or Down arrow to move between groups."
+									: undefined)}
 							aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
 							draggable={draggable ? "true" : undefined}
 							animate:flip={{ duration: 250, easing: cubicOut }}
@@ -303,7 +319,9 @@
 					{/if}
 
 					{#if rows.length === 0 && children.length === 0 && !active}
-						<p class="mx-1.5 rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground">
+						<p
+							class="mx-1.5 rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground"
+						>
 							{emptyLabel}
 						</p>
 					{/if}
@@ -326,7 +344,10 @@
 >
 	{#if head}
 		<div
-			class={cn("sticky top-0 z-20 flex h-9 shrink-0 items-center border-b border-border text-xs font-medium text-muted-foreground backdrop-blur-sm", flat ? "bg-background/90" : "bg-card/90")}
+			class={cn(
+				"sticky top-0 z-20 flex h-9 shrink-0 items-center border-b border-border text-xs font-medium text-muted-foreground backdrop-blur-sm",
+				flat ? "bg-background/90" : "bg-card/90",
+			)}
 		>
 			{@render head()}
 		</div>
@@ -357,7 +378,8 @@
 	}
 
 	.tl-chevron {
-		transition: rotate var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: rotate var(--duration-fast, 250ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 
 	.tl-chevron-open {
@@ -370,7 +392,8 @@
 		grid-template-rows: 0fr;
 		opacity: 0;
 		transition:
-			grid-template-rows var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+			grid-template-rows var(--duration-fast, 250ms)
+				var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
 			opacity var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}
 
@@ -385,7 +408,8 @@
 	}
 
 	.tl-row {
-		animation: tl-row-in var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation: tl-row-in var(--duration-slow, 400ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 		animation-delay: calc(var(--tl-i, 0) * var(--duration-stagger, 40ms));
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
 	}

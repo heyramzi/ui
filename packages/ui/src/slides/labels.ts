@@ -23,26 +23,29 @@ export type DeckLabels = {
 };
 
 export const defaultLabels: DeckLabels = {
-  deck: 'Slide deck',
-  deckRole: 'presentation',
-  slideRole: 'slide',
-  previous: 'Previous slide',
-  next: 'Next slide',
-  fullscreen: 'Toggle fullscreen',
-  overview: 'Slide overview',
-  presenter: 'Open presenter view',
-  progress: 'Deck progress',
+  deck: "Slide deck",
+  deckRole: "presentation",
+  slideRole: "slide",
+  previous: "Previous slide",
+  next: "Next slide",
+  fullscreen: "Toggle fullscreen",
+  overview: "Slide overview",
+  presenter: "Open presenter view",
+  progress: "Deck progress",
   slide: (n, of) => `Slide ${n} of ${of}`,
-  upcoming: 'Next',
-  current: 'Now',
-  notes: 'Notes',
-  noNotes: 'No notes for this slide.',
-  endOfDeck: 'End of deck.',
-  timer: 'Elapsed time',
-  startTimer: 'Start timer',
-  pauseTimer: 'Pause timer',
-  resetTimer: 'Reset timer',
+  upcoming: "Next",
+  current: "Now",
+  notes: "Notes",
+  noNotes: "No notes for this slide.",
+  endOfDeck: "End of deck.",
+  timer: "Elapsed time",
+  startTimer: "Start timer",
+  pauseTimer: "Pause timer",
+  resetTimer: "Reset timer",
   unknownType: (type) => `Unknown slide type: ${type}`,
 };
 
-export const resolveLabels = (labels?: Partial<DeckLabels>): DeckLabels => ({ ...defaultLabels, ...labels });
+export const resolveLabels = (labels?: Partial<DeckLabels>): DeckLabels => ({
+  ...defaultLabels,
+  ...labels,
+});

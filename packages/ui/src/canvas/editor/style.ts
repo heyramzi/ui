@@ -2,7 +2,13 @@
 // A change is one patchNode per card, so it is one undo step.
 
 import type { CanvasOp } from "#src/canvas/ops/ops.js";
-import { PEN_COLORS, SHAPE_NODE, STROKE_NODE, TEXT_NODE, type PenColor } from "#src/canvas/pen/types.js";
+import {
+  PEN_COLORS,
+  SHAPE_NODE,
+  STROKE_NODE,
+  TEXT_NODE,
+  type PenColor,
+} from "#src/canvas/pen/types.js";
 
 export type FillValue = PenColor | "none";
 export type FontWeight = "regular" | "bold";

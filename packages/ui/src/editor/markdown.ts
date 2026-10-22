@@ -144,13 +144,13 @@ function parseOrderedList(tokens: Token[], i: number): Parsed {
 }
 
 const BLOCK_PARSERS: Record<string, BlockParser> = {
-  "paragraph_open": parseParagraph,
-  "heading_open": parseHeading,
+  paragraph_open: parseParagraph,
+  heading_open: parseHeading,
   hr: (_tokens, i) => ({ node: { type: "horizontalRule", attrs: { id: null } }, next: i + 1 }),
   fence: parseFence,
-  "blockquote_open": parseBlockquote,
-  "bullet_list_open": parseBulletList,
-  "ordered_list_open": parseOrderedList,
+  blockquote_open: parseBlockquote,
+  bullet_list_open: parseBulletList,
+  ordered_list_open: parseOrderedList,
 };
 
 // Collect tokens between the current position and the matching _close token.
@@ -274,23 +274,23 @@ function openLink(tok: Token, markStack: TiptapMark[]): void {
 
 const INLINE_HANDLERS: Record<string, InlineHandler> = {
   text: textNode,
-  "text_special": textNode,
+  text_special: textNode,
   // WHY: a softbreak is a newline inside a paragraph, so it reads as a space.
   softbreak: () => ({ type: "text", text: " " }),
   hardbreak: () => ({ type: "hardBreak" }),
-  "code_inline": (tok, markStack) => ({
+  code_inline: (tok, markStack) => ({
     type: "text",
     text: tok.content,
     marks: [...markStack, { type: "code" }],
   }),
-  "strong_open": openMark("bold"),
-  "strong_close": closeMark("bold"),
-  "em_open": openMark("italic"),
-  "em_close": closeMark("italic"),
-  "s_open": openMark("strike"),
-  "s_close": closeMark("strike"),
-  "link_open": openLink,
-  "link_close": closeMark("link"),
+  strong_open: openMark("bold"),
+  strong_close: closeMark("bold"),
+  em_open: openMark("italic"),
+  em_close: closeMark("italic"),
+  s_open: openMark("strike"),
+  s_close: closeMark("strike"),
+  link_open: openLink,
+  link_close: closeMark("link"),
 };
 
 function removeLastMark(stack: TiptapMark[], type: string): void {

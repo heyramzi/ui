@@ -1,13 +1,13 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { ICON_PATHS, type IconName } from "#src/canvas/ui/icons.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { ICON_PATHS, type IconName } from "#src/canvas/ui/icons.js";
 
-// =========================
-// PROPS
-// =========================
-let { name, size = 18 }: { name: IconName; size?: number } = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { name, size = 18 }: { name: IconName; size?: number } = $props();
 </script>
 
 <!-- =========================== -->

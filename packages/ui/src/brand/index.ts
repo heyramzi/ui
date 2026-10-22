@@ -86,7 +86,8 @@ export function defineBrand<const B extends Brand>(brand: B): B {
 }
 
 function checked(name: string, value: string): string {
-  if (/[;{}<>]/.test(value)) throw new Error(`brand: ${name} holds a character CSS would read as more than a value`);
+  if (/[;{}<>]/.test(value))
+    throw new Error(`brand: ${name} holds a character CSS would read as more than a value`);
   return value;
 }
 

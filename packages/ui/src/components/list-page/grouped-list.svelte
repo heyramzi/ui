@@ -26,7 +26,7 @@
 		onGroupDragOver?: (e: DragEvent, group: TGroup) => void;
 		onGroupDragLeave?: (e: DragEvent) => void;
 		onGroupDrop?: (e: DragEvent, group: TGroup) => void;
-	};
+	}
 
 	// =========================
 	// PROPS
@@ -77,7 +77,9 @@
 			ondragleave={onGroupDragLeave}
 			ondrop={onGroupDrop ? (e) => onGroupDrop(e, group) : undefined}
 		>
-			<div class="group/header flex items-center gap-1 rounded-lg transition-colors hover:bg-muted/60">
+			<div
+				class="group/header flex items-center gap-1 rounded-lg transition-colors hover:bg-muted/60"
+			>
 				<button
 					type="button"
 					class="flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left"

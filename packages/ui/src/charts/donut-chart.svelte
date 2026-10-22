@@ -25,7 +25,7 @@
 		/** Format the center value */
 		formatValue?: (v: number) => string;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

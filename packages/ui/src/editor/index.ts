@@ -5,10 +5,7 @@ export {
   extractHeadings,
   extractYoutubeVideos,
 } from "#src/editor/serializer.js";
-export type {
-  ExtractedHeading,
-  ExtractedYoutubeVideo,
-} from "#src/editor/serializer.js";
+export type { ExtractedHeading, ExtractedYoutubeVideo } from "#src/editor/serializer.js";
 export { BlockIdExtension, generateBlockId } from "#src/editor/block-id.js";
 
 // WHY: the markdown bridge and block-ops pull in markdown-it, so they aren't

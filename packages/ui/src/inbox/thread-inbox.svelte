@@ -1,12 +1,21 @@
 <script lang="ts">
 	import { tick, type Snippet } from "svelte";
-	import { ArrowLeft, BellSlash, Circle, Envelope, EnvelopeOpen } from "phosphor-svelte";
+	import { ArrowSquareOut, BellSlash, Circle, Envelope, EnvelopeOpen } from "phosphor-svelte";
 	import { AgentAvatar } from "#src/agents/index.js";
-	import { Badge } from "#src/shadcn/badge/index.js";
+	import DetailHeader from "#src/components/list-page/detail-header.svelte";
+	import DetailPanel from "#src/components/list-page/detail-panel.svelte";
+	import FilterItem from "#src/components/list-page/filter-item.svelte";
+	import FilterPopover from "#src/components/list-page/filter-popover.svelte";
+	import MasterDetail from "#src/components/list-page/master-detail.svelte";
+	import RailBody from "#src/components/list-page/rail-body.svelte";
+	import RailEmpty from "#src/components/list-page/rail-empty.svelte";
+	import RailHead from "#src/components/list-page/rail-head.svelte";
+	import RailRow from "#src/components/list-page/rail-row.svelte";
+	import { filterSectionClass } from "#src/components/list-page/filter-section.js";
+	import { queueRailClass, queueRailWidth } from "#src/components/list-page/queue-rail.js";
+	import SegmentedFilter from "#src/components/segmented/segmented-filter.svelte";
 	import { Button } from "#src/shadcn/button/index.js";
-	import * as Empty from "#src/shadcn/empty/index.js";
 	import { Kbd, KbdGroup } from "#src/shadcn/kbd/index.js";
-	import { ToggleGroup, ToggleGroupItem } from "#src/shadcn/toggle-group/index.js";
 	import { cn } from "#src/lib/utils.js";
 	import { TONE_CLASS } from "#src/lib/tone.js";
 	import InboxCard from "#src/tasks/inbox/inbox-card.svelte";
@@ -71,7 +80,12 @@
 			const date = new Date(at);
 			return Number.isNaN(date.getTime())
 				? ""
-				: date.toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+				: date.toLocaleString(undefined, {
+						month: "short",
+						day: "numeric",
+						hour: "numeric",
+						minute: "2-digit",
+					});
 		},
 		onSelect,
 		onRead,
@@ -80,10 +94,13 @@
 		class: className,
 	}: Props = $props();
 
+	const NEEDS_YOU = "needs-you";
+
 	let labels = $derived(resolveInboxLabels(labelOverrides));
 	let filter = $state<InboxFilter>({ ...NO_FILTER });
 	let snoozing = $state(false);
-	let detailOpen = $state(false);
+	let pane = $state<"rail" | "detail">("rail");
+	let root = $state<HTMLDivElement>();
 	let cards = $state<Record<string, ReturnType<typeof InboxCard> | null>>({});
 
 	let all = $derived(threadsOf(entries, { unreadFirst }));
@@ -93,24 +110,28 @@
 	let current = $derived(visible.find((thread) => thread.key === selected) ?? visible[0]);
 	let needsYouCount = $derived(all.filter((thread) => thread.pending.length > 0).length);
 	let filtered = $derived(filter.type !== ALL || filter.who !== ALL || filter.needsYou);
+	let narrowed = $derived(Number(filter.type !== ALL) + Number(filter.who !== ALL));
+	let views = $derived([
+		{ value: ALL, label: labels.all, count: all.length },
+		{ value: NEEDS_YOU, label: labels.needsYou, count: needsYouCount },
+	]);
 	let pinned = $derived(current?.pending[0]);
-	let timeline = $derived(current?.entries.filter((entry) => !current.pending.includes(entry)) ?? []);
+	let timeline = $derived(
+		current?.entries.filter((entry) => !current.pending.includes(entry)) ?? [],
+	);
 
 	function open(thread: InboxThread): void {
 		selected = thread.key;
 		snoozing = false;
-		detailOpen = true;
 		onSelect?.(thread);
 	}
 
 	async function move(step: number): Promise<void> {
 		if (!visible.length) return;
 		const from = current ? visible.indexOf(current) : -1;
-		const next = visible[Math.max(0, Math.min(visible.length - 1, from + step))];
-		open(next);
-		detailOpen = false;
+		open(visible[Math.max(0, Math.min(visible.length - 1, from + step))]);
 		await tick();
-		document.querySelector<HTMLElement>(`[data-thread-key="${CSS.escape(next.key)}"]`)?.focus();
+		root?.querySelector<HTMLElement>('.md-rail [aria-current="page"]')?.focus();
 	}
 
 	function toggleRead(): void {
@@ -152,12 +173,12 @@
 		actions[key]();
 	}
 
-	function setType(next: string | undefined): void {
-		filter = { ...filter, type: next || ALL };
-	}
-
 	function snoozeLabel(id: string): string {
-		return id === "later" ? labels.snoozeLater : id === "tomorrow" ? labels.snoozeTomorrow : labels.snoozeNextWeek;
+		return id === "later"
+			? labels.snoozeLater
+			: id === "tomorrow"
+				? labels.snoozeTomorrow
+				: labels.snoozeNextWeek;
 	}
 
 	function initial(name: string): string {
@@ -178,121 +199,142 @@
 		{:else if actor.avatar}
 			<img src={actor.avatar} alt="" class="size-6 rounded-full object-cover" />
 		{:else}
-			<span class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground" aria-hidden="true">
+			<span
+				class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground"
+				aria-hidden="true"
+			>
 				{initial(actor.name)}
 			</span>
 		{/if}
 	</span>
 {/snippet}
 
+{#snippet subjectStatus()}
+	{#if current}{@render status?.(current.subject)}{/if}
+{/snippet}
+
 <!-- WHY the key handler sits on the region: the shortcuts work wherever focus is inside the inbox and nowhere else on the page. -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-<div role="region" aria-label={labels.title} class={cn("flex h-full min-h-0 flex-col gap-3", className)} {onkeydown}>
-	<div class="flex flex-wrap items-center gap-2">
-		<ToggleGroup type="single" variant="outline" size="sm" value={filter.type} onValueChange={setType} aria-label={labels.filterType}>
-			<ToggleGroupItem value={ALL}>{labels.all}</ToggleGroupItem>
-			{#each types as type (type)}
-				<ToggleGroupItem value={type}>{typeLabels[type] ?? type}</ToggleGroupItem>
-			{/each}
-		</ToggleGroup>
-		<select
-			aria-label={labels.filterWho}
-			value={filter.who}
-			onchange={(event) => (filter = { ...filter, who: event.currentTarget.value })}
-			class="h-7 rounded-lg border border-border bg-background px-2 text-[0.8rem] outline-none focus-visible:ring-3 focus-visible:ring-ring/50 any-pointer-coarse:h-10"
-		>
-			<option value={ALL}>{labels.anyone}</option>
-			{#each people as name (name)}
-				<option value={name}>{name}</option>
-			{/each}
-		</select>
-		<Button
-			size="sm"
-			variant={filter.needsYou ? "default" : "outline"}
-			aria-pressed={filter.needsYou}
-			onclick={() => (filter = { ...filter, needsYou: !filter.needsYou })}
-		>
-			{labels.needsYou}
-			<span class="tabular-nums opacity-70">{needsYouCount}</span>
-		</Button>
-	</div>
-
-	<div class="grid min-h-0 flex-1 gap-3 md:grid-cols-[20rem_minmax(0,1fr)]">
-		<ol class={cn("-mx-1 min-h-0 flex-col gap-1 overflow-y-auto px-1 pb-1", detailOpen ? "max-md:hidden md:flex" : "flex")} aria-label={labels.title}>
-			{#each visible as thread (thread.key)}
-				{@const last = lastEntry(thread)}
-				<li>
-					<button
-						type="button"
-						data-thread-key={thread.key}
-						aria-current={current?.key === thread.key}
-						onclick={() => open(thread)}
-						class={cn(
-							"flex w-full flex-col gap-1 rounded-lg border border-transparent p-2.5 text-start outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-							current?.key === thread.key ? "border-border bg-muted" : "hover:bg-muted/50",
-						)}
+<div
+	role="region"
+	aria-label={labels.title}
+	bind:this={root}
+	class={cn("flex h-full min-h-0 flex-col gap-3", className)}
+	{onkeydown}
+>
+	<MasterDetail
+		bind:pane
+		railWidth={queueRailWidth}
+		railClass={queueRailClass}
+		detailClass="flex flex-col gap-4 overflow-y-auto"
+		pad={false}
+		backLabel={labels.title}
+		class="min-h-0 flex-1"
+	>
+		{#snippet rail()}
+			<RailHead>
+				<div class="flex items-center gap-2">
+					<SegmentedFilter
+						options={views}
+						value={filter.needsYou ? NEEDS_YOU : ALL}
+						onValueChange={(view) => (filter = { ...filter, needsYou: view === NEEDS_YOU })}
+						ariaLabel={labels.title}
+						class="min-w-0 flex-1"
+					/>
+					<FilterPopover
+						label={labels.filter}
+						count={narrowed}
+						align="end"
+						onClear={() => (filter = { ...NO_FILTER, needsYou: filter.needsYou })}
+						clearLabel={labels.clearFilters}
 					>
-						<span class="flex items-center gap-2">
-							{#if thread.unread > 0}
-								<Circle weight="fill" class="size-2 shrink-0 text-primary" aria-hidden="true" />
-							{/if}
-							{#if thread.subject.ref}
-								<span class="text-xs text-muted-foreground tabular-nums">{thread.subject.ref}</span>
-							{/if}
-							<span class={cn("truncate text-sm", thread.unread > 0 ? "font-medium" : "")}>{thread.subject.title}</span>
-							<span class="ms-auto shrink-0 text-xs text-muted-foreground tabular-nums">{when(thread.latestAt)}</span>
-						</span>
-						<span class="flex items-center gap-2 ps-4 text-xs text-muted-foreground">
-							<span class="truncate">{last.actor.name} {entryLine(last, labels)}</span>
-							{#if thread.pending.length > 0}
-								<span class={cn("ms-auto inline-flex h-5 shrink-0 items-center rounded-sm border px-1.5 font-medium", TONE_CLASS.warning)}>
-									{labels.needsYou}
-								</span>
-							{:else if thread.unread > 0}
-								<Badge variant="outline" class="ms-auto tabular-nums" aria-label="{thread.unread} {labels.unread}">{thread.unread}</Badge>
-							{/if}
-						</span>
-					</button>
-				</li>
-			{:else}
-				<li class="h-full">
-					<Empty.Root class="h-full">
-						<Empty.Header>
-							<Empty.Title>
-								{filtered ? (filter.needsYou ? labels.emptyNeedsYou : labels.emptyFiltered) : labels.empty}
-							</Empty.Title>
-						</Empty.Header>
-						{#if filtered}
-							<Empty.Content>
-								<Button size="sm" variant="outline" onclick={() => (filter = { ...NO_FILTER })}>{labels.clearFilters}</Button>
-							</Empty.Content>
+						{#if types.length > 1}
+							<p class={filterSectionClass()}>{labels.kind}</p>
+							{#each [ALL, ...types] as type (type)}
+								<FilterItem
+									variant="radio"
+									checked={filter.type === type}
+									onclick={() => (filter = { ...filter, type })}
+								>
+									{type === ALL ? labels.all : (typeLabels[type] ?? type)}
+								</FilterItem>
+							{/each}
 						{/if}
-					</Empty.Root>
-				</li>
-			{/each}
-		</ol>
+						<p class={filterSectionClass()}>{labels.from}</p>
+						{#each [ALL, ...people] as who (who)}
+							<FilterItem
+								variant="radio"
+								checked={filter.who === who}
+								onclick={() => (filter = { ...filter, who })}
+							>
+								{who === ALL ? labels.anyone : who}
+							</FilterItem>
+						{/each}
+					</FilterPopover>
+				</div>
+			</RailHead>
+			<RailBody>
+				<ol aria-label={labels.title}>
+					{#each visible as thread (thread.key)}
+						{@const last = lastEntry(thread)}
+						<li>
+							<RailRow
+								title={thread.subject.title}
+								titleLines={2}
+								selected={current?.key === thread.key}
+								onclick={() => open(thread)}
+								preview="{last.actor.name} {entryLine(last, labels)}"
+								meta={[thread.subject.ref, when(thread.latestAt)]}
+								metaTruncate="last"
+							>
+								{#snippet trailing()}
+									{#if thread.pending.length > 0}
+										<span
+											class={cn(
+												"inline-flex h-5 items-center rounded-sm border px-1.5 font-medium",
+												TONE_CLASS.warning,
+											)}
+										>
+											{labels.needsYou}
+										</span>
+									{:else if thread.unread > 0}
+										<Circle
+											weight="fill"
+											class="size-2 text-primary"
+											aria-label="{thread.unread} {labels.unread}"
+										/>
+									{/if}
+								{/snippet}
+							</RailRow>
+						</li>
+					{:else}
+						<li class="flex h-full flex-col items-center">
+							<RailEmpty
+								title={filtered
+									? filter.needsYou
+										? labels.emptyNeedsYou
+										: labels.emptyFiltered
+									: labels.empty}
+							/>
+							{#if filtered}
+								<Button size="sm" variant="outline" onclick={() => (filter = { ...NO_FILTER })}
+									>{labels.clearFilters}</Button
+								>
+							{/if}
+						</li>
+					{/each}
+				</ol>
+			</RailBody>
+		{/snippet}
 
-		<section
-			class={cn("min-h-0 flex-col gap-4 overflow-y-auto rounded-xl border border-border p-4", detailOpen ? "flex" : "max-md:hidden md:flex")}
-			aria-label={current?.subject.title ?? labels.selectThread}
-		>
+		{#snippet detail()}
 			{#if current}
-				<header class="flex flex-wrap items-center gap-2">
-					<Button size="sm" variant="ghost" class="md:hidden" onclick={() => (detailOpen = false)} aria-label={labels.title}>
-						<ArrowLeft aria-hidden="true" />
-					</Button>
-					{#if current.subject.ref}
-						<span class="text-xs text-muted-foreground tabular-nums">{current.subject.ref}</span>
-					{/if}
-					<h2 class="min-w-0 truncate text-sm font-medium">
-						{#if current.subject.href}
-							<a href={current.subject.href} class="hover:underline">{current.subject.title}</a>
-						{:else}
-							{current.subject.title}
-						{/if}
-					</h2>
-					{@render status?.(current.subject)}
-					<span class="ms-auto flex items-center gap-1">
+				<DetailHeader
+					title={current.subject.title}
+					meta={[current.subject.ref]}
+					badge={status ? subjectStatus : undefined}
+				>
+					{#snippet actions()}
 						<Button size="sm" variant="ghost" onclick={toggleRead} aria-keyshortcuts="u">
 							{#if current.unread > 0}
 								<EnvelopeOpen aria-hidden="true" />{labels.markRead}
@@ -300,11 +342,22 @@
 								<Envelope aria-hidden="true" />{labels.markUnread}
 							{/if}
 						</Button>
-						<Button size="sm" variant="ghost" onclick={() => (snoozing = !snoozing)} aria-expanded={snoozing} aria-keyshortcuts="h">
+						<Button
+							size="sm"
+							variant="ghost"
+							onclick={() => (snoozing = !snoozing)}
+							aria-expanded={snoozing}
+							aria-keyshortcuts="h"
+						>
 							<BellSlash aria-hidden="true" />{labels.snooze}
 						</Button>
-					</span>
-				</header>
+						{#if current.subject.href}
+							<Button size="sm" variant="ghost" href={current.subject.href}>
+								<ArrowSquareOut aria-hidden="true" />{labels.open}
+							</Button>
+						{/if}
+					{/snippet}
+				</DetailHeader>
 
 				{#if snoozing}
 					<div class="flex flex-wrap gap-2" role="group" aria-label={labels.snooze}>
@@ -326,38 +379,61 @@
 					/>
 				{/each}
 
-				<ol class="flex flex-col gap-4">
-					{#each timeline as entry (entry.id)}
-						<li class={cn("flex gap-3", !entry.read && "font-medium")}>
-							{@render face(entry.actor)}
-							<div class="min-w-0 flex-1">
-								<div class="flex flex-wrap items-center gap-x-2 text-[13px]">
-									<span class="truncate font-medium">{entry.actor.name}</span>
-									{#if entry.actor.kind === "agent"}
-										<span class={cn("inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium", TONE_CLASS.accent)}>
-											{labels.agent}
-										</span>
-									{/if}
-									<span class="font-normal text-muted-foreground">{entryLine(entry, labels)}</span>
-									<span class="ms-auto text-xs font-normal text-muted-foreground tabular-nums">{when(entry.at)}</span>
-								</div>
-								{#if entry.body}
-									<p class="mt-1 text-sm leading-relaxed font-normal whitespace-pre-wrap text-pretty">{entry.body}</p>
-								{/if}
-							</div>
-						</li>
-					{/each}
-				</ol>
+				{#if timeline.length > 0}
+					<DetailPanel>
+						<ol class="flex flex-col gap-4">
+							{#each timeline as entry (entry.id)}
+								<li class={cn("flex gap-3", !entry.read && "font-medium")}>
+									{@render face(entry.actor)}
+									<div class="min-w-0 flex-1">
+										<div class="flex flex-wrap items-center gap-x-2 text-[13px]">
+											<span class="truncate font-medium">{entry.actor.name}</span>
+											{#if entry.actor.kind === "agent"}
+												<span
+													class={cn(
+														"inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium",
+														TONE_CLASS.accent,
+													)}
+												>
+													{labels.agent}
+												</span>
+											{/if}
+											<span class="font-normal text-muted-foreground"
+												>{entryLine(entry, labels)}</span
+											>
+											<span class="ms-auto text-xs font-normal text-muted-foreground tabular-nums"
+												>{when(entry.at)}</span
+											>
+										</div>
+										{#if entry.body}
+											<p
+												class="mt-1 text-sm leading-relaxed font-normal whitespace-pre-wrap text-pretty"
+											>
+												{entry.body}
+											</p>
+										{/if}
+									</div>
+								</li>
+							{/each}
+						</ol>
+					</DetailPanel>
+				{/if}
 			{:else}
-				<p class="text-sm text-muted-foreground">{labels.selectThread}</p>
+				<RailEmpty title={labels.selectThread} />
 			{/if}
-		</section>
-	</div>
+		{/snippet}
+	</MasterDetail>
 
-	<footer class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground max-sm:hidden">
-		<span class="inline-flex items-center gap-1.5"><KbdGroup><Kbd>j</Kbd><Kbd>k</Kbd></KbdGroup> {labels.hintMove}</span>
+	<footer
+		class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground max-sm:hidden"
+	>
+		<span class="inline-flex items-center gap-1.5"
+			><KbdGroup><Kbd>j</Kbd><Kbd>k</Kbd></KbdGroup> {labels.hintMove}</span
+		>
 		<span class="inline-flex items-center gap-1.5"><Kbd>u</Kbd> {labels.hintRead}</span>
 		<span class="inline-flex items-center gap-1.5"><Kbd>h</Kbd> {labels.hintSnooze}</span>
-		<span class="inline-flex items-center gap-1.5"><KbdGroup><Kbd>a</Kbd><Kbd>d</Kbd><Kbd>s</Kbd><Kbd>e</Kbd></KbdGroup> {labels.hintAct}</span>
+		<span class="inline-flex items-center gap-1.5"
+			><KbdGroup><Kbd>a</Kbd><Kbd>d</Kbd><Kbd>s</Kbd><Kbd>e</Kbd></KbdGroup> {labels.hintAct}</span
+		>
 	</footer>
 </div>

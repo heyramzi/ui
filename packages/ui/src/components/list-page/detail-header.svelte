@@ -1,52 +1,61 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// Answers three questions in one order: what is this, what state is it in,
-	// what can I do with it. Each queue page used to order them differently.
-	title: string;
-	// The state chip beside the title.
-	badge?: Snippet;
-	// A picture ahead of the title, like a video frame or a deck cover. Some
-	// records aren't recognisable from their title alone.
-	leading?: Snippet;
-	// Facts about the record, rendered as one dot-separated line under the
-	// title. Falsy entries drop out, so a caller can inline its conditionals.
-	meta?: Array<string | null | undefined | false>;
-	// A sentence under the meta line, when the record explains itself.
-	note?: string | null;
-	// What you can do to the record. Pinned right of the identity block, EXCEPT
-	// when a picture leads: see the note in the markup.
-	actions?: Snippet;
-	// The top-right control, a record's way out. Pass `undefined` when empty:
-	// an empty snippet is still truthy and reserves the corner.
-	corner?: Snippet;
-	// Hairline-separated rows below the identity block. Use `DetailRow`.
-	children?: Snippet;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// Answers three questions in one order: what is this, what state is it in,
+		// what can I do with it. Each queue page used to order them differently.
+		title: string;
+		// The state chip beside the title.
+		badge?: Snippet;
+		// A picture ahead of the title, like a video frame or a deck cover. Some
+		// records aren't recognisable from their title alone.
+		leading?: Snippet;
+		// Facts about the record, rendered as one dot-separated line under the
+		// title. Falsy entries drop out, so a caller can inline its conditionals.
+		meta?: Array<string | null | undefined | false>;
+		// A sentence under the meta line, when the record explains itself.
+		note?: string | null;
+		// What you can do to the record. Pinned right of the identity block, EXCEPT
+		// when a picture leads: see the note in the markup.
+		actions?: Snippet;
+		// The top-right control, a record's way out. Pass `undefined` when empty:
+		// an empty snippet is still truthy and reserves the corner.
+		corner?: Snippet;
+		// Hairline-separated rows below the identity block. Use `DetailRow`.
+		children?: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { title, badge, leading, meta, note, actions, corner, children, class: className }: Props =
-	$props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		title,
+		badge,
+		leading,
+		meta,
+		note,
+		actions,
+		corner,
+		children,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let facts = $derived((meta ?? []).filter((item): item is string => Boolean(item)));
-// Actions stack under the meta when something else claims the right edge:
-// a picture, or the corner. Pinned beside a corner, they left the title
-// a third of the row.
-let stackActions = $derived(Boolean(leading || corner));
+	// =========================
+	// DERIVED
+	// =========================
+	let facts = $derived((meta ?? []).filter((item): item is string => Boolean(item)));
+	// Actions stack under the meta when something else claims the right edge:
+	// a picture, or the corner. Pinned beside a corner, they left the title
+	// a third of the row.
+	let stackActions = $derived(Boolean(leading || corner));
 </script>
 
 <!-- =========================== -->
@@ -69,8 +78,7 @@ let stackActions = $derived(Boolean(leading || corner));
 			<!-- No text-balance: it evens the lines out, so a two-line title stopped
 			     short of the corner instead of running the full width. -->
 			<h2 class="min-w-0 font-heading text-lg font-semibold leading-snug tracking-tight">
-				{title}{#if badge}<span class="ms-2 inline-flex align-middle">{@render badge()}</span
-					>{/if}
+				{title}{#if badge}<span class="ms-2 inline-flex align-middle">{@render badge()}</span>{/if}
 			</h2>
 			{#if facts.length > 0}
 				<!-- Each dot hangs off the fact it leads, so a wrapped line's dot stays

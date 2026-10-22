@@ -39,7 +39,7 @@
 		content?: Snippet;
 		empty?: Snippet;
 		extra?: Snippet;
-	};
+	}
 
 	// =========================
 	// PROPS
@@ -105,10 +105,7 @@
 	let innerClass = $derived(
 		maxWidth === false
 			? cn("flex min-w-0 flex-1 flex-col gap-4", fillHeight && "min-h-0")
-			: cn(
-					"mx-auto flex w-full min-w-0 flex-1 flex-col gap-4",
-					fillHeight && "min-h-0",
-				),
+			: cn("mx-auto flex w-full min-w-0 flex-1 flex-col gap-4", fillHeight && "min-h-0"),
 	);
 	let innerStyle = $derived(maxWidth ? `max-width: ${maxWidth}` : undefined);
 </script>

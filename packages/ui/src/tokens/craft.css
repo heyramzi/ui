@@ -37,7 +37,6 @@
    out; the hue of the app's own darkest surface keeps the shadow in the
    family. */
 :root {
-
   /* Resting on the page. A button, a chip, a row. */
   --elev-btn:
     0 1px 1px -0.5px color-mix(in oklab, var(--elev-tint) 7%, transparent),

@@ -42,7 +42,8 @@
 		avatar,
 		attachments,
 		anchorChip,
-		when = (comment) => new Date(comment.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+		when = (comment) =>
+			new Date(comment.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
 		onPost,
 		onEdit,
 		onDelete,
@@ -106,8 +107,16 @@
 	}
 </script>
 
-{#snippet composer(value: string, placeholder: string, onSend: () => Promise<void>, set: (next: string) => void, isReply: boolean)}
-	<div class="rounded-lg border border-input transition-shadow focus-within:ring-3 focus-within:ring-ring/50">
+{#snippet composer(
+	value: string,
+	placeholder: string,
+	onSend: () => Promise<void>,
+	set: (next: string) => void,
+	isReply: boolean,
+)}
+	<div
+		class="rounded-lg border border-input transition-shadow focus-within:ring-3 focus-within:ring-ring/50"
+	>
 		<!-- svelte-ignore a11y_autofocus -->
 		<textarea
 			{value}
@@ -120,7 +129,12 @@
 			class="block max-h-60 min-h-16 w-full resize-none border-0 bg-transparent px-3 py-2 text-sm leading-relaxed outline-none [field-sizing:content] placeholder:text-muted-foreground"
 		></textarea>
 		<div class="flex justify-end px-2 pb-2">
-			<button type="button" class="thread-button thread-primary" onclick={onSend} disabled={!value.trim() || sending}>
+			<button
+				type="button"
+				class="thread-button thread-primary"
+				onclick={onSend}
+				disabled={!value.trim() || sending}
+			>
 				{sending ? labels.sending : isReply ? labels.reply : labels.send}
 			</button>
 		</div>
@@ -137,7 +151,10 @@
 			{:else if comment.author.avatar}
 				<img src={comment.author.avatar} alt="" class="size-6 rounded-full object-cover" />
 			{:else}
-				<span class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground" aria-hidden="true">
+				<span
+					class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground"
+					aria-hidden="true"
+				>
 					{initial(comment.author.name)}
 				</span>
 			{/if}
@@ -147,7 +164,12 @@
 			<div class="flex min-h-6 flex-wrap items-center gap-x-2">
 				<span class="truncate text-[13px] font-medium">{comment.author.name}</span>
 				{#if comment.author.kind === "agent"}
-					<span class={cn("inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium", TONE_CLASS.accent)}>
+					<span
+						class={cn(
+							"inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium",
+							TONE_CLASS.accent,
+						)}
+					>
 						{labels.agent}
 					</span>
 				{/if}
@@ -163,11 +185,15 @@
 							<MapPin class="size-3" aria-hidden="true" />{labels.pinned}
 						</button>
 					{:else}
-						<span class="thread-chip"><MapPin class="size-3" aria-hidden="true" />{labels.pinned}</span>
+						<span class="thread-chip"
+							><MapPin class="size-3" aria-hidden="true" />{labels.pinned}</span
+						>
 					{/if}
 				{/if}
 				{#if editingId !== comment.id}
-					<span class="ms-auto flex gap-0.5 opacity-0 transition-opacity group-hover/row:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100">
+					<span
+						class="ms-auto flex gap-0.5 opacity-0 transition-opacity group-hover/row:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100"
+					>
 						{#if isRoot && onResolve}
 							<button
 								type="button"
@@ -181,12 +207,25 @@
 						{/if}
 						{#if canEdit(comment)}
 							{#if onEdit && !comment.content}
-								<button type="button" class="thread-icon" aria-label={labels.edit} onclick={() => { editingId = comment.id; editDraft = comment.body; }}>
+								<button
+									type="button"
+									class="thread-icon"
+									aria-label={labels.edit}
+									onclick={() => {
+										editingId = comment.id;
+										editDraft = comment.body;
+									}}
+								>
 									<PencilSimple class="size-3.5" aria-hidden="true" />
 								</button>
 							{/if}
 							{#if onDelete}
-								<button type="button" class="thread-icon" aria-label={labels.delete} onclick={() => onDelete?.(comment)}>
+								<button
+									type="button"
+									class="thread-icon"
+									aria-label={labels.delete}
+									onclick={() => onDelete?.(comment)}
+								>
 									<Trash class="size-3.5" aria-hidden="true" />
 								</button>
 							{/if}
@@ -203,8 +242,14 @@
 					class="mt-1 w-full resize-y rounded-md border border-input bg-transparent px-2.5 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
 				></textarea>
 				<div class="mt-2 flex justify-end gap-1.5">
-					<button type="button" class="thread-button" onclick={() => (editingId = null)}>{labels.cancel}</button>
-					<button type="button" class="thread-button thread-primary" onclick={() => saveEdit(comment)}>{labels.save}</button>
+					<button type="button" class="thread-button" onclick={() => (editingId = null)}
+						>{labels.cancel}</button
+					>
+					<button
+						type="button"
+						class="thread-button thread-primary"
+						onclick={() => saveEdit(comment)}>{labels.save}</button
+					>
 				</div>
 			{:else if comment.content}
 				<div class="text-sm leading-relaxed"><RichRenderer content={comment.content} /></div>
@@ -221,7 +266,12 @@
 	<div class="flex h-7 items-center justify-between">
 		<h2 class="text-xs font-medium text-muted-foreground">{labels.title}</h2>
 		{#if resolved > 0}
-			<button type="button" class="thread-button" aria-expanded={showResolved} onclick={() => (showResolved = !showResolved)}>
+			<button
+				type="button"
+				class="thread-button"
+				aria-expanded={showResolved}
+				onclick={() => (showResolved = !showResolved)}
+			>
 				{showResolved ? labels.hideResolved : fillCount(labels.showResolved, resolved)}
 			</button>
 		{/if}
@@ -242,7 +292,10 @@
 	{:else if shown.length > 0}
 		<ol class="flex flex-col gap-4">
 			{#each shown as node (node.comment.id)}
-				<li class={cn("flex flex-col gap-3", node.comment.resolved && "opacity-60")} data-resolved={node.comment.resolved || undefined}>
+				<li
+					class={cn("flex flex-col gap-3", node.comment.resolved && "opacity-60")}
+					data-resolved={node.comment.resolved || undefined}
+				>
 					{@render row(node.comment, true)}
 					{#if node.comment.resolved}
 						<span class="ms-9 text-xs text-muted-foreground">{labels.resolved}</span>
@@ -257,10 +310,23 @@
 					{#if onPost && !node.comment.resolved}
 						{#if replyTo === node.comment.id}
 							<div class="ms-9">
-								{@render composer(replyDraft, labels.replyPlaceholder, sendReply, (next) => (replyDraft = next), true)}
+								{@render composer(
+									replyDraft,
+									labels.replyPlaceholder,
+									sendReply,
+									(next) => (replyDraft = next),
+									true,
+								)}
 							</div>
 						{:else}
-							<button type="button" class="thread-button ms-9 flex w-fit items-center gap-1.5" onclick={() => { replyTo = node.comment.id; replyDraft = ""; }}>
+							<button
+								type="button"
+								class="thread-button ms-9 flex w-fit items-center gap-1.5"
+								onclick={() => {
+									replyTo = node.comment.id;
+									replyDraft = "";
+								}}
+							>
 								<ArrowBendDownRight class="size-3.5" aria-hidden="true" />{labels.reply}
 							</button>
 						{/if}

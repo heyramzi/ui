@@ -6,7 +6,7 @@
 		running?: boolean;
 		size?: number;
 		class?: string;
-	};
+	}
 
 	let { running = false, size = 8, class: className }: Props = $props();
 </script>

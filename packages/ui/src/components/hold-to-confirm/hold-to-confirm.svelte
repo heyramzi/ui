@@ -183,7 +183,11 @@
 		width: 2px;
 		margin-left: -2px;
 		opacity: 0;
-		background: color-mix(in oklch, var(--color-destructive-foreground) 65%, var(--color-destructive));
+		background: color-mix(
+			in oklch,
+			var(--color-destructive-foreground) 65%,
+			var(--color-destructive)
+		);
 		box-shadow: 0 0 4px 0 color-mix(in oklch, var(--color-destructive) 92%, transparent);
 		transition:
 			left var(--duration-quick) var(--ease-smooth-out),

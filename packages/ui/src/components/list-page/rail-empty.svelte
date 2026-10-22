@@ -1,36 +1,29 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
-import * as Empty from "#src/shadcn/empty/index.js";
-import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
+	import * as Empty from "#src/shadcn/empty/index.js";
+	import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// Not `EmptyState`, which has a 48px icon and an action. This says a filter
-	// came back empty, in one sentence that fits a 280px rail.
-	icon?: PhosphorIcon;
-	iconWeight?: IconWeight;
-	iconClass?: string;
-	title: string;
-	hint?: string;
-	class?: string;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// Not `EmptyState`, which has a 48px icon and an action. This says a filter
+		// came back empty, in one sentence that fits a 280px rail.
+		icon?: PhosphorIcon;
+		iconWeight?: IconWeight;
+		iconClass?: string;
+		title: string;
+		hint?: string;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	icon: Icon,
-	iconWeight,
-	iconClass,
-	title,
-	hint,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { icon: Icon, iconWeight, iconClass, title, hint, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

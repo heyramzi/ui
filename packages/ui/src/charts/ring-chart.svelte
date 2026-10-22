@@ -45,7 +45,7 @@
 		/** Replaces the center readout, for a number that isn't the ring's own value. */
 		children?: Snippet;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

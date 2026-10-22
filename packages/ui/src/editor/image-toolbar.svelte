@@ -1,32 +1,28 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { Trash, TextAlignLeft, TextAlignCenter, TextAlignRight } from "phosphor-svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Trash, TextAlignLeft, TextAlignCenter, TextAlignRight } from "phosphor-svelte";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	pos: { top: number; left: number };
-	onalign: (align: "left" | "center" | "right") => void;
-	ondelete: () => void;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		pos: { top: number; left: number };
+		onalign: (align: "left" | "center" | "right") => void;
+		ondelete: () => void;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { pos, onalign, ondelete }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { pos, onalign, ondelete }: Props = $props();
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div
-	class="image-toolbar"
-	style="top: {pos.top}px; left: {pos.left}px;"
-	role="toolbar"
->
+<div class="image-toolbar" style="top: {pos.top}px; left: {pos.left}px;" role="toolbar">
 	<button
 		type="button"
 		class="image-toolbar-btn"
@@ -92,7 +88,9 @@ let { pos, onalign, ondelete }: Props = $props();
 		background: transparent;
 		color: var(--color-muted-foreground);
 		cursor: pointer;
-		transition: opacity var(--duration-quick) var(--ease-smooth-out), transform var(--duration-quick) var(--ease-smooth-out);
+		transition:
+			opacity var(--duration-quick) var(--ease-smooth-out),
+			transform var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {

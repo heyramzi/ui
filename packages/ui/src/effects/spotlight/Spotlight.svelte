@@ -11,7 +11,7 @@
 	interface Props {
 		class?: string;
 		fill?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

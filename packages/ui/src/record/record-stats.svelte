@@ -1,31 +1,31 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
-import type { PanelStat } from "#src/panel/side-panel-types.js";
-import { gutterClass } from "#src/record/gutter.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
+	import type { PanelStat } from "#src/panel/side-panel-types.js";
+	import { gutterClass } from "#src/record/gutter.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	stats: PanelStat[];
-	/** Sits flush with the record's gutter. Off inside a card. */
-	gutter?: boolean;
-	class?: string;
-}
-let { stats, gutter = true, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		stats: PanelStat[];
+		/** Sits flush with the record's gutter. Off inside a card. */
+		gutter?: boolean;
+		class?: string;
+	}
+	let { stats, gutter = true, class: className }: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-const TONE = {
-	default: "",
-	muted: "text-muted-foreground",
-	good: "text-success",
-	bad: "text-destructive",
-} as const;
+	// =========================
+	// DERIVED
+	// =========================
+	const TONE = {
+		default: "",
+		muted: "text-muted-foreground",
+		good: "text-success",
+		bad: "text-destructive",
+	} as const;
 </script>
 
 <!-- =========================== -->

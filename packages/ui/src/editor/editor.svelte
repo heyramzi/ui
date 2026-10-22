@@ -1,290 +1,318 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { Editor } from "@tiptap/core";
-import { untrack } from "svelte";
-import "#src/editor/content.css";
-import { buildExtensions } from "#src/editor/extensions.js";
-import { buildSlashItems, type SlashItem } from "#src/editor/slash-items.js";
-import { parseYoutubeUrl } from "#src/editor/youtube-url.js";
-import EditorToolbar from "#src/editor/editor-toolbar.svelte";
-import SlashMenu from "#src/editor/slash-menu.svelte";
-import ImageToolbar from "#src/editor/image-toolbar.svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Editor } from "@tiptap/core";
+	import { untrack } from "svelte";
+	import "#src/editor/content.css";
+	import { buildExtensions } from "#src/editor/extensions.js";
+	import { buildSlashItems, type SlashItem } from "#src/editor/slash-items.js";
+	import { parseYoutubeUrl } from "#src/editor/youtube-url.js";
+	import EditorToolbar from "#src/editor/editor-toolbar.svelte";
+	import SlashMenu from "#src/editor/slash-menu.svelte";
+	import ImageToolbar from "#src/editor/image-toolbar.svelte";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	content?: Record<string, unknown> | null;
-	onchange?: (json: Record<string, unknown>) => void;
-	placeholder?: string;
-	minHeight?: string;
-	preset?: "full" | "notes";
-	blockIds?: boolean;
-}
-
-// =========================
-// PROPS
-// =========================
-let { content = null, onchange, placeholder = "Start writing...", minHeight = "28rem", preset = "full", blockIds = false }: Props = $props();
-
-// =========================
-// STATE
-// =========================
-let editorElement: HTMLDivElement | undefined = $state();
-let editorInstance = $state<Editor | null>(null);
-let tick = $state(0);
-
-// Slash commands
-let showSlashMenu = $state(false);
-let slashQuery = $state("");
-let slashMenuPos = $state({ top: 0, left: 0 });
-let slashSelectedIndex = $state(0);
-let slashMenuEl: HTMLDivElement | undefined = $state();
-
-// Image toolbar
-let showImageToolbar = $state(false);
-let imageToolbarPos = $state({ top: 0, left: 0 });
-let activeImageElement: HTMLImageElement | null = $state(null);
-
-// =========================
-// DERIVED
-// =========================
-let editor: Editor | null = $derived(tick >= 0 ? editorInstance : null);
-
-let slashItems = $derived.by((): SlashItem[] =>
-	editor ? buildSlashItems(editor, slashQuery, { preset, insertImage: insertImageFromSlash, insertYoutube: insertYoutubeVideo }) : [],
-);
-
-// =========================
-// EFFECTS
-// =========================
-$effect(() => {
-	if (showSlashMenu) {
-		slashSelectedIndex = 0;
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		content?: Record<string, unknown> | null;
+		onchange?: (json: Record<string, unknown>) => void;
+		placeholder?: string;
+		minHeight?: string;
+		preset?: "full" | "notes";
+		blockIds?: boolean;
 	}
-});
 
-// Close menus on outside click
-$effect(() => {
-	if (!showSlashMenu && !showImageToolbar) return;
-	function handleClick(e: MouseEvent) {
-		const target = e.target as Node;
-		if (slashMenuEl && !slashMenuEl.contains(target)) {
-			closeSlashMenu();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		content = null,
+		onchange,
+		placeholder = "Start writing...",
+		minHeight = "28rem",
+		preset = "full",
+		blockIds = false,
+	}: Props = $props();
+
+	// =========================
+	// STATE
+	// =========================
+	let editorElement: HTMLDivElement | undefined = $state();
+	let editorInstance = $state<Editor | null>(null);
+	let tick = $state(0);
+
+	// Slash commands
+	let showSlashMenu = $state(false);
+	let slashQuery = $state("");
+	let slashMenuPos = $state({ top: 0, left: 0 });
+	let slashSelectedIndex = $state(0);
+	let slashMenuEl: HTMLDivElement | undefined = $state();
+
+	// Image toolbar
+	let showImageToolbar = $state(false);
+	let imageToolbarPos = $state({ top: 0, left: 0 });
+	let activeImageElement: HTMLImageElement | null = $state(null);
+
+	// =========================
+	// DERIVED
+	// =========================
+	let editor: Editor | null = $derived(tick >= 0 ? editorInstance : null);
+
+	let slashItems = $derived.by((): SlashItem[] =>
+		editor
+			? buildSlashItems(editor, slashQuery, {
+					preset,
+					insertImage: insertImageFromSlash,
+					insertYoutube: insertYoutubeVideo,
+				})
+			: [],
+	);
+
+	// =========================
+	// EFFECTS
+	// =========================
+	$effect(() => {
+		if (showSlashMenu) {
+			slashSelectedIndex = 0;
 		}
-		// Close image toolbar when clicking outside editor or on non-image
-		if (showImageToolbar && editorElement && !editorElement.contains(target)) {
-			showImageToolbar = false;
-			activeImageElement = null;
+	});
+
+	// Close menus on outside click
+	$effect(() => {
+		if (!showSlashMenu && !showImageToolbar) return;
+		function handleClick(e: MouseEvent) {
+			const target = e.target as Node;
+			if (slashMenuEl && !slashMenuEl.contains(target)) {
+				closeSlashMenu();
+			}
+			// Close image toolbar when clicking outside editor or on non-image
+			if (showImageToolbar && editorElement && !editorElement.contains(target)) {
+				showImageToolbar = false;
+				activeImageElement = null;
+			}
+		}
+		document.addEventListener("mousedown", handleClick);
+		return () => document.removeEventListener("mousedown", handleClick);
+	});
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function insertImageFromSlash() {
+		const url = prompt("Image URL:");
+		if (url?.trim()) {
+			editor?.chain().focus().setImage({ src: url.trim() }).run();
 		}
 	}
-	document.addEventListener("mousedown", handleClick);
-	return () => document.removeEventListener("mousedown", handleClick);
-});
 
-// =========================
-// FUNCTIONS
-// =========================
-function insertImageFromSlash() {
-	const url = prompt("Image URL:");
-	if (url?.trim()) {
-		editor?.chain().focus().setImage({ src: url.trim() }).run();
+	function insertYoutubeVideo() {
+		const url = prompt("YouTube URL:");
+		if (!url?.trim()) return;
+		const parsed = parseYoutubeUrl(url.trim());
+		if (!parsed) {
+			alert("That is not a recognized YouTube URL.");
+			return;
+		}
+		const title = prompt("Video title:")?.trim() || "";
+		editor
+			?.chain()
+			.focus()
+			.insertContent({
+				type: "youtube",
+				attrs: { videoId: parsed.videoId, title, start: parsed.start },
+			})
+			.run();
 	}
-}
 
-function insertYoutubeVideo() {
-	const url = prompt("YouTube URL:");
-	if (!url?.trim()) return;
-	const parsed = parseYoutubeUrl(url.trim());
-	if (!parsed) {
-		alert("That is not a recognized YouTube URL.");
-		return;
+	function closeSlashMenu() {
+		showSlashMenu = false;
+		slashQuery = "";
 	}
-	const title = prompt("Video title:")?.trim() || "";
-	editor
-		?.chain()
-		.focus()
-		.insertContent({ type: "youtube", attrs: { videoId: parsed.videoId, title, start: parsed.start } })
-		.run();
-}
 
-function closeSlashMenu() {
-	showSlashMenu = false;
-	slashQuery = "";
-}
+	function executeSlashCommand(item: SlashItem) {
+		if (!editor) return;
+		const { from } = editor.state.selection;
+		const slashStart = from - slashQuery.length - 1;
+		editor.chain().focus().deleteRange({ from: slashStart, to: from }).run();
+		item.command();
+		closeSlashMenu();
+	}
 
-function executeSlashCommand(item: SlashItem) {
-	if (!editor) return;
-	const { from } = editor.state.selection;
-	const slashStart = from - slashQuery.length - 1;
-	editor.chain().focus().deleteRange({ from: slashStart, to: from }).run();
-	item.command();
-	closeSlashMenu();
-}
+	function getCaretCoords(): { top: number; left: number } {
+		const sel = window.getSelection();
+		if (!sel || sel.rangeCount === 0) return { top: 0, left: 0 };
+		const range = sel.getRangeAt(0);
+		const rect = range.getBoundingClientRect();
+		const wrapperRect = editorElement?.getBoundingClientRect();
+		if (!wrapperRect) return { top: 0, left: 0 };
+		return {
+			top: rect.bottom - wrapperRect.top + 4,
+			left: rect.left - wrapperRect.left,
+		};
+	}
 
-function getCaretCoords(): { top: number; left: number } {
-	const sel = window.getSelection();
-	if (!sel || sel.rangeCount === 0) return { top: 0, left: 0 };
-	const range = sel.getRangeAt(0);
-	const rect = range.getBoundingClientRect();
-	const wrapperRect = editorElement?.getBoundingClientRect();
-	if (!wrapperRect) return { top: 0, left: 0 };
-	return {
-		top: rect.bottom - wrapperRect.top + 4,
-		left: rect.left - wrapperRect.left,
-	};
-}
+	function setImageAlignment(align: "left" | "center" | "right") {
+		if (!editor || !activeImageElement) return;
+		const { state } = editor;
+		const { selection } = state;
+		const { from, to } = selection;
 
-function setImageAlignment(align: "left" | "center" | "right") {
-	if (!editor || !activeImageElement) return;
-	const { state } = editor;
-	const { selection } = state;
-	const { from, to } = selection;
-
-	editor.chain().focus().command(({ tr }) => {
-		tr.doc.nodesBetween(from, to, (node, pos) => {
-			if (node.type.name === "image") {
-				tr.setNodeMarkup(pos, undefined, { ...node.attrs, align });
-			}
-			return true;
-		});
-		return true;
-	}).run();
-
-	showImageToolbar = false;
-	activeImageElement = null;
-}
-
-function deleteActiveImage() {
-	if (!editor || !activeImageElement) return;
-	const { state } = editor;
-	const { selection } = state;
-	const { from, to } = selection;
-
-	editor.chain().focus().command(({ tr }) => {
-		tr.doc.nodesBetween(from, to, (node, pos) => {
-			if (node.type.name === "image") {
-				tr.delete(pos, pos + node.nodeSize);
-			}
-			return false;
-		});
-		return true;
-	}).run();
-
-	showImageToolbar = false;
-	activeImageElement = null;
-}
-
-function mount() {
-	if (!editorElement || editorInstance) return;
-
-	const extensions = buildExtensions({ preset, placeholder, blockIds });
-
-	editorInstance = new Editor({
-		element: editorElement,
-		extensions,
-		content: content ?? { type: "doc", content: [{ type: "paragraph" }] },
-		editorProps: {
-			handleKeyDown: (_view, event) => {
-				if (showSlashMenu) {
-					if (event.key === "ArrowDown") {
-						event.preventDefault();
-						slashSelectedIndex = (slashSelectedIndex + 1) % slashItems.length;
-						return true;
+		editor
+			.chain()
+			.focus()
+			.command(({ tr }) => {
+				tr.doc.nodesBetween(from, to, (node, pos) => {
+					if (node.type.name === "image") {
+						tr.setNodeMarkup(pos, undefined, { ...node.attrs, align });
 					}
-					if (event.key === "ArrowUp") {
-						event.preventDefault();
-						slashSelectedIndex = (slashSelectedIndex - 1 + slashItems.length) % slashItems.length;
-						return true;
+					return true;
+				});
+				return true;
+			})
+			.run();
+
+		showImageToolbar = false;
+		activeImageElement = null;
+	}
+
+	function deleteActiveImage() {
+		if (!editor || !activeImageElement) return;
+		const { state } = editor;
+		const { selection } = state;
+		const { from, to } = selection;
+
+		editor
+			.chain()
+			.focus()
+			.command(({ tr }) => {
+				tr.doc.nodesBetween(from, to, (node, pos) => {
+					if (node.type.name === "image") {
+						tr.delete(pos, pos + node.nodeSize);
 					}
-					if (event.key === "Enter") {
-						event.preventDefault();
-						if (slashItems[slashSelectedIndex]) {
-							executeSlashCommand(slashItems[slashSelectedIndex]);
+					return false;
+				});
+				return true;
+			})
+			.run();
+
+		showImageToolbar = false;
+		activeImageElement = null;
+	}
+
+	function mount() {
+		if (!editorElement || editorInstance) return;
+
+		const extensions = buildExtensions({ preset, placeholder, blockIds });
+
+		editorInstance = new Editor({
+			element: editorElement,
+			extensions,
+			content: content ?? { type: "doc", content: [{ type: "paragraph" }] },
+			editorProps: {
+				handleKeyDown: (_view, event) => {
+					if (showSlashMenu) {
+						if (event.key === "ArrowDown") {
+							event.preventDefault();
+							slashSelectedIndex = (slashSelectedIndex + 1) % slashItems.length;
+							return true;
+						}
+						if (event.key === "ArrowUp") {
+							event.preventDefault();
+							slashSelectedIndex = (slashSelectedIndex - 1 + slashItems.length) % slashItems.length;
+							return true;
+						}
+						if (event.key === "Enter") {
+							event.preventDefault();
+							if (slashItems[slashSelectedIndex]) {
+								executeSlashCommand(slashItems[slashSelectedIndex]);
+							}
+							return true;
+						}
+						if (event.key === "Escape") {
+							event.preventDefault();
+							closeSlashMenu();
+							return true;
+						}
+						if (event.key === "Backspace" && slashQuery.length === 0) {
+							closeSlashMenu();
+							return false;
+						}
+					}
+					return false;
+				},
+				// handleClick, not handleClickOn: ProseMirror tries both in the same spot, and
+				// this one needs only the event.
+				handleClick(_view, _pos, event) {
+					const target = event.target as HTMLElement;
+					if (preset === "full" && target?.tagName === "IMG") {
+						activeImageElement = target as HTMLImageElement;
+						const rect = target.getBoundingClientRect();
+						const wrapperRect = editorElement?.getBoundingClientRect();
+						if (wrapperRect) {
+							imageToolbarPos = {
+								top: rect.top - wrapperRect.top - 40,
+								left: rect.left - wrapperRect.left + rect.width / 2 - 60,
+							};
+							showImageToolbar = true;
 						}
 						return true;
 					}
-					if (event.key === "Escape") {
-						event.preventDefault();
-						closeSlashMenu();
-						return true;
-					}
-					if (event.key === "Backspace" && slashQuery.length === 0) {
-						closeSlashMenu();
-						return false;
-					}
-				}
-				return false;
+					showImageToolbar = false;
+					activeImageElement = null;
+					return false;
+				},
 			},
-			// handleClick, not handleClickOn: ProseMirror tries both in the same spot, and
-			// this one needs only the event.
-			handleClick(_view, _pos, event) {
-				const target = event.target as HTMLElement;
-				if (preset === "full" && target?.tagName === "IMG") {
-					activeImageElement = target as HTMLImageElement;
-					const rect = target.getBoundingClientRect();
-					const wrapperRect = editorElement?.getBoundingClientRect();
-					if (wrapperRect) {
-						imageToolbarPos = {
-							top: rect.top - wrapperRect.top - 40,
-							left: rect.left - wrapperRect.left + rect.width / 2 - 60,
-						};
-						showImageToolbar = true;
-					}
-					return true;
+			onUpdate: ({ editor: e }) => {
+				onchange?.(e.getJSON());
+
+				const { from } = e.state.selection;
+				const textBefore = e.state.doc.textBetween(Math.max(0, from - 20), from, "\n");
+				const slashMatch = textBefore.match(/\/([a-zA-Z0-9 ]*)$/);
+
+				if (slashMatch) {
+					slashQuery = slashMatch[1];
+					slashMenuPos = getCaretCoords();
+					showSlashMenu = true;
+				} else if (showSlashMenu) {
+					closeSlashMenu();
 				}
-				showImageToolbar = false;
-				activeImageElement = null;
-				return false;
 			},
-		},
-		onUpdate: ({ editor: e }) => {
-			onchange?.(e.getJSON());
+			onTransaction: () => {
+				tick++;
+			},
+			onFocus: () => {
+				tick++;
+			},
+			onBlur: () => {
+				tick++;
+			},
+		});
+		tick++;
 
-			const { from } = e.state.selection;
-			const textBefore = e.state.doc.textBetween(Math.max(0, from - 20), from, "\n");
-			const slashMatch = textBefore.match(/\/([a-zA-Z0-9 ]*)$/);
+		return () => {
+			editorInstance?.destroy();
+			editorInstance = null;
+		};
+	}
 
-			if (slashMatch) {
-				slashQuery = slashMatch[1];
-				slashMenuPos = getCaretCoords();
-				showSlashMenu = true;
-			} else if (showSlashMenu) {
-				closeSlashMenu();
-			}
-		},
-		onTransaction: () => {
-			tick++;
-		},
-		onFocus: () => {
-			tick++;
-		},
-		onBlur: () => {
-			tick++;
-		},
+	// Only the element mounts the editor. Read tracked, `content` (fed back by onchange) and the
+	// `tick++` each transaction makes would destroy and rebuild it until Svelte stops the loop.
+	$effect(() => {
+		if (editorElement) return untrack(mount);
 	});
-	tick++;
-
-	return () => {
-		editorInstance?.destroy();
-		editorInstance = null;
-	};
-}
-
-// Only the element mounts the editor. Read tracked, `content` (fed back by onchange) and the
-// `tick++` each transaction makes would destroy and rebuild it until Svelte stops the loop.
-$effect(() => {
-	if (editorElement) return untrack(mount);
-});
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div class="editor-wrapper" class:focused={editor?.isFocused} style="--editor-min-height: {minHeight};">
-	<EditorToolbar editor={editor} {tick} {preset} onInsertYoutube={insertYoutubeVideo} />
+<div
+	class="editor-wrapper"
+	class:focused={editor?.isFocused}
+	style="--editor-min-height: {minHeight};"
+>
+	<EditorToolbar {editor} {tick} {preset} onInsertYoutube={insertYoutubeVideo} />
 
 	<!-- Editor surface -->
 	<div bind:this={editorElement} class="editor-surface tiptap-content"></div>
@@ -323,7 +351,9 @@ $effect(() => {
 		border-radius: var(--radius-xl);
 		background: var(--color-background);
 		border: 1px solid var(--color-border);
-		transition: border-color var(--duration-quick) var(--ease-smooth-out), box-shadow var(--duration-quick) var(--ease-smooth-out);
+		transition:
+			border-color var(--duration-quick) var(--ease-smooth-out),
+			box-shadow var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	.editor-wrapper.focused {

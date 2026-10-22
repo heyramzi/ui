@@ -1,52 +1,52 @@
 <script lang="ts" generics="T">
-// ========================= IMPORTS
-import type { Snippet } from "svelte";
-import { Spinner } from "#src/shadcn/spinner/index.js";
+	// ========================= IMPORTS
+	import type { Snippet } from "svelte";
+	import { Spinner } from "#src/shadcn/spinner/index.js";
 
-// ========================= TYPES
-interface Props {
-	items: T[];
-	isDone: boolean;
-	isLoading: boolean;
-	children: Snippet<[{ items: T[] }]>;
-	/** Skeleton snippet rendered while loading more */
-	skeleton?: Snippet;
-	onLoadMore: () => void;
-	threshold?: number;
-	loadingClass?: string;
-};
+	// ========================= TYPES
+	interface Props {
+		items: T[];
+		isDone: boolean;
+		isLoading: boolean;
+		children: Snippet<[{ items: T[] }]>;
+		/** Skeleton snippet rendered while loading more */
+		skeleton?: Snippet;
+		onLoadMore: () => void;
+		threshold?: number;
+		loadingClass?: string;
+	}
 
-// ========================= PROPS
-let {
-	items,
-	isDone,
-	isLoading,
-	children,
-	skeleton,
-	onLoadMore,
-	threshold = 200,
-	loadingClass,
-}: Props = $props();
+	// ========================= PROPS
+	let {
+		items,
+		isDone,
+		isLoading,
+		children,
+		skeleton,
+		onLoadMore,
+		threshold = 200,
+		loadingClass,
+	}: Props = $props();
 
-// ========================= STATE
-let sentinelEl: HTMLDivElement | undefined = $state();
+	// ========================= STATE
+	let sentinelEl: HTMLDivElement | undefined = $state();
 
-// ========================= EFFECTS
-$effect(() => {
-	if (!sentinelEl || isDone) return;
+	// ========================= EFFECTS
+	$effect(() => {
+		if (!sentinelEl || isDone) return;
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			if (entries[0]?.isIntersecting && !isLoading && !isDone) {
-				onLoadMore();
-			}
-		},
-		{ rootMargin: `${threshold}px` },
-	);
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries[0]?.isIntersecting && !isLoading && !isDone) {
+					onLoadMore();
+				}
+			},
+			{ rootMargin: `${threshold}px` },
+		);
 
-	observer.observe(sentinelEl);
-	return () => observer.disconnect();
-});
+		observer.observe(sentinelEl);
+		return () => observer.disconnect();
+	});
 </script>
 
 <!-- =========================== -->

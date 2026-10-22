@@ -1,26 +1,26 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { Checkbox } from "#src/shadcn/checkbox/index.js";
-import { Check } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { Checkbox } from "#src/shadcn/checkbox/index.js";
+	import { Check } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	checked: boolean;
-	onclick: () => void;
-	variant?: "checkbox" | "radio";
-	children: Snippet;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		checked: boolean;
+		onclick: () => void;
+		variant?: "checkbox" | "radio";
+		children: Snippet;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { checked, onclick, variant = "checkbox", children }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { checked, onclick, variant = "checkbox", children }: Props = $props();
 </script>
 
 <!-- =========================== -->

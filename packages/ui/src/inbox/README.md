@@ -25,5 +25,3 @@ One threaded inbox. Entries from any source (a comment, a status change, an assi
 - **Snooze.** `onSnooze({ thread, until })` gets a `Date`: 3 hours on, tomorrow 9:00 or next Monday 9:00 (`snoozeChoices(now)`). The host decides what snoozed means and stops passing the entries.
 - **Read.** `onRead(thread, read)` is true when the thread had unread entries, so the host marks them all read.
 - **Words.** `labels` is a partial of `InboxLabels`. Status and assignment lines have `{from}`, `{to}` and `{assignee}` slots. `typeLabels` names the subject types. The `avatar` and `status` snippets let the app draw its own portrait and status badge.
-
-`@heyramzi/ui/tasks/inbox` still exports the approvals-only `Inbox`.

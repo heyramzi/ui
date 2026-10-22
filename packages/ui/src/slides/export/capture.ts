@@ -1,8 +1,14 @@
 // Capture a page, or one element of it, to PNG at a canvas size and device scale.
 
-import { mkdir, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-import type { BrowserLike, LocatorLike, PageLike, Size, WaitUntil } from '#src/slides/export/types.js';
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import type {
+  BrowserLike,
+  LocatorLike,
+  PageLike,
+  Size,
+  WaitUntil,
+} from "#src/slides/export/types.js";
 
 /**
  * `networkidle` makes a screenshot land on a finished page and never fires on a
@@ -10,7 +16,7 @@ import type { BrowserLike, LocatorLike, PageLike, Size, WaitUntil } from '#src/s
  * video. So the first attempt asks for idle and a retry falls back to `load`,
  * which always fires; the caller's `wait` settles whatever is left.
  */
-export const DEFAULT_WAITS: readonly WaitUntil[] = ['networkidle', 'load'];
+export const DEFAULT_WAITS: readonly WaitUntil[] = ["networkidle", "load"];
 
 export interface GotoOptions {
   /** Tried in order; the first that resolves wins and the last failure is thrown. */
@@ -30,7 +36,7 @@ export async function gotoSettled(page: PageLike, url: string, options: GotoOpti
       failure = error;
     }
   }
-  throw failure ?? new Error('gotoSettled needs at least one wait condition.');
+  throw failure ?? new Error("gotoSettled needs at least one wait condition.");
 }
 
 export type CaptureSource = { url: string } | { html: string };
@@ -64,18 +70,18 @@ export async function capturePage(
     deviceScaleFactor: options.scale ?? 1,
   });
   try {
-    if ('url' in source) await gotoSettled(page, source.url, options.goto);
-    else await page.setContent(source.html, { waitUntil: 'load' });
+    if ("url" in source) await gotoSettled(page, source.url, options.goto);
+    else await page.setContent(source.html, { waitUntil: "load" });
     if (options.style) await page.addStyleTag({ content: options.style });
     if (options.wait) await page.waitForTimeout(options.wait);
     const { selector } = options;
     let bytes: Uint8Array;
     if (selector) {
       const target = page.locator(selector).first();
-      await target.waitFor({ state: 'visible' });
-      bytes = await target.screenshot({ type: 'png' });
+      await target.waitFor({ state: "visible" });
+      bytes = await target.screenshot({ type: "png" });
     } else {
-      bytes = await page.screenshot({ type: 'png', fullPage: options.fullPage });
+      bytes = await page.screenshot({ type: "png", fullPage: options.fullPage });
     }
     if (options.path) {
       await mkdir(path.dirname(options.path), { recursive: true });
@@ -88,8 +94,8 @@ export async function capturePage(
 }
 
 /** `01.png`, `02.png` ...: the file name for the nth capture, one-based, zero-padded. */
-export function frameName(index: number, digits = 2, extension = 'png'): string {
-  return `${String(index + 1).padStart(digits, '0')}.${extension}`;
+export function frameName(index: number, digits = 2, extension = "png"): string {
+  return `${String(index + 1).padStart(digits, "0")}.${extension}`;
 }
 
 /**

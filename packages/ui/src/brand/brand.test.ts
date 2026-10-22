@@ -1,7 +1,14 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vite-plus/test";
-import { BRAND_COLOR_VARS, applyBrand, brandCss, brandStyle, brandVars, defineBrand } from "#src/brand/index.js";
+import {
+  BRAND_COLOR_VARS,
+  applyBrand,
+  brandCss,
+  brandStyle,
+  brandVars,
+  defineBrand,
+} from "#src/brand/index.js";
 
 const TOKENS = join(import.meta.dirname, "..", "tokens");
 const palette = readFileSync(join(TOKENS, "palette.css"), "utf8");
@@ -9,7 +16,10 @@ const palette = readFileSync(join(TOKENS, "palette.css"), "utf8");
 describe("brandVars", () => {
   it("sets only the roles a brand names", () => {
     const brand = defineBrand({ colors: { brand: "oklch(0.5 0.2 272)", signal: "#f0503d" } });
-    expect(brandVars(brand)).toEqual({ "--brand": "oklch(0.5 0.2 272)", "--brand-signal": "#f0503d" });
+    expect(brandVars(brand)).toEqual({
+      "--brand": "oklch(0.5 0.2 272)",
+      "--brand-signal": "#f0503d",
+    });
   });
 
   it("maps fonts and extra properties", () => {
@@ -27,7 +37,9 @@ describe("brandVars", () => {
   });
 
   it("refuses a value that would break out of its declaration", () => {
-    expect(() => brandVars({ colors: { brand: "red; } body { display: none" } })).toThrow(/--brand/);
+    expect(() => brandVars({ colors: { brand: "red; } body { display: none" } })).toThrow(
+      /--brand/,
+    );
   });
 });
 
@@ -36,7 +48,9 @@ describe("the three ways to apply one", () => {
 
   it("writes a style attribute and a rule", () => {
     expect(brandStyle(brand)).toBe("--brand:blue;--brand-ink:black");
-    expect(brandCss(brand, ".client")).toBe(".client {\n  --brand: blue;\n  --brand-ink: black;\n}\n");
+    expect(brandCss(brand, ".client")).toBe(
+      ".client {\n  --brand: blue;\n  --brand-ink: black;\n}\n",
+    );
   });
 
   it("applies to an element and puts back what it found", () => {
@@ -61,7 +75,9 @@ describe("the tokens", () => {
   it("carry no client palette", () => {
     for (const file of readdirSync(TOKENS).filter((f) => f.endsWith(".css"))) {
       const css = readFileSync(join(TOKENS, file), "utf8");
-      expect(css, file).not.toMatch(/brand-(indigo|sand|terra|night|veil|dusk|cream|linen|mist)|--(indigo|sand|terra)-\d/);
+      expect(css, file).not.toMatch(
+        /brand-(indigo|sand|terra|night|veil|dusk|cream|linen|mist)|--(indigo|sand|terra)-\d/,
+      );
     }
   });
 });

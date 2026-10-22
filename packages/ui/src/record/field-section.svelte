@@ -1,40 +1,44 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
-import { fieldRow, groupFields, type FieldValues } from "#src/record/fields.js";
-import InfoList from "#src/record/info-list.svelte";
-import type {
-	FieldDef,
-	FieldSectionDef,
-	FieldValue,
-	RecordLabels,
-} from "#src/record/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
+	import { fieldRow, groupFields, type FieldValues } from "#src/record/fields.js";
+	import InfoList from "#src/record/info-list.svelte";
+	import type { FieldDef, FieldSectionDef, FieldValue, RecordLabels } from "#src/record/types.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	/** What a module declares for this record. */
-	fields: FieldDef[];
-	/** Section headings in the order to draw them. A section with no field isn't drawn. */
-	sections?: FieldSectionDef[];
-	values: FieldValues;
-	/** Without it every field is read-only and an empty one is left out. */
-	onSave?: (key: string, value: FieldValue) => void | Promise<void>;
-	/** For a money field that names none. */
-	currency?: string;
-	labels?: Partial<RecordLabels>;
-	locale?: string;
-	class?: string;
-}
-let { fields, sections = [], values, onSave, currency, labels, locale, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		/** What a module declares for this record. */
+		fields: FieldDef[];
+		/** Section headings in the order to draw them. A section with no field isn't drawn. */
+		sections?: FieldSectionDef[];
+		values: FieldValues;
+		/** Without it every field is read-only and an empty one is left out. */
+		onSave?: (key: string, value: FieldValue) => void | Promise<void>;
+		/** For a money field that names none. */
+		currency?: string;
+		labels?: Partial<RecordLabels>;
+		locale?: string;
+		class?: string;
+	}
+	let {
+		fields,
+		sections = [],
+		values,
+		onSave,
+		currency,
+		labels,
+		locale,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let groups = $derived(groupFields(fields, sections, values));
+	// =========================
+	// DERIVED
+	// =========================
+	let groups = $derived(groupFields(fields, sections, values));
 </script>
 
 <!-- =========================== -->

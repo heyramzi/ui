@@ -56,5 +56,7 @@
 		{/if}
 	</span>
 {:else if showLabel}
-	<span class={cn("text-xs font-medium uppercase text-muted-foreground", className)}>{language}</span>
+	<span class={cn("text-xs font-medium uppercase text-muted-foreground", className)}
+		>{language}</span
+	>
 {/if}

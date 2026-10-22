@@ -158,7 +158,7 @@
 	}
 
 	function canDrop(columnId: string): boolean {
-		return isDroppable?.(columnId) ?? (columns.find((c) => c.id === columnId)?.droppable ?? true);
+		return isDroppable?.(columnId) ?? columns.find((c) => c.id === columnId)?.droppable ?? true;
 	}
 
 	function expand(columnId: string): void {
@@ -373,7 +373,8 @@
 			<div
 				role="listitem"
 				tabindex="0"
-				aria-label={getLabel?.(item) ?? "Card. Press Alt plus Left or Right arrow to move between columns."}
+				aria-label={getLabel?.(item) ??
+					"Card. Press Alt plus Left or Right arrow to move between columns."}
 				aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight"
 				draggable="true"
 				ondragstart={(e) => {
@@ -465,8 +466,10 @@
 								"kanban-rail-item rounded-md transition-[background-color,outline-color] duration-[var(--duration-quick,120ms)] ease-[var(--ease-smooth-out,ease-out)]",
 								leaving.has(column.id) && "kanban-rail-item-leaving",
 							)}
-							style:background="color-mix(in oklch, {hue} {over ? 10 : 0}%, transparent)"
-							style:outline="1px solid color-mix(in oklch, {hue} {over ? 28 : 0}%, transparent)"
+							style:background="color-mix(in oklch, {hue}
+							{over ? 10 : 0}%, transparent)"
+							style:outline="1px solid color-mix(in oklch, {hue}
+							{over ? 28 : 0}%, transparent)"
 							ondragover={(e) => onHiddenDragOver(e, column.id)}
 							ondragleave={onHiddenDragLeave}
 							ondrop={(e) => onHiddenDrop(e, column.id)}
@@ -481,7 +484,9 @@
 								{:else}
 									<span class="truncate whitespace-nowrap">{column.label}</span>
 									{#if count > 0}
-										<span class="ms-auto text-xs text-muted-foreground/60 tabular-nums">{count}</span>
+										<span class="ms-auto text-xs text-muted-foreground/60 tabular-nums"
+											>{count}</span
+										>
 									{/if}
 								{/if}
 							</button>

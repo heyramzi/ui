@@ -1,61 +1,61 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import * as ContextMenu from "#src/shadcn/context-menu/index.js";
-import { HoldToConfirm } from "#src/components/hold-to-confirm/index.js";
-import { ArrowUpRight, Copy, LinkSimple, Trash } from "phosphor-svelte";
-import type { Snippet } from "svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
+	import { HoldToConfirm } from "#src/components/hold-to-confirm/index.js";
+	import { ArrowUpRight, Copy, LinkSimple, Trash } from "phosphor-svelte";
+	import type { Snippet } from "svelte";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	onDelete: () => void;
-	href?: string;
-	id?: string;
-	deleteLabel?: string;
-	copyLinkLabel?: string;
-	copyIdLabel?: string;
-	/** Called after a successful clipboard copy so consumers can show their own toast */
-	onCopied?: () => void;
-	children: Snippet<[Record<string, unknown>]>;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		onDelete: () => void;
+		href?: string;
+		id?: string;
+		deleteLabel?: string;
+		copyLinkLabel?: string;
+		copyIdLabel?: string;
+		/** Called after a successful clipboard copy so consumers can show their own toast */
+		onCopied?: () => void;
+		children: Snippet<[Record<string, unknown>]>;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	onDelete,
-	href,
-	id,
-	deleteLabel = "Delete",
-	copyLinkLabel = "Copy link",
-	copyIdLabel = "Copy ID",
-	onCopied,
-	children,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		onDelete,
+		href,
+		id,
+		deleteLabel = "Delete",
+		copyLinkLabel = "Copy link",
+		copyIdLabel = "Copy ID",
+		onCopied,
+		children,
+	}: Props = $props();
 
-// =========================
-// FUNCTIONS
-// =========================
-function handleOpen() {
-	if (href) window.location.href = href;
-}
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function handleOpen() {
+		if (href) window.location.href = href;
+	}
 
-// WHY the whole URL and not the path: what leaves this menu is pasted into a
-// message, a doc or an agent prompt, none of which can resolve "/clients/42".
-async function handleCopyLink() {
-	if (!href) return;
-	await navigator.clipboard.writeText(new URL(href, window.location.origin).href);
-	onCopied?.();
-}
+	// WHY the whole URL and not the path: what leaves this menu is pasted into a
+	// message, a doc or an agent prompt, none of which can resolve "/clients/42".
+	async function handleCopyLink() {
+		if (!href) return;
+		await navigator.clipboard.writeText(new URL(href, window.location.origin).href);
+		onCopied?.();
+	}
 
-async function handleCopyId() {
-	if (!id) return;
-	await navigator.clipboard.writeText(id);
-	onCopied?.();
-}
+	async function handleCopyId() {
+		if (!id) return;
+		await navigator.clipboard.writeText(id);
+		onCopied?.();
+	}
 </script>
 
 <!-- =========================== -->

@@ -2,7 +2,11 @@
 	import type { Snippet } from "svelte";
 	import { Circle, CheckCircle, PencilSimple } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
-	import { DEFAULT_TASK_DETAIL_LABELS, type TaskComment, type TaskDetailLabels } from "#src/tasks/detail/detail-types.js";
+	import {
+		DEFAULT_TASK_DETAIL_LABELS,
+		type TaskComment,
+		type TaskDetailLabels,
+	} from "#src/tasks/detail/detail-types.js";
 	import TaskThread from "#src/tasks/detail/task-thread.svelte";
 
 	interface Props {
@@ -119,7 +123,10 @@
 						onclick={onToggleDone}
 						disabled={!onToggleDone}
 						aria-label={done ? labels.markIncomplete : labels.markComplete}
-						class={cn("tk-icon mt-px", done ? "text-success" : "text-muted-foreground/60 hover:text-foreground")}
+						class={cn(
+							"tk-icon mt-px",
+							done ? "text-success" : "text-muted-foreground/60 hover:text-foreground",
+						)}
 					>
 						{#if done}
 							<CheckCircle class="size-5" weight="fill" aria-hidden="true" />
@@ -139,7 +146,9 @@
 							class="-mx-2 -my-1 min-w-0 flex-1 resize-none rounded-md border border-input bg-transparent px-2 py-1 text-2xl leading-tight font-semibold tracking-tight outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
 						></textarea>
 					{:else}
-						<h1 class="min-w-0 flex-1 text-2xl leading-tight font-semibold tracking-tight text-balance break-words">
+						<h1
+							class="min-w-0 flex-1 text-2xl leading-tight font-semibold tracking-tight text-balance break-words"
+						>
 							<button
 								type="button"
 								onclick={startTitle}
@@ -153,14 +162,19 @@
 							>
 								{title}
 								{#if onTitleChange}
-									<PencilSimple class="ms-1.5 inline size-3.5 align-middle text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
+									<PencilSimple
+										class="ms-1.5 inline size-3.5 align-middle text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
+										aria-hidden="true"
+									/>
 								{/if}
 							</button>
 						</h1>
 					{/if}
 				</div>
 				{#if meta}
-					<div class="mt-2 flex min-h-5 flex-wrap items-center gap-x-3 gap-y-1 ps-9 text-xs text-muted-foreground">
+					<div
+						class="mt-2 flex min-h-5 flex-wrap items-center gap-x-3 gap-y-1 ps-9 text-xs text-muted-foreground"
+					>
 						{@render meta()}
 					</div>
 				{/if}
@@ -171,10 +185,14 @@
 			class="px-4 pt-3 @3xl:col-start-2 @3xl:row-span-2 @3xl:row-start-1 @3xl:border-s @3xl:border-border @3xl:px-5 @3xl:pt-6"
 			aria-label={labels.properties}
 		>
-			<div class="flex flex-wrap items-center gap-1 @3xl:sticky @3xl:top-0 @3xl:flex-col @3xl:items-stretch @3xl:gap-0.5">
+			<div
+				class="flex flex-wrap items-center gap-1 @3xl:sticky @3xl:top-0 @3xl:flex-col @3xl:items-stretch @3xl:gap-0.5"
+			>
 				{@render properties?.()}
 				{#if railFooter}
-					<div class="mt-2 hidden w-full border-t border-border/60 pt-3 @3xl:block">{@render railFooter()}</div>
+					<div class="mt-2 hidden w-full border-t border-border/60 pt-3 @3xl:block">
+						{@render railFooter()}
+					</div>
 				{/if}
 			</div>
 		</aside>
@@ -185,7 +203,12 @@
 					<div class="flex h-7 items-center justify-between">
 						<h2 class="text-xs font-medium text-muted-foreground">{labels.description}</h2>
 						{#if !editingDescription && description && onDescriptionChange}
-							<button type="button" class="tk-icon" onclick={startDescription} aria-label={labels.editDescription}>
+							<button
+								type="button"
+								class="tk-icon"
+								onclick={startDescription}
+								aria-label={labels.editDescription}
+							>
 								<PencilSimple class="size-3.5" aria-hidden="true" />
 							</button>
 						{/if}
@@ -200,8 +223,15 @@
 							class="w-full resize-y rounded-md border border-input bg-transparent px-3 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
 						></textarea>
 						<div class="mt-1 flex justify-end gap-1.5">
-							<button type="button" class="tk-button" onclick={() => (editingDescription = false)}>{labels.cancel}</button>
-							<button type="button" class="tk-button tk-primary" onclick={saveDescription} disabled={savingDescription}>
+							<button type="button" class="tk-button" onclick={() => (editingDescription = false)}
+								>{labels.cancel}</button
+							>
+							<button
+								type="button"
+								class="tk-button tk-primary"
+								onclick={saveDescription}
+								disabled={savingDescription}
+							>
 								{savingDescription ? labels.saving : labels.save}
 							</button>
 						</div>

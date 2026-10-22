@@ -1,74 +1,74 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { CaretLeft, CaretRight } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { Button } from "#src/shadcn/button/index.js";
-import { stepTo } from "#src/components/list-page/step.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { CaretLeft, CaretRight } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { stepTo } from "#src/components/list-page/step.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	/** Ids in the order the list shows them. */
-	ids: readonly string[];
-	current: string | null | undefined;
-	onselect: (id: string) => void;
-	previousLabel?: string;
-	nextLabel?: string;
-	/** Off when two steppers share a page, so one key press moves one list. */
-	keys?: boolean;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		/** Ids in the order the list shows them. */
+		ids: readonly string[];
+		current: string | null | undefined;
+		onselect: (id: string) => void;
+		previousLabel?: string;
+		nextLabel?: string;
+		/** Off when two steppers share a page, so one key press moves one list. */
+		keys?: boolean;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	ids,
-	current,
-	onselect,
-	previousLabel = "Previous",
-	nextLabel = "Next",
-	keys = true,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		ids,
+		current,
+		onselect,
+		previousLabel = "Previous",
+		nextLabel = "Next",
+		keys = true,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let index = $derived(current ? ids.indexOf(current) : -1);
-let prev = $derived(stepTo(ids, current, -1));
-let next = $derived(stepTo(ids, current, 1));
+	// =========================
+	// DERIVED
+	// =========================
+	let index = $derived(current ? ids.indexOf(current) : -1);
+	let prev = $derived(stepTo(ids, current, -1));
+	let next = $derived(stepTo(ids, current, 1));
 
-// =========================
-// HANDLERS
-// =========================
-function isTyping(event: KeyboardEvent): boolean {
-	const target = event.target as HTMLElement | null;
-	return Boolean(target?.closest("input, textarea, select, [contenteditable='true']"));
-}
+	// =========================
+	// HANDLERS
+	// =========================
+	function isTyping(event: KeyboardEvent): boolean {
+		const target = event.target as HTMLElement | null;
+		return Boolean(target?.closest("input, textarea, select, [contenteditable='true']"));
+	}
 
-function ignored(event: KeyboardEvent): boolean {
-	const modified = event.metaKey || event.ctrlKey || event.altKey;
-	return !keys || modified || event.defaultPrevented || isTyping(event);
-}
+	function ignored(event: KeyboardEvent): boolean {
+		const modified = event.metaKey || event.ctrlKey || event.altKey;
+		return !keys || modified || event.defaultPrevented || isTyping(event);
+	}
 
-// K and J, as in Gmail: the arrows already belong to slide viewers and text fields.
-function targetFor(key: string): string | null {
-	if (key === "k") return prev;
-	if (key === "j") return next;
-	return null;
-}
+	// K and J, as in Gmail: the arrows already belong to slide viewers and text fields.
+	function targetFor(key: string): string | null {
+		if (key === "k") return prev;
+		if (key === "j") return next;
+		return null;
+	}
 
-function onkeydown(event: KeyboardEvent) {
-	if (ignored(event)) return;
-	const id = targetFor(event.key);
-	if (!id) return;
-	event.preventDefault();
-	onselect(id);
-}
+	function onkeydown(event: KeyboardEvent) {
+		if (ignored(event)) return;
+		const id = targetFor(event.key);
+		if (!id) return;
+		event.preventDefault();
+		onselect(id);
+	}
 </script>
 
 <svelte:window {onkeydown} />

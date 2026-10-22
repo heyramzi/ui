@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vite-plus/test";
 import type { Node } from "@xyflow/svelte";
-import { deletableIds, refuseLockedOps, toggleLock, withLockFlags } from "#src/canvas/editor/lock.js";
+import {
+  deletableIds,
+  refuseLockedOps,
+  toggleLock,
+  withLockFlags,
+} from "#src/canvas/editor/lock.js";
 
 function card(id: string, data: Record<string, unknown> = {}, extra: Partial<Node> = {}): Node {
   return { id, type: "note", position: { x: 0, y: 0 }, data, ...extra };

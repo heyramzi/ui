@@ -16,26 +16,55 @@
 </script>
 
 <!-- The layer behind every row: weekends, week lines, the today line and arrows. -->
-<div class="pointer-events-none absolute inset-y-0 left-(--g-label)" style:width="{layout.timelineWidth}px" aria-hidden="true">
+<div
+	class="pointer-events-none absolute inset-y-0 left-(--g-label)"
+	style:width="{layout.timelineWidth}px"
+	aria-hidden="true"
+>
 	{#each days as d (d.day)}
 		{#if d.weekend}
-			<div class="absolute inset-y-0 bg-foreground/[0.025]" style:left="{d.i * layout.dayWidth}px" style:width="{layout.dayWidth}px"></div>
+			<div
+				class="absolute inset-y-0 bg-foreground/[0.025]"
+				style:left="{d.i * layout.dayWidth}px"
+				style:width="{layout.dayWidth}px"
+			></div>
 		{/if}
 		{#if d.wd === 1}
-			<div class="absolute inset-y-0 w-px bg-border/70" style:left="{d.i * layout.dayWidth}px"></div>
+			<div
+				class="absolute inset-y-0 w-px bg-border/70"
+				style:left="{d.i * layout.dayWidth}px"
+			></div>
 		{/if}
 	{/each}
 	{#if layout.todayDay >= layout.first && layout.todayDay <= layout.last}
-		<div class="g-today absolute inset-y-0 w-px bg-primary" style:left="{dayX(layout, layout.todayDay) + layout.dayWidth / 2}px">
+		<div
+			class="g-today absolute inset-y-0 w-px bg-primary"
+			style:left="{dayX(layout, layout.todayDay) + layout.dayWidth / 2}px"
+		>
 			<span class="absolute -top-1 -left-[3px] size-[7px] rounded-full bg-primary"></span>
 		</div>
 	{/if}
-	<svg class="absolute inset-0 overflow-visible" width={layout.timelineWidth} height={rowCount * layout.rowHeight}>
+	<svg
+		class="absolute inset-0 overflow-visible"
+		width={layout.timelineWidth}
+		height={rowCount * layout.rowHeight}
+	>
 		{#each arrows as arrow (arrow.key)}
-			{@const lit = hoveredId === arrow.from || hoveredId === arrow.to || draggingId === arrow.from || draggingId === arrow.to}
+			{@const lit =
+				hoveredId === arrow.from ||
+				hoveredId === arrow.to ||
+				draggingId === arrow.from ||
+				draggingId === arrow.to}
 			<g class="g-arrow" class:g-arrow-lit={lit}>
 				<path d={arrow.d} pathLength="1" fill="none" stroke-width="1.5" class="g-arrow-line"></path>
-				<path d={arrow.head} fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="g-arrow-head"></path>
+				<path
+					d={arrow.head}
+					fill="none"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="g-arrow-head"
+				></path>
 			</g>
 		{/each}
 	</svg>
@@ -44,7 +73,8 @@
 <style>
 	.g-today {
 		transform-origin: top;
-		animation: g-today-in var(--duration-very-slow, 500ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation: g-today-in var(--duration-very-slow, 500ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 	}
 
 	.g-arrow {
@@ -59,7 +89,8 @@
 	.g-arrow-line {
 		stroke-dasharray: 1;
 		stroke-dashoffset: 0;
-		animation: g-draw var(--duration-very-slow, 500ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) 300ms backwards;
+		animation: g-draw var(--duration-very-slow, 500ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) 300ms backwards;
 	}
 
 	.g-arrow-head {

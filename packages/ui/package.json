@@ -2,15 +2,13 @@
   "name": "@heyramzi/ui",
   "version": "2.1.0",
   "description": "Svelte 5 UI for apps: primitives, effects and animations, plus tasks, charts, slides, an editor, onboarding and a canvas as subpaths.",
+  "homepage": "https://ui.heyramzi.com",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heyramzi/ui.git",
     "directory": "packages/ui"
   },
-  "homepage": "https://ui.heyramzi.com",
-  "type": "module",
-  "svelte": "./src/index.ts",
   "files": [
     "src",
     "scripts",
@@ -18,6 +16,8 @@
     "README.md",
     "COMPONENTS.md"
   ],
+  "type": "module",
+  "svelte": "./src/index.ts",
   "imports": {
     "#scripts/*": "./scripts/*",
     "#src/*": "./src/*"
@@ -406,17 +406,16 @@
     "svelte-check": "^4.7.7",
     "svelte-sonner": "^1.2.1",
     "typescript": "~7.0.2",
-    "vite-plus": "^1.3.0",
-    "vitest": "^5.0.5"
+    "vite-plus": "catalog:"
   },
   "peerDependencies": {
     "@internationalized/date": "^3.12.4",
     "@tabler/icons-svelte-runes": "^3.46.0",
+    "@xyflow/svelte": "^1.7.0",
     "bits-ui": "^2.19.5",
     "mode-watcher": "^1.1.0",
     "svelte": "^5.57.2",
-    "svelte-sonner": "^1.2.1",
-    "@xyflow/svelte": "^1.7.0"
+    "svelte-sonner": "^1.2.1"
   },
   "peerDependenciesMeta": {
     "mode-watcher": {

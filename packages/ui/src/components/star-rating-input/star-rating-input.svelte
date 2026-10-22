@@ -1,109 +1,109 @@
 <script lang="ts" module>
-/**
- * Two sizes, picked by the job: `sm` reads a value back in a row or cell,
- * `lg` is the ask.
- */
-// A middle `md` step used to exist. Nobody could place it, so the same question
-// ended up asked at three sizes.
-export type StarRatingSize = "sm" | "lg";
+	/**
+	 * Two sizes, picked by the job: `sm` reads a value back in a row or cell,
+	 * `lg` is the ask.
+	 */
+	// A middle `md` step used to exist. Nobody could place it, so the same question
+	// ended up asked at three sizes.
+	export type StarRatingSize = "sm" | "lg";
 
-const STAR_SIZE: Record<StarRatingSize, string> = {
-	sm: "size-4",
-	lg: "size-7",
-};
+	const STAR_SIZE: Record<StarRatingSize, string> = {
+		sm: "size-4",
+		lg: "size-7",
+	};
 
-const HIT_SIZE: Record<StarRatingSize, string> = {
-	sm: "p-0.5",
-	lg: "p-1",
-};
+	const HIT_SIZE: Record<StarRatingSize, string> = {
+		sm: "p-0.5",
+		lg: "p-1",
+	};
 
-/** Pop duration plus the longest stagger, after which the class can come off. */
-const POP_WINDOW_MS = 350 + 4 * 40;
+	/** Pop duration plus the longest stagger, after which the class can come off. */
+	const POP_WINDOW_MS = 350 + 4 * 40;
 </script>
 
 <script lang="ts">
-import { Star } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
+	import { Star } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
 
-interface Props {
-	/** Current rating value (0 = unrated). */
-	value: number;
-	/** Maximum rating. Defaults to 5. */
-	max?: number;
-	/** Visual size of each star. `sm` reads back, `lg` asks. */
-	size?: StarRatingSize;
-	/** Render as static display, no hover or click. */
-	readonly?: boolean;
-	/** Disable interaction. */
-	disabled?: boolean;
-	/** Form field name for native submission. When set, a hidden input is rendered. */
-	name?: string;
-	/** ARIA label for the radiogroup. */
-	ariaLabel?: string;
-	/** Per-step descriptive labels (length must equal max). */
-	labels?: readonly string[];
-	/** Show the label of the currently hovered/selected step beside the stars. */
-	showLabel?: boolean;
-	class?: string;
-	onchange?: (value: number) => void;
-};
+	interface Props {
+		/** Current rating value (0 = unrated). */
+		value: number;
+		/** Maximum rating. Defaults to 5. */
+		max?: number;
+		/** Visual size of each star. `sm` reads back, `lg` asks. */
+		size?: StarRatingSize;
+		/** Render as static display, no hover or click. */
+		readonly?: boolean;
+		/** Disable interaction. */
+		disabled?: boolean;
+		/** Form field name for native submission. When set, a hidden input is rendered. */
+		name?: string;
+		/** ARIA label for the radiogroup. */
+		ariaLabel?: string;
+		/** Per-step descriptive labels (length must equal max). */
+		labels?: readonly string[];
+		/** Show the label of the currently hovered/selected step beside the stars. */
+		showLabel?: boolean;
+		class?: string;
+		onchange?: (value: number) => void;
+	}
 
-let {
-	value = $bindable(0),
-	max = 5,
-	size = "sm",
-	readonly = false,
-	disabled = false,
-	name,
-	ariaLabel,
-	labels,
-	showLabel = false,
-	class: className,
-	onchange,
-}: Props = $props();
+	let {
+		value = $bindable(0),
+		max = 5,
+		size = "sm",
+		readonly = false,
+		disabled = false,
+		name,
+		ariaLabel,
+		labels,
+		showLabel = false,
+		class: className,
+		onchange,
+	}: Props = $props();
 
-let hover = $state(0);
-/** Held for the length of the pop, then dropped so the next pick can replay it. */
-let popping = $state(false);
-let popTimer: ReturnType<typeof setTimeout> | undefined;
-let displayed = $derived(hover || value);
-let starSize = $derived(STAR_SIZE[size]);
-let hitSize = $derived(HIT_SIZE[size]);
-let groupAriaLabel = $derived(ariaLabel ?? `Rating, ${max} stars`);
-let labelText = $derived(
-	displayed > 0 && labels && labels.length >= displayed ? labels[displayed - 1] : "",
-);
+	let hover = $state(0);
+	/** Held for the length of the pop, then dropped so the next pick can replay it. */
+	let popping = $state(false);
+	let popTimer: ReturnType<typeof setTimeout> | undefined;
+	let displayed = $derived(hover || value);
+	let starSize = $derived(STAR_SIZE[size]);
+	let hitSize = $derived(HIT_SIZE[size]);
+	let groupAriaLabel = $derived(ariaLabel ?? `Rating, ${max} stars`);
+	let labelText = $derived(
+		displayed > 0 && labels && labels.length >= displayed ? labels[displayed - 1] : "",
+	);
 
-function buttonAriaLabel(step: number): string {
-	const stepLabel = labels?.[step - 1];
-	const base = `${step} of ${max}`;
-	return stepLabel ? `${base} (${stepLabel})` : base;
-}
+	function buttonAriaLabel(step: number): string {
+		const stepLabel = labels?.[step - 1];
+		const base = `${step} of ${max}`;
+		return stepLabel ? `${base} (${stepLabel})` : base;
+	}
 
-function setRating(step: number) {
-	if (readonly || disabled) return;
-	value = step;
-	onchange?.(step);
+	function setRating(step: number) {
+		if (readonly || disabled) return;
+		value = step;
+		onchange?.(step);
 
-	// Drop the class before re-adding it, or a second pick inside the animation
-	// window finds it already set and nothing replays.
-	popping = false;
-	clearTimeout(popTimer);
-	requestAnimationFrame(() => {
-		popping = true;
-		popTimer = setTimeout(() => (popping = false), POP_WINDOW_MS);
-	});
-}
+		// Drop the class before re-adding it, or a second pick inside the animation
+		// window finds it already set and nothing replays.
+		popping = false;
+		clearTimeout(popTimer);
+		requestAnimationFrame(() => {
+			popping = true;
+			popTimer = setTimeout(() => (popping = false), POP_WINDOW_MS);
+		});
+	}
 
-function handleEnter(step: number) {
-	if (readonly || disabled) return;
-	hover = step;
-}
+	function handleEnter(step: number) {
+		if (readonly || disabled) return;
+		hover = step;
+	}
 
-function handleLeave() {
-	if (readonly || disabled) return;
-	hover = 0;
-}
+	function handleLeave() {
+		if (readonly || disabled) return;
+		hover = 0;
+	}
 </script>
 
 <!-- One star, drawn once. It used to be written twice, once per branch, and the
@@ -152,7 +152,7 @@ function handleLeave() {
 	{/if}
 
 	{#if name}
-		<input type="hidden" {name} value={value} />
+		<input type="hidden" {name} {value} />
 	{/if}
 </div>
 

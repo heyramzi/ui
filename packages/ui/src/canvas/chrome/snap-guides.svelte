@@ -1,27 +1,27 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { SnapGuide } from "#src/canvas/headless/snap-guides.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { SnapGuide } from "#src/canvas/headless/snap-guides.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	guides: SnapGuide[];
-	/** Canvas zoom, so the line stays one screen pixel at every scale. */
-	zoom: number;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		guides: SnapGuide[];
+		/** Canvas zoom, so the line stays one screen pixel at every scale. */
+		zoom: number;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { guides, zoom }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { guides, zoom }: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let thickness = $derived(1 / Math.max(zoom, 0.05));
+	// =========================
+	// DERIVED
+	// =========================
+	let thickness = $derived(1 / Math.max(zoom, 0.05));
 </script>
 
 <!-- =========================== -->

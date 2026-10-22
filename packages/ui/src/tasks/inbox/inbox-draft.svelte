@@ -19,7 +19,7 @@
 		bodyEl?: HTMLTextAreaElement | null;
 		disabled?: boolean;
 		class?: string;
-	};
+	}
 
 	let {
 		drafts,

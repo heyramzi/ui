@@ -1,60 +1,60 @@
 <script lang="ts" generics="T extends string = string">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { CaretRight } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { AnimatedTabs, type TabDef } from "#src/components/segmented/index.js";
-import * as Sheet from "#src/shadcn/sheet/index.js";
-import { Progress } from "#src/shadcn/progress/index.js";
-import { gutterClass } from "#src/record/gutter.js";
-import { resolveLabels, type RecordLabels } from "#src/record/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { CaretRight } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { AnimatedTabs, type TabDef } from "#src/components/segmented/index.js";
+	import * as Sheet from "#src/shadcn/sheet/index.js";
+	import { Progress } from "#src/shadcn/progress/index.js";
+	import { gutterClass } from "#src/record/gutter.js";
+	import { resolveLabels, type RecordLabels } from "#src/record/types.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	header: Snippet;
-	/** Where we are, next up, stats: whatever sits between the header and the body. */
-	banner?: Snippet;
-	/** The tab row. Put each panel in a `Tabs.Content` from `@heyramzi/ui/shadcn/tabs`. */
-	tabs?: readonly TabDef<T>[];
-	tab?: T;
-	tabsLabel?: string;
-	/** The side rail. Docked at 48rem and wider, a sheet behind one row under that. */
-	rail?: Snippet;
-	/** The sheet's title, read out by screen readers. Defaults to the steps label. */
-	railTitle?: string;
-	/** Fills the narrow row's bar. Leave it out for a row with no progress. */
-	railProgress?: { done: number; total: number } | null;
-	railOpen?: boolean;
-	children: Snippet;
-	labels?: Partial<RecordLabels>;
-	class?: string;
-}
-let {
-	header,
-	banner,
-	tabs,
-	tab = $bindable(),
-	tabsLabel,
-	rail,
-	railTitle,
-	railProgress = null,
-	railOpen = $bindable(false),
-	children,
-	labels,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		header: Snippet;
+		/** Where we are, next up, stats: whatever sits between the header and the body. */
+		banner?: Snippet;
+		/** The tab row. Put each panel in a `Tabs.Content` from `@heyramzi/ui/shadcn/tabs`. */
+		tabs?: readonly TabDef<T>[];
+		tab?: T;
+		tabsLabel?: string;
+		/** The side rail. Docked at 48rem and wider, a sheet behind one row under that. */
+		rail?: Snippet;
+		/** The sheet's title, read out by screen readers. Defaults to the steps label. */
+		railTitle?: string;
+		/** Fills the narrow row's bar. Leave it out for a row with no progress. */
+		railProgress?: { done: number; total: number } | null;
+		railOpen?: boolean;
+		children: Snippet;
+		labels?: Partial<RecordLabels>;
+		class?: string;
+	}
+	let {
+		header,
+		banner,
+		tabs,
+		tab = $bindable(),
+		tabsLabel,
+		rail,
+		railTitle,
+		railProgress = null,
+		railOpen = $bindable(false),
+		children,
+		labels,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let t = $derived(resolveLabels(labels));
-let percent = $derived(
-	railProgress && railProgress.total > 0 ? (railProgress.done / railProgress.total) * 100 : 0,
-);
+	// =========================
+	// DERIVED
+	// =========================
+	let t = $derived(resolveLabels(labels));
+	let percent = $derived(
+		railProgress && railProgress.total > 0 ? (railProgress.done / railProgress.total) * 100 : 0,
+	);
 </script>
 
 <!-- =========================== -->

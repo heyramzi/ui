@@ -51,14 +51,22 @@ describe("CopyButton", () => {
 
   it("names what it copies, so the button is not just a value", () => {
     stubClipboard();
-    const { button, done } = render({ value: "abc123", text: "abc123", label: "Copy API key abc123" });
+    const { button, done } = render({
+      value: "abc123",
+      text: "abc123",
+      label: "Copy API key abc123",
+    });
     expect(button.getAttribute("aria-label")).toBe("Copy API key abc123");
     done();
   });
 
   it("announces in a live region by default and keeps its name", async () => {
     stubClipboard();
-    const { button, target, done } = render({ value: "x", label: "Copy id", copiedLabel: "Copied" });
+    const { button, target, done } = render({
+      value: "x",
+      label: "Copy id",
+      copiedLabel: "Copied",
+    });
     await click(button);
     expect(target.querySelector("[aria-live]")?.textContent).toBe("Copied");
     expect(button.getAttribute("aria-label")).toBe("Copy id");

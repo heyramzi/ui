@@ -1,72 +1,72 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { useStore } from "@xyflow/svelte";
-import { frameRect, type FrameRect } from "#src/canvas/editor/frame.js";
-import "#src/canvas/ui/canvas-ui.css";
-import { forwardWheel } from "#src/canvas/ui/forward-wheel.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { useStore } from "@xyflow/svelte";
+	import { frameRect, type FrameRect } from "#src/canvas/editor/frame.js";
+	import "#src/canvas/ui/canvas-ui.css";
+	import { forwardWheel } from "#src/canvas/ui/forward-wheel.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	/** A drag ended, or a click: the box in flow units. */
-	onFrame: (rect: FrameRect) => void;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		/** A drag ended, or a click: the box in flow units. */
+		onFrame: (rect: FrameRect) => void;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { onFrame }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { onFrame }: Props = $props();
 
-// =========================
-// STATE
-// =========================
-// The layer maps screen pixels to flow units, so it reads the live xyflow viewport.
-const store = useStore();
-let layer = $state<HTMLDivElement | null>(null);
-let start = $state<{ x: number; y: number } | null>(null);
-let end = $state<{ x: number; y: number } | null>(null);
+	// =========================
+	// STATE
+	// =========================
+	// The layer maps screen pixels to flow units, so it reads the live xyflow viewport.
+	const store = useStore();
+	let layer = $state<HTMLDivElement | null>(null);
+	let start = $state<{ x: number; y: number } | null>(null);
+	let end = $state<{ x: number; y: number } | null>(null);
 
-// =========================
-// DERIVED
-// =========================
-let preview = $derived(start && end ? frameRect(start, end) : null);
+	// =========================
+	// DERIVED
+	// =========================
+	let preview = $derived(start && end ? frameRect(start, end) : null);
 
-// =========================
-// FUNCTIONS
-// =========================
-function toFlow(event: { clientX: number; clientY: number }) {
-	const box = layer?.getBoundingClientRect();
-	const { x, y, zoom } = store.viewport;
-	return {
-		x: (event.clientX - (box?.left ?? 0) - x) / zoom,
-		y: (event.clientY - (box?.top ?? 0) - y) / zoom,
-	};
-}
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function toFlow(event: { clientX: number; clientY: number }) {
+		const box = layer?.getBoundingClientRect();
+		const { x, y, zoom } = store.viewport;
+		return {
+			x: (event.clientX - (box?.left ?? 0) - x) / zoom,
+			y: (event.clientY - (box?.top ?? 0) - y) / zoom,
+		};
+	}
 
-function onpointerdown(event: PointerEvent) {
-	if (event.button !== 0 || !event.isPrimary) return;
-	layer?.setPointerCapture(event.pointerId);
-	start = end = toFlow(event);
-}
+	function onpointerdown(event: PointerEvent) {
+		if (event.button !== 0 || !event.isPrimary) return;
+		layer?.setPointerCapture(event.pointerId);
+		start = end = toFlow(event);
+	}
 
-function onpointermove(event: PointerEvent) {
-	if (start) end = toFlow(event);
-}
+	function onpointermove(event: PointerEvent) {
+		if (start) end = toFlow(event);
+	}
 
-function onpointerup(event: PointerEvent) {
-	if (!start) return;
-	layer?.releasePointerCapture(event.pointerId);
-	const rect = frameRect(start, toFlow(event));
-	start = end = null;
-	onFrame(rect);
-}
+	function onpointerup(event: PointerEvent) {
+		if (!start) return;
+		layer?.releasePointerCapture(event.pointerId);
+		const rect = frameRect(start, toFlow(event));
+		start = end = null;
+		onFrame(rect);
+	}
 
-function cancel() {
-	start = end = null;
-}
+	function cancel() {
+		start = end = null;
+	}
 </script>
 
 <!-- =========================== -->

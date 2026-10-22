@@ -73,9 +73,7 @@
 	let still = $derived(overflowOnly && !overflowing);
 	// WHY: two copies loop seamlessly once one copy is wider than the box.
 	let copies = $derived(overflowOnly ? (overflowing ? 2 : 1) : repeat);
-	let loopSeconds = $derived(
-		speed && trackSize > 0 ? (trackSize + gapSize) / speed : undefined,
-	);
+	let loopSeconds = $derived(speed && trackSize > 0 ? (trackSize + gapSize) / speed : undefined);
 
 	// WHY: only emit the CSS vars that were passed as props, so a consumer can
 	// still override timing or spacing with a `[--duration:24s]` utility class.

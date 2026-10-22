@@ -33,7 +33,7 @@
 		hoveredIndex?: number | null;
 		onHoverChange?: (index: number | null) => void;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

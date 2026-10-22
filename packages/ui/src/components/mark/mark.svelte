@@ -1,42 +1,42 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
+	// =========================
+	// TYPES
+	// =========================
 
-/**
- * A brand's mark at glyph size: a kit icon, a channel avatar, a client logo.
- * One renderer, because three places each handled a missing file their own way.
- */
-interface Props {
-	/** The file. A missing or broken one falls back to the label's initial. */
-	src?: string;
-	/** Read for the fallback letter. The mark itself is decorative. */
-	label: string;
-	/** `circle` crops a photograph to a disc, `square` fits a logo whole. */
-	shape?: "square" | "circle";
-	class?: string;
-};
+	/**
+	 * A brand's mark at glyph size: a kit icon, a channel avatar, a client logo.
+	 * One renderer, because three places each handled a missing file their own way.
+	 */
+	interface Props {
+		/** The file. A missing or broken one falls back to the label's initial. */
+		src?: string;
+		/** Read for the fallback letter. The mark itself is decorative. */
+		label: string;
+		/** `circle` crops a photograph to a disc, `square` fits a logo whole. */
+		shape?: "square" | "circle";
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { src, label, shape = "square", class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { src, label, shape = "square", class: className }: Props = $props();
 
-// =========================
-// STATE
-// =========================
-/** The src that failed, so a later one gets its own chance to load. */
-let broken = $state("");
+	// =========================
+	// STATE
+	// =========================
+	/** The src that failed, so a later one gets its own chance to load. */
+	let broken = $state("");
 
-// =========================
-// DERIVED
-// =========================
-let round = $derived(shape === "circle");
+	// =========================
+	// DERIVED
+	// =========================
+	let round = $derived(shape === "circle");
 </script>
 
 <!-- =========================== -->
@@ -50,11 +50,7 @@ let round = $derived(shape === "circle");
 		alt=""
 		loading="lazy"
 		referrerpolicy="no-referrer"
-		class={cn(
-			"size-4 shrink-0",
-			round ? "rounded-full object-cover" : "object-contain",
-			className,
-		)}
+		class={cn("size-4 shrink-0", round ? "rounded-full object-cover" : "object-contain", className)}
 		onerror={() => (broken = src)}
 	/>
 {:else}

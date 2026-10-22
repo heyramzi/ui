@@ -17,7 +17,7 @@
 		/** Rendered in the middle, e.g. the percentage. */
 		children?: Snippet;
 		class?: string;
-	};
+	}
 
 	let { value, max, size = 56, stroke = 4, label, children, class: className }: Props = $props();
 
@@ -36,7 +36,14 @@
 	aria-hidden={label ? undefined : "true"}
 >
 	<svg viewBox="0 0 36 36" class="size-full -rotate-90" fill="none" aria-hidden="true">
-		<circle cx="18" cy="18" r={R} stroke="currentColor" stroke-width={stroke} class="text-foreground/10" />
+		<circle
+			cx="18"
+			cy="18"
+			r={R}
+			stroke="currentColor"
+			stroke-width={stroke}
+			class="text-foreground/10"
+		/>
 		<circle
 			cx="18"
 			cy="18"
@@ -58,7 +65,8 @@
 <style>
 	.time-ring-arc {
 		transition:
-			stroke-dasharray var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+			stroke-dasharray var(--duration-slow, 400ms)
+				var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
 			color var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 

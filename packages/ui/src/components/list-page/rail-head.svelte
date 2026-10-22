@@ -1,30 +1,30 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import SectionLabel from "#src/components/section-header/section-label.svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import SectionLabel from "#src/components/section-header/section-label.svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// The fixed top of a queue rail: label, filter, search. A fixed height, so
-	// rows start on the same line on every queue page.
-	label?: string;
-	// A low-emphasis control beside the label (compose, refresh).
-	action?: Snippet;
-	// The filter, the search, whatever narrows the list. Optional: a rail of four
-	// records has nothing to narrow, and an empty strip under the label is chrome.
-	children?: Snippet;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// The fixed top of a queue rail: label, filter, search. A fixed height, so
+		// rows start on the same line on every queue page.
+		label?: string;
+		// A low-emphasis control beside the label (compose, refresh).
+		action?: Snippet;
+		// The filter, the search, whatever narrows the list. Optional: a rail of four
+		// records has nothing to narrow, and an empty strip under the label is chrome.
+		children?: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { label, action, children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { label, action, children, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

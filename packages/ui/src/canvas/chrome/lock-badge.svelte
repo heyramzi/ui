@@ -1,13 +1,13 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
 
-// =========================
-// PROPS
-// =========================
-let { label, children }: { label: string; children: Snippet } = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { label, children }: { label: string; children: Snippet } = $props();
 </script>
 
 <!-- =========================== -->

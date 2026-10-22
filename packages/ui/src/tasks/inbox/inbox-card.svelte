@@ -29,7 +29,7 @@
 		onverdict: (verdict: InboxVerdict) => void;
 		/** Replaces the summary lines, for a host that renders its own proposal. */
 		renderProposal?: Snippet<[InboxItem]>;
-	};
+	}
 
 	let { item, selected = false, onselect, onverdict, renderProposal }: Props = $props();
 
@@ -158,7 +158,9 @@
 	class={cn(
 		"flex flex-col gap-3 rounded-xl p-3 outline-none transition-[background-color,border-color,box-shadow] duration-[var(--duration-quick,120ms)] ease-[var(--ease-smooth-out,ease-out)]",
 		"focus-visible:ring-ring/50 focus-visible:ring-3",
-		open ? "border-border bg-card border shadow-[var(--elev-card,none)]" : "bg-muted/30 border border-transparent",
+		open
+			? "border-border bg-card border shadow-[var(--elev-card,none)]"
+			: "bg-muted/30 border border-transparent",
 		selected && open && "border-ring",
 	)}
 >
@@ -228,7 +230,9 @@
 		<div class="flex flex-col gap-1.5 pl-6">
 			<PixelLoader label="Agent is re-running with your note" />
 			{#if item.steer}
-				<p class="text-muted-foreground border-border border-l-2 pl-3 text-sm">&ldquo;{item.steer}&rdquo;</p>
+				<p class="text-muted-foreground border-border border-l-2 pl-3 text-sm">
+					&ldquo;{item.steer}&rdquo;
+				</p>
 			{/if}
 		</div>
 	{/if}
@@ -259,14 +263,18 @@
 			<div class="flex flex-wrap items-center gap-2">
 				<Button size="sm" onclick={submitSteer} disabled={!note.trim()}>Send to agent</Button>
 				<Button size="sm" variant="ghost" onclick={() => (steering = false)}>Cancel</Button>
-				<span class="text-muted-foreground text-xs max-sm:hidden">The agent retries with your note.</span>
+				<span class="text-muted-foreground text-xs max-sm:hidden"
+					>The agent retries with your note.</span
+				>
 			</div>
 		</div>
 	{:else if open}
 		<div class="flex flex-wrap items-center gap-2 pl-6">
 			<Button size="sm" onclick={approve} aria-keyshortcuts="a">{sendLabel}</Button>
 			{#if !drafts.some((d) => d.outcome === "decline")}
-				<Button size="sm" variant="destructive" onclick={decline} aria-keyshortcuts="d">Decline</Button>
+				<Button size="sm" variant="destructive" onclick={decline} aria-keyshortcuts="d"
+					>Decline</Button
+				>
 			{/if}
 			<Button size="sm" variant="outline" onclick={steer} aria-keyshortcuts="s">Steer</Button>
 			{#if drafts.length}

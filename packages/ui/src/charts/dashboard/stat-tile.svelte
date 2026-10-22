@@ -1,108 +1,108 @@
 <script lang="ts" module>
-/**
- * Which way a metric has to move to be good news. `neutral` fits a figure like
- * spend, which isn't a win or a loss until the return sits beside it.
- */
-export type StatDirection = "up-good" | "down-good" | "neutral";
+	/**
+	 * Which way a metric has to move to be good news. `neutral` fits a figure like
+	 * spend, which isn't a win or a loss until the return sits beside it.
+	 */
+	export type StatDirection = "up-good" | "down-good" | "neutral";
 </script>
 
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import NumberChart from "#src/charts/number-chart.svelte";
-import Sparkline from "#src/charts/sparkline.svelte";
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
-import { Icon } from "#src/components/icon/index.js";
-import type { PhosphorIcon } from "#src/lib/icon-types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import NumberChart from "#src/charts/number-chart.svelte";
+	import Sparkline from "#src/charts/sparkline.svelte";
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { Icon } from "#src/components/icon/index.js";
+	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	label: string;
-	/** Already formatted. The tile never guesses a currency or a locale. */
-	value: string;
-	/**
-	 * Percent change against the previous period. `null` means nothing to
-	 * compare yet and draws a dash. Omit it when the figure has no period at all.
-	 */
-	deltaPct?: number | null;
-	direction?: StatDirection;
-	/** The one figure the screen was opened to read. Set it on exactly one tile. */
-	lead?: boolean;
-	/** A quiet line under the value: what it was measured over, or why it is a dash. */
-	hint?: string;
-	/**
-	 * 0 to 1, drawn as a track under the value: share of a total or progress to
-	 * a target. Omit it for a cash balance.
-	 */
-	share?: number;
-	/** What `share` is measured against, e.g. "of revenue". Only with `share`. */
-	shareLabel?: string;
-	/** Track colour. The first series token unless a tile means something else. */
-	color?: string;
-	/**
-	 * A shape behind the figure, oldest first, bled along the card's bottom.
-	 * The treatment every tile gives a number with a history. Omit when there
-	 * is none.
-	 */
-	series?: number[];
-	/** Leading mark before the label. */
-	icon?: PhosphorIcon;
-	/**
-	 * Makes the tile a link, like a balance that opens the bank. It lives here so
-	 * a linked figure isn't drawn as a second, different card style.
-	 */
-	href?: string;
-	/** What the link opens, shown on hover. Only with `href`. */
-	hrefLabel?: string;
-	/**
-	 * `_blank` for a figure that leaves the app (a bank, a provider console),
-	 * `_self` for one that is another page of this app. Only with `href`.
-	 */
-	target?: "_self" | "_blank";
-	/**
-	 * A chip at the end of the label row: the limit the figure is judged against,
-	 * the state it is in. Wins over `hrefLabel`, which is only a hover hint.
-	 */
-	badge?: Snippet;
-	/** A loss or an overrun: the figure turns the destructive colour. */
-	negative?: boolean;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		label: string;
+		/** Already formatted. The tile never guesses a currency or a locale. */
+		value: string;
+		/**
+		 * Percent change against the previous period. `null` means nothing to
+		 * compare yet and draws a dash. Omit it when the figure has no period at all.
+		 */
+		deltaPct?: number | null;
+		direction?: StatDirection;
+		/** The one figure the screen was opened to read. Set it on exactly one tile. */
+		lead?: boolean;
+		/** A quiet line under the value: what it was measured over, or why it is a dash. */
+		hint?: string;
+		/**
+		 * 0 to 1, drawn as a track under the value: share of a total or progress to
+		 * a target. Omit it for a cash balance.
+		 */
+		share?: number;
+		/** What `share` is measured against, e.g. "of revenue". Only with `share`. */
+		shareLabel?: string;
+		/** Track colour. The first series token unless a tile means something else. */
+		color?: string;
+		/**
+		 * A shape behind the figure, oldest first, bled along the card's bottom.
+		 * The treatment every tile gives a number with a history. Omit when there
+		 * is none.
+		 */
+		series?: number[];
+		/** Leading mark before the label. */
+		icon?: PhosphorIcon;
+		/**
+		 * Makes the tile a link, like a balance that opens the bank. It lives here so
+		 * a linked figure isn't drawn as a second, different card style.
+		 */
+		href?: string;
+		/** What the link opens, shown on hover. Only with `href`. */
+		hrefLabel?: string;
+		/**
+		 * `_blank` for a figure that leaves the app (a bank, a provider console),
+		 * `_self` for one that is another page of this app. Only with `href`.
+		 */
+		target?: "_self" | "_blank";
+		/**
+		 * A chip at the end of the label row: the limit the figure is judged against,
+		 * the state it is in. Wins over `hrefLabel`, which is only a hover hint.
+		 */
+		badge?: Snippet;
+		/** A loss or an overrun: the figure turns the destructive colour. */
+		negative?: boolean;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	label,
-	value,
-	deltaPct,
-	direction = "neutral",
-	lead = false,
-	hint,
-	share,
-	shareLabel,
-	color,
-	series,
-	icon,
-	href,
-	hrefLabel,
-	target = "_blank",
-	badge,
-	negative = false,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		label,
+		value,
+		deltaPct,
+		direction = "neutral",
+		lead = false,
+		hint,
+		share,
+		shareLabel,
+		color,
+		series,
+		icon,
+		href,
+		hrefLabel,
+		target = "_blank",
+		badge,
+		negative = false,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-// `Sparkline` plots rows, and a card carries a bare series. Two points is a
-// line, not a shape, so it is not drawn.
-let points = $derived(series?.map((value, index) => ({ i: index, v: value })) ?? []);
-let hasSeries = $derived(points.length > 2);
+	// =========================
+	// DERIVED
+	// =========================
+	// `Sparkline` plots rows, and a card carries a bare series. Two points is a
+	// line, not a shape, so it is not drawn.
+	let points = $derived(series?.map((value, index) => ({ i: index, v: value })) ?? []);
+	let hasSeries = $derived(points.length > 2);
 </script>
 
 <!-- =========================== -->
@@ -155,7 +155,14 @@ let hasSeries = $derived(points.length > 2);
 			class="pointer-events-none absolute inset-x-px bottom-px h-12 overflow-hidden rounded-b-[calc(var(--radius-xl)-1px)]"
 			aria-hidden="true"
 		>
-			<Sparkline data={points} xKey="i" yKey="v" color={color ?? "var(--chart-1)"} height={48} bare />
+			<Sparkline
+				data={points}
+				xKey="i"
+				yKey="v"
+				color={color ?? "var(--chart-1)"}
+				height={48}
+				bare
+			/>
 		</div>
 	{/if}
 </svelte:element>

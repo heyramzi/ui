@@ -57,7 +57,7 @@
 		formatValue?: (v: number) => string;
 		formatX?: (v: unknown) => string;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

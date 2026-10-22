@@ -1,43 +1,38 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { SlashItem } from "#src/editor/slash-items.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { SlashItem } from "#src/editor/slash-items.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	items: SlashItem[];
-	pos: { top: number; left: number };
-	selectedIndex: number;
-	/** The menu element, so the parent can close it on an outside click. */
-	el?: HTMLDivElement;
-	onselect: (item: SlashItem) => void;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		items: SlashItem[];
+		pos: { top: number; left: number };
+		selectedIndex: number;
+		/** The menu element, so the parent can close it on an outside click. */
+		el?: HTMLDivElement;
+		onselect: (item: SlashItem) => void;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Props = $props();
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div
-	bind:this={el}
-	class="slash-menu"
-	style="top: {pos.top}px; left: {pos.left}px;"
-	role="listbox"
->
+<div bind:this={el} class="slash-menu" style="top: {pos.top}px; left: {pos.left}px;" role="listbox">
 	{#each items as item, i}
 		<button
 			type="button"
 			class="slash-item"
 			class:selected={i === selectedIndex}
 			onclick={() => onselect(item)}
-			onpointerenter={() => selectedIndex = i}
+			onpointerenter={() => (selectedIndex = i)}
 			role="option"
 			aria-selected={i === selectedIndex}
 		>
@@ -117,7 +112,9 @@ let { items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Pro
 		background: var(--color-muted);
 		color: var(--color-muted-foreground);
 		flex-shrink: 0;
-		transition: background-color var(--duration-micro) var(--ease-smooth-out), color var(--duration-micro) var(--ease-smooth-out);
+		transition:
+			background-color var(--duration-micro) var(--ease-smooth-out),
+			color var(--duration-micro) var(--ease-smooth-out);
 	}
 
 	.slash-item.selected .slash-icon {

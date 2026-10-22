@@ -1,53 +1,53 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
-import { Progress } from "#src/shadcn/progress/index.js";
-import { TONE_TEXT } from "#src/lib/tone.js";
-import StatusBadge from "#src/status/status-badge.svelte";
-import { todayIso } from "#src/tasks/dates.js";
-import { formatMoney, formatRange } from "#src/record/format.js";
-import {
-	resolveLabels,
-	type RecordLabels,
-	type RecordSummary,
-	type StageDef,
-} from "#src/record/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
+	import { Progress } from "#src/shadcn/progress/index.js";
+	import { TONE_TEXT } from "#src/lib/tone.js";
+	import StatusBadge from "#src/status/status-badge.svelte";
+	import { todayIso } from "#src/tasks/dates.js";
+	import { formatMoney, formatRange } from "#src/record/format.js";
+	import {
+		resolveLabels,
+		type RecordLabels,
+		type RecordSummary,
+		type StageDef,
+	} from "#src/record/types.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	projects: RecordSummary[];
-	/** The agency's stages: each project draws its stage's label and tone. */
-	stages: StageDef[];
-	/** A project being looked at, marked in the list. */
-	activeId?: string | null;
-	/** Money shown when a project has none of its own. */
-	currency?: string;
-	labels?: Partial<RecordLabels>;
-	locale?: string;
-	/** ISO date. Decides "late". Defaults to the viewer's today. */
-	today?: string;
-	class?: string;
-}
-let {
-	projects,
-	stages,
-	activeId = null,
-	currency = "EUR",
-	labels,
-	locale,
-	today = todayIso(),
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		projects: RecordSummary[];
+		/** The agency's stages: each project draws its stage's label and tone. */
+		stages: StageDef[];
+		/** A project being looked at, marked in the list. */
+		activeId?: string | null;
+		/** Money shown when a project has none of its own. */
+		currency?: string;
+		labels?: Partial<RecordLabels>;
+		locale?: string;
+		/** ISO date. Decides "late". Defaults to the viewer's today. */
+		today?: string;
+		class?: string;
+	}
+	let {
+		projects,
+		stages,
+		activeId = null,
+		currency = "EUR",
+		labels,
+		locale,
+		today = todayIso(),
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let t = $derived(resolveLabels(labels));
-let stageByKey = $derived(new Map(stages.map((s) => [s.key, s])));
+	// =========================
+	// DERIVED
+	// =========================
+	let t = $derived(resolveLabels(labels));
+	let stageByKey = $derived(new Map(stages.map((s) => [s.key, s])));
 </script>
 
 <!-- =========================== -->
@@ -67,7 +67,9 @@ let stageByKey = $derived(new Map(stages.map((s) => [s.key, s])));
 	</span>
 	<span class="flex flex-wrap items-center gap-x-2 gap-y-1">
 		<StatusBadge tone={stage?.tone ?? "neutral"} dot capitalize={false}>
-			{stage ? stage.label : project.stageKey}{project.stageDetail ? ` · ${project.stageDetail}` : ""}
+			{stage ? stage.label : project.stageKey}{project.stageDetail
+				? ` · ${project.stageDetail}`
+				: ""}
 		</StatusBadge>
 		{#if project.whereWeAre?.health}
 			<StatusBadge tone={project.whereWeAre.health.tone} capitalize={false}>
@@ -76,7 +78,9 @@ let stageByKey = $derived(new Map(stages.map((s) => [s.key, s])));
 		{/if}
 	</span>
 	{#if project.whereWeAre?.text}
-		<span class="line-clamp-2 text-xs leading-snug text-muted-foreground">{project.whereWeAre.text}</span>
+		<span class="line-clamp-2 text-xs leading-snug text-muted-foreground"
+			>{project.whereWeAre.text}</span
+		>
 	{/if}
 	{#if project.progress && project.progress.total > 0}
 		<span class="flex items-center gap-2">
@@ -96,7 +100,9 @@ let stageByKey = $derived(new Map(stages.map((s) => [s.key, s])));
 		<span class="flex flex-wrap items-baseline gap-x-2 text-xs text-muted-foreground">
 			<span>{t.next}</span>
 			{#if next.date}
-				<span class={cn("tabular-nums", late && TONE_TEXT.warning)}>{formatRange(next.date, next.endDate, locale)}</span>
+				<span class={cn("tabular-nums", late && TONE_TEXT.warning)}
+					>{formatRange(next.date, next.endDate, locale)}</span
+				>
 			{/if}
 			<span class="min-w-0 truncate text-foreground">{next.label}</span>
 		</span>

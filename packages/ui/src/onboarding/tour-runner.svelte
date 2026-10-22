@@ -47,7 +47,8 @@
 	// dismissal waits a microtask and the completion wins.
 	function onStatusChange({ status }: zag.StatusChangeDetails) {
 		if (status === "completed") finish("completed");
-		else if (status === "dismissed" || status === "skipped") queueMicrotask(() => finish("dismissed"));
+		else if (status === "dismissed" || status === "skipped")
+			queueMicrotask(() => finish("dismissed"));
 		else if (status === "not-found") finish(null);
 	}
 
@@ -107,13 +108,21 @@
 </script>
 
 {#if step}
-	<div use:portal {...api.getBackdropProps()} class="tour-backdrop" data-instant={instant || undefined}></div>
+	<div
+		use:portal
+		{...api.getBackdropProps()}
+		class="tour-backdrop"
+		data-instant={instant || undefined}
+	></div>
 	<div use:portal {...api.getSpotlightProps()} class="tour-spotlight"></div>
 	<div use:portal {...api.getPositionerProps()} class="tour-positioner">
 		<div
 			{...api.getContentProps()}
 			bind:this={card}
-			class={["tour-card bg-popover text-popover-foreground ring-foreground/10 shadow-overlay pointer-events-auto max-w-full text-sm ring-1 outline-none", intro ? "w-96 rounded-2xl" : "w-80 rounded-xl"]}
+			class={[
+				"tour-card bg-popover text-popover-foreground ring-foreground/10 shadow-overlay pointer-events-auto max-w-full text-sm ring-1 outline-none",
+				intro ? "w-96 rounded-2xl" : "w-80 rounded-xl",
+			]}
 		>
 			<TourCard
 				title={String(step.title)}

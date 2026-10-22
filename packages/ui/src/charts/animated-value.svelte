@@ -28,7 +28,7 @@
 		suffix?: string;
 		class?: string;
 		style?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

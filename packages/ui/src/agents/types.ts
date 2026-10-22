@@ -1,4 +1,4 @@
-import type { BotAvatarFace, BotAvatarProps, BotAvatarType } from '#src/agents/vendor/types.js';
+import type { BotAvatarFace, BotAvatarProps, BotAvatarType } from "#src/agents/vendor/types.js";
 
 /** The body shapes an agent can be drawn as. */
 export type AgentShape = BotAvatarType;
@@ -11,7 +11,7 @@ export type {
   BotAvatarHat as AgentHat,
   BotAvatarGlasses as AgentGlasses,
   BotAvatarPreset as AgentPreset,
-} from '#src/agents/vendor/types.js';
+} from "#src/agents/vendor/types.js";
 
 export {
   botAvatarPresets as agentPresets,
@@ -20,7 +20,7 @@ export {
   botAvatarStates as agentStates,
   botAvatarPalette as agentPalette,
   stateLabels as agentStateLabels,
-} from '#src/agents/vendor/presets.js';
+} from "#src/agents/vendor/presets.js";
 
 /** One member of a cast: a name, a role, and the face they draw. */
 export type Agent = {
@@ -51,7 +51,7 @@ type KnownProps<T> = {
  */
 export type AgentAvatarProps = Omit<
   KnownProps<BotAvatarProps>,
-  'type' | 'face' | 'ink' | 'size' | 'className' | 'style'
+  "type" | "face" | "ink" | "size" | "className" | "style"
 > & {
   /** Display name, for the default aria-label. */
   name?: string;
@@ -68,7 +68,7 @@ export type AgentAvatarProps = Omit<
   class?: string;
   style?: string;
   onclick?: (event: MouseEvent) => void;
-  'aria-label'?: string;
+  "aria-label"?: string;
   /** Hide the canvas from assistive tech when a parent already names the agent. */
-  'aria-hidden'?: boolean | 'true' | 'false';
+  "aria-hidden"?: boolean | "true" | "false";
 };

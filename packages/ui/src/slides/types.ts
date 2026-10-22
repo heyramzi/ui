@@ -1,16 +1,16 @@
-import type { Snippet } from 'svelte';
-import type { DeckController } from '#src/slides/deck-controller.svelte.js';
-import type { DeckLabels } from '#src/slides/labels.js';
-import type { SlideInstance, SlideRegistry } from '#src/slides/model.js';
+import type { Snippet } from "svelte";
+import type { DeckController } from "#src/slides/deck-controller.svelte.js";
+import type { DeckLabels } from "#src/slides/labels.js";
+import type { SlideInstance, SlideRegistry } from "#src/slides/model.js";
 
-export const DECK_KEY = Symbol('heyramzi.deck');
-export const SLIDE_KEY = Symbol('heyramzi.slide');
+export const DECK_KEY = Symbol("heyramzi.deck");
+export const SLIDE_KEY = Symbol("heyramzi.slide");
 
 /** `ink` is the dark default, `paper` a light surface, `auto` follows the system. */
-export type DeckTheme = 'ink' | 'paper' | 'auto';
+export type DeckTheme = "ink" | "paper" | "auto";
 
 /** How a slide enters. `morph` uses the View Transitions API and falls back to a cut. */
-export type DeckTransition = 'fade' | 'slide' | 'zoom' | 'morph' | 'none';
+export type DeckTransition = "fade" | "slide" | "zoom" | "morph" | "none";
 
 /** The design size in px. Slides lay out inside it and the whole canvas scales to fit. */
 export type Canvas = { w: number; h: number };
@@ -21,7 +21,7 @@ export const DEFAULT_CANVAS: Canvas = { w: 960, h: 540 };
 export type SlideNotes = string | Snippet;
 
 /** How a Slide lays out its own content. `bare` leaves the whole canvas to the author. */
-export type SlideAlign = 'center' | 'start' | 'bare';
+export type SlideAlign = "center" | "start" | "bare";
 
 /** Where a deck keeps `?s=`. `write` replaces the default `history.replaceState`, so SvelteKit apps can use its own. */
 export type UrlSync = { param?: string; write?: (url: URL) => void };
@@ -83,4 +83,3 @@ export type DeckProps = {
   onchange?: (index: number, step: number) => void;
   children?: Snippet;
 };
-

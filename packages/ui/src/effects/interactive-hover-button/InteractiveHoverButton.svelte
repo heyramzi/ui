@@ -1,47 +1,58 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { ArrowRight } from "phosphor-svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { ArrowRight } from "phosphor-svelte";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	href?: string;
-	/** `submit` posts the form the button sits in. */
-	type?: "button" | "submit";
-	disabled?: boolean;
-	size?: "default" | "md" | "sm";
-	tone?: "ink" | "coral";
-	beam?: boolean;
-	dot?: boolean;
-	class?: string;
-	onclick?: (event: MouseEvent) => void;
-	children: import("svelte").Snippet;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		href?: string;
+		/** `submit` posts the form the button sits in. */
+		type?: "button" | "submit";
+		disabled?: boolean;
+		size?: "default" | "md" | "sm";
+		tone?: "ink" | "coral";
+		beam?: boolean;
+		dot?: boolean;
+		class?: string;
+		onclick?: (event: MouseEvent) => void;
+		children: import("svelte").Snippet;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { href, type = "button", disabled = false, size = "default", tone = "ink", beam = true, dot = true, class: className, onclick, children }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		href,
+		type = "button",
+		disabled = false,
+		size = "default",
+		tone = "ink",
+		beam = true,
+		dot = true,
+		class: className,
+		onclick,
+		children,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let classes = $derived(
-	[
-		"cta-hover",
-		size === "md" && "cta-hover--md",
-		size === "sm" && "cta-hover--sm",
-		tone === "coral" && "cta-hover--coral",
-		!beam && "cta-hover--no-beam",
-		!dot && "cta-hover--no-dot",
-		className,
-	]
-		.filter(Boolean)
-		.join(" "),
-);
+	// =========================
+	// DERIVED
+	// =========================
+	let classes = $derived(
+		[
+			"cta-hover",
+			size === "md" && "cta-hover--md",
+			size === "sm" && "cta-hover--sm",
+			tone === "coral" && "cta-hover--coral",
+			!beam && "cta-hover--no-beam",
+			!dot && "cta-hover--no-dot",
+			className,
+		]
+			.filter(Boolean)
+			.join(" "),
+	);
 </script>
 
 <!-- =========================== -->
@@ -123,8 +134,8 @@ let classes = $derived(
 		background: conic-gradient(
 			transparent 0deg,
 			transparent 220deg,
-			oklch(0.65 0.20 30) 280deg,
-			oklch(0.82 0.10 30) 320deg,
+			oklch(0.65 0.2 30) 280deg,
+			oklch(0.82 0.1 30) 320deg,
 			transparent 360deg
 		);
 		transform: translate(-50%, -50%);
@@ -230,7 +241,9 @@ let classes = $derived(
 		justify-content: center;
 		gap: 8px;
 		width: 100%;
-		transition: opacity var(--duration-fast) var(--ease-smooth-out), transform var(--duration-fast) var(--ease-smooth-out);
+		transition:
+			opacity var(--duration-fast) var(--ease-smooth-out),
+			transform var(--duration-fast) var(--ease-smooth-out);
 	}
 
 	/* signal-600, not signal-400: the dot becomes the hover fill under a paper

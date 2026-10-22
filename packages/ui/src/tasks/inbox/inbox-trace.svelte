@@ -3,7 +3,9 @@
 	import { SOURCE_ICON, SOURCE_LABEL } from "#src/tasks/inbox/inbox-statuses.js";
 	import type { InboxTrace } from "#src/tasks/inbox/inbox-types.js";
 
-	interface Props { trace: InboxTrace };
+	interface Props {
+		trace: InboxTrace;
+	}
 
 	let { trace }: Props = $props();
 
@@ -26,7 +28,9 @@
 			<p class="text-foreground">
 				{trace.source.label}
 				{#if trace.source.href}
-					<a href={trace.source.href} class="text-foreground ml-1 underline underline-offset-2">Open source</a>
+					<a href={trace.source.href} class="text-foreground ml-1 underline underline-offset-2"
+						>Open source</a
+					>
 				{/if}
 			</p>
 			<ul class="flex flex-col gap-2">
@@ -34,7 +38,9 @@
 					<li>
 						<blockquote class="text-foreground">&ldquo;{evidence.quote}&rdquo;</blockquote>
 						{#if evidence.by || evidence.at}
-							<span class="text-xs tabular-nums">{[evidence.by, evidence.at].filter(Boolean).join(", ")}</span>
+							<span class="text-xs tabular-nums"
+								>{[evidence.by, evidence.at].filter(Boolean).join(", ")}</span
+							>
 						{/if}
 					</li>
 				{/each}

@@ -1,6 +1,6 @@
 /* Where a slide sits inside the stage: centred to fit, or in the overview grid. */
 
-import type { Canvas } from '#src/slides/types.js';
+import type { Canvas } from "#src/slides/types.js";
 
 export type Size = { w: number; h: number };
 
@@ -15,7 +15,14 @@ export function fitBox(view: Size, canvas: Canvas): Box {
 }
 
 /** The scale at which `cols` columns of `count` canvases fit the view. */
-function scaleFor(cols: number, count: number, view: Size, canvas: Canvas, pad: number, gap: number): number {
+function scaleFor(
+  cols: number,
+  count: number,
+  view: Size,
+  canvas: Canvas,
+  pad: number,
+  gap: number,
+): number {
   const rows = Math.ceil(count / cols);
   const byWidth = (view.w - 2 * pad - (cols - 1) * gap) / cols / canvas.w;
   const byHeight = (view.h - 2 * pad - (rows - 1) * gap) / rows / canvas.h;

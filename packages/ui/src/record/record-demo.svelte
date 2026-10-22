@@ -1,117 +1,130 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { DotsThree, NotePencil } from "phosphor-svelte";
-import { SegmentedFilter } from "#src/components/segmented/index.js";
-import { Button } from "#src/shadcn/button/index.js";
-import { Input } from "#src/shadcn/input/index.js";
-import * as Tabs from "#src/shadcn/tabs/index.js";
-import RecordShell from "#src/record/record-shell.svelte";
-import RecordHeader from "#src/record/record-header.svelte";
-import WhereWeAre from "#src/record/where-we-are.svelte";
-import NextUp from "#src/record/next-up.svelte";
-import RecordStats from "#src/record/record-stats.svelte";
-import StepsRail from "#src/record/steps-rail.svelte";
-import RecordTimeline from "#src/record/record-timeline.svelte";
-import ProjectList from "#src/record/project-list.svelte";
-import FieldSection from "#src/record/field-section.svelte";
-import InfoList from "#src/record/info-list.svelte";
-import { formatAge, formatMoney, formatRange } from "#src/record/format.js";
-import {
-	latestWhereWeAre,
-	mergeClientEvents,
-	nextAcrossProjects,
-	rollupProjects,
-	stepProgress,
-} from "#src/record/logic.js";
-import type { FieldValue, RecordEvent, StepDef } from "#src/record/types.js";
-import {
-	DEMO_NOW,
-	DEMO_TODAY,
-	clientFields,
-	clientOnlyEvents,
-	clientProjects,
-	clientSections,
-	clientValues,
-	projectFields,
-	projectSections,
-	stages,
-	stepGroups,
-	website,
-	websiteEvents,
-	websiteSteps,
-	websiteValues,
-} from "#src/record/demo-data.js";
-
-// =========================
-// STATE
-// =========================
-type Fixture = "project" | "client";
-let fixture = $state<Fixture>("project");
-let narrow = $state(false);
-let tab = $state<"activity" | "notes">("activity");
-let filter = $state("all");
-let steps = $state<StepDef[]>(structuredClone(websiteSteps));
-let activeStep = $state<string | null>("s2");
-let projectValues = $state<Record<string, FieldValue | undefined>>({ ...websiteValues });
-let personValues = $state<Record<string, FieldValue | undefined>>({ ...clientValues });
-let extra = $state<RecordEvent[]>([]);
-let draftNote = $state("");
-let railOpen = $state(false);
-
-// =========================
-// DERIVED
-// =========================
-const locale = "en-GB";
-let projectEvents = $derived([...extra, ...websiteEvents]);
-let clientEvents = $derived(
-	mergeClientEvents(
+	// =========================
+	// IMPORTS
+	// =========================
+	import { DotsThree, NotePencil } from "phosphor-svelte";
+	import { SegmentedFilter } from "#src/components/segmented/index.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Input } from "#src/shadcn/input/index.js";
+	import * as Tabs from "#src/shadcn/tabs/index.js";
+	import RecordShell from "#src/record/record-shell.svelte";
+	import RecordHeader from "#src/record/record-header.svelte";
+	import WhereWeAre from "#src/record/where-we-are.svelte";
+	import NextUp from "#src/record/next-up.svelte";
+	import RecordStats from "#src/record/record-stats.svelte";
+	import StepsRail from "#src/record/steps-rail.svelte";
+	import RecordTimeline from "#src/record/record-timeline.svelte";
+	import ProjectList from "#src/record/project-list.svelte";
+	import FieldSection from "#src/record/field-section.svelte";
+	import InfoList from "#src/record/info-list.svelte";
+	import { formatAge, formatMoney, formatRange } from "#src/record/format.js";
+	import {
+		latestWhereWeAre,
+		mergeClientEvents,
+		nextAcrossProjects,
+		rollupProjects,
+		stepProgress,
+	} from "#src/record/logic.js";
+	import type { FieldValue, RecordEvent, StepDef } from "#src/record/types.js";
+	import {
+		DEMO_NOW,
+		DEMO_TODAY,
+		clientFields,
 		clientOnlyEvents,
-		clientProjects.map((p) => ({
-			id: p.summary.id,
-			name: p.summary.name,
-			href: p.summary.href,
-			events: p.events,
-		})),
-	),
-);
-let summaries = $derived(clientProjects.map((p) => p.summary));
-let rollup = $derived(rollupProjects(summaries, stages));
-let latest = $derived(latestWhereWeAre(summaries));
-let next = $derived(nextAcrossProjects(summaries, stages));
-let progress = $derived(stepProgress(steps));
-let notes = $derived(projectEvents.filter((e) => e.kind === "note"));
-let stage = $derived(stages.find((s) => s.key === website.stageKey));
+		clientProjects,
+		clientSections,
+		clientValues,
+		projectFields,
+		projectSections,
+		stages,
+		stepGroups,
+		website,
+		websiteEvents,
+		websiteSteps,
+		websiteValues,
+	} from "#src/record/demo-data.js";
 
-let clientStats = $derived.by(() => {
-	const eur = rollup.totals.EUR;
-	return [
-		{ label: "Projects", value: String(rollup.count), sub: `${rollup.activeCount} active` },
-		{ label: "Pipeline", value: formatMoney(eur?.pipeline ?? 0, "EUR", locale, true) },
-		{ label: "Won", value: formatMoney(eur?.won ?? 0, "EUR", locale, true) },
-		{ label: "Paid", value: formatMoney(eur?.paid ?? 0, "EUR", locale, true), tone: "good" as const },
-		{ label: "Last call", value: rollup.lastCallAt ? formatAge(rollup.lastCallAt, DEMO_NOW, locale) : "None yet" },
-	];
-});
+	// =========================
+	// STATE
+	// =========================
+	type Fixture = "project" | "client";
+	let fixture = $state<Fixture>("project");
+	let narrow = $state(false);
+	let tab = $state<"activity" | "notes">("activity");
+	let filter = $state("all");
+	let steps = $state<StepDef[]>(structuredClone(websiteSteps));
+	let activeStep = $state<string | null>("s2");
+	let projectValues = $state<Record<string, FieldValue | undefined>>({ ...websiteValues });
+	let personValues = $state<Record<string, FieldValue | undefined>>({ ...clientValues });
+	let extra = $state<RecordEvent[]>([]);
+	let draftNote = $state("");
+	let railOpen = $state(false);
 
-// =========================
-// FUNCTIONS
-// =========================
-function addNote() {
-	const title = draftNote.trim();
-	if (!title) return;
-	extra = [
-		{ id: `n${extra.length}`, kind: "note", occurredAt: DEMO_NOW.toISOString(), title, actor: "Ramzi" },
-		...extra,
-	];
-	draftNote = "";
-}
+	// =========================
+	// DERIVED
+	// =========================
+	const locale = "en-GB";
+	let projectEvents = $derived([...extra, ...websiteEvents]);
+	let clientEvents = $derived(
+		mergeClientEvents(
+			clientOnlyEvents,
+			clientProjects.map((p) => ({
+				id: p.summary.id,
+				name: p.summary.name,
+				href: p.summary.href,
+				events: p.events,
+			})),
+		),
+	);
+	let summaries = $derived(clientProjects.map((p) => p.summary));
+	let rollup = $derived(rollupProjects(summaries, stages));
+	let latest = $derived(latestWhereWeAre(summaries));
+	let next = $derived(nextAcrossProjects(summaries, stages));
+	let progress = $derived(stepProgress(steps));
+	let notes = $derived(projectEvents.filter((e) => e.kind === "note"));
+	let stage = $derived(stages.find((s) => s.key === website.stageKey));
 
-// A real host would round-trip here. The pause lets the rail show its optimistic order.
-async function pause() {
-	await new Promise((resolve) => setTimeout(resolve, 250));
-}
+	let clientStats = $derived.by(() => {
+		const eur = rollup.totals.EUR;
+		return [
+			{ label: "Projects", value: String(rollup.count), sub: `${rollup.activeCount} active` },
+			{ label: "Pipeline", value: formatMoney(eur?.pipeline ?? 0, "EUR", locale, true) },
+			{ label: "Won", value: formatMoney(eur?.won ?? 0, "EUR", locale, true) },
+			{
+				label: "Paid",
+				value: formatMoney(eur?.paid ?? 0, "EUR", locale, true),
+				tone: "good" as const,
+			},
+			{
+				label: "Last call",
+				value: rollup.lastCallAt ? formatAge(rollup.lastCallAt, DEMO_NOW, locale) : "None yet",
+			},
+		];
+	});
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function addNote() {
+		const title = draftNote.trim();
+		if (!title) return;
+		extra = [
+			{
+				id: `n${extra.length}`,
+				kind: "note",
+				occurredAt: DEMO_NOW.toISOString(),
+				title,
+				actor: "Ramzi",
+			},
+			...extra,
+		];
+		draftNote = "";
+	}
+
+	// A real host would round-trip here. The pause lets the rail show its optimistic order.
+	async function pause() {
+		await new Promise((resolve) => setTimeout(resolve, 250));
+	}
 </script>
 
 <!-- =========================== -->
@@ -125,7 +138,12 @@ async function pause() {
 			addNote();
 		}}
 	>
-		<Input bind:value={draftNote} placeholder="Write a note" aria-label="Write a note" class="flex-1" />
+		<Input
+			bind:value={draftNote}
+			placeholder="Write a note"
+			aria-label="Write a note"
+			class="flex-1"
+		/>
 		<Button type="submit" variant="outline" disabled={!draftNote.trim()}>
 			<NotePencil data-icon="inline-start" />
 			Add
@@ -188,7 +206,9 @@ async function pause() {
 							]}
 						>
 							{#snippet actions()}
-								<Button variant="ghost" size="sm" icon aria-label="More actions"><DotsThree weight="bold" /></Button>
+								<Button variant="ghost" size="sm" icon aria-label="More actions"
+									><DotsThree weight="bold" /></Button
+								>
 							{/snippet}
 						</RecordHeader>
 					{/snippet}

@@ -1,26 +1,26 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
-import type { PhosphorIcon } from "#src/lib/icon-types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
+	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// The one label style for panel, rail group and sub-section headers. Retyped
-	// copies drifted to a different tracking value.
-	icon?: PhosphorIcon;
-	children: Snippet;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// The one label style for panel, rail group and sub-section headers. Retyped
+		// copies drifted to a different tracking value.
+		icon?: PhosphorIcon;
+		children: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { icon: Icon, children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { icon: Icon, children, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

@@ -1,83 +1,86 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { getContext } from "svelte";
-import { cn } from "#src/lib/utils.js";
-import { MASTER_DETAIL_PANE, type MasterDetailPane } from "#src/components/list-page/queue-rail.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { getContext } from "svelte";
+	import { cn } from "#src/lib/utils.js";
+	import {
+		MASTER_DETAIL_PANE,
+		type MasterDetailPane,
+	} from "#src/components/list-page/queue-rail.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// One row shape for every queue rail, in a fixed order: identity, preview,
-	// facts. Three pages used to draw three different rows.
-	title: string;
-	selected?: boolean;
-	onclick: () => void;
-	// A thumbnail or avatar ahead of the title.
-	leading?: Snippet;
-	// The record's state, at the end of the preview line. Never beside the title,
-	// where it competes with the name.
-	trailing?: Snippet;
-	// One line of the record's own words, under the title.
-	preview?: string | null;
-	// Dot-separated facts under the preview. Falsy entries drop out.
-	meta?: Array<string | null | undefined | false>;
-	// Which fact gives up its width first. The others hold their full text, so
-	// a date or a count never truncates to nonsense.
-	metaTruncate?: "first" | "last";
-	// Icons that qualify the facts (a waiting reply, a removed comment).
-	metaTrail?: Snippet;
-	// Controls that appear on hover, over the row's top-right corner.
-	actions?: Snippet;
-	// Long records (thread titles) need two lines to be recognisable.
-	titleLines?: 1 | 2;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// One row shape for every queue rail, in a fixed order: identity, preview,
+		// facts. Three pages used to draw three different rows.
+		title: string;
+		selected?: boolean;
+		onclick: () => void;
+		// A thumbnail or avatar ahead of the title.
+		leading?: Snippet;
+		// The record's state, at the end of the preview line. Never beside the title,
+		// where it competes with the name.
+		trailing?: Snippet;
+		// One line of the record's own words, under the title.
+		preview?: string | null;
+		// Dot-separated facts under the preview. Falsy entries drop out.
+		meta?: Array<string | null | undefined | false>;
+		// Which fact gives up its width first. The others hold their full text, so
+		// a date or a count never truncates to nonsense.
+		metaTruncate?: "first" | "last";
+		// Icons that qualify the facts (a waiting reply, a removed comment).
+		metaTrail?: Snippet;
+		// Controls that appear on hover, over the row's top-right corner.
+		actions?: Snippet;
+		// Long records (thread titles) need two lines to be recognisable.
+		titleLines?: 1 | 2;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	title,
-	selected = false,
-	onclick,
-	leading,
-	trailing,
-	preview,
-	meta,
-	metaTruncate = "first",
-	metaTrail,
-	actions,
-	titleLines = 1,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		title,
+		selected = false,
+		onclick,
+		leading,
+		trailing,
+		preview,
+		meta,
+		metaTruncate = "first",
+		metaTrail,
+		actions,
+		titleLines = 1,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let facts = $derived((meta ?? []).filter((item): item is string => Boolean(item)));
+	// =========================
+	// DERIVED
+	// =========================
+	let facts = $derived((meta ?? []).filter((item): item is string => Boolean(item)));
 
-// =========================
-// FUNCTIONS
-// =========================
-// Picking a row moves a phone from list to record. `undefined` outside a
-// `MasterDetail`, where a rail is just a list.
-let row = $state<HTMLDivElement>();
+	// =========================
+	// FUNCTIONS
+	// =========================
+	// Picking a row moves a phone from list to record. `undefined` outside a
+	// `MasterDetail`, where a rail is just a list.
+	let row = $state<HTMLDivElement>();
 
-// A row picked from a link, a shortcut or the next arrow can sit below the fold.
-$effect(() => {
-	if (selected) row?.scrollIntoView({ block: "nearest" });
-});
+	// A row picked from a link, a shortcut or the next arrow can sit below the fold.
+	$effect(() => {
+		if (selected) row?.scrollIntoView({ block: "nearest" });
+	});
 
-let pane = getContext<MasterDetailPane | undefined>(MASTER_DETAIL_PANE);
+	let pane = getContext<MasterDetailPane | undefined>(MASTER_DETAIL_PANE);
 
-function select() {
-	onclick();
-	pane?.open();
-}
+	function select() {
+		onclick();
+		pane?.open();
+	}
 </script>
 
 <!-- =========================== -->
@@ -130,7 +133,8 @@ function select() {
 						<span class="truncate">{preview}</span>
 					{/if}
 					{#if trailing}
-						<span class="ml-auto flex shrink-0 items-center gap-1.5 pl-2">{@render trailing()}</span>
+						<span class="ml-auto flex shrink-0 items-center gap-1.5 pl-2">{@render trailing()}</span
+						>
 					{/if}
 				</span>
 			{/if}

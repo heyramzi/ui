@@ -41,7 +41,7 @@
 		/** Leading icon before the title. */
 		icon?: Snippet;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

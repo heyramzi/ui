@@ -1,36 +1,36 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { Button } from "#src/shadcn/button/index.js";
-import * as Empty from "#src/shadcn/empty/index.js";
-import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Button } from "#src/shadcn/button/index.js";
+	import * as Empty from "#src/shadcn/empty/index.js";
+	import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	icon?: PhosphorIcon;
-	iconWeight?: IconWeight;
-	title: string;
-	description?: string;
-	actionLabel?: string;
-	actionHref?: string;
-	onAction?: () => void;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		icon?: PhosphorIcon;
+		iconWeight?: IconWeight;
+		title: string;
+		description?: string;
+		actionLabel?: string;
+		actionHref?: string;
+		onAction?: () => void;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	icon: Icon,
-	iconWeight,
-	title,
-	description,
-	actionLabel,
-	actionHref,
-	onAction,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		icon: Icon,
+		iconWeight,
+		title,
+		description,
+		actionLabel,
+		actionHref,
+		onAction,
+	}: Props = $props();
 </script>
 
 <!-- =========================== -->

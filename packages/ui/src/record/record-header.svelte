@@ -1,33 +1,42 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { CaretLeft } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import type { Tone } from "#src/lib/tone.js";
-import StatusBadge from "#src/status/status-badge.svelte";
-import { gutterClass } from "#src/record/gutter.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { CaretLeft } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import type { Tone } from "#src/lib/tone.js";
+	import StatusBadge from "#src/status/status-badge.svelte";
+	import { gutterClass } from "#src/record/gutter.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	title: string;
-	/** A mark drawn before the title: a logo, an avatar. */
-	logo?: Snippet;
-	/** The stage, in the agency's own word and the tone of its category. */
-	stage?: { label: string; tone: Tone; detail?: string | null } | null;
-	/** What this record sits under, such as the client of a project. */
-	parent?: { label: string; href: string } | null;
-	/** Quiet facts after the stage: a value, dates. */
-	facts?: string[];
-	actions?: Snippet;
-	/** Under the title row, for a stat strip. */
-	children?: Snippet;
-	class?: string;
-}
-let { title, logo, stage, parent, facts = [], actions, children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		title: string;
+		/** A mark drawn before the title: a logo, an avatar. */
+		logo?: Snippet;
+		/** The stage, in the agency's own word and the tone of its category. */
+		stage?: { label: string; tone: Tone; detail?: string | null } | null;
+		/** What this record sits under, such as the client of a project. */
+		parent?: { label: string; href: string } | null;
+		/** Quiet facts after the stage: a value, dates. */
+		facts?: string[];
+		actions?: Snippet;
+		/** Under the title row, for a stat strip. */
+		children?: Snippet;
+		class?: string;
+	}
+	let {
+		title,
+		logo,
+		stage,
+		parent,
+		facts = [],
+		actions,
+		children,
+		class: className,
+	}: Props = $props();
 </script>
 
 <!-- =========================== -->

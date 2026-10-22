@@ -13,7 +13,9 @@
 
 	let { layout, days, months, labelHeading, locale, corner = $bindable() }: Props = $props();
 
-	let weekdayFormat = $derived(new Intl.DateTimeFormat(locale, { weekday: "narrow", timeZone: "UTC" }));
+	let weekdayFormat = $derived(
+		new Intl.DateTimeFormat(locale, { weekday: "narrow", timeZone: "UTC" }),
+	);
 </script>
 
 <!-- Months over days, pinned to the top. -->
@@ -32,7 +34,9 @@
 					style:left="{month.i * layout.dayWidth}px"
 					style:width="{month.length * layout.dayWidth}px"
 				>
-					<span class="sticky left-(--g-label) inline-block px-2 pt-1.5 text-xs font-medium whitespace-nowrap text-foreground">
+					<span
+						class="sticky left-(--g-label) inline-block px-2 pt-1.5 text-xs font-medium whitespace-nowrap text-foreground"
+					>
 						{month.label}
 					</span>
 				</div>
@@ -51,7 +55,9 @@
 					style:width="{layout.dayWidth}px"
 				>
 					{#if layout.dayWidth >= 26}
-						<span class="mb-0.5 opacity-70">{weekdayFormat.format(new Date(d.day * 86_400_000))}</span>
+						<span class="mb-0.5 opacity-70"
+							>{weekdayFormat.format(new Date(d.day * 86_400_000))}</span
+						>
 					{/if}
 					{#if showNumber}
 						<span

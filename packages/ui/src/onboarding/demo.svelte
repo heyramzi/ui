@@ -20,9 +20,24 @@
 			route: "/demo/board",
 			kind: "steps",
 			steps: [
-				{ target: '[data-tour="demo-new"]', title: "Start here", body: "A new project takes a name and a client. That's all.", placement: "bottom-end" },
-				{ target: '[data-tour="demo-filter"]', title: "Narrow it down", body: "Late shows what slipped. Mine shows what's yours.", placement: "bottom-start" },
-				{ target: '[data-tour="demo-list"]', title: "Open a row", body: "Click a project to see its tasks, files and notes.", placement: "top" },
+				{
+					target: '[data-tour="demo-new"]',
+					title: "Start here",
+					body: "A new project takes a name and a client. That's all.",
+					placement: "bottom-end",
+				},
+				{
+					target: '[data-tour="demo-filter"]',
+					title: "Narrow it down",
+					body: "Late shows what slipped. Mine shows what's yours.",
+					placement: "bottom-start",
+				},
+				{
+					target: '[data-tour="demo-list"]',
+					title: "Open a row",
+					body: "Click a project to see its tasks, files and notes.",
+					placement: "top",
+				},
 			],
 		},
 	]);
@@ -55,8 +70,12 @@
 
 <div class="flex flex-col gap-4">
 	<div class="flex flex-wrap gap-2">
-		<Button variant="outline" size="sm" onclick={() => start("/demo/board")}>Show the page tour</Button>
-		<Button variant="outline" size="sm" onclick={() => start("/demo/intro")}>Show the intro card</Button>
+		<Button variant="outline" size="sm" onclick={() => start("/demo/board")}
+			>Show the page tour</Button
+		>
+		<Button variant="outline" size="sm" onclick={() => start("/demo/intro")}
+			>Show the intro card</Button
+		>
 	</div>
 
 	<div class="bg-card ring-foreground/10 flex flex-col gap-4 rounded-xl p-4 ring-1">

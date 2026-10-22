@@ -50,12 +50,8 @@
 		size="sm"
 		icon
 		disabled={disabled || status === "processing"}
-		onclick={onclick}
-		class={cn(
-			"relative",
-			status === "processing" && "pointer-events-none",
-			className,
-		)}
+		{onclick}
+		class={cn("relative", status === "processing" && "pointer-events-none", className)}
 	>
 		{#if status === "processing"}
 			<Spinner class="size-4" />
@@ -68,12 +64,8 @@
 		{variant}
 		{size}
 		disabled={disabled || status === "processing"}
-		onclick={onclick}
-		class={cn(
-			"gap-1.5",
-			status === "processing" && "pointer-events-none",
-			className,
-		)}
+		{onclick}
+		class={cn("gap-1.5", status === "processing" && "pointer-events-none", className)}
 	>
 		{#if status === "processing"}
 			<Spinner class="size-3.5" />

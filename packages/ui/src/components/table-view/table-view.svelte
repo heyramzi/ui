@@ -36,7 +36,17 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { columns, rows, rowKey, label, footer, cell, rowClass, minWidth = "0", class: className }: Props = $props();
+	let {
+		columns,
+		rows,
+		rowKey,
+		label,
+		footer,
+		cell,
+		rowClass,
+		minWidth = "0",
+		class: className,
+	}: Props = $props();
 
 	// =========================
 	// FUNCTIONS
@@ -63,7 +73,12 @@
 			)}
 		>
 			{#if cell}
-				{@render cell({ row, column, value: (row as Record<string, unknown>)[column.key], text: textOf(column, row) })}
+				{@render cell({
+					row,
+					column,
+					value: (row as Record<string, unknown>)[column.key],
+					text: textOf(column, row),
+				})}
 			{:else}
 				{textOf(column, row)}
 			{/if}

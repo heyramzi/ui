@@ -2,7 +2,13 @@
 	import { tryCatchAsync } from "#src/lib/result.js";
 	import { untrack } from "svelte";
 	import { onboarding } from "#src/onboarding/onboarding.svelte.js";
-	import { keepFoundSteps, pickForReplay, pickTour, toursForRoute, type SeenMap } from "#src/onboarding/pick.js";
+	import {
+		keepFoundSteps,
+		pickForReplay,
+		pickTour,
+		toursForRoute,
+		type SeenMap,
+	} from "#src/onboarding/pick.js";
 	import TourRunner from "#src/onboarding/tour-runner.svelte";
 	import type { Outcome, SeenStore, Step, Strings, Tour } from "#src/onboarding/types.js";
 	import { waitForElement } from "#src/onboarding/wait.js";
@@ -71,17 +77,23 @@
 		controller = mine;
 		void loadSeen().then((map) => {
 			if (!map || mine.signal.aborted) return;
-			const tour = pickTour(untrack(() => tours), id, map);
+			const tour = pickTour(
+				untrack(() => tours),
+				id,
+				map,
+			);
 			if (tour) void launch(tour, false, mine.signal);
 		});
 		return () => mine.abort();
 	});
 
-	$effect(() => onboarding.bind(async (tourId) => {
-		const tour = pickForReplay(tours, routeId, tourId);
-		if (!tour || !controller || controller.signal.aborted) return false;
-		return launch(tour, true, controller.signal);
-	}));
+	$effect(() =>
+		onboarding.bind(async (tourId) => {
+			const tour = pickForReplay(tours, routeId, tourId);
+			if (!tour || !controller || controller.signal.aborted) return false;
+			return launch(tour, true, controller.signal);
+		}),
+	);
 
 	$effect(() => {
 		onboarding.running = active !== null;

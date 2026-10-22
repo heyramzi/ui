@@ -1,87 +1,87 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Editor } from "@tiptap/core";
-import { Button } from "#src/shadcn/button/index.js";
-import { Input } from "#src/shadcn/input/index.js";
-import {
-	TextB,
-	TextItalic,
-	TextStrikethrough,
-	LinkSimple,
-	LinkBreak,
-	ListBullets,
-	ListNumbers,
-	Quotes,
-	VideoCamera,
-} from "phosphor-svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Editor } from "@tiptap/core";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Input } from "#src/shadcn/input/index.js";
+	import {
+		TextB,
+		TextItalic,
+		TextStrikethrough,
+		LinkSimple,
+		LinkBreak,
+		ListBullets,
+		ListNumbers,
+		Quotes,
+		VideoCamera,
+	} from "phosphor-svelte";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	editor: Editor | null;
-	/** Bumped by the parent on every transaction, so active states re-read. */
-	tick: number;
-	preset: "full" | "notes";
-	onInsertYoutube: () => void;
-}
-
-// =========================
-// PROPS
-// =========================
-let { editor: editorProp, tick, preset, onInsertYoutube }: Props = $props();
-
-// =========================
-// STATE
-// =========================
-let linkUrl = $state("");
-let showLinkPopover = $state(false);
-let linkInputEl: HTMLInputElement | undefined = $state();
-
-// =========================
-// DERIVED
-// =========================
-let editor: Editor | null = $derived(tick >= 0 ? editorProp : null);
-
-// =========================
-// EFFECTS
-// =========================
-$effect(() => {
-	if (showLinkPopover && linkInputEl) {
-		linkInputEl.focus();
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		editor: Editor | null;
+		/** Bumped by the parent on every transaction, so active states re-read. */
+		tick: number;
+		preset: "full" | "notes";
+		onInsertYoutube: () => void;
 	}
-});
 
-// =========================
-// FUNCTIONS
-// =========================
-function toggleLink() {
-	if (!editor) return;
-	if (editor.isActive("link")) {
-		editor.chain().focus().unsetLink().run();
-		return;
+	// =========================
+	// PROPS
+	// =========================
+	let { editor: editorProp, tick, preset, onInsertYoutube }: Props = $props();
+
+	// =========================
+	// STATE
+	// =========================
+	let linkUrl = $state("");
+	let showLinkPopover = $state(false);
+	let linkInputEl: HTMLInputElement | undefined = $state();
+
+	// =========================
+	// DERIVED
+	// =========================
+	let editor: Editor | null = $derived(tick >= 0 ? editorProp : null);
+
+	// =========================
+	// EFFECTS
+	// =========================
+	$effect(() => {
+		if (showLinkPopover && linkInputEl) {
+			linkInputEl.focus();
+		}
+	});
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function toggleLink() {
+		if (!editor) return;
+		if (editor.isActive("link")) {
+			editor.chain().focus().unsetLink().run();
+			return;
+		}
+		const previousUrl = editor.getAttributes("link").href;
+		linkUrl = previousUrl || "";
+		showLinkPopover = true;
 	}
-	const previousUrl = editor.getAttributes("link").href;
-	linkUrl = previousUrl || "";
-	showLinkPopover = true;
-}
 
-function applyLink() {
-	if (!editor) return;
-	if (linkUrl.trim()) {
-		editor.chain().focus().setLink({ href: linkUrl.trim() }).run();
+	function applyLink() {
+		if (!editor) return;
+		if (linkUrl.trim()) {
+			editor.chain().focus().setLink({ href: linkUrl.trim() }).run();
+		}
+		linkUrl = "";
+		showLinkPopover = false;
 	}
-	linkUrl = "";
-	showLinkPopover = false;
-}
 
-function cancelLink() {
-	linkUrl = "";
-	showLinkPopover = false;
-	editor?.chain().focus().run();
-}
+	function cancelLink() {
+		linkUrl = "";
+		showLinkPopover = false;
+		editor?.chain().focus().run();
+	}
 </script>
 
 <!-- =========================== -->
@@ -98,7 +98,10 @@ function cancelLink() {
 					placeholder="Paste link..."
 					class="h-7 w-52 text-[0.8125rem]"
 					onkeydown={(e) => {
-						if (e.key === "Enter") { e.preventDefault(); applyLink(); }
+						if (e.key === "Enter") {
+							e.preventDefault();
+							applyLink();
+						}
 						if (e.key === "Escape") cancelLink();
 					}}
 				/>
@@ -106,12 +109,12 @@ function cancelLink() {
 					<LinkSimple size={14} />
 				</Button>
 				<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				onclick={cancelLink}
-				title="Cancel"
+					variant="ghost"
+					size="sm"
+					icon
+					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
+					onclick={cancelLink}
+					title="Cancel"
 				>
 					&times;
 				</Button>
@@ -191,24 +194,25 @@ function cancelLink() {
 
 			{#if editor.isActive("link")}
 				<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={true}
-				onclick={() => editor?.chain().focus().unsetLink().run()}
+					variant="ghost"
+					size="sm"
+					icon
+					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
+					aria-pressed={true}
+					onclick={() => editor?.chain().focus().unsetLink().run()}
 					title="Remove link"
 				>
 					<LinkBreak size={15} />
 				</Button>
 			{:else}
 				<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				onclick={toggleLink}
-					title="Add link (Cmd+K)">
+					variant="ghost"
+					size="sm"
+					icon
+					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
+					onclick={toggleLink}
+					title="Add link (Cmd+K)"
+				>
 					<LinkSimple size={15} />
 				</Button>
 			{/if}
@@ -253,13 +257,14 @@ function cancelLink() {
 				<div class="toolbar-divider"></div>
 
 				<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("youtube")}
-				onclick={onInsertYoutube}
-					title="Insert YouTube video">
+					variant="ghost"
+					size="sm"
+					icon
+					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
+					aria-pressed={editor.isActive("youtube")}
+					onclick={onInsertYoutube}
+					title="Insert YouTube video"
+				>
 					<VideoCamera size={15} />
 				</Button>
 			{/if}

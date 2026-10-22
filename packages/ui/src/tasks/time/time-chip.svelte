@@ -16,7 +16,7 @@
 		/** Replaces the spoken name. Defaults to a sentence built from the numbers. */
 		label?: string;
 		class?: string;
-	};
+	}
 
 	let { minutes, estimate, running = false, label, class: className }: Props = $props();
 
@@ -56,7 +56,14 @@
 			<span class="size-3 shrink-0 [&>svg]:size-full" aria-hidden="true"><Clock /></span>
 		{/if}
 		<span aria-hidden="true">
-			{formatMinutes(minutes)}{#if estimate}<span class={cn("font-normal", tone === "neutral" ? "text-muted-foreground/70" : TONE_TEXT[tone])}> / {formatMinutes(estimate)}</span>{/if}
+			{formatMinutes(minutes)}{#if estimate}<span
+					class={cn(
+						"font-normal",
+						tone === "neutral" ? "text-muted-foreground/70" : TONE_TEXT[tone],
+					)}
+				>
+					/ {formatMinutes(estimate)}</span
+				>{/if}
 		</span>
 	</span>
 {/if}

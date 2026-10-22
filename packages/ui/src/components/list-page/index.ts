@@ -25,4 +25,8 @@ export { default as ToolbarSearch } from "#src/components/toolbar/toolbar-search
 export { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
 export { listTable } from "#src/components/list-page/list-table.js";
 export type { ViewMode } from "#src/components/list-page/types.js";
-export { getSectionHost, setSectionHost, type SectionHost } from "#src/components/list-page/section-host.js";
+export {
+  getSectionHost,
+  setSectionHost,
+  type SectionHost,
+} from "#src/components/list-page/section-host.js";

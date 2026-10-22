@@ -1,30 +1,30 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { ArrowRight } from "phosphor-svelte";
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { ArrowRight } from "phosphor-svelte";
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	title: string;
-	/** One line on the right: a window, a provenance, a count. Never a sentence. */
-	note?: string;
-	/** The page that owns this area, when one page does. */
-	href?: string;
-	/** The link's wording. Translated at the call site. */
-	openLabel?: string;
-	children: Snippet;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		title: string;
+		/** One line on the right: a window, a provenance, a count. Never a sentence. */
+		note?: string;
+		/** The page that owns this area, when one page does. */
+		href?: string;
+		/** The link's wording. Translated at the call site. */
+		openLabel?: string;
+		children: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { title, note, href, openLabel = "Open", children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { title, note, href, openLabel = "Open", children, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

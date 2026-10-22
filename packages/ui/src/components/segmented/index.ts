@@ -10,6 +10,7 @@
 // decides, `segmented-overflow.svelte` draws it. No call site opts in.
 import AnimatedTabs, {
   type TabDef,
+  type TabGroup,
   type TabsPlacement,
 } from "#src/components/segmented/animated-tabs.svelte";
 import SegmentedFilter from "#src/components/segmented/segmented-filter.svelte";
@@ -37,5 +38,6 @@ export {
   type SegmentedNavItem,
   type SegmentedVariant,
   type TabDef,
+  type TabGroup,
   type TabsPlacement,
 };

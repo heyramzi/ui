@@ -54,7 +54,9 @@
 	function onPointerDown(e: PointerEvent, mode: Drag["mode"]): void {
 		if (!editable || e.button !== 0) return;
 		e.stopPropagation();
-		(e.currentTarget as HTMLElement).closest<HTMLElement>("[data-bar]")?.setPointerCapture(e.pointerId);
+		(e.currentTarget as HTMLElement)
+			.closest<HTMLElement>("[data-bar]")
+			?.setPointerCapture(e.pointerId);
 		setDrag({ id, mode, originX: e.clientX, dx: 0 });
 	}
 
@@ -95,7 +97,9 @@
 	role="button"
 	tabindex="0"
 	aria-roledescription="task bar"
-	aria-label="{title}, {describe(span)}.{editable ? ' Arrow keys move it a day, Shift plus arrow keys change its end.' : ''}"
+	aria-label="{title}, {describe(span)}.{editable
+		? ' Arrow keys move it a day, Shift plus arrow keys change its end.'
+		: ''}"
 	class={cn(
 		"g-bar g-enter absolute top-1/2 flex -translate-y-1/2 items-center rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
 		editable && "cursor-grab",
@@ -117,15 +121,21 @@
 	{#if progress > 0}
 		<!-- The clip keeps the bar's rounded corners while the fill scales. -->
 		<span class="absolute inset-0 overflow-hidden rounded-lg" aria-hidden="true">
-			<span class="g-progress absolute inset-0 origin-left" style:transform="scaleX({progress})"></span>
+			<span class="g-progress absolute inset-0 origin-left" style:transform="scaleX({progress})"
+			></span>
 		</span>
 	{/if}
 	{#if width >= inlineTitleMin}
 		<span class="relative truncate px-2.5 text-xs font-medium text-foreground">{title}</span>
 	{/if}
 	{#if editable}
-		<span class="g-handle left-0" aria-hidden="true" onpointerdown={(e) => onPointerDown(e, "start")}></span>
-		<span class="g-handle right-0" aria-hidden="true" onpointerdown={(e) => onPointerDown(e, "end")}></span>
+		<span
+			class="g-handle left-0"
+			aria-hidden="true"
+			onpointerdown={(e) => onPointerDown(e, "start")}
+		></span>
+		<span class="g-handle right-0" aria-hidden="true" onpointerdown={(e) => onPointerDown(e, "end")}
+		></span>
 	{/if}
 	{#if dragging && drag && drag.dx !== 0}
 		<span
@@ -182,7 +192,8 @@
 
 	.g-progress {
 		background: color-mix(in oklab, var(--g-hue) 32%, var(--color-card, white));
-		transition: transform var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: transform var(--duration-fast, 250ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 
 	/* Resize grips: a wide invisible hit area, a slim pill that shows on hover. */

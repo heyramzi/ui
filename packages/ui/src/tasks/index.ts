@@ -6,25 +6,20 @@ export { boardOrderAt, keyBetween } from "#src/tasks/board-order.js";
 export { reorderByIds } from "#src/tasks/reorder.js";
 export type { KanbanDndConfig, KanbanDragOver } from "#src/tasks/use-kanban-dnd.svelte.js";
 export type {
-	KanbanCardContext,
-	KanbanCardSnippet,
-	KanbanColumn as KanbanColumnDef,
-	KanbanColumnContext,
-	KanbanMove,
-	KanbanSortKey,
+  KanbanCardContext,
+  KanbanCardSnippet,
+  KanbanColumn as KanbanColumnDef,
+  KanbanColumnContext,
+  KanbanMove,
+  KanbanSortKey,
 } from "#src/tasks/kanban-types.js";
-export {
-	StatusBadge,
-	StatusDot,
-	StatusIcon,
-	defineStatuses,
-} from "#src/status/index.js";
+export { StatusBadge, StatusDot, StatusIcon, defineStatuses } from "#src/status/index.js";
 export type {
-	StatusDef,
-	StatusDotVariant,
-	StatusId,
-	StatusMap,
-	Statuses,
+  StatusDef,
+  StatusDotVariant,
+  StatusId,
+  StatusMap,
+  Statuses,
 } from "#src/status/index.js";
 export { SidePanel } from "#src/panel/index.js";
 export type { PanelStat, SidePanelWidth } from "#src/panel/index.js";
@@ -32,10 +27,10 @@ export { default as TaskList } from "#src/tasks/task-list.svelte";
 export { default as TaskGantt } from "#src/tasks/task-gantt.svelte";
 export { addDays, dayNumber, isoFromDay, todayIso } from "#src/tasks/dates.js";
 export type {
-	GanttChange,
-	GanttLabelContext,
-	TaskListGroupContext,
-	TaskListRowContext,
+  GanttChange,
+  GanttLabelContext,
+  TaskListGroupContext,
+  TaskListRowContext,
 } from "#src/tasks/task-types.js";
 export { default as TaskDetail } from "#src/tasks/detail/task-detail.svelte";
 export { default as TaskThread } from "#src/tasks/detail/task-thread.svelte";
@@ -48,40 +43,42 @@ export { default as TimeChip } from "#src/tasks/time/time-chip.svelte";
 export { default as TimeRing } from "#src/tasks/time/time-ring.svelte";
 export { default as TimeDot } from "#src/tasks/time/time-dot.svelte";
 export {
-	budgetTone,
-	dayLabel,
-	formatClock,
-	formatMinutes,
-	localDay,
-	parseMinutes,
-	personColor,
+  budgetTone,
+  dayLabel,
+  formatClock,
+  formatMinutes,
+  localDay,
+  parseMinutes,
+  personColor,
 } from "#src/tasks/time/duration.js";
 export {
-	Inbox,
-	confidenceLevel,
-	inboxConfidence,
-	inboxKinds,
-	inboxStates,
+  confidenceLevel,
+  inboxConfidence,
+  inboxKinds,
+  inboxStates,
 } from "#src/tasks/inbox/index.js";
 export type {
-	InboxAgent,
-	InboxConfidence,
-	InboxDraft,
-	InboxDraftEdit,
-	InboxDraftEdits,
-	InboxEvidence,
-	InboxItem,
-	InboxKind,
-	InboxKindFilter,
-	InboxLane,
-	InboxOutcome,
-	InboxProject,
-	InboxProposal,
-	InboxSourceType,
-	InboxState,
-	InboxTier,
-	InboxTrace,
-	InboxVerdict,
+  InboxAgent,
+  InboxConfidence,
+  InboxDraft,
+  InboxDraftEdit,
+  InboxDraftEdits,
+  InboxEvidence,
+  InboxItem,
+  InboxKind,
+  InboxOutcome,
+  InboxProject,
+  InboxProposal,
+  InboxSourceType,
+  InboxState,
+  InboxTier,
+  InboxTrace,
+  InboxVerdict,
 } from "#src/tasks/inbox/index.js";
 export { DEFAULT_TIME_LABELS } from "#src/tasks/time/time-types.js";
-export type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "#src/tasks/time/time-types.js";
+export type {
+  TimeLabels,
+  TimeLogInput,
+  TimeRunning,
+  TimeStopInfo,
+} from "#src/tasks/time/time-types.js";

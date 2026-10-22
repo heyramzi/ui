@@ -133,10 +133,16 @@
 	});
 
 	let days = $derived(buildDays(range.first, dayCount));
-	let monthFormat = $derived(new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }));
-	let dayFormat = $derived(new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", timeZone: "UTC" }));
+	let monthFormat = $derived(
+		new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }),
+	);
+	let dayFormat = $derived(
+		new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", timeZone: "UTC" }),
+	);
 	let months = $derived(buildMonths(days, monthFormat));
-	let rows = $derived(buildRows(items, { getId, getStart, getEnd, getParent, groups, getGroup, folded, drag }));
+	let rows = $derived(
+		buildRows(items, { getId, getStart, getEnd, getParent, groups, getGroup, folded, drag }),
+	);
 	let arrows = $derived(getDependsOn ? buildArrows(rows, layout, getDependsOn) : []);
 	let groupHue = $derived(new Map((groups ?? []).map((g) => [g.id, g.hue])));
 
@@ -148,7 +154,11 @@
 	}
 
 	function hueOf(item: T): string {
-		return getHue?.(item) ?? (getGroup ? groupHue.get(getGroup(item)) : undefined) ?? "var(--color-primary)";
+		return (
+			getHue?.(item) ??
+			(getGroup ? groupHue.get(getGroup(item)) : undefined) ??
+			"var(--color-primary)"
+		);
 	}
 
 	function hover(id: string, on: boolean): void {
@@ -172,7 +182,10 @@
 	export function scrollToToday(): void {
 		if (!scroller) return;
 		const label = corner?.offsetWidth ?? 0;
-		scroller.scrollTo({ left: Math.max(0, dayX(layout, todayDay) - (scroller.clientWidth - label) / 3), behavior: "smooth" });
+		scroller.scrollTo({
+			left: Math.max(0, dayX(layout, todayDay) - (scroller.clientWidth - label) / 3),
+			behavior: "smooth",
+		});
 	}
 </script>
 
@@ -192,7 +205,14 @@
 		<GanttHeader {layout} {days} {months} {labelHeading} {locale} bind:corner />
 
 		<div class="relative">
-			<GanttGrid {layout} {days} {arrows} rowCount={rows.length} {hoveredId} draggingId={drag?.id ?? null} />
+			<GanttGrid
+				{layout}
+				{days}
+				{arrows}
+				rowCount={rows.length}
+				{hoveredId}
+				draggingId={drag?.id ?? null}
+			/>
 
 			<div role="list" aria-label="Timeline">
 				{#each rows as row, index (row.kind === "group" ? `g:${row.group.id}` : row.id)}

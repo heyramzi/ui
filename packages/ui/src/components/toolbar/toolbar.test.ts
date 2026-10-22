@@ -45,7 +45,16 @@ describe("Toolbar", () => {
   });
 
   it("names the narrow controls so a screen reader can find them", () => {
-    const root = render({ search: "", tabs, tab: "all", views, view: "list", searchLabel: "Find", tabsLabel: "Status", viewLabel: "Layout" });
+    const root = render({
+      search: "",
+      tabs,
+      tab: "all",
+      views,
+      view: "list",
+      searchLabel: "Find",
+      tabsLabel: "Status",
+      viewLabel: "Layout",
+    });
     for (const label of ["Find", "Status", "Layout"]) {
       expect(root.querySelector(`button[aria-label="${label}"]`), label).not.toBeNull();
     }

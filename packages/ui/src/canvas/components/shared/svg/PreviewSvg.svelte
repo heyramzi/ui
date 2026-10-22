@@ -1,25 +1,25 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { penColorVar } from "#src/canvas/pen/colors.js";
-import type { PenPreview } from "#src/canvas/pen/pen-session.js";
-import { shapeOutline } from "#src/canvas/pen/shapes.js";
-import { HIGHLIGHTER_OPACITY } from "#src/canvas/pen/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { penColorVar } from "#src/canvas/pen/colors.js";
+	import type { PenPreview } from "#src/canvas/pen/pen-session.js";
+	import { shapeOutline } from "#src/canvas/pen/shapes.js";
+	import { HIGHLIGHTER_OPACITY } from "#src/canvas/pen/types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	preview: PenPreview | null;
-	/** The xyflow viewport, so the preview lines up with the board. */
-	viewport: { x: number; y: number; zoom: number };
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		preview: PenPreview | null;
+		/** The xyflow viewport, so the preview lines up with the board. */
+		viewport: { x: number; y: number; zoom: number };
+	}
 
-// =========================
-// PROPS
-// =========================
-let { preview, viewport }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { preview, viewport }: Props = $props();
 </script>
 
 <!-- =========================== -->

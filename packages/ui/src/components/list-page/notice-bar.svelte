@@ -1,47 +1,47 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { Warning, Info, CheckCircle, WarningCircle } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { Alert } from "#src/shadcn/alert/index.js";
-import { TONE_CLASS, type Tone as SeverityTone } from "#src/lib/tone.js";
-import type { PhosphorIcon } from "#src/lib/icon-types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { Warning, Info, CheckCircle, WarningCircle } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { Alert } from "#src/shadcn/alert/index.js";
+	import { TONE_CLASS, type Tone as SeverityTone } from "#src/lib/tone.js";
+	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-// A strip that stops the reader is a severity. Neutral and accent are chip tones.
-type Tone = Extract<SeverityTone, "destructive" | "warning" | "info" | "success">;
+	// =========================
+	// TYPES
+	// =========================
+	// A strip that stops the reader is a severity. Neutral and accent are chip tones.
+	type Tone = Extract<SeverityTone, "destructive" | "warning" | "info" | "success">;
 
-interface Props {
-	// The "look at this before you act" strip. Hand-rolled ones used raw amber
-	// and sky, so one severity showed two colours one route apart.
-	tone?: Tone;
-	icon?: PhosphorIcon;
-	// The trailing control: a retry, a jump to the thing that needs fixing.
-	actions?: Snippet;
-	children: Snippet;
-	class?: string;
-}
+	interface Props {
+		// The "look at this before you act" strip. Hand-rolled ones used raw amber
+		// and sky, so one severity showed two colours one route apart.
+		tone?: Tone;
+		icon?: PhosphorIcon;
+		// The trailing control: a retry, a jump to the thing that needs fixing.
+		actions?: Snippet;
+		children: Snippet;
+		class?: string;
+	}
 
-const TONE_ICON: Record<Tone, PhosphorIcon> = {
-	destructive: Warning,
-	warning: WarningCircle,
-	info: Info,
-	success: CheckCircle,
-};
+	const TONE_ICON: Record<Tone, PhosphorIcon> = {
+		destructive: Warning,
+		warning: WarningCircle,
+		info: Info,
+		success: CheckCircle,
+	};
 
-// =========================
-// PROPS
-// =========================
-let { tone = "destructive", icon, actions, children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { tone = "destructive", icon, actions, children, class: className }: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let Icon = $derived(icon ?? TONE_ICON[tone]);
+	// =========================
+	// DERIVED
+	// =========================
+	let Icon = $derived(icon ?? TONE_ICON[tone]);
 </script>
 
 <!-- =========================== -->

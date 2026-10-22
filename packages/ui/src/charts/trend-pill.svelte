@@ -18,7 +18,7 @@
 		/** Format the delta text. */
 		format?: (v: number) => string;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

@@ -20,7 +20,7 @@
 		bleed?: number;
 		/** How far the band reaches each side of the point, as a share of the gap to its neighbour. */
 		reach?: number;
-	};
+	}
 
 	// =========================
 	// PROPS

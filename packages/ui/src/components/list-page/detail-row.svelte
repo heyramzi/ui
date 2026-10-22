@@ -1,25 +1,25 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// A hairline band inside `DetailHeader` or `DetailPanel` for the record's
-	// own facts, so the page never nests cards inside cards.
-	muted?: boolean;
-	children: Snippet;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// A hairline band inside `DetailHeader` or `DetailPanel` for the record's
+		// own facts, so the page never nests cards inside cards.
+		muted?: boolean;
+		children: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { muted = false, children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { muted = false, children, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

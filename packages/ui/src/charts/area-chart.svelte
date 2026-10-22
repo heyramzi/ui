@@ -46,7 +46,7 @@
 		/** A target drawn across the plot, like the deal a cost runs up to. */
 		reference?: ChartReference;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

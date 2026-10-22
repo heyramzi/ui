@@ -9,7 +9,15 @@
 	import type { TaskComment } from "#src/tasks/detail/detail-types.js";
 	import type { TimeLogInput, TimeStopInfo } from "#src/tasks/time/time-types.js";
 
-	type Scenario = "default" | "long" | "emptyDescription" | "unassigned" | "running" | "busy" | "closed" | "loading";
+	type Scenario =
+		| "default"
+		| "long"
+		| "emptyDescription"
+		| "unassigned"
+		| "running"
+		| "busy"
+		| "closed"
+		| "loading";
 
 	const statuses = defineStatuses({
 		todo: { label: "To do", tone: "neutral", variant: "open" },
@@ -34,15 +42,35 @@
 	const stamp = (agoHours: number) => new Date(now - agoHours * hour).toISOString();
 
 	const seed: TaskComment[] = [
-		{ id: "c1", author: "Ada Lovelace", body: "Calls with Yoan: the format that sold the template was simple. A board on why, then the system, then the demo.", createdAt: stamp(30) },
-		{ id: "c2", author: "Planner", agent: true, body: "Reused that shape for the outline. Three sections, the demo last, one call to action at the end.", createdAt: stamp(26) },
-		{ id: "c3", author: "Bo Chen", body: "Looks right. I'll record Thursday.", createdAt: stamp(5), edited: true },
+		{
+			id: "c1",
+			author: "Ada Lovelace",
+			body: "Calls with Yoan: the format that sold the template was simple. A board on why, then the system, then the demo.",
+			createdAt: stamp(30),
+		},
+		{
+			id: "c2",
+			author: "Planner",
+			agent: true,
+			body: "Reused that shape for the outline. Three sections, the demo last, one call to action at the end.",
+			createdAt: stamp(26),
+		},
+		{
+			id: "c3",
+			author: "Bo Chen",
+			body: "Looks right. I'll record Thursday.",
+			createdAt: stamp(5),
+			edited: true,
+		},
 	];
 	const crowd: TaskComment[] = Array.from({ length: 24 }, (_, i) => ({
 		id: `b${i}`,
-		author: i % 4 === 1 ? "Planner" : people[i % people.length] ?? "Ada Lovelace",
+		author: i % 4 === 1 ? "Planner" : (people[i % people.length] ?? "Ada Lovelace"),
 		agent: i % 4 === 1,
-		body: i % 5 === 0 ? "Pushed the second cut. The intro runs 40 seconds, so I trimmed the first example and kept the one with numbers." : "Noted, moving on to the next step.",
+		body:
+			i % 5 === 0
+				? "Pushed the second cut. The intro runs 40 seconds, so I trimmed the first example and kept the one with numbers."
+				: "Noted, moving on to the next step.",
 		createdAt: stamp(60 - i * 2),
 	}));
 
@@ -59,7 +87,13 @@
 	let done = $state(false);
 	let timer = $state<{ startedAt: number } | null>(null);
 	let entries = $state([
-		{ id: "e1", minutes: 90, day: new Date(now - 24 * hour).toISOString().slice(0, 10), person: "Ada Lovelace", note: "Outline" },
+		{
+			id: "e1",
+			minutes: 90,
+			day: new Date(now - 24 * hour).toISOString().slice(0, 10),
+			person: "Ada Lovelace",
+			note: "Outline",
+		},
 	]);
 
 	$effect(() => {
@@ -76,7 +110,16 @@
 	let statusLabel = $derived(statuses.label(status));
 
 	function onLog(input: TimeLogInput) {
-		entries = [{ id: `e${entries.length + 1}`, minutes: input.minutes, day: input.day, person: "Ada Lovelace", note: input.note ?? "" }, ...entries];
+		entries = [
+			{
+				id: `e${entries.length + 1}`,
+				minutes: input.minutes,
+				day: input.day,
+				person: "Ada Lovelace",
+				note: input.note ?? "",
+			},
+			...entries,
+		];
 		return true;
 	}
 
@@ -86,7 +129,15 @@
 	}
 
 	function onSend(body: string) {
-		thread = [...thread, { id: `n${thread.length}`, author: "Ada Lovelace", body, createdAt: new Date().toISOString() }];
+		thread = [
+			...thread,
+			{
+				id: `n${thread.length}`,
+				author: "Ada Lovelace",
+				body,
+				createdAt: new Date().toISOString(),
+			},
+		];
 	}
 </script>
 
@@ -112,7 +163,10 @@
 		</button>
 	</div>
 
-	<div class="mx-auto w-full overflow-hidden rounded-xl border border-border bg-background" style:max-width={narrow ? "390px" : "none"}>
+	<div
+		class="mx-auto w-full overflow-hidden rounded-xl border border-border bg-background"
+		style:max-width={narrow ? "390px" : "none"}
+	>
 		<TaskDetail
 			{title}
 			onTitleChange={(next) => {
@@ -139,15 +193,21 @@
 			{/snippet}
 			{#snippet properties()}
 				<TaskProperty label="Status">
-					<TaskChip aria-label="Status: {statusLabel}"><StatusDot {statuses} {status} size={14} animate={false} />{statusLabel}</TaskChip>
+					<TaskChip aria-label="Status: {statusLabel}"
+						><StatusDot {statuses} {status} size={14} animate={false} />{statusLabel}</TaskChip
+					>
 				</TaskProperty>
 				<TaskProperty label="Priority">
-					<TaskChip><Flag weight="fill" class="text-destructive" aria-hidden="true" />High</TaskChip>
+					<TaskChip><Flag weight="fill" class="text-destructive" aria-hidden="true" />High</TaskChip
+					>
 				</TaskProperty>
 				<TaskProperty label="Assignee">
 					{#if assignee}
 						<TaskChip>
-							<span class="grid size-4 place-items-center rounded-full bg-muted text-[0px]" aria-hidden="true"><User /></span>
+							<span
+								class="grid size-4 place-items-center rounded-full bg-muted text-[0px]"
+								aria-hidden="true"><User /></span
+							>
 							{assignee}
 						</TaskChip>
 					{:else}

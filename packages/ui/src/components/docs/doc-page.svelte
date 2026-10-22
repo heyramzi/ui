@@ -91,7 +91,9 @@
 >
 	{#if hasRail}
 		<!-- Below the rail's width the contents sit on a strip that stays put. -->
-		<div class="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur @3xl/page:hidden">
+		<div
+			class="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur @3xl/page:hidden"
+		>
 			<OnThisPage
 				variant="bar"
 				items={headings}
@@ -124,14 +126,21 @@
 							{title}
 						</h1>
 						{#if summary}
-							<p class="mt-1.5 max-w-[60ch] text-[15px] leading-relaxed text-muted-foreground text-pretty">
+							<p
+								class="mt-1.5 max-w-[60ch] text-[15px] leading-relaxed text-muted-foreground text-pretty"
+							>
 								{summary}
 							</p>
 						{/if}
 						{#if meta.length > 0}
-							<p class="mt-3 flex flex-wrap items-center gap-x-2 text-xs tabular-nums text-muted-foreground">
+							<p
+								class="mt-3 flex flex-wrap items-center gap-x-2 text-xs tabular-nums text-muted-foreground"
+							>
 								{#each meta as item, i (item)}
-									{#if i > 0}<span aria-hidden="true" class="size-0.5 rounded-full bg-current opacity-50"></span>{/if}
+									{#if i > 0}<span
+											aria-hidden="true"
+											class="size-0.5 rounded-full bg-current opacity-50"
+										></span>{/if}
 									<span>{item}</span>
 								{/each}
 							</p>
@@ -148,7 +157,9 @@
 
 		{#if hasRail}
 			<!-- `self-start`, since a sticky child only travels inside its own box. -->
-			<aside class="hidden w-48 shrink-0 self-start pt-10 @3xl/page:sticky @3xl/page:top-0 @3xl/page:block">
+			<aside
+				class="hidden w-48 shrink-0 self-start pt-10 @3xl/page:sticky @3xl/page:top-0 @3xl/page:block"
+			>
 				<OnThisPage
 					items={headings}
 					active={spy.active}

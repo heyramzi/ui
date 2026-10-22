@@ -17,7 +17,7 @@
 		delay: number;
 		gradientStartColor: string;
 		gradientStopColor: string;
-	};
+	}
 	let {
 		id,
 		class: className,

@@ -11,7 +11,7 @@
 		size?: number;
 		animate?: boolean;
 		class?: string;
-	};
+	}
 
 	let { statuses, status, size = 14, animate = true, class: className }: Props = $props();
 

@@ -62,7 +62,7 @@
 		/** Leading icon next to the label. */
 		icon?: Snippet;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

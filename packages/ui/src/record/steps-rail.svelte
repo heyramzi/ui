@@ -1,235 +1,236 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import {
-	ArrowCounterClockwise,
-	ArrowDown,
-	ArrowUp,
-	Check,
-	DotsThreeVertical,
-	Eye,
-	EyeSlash,
-	PencilSimple,
-} from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { Button } from "#src/shadcn/button/index.js";
-import { Input } from "#src/shadcn/input/index.js";
-import { Skeleton } from "#src/shadcn/skeleton/index.js";
-import * as Popover from "#src/shadcn/popover/index.js";
-import * as ContextMenu from "#src/shadcn/context-menu/index.js";
-import { todayIso } from "#src/tasks/dates.js";
-import { formatRange } from "#src/record/format.js";
-import {
-	groupSteps,
-	nudgeStep,
-	reorderIds,
-	stepMarkers,
-	stepProgress,
-	visibleSteps,
-} from "#src/record/logic.js";
-import {
-	resolveLabels,
-	type RecordLabels,
-	type StepDef,
-	type StepGroupDef,
-	type StepMarker,
-} from "#src/record/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import {
+		ArrowCounterClockwise,
+		ArrowDown,
+		ArrowUp,
+		Check,
+		DotsThreeVertical,
+		Eye,
+		EyeSlash,
+		PencilSimple,
+	} from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Input } from "#src/shadcn/input/index.js";
+	import { Skeleton } from "#src/shadcn/skeleton/index.js";
+	import * as Popover from "#src/shadcn/popover/index.js";
+	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
+	import { todayIso } from "#src/tasks/dates.js";
+	import { formatRange } from "#src/record/format.js";
+	import {
+		groupSteps,
+		nudgeStep,
+		reorderIds,
+		stepMarkers,
+		stepProgress,
+		visibleSteps,
+	} from "#src/record/logic.js";
+	import {
+		resolveLabels,
+		type RecordLabels,
+		type StepDef,
+		type StepGroupDef,
+		type StepMarker,
+	} from "#src/record/types.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	steps: StepDef[];
-	/** Group headers in the order to draw them, such as Sales then Delivery. */
-	groups?: StepGroupDef[];
-	activeId?: string | null;
-	onSelect?: (id: string) => void;
-	/** Show or hide a step. Without it the visibility menu isn't drawn. */
-	onToggle?: (id: string, visible: boolean) => void;
-	/** The whole new id order, after a drag or a keyboard move. */
-	onReorder?: (ids: string[]) => void;
-	/** An empty label resets the name. */
-	onRename?: (id: string, label: string) => void;
-	loading?: boolean;
-	labels?: Partial<RecordLabels>;
-	locale?: string;
-	/** ISO date. Decides "late". Defaults to the viewer's today. */
-	today?: string;
-	class?: string;
-}
-let {
-	steps,
-	groups = [],
-	activeId = null,
-	onSelect,
-	onToggle,
-	onReorder,
-	onRename,
-	loading = false,
-	labels,
-	locale,
-	today = todayIso(),
-	class: className,
-}: Props = $props();
-
-// =========================
-// STATE
-// =========================
-let menuOpen = $state(false);
-// The order shown while the host round-trips. Cleared when the steps catch up,
-// or after five seconds so a failed save can't pin a wrong order.
-let pendingOrder = $state<string[] | null>(null);
-let pendingTimer: ReturnType<typeof setTimeout> | null = null;
-let draggedId = $state<string | null>(null);
-let draggedGroup = $state<string | undefined>(undefined);
-let overId = $state<string | null>(null);
-let insertBefore = $state(true);
-let renamingId = $state<string | null>(null);
-let renameValue = $state("");
-let renameInput = $state<HTMLInputElement | null>(null);
-// WHY: the context menu closing hands focus back and blurs a fresh input, which
-// would commit a rename nobody typed. Blur counts only once the input has had a frame.
-let renameArmed = $state(false);
-
-// =========================
-// DERIVED
-// =========================
-let t = $derived(resolveLabels(labels));
-let ordered = $derived.by(() => {
-	if (!pendingOrder) return steps;
-	const byId = new Map(steps.map((s) => [s.id, s]));
-	return pendingOrder.flatMap((id) => byId.get(id) ?? []);
-});
-let visible = $derived(visibleSteps(ordered));
-let markers = $derived(stepMarkers(ordered, today));
-let buckets = $derived(groupSteps(visible, groups));
-let menuBuckets = $derived(groupSteps(ordered, groups));
-let progress = $derived(stepProgress(ordered));
-let hiddenCount = $derived(ordered.length - visible.length);
-let canReorder = $derived(Boolean(onReorder));
-
-// =========================
-// EFFECTS
-// =========================
-$effect(() => {
-	if (!pendingOrder) return;
-	if (steps.map((s) => s.id).join(",") === pendingOrder.join(",")) clearPending();
-});
-
-$effect(() => {
-	if (renamingId && renameInput) {
-		renameInput.focus();
-		renameInput.select();
-		const frame = requestAnimationFrame(() => (renameArmed = true));
-		return () => {
-			cancelAnimationFrame(frame);
-			renameArmed = false;
-		};
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		steps: StepDef[];
+		/** Group headers in the order to draw them, such as Sales then Delivery. */
+		groups?: StepGroupDef[];
+		activeId?: string | null;
+		onSelect?: (id: string) => void;
+		/** Show or hide a step. Without it the visibility menu isn't drawn. */
+		onToggle?: (id: string, visible: boolean) => void;
+		/** The whole new id order, after a drag or a keyboard move. */
+		onReorder?: (ids: string[]) => void;
+		/** An empty label resets the name. */
+		onRename?: (id: string, label: string) => void;
+		loading?: boolean;
+		labels?: Partial<RecordLabels>;
+		locale?: string;
+		/** ISO date. Decides "late". Defaults to the viewer's today. */
+		today?: string;
+		class?: string;
 	}
-	renameArmed = false;
-});
+	let {
+		steps,
+		groups = [],
+		activeId = null,
+		onSelect,
+		onToggle,
+		onReorder,
+		onRename,
+		loading = false,
+		labels,
+		locale,
+		today = todayIso(),
+		class: className,
+	}: Props = $props();
 
-// =========================
-// FUNCTIONS
-// =========================
-function clearPending() {
-	pendingOrder = null;
-	if (pendingTimer) clearTimeout(pendingTimer);
-	pendingTimer = null;
-}
+	// =========================
+	// STATE
+	// =========================
+	let menuOpen = $state(false);
+	// The order shown while the host round-trips. Cleared when the steps catch up,
+	// or after five seconds so a failed save can't pin a wrong order.
+	let pendingOrder = $state<string[] | null>(null);
+	let pendingTimer: ReturnType<typeof setTimeout> | null = null;
+	let draggedId = $state<string | null>(null);
+	let draggedGroup = $state<string | undefined>(undefined);
+	let overId = $state<string | null>(null);
+	let insertBefore = $state(true);
+	let renamingId = $state<string | null>(null);
+	let renameValue = $state("");
+	let renameInput = $state<HTMLInputElement | null>(null);
+	// WHY: the context menu closing hands focus back and blurs a fresh input, which
+	// would commit a rename nobody typed. Blur counts only once the input has had a frame.
+	let renameArmed = $state(false);
 
-function applyOrder(ids: string[]) {
-	if (ids.join(",") === ordered.map((s) => s.id).join(",")) return;
-	pendingOrder = ids;
-	if (pendingTimer) clearTimeout(pendingTimer);
-	pendingTimer = setTimeout(clearPending, 5000);
-	onReorder?.(ids);
-}
+	// =========================
+	// DERIVED
+	// =========================
+	let t = $derived(resolveLabels(labels));
+	let ordered = $derived.by(() => {
+		if (!pendingOrder) return steps;
+		const byId = new Map(steps.map((s) => [s.id, s]));
+		return pendingOrder.flatMap((id) => byId.get(id) ?? []);
+	});
+	let visible = $derived(visibleSteps(ordered));
+	let markers = $derived(stepMarkers(ordered, today));
+	let buckets = $derived(groupSteps(visible, groups));
+	let menuBuckets = $derived(groupSteps(ordered, groups));
+	let progress = $derived(stepProgress(ordered));
+	let hiddenCount = $derived(ordered.length - visible.length);
+	let canReorder = $derived(Boolean(onReorder));
 
-function dateLabel(step: StepDef): string | null {
-	const from = step.start ?? step.end;
-	return from ? formatRange(from, step.start ? step.end : null, locale) : null;
-}
+	// =========================
+	// EFFECTS
+	// =========================
+	$effect(() => {
+		if (!pendingOrder) return;
+		if (steps.map((s) => s.id).join(",") === pendingOrder.join(",")) clearPending();
+	});
 
-function resetDrag() {
-	draggedId = null;
-	draggedGroup = undefined;
-	overId = null;
-}
+	$effect(() => {
+		if (renamingId && renameInput) {
+			renameInput.focus();
+			renameInput.select();
+			const frame = requestAnimationFrame(() => (renameArmed = true));
+			return () => {
+				cancelAnimationFrame(frame);
+				renameArmed = false;
+			};
+		}
+		renameArmed = false;
+	});
 
-function dragStart(event: DragEvent, step: StepDef) {
-	draggedId = step.id;
-	draggedGroup = step.group;
-	if (event.dataTransfer) {
-		event.dataTransfer.effectAllowed = "move";
-		event.dataTransfer.setData("text/plain", step.id);
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function clearPending() {
+		pendingOrder = null;
+		if (pendingTimer) clearTimeout(pendingTimer);
+		pendingTimer = null;
 	}
-}
 
-// A step moves inside its own group only: a group is a phase, and dragging
-// between two would silently change what a step means.
-function dragOver(event: DragEvent, target: StepDef) {
-	if (!draggedId || draggedId === target.id || target.group !== draggedGroup) return;
-	event.preventDefault();
-	if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
-	const box = (event.currentTarget as HTMLElement).getBoundingClientRect();
-	const before = event.clientY < box.top + box.height / 2;
-	if (overId !== target.id || insertBefore !== before) {
-		overId = target.id;
-		insertBefore = before;
+	function applyOrder(ids: string[]) {
+		if (ids.join(",") === ordered.map((s) => s.id).join(",")) return;
+		pendingOrder = ids;
+		if (pendingTimer) clearTimeout(pendingTimer);
+		pendingTimer = setTimeout(clearPending, 5000);
+		onReorder?.(ids);
 	}
-}
 
-function drop(event: DragEvent, target: StepDef) {
-	const moved = draggedId;
-	const before = insertBefore;
-	const sameGroup = target.group === draggedGroup;
-	resetDrag();
-	if (!moved || moved === target.id || !sameGroup) return;
-	event.preventDefault();
-	applyOrder(
-		reorderIds(
-			ordered.map((s) => s.id),
-			moved,
-			target.id,
-			before,
-		),
-	);
-}
+	function dateLabel(step: StepDef): string | null {
+		const from = step.start ?? step.end;
+		return from ? formatRange(from, step.start ? step.end : null, locale) : null;
+	}
 
-// Alt plus an arrow, not a bare arrow: the rail is walked with arrow keys and
-// taking them would lock keyboard users out.
-function keydown(event: KeyboardEvent, step: StepDef) {
-	if (!canReorder || !event.altKey || (event.key !== "ArrowUp" && event.key !== "ArrowDown")) return;
-	event.preventDefault();
-	applyOrder(nudgeStep(ordered, step.id, event.key === "ArrowUp" ? -1 : 1));
-}
+	function resetDrag() {
+		draggedId = null;
+		draggedGroup = undefined;
+		overId = null;
+	}
 
-function startRename(step: StepDef) {
-	renamingId = step.id;
-	renameValue = step.label;
-}
+	function dragStart(event: DragEvent, step: StepDef) {
+		draggedId = step.id;
+		draggedGroup = step.group;
+		if (event.dataTransfer) {
+			event.dataTransfer.effectAllowed = "move";
+			event.dataTransfer.setData("text/plain", step.id);
+		}
+	}
 
-function commitRename() {
-	if (!renamingId) return;
-	const step = ordered.find((s) => s.id === renamingId);
-	const next = renameValue.trim();
-	renamingId = null;
-	// WHY: an unchanged name sends nothing, so a stray blur can't mark a step renamed.
-	if (!step || next === step.label) return;
-	onRename?.(step.id, next);
-}
-
-function renameKey(event: KeyboardEvent) {
-	if (event.key === "Enter") {
+	// A step moves inside its own group only: a group is a phase, and dragging
+	// between two would silently change what a step means.
+	function dragOver(event: DragEvent, target: StepDef) {
+		if (!draggedId || draggedId === target.id || target.group !== draggedGroup) return;
 		event.preventDefault();
-		commitRename();
-	} else if (event.key === "Escape") {
+		if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+		const box = (event.currentTarget as HTMLElement).getBoundingClientRect();
+		const before = event.clientY < box.top + box.height / 2;
+		if (overId !== target.id || insertBefore !== before) {
+			overId = target.id;
+			insertBefore = before;
+		}
+	}
+
+	function drop(event: DragEvent, target: StepDef) {
+		const moved = draggedId;
+		const before = insertBefore;
+		const sameGroup = target.group === draggedGroup;
+		resetDrag();
+		if (!moved || moved === target.id || !sameGroup) return;
 		event.preventDefault();
+		applyOrder(
+			reorderIds(
+				ordered.map((s) => s.id),
+				moved,
+				target.id,
+				before,
+			),
+		);
+	}
+
+	// Alt plus an arrow, not a bare arrow: the rail is walked with arrow keys and
+	// taking them would lock keyboard users out.
+	function keydown(event: KeyboardEvent, step: StepDef) {
+		if (!canReorder || !event.altKey || (event.key !== "ArrowUp" && event.key !== "ArrowDown"))
+			return;
+		event.preventDefault();
+		applyOrder(nudgeStep(ordered, step.id, event.key === "ArrowUp" ? -1 : 1));
+	}
+
+	function startRename(step: StepDef) {
+		renamingId = step.id;
+		renameValue = step.label;
+	}
+
+	function commitRename() {
+		if (!renamingId) return;
+		const step = ordered.find((s) => s.id === renamingId);
+		const next = renameValue.trim();
 		renamingId = null;
+		// WHY: an unchanged name sends nothing, so a stray blur can't mark a step renamed.
+		if (!step || next === step.label) return;
+		onRename?.(step.id, next);
 	}
-}
+
+	function renameKey(event: KeyboardEvent) {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			commitRename();
+		} else if (event.key === "Escape") {
+			event.preventDefault();
+			renamingId = null;
+		}
+	}
 </script>
 
 <!-- =========================== -->
@@ -289,7 +290,9 @@ function renameKey(event: KeyboardEvent) {
 				<Popover.Content align="end" class="w-64 p-1">
 					{#each menuBuckets as bucket (bucket.key)}
 						{#if bucket.label}
-							<p class="px-2 pt-2 pb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+							<p
+								class="px-2 pt-2 pb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+							>
 								{bucket.label}
 							</p>
 						{/if}
@@ -316,7 +319,9 @@ function renameKey(event: KeyboardEvent) {
 							</Button>
 						{/each}
 					{/each}
-					<p class="mt-1 border-t border-border px-2 pt-2 pb-1 text-xs tabular-nums text-muted-foreground">
+					<p
+						class="mt-1 border-t border-border px-2 pt-2 pb-1 text-xs tabular-nums text-muted-foreground"
+					>
 						{t.shownCount(visible.length, ordered.length)}
 					</p>
 				</Popover.Content>
@@ -337,7 +342,9 @@ function renameKey(event: KeyboardEvent) {
 			{#each buckets as bucket (bucket.key)}
 				<div class="flex flex-col">
 					{#if bucket.label}
-						<h3 class="mb-1 px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase select-none">
+						<h3
+							class="mb-1 px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase select-none"
+						>
 							{bucket.label}
 						</h3>
 					{/if}
@@ -388,7 +395,9 @@ function renameKey(event: KeyboardEvent) {
 												)}
 											></span>
 										{/if}
-										<span class="relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center">
+										<span
+											class="relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"
+										>
 											{@render marker(kind)}
 										</span>
 										<span class="min-w-0 flex-1">

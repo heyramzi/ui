@@ -3,7 +3,53 @@ import { SHADCN_DEMOS } from "#lib/shadcn-demos/index.js";
 import { componentSources } from "#lib/component-sources.js";
 import { meta } from "#lib/registry-meta.js";
 
-export type Icon = "area"|"line"|"bar"|"pie"|"ring"|"gauge"|"activity"|"dashboard"|"hash"|"spline"|"click"|"tag"|"form"|"square"|"tabs"|"move"|"sparkles"|"type"|"kanban"|"list"|"gantt"|"dot"|"statusicon"|"avatar"|"cast"|"deck"|"spotlight"|"compare"|"beam"|"animate"|"reveal"|"dialog"|"accordion"|"select"|"avataricon"|"prompt"|"conversation"|"thinking"|"typing"|"tradeicon"|"brand"|"testimonial"|"reviewpage"|"inbox"|"sidepanel"|"editor";
+export type Icon =
+  | "area"
+  | "line"
+  | "bar"
+  | "pie"
+  | "ring"
+  | "gauge"
+  | "activity"
+  | "dashboard"
+  | "hash"
+  | "spline"
+  | "click"
+  | "tag"
+  | "form"
+  | "square"
+  | "tabs"
+  | "move"
+  | "sparkles"
+  | "type"
+  | "kanban"
+  | "list"
+  | "gantt"
+  | "dot"
+  | "statusicon"
+  | "avatar"
+  | "cast"
+  | "deck"
+  | "spotlight"
+  | "compare"
+  | "beam"
+  | "animate"
+  | "reveal"
+  | "dialog"
+  | "accordion"
+  | "select"
+  | "avataricon"
+  | "prompt"
+  | "conversation"
+  | "thinking"
+  | "typing"
+  | "tradeicon"
+  | "brand"
+  | "testimonial"
+  | "reviewpage"
+  | "inbox"
+  | "sidepanel"
+  | "editor";
 
 /** A sidebar row that isn't a single demo: a full page such as the task app or the deck. */
 export type PageLink = { title: string; href: string };
@@ -30,12 +76,76 @@ export const sections: Section[] = [
     id: "components",
     title: "Components",
     categories: [
-      { title: "Actions", items: ["button", "copy-button", "hold-to-confirm", "toggle", "toggle-group", "theme-toggle"] },
-      { title: "Feedback", items: ["badge", "alert", "progress", "spinner", "skeleton", "sonner", "empty"] },
-      { title: "Data display", items: ["avatar", "language-flag", "mark", "separator", "card", "accordion", "collapsible", "scroll-area", "code-block", "table", "table-view", "data-table"] },
-      { title: "Inputs", items: ["label", "field", "simple-field", "input", "textarea", "input-otp", "checkbox", "radio-group", "switch", "slider", "star-rating-input", "select", "calendar"] },
-      { title: "Overlays", items: ["tooltip", "hover-card", "popover", "dropdown-menu", "context-menu", "dialog", "alert-dialog", "sheet", "command", "picker"] },
-      { title: "Navigation", items: ["tabs", "segmented", "locale-switch", "breadcrumb", "toolbar"] },
+      {
+        title: "Actions",
+        items: [
+          "button",
+          "copy-button",
+          "hold-to-confirm",
+          "toggle",
+          "toggle-group",
+          "theme-toggle",
+        ],
+      },
+      {
+        title: "Feedback",
+        items: ["badge", "alert", "progress", "spinner", "skeleton", "sonner", "empty"],
+      },
+      {
+        title: "Data display",
+        items: [
+          "avatar",
+          "language-flag",
+          "mark",
+          "separator",
+          "card",
+          "accordion",
+          "collapsible",
+          "scroll-area",
+          "code-block",
+          "table",
+          "table-view",
+          "data-table",
+        ],
+      },
+      {
+        title: "Inputs",
+        items: [
+          "label",
+          "field",
+          "simple-field",
+          "input",
+          "textarea",
+          "input-otp",
+          "checkbox",
+          "radio-group",
+          "switch",
+          "slider",
+          "star-rating-input",
+          "tags-input",
+          "select",
+          "calendar",
+        ],
+      },
+      {
+        title: "Overlays",
+        items: [
+          "tooltip",
+          "hover-card",
+          "popover",
+          "dropdown-menu",
+          "context-menu",
+          "dialog",
+          "alert-dialog",
+          "sheet",
+          "command",
+          "picker",
+        ],
+      },
+      {
+        title: "Navigation",
+        items: ["tabs", "segmented", "locale-switch", "breadcrumb", "toolbar"],
+      },
     ],
   },
   {
@@ -43,7 +153,17 @@ export const sections: Section[] = [
     title: "Effects",
     categories: [
       { title: "Text", items: ["text-effect", "marquee"] },
-      { title: "Light", items: ["spotlight", "border-beam", "magic-card", "animated-beam", "progressive-blur", "shader-gradient"] },
+      {
+        title: "Light",
+        items: [
+          "spotlight",
+          "border-beam",
+          "magic-card",
+          "animated-beam",
+          "progressive-blur",
+          "shader-gradient",
+        ],
+      },
       { title: "Reveal", items: ["in-view", "animated-group", "image-reveal"] },
       { title: "Pointer", items: ["magnetic", "interactive-hover-button", "image-comparison"] },
     ],
@@ -62,9 +182,43 @@ export const sections: Section[] = [
     id: "blocks",
     title: "Blocks",
     categories: [
-      { title: "Chat", items: ["message", "bubble", "attachment", "marker", "message-scroller", "trace", "suggestion", "ai-prompt", "ai-button", "reasoning", "confirmation", "chat-typing", "ai-thinking", "loading-state", "generation-progress", "voice-waveform"] },
+      {
+        title: "Chat",
+        items: [
+          "message",
+          "bubble",
+          "attachment",
+          "marker",
+          "message-scroller",
+          "trace",
+          "suggestion",
+          "ai-prompt",
+          "ai-button",
+          "reasoning",
+          "confirmation",
+          "chat-typing",
+          "ai-thinking",
+          "loading-state",
+          "generation-progress",
+          "voice-waveform",
+        ],
+      },
       { title: "Agents", items: ["agent-avatar", "agent-cast"] },
-      { title: "Tasks", items: ["status-dot", "status-badge", "status-icon", "task-list", "kanban-board", "task-gantt", "side-panel", "inbox", "thread", "threaded-inbox", { title: "Task app", href: "/tasks" }] },
+      {
+        title: "Tasks",
+        items: [
+          "status-dot",
+          "status-badge",
+          "status-icon",
+          "task-list",
+          "kanban-board",
+          "task-gantt",
+          "side-panel",
+          "thread",
+          "threaded-inbox",
+          { title: "Task app", href: "/tasks" },
+        ],
+      },
       { title: "Editor", items: ["inline-editor", "rich-editor"] },
       { title: "Layouts", items: ["section-card", "doc-page", "list-page", "dashboard"] },
       { title: "Onboarding", items: [{ title: "Page tour", href: "/onboarding" }] },
@@ -89,7 +243,6 @@ export type Entry = {
   sourceFiles: string[];
 };
 
-
 /** Where each slug sits, read off `sections`. */
 const placement = new Map<string, { section: string; category: string }>();
 for (const section of sections) {
@@ -109,7 +262,11 @@ const place = (slug: string) => {
 };
 
 const components = import.meta.glob<{ default: Component }>("./demos/*.svelte", { eager: true });
-const sources = import.meta.glob<string>("./demos/*.svelte", { eager: true, query: "?raw", import: "default" });
+const sources = import.meta.glob<string>("./demos/*.svelte", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
 
 const written: Entry[] = Object.keys(meta).map((slug) => {
   const path = `./demos/${slug}.svelte`;
@@ -123,7 +280,11 @@ const written: Entry[] = Object.keys(meta).map((slug) => {
   };
 });
 
-const primitiveSources = import.meta.glob<string>("./shadcn-demos/*.svelte", { eager: true, query: "?raw", import: "default" });
+const primitiveSources = import.meta.glob<string>("./shadcn-demos/*.svelte", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
 
 /**
  * The other shadcn primitives, each shown by upstream's own demo. `pnpm sync:shadcn` writes the files
@@ -144,11 +305,14 @@ const primitives: Entry[] = SHADCN_DEMOS.filter((demo) => !(demo.name in meta)).
 
 const all = [...written, ...primitives];
 for (const slug of placement.keys()) {
-  if (!all.some((e) => e.slug === slug)) throw new Error(`registry: sections place "${slug}", which has no demo`);
+  if (!all.some((e) => e.slug === slug))
+    throw new Error(`registry: sections place "${slug}", which has no demo`);
 }
 
 /** Every demo, in sidebar order. */
-export const entries: Entry[] = [...placement.keys()].map((slug) => all.find((e) => e.slug === slug)!);
+export const entries: Entry[] = [...placement.keys()].map((slug) =>
+  all.find((e) => e.slug === slug)!,
+);
 
 export const bySlug = (slug: string) => entries.find((e) => e.slug === slug);
 

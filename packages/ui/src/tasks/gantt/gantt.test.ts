@@ -50,7 +50,9 @@ describe("TaskGantt", () => {
     const root = render({ onChange: (_id: string, change: GanttChange) => changes.push(change) });
     const bar = root.querySelector("[data-bar]");
     bar?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-    bar?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", shiftKey: true, bubbles: true }));
+    bar?.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", shiftKey: true, bubbles: true }),
+    );
     await tick();
     expect(changes).toEqual([
       { start: "2026-10-06", end: "2026-10-10" },

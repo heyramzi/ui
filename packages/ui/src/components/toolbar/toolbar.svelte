@@ -85,7 +85,12 @@
 					<MagnifyingGlass class="size-3.5" aria-hidden="true" />
 				</Popover.Trigger>
 				<Popover.Content align="start" class="w-64 p-2">
-					<Input bind:value={search} placeholder={searchPlaceholder} aria-label={searchLabel} class="h-8" />
+					<Input
+						bind:value={search}
+						placeholder={searchPlaceholder}
+						aria-label={searchLabel}
+						class="h-8"
+					/>
 				</Popover.Content>
 			</Popover.Root>
 		{/if}
@@ -112,7 +117,9 @@
 							<DropdownMenu.RadioItem value={item.value}>
 								{item.label}
 								{#if item.count != null}
-									<span class="ms-auto pe-2 text-xs text-muted-foreground tabular-nums">{item.count}</span>
+									<span class="ms-auto pe-2 text-xs text-muted-foreground tabular-nums"
+										>{item.count}</span
+									>
 								{/if}
 							</DropdownMenu.RadioItem>
 						{/each}

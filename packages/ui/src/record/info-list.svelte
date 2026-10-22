@@ -1,127 +1,135 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { Check, CaretUpDown } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { Button } from "#src/shadcn/button/index.js";
-import { Input } from "#src/shadcn/input/index.js";
-import { Textarea } from "#src/shadcn/textarea/index.js";
-import { Spinner } from "#src/shadcn/spinner/index.js";
-import * as Select from "#src/shadcn/select/index.js";
-import * as Popover from "#src/shadcn/popover/index.js";
-import * as Command from "#src/shadcn/command/index.js";
-import StatusBadge from "#src/status/status-badge.svelte";
-import { resolveLabels, type InfoRow, type RecordLabels } from "#src/record/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Check, CaretUpDown } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Input } from "#src/shadcn/input/index.js";
+	import { Textarea } from "#src/shadcn/textarea/index.js";
+	import { Spinner } from "#src/shadcn/spinner/index.js";
+	import * as Select from "#src/shadcn/select/index.js";
+	import * as Popover from "#src/shadcn/popover/index.js";
+	import * as Command from "#src/shadcn/command/index.js";
+	import { TagsInput } from "#src/components/tags-input/index.js";
+	import StatusBadge from "#src/status/status-badge.svelte";
+	import { resolveLabels, type InfoRow, type RecordLabels } from "#src/record/types.js";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	rows: InfoRow[];
-	/** A heading over the list. Left out, nothing is drawn. */
-	title?: string | null;
-	labels?: Partial<RecordLabels>;
-	class?: string;
-}
-let { rows, title = null, labels, class: className }: Props = $props();
-
-// =========================
-// STATE
-// =========================
-let editing = $state<string | null>(null);
-let draft = $state("");
-let saving = $state<string | null>(null);
-let failed = $state<{ key: string; text: string } | null>(null);
-let pickerOpen = $state<string | null>(null);
-
-// =========================
-// DERIVED
-// =========================
-let t = $derived(resolveLabels(labels));
-// A read-only row with nothing in it is noise. An editable one stays, as the way to fill it.
-let shown = $derived(
-	rows.filter(
-		(r) => r.divider || r.onSave || (r.value != null && r.value !== "") || (r.chips?.length ?? 0) > 0,
-	),
-);
-// Past this many options a plain list is slower than typing.
-const SEARCH_AT = 7;
-
-// =========================
-// FUNCTIONS
-// =========================
-const keyOf = (row: InfoRow) => row.id ?? row.label;
-
-function isEmpty(row: InfoRow): boolean {
-	return (row.value == null || row.value === "") && (row.chips?.length ?? 0) === 0;
-}
-
-function inputType(row: InfoRow): string {
-	return row.input === "date" || row.input === "number" || row.input === "url" || row.input === "email"
-		? row.input
-		: "text";
-}
-
-function begin(row: InfoRow) {
-	editing = keyOf(row);
-	failed = null;
-	const from = row.editValue ?? row.value ?? "";
-	draft = Array.isArray(from) ? from.join(", ") : String(from);
-}
-
-function stop() {
-	editing = null;
-	failed = null;
-	draft = "";
-}
-
-async function commit(row: InfoRow, value: string | string[], close = true) {
-	if (!row.onSave) return;
-	const key = keyOf(row);
-	const next = Array.isArray(value) ? value : value.trim();
-	if (row.required && (Array.isArray(next) ? next.length === 0 : next === "")) {
-		failed = { key, text: t.required };
-		return;
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		rows: InfoRow[];
+		/** A heading over the list. Left out, nothing is drawn. */
+		title?: string | null;
+		labels?: Partial<RecordLabels>;
+		class?: string;
 	}
-	saving = key;
-	failed = null;
-	try {
-		await row.onSave(next);
-		if (close) stop();
-	} catch {
-		failed = { key, text: t.saveFailed };
-	} finally {
-		saving = null;
+	let { rows, title = null, labels, class: className }: Props = $props();
+
+	// =========================
+	// STATE
+	// =========================
+	let editing = $state<string | null>(null);
+	let draft = $state("");
+	let saving = $state<string | null>(null);
+	let failed = $state<{ key: string; text: string } | null>(null);
+	let pickerOpen = $state<string | null>(null);
+
+	// =========================
+	// DERIVED
+	// =========================
+	let t = $derived(resolveLabels(labels));
+	// A read-only row with nothing in it is noise. An editable one stays, as the way to fill it.
+	let shown = $derived(
+		rows.filter(
+			(r) =>
+				r.divider || r.onSave || (r.value != null && r.value !== "") || (r.chips?.length ?? 0) > 0,
+		),
+	);
+	// Past this many options a plain list is slower than typing.
+	const SEARCH_AT = 7;
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	const keyOf = (row: InfoRow) => row.id ?? row.label;
+
+	function isEmpty(row: InfoRow): boolean {
+		return (row.value == null || row.value === "") && (row.chips?.length ?? 0) === 0;
 	}
-}
 
-function pick(row: InfoRow, value: string) {
-	pickerOpen = null;
-	const current = typeof row.editValue === "string" ? row.editValue : null;
-	if (value !== current) void commit(row, value, false);
-}
-
-function toggle(row: InfoRow, value: string) {
-	const current = Array.isArray(row.editValue) ? row.editValue : [];
-	const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
-	void commit(row, next, false);
-}
-
-// Enter saves a line. A long text keeps Enter for the line break and saves on Cmd or Ctrl.
-function onKey(event: KeyboardEvent, row: InfoRow) {
-	if (event.key === "Escape") {
-		event.preventDefault();
-		stop();
-	} else if (event.key === "Enter" && (row.input !== "longtext" || event.metaKey || event.ctrlKey)) {
-		event.preventDefault();
-		void commit(row, draft);
+	function inputType(row: InfoRow): string {
+		return row.input === "date" ||
+			row.input === "number" ||
+			row.input === "url" ||
+			row.input === "email"
+			? row.input
+			: "text";
 	}
-}
 
-// The ghost button that opens an editor reads as text until hovered, so a read
-// of the record isn't a page of controls.
-const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
+	function begin(row: InfoRow) {
+		editing = keyOf(row);
+		failed = null;
+		const from = row.editValue ?? row.value ?? "";
+		draft = Array.isArray(from) ? from.join(", ") : String(from);
+	}
+
+	function stop() {
+		editing = null;
+		failed = null;
+		draft = "";
+	}
+
+	async function commit(row: InfoRow, value: string | string[], close = true) {
+		if (!row.onSave) return;
+		const key = keyOf(row);
+		const next = Array.isArray(value) ? value : value.trim();
+		if (row.required && (Array.isArray(next) ? next.length === 0 : next === "")) {
+			failed = { key, text: t.required };
+			return;
+		}
+		saving = key;
+		failed = null;
+		try {
+			await row.onSave(next);
+			if (close) stop();
+		} catch {
+			failed = { key, text: t.saveFailed };
+		} finally {
+			saving = null;
+		}
+	}
+
+	function pick(row: InfoRow, value: string) {
+		pickerOpen = null;
+		const current = typeof row.editValue === "string" ? row.editValue : null;
+		if (value !== current) void commit(row, value, false);
+	}
+
+	function toggle(row: InfoRow, value: string) {
+		const current = Array.isArray(row.editValue) ? row.editValue : [];
+		const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+		void commit(row, next, false);
+	}
+
+	// Enter saves a line. A long text keeps Enter for the line break and saves on Cmd or Ctrl.
+	function onKey(event: KeyboardEvent, row: InfoRow) {
+		if (event.key === "Escape") {
+			event.preventDefault();
+			stop();
+		} else if (
+			event.key === "Enter" &&
+			(row.input !== "longtext" || event.metaKey || event.ctrlKey)
+		) {
+			event.preventDefault();
+			void commit(row, draft);
+		}
+	}
+
+	// The ghost button that opens an editor reads as text until hovered, so a read
+	// of the record isn't a page of controls.
+	const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
 </script>
 
 <!-- =========================== -->
@@ -137,8 +145,9 @@ const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
 	{:else if row.tone && row.value}
 		<StatusBadge tone={row.tone} capitalize={false}>{row.value}</StatusBadge>
 	{:else if row.href && row.value}
-		<a href={row.href} class="min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline"
-			>{row.value}</a
+		<a
+			href={row.href}
+			class="min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline">{row.value}</a
 		>
 	{:else if row.value}
 		<span
@@ -191,7 +200,10 @@ const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
 								onSelect={() => (multi ? toggle(row, option.value) : pick(row, option.value))}
 							>
 								<Check
-									class={cn("size-3.5", current.includes(option.value) ? "opacity-100" : "opacity-0")}
+									class={cn(
+										"size-3.5",
+										current.includes(option.value) ? "opacity-100" : "opacity-0",
+									)}
 								/>
 								{option.label}
 							</Command.Item>
@@ -208,7 +220,9 @@ const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
 		{#if title}
 			<h2 class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{title}</h2>
 		{/if}
-		<dl class="grid grid-cols-[minmax(5rem,max-content)_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5">
+		<dl
+			class="grid grid-cols-[minmax(5rem,max-content)_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5"
+		>
 			{#each shown as row, index (row.divider ? `divider-${index}` : keyOf(row))}
 				{#if row.divider}
 					<div class="col-span-2 -my-0.5 border-t border-border/50"></div>
@@ -227,9 +241,24 @@ const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
 						{/if}
 						{row.label}
 					</dt>
-					<dd class={cn("flex min-h-7 min-w-0 flex-col justify-center gap-1", long && "col-span-2 -mt-1")}>
+					<dd
+						class={cn(
+							"flex min-h-7 min-w-0 flex-col justify-center gap-1",
+							long && "col-span-2 -mt-1",
+						)}
+					>
 						{#if !row.onSave}
 							{@render display(row)}
+						{:else if row.input === "tags" && row.tags}
+							<TagsInput
+								value={Array.isArray(row.editValue) ? row.editValue : []}
+								options={row.tags.options}
+								allowCreate={row.tags.allowCreate}
+								max={row.tags.max}
+								label={t.edit(row.label)}
+								labels={{ add: t.add(row.label), none: t.noMatch }}
+								onchange={(next) => commit(row, next, false)}
+							/>
 						{:else if row.input === "multi" && row.options}
 							{@render list(row, key, true)}
 						{:else if row.input === "select" && row.options && row.options.length > SEARCH_AT}
@@ -255,7 +284,9 @@ const OPENER = "-ml-1.5 max-w-full px-1.5 text-sm font-medium";
 								</Select.Trigger>
 								<Select.Content>
 									{#each row.options as option (option.value)}
-										<Select.Item value={option.value} label={option.label}>{option.label}</Select.Item>
+										<Select.Item value={option.value} label={option.label}
+											>{option.label}</Select.Item
+										>
 									{/each}
 								</Select.Content>
 							</Select.Root>

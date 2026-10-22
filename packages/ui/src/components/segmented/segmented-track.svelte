@@ -1,43 +1,46 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
-import { segmentedTrackClass, type SegmentedVariant } from "#src/components/segmented/segmented.js";
-import { slidingPill } from "#src/lib/sliding-pill.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
+	import {
+		segmentedTrackClass,
+		type SegmentedVariant,
+	} from "#src/components/segmented/segmented.js";
+	import { slidingPill } from "#src/lib/sliding-pill.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	/** Fill the row rather than sit at its natural width. */
-	fill?: boolean;
-	/** `pill`, a bordered well with a travelling highlight, or `underline`, a travelling rule. */
-	variant?: SegmentedVariant;
-	class?: string;
-	children: Snippet;
-	/**
-	 * A last segment that isn't an item: today the overflow trigger. It's inside
-	 * the track but outside the ARIA container, so a `tablist` owns only tabs.
-	 */
-	after?: Snippet;
-	// What the ARIA shapes differ by: `role`/`aria-label` for the filter, nothing
-	// for the nav (its <nav> has it), bits-ui's wiring for tabs.
-	[key: string]: unknown;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		/** Fill the row rather than sit at its natural width. */
+		fill?: boolean;
+		/** `pill`, a bordered well with a travelling highlight, or `underline`, a travelling rule. */
+		variant?: SegmentedVariant;
+		class?: string;
+		children: Snippet;
+		/**
+		 * A last segment that isn't an item: today the overflow trigger. It's inside
+		 * the track but outside the ARIA container, so a `tablist` owns only tabs.
+		 */
+		after?: Snippet;
+		// What the ARIA shapes differ by: `role`/`aria-label` for the filter, nothing
+		// for the nav (its <nav> has it), bits-ui's wiring for tabs.
+		[key: string]: unknown;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	fill = false,
-	variant = "pill",
-	class: className,
-	children,
-	after,
-	...rest
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		fill = false,
+		variant = "pill",
+		class: className,
+		children,
+		after,
+		...rest
+	}: Props = $props();
 </script>
 
 <!-- =========================== -->
@@ -86,7 +89,10 @@ let {
 	.track :global(.ui-segment[data-state="active"] + .ui-segment)::before,
 	.track :global(.ui-segment[aria-current="page"] + .ui-segment)::before,
 	.track :global(.ui-segment[aria-pressed="true"] + .ui-segment)::before,
-	.track :global([data-slot="tabs-list"]:has(> .ui-segment:last-child[data-state="active"]) + .ui-segment)::before {
+	.track
+		:global(
+			[data-slot="tabs-list"]:has(> .ui-segment:last-child[data-state="active"]) + .ui-segment
+		)::before {
 		opacity: 0;
 	}
 
@@ -109,7 +115,12 @@ let {
 	@media (hover: hover) {
 		.track
 			:global(
-				.ui-segment:hover:not([data-state="active"], [aria-current="page"], [aria-pressed="true"], [data-state="open"])
+				.ui-segment:hover:not(
+						[data-state="active"],
+						[aria-current="page"],
+						[aria-pressed="true"],
+						[data-state="open"]
+					)
 			) {
 			background-color: color-mix(in oklch, var(--color-muted) 55%, transparent);
 		}
@@ -139,7 +150,8 @@ let {
 
 	/* Before the attachment measures, the active segment draws the pill itself,
 	   so a server-rendered strip is right before any JS arrives. */
-	.track:not([data-pill="on"]) :global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
+	.track:not([data-pill="on"])
+		:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
 		background-color: var(--color-muted);
 		box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-foreground) 6%, transparent);
 	}
@@ -153,7 +165,12 @@ let {
 	@media (hover: hover) {
 		.track[data-variant="underline"]
 			:global(
-				.ui-segment:hover:not([data-state="active"], [aria-current="page"], [aria-pressed="true"], [data-state="open"])
+				.ui-segment:hover:not(
+						[data-state="active"],
+						[aria-current="page"],
+						[aria-pressed="true"],
+						[data-state="open"]
+					)
 			) {
 			background-color: transparent;
 		}

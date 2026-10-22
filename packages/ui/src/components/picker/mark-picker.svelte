@@ -1,57 +1,57 @@
 <script lang="ts" generics="V extends string">
-// =========================
-// IMPORTS
-// =========================
-import { CaretDown } from "phosphor-svelte";
-import { Mark } from "#src/components/mark/index.js";
-import { cn } from "#src/lib/utils.js";
-import Picker from "#src/components/picker/picker.svelte";
-import { pickerTriggerClass } from "#src/components/picker/trigger.js";
-import type { PickerOption } from "#src/components/picker/types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { CaretDown } from "phosphor-svelte";
+	import { Mark } from "#src/components/mark/index.js";
+	import { cn } from "#src/lib/utils.js";
+	import Picker from "#src/components/picker/picker.svelte";
+	import { pickerTriggerClass } from "#src/components/picker/trigger.js";
+	import type { PickerOption } from "#src/components/picker/types.js";
 
-// =========================
-// TYPES
-// =========================
+	// =========================
+	// TYPES
+	// =========================
 
-/**
- * The picker for named things carrying a mark: a kit, a channel, a client. It
- * wraps `Picker` because the kit strip and the channel row wrote the same two
- * snippets.
- */
-interface Props {
-	options: PickerOption<V>[];
-	value: V | null;
-	onSelect: (value: V) => void;
-	ariaLabel: string;
-	/** Said by the trigger when nothing in the list is the current value. */
-	placeholder?: string;
-	/** The search field's own prompt, on a list long enough to show one. */
-	searchPlaceholder?: string;
-	/** `circle` for a face or an avatar, `square` for a logo. */
-	shape?: "square" | "circle";
-	width?: "sm" | "default" | "lg";
-	class?: string;
-};
+	/**
+	 * The picker for named things carrying a mark: a kit, a channel, a client. It
+	 * wraps `Picker` because the kit strip and the channel row wrote the same two
+	 * snippets.
+	 */
+	interface Props {
+		options: PickerOption<V>[];
+		value: V | null;
+		onSelect: (value: V) => void;
+		ariaLabel: string;
+		/** Said by the trigger when nothing in the list is the current value. */
+		placeholder?: string;
+		/** The search field's own prompt, on a list long enough to show one. */
+		searchPlaceholder?: string;
+		/** `circle` for a face or an avatar, `square` for a logo. */
+		shape?: "square" | "circle";
+		width?: "sm" | "default" | "lg";
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	options,
-	value,
-	onSelect,
-	ariaLabel,
-	placeholder = "Select",
-	searchPlaceholder = "Search",
-	shape = "square",
-	width = "lg",
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		options,
+		value,
+		onSelect,
+		ariaLabel,
+		placeholder = "Select",
+		searchPlaceholder = "Search",
+		shape = "square",
+		width = "lg",
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let selected = $derived(options.find((option) => option.value === value));
+	// =========================
+	// DERIVED
+	// =========================
+	let selected = $derived(options.find((option) => option.value === value));
 </script>
 
 <!-- =========================== -->

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vite-plus/test";
-import { figureBoxHeight, figureRatio, sanitizeFigureSvg } from "#src/canvas/headless/svg-figure.js";
+import {
+  figureBoxHeight,
+  figureRatio,
+  sanitizeFigureSvg,
+} from "#src/canvas/headless/svg-figure.js";
 
 describe("sanitizeFigureSvg", () => {
   it("keeps the shapes, the text and the geometry", () => {

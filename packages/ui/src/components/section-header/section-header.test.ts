@@ -7,7 +7,13 @@ function render(props: Record<string, unknown>) {
   document.body.appendChild(target);
   const app = mount(SectionHeader, { target, props: { title: "Lines", ...props } });
   flushSync();
-  return { target, done: () => { void unmount(app); target.remove(); } };
+  return {
+    target,
+    done: () => {
+      void unmount(app);
+      target.remove();
+    },
+  };
 }
 
 describe("SectionHeader", () => {

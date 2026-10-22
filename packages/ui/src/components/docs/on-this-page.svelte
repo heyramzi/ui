@@ -42,8 +42,15 @@
 	// =========================
 	// DERIVED
 	// =========================
-	let activeIndex = $derived(Math.max(0, items.findIndex((item) => item.id === active)));
-	let activeLabel = $derived(items.find((item) => item.id === active)?.label ?? items[0]?.label ?? "");
+	let activeIndex = $derived(
+		Math.max(
+			0,
+			items.findIndex((item) => item.id === active),
+		),
+	);
+	let activeLabel = $derived(
+		items.find((item) => item.id === active)?.label ?? items[0]?.label ?? "",
+	);
 	// How far through the document: the bar's hairline, and the number a reader
 	// reads at a glance.
 	let progress = $derived(items.length > 1 ? activeIndex / (items.length - 1) : 0);
@@ -205,7 +212,13 @@
 
 	/* A long list fades into its edges instead of ending on a hard cut. */
 	.otp-fade {
-		mask-image: linear-gradient(to bottom, transparent, #000 0.5rem, #000 calc(100% - 1.5rem), transparent);
+		mask-image: linear-gradient(
+			to bottom,
+			transparent,
+			#000 0.5rem,
+			#000 calc(100% - 1.5rem),
+			transparent
+		);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

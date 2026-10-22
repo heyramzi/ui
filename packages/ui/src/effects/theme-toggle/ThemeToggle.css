@@ -130,7 +130,9 @@
   border-radius: 9999px;
   background: var(--tt-thumb-color);
   color: var(--theme-toggle-thumb-icon, var(--color-primary-foreground));
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition:
     transform 500ms cubic-bezier(0.165, 0.84, 0.44, 1),
     background-color 500ms;

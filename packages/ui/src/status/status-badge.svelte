@@ -41,7 +41,9 @@
 	}: Props = $props();
 
 	let resolvedTone = $derived(tone ?? (statuses && status ? statuses.tone(status) : "neutral"));
-	let resolvedLabel = $derived(label ?? (statuses && status ? statuses.label(status) : (status ?? "")));
+	let resolvedLabel = $derived(
+		label ?? (statuses && status ? statuses.label(status) : (status ?? "")),
+	);
 </script>
 
 <Badge tone={resolvedTone} class={cn(capitalize && "capitalize", className)} {...restProps}>

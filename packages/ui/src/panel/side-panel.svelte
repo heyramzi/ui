@@ -1,104 +1,104 @@
 <script lang="ts" module>
-import type { PanelStat, SidePanelWidth } from "#src/panel/side-panel-types.js";
-export type { PanelStat, SidePanelWidth };
+	import type { PanelStat, SidePanelWidth } from "#src/panel/side-panel-types.js";
+	export type { PanelStat, SidePanelWidth };
 </script>
 
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import * as Sheet from "#src/shadcn/sheet/index.js";
-import { OpenIn, type OpenInTool } from "#src/components/open-in/index.js";
-import { CopyButton } from "#src/components/copy/index.js";
-import type { Tone } from "#src/lib/tone.js";
-import { cn } from "#src/lib/utils.js";
-import StatusBadge from "#src/status/status-badge.svelte";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import * as Sheet from "#src/shadcn/sheet/index.js";
+	import { OpenIn, type OpenInTool } from "#src/components/open-in/index.js";
+	import { CopyButton } from "#src/components/copy/index.js";
+	import type { Tone } from "#src/lib/tone.js";
+	import { cn } from "#src/lib/utils.js";
+	import StatusBadge from "#src/status/status-badge.svelte";
 
-// =========================
-// PROPS
-// =========================
-interface Props {
-	open: boolean;
-	/** Names the dialog for screen readers and heads the panel. */
-	title: string;
-	/** Merged onto the title. A short path is set `font-mono`, a subject is not. */
-	titleClass?: string;
-	/** The facts the record is filed under, read out under the title. */
-	description?: string;
-	/** Status chips, left of the action row. */
-	badges?: { label: string; tone: Tone }[];
-	/** Doors out to another tool. `text` replaces the tool's name on the button. */
-	openIn?: { tool: OpenInTool; href: string; label: string; text?: string }[];
-	/** A prompt for an AI about this record, copied on click. */
-	handoff?: { value: () => string | Promise<string>; label: string; copiedLabel: string };
-	/** The record's numbers, as a strip under the badges. Same place in every panel. */
-	stats?: PanelStat[];
-	/** Anything else the record can do, drawn last in the action row. */
-	actions?: Snippet;
-	/** Pinned actions. The body scrolls above it; the caller aligns the row. */
-	footer?: Snippet;
-	children: Snippet;
-	width?: SidePanelWidth;
-	/** The body brings its own header: the title is read out but not drawn, and
+	// =========================
+	// PROPS
+	// =========================
+	interface Props {
+		open: boolean;
+		/** Names the dialog for screen readers and heads the panel. */
+		title: string;
+		/** Merged onto the title. A short path is set `font-mono`, a subject is not. */
+		titleClass?: string;
+		/** The facts the record is filed under, read out under the title. */
+		description?: string;
+		/** Status chips, left of the action row. */
+		badges?: { label: string; tone: Tone }[];
+		/** Doors out to another tool. `text` replaces the tool's name on the button. */
+		openIn?: { tool: OpenInTool; href: string; label: string; text?: string }[];
+		/** A prompt for an AI about this record, copied on click. */
+		handoff?: { value: () => string | Promise<string>; label: string; copiedLabel: string };
+		/** The record's numbers, as a strip under the badges. Same place in every panel. */
+		stats?: PanelStat[];
+		/** Anything else the record can do, drawn last in the action row. */
+		actions?: Snippet;
+		/** Pinned actions. The body scrolls above it; the caller aligns the row. */
+		footer?: Snippet;
+		children: Snippet;
+		width?: SidePanelWidth;
+		/** The body brings its own header: the title is read out but not drawn, and
 	    the body is neither padded nor scrolled by the panel. */
-	bare?: boolean;
-	/** Fires once when the panel closes, from the close button, Escape or the overlay. */
-	onClose?: () => void;
-};
-let {
-	open = $bindable(),
-	title,
-	titleClass,
-	description,
-	badges = [],
-	openIn = [],
-	handoff,
-	stats = [],
-	actions,
-	footer,
-	children,
-	width = "sm",
-	bare = false,
-	onClose,
-}: Props = $props();
+		bare?: boolean;
+		/** Fires once when the panel closes, from the close button, Escape or the overlay. */
+		onClose?: () => void;
+	}
+	let {
+		open = $bindable(),
+		title,
+		titleClass,
+		description,
+		badges = [],
+		openIn = [],
+		handoff,
+		stats = [],
+		actions,
+		footer,
+		children,
+		width = "sm",
+		bare = false,
+		onClose,
+	}: Props = $props();
 
-// =========================
-// STATE
-// =========================
-let panel = $state<HTMLElement | null>(null);
+	// =========================
+	// STATE
+	// =========================
+	let panel = $state<HTMLElement | null>(null);
 
-// =========================
-// DERIVED
-// =========================
-let hasRow = $derived(badges.length > 0 || openIn.length > 0 || Boolean(handoff || actions));
-const STAT_TONE = {
-	default: "",
-	muted: "text-muted-foreground",
-	good: "text-success",
-	bad: "text-destructive",
-} as const;
-const WIDTH: Record<SidePanelWidth, string> = {
-	sm: "sm:max-w-sm",
-	md: "sm:max-w-md",
-	lg: "sm:max-w-xl",
-	xl: "sm:max-w-2xl",
-	"2xl": "sm:max-w-3xl",
-};
+	// =========================
+	// DERIVED
+	// =========================
+	let hasRow = $derived(badges.length > 0 || openIn.length > 0 || Boolean(handoff || actions));
+	const STAT_TONE = {
+		default: "",
+		muted: "text-muted-foreground",
+		good: "text-success",
+		bad: "text-destructive",
+	} as const;
+	const WIDTH: Record<SidePanelWidth, string> = {
+		sm: "sm:max-w-sm",
+		md: "sm:max-w-md",
+		lg: "sm:max-w-xl",
+		xl: "sm:max-w-2xl",
+		"2xl": "sm:max-w-3xl",
+	};
 
-// =========================
-// HANDLERS
-// =========================
-// WHY focus goes to the panel unless a text field comes first: the dialog otherwise
-// opens on its first control, which draws a ring on a record nobody has touched.
-// A form that opens on its field keeps the default, since that is where you type.
-const FIRST_CONTROL =
-	'a[href], button:not([disabled]), input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])';
-function onOpenAutoFocus(event: Event) {
-	if (!panel || panel.querySelector(FIRST_CONTROL)?.matches("input, textarea, select")) return;
-	event.preventDefault();
-	panel.focus();
-}
+	// =========================
+	// HANDLERS
+	// =========================
+	// WHY focus goes to the panel unless a text field comes first: the dialog otherwise
+	// opens on its first control, which draws a ring on a record nobody has touched.
+	// A form that opens on its field keeps the default, since that is where you type.
+	const FIRST_CONTROL =
+		'a[href], button:not([disabled]), input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])';
+	function onOpenAutoFocus(event: Event) {
+		if (!panel || panel.querySelector(FIRST_CONTROL)?.matches("input, textarea, select")) return;
+		event.preventDefault();
+		panel.focus();
+	}
 </script>
 
 <!-- =========================== -->
@@ -165,7 +165,9 @@ function onOpenAutoFocus(event: Event) {
 						{#each stats as stat (stat.label)}
 							<div class="min-w-0">
 								<dt class="text-xs text-muted-foreground">{stat.label}</dt>
-								<dd class={cn("text-sm font-medium tabular-nums", STAT_TONE[stat.tone ?? "default"])}>
+								<dd
+									class={cn("text-sm font-medium tabular-nums", STAT_TONE[stat.tone ?? "default"])}
+								>
 									{stat.value}
 									{#if stat.sub}
 										<span class="text-xs font-normal text-muted-foreground">{stat.sub}</span>

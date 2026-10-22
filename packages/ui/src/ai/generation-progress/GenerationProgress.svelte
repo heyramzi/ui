@@ -41,7 +41,9 @@
 	// DERIVED
 	// =========================
 	let heading = $derived(label || "Generating");
-	let percent = $derived(progress && progress.total > 0 ? (progress.completed / progress.total) * 100 : 0);
+	let percent = $derived(
+		progress && progress.total > 0 ? (progress.completed / progress.total) * 100 : 0,
+	);
 
 	// =========================
 	// EFFECTS
@@ -82,7 +84,9 @@
 						<!-- #key is the reflow: Svelte drops the node and builds a new one,
 						     which is what replays the pop-in on every step. -->
 						{#key progress.completed}
-							<span class="t-digit-group is-animating"><span class="t-digit">{progress.completed}</span></span>
+							<span class="t-digit-group is-animating"
+								><span class="t-digit">{progress.completed}</span></span
+							>
 						{/key}<span class="gen-total">/{progress.total}</span>
 					</span>
 				{/if}
@@ -93,7 +97,10 @@
 		</div>
 
 		<div class="gen-track" data-indeterminate={progress ? undefined : true}>
-			<div class="gen-fill" style:transform={progress ? `scaleX(${percent / 100})` : undefined}></div>
+			<div
+				class="gen-fill"
+				style:transform={progress ? `scaleX(${percent / 100})` : undefined}
+			></div>
 		</div>
 
 		{#if progress?.currentStep}

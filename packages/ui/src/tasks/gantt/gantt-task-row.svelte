@@ -3,7 +3,14 @@
 	import { CaretRight, FlagPennant } from "phosphor-svelte";
 	import type { GanttChange, GanttLabelContext } from "#src/tasks/task-types.js";
 	import GanttBar from "#src/tasks/gantt/gantt-bar.svelte";
-	import { barWidth, dayX, type Drag, type Layout, type Span, type TaskRow } from "#src/tasks/gantt/logic.js";
+	import {
+		barWidth,
+		dayX,
+		type Drag,
+		type Layout,
+		type Span,
+		type TaskRow,
+	} from "#src/tasks/gantt/logic.js";
 	import "#src/tasks/gantt/gantt.css";
 
 	interface Props<T> {
@@ -60,7 +67,12 @@
 	let hot = $derived(hovered || drag?.id === row.id);
 </script>
 
-<div role="listitem" class="g-row relative flex border-b border-border/40 last:border-b-0" class:g-row-hot={hot} style:height="{layout.rowHeight}px">
+<div
+	role="listitem"
+	class="g-row relative flex border-b border-border/40 last:border-b-0"
+	class:g-row-hot={hot}
+	style:height="{layout.rowHeight}px"
+>
 	<div
 		class="sticky left-0 z-10 flex w-(--g-label) shrink-0 items-center gap-2 border-r border-border bg-card px-3 text-sm"
 		style:padding-inline-start={nested ? `${row.depth * indent + 12}px` : undefined}
@@ -74,7 +86,11 @@
 					onclick={() => onToggle(row.id)}
 					class="-ml-1 grid size-5 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
 				>
-					<span class="g-chevron size-3.5 [&>svg]:size-full" class:g-chevron-open={row.open} aria-hidden="true">
+					<span
+						class="g-chevron size-3.5 [&>svg]:size-full"
+						class:g-chevron-open={row.open}
+						aria-hidden="true"
+					>
 						<CaretRight weight="bold" />
 					</span>
 				</button>
@@ -108,7 +124,9 @@
 				onpointerenter={() => onhover(row.id, true)}
 				onpointerleave={() => onhover(row.id, false)}
 			>
-				<span class="size-5 [&>svg]:size-full" aria-hidden="true"><FlagPennant weight="fill" /></span>
+				<span class="size-5 [&>svg]:size-full" aria-hidden="true"
+					><FlagPennant weight="fill" /></span
+				>
 			</button>
 		{:else if !row.own}
 			<!-- A parent with no dates of its own: the span of what is below it. Not draggable. -->
@@ -124,7 +142,8 @@
 				style:width="{barWidth(span, layout)}px"
 				style:height="{Math.max(layout.rowHeight - 24, 10)}px"
 				onclick={() => onSelect?.(row.id)}
-				onkeydown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onSelect?.(row.id))}
+				onkeydown={(e) =>
+					(e.key === "Enter" || e.key === " ") && (e.preventDefault(), onSelect?.(row.id))}
 				onpointerenter={() => onhover(row.id, true)}
 				onpointerleave={() => onhover(row.id, false)}
 			></div>
@@ -161,7 +180,8 @@
 	}
 
 	.g-chevron {
-		transition: rotate var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: rotate var(--duration-fast, 250ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 
 	.g-chevron-open {

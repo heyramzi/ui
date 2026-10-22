@@ -1,23 +1,29 @@
 // Encode frames to an mp4 with the ffmpeg on the machine. The package ships no
 // binary; pass `ffmpeg` to name one that is not on PATH.
 
-import { spawn } from 'node:child_process';
-import { mkdir, rm } from 'node:fs/promises';
-import path from 'node:path';
+import { spawn } from "node:child_process";
+import { mkdir, rm } from "node:fs/promises";
+import path from "node:path";
 
 /** Runs ffmpeg and resolves when it exits 0; the error carries the tail of its stderr. */
-export function runFfmpeg(args: string[], ffmpeg = 'ffmpeg'): Promise<void> {
+export function runFfmpeg(args: string[], ffmpeg = "ffmpeg"): Promise<void> {
   return new Promise((resolve, reject) => {
-    const child = spawn(ffmpeg, args, { stdio: ['ignore', 'ignore', 'pipe'] });
-    let stderr = '';
-    child.stderr.on('data', (chunk) => {
+    const child = spawn(ffmpeg, args, { stdio: ["ignore", "ignore", "pipe"] });
+    let stderr = "";
+    child.stderr.on("data", (chunk) => {
       stderr += chunk;
     });
-    child.on('error', (error) =>
-      reject(new Error(`${ffmpeg} could not be started (${error.message}). Video export needs ffmpeg on PATH, or pass its path.`)),
+    child.on("error", (error) =>
+      reject(
+        new Error(
+          `${ffmpeg} could not be started (${error.message}). Video export needs ffmpeg on PATH, or pass its path.`,
+        ),
+      ),
     );
-    child.on('close', (code) =>
-      code === 0 ? resolve() : reject(new Error(`${ffmpeg} exited ${code}:\n${stderr.slice(-1500)}`)),
+    child.on("close", (code) =>
+      code === 0
+        ? resolve()
+        : reject(new Error(`${ffmpeg} exited ${code}:\n${stderr.slice(-1500)}`)),
     );
   });
 }
@@ -36,31 +42,35 @@ export interface EncodeOptions {
 /** The ffmpeg arguments for a silent yuv420p H.264 mp4 from a numbered image sequence. */
 export function encodeArgs(dir: string, outFile: string, options: EncodeOptions): string[] {
   return [
-    '-y',
-    '-hide_banner',
-    '-loglevel',
-    'error',
-    '-framerate',
+    "-y",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-framerate",
     String(options.fps),
-    '-i',
-    path.join(dir, options.pattern ?? '%04d.png'),
-    '-an',
-    '-vf',
-    'format=yuv420p',
-    '-c:v',
-    'libx264',
-    '-preset',
-    options.preset ?? 'slow',
-    '-crf',
+    "-i",
+    path.join(dir, options.pattern ?? "%04d.png"),
+    "-an",
+    "-vf",
+    "format=yuv420p",
+    "-c:v",
+    "libx264",
+    "-preset",
+    options.preset ?? "slow",
+    "-crf",
     String(options.crf ?? 23),
-    '-movflags',
-    '+faststart',
+    "-movflags",
+    "+faststart",
     outFile,
   ];
 }
 
 /** Encodes a folder of numbered frames. There is no audio stream at all. */
-export async function encodeFrames(dir: string, outFile: string, options: EncodeOptions): Promise<void> {
+export async function encodeFrames(
+  dir: string,
+  outFile: string,
+  options: EncodeOptions,
+): Promise<void> {
   await mkdir(path.dirname(outFile), { recursive: true });
   await runFfmpeg(encodeArgs(dir, outFile, options), options.ffmpeg);
 }
@@ -74,7 +84,7 @@ export interface LoopFrame {
   file: string;
 }
 
-export interface LoopOptions extends Omit<EncodeOptions, 'fps' | 'pattern'> {
+export interface LoopOptions extends Omit<EncodeOptions, "fps" | "pattern"> {
   fps?: number;
   seconds?: number;
   /** Photograph the frame at `t`; called once per frame, in order. */
@@ -109,7 +119,7 @@ export async function renderLoop(
       await options.drawFrame({
         index,
         t: index / frames,
-        file: path.join(work, `${String(index).padStart(4, '0')}.png`),
+        file: path.join(work, `${String(index).padStart(4, "0")}.png`),
       });
     }
     await encodeFrames(work, outFile, { ...options, fps });

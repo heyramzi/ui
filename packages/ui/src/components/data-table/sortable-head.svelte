@@ -1,34 +1,34 @@
 <script lang="ts" generics="T">
-import type { Snippet } from "svelte";
-import { CaretDown, CaretUp, CaretUpDown } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import type { SortDirection, SortState } from "#src/components/data-table/data-table.js";
+	import type { Snippet } from "svelte";
+	import { CaretDown, CaretUp, CaretUpDown } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import type { SortDirection, SortState } from "#src/components/data-table/data-table.js";
 
-// ========================= TYPES
-interface Props {
-	key: keyof T & string;
-	sort: SortState<T>;
-	onSort: (key: keyof T & string) => void;
-	class?: string;
-	children: Snippet;
-};
-
-// ========================= PROPS
-let { key, sort, onSort, class: className, children }: Props = $props();
-
-// ========================= DERIVED
-let active = $derived(sort?.key === key);
-let direction = $derived<SortDirection | null>(sort && active ? sort.direction : null);
-let ariaSort = $derived<"ascending" | "descending" | "none">(
-	direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none",
-);
-
-function handleKeydown(e: KeyboardEvent) {
-	if (e.key === "Enter" || e.key === " ") {
-		e.preventDefault();
-		onSort(key);
+	// ========================= TYPES
+	interface Props {
+		key: keyof T & string;
+		sort: SortState<T>;
+		onSort: (key: keyof T & string) => void;
+		class?: string;
+		children: Snippet;
 	}
-}
+
+	// ========================= PROPS
+	let { key, sort, onSort, class: className, children }: Props = $props();
+
+	// ========================= DERIVED
+	let active = $derived(sort?.key === key);
+	let direction = $derived<SortDirection | null>(sort && active ? sort.direction : null);
+	let ariaSort = $derived<"ascending" | "descending" | "none">(
+		direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none",
+	);
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === "Enter" || e.key === " ") {
+			e.preventDefault();
+			onSort(key);
+		}
+	}
 </script>
 
 <th

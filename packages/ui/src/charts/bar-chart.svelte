@@ -44,7 +44,7 @@
 		/** Show the value/label figure above the chart. */
 		showFigure?: boolean;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

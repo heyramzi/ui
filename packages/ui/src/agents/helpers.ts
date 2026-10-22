@@ -1,13 +1,15 @@
 /* Pure helpers for the avatar: numbers, theme, lights, idle scheduling. */
-import { DARK_INK, LIGHT_INK, luminance } from '#src/agents/vendor/color.js';
-import { stockLights } from '#src/agents/vendor/plastic.js';
+import { DARK_INK, LIGHT_INK, luminance } from "#src/agents/vendor/color.js";
+import { stockLights } from "#src/agents/vendor/plastic.js";
 
 const contrast = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 
 /** Off-black or off-white eyes, whichever reads stronger on the body: the vendor's fixed cutoff left 2:1 eyes on mid blues. */
 export function inkFor(body: string): string {
   const l = luminance(body);
-  return contrast(l, luminance(DARK_INK)) >= contrast(l, luminance(LIGHT_INK)) ? DARK_INK : LIGHT_INK;
+  return contrast(l, luminance(DARK_INK)) >= contrast(l, luminance(LIGHT_INK))
+    ? DARK_INK
+    : LIGHT_INK;
 }
 
 export const clamp = (v: number, lo: number, hi: number) =>
@@ -16,7 +18,7 @@ export const q = (v: number, lo: number, hi: number) => Math.round(clamp(v, lo, 
 export const clampOpt = (v: number | undefined, d: number, lo: number, hi: number) =>
   clamp(v ?? d, lo, hi);
 export const deviceDpr = () =>
-  Math.min(2, (typeof devicePixelRatio === 'number' && devicePixelRatio) || 1);
+  Math.min(2, (typeof devicePixelRatio === "number" && devicePixelRatio) || 1);
 
 export function hashSeed(id: string): number {
   let h = 2166136261;
@@ -25,20 +27,23 @@ export function hashSeed(id: string): number {
 }
 
 export const reducedMotion = (): boolean =>
-  typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export function resolveTheme(theme: 'auto' | 'dark' | 'light', el: HTMLElement | null): 'dark' | 'light' {
-  if (theme !== 'auto') return theme;
-  const host = el?.closest('[data-theme], .dark, .light') as HTMLElement | null;
+export function resolveTheme(
+  theme: "auto" | "dark" | "light",
+  el: HTMLElement | null,
+): "dark" | "light" {
+  if (theme !== "auto") return theme;
+  const host = el?.closest("[data-theme], .dark, .light") as HTMLElement | null;
   if (host) {
-    const v = host.getAttribute('data-theme');
-    if (v === 'dark' || v === 'light') return v;
-    if (host.classList.contains('dark')) return 'dark';
-    if (host.classList.contains('light')) return 'light';
+    const v = host.getAttribute("data-theme");
+    if (v === "dark" || v === "light") return v;
+    if (host.classList.contains("dark")) return "dark";
+    if (host.classList.contains("light")) return "light";
   }
-  return typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: light)').matches
-    ? 'light'
-    : 'dark';
+  return typeof matchMedia === "function" && matchMedia("(prefers-color-scheme: light)").matches
+    ? "light"
+    : "dark";
 }
 
 export function lightsFor(lightAt: number, backLight?: number, lightFront?: number) {
@@ -46,12 +51,13 @@ export function lightsFor(lightAt: number, backLight?: number, lightFront?: numb
   const b = ((backLight ?? 0) * Math.PI) / 180;
   const lights = stockLights(Math.sin(a), -Math.cos(a));
   if (backLight !== undefined) [lights.bx, lights.by] = [Math.sin(b), -Math.cos(b)];
-  if (lightFront !== undefined) lights.front = (Math.min(85, Math.max(0, lightFront)) * Math.PI) / 180;
+  if (lightFront !== undefined)
+    lights.front = (Math.min(85, Math.max(0, lightFront)) * Math.PI) / 180;
   return lights;
 }
 
 export function warmIdle(fn: () => void): () => void {
-  if (typeof requestIdleCallback === 'function') {
+  if (typeof requestIdleCallback === "function") {
     const id = requestIdleCallback(fn);
     return () => cancelIdleCallback(id);
   }

@@ -1,112 +1,123 @@
 <script lang="ts" module>
-import type { PenColor } from "#src/canvas/pen/types.js";
+	import type { PenColor } from "#src/canvas/pen/types.js";
 
-export interface StyleLabels {
-	panel: string;
-	fill: string;
-	stroke: string;
-	/** The stroke row's name when the selection has no outline, only ink, like text. */
-	colour: string;
-	none: string;
-	width: string;
-	/** Thin, regular, thick. */
-	widths: readonly [string, string, string];
-	font: string;
-	regular: string;
-	bold: string;
-	colors: Record<PenColor, string>;
-}
+	export interface StyleLabels {
+		panel: string;
+		fill: string;
+		stroke: string;
+		/** The stroke row's name when the selection has no outline, only ink, like text. */
+		colour: string;
+		none: string;
+		width: string;
+		/** Thin, regular, thick. */
+		widths: readonly [string, string, string];
+		font: string;
+		regular: string;
+		bold: string;
+		colors: Record<PenColor, string>;
+	}
 </script>
 
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { Panel, useStore } from "@xyflow/svelte";
-import type { CanvasOp } from "#src/canvas/ops/ops.js";
-import {
-	FONT_SIZES,
-	styleOps,
-	summarizeStyle,
-	type FontWeight,
-	type StyleNode,
-	type StyleValues,
-	type WidthLevel,
-} from "#src/canvas/editor/style.js";
-import { PEN_COLORS } from "#src/canvas/pen/types.js";
-import "#src/canvas/pen/pen.css";
-import { placeBeside, type Box } from "#src/canvas/ui/place-panel.js";
-import "#src/canvas/ui/canvas-ui.css";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Panel, useStore } from "@xyflow/svelte";
+	import type { CanvasOp } from "#src/canvas/ops/ops.js";
+	import {
+		FONT_SIZES,
+		styleOps,
+		summarizeStyle,
+		type FontWeight,
+		type StyleNode,
+		type StyleValues,
+		type WidthLevel,
+	} from "#src/canvas/editor/style.js";
+	import { PEN_COLORS } from "#src/canvas/pen/types.js";
+	import "#src/canvas/pen/pen.css";
+	import { placeBeside, type Box } from "#src/canvas/ui/place-panel.js";
+	import "#src/canvas/ui/canvas-ui.css";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	/** The selected cards. The panel hides when none of them takes a style. */
-	nodes: readonly StyleNode[];
-	/** The node type of a frame or group, whose fill and outline the panel sets. */
-	frameType?: string;
-	labels: StyleLabels;
-	/** One call per change, so each is one undo step. */
-	commit: (ops: CanvasOp[]) => void;
-}
-
-// =========================
-// PROPS
-// =========================
-let { nodes, frameType = "group", labels, commit }: Props = $props();
-
-// =========================
-// STATE
-// =========================
-const store = useStore();
-let barWidth = $state(0);
-let barHeight = $state(0);
-
-// =========================
-// DERIVED
-// =========================
-const WEIGHTS: readonly FontWeight[] = ["regular", "bold"];
-const LEVELS: readonly WidthLevel[] = [0, 1, 2];
-
-let summary = $derived(summarizeStyle(nodes, frameType));
-let strokeLabel = $derived(summary?.controls.has("fill") || summary?.controls.has("width") ? labels.stroke : labels.colour);
-
-// The selection in screen pixels, read from the live viewport so the panel follows a pan, a zoom and a drag.
-let selection = $derived.by<Box | null>(() => {
-	const { x, y, zoom } = store.viewport;
-	let box: Box | null = null;
-	for (const node of nodes) {
-		const internal = store.nodeLookup.get(node.id);
-		if (!internal) continue;
-		const at = internal.internals.positionAbsolute;
-		const width = internal.measured.width ?? internal.width ?? 0;
-		const height = internal.measured.height ?? internal.height ?? 0;
-		const left = at.x * zoom + x;
-		const top = at.y * zoom + y;
-		const right = left + width * zoom;
-		const bottom = top + height * zoom;
-		box = box
-			? { left: Math.min(box.left, left), top: Math.min(box.top, top), right: Math.max(box.right, right), bottom: Math.max(box.bottom, bottom) }
-			: { left, top, right, bottom };
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		/** The selected cards. The panel hides when none of them takes a style. */
+		nodes: readonly StyleNode[];
+		/** The node type of a frame or group, whose fill and outline the panel sets. */
+		frameType?: string;
+		labels: StyleLabels;
+		/** One call per change, so each is one undo step. */
+		commit: (ops: CanvasOp[]) => void;
 	}
-	return box;
-});
 
-// Beside the selection on the side with room, never over its grips. Null leaves the panel docked at the right edge.
-let placed = $derived(
-	selection && barWidth > 0
-		? placeBeside(selection, { width: barWidth, height: barHeight }, { width: store.width, height: store.height })
-		: null,
-);
+	// =========================
+	// PROPS
+	// =========================
+	let { nodes, frameType = "group", labels, commit }: Props = $props();
 
-// =========================
-// FUNCTIONS
-// =========================
-function change(next: Partial<StyleValues>) {
-	const ops = styleOps(nodes, next, frameType);
-	if (ops.length > 0) commit(ops);
-}
+	// =========================
+	// STATE
+	// =========================
+	const store = useStore();
+	let barWidth = $state(0);
+	let barHeight = $state(0);
+
+	// =========================
+	// DERIVED
+	// =========================
+	const WEIGHTS: readonly FontWeight[] = ["regular", "bold"];
+	const LEVELS: readonly WidthLevel[] = [0, 1, 2];
+
+	let summary = $derived(summarizeStyle(nodes, frameType));
+	let strokeLabel = $derived(
+		summary?.controls.has("fill") || summary?.controls.has("width") ? labels.stroke : labels.colour,
+	);
+
+	// The selection in screen pixels, read from the live viewport so the panel follows a pan, a zoom and a drag.
+	let selection = $derived.by<Box | null>(() => {
+		const { x, y, zoom } = store.viewport;
+		let box: Box | null = null;
+		for (const node of nodes) {
+			const internal = store.nodeLookup.get(node.id);
+			if (!internal) continue;
+			const at = internal.internals.positionAbsolute;
+			const width = internal.measured.width ?? internal.width ?? 0;
+			const height = internal.measured.height ?? internal.height ?? 0;
+			const left = at.x * zoom + x;
+			const top = at.y * zoom + y;
+			const right = left + width * zoom;
+			const bottom = top + height * zoom;
+			box = box
+				? {
+						left: Math.min(box.left, left),
+						top: Math.min(box.top, top),
+						right: Math.max(box.right, right),
+						bottom: Math.max(box.bottom, bottom),
+					}
+				: { left, top, right, bottom };
+		}
+		return box;
+	});
+
+	// Beside the selection on the side with room, never over its grips. Null leaves the panel docked at the right edge.
+	let placed = $derived(
+		selection && barWidth > 0
+			? placeBeside(
+					selection,
+					{ width: barWidth, height: barHeight },
+					{ width: store.width, height: store.height },
+				)
+			: null,
+	);
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function change(next: Partial<StyleValues>) {
+		const ops = styleOps(nodes, next, frameType);
+		if (ops.length > 0) commit(ops);
+	}
 </script>
 
 <!-- =========================== -->
@@ -116,13 +127,19 @@ function change(next: Partial<StyleValues>) {
 	<Panel
 		position="center-right"
 		class="cv-dock cv-style-dock {placed ? 'is-placed' : ''}"
-		style={placed ? `--cv-style-x:${Math.round(placed.x)}px;--cv-style-y:${Math.round(placed.y)}px` : undefined}
+		style={placed
+			? `--cv-style-x:${Math.round(placed.x)}px;--cv-style-y:${Math.round(placed.y)}px`
+			: undefined}
 		data-side={placed?.side}
 	>
 		<div
 			bind:offsetWidth={barWidth}
 			bind:offsetHeight={barHeight}
-			class="cv-bar cv-side cv-style t-enter" role="toolbar" aria-label={labels.panel} data-testid="style-panel">
+			class="cv-bar cv-side cv-style t-enter"
+			role="toolbar"
+			aria-label={labels.panel}
+			data-testid="style-panel"
+		>
 			{#if summary.controls.has("fill")}
 				<div class="cv-section" role="group" aria-label={labels.fill} data-testid="style-fill">
 					<span class="cv-label" aria-hidden="true">{labels.fill}</span>
@@ -199,8 +216,8 @@ function change(next: Partial<StyleValues>) {
 								class="cv-btn cv-figure"
 								aria-pressed={summary.values.fontSize === size}
 								aria-label="{labels.font}: {size}"
-								onclick={() => change({ fontSize: size })}
-							>{size}</button>
+								onclick={() => change({ fontSize: size })}>{size}</button
+							>
 						{/each}
 						{#each WEIGHTS as weight (weight)}
 							<button
@@ -210,8 +227,8 @@ function change(next: Partial<StyleValues>) {
 								aria-pressed={summary.values.fontWeight === weight}
 								aria-label={weight === "bold" ? labels.bold : labels.regular}
 								data-tip={weight === "bold" ? labels.bold : labels.regular}
-								onclick={() => change({ fontWeight: weight })}
-							>Aa</button>
+								onclick={() => change({ fontWeight: weight })}>Aa</button
+							>
 						{/each}
 					</div>
 				</div>

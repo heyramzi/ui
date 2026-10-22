@@ -53,12 +53,7 @@
 	let active = $derived(mode ?? (isDark ? "dark" : "light"));
 	let style = $derived(inverted ? "inverted" : variant);
 	let text = $derived(
-		label ??
-			(mode
-				? `Theme: ${mode}`
-				: isDark
-					? "Switch to light mode"
-					: "Switch to dark mode"),
+		label ?? (mode ? `Theme: ${mode}` : isDark ? "Switch to light mode" : "Switch to dark mode"),
 	);
 
 	// =========================
@@ -97,7 +92,11 @@
 		<span class="theme-toggle-slide__thumb" aria-hidden="true">
 			<span class="theme-toggle-slide__ring"></span>
 			<Sun size={14} weight="fill" class="theme-toggle-slide__mark theme-toggle-slide__mark--sun" />
-			<Moon size={14} weight="fill" class="theme-toggle-slide__mark theme-toggle-slide__mark--moon" />
+			<Moon
+				size={14}
+				weight="fill"
+				class="theme-toggle-slide__mark theme-toggle-slide__mark--moon"
+			/>
 		</span>
 		<span class="sr-only">{text}</span>
 	</button>

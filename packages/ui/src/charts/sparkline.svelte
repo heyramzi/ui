@@ -32,7 +32,7 @@
 		bare?: boolean;
 		formatValue?: (v: number) => string;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS
@@ -96,7 +96,10 @@
 	onpointerleave={() => (active = null)}
 >
 	{#if data.length > 0}
-		<div class="hr-sparkline-chart" style:height={typeof height === "number" ? `${height}px` : height}>
+		<div
+			class="hr-sparkline-chart"
+			style:height={typeof height === "number" ? `${height}px` : height}
+		>
 			<Chart {data} x={xKey} y={yKey} {padding} tooltipContext={{ mode: "bisect-x" }}>
 				<Svg>
 					<LinearGradient id={uid} vertical>

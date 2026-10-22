@@ -1,30 +1,30 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { Input } from "#src/shadcn/input/index.js";
-import { MagnifyingGlass } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Input } from "#src/shadcn/input/index.js";
+	import { MagnifyingGlass } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	value: string;
-	placeholder?: string;
-	size?: "sm" | "default";
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		value: string;
+		placeholder?: string;
+		size?: "sm" | "default";
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	value = $bindable(""),
-	placeholder = "Search...",
-	size = "default",
-	class: extraClass,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		value = $bindable(""),
+		placeholder = "Search...",
+		size = "default",
+		class: extraClass,
+	}: Props = $props();
 </script>
 
 <!-- =========================== -->
@@ -39,7 +39,7 @@ let {
 	class={cn(
 		"relative",
 		extraClass,
-		"@max-3xl/toolbar:w-auto @max-3xl/toolbar:min-w-0 @max-3xl/toolbar:flex-1"
+		"@max-3xl/toolbar:w-auto @max-3xl/toolbar:min-w-0 @max-3xl/toolbar:flex-1",
 	)}
 >
 	<MagnifyingGlass

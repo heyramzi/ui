@@ -52,9 +52,7 @@
 			: undefined,
 	);
 	let dasharray = $derived(
-		fraction != null
-			? `${INNER_CIRC * fraction} ${INNER_CIRC * (1 - fraction)}`
-			: undefined,
+		fraction != null ? `${INNER_CIRC * fraction} ${INNER_CIRC * (1 - fraction)}` : undefined,
 	);
 	let dashoffset = $derived(fraction != null ? INNER_CIRC * 0.25 : undefined);
 </script>

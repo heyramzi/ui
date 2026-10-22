@@ -15,13 +15,19 @@
 	let hue = $derived(row.group.hue ?? "var(--color-primary)");
 </script>
 
-<div role="listitem" class="relative flex border-b border-border/60 bg-muted/30" style:height="{layout.rowHeight}px">
+<div
+	role="listitem"
+	class="relative flex border-b border-border/60 bg-muted/30"
+	style:height="{layout.rowHeight}px"
+>
 	<!-- Opaque card under the row's muted tint, so bars never show through the pinned column. -->
 	<div class="sticky left-0 z-10 w-(--g-label) shrink-0 border-r border-border bg-card">
 		<div class="flex h-full items-center gap-2 bg-muted/30 px-3">
 			<span class="size-2 shrink-0 rounded-full" style:background={hue}></span>
 			<span class="truncate text-sm font-medium text-foreground">{row.group.label}</span>
-			<span class="grid h-5 min-w-5 place-items-center rounded-sm bg-foreground/5 px-1 text-xs font-medium text-muted-foreground tabular-nums">
+			<span
+				class="grid h-5 min-w-5 place-items-center rounded-sm bg-foreground/5 px-1 text-xs font-medium text-muted-foreground tabular-nums"
+			>
 				{row.count}
 			</span>
 		</div>

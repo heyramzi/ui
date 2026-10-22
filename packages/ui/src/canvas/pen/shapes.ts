@@ -1,7 +1,13 @@
 // Shape and text nodes from a drag or a click. Pure, so the CLI can reuse it.
 
 import type { Box, Pt } from "#src/canvas/pen/geometry.js";
-import type { PenColor, PenNodeInput, ShapeData, ShapeKind, TextData } from "#src/canvas/pen/types.js";
+import type {
+  PenColor,
+  PenNodeInput,
+  ShapeData,
+  ShapeKind,
+  TextData,
+} from "#src/canvas/pen/types.js";
 import { PEN_DEFAULTS, SHAPE_NODE, TEXT_NODE } from "#src/canvas/pen/types.js";
 
 /** A shape smaller than this on both sides was a click, so it gets the default size. */

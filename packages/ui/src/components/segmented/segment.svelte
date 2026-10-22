@@ -1,59 +1,59 @@
 <script lang="ts" module>
-import type { PhosphorIcon } from "#src/lib/icon-types.js";
+	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
-/** Everything a segment may say, for every strip drawn from this folder. */
+	/** Everything a segment may say, for every strip drawn from this folder. */
 
-// WHY one shape: the tab, nav and filter strips each grew an item type and
-// drifted, down to drawing a logo fallback two ways. Now it's one type, one renderer.
-export type SegmentContent = {
-	label: string;
-	/** A number after the label. `0` still renders; omit for "no number". */
-	count?: number;
-	icon?: PhosphorIcon;
-	/** A square mark drawn in place of an icon, for a brand that has one. */
-	image?: string;
-	/**
-	 * This segment's work is finished. Drawn as a dot after the label, and only
-	 * where there is no count, because a count already says the same thing.
-	 */
-	done?: boolean;
-	/**
-	 * A short note after the label, such as "Save 20%". Text where `count` is a
-	 * number, in the accent colour. Drawn before a count or a done dot.
-	 */
-	badge?: string;
-};
+	// WHY one shape: the tab, nav and filter strips each grew an item type and
+	// drifted, down to drawing a logo fallback two ways. Now it's one type, one renderer.
+	export type SegmentContent = {
+		label: string;
+		/** A number after the label. `0` still renders; omit for "no number". */
+		count?: number;
+		icon?: PhosphorIcon;
+		/** A square mark drawn in place of an icon, for a brand that has one. */
+		image?: string;
+		/**
+		 * This segment's work is finished. Drawn as a dot after the label, and only
+		 * where there is no count, because a count already says the same thing.
+		 */
+		done?: boolean;
+		/**
+		 * A short note after the label, such as "Save 20%". Text where `count` is a
+		 * number, in the accent colour. Drawn before a count or a done dot.
+		 */
+		badge?: string;
+	};
 </script>
 
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { cn } from "#src/lib/utils.js";
-import { Icon } from "#src/components/icon/index.js";
-import { Mark } from "#src/components/mark/index.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { cn } from "#src/lib/utils.js";
+	import { Icon } from "#src/components/icon/index.js";
+	import { Mark } from "#src/components/mark/index.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props extends SegmentContent {
-	/**
-	 * `true`/`false` when the caller owns the state. `"auto"` when bits-ui owns it
-	 * in a `data-state` on the trigger, and the stylesheet answers.
-	 */
-	active?: boolean | "auto";
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props extends SegmentContent {
+		/**
+		 * `true`/`false` when the caller owns the state. `"auto"` when bits-ui owns it
+		 * in a `data-state` on the trigger, and the stylesheet answers.
+		 */
+		active?: boolean | "auto";
+	}
 
-// =========================
-// PROPS
-// =========================
-let { label, count, icon, image, done = false, badge, active = false }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { label, count, icon, image, done = false, badge, active = false }: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let auto = $derived(active === "auto");
-let on = $derived(active === true);
+	// =========================
+	// DERIVED
+	// =========================
+	let auto = $derived(active === "auto");
+	let on = $derived(active === true);
 </script>
 
 <!-- =========================== -->
@@ -76,7 +76,9 @@ let on = $derived(active === true);
 {label}
 
 {#if badge}
-	<span class="text-primary text-[10px] font-semibold tracking-wide whitespace-nowrap uppercase">{badge}</span>
+	<span class="text-primary text-[10px] font-semibold tracking-wide whitespace-nowrap uppercase"
+		>{badge}</span
+	>
 {/if}
 
 {#if count != null}
@@ -89,7 +91,8 @@ let on = $derived(active === true);
 			"inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none font-medium tabular-nums",
 			"bg-muted-foreground/15 text-muted-foreground",
 			on && "bg-brand/14 text-brand",
-			auto && "group-data-[state=active]/segment:bg-brand/14 group-data-[state=active]/segment:text-brand",
+			auto &&
+				"group-data-[state=active]/segment:bg-brand/14 group-data-[state=active]/segment:text-brand",
 		)}
 	>
 		{count}

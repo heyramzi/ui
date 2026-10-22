@@ -70,5 +70,4 @@
 	bind:value
 	onkeydown={handleKeyDown}
 	{placeholder}
-	{...rest}
-></textarea>
+	{...rest}></textarea>

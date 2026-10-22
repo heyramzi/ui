@@ -68,7 +68,8 @@ export function spanOf<T>(item: T, { getStart, getEnd }: Dates<T>): Span | null 
 export function liveSpan(span: Span | null, drag: Drag | null, id: string): Span | null {
   if (!span || drag?.id !== id || drag.dx === 0) return span;
   if (drag.mode === "move") return { start: span.start + drag.dx, end: span.end + drag.dx };
-  if (drag.mode === "start") return { start: Math.min(span.start + drag.dx, span.end), end: span.end };
+  if (drag.mode === "start")
+    return { start: Math.min(span.start + drag.dx, span.end), end: span.end };
   return { start: span.start, end: Math.max(span.end + drag.dx, span.start) };
 }
 
@@ -103,7 +104,13 @@ export function buildDays(first: number, count: number) {
   return Array.from({ length: count }, (_, i) => {
     const day = first + i;
     const wd = weekday(day);
-    return { day, i, date: Number(isoFromDay(day).slice(8, 10)), wd, weekend: wd === 0 || wd === 6 };
+    return {
+      day,
+      i,
+      date: Number(isoFromDay(day).slice(8, 10)),
+      wd,
+      weekend: wd === 0 || wd === 6,
+    };
   });
 }
 export type GanttDay = ReturnType<typeof buildDays>[number];
@@ -133,7 +140,17 @@ export function buildRows<T>(items: T[], source: RowSource<T>): Row<T>[] {
       for (const item of members) {
         const id = getId(item);
         const own = live(item, id);
-        out.push({ kind: "task", item, id, order: order++, depth: 0, hasChildren: false, open: true, own, span: own });
+        out.push({
+          kind: "task",
+          item,
+          id,
+          order: order++,
+          depth: 0,
+          hasChildren: false,
+          open: true,
+          own,
+          span: own,
+        });
       }
       return;
     }
@@ -149,7 +166,17 @@ export function buildRows<T>(items: T[], source: RowSource<T>): Row<T>[] {
       const children = kids.get(id) ?? [];
       const open = !folded.has(id);
       const own = live(item, id);
-      const row: TaskRow<T> = { kind: "task", item, id, order: 0, depth, hasChildren: children.length > 0, open, own, span: own };
+      const row: TaskRow<T> = {
+        kind: "task",
+        item,
+        id,
+        order: 0,
+        depth,
+        hasChildren: children.length > 0,
+        open,
+        own,
+        span: own,
+      };
       if (visible) {
         row.order = order++;
         out.push(row);
@@ -195,7 +222,11 @@ export function roundedPath(points: [number, number][], radius: number): string 
 }
 
 /** Each arrow runs from the end of the task waited on to the start of the one waiting. */
-export function buildArrows<T>(rows: Row<T>[], layout: Layout, getDependsOn: (item: T) => string[] | undefined): Arrow[] {
+export function buildArrows<T>(
+  rows: Row<T>[],
+  layout: Layout,
+  getDependsOn: (item: T) => string[] | undefined,
+): Arrow[] {
   const { rowHeight, inset } = layout;
   const at = new Map<string, { row: number; span: Span }>();
   rows.forEach((row, index) => {
@@ -216,7 +247,12 @@ export function buildArrows<T>(rows: Row<T>[], layout: Layout, getDependsOn: (it
       // Room between the bars: one bend in the gap. No room: out, round the row gap, and back in.
       const points: [number, number][] =
         x2 - x1 >= 24
-          ? [[x1, y1], [x1 + 12, y1], [x1 + 12, y2], [x2, y2]]
+          ? [
+              [x1, y1],
+              [x1 + 12, y1],
+              [x1 + 12, y2],
+              [x2, y2],
+            ]
           : [
               [x1, y1],
               [x1 + 10, y1],

@@ -20,49 +20,49 @@
 </script>
 
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import { ArrowSquareOut } from "phosphor-svelte";
-import { cn } from "#src/lib/utils.js";
-import { buttonVariants } from "#src/shadcn/button/index.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import { ArrowSquareOut } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { buttonVariants } from "#src/shadcn/button/index.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	/** The tool to link to: its name, accessible sentence and mark. */
-	tool: OpenInTool;
-	href: string;
-	variant?: OpenInVariant;
-	size?: OpenInSize;
-	/** Overrides the visible text. The accessible name is `title`, never this. */
-	label?: string;
-	/** The accessible sentence, translated by the caller. */
-	title?: string;
-	class?: string;
-}
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		/** The tool to link to: its name, accessible sentence and mark. */
+		tool: OpenInTool;
+		href: string;
+		variant?: OpenInVariant;
+		size?: OpenInSize;
+		/** Overrides the visible text. The accessible name is `title`, never this. */
+		label?: string;
+		/** The accessible sentence, translated by the caller. */
+		title?: string;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let {
-	tool,
-	href,
-	variant = "chip",
-	size = "default",
-	label,
-	title,
-	class: className,
-}: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let {
+		tool,
+		href,
+		variant = "chip",
+		size = "default",
+		label,
+		title,
+		class: className,
+	}: Props = $props();
 
-// =========================
-// DERIVED
-// =========================
-let Icon = $derived(tool.icon);
-let iconSize = $derived(size === "sm" ? 12 : 14);
-let action = $derived(title ?? tool.action);
-let text = $derived(label ?? tool.name);
+	// =========================
+	// DERIVED
+	// =========================
+	let Icon = $derived(tool.icon);
+	let iconSize = $derived(size === "sm" ? 12 : 14);
+	let action = $derived(title ?? tool.action);
+	let text = $derived(label ?? tool.name);
 </script>
 
 <!-- =========================== -->

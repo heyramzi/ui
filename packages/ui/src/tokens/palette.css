@@ -205,7 +205,11 @@
   --color-cat-purple-ink: color-mix(in oklab, var(--color-cat-purple) 60%, var(--color-foreground));
   --color-cat-amber-ink: color-mix(in oklab, var(--color-cat-amber) 60%, var(--color-foreground));
   --color-success-ink: color-mix(in oklab, var(--color-success) 60%, var(--color-foreground));
-  --color-destructive-ink: color-mix(in oklab, var(--color-destructive) 60%, var(--color-foreground));
+  --color-destructive-ink: color-mix(
+    in oklab,
+    var(--color-destructive) 60%,
+    var(--color-foreground)
+  );
 
   /* Light theme color system: the light surfaces and lines of the brand roles */
   --color-background: var(--gray-50);

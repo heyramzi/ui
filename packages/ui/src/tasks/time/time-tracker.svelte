@@ -13,7 +13,12 @@
 		personColor,
 	} from "#src/tasks/time/duration.js";
 	import { DEFAULT_TIME_LABELS } from "#src/tasks/time/time-types.js";
-	import type { TimeLabels, TimeLogInput, TimeRunning, TimeStopInfo } from "#src/tasks/time/time-types.js";
+	import type {
+		TimeLabels,
+		TimeLogInput,
+		TimeRunning,
+		TimeStopInfo,
+	} from "#src/tasks/time/time-types.js";
 	import TimeDot from "#src/tasks/time/time-dot.svelte";
 	import { CaretDown, Play, Stop, X } from "phosphor-svelte";
 
@@ -135,7 +140,9 @@
 	let invalid = $state(false);
 	let durationInput = $state<HTMLInputElement>();
 	let parsed = $derived(parseMinutes(duration));
-	let preview = $derived(parsed !== null && parsed >= 1 && parsed <= 1440 ? formatMinutes(parsed) : "");
+	let preview = $derived(
+		parsed !== null && parsed >= 1 && parsed <= 1440 ? formatMinutes(parsed) : "",
+	);
 
 	async function submit(event: SubmitEvent): Promise<void> {
 		event.preventDefault();
@@ -228,9 +235,15 @@
 			<Popover.Trigger class="time-open" aria-label={labels.title}>
 				{#if running}
 					<TimeDot running size={6} />
-					<span role="timer" aria-label={labels.elapsed}>{clock.hours}:{clock.minutes}:{clock.seconds}</span>
+					<span role="timer" aria-label={labels.elapsed}
+						>{clock.hours}:{clock.minutes}:{clock.seconds}</span
+					>
 				{:else if total > 0}
-					<span>{formatMinutes(total)}{#if estimate}<span class="ms-1 font-normal text-muted-foreground">/ {formatMinutes(estimate)}</span>{/if}</span>
+					<span
+						>{formatMinutes(total)}{#if estimate}<span
+								class="ms-1 font-normal text-muted-foreground">/ {formatMinutes(estimate)}</span
+							>{/if}</span
+					>
 				{:else}
 					<span class="text-muted-foreground">{labels.timer}</span>
 				{/if}
@@ -254,12 +267,20 @@
 						class={cn("time-field w-full tabular-nums", preview && "pr-12")}
 					/>
 					{#if preview && preview !== duration.trim()}
-						<span class="time-preview pointer-events-none absolute inset-y-0 right-2 flex items-center text-xs text-muted-foreground tabular-nums" aria-hidden="true">
+						<span
+							class="time-preview pointer-events-none absolute inset-y-0 right-2 flex items-center text-xs text-muted-foreground tabular-nums"
+							aria-hidden="true"
+						>
 							{preview}
 						</span>
 					{/if}
 				</div>
-				<input type="date" bind:value={day} aria-label={labels.date} class="time-field w-full tabular-nums" />
+				<input
+					type="date"
+					bind:value={day}
+					aria-label={labels.date}
+					class="time-field w-full tabular-nums"
+				/>
 				<input
 					bind:value={note}
 					placeholder={labels.notePlaceholder}
@@ -288,11 +309,18 @@
 							<div class="h-1 overflow-hidden rounded-full bg-muted" aria-hidden="true">
 								<div
 									class="time-segment h-full rounded-full"
-									style:background={tone === "neutral" ? "var(--color-foreground)" : TONE_COLOR[tone]}
+									style:background={tone === "neutral"
+										? "var(--color-foreground)"
+										: TONE_COLOR[tone]}
 									style:width="{Math.min(100, percent)}%"
 								></div>
 							</div>
-							<p class={cn("text-xs tabular-nums", tone === "neutral" ? "text-muted-foreground" : TONE_TEXT[tone])}>
+							<p
+								class={cn(
+									"text-xs tabular-nums",
+									tone === "neutral" ? "text-muted-foreground" : TONE_TEXT[tone],
+								)}
+							>
 								{liveTotal > estimate
 									? labels.over(formatMinutes(liveTotal - estimate), formatMinutes(estimate))
 									: labels.remaining(formatMinutes(estimate - liveTotal), formatMinutes(estimate))}
@@ -303,7 +331,11 @@
 						<ul class="flex flex-wrap gap-x-3 gap-y-1">
 							{#each people as person (person.key)}
 								<li class="flex items-center gap-1.5 text-xs">
-									<span class="size-2 rounded-full" style:background={personColor(person.key)} aria-hidden="true"></span>
+									<span
+										class="size-2 rounded-full"
+										style:background={personColor(person.key)}
+										aria-hidden="true"
+									></span>
 									<span class="text-muted-foreground">{person.name}</span>
 									<span class="font-medium tabular-nums">{formatMinutes(person.minutes)}</span>
 								</li>
@@ -318,8 +350,12 @@
 					{#each groups as group (group.day)}
 						<div>
 							<div class="flex items-baseline justify-between border-b border-border/60 pb-1">
-								<h3 class="text-xs font-medium text-muted-foreground">{dayLabel(group.day, locale)}</h3>
-								<span class="text-xs font-medium text-muted-foreground tabular-nums">{formatMinutes(group.minutes)}</span>
+								<h3 class="text-xs font-medium text-muted-foreground">
+									{dayLabel(group.day, locale)}
+								</h3>
+								<span class="text-xs font-medium text-muted-foreground tabular-nums"
+									>{formatMinutes(group.minutes)}</span
+								>
 							</div>
 							<ul>
 								{#each group.items as entry (getId(entry))}
@@ -341,9 +377,13 @@
 										<span class="min-w-0 flex-1 truncate">
 											<span class="sr-only">{name},</span>
 											{#if text}{text}{:else}<span class="text-muted-foreground">{name}</span>{/if}
-											{#if renderMeta}<span class="ms-1.5 text-xs text-muted-foreground">{@render renderMeta(entry)}</span>{/if}
+											{#if renderMeta}<span class="ms-1.5 text-xs text-muted-foreground"
+													>{@render renderMeta(entry)}</span
+												>{/if}
 										</span>
-										<span class="shrink-0 font-medium tabular-nums">{formatMinutes(getMinutes(entry))}</span>
+										<span class="shrink-0 font-medium tabular-nums"
+											>{formatMinutes(getMinutes(entry))}</span
+										>
 										{#if onDelete && (canDelete?.(entry) ?? true)}
 											<button
 												type="button"
@@ -498,7 +538,8 @@
 	}
 
 	.time-segment {
-		transition: width var(--duration-slow, 400ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: width var(--duration-slow, 400ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 
 	.time-delete {
@@ -527,7 +568,8 @@
 	}
 
 	.time-row.is-new {
-		animation: time-row-in var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation: time-row-in var(--duration-fast, 250ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 	}
 
 	@keyframes time-pop {

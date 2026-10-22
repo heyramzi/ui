@@ -50,14 +50,91 @@
 	const on = (days: number) => addDays(today, days);
 
 	let tasks = $state<Task[]>([
-		{ id: "t1", status: "done", title: "Set up analytics", assignee: "Bo", priority: "low", boardOrder: "a0", start: on(-12), end: on(-8) },
-		{ id: "t2", status: "done", title: "Interview five customers", assignee: "Cleo", priority: "medium", boardOrder: "a1", start: on(-10), end: on(-4) },
-		{ id: "t3", status: "review", title: "Write the pricing page", assignee: "Ada", priority: "high", boardOrder: "a0", start: on(-5), end: on(1), dependsOn: ["t2"] },
-		{ id: "t4", status: "doing", title: "Build the onboarding flow", assignee: "Dana", priority: "high", boardOrder: "a0", start: on(-3), end: on(5), dependsOn: ["t1"] },
-		{ id: "t5", status: "doing", title: "Draft the launch email", assignee: "Bo", priority: "medium", boardOrder: "a1", start: on(0), end: on(3), dependsOn: ["t3"] },
-		{ id: "t6", status: "todo", title: "Record the demo video", assignee: "Cleo", priority: "medium", boardOrder: "a0", start: on(4), end: on(8), dependsOn: ["t4"] },
-		{ id: "t7", status: "todo", title: "Pick a shipping date", assignee: "Ada", priority: "low", boardOrder: "a1", start: on(6), end: on(6) },
-		{ id: "t8", status: "todo", title: "Launch on Product Hunt", assignee: "Dana", priority: "high", boardOrder: "a2", start: on(10), end: on(11), dependsOn: ["t5", "t6"] },
+		{
+			id: "t1",
+			status: "done",
+			title: "Set up analytics",
+			assignee: "Bo",
+			priority: "low",
+			boardOrder: "a0",
+			start: on(-12),
+			end: on(-8),
+		},
+		{
+			id: "t2",
+			status: "done",
+			title: "Interview five customers",
+			assignee: "Cleo",
+			priority: "medium",
+			boardOrder: "a1",
+			start: on(-10),
+			end: on(-4),
+		},
+		{
+			id: "t3",
+			status: "review",
+			title: "Write the pricing page",
+			assignee: "Ada",
+			priority: "high",
+			boardOrder: "a0",
+			start: on(-5),
+			end: on(1),
+			dependsOn: ["t2"],
+		},
+		{
+			id: "t4",
+			status: "doing",
+			title: "Build the onboarding flow",
+			assignee: "Dana",
+			priority: "high",
+			boardOrder: "a0",
+			start: on(-3),
+			end: on(5),
+			dependsOn: ["t1"],
+		},
+		{
+			id: "t5",
+			status: "doing",
+			title: "Draft the launch email",
+			assignee: "Bo",
+			priority: "medium",
+			boardOrder: "a1",
+			start: on(0),
+			end: on(3),
+			dependsOn: ["t3"],
+		},
+		{
+			id: "t6",
+			status: "todo",
+			title: "Record the demo video",
+			assignee: "Cleo",
+			priority: "medium",
+			boardOrder: "a0",
+			start: on(4),
+			end: on(8),
+			dependsOn: ["t4"],
+		},
+		{
+			id: "t7",
+			status: "todo",
+			title: "Pick a shipping date",
+			assignee: "Ada",
+			priority: "low",
+			boardOrder: "a1",
+			start: on(6),
+			end: on(6),
+		},
+		{
+			id: "t8",
+			status: "todo",
+			title: "Launch on Product Hunt",
+			assignee: "Dana",
+			priority: "high",
+			boardOrder: "a2",
+			start: on(10),
+			end: on(11),
+			dependsOn: ["t5", "t6"],
+		},
 	]);
 
 	const views = [
@@ -76,7 +153,11 @@
 
 	const sortKeys = [
 		{ id: "title", label: "Title", compare: (a: Task, b: Task) => a.title.localeCompare(b.title) },
-		{ id: "assignee", label: "Assignee", compare: (a: Task, b: Task) => a.assignee.localeCompare(b.assignee) },
+		{
+			id: "assignee",
+			label: "Assignee",
+			compare: (a: Task, b: Task) => a.assignee.localeCompare(b.assignee),
+		},
 		{ id: "due", label: "Due date", compare: (a: Task, b: Task) => a.end.localeCompare(b.end) },
 	];
 
@@ -93,7 +174,11 @@
 		Dana: "oklch(0.72 0.13 20)",
 	};
 
-	const dueFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+	const dueFormat = new Intl.DateTimeFormat("en-US", {
+		month: "short",
+		day: "numeric",
+		timeZone: "UTC",
+	});
 
 	function due(task: Task): { label: string; late: boolean } {
 		const late = task.status !== "done" && dayNumber(task.end) < dayNumber(today);
@@ -113,7 +198,14 @@
 	}
 
 	// ---- time tracking, an option the host turns on
-	type Entry = { id: string; taskId: string; person: string; day: string; minutes: number; note?: string };
+	type Entry = {
+		id: string;
+		taskId: string;
+		person: string;
+		day: string;
+		minutes: number;
+		note?: string;
+	};
 
 	const estimates: Record<string, number> = { t3: 360, t4: 480, t5: 180, t6: 240 };
 
@@ -121,9 +213,30 @@
 	let timeTaskId = $state("t4");
 	let nextEntry = 100;
 	let entries = $state<Entry[]>([
-		{ id: "e1", taskId: "t4", person: "Dana", day: on(-3), minutes: 150, note: "Signup and email step" },
-		{ id: "e2", taskId: "t4", person: "Ada", day: on(-2), minutes: 95, note: "Copy for the welcome screen" },
-		{ id: "e3", taskId: "t4", person: "Dana", day: on(-2), minutes: 125, note: "Progress bar and empty states" },
+		{
+			id: "e1",
+			taskId: "t4",
+			person: "Dana",
+			day: on(-3),
+			minutes: 150,
+			note: "Signup and email step",
+		},
+		{
+			id: "e2",
+			taskId: "t4",
+			person: "Ada",
+			day: on(-2),
+			minutes: 95,
+			note: "Copy for the welcome screen",
+		},
+		{
+			id: "e3",
+			taskId: "t4",
+			person: "Dana",
+			day: on(-2),
+			minutes: 125,
+			note: "Progress bar and empty states",
+		},
 		{ id: "e4", taskId: "t4", person: "Dana", day: on(-1), minutes: 80 },
 		{ id: "e5", taskId: "t3", person: "Ada", day: on(-5), minutes: 210, note: "First draft" },
 		{ id: "e6", taskId: "t3", person: "Bo", day: on(-3), minutes: 95, note: "Pricing table" },
@@ -158,7 +271,8 @@
 		timer = null;
 	}
 
-	const listGrid = "grid grid-cols-[minmax(0,1fr)_7rem_5.5rem_4.5rem] items-center gap-3 max-sm:grid-cols-[minmax(0,1fr)_4.5rem]";
+	const listGrid =
+		"grid grid-cols-[minmax(0,1fr)_7rem_5.5rem_4.5rem] items-center gap-3 max-sm:grid-cols-[minmax(0,1fr)_4.5rem]";
 </script>
 
 {#snippet avatar(name: string)}
@@ -176,12 +290,23 @@
 		<div class="flex flex-wrap items-center gap-2">
 			<SegmentedFilter options={views} bind:value={view} ariaLabel="Task view" block={false} />
 			<div class="ml-auto flex items-center gap-3">
-				<label class="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-muted-foreground">
-					<input type="checkbox" bind:checked={tracking} class="size-3.5 accent-[var(--tone-accent,var(--color-primary))]" />
+				<label
+					class="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-muted-foreground"
+				>
+					<input
+						type="checkbox"
+						bind:checked={tracking}
+						class="size-3.5 accent-[var(--tone-accent,var(--color-primary))]"
+					/>
 					Time tracking
 				</label>
 				{#if view === "gantt"}
-					<SegmentedFilter options={scales} bind:value={scale} ariaLabel="Timeline scale" block={false} />
+					<SegmentedFilter
+						options={scales}
+						bind:value={scale}
+						ariaLabel="Timeline scale"
+						block={false}
+					/>
 				{:else}
 					<label for="tasks-sort" class="text-xs font-medium text-muted-foreground">Sort</label>
 					<select
@@ -213,15 +338,27 @@
 					>
 						{#snippet renderCard(task)}
 							{@const d = due(task)}
-							<article class="rounded-xl border border-border bg-card p-2.5 text-card-foreground shadow-sm">
+							<article
+								class="rounded-xl border border-border bg-card p-2.5 text-card-foreground shadow-sm"
+							>
 								<p class="text-sm leading-snug">{task.title}</p>
 								<div class="mt-2.5 flex items-center gap-2 text-xs">
 									{@render avatar(task.assignee)}
-									<span class={d.late ? "font-medium text-destructive" : "text-muted-foreground"}>{d.label}</span>
+									<span class={d.late ? "font-medium text-destructive" : "text-muted-foreground"}
+										>{d.label}</span
+									>
 									{#if tracking}
-										<TimeChip minutes={minutesByTask[task.id] ?? 0} estimate={estimates[task.id]} running={timer?.taskId === task.id} />
+										<TimeChip
+											minutes={minutesByTask[task.id] ?? 0}
+											estimate={estimates[task.id]}
+											running={timer?.taskId === task.id}
+										/>
 									{/if}
-									<span class="ml-auto rounded-full px-1.5 py-0.5 font-medium capitalize {priorityClass[task.priority]}">
+									<span
+										class="ml-auto rounded-full px-1.5 py-0.5 font-medium capitalize {priorityClass[
+											task.priority
+										]}"
+									>
 										{task.priority}
 									</span>
 								</div>
@@ -252,13 +389,21 @@
 							<div class="{listGrid} h-10 px-2 text-sm">
 								<span class="flex min-w-0 items-center gap-2.5">
 									{#key task.status}
-										<StatusDot statuses={statuses} status={task.status} />
+										<StatusDot {statuses} status={task.status} />
 									{/key}
-									<span class="truncate" class:text-muted-foreground={task.status === "done"} class:line-through={task.status === "done"}>
+									<span
+										class="truncate"
+										class:text-muted-foreground={task.status === "done"}
+										class:line-through={task.status === "done"}
+									>
 										{task.title}
 									</span>
 									{#if tracking}
-										<TimeChip minutes={minutesByTask[task.id] ?? 0} estimate={estimates[task.id]} running={timer?.taskId === task.id} />
+										<TimeChip
+											minutes={minutesByTask[task.id] ?? 0}
+											estimate={estimates[task.id]}
+											running={timer?.taskId === task.id}
+										/>
 									{/if}
 								</span>
 								<span class="flex min-w-0 items-center gap-2 text-muted-foreground max-sm:hidden">
@@ -266,11 +411,19 @@
 									<span class="truncate">{task.assignee}</span>
 								</span>
 								<span class="max-sm:hidden">
-									<span class="rounded-full px-1.5 py-0.5 text-xs font-medium capitalize {priorityClass[task.priority]}">
+									<span
+										class="rounded-full px-1.5 py-0.5 text-xs font-medium capitalize {priorityClass[
+											task.priority
+										]}"
+									>
 										{task.priority}
 									</span>
 								</span>
-								<span class="text-right text-xs tabular-nums {d.late ? 'font-medium text-destructive' : 'text-muted-foreground'}">
+								<span
+									class="text-right text-xs tabular-nums {d.late
+										? 'font-medium text-destructive'
+										: 'text-muted-foreground'}"
+								>
 									{d.label}
 								</span>
 							</div>
@@ -293,7 +446,7 @@
 						{onChange}
 					>
 						{#snippet renderLabel(task)}
-							<StatusDot statuses={statuses} status={task.status} />
+							<StatusDot {statuses} status={task.status} />
 							<span class="min-w-0 flex-1 truncate">{task.title}</span>
 							{@render avatar(task.assignee)}
 						{/snippet}
@@ -316,7 +469,9 @@
 	{#if tracking}
 		<section class="flex flex-col gap-3 border-t border-border pt-4">
 			<div class="flex items-center justify-between gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Task time</h3>
+				<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+					Task time
+				</h3>
 				<select
 					bind:value={timeTaskId}
 					aria-label="Task"
@@ -350,7 +505,9 @@
 	{/if}
 
 	<section class="flex flex-col gap-2 border-t border-border pt-4">
-		<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Status badges</h3>
+		<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+			Status badges
+		</h3>
 		<div class="flex flex-wrap items-center gap-2">
 			{#each salesStatuses.ids as id (id)}
 				<StatusBadge statuses={salesStatuses} status={id} />
@@ -370,7 +527,8 @@
 <style>
 	/* Switching views: the new one rises in with a touch of blur, the old one is gone at once. */
 	.tasks-view {
-		animation: tasks-view-in var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation: tasks-view-in var(--duration-fast, 250ms)
+			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 	}
 
 	@keyframes tasks-view-in {

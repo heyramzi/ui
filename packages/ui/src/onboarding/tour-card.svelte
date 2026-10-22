@@ -40,12 +40,28 @@
 </script>
 
 {#if image}
-	<img src={image} alt="" class="aspect-video w-full rounded-t-[inherit] object-cover outline -outline-offset-1 outline-black/10 dark:outline-white/10" />
+	<img
+		src={image}
+		alt=""
+		class="aspect-video w-full rounded-t-[inherit] object-cover outline -outline-offset-1 outline-black/10 dark:outline-white/10"
+	/>
 {/if}
 <div class="flex flex-col gap-1.5 p-4 pb-3">
 	<div class="flex items-start justify-between gap-3">
-		<h2 {...titleAttrs} class={["font-semibold leading-snug text-balance", intro ? "text-base" : "text-sm"]}>{title}</h2>
-		<Button onclick={onclose} variant="ghost" size="sm" icon class="-mt-1 -mr-1.5 text-muted-foreground" aria-label={strings.skip}>
+		<h2
+			{...titleAttrs}
+			class={["font-semibold leading-snug text-balance", intro ? "text-base" : "text-sm"]}
+		>
+			{title}
+		</h2>
+		<Button
+			onclick={onclose}
+			variant="ghost"
+			size="sm"
+			icon
+			class="-mt-1 -mr-1.5 text-muted-foreground"
+			aria-label={strings.skip}
+		>
 			<X weight="bold" />
 		</Button>
 	</div>
@@ -53,9 +69,18 @@
 </div>
 <div class="flex items-center justify-between gap-3 px-4 pb-4">
 	{#if total > 1}
-		<div role="img" aria-label={strings.progress(index + 1, total)} class="flex items-center gap-1.5">
+		<div
+			role="img"
+			aria-label={strings.progress(index + 1, total)}
+			class="flex items-center gap-1.5"
+		>
 			{#each { length: total } as _, i (i)}
-				<span class={["h-1.5 rounded-full transition-[width,background-color] duration-(--duration-fast) ease-(--ease-smooth-out) motion-reduce:transition-none", i === index ? "bg-foreground w-4" : "bg-border w-1.5"]}></span>
+				<span
+					class={[
+						"h-1.5 rounded-full transition-[width,background-color] duration-(--duration-fast) ease-(--ease-smooth-out) motion-reduce:transition-none",
+						i === index ? "bg-foreground w-4" : "bg-border w-1.5",
+					]}
+				></span>
 			{/each}
 		</div>
 	{:else}

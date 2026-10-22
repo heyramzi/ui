@@ -2,7 +2,17 @@
 	import type { SegmentContent } from "#src/components/segmented/segment.svelte";
 
 	/** One tab. See `SegmentContent` for everything a segment can say. */
-	export type TabDef<T extends string = string> = SegmentContent & { value: T };
+	export type TabDef<T extends string = string> = SegmentContent & {
+		value: T;
+		/**
+		 * The group this tab belongs to. A divider is drawn where the group changes between two neighbours,
+		 * and the group's `label`, when it has one, opens it as a quiet heading. Tabs with no group share one.
+		 */
+		group?: TabGroup;
+	};
+
+	/** `id` is what makes two tabs one group. `label` is optional text for a heading before the group. */
+	export type TabGroup = { id: string; label?: string };
 
 	/**
 	 * Where the tab row sits, the only thing that legitimately differs between
@@ -132,7 +142,26 @@
 				<!-- WHY an inner `display: contents` tablist: a tablist owns only tabs, and the
 				     overflow trigger isn't one. `contents` keeps segments as direct flex children. -->
 				<div class="contents" data-slot="tabs-list" role="tablist" aria-label={ariaLabel}>
-					{#each split.visible as tab (tab.value)}
+					{#each split.visible as tab, index (tab.value)}
+						{@const previous = split.visible[index - 1]}
+						{#if (tab.group?.id ?? "") !== (previous?.group?.id ?? "") || (index === 0 && tab.group?.label)}
+							<!-- WHY presentational: a tablist owns only tabs, and a divider or a heading isn't one. -->
+							{#if index > 0}
+								<span
+									role="presentation"
+									aria-hidden="true"
+									class="mx-1 my-2 w-px shrink-0 self-stretch bg-border"
+								></span>
+							{/if}
+							{#if tab.group?.label}
+								<span
+									role="presentation"
+									aria-hidden="true"
+									class="flex shrink-0 items-center px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+									>{tab.group.label}</span
+								>
+							{/if}
+						{/if}
 						<TabsPrimitive.Trigger
 							value={tab.value}
 							class={cn(segmentedTriggerClass({ variant, fill: block }), segmentedActiveClass)}

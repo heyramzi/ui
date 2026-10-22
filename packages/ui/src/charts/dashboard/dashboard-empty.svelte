@@ -1,32 +1,32 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
-import type { PhosphorIcon } from "#src/lib/icon-types.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
+	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// Not list-page's `EmptyState`: that one takes exactly one action, and a
-	// dashboard can be empty for reasons (nothing connected, nothing synced)
-	// that need two buttons.
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// Not list-page's `EmptyState`: that one takes exactly one action, and a
+		// dashboard can be empty for reasons (nothing connected, nothing synced)
+		// that need two buttons.
 
-	// The dashed edge marks truly empty, not loading.
-	icon?: PhosphorIcon;
-	title: string;
-	description?: string;
-	/** One or two buttons. Omit where there is nothing the reader can do. */
-	actions?: Snippet;
-	class?: string;
-};
+		// The dashed edge marks truly empty, not loading.
+		icon?: PhosphorIcon;
+		title: string;
+		description?: string;
+		/** One or two buttons. Omit where there is nothing the reader can do. */
+		actions?: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { icon: Icon, title, description, actions, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { icon: Icon, title, description, actions, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

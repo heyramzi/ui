@@ -1,24 +1,24 @@
 <script lang="ts">
-// =========================
-// IMPORTS
-// =========================
-import type { Snippet } from "svelte";
-import { cn } from "#src/lib/utils.js";
+	// =========================
+	// IMPORTS
+	// =========================
+	import type { Snippet } from "svelte";
+	import { cn } from "#src/lib/utils.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	// The scroller under `RailHead`. `min-h-0` makes a flex child scroll instead
-	// of growing its parent, and it's the line hand-rolled rails forgot.
-	children: Snippet;
-	class?: string;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		// The scroller under `RailHead`. `min-h-0` makes a flex child scroll instead
+		// of growing its parent, and it's the line hand-rolled rails forgot.
+		children: Snippet;
+		class?: string;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { children, class: className }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { children, class: className }: Props = $props();
 </script>
 
 <!-- =========================== -->

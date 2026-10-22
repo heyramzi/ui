@@ -25,7 +25,13 @@ function render(extra: Record<string, unknown> = {}) {
     },
   });
   flushSync();
-  return { target, done: () => { void unmount(app); target.remove(); } };
+  return {
+    target,
+    done: () => {
+      void unmount(app);
+      target.remove();
+    },
+  };
 }
 
 describe("TableView", () => {

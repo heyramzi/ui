@@ -1,6 +1,6 @@
 /* What every avatar on the page shares: the batching shown-gate, so a row of
    them comes in together, the path caches, and one theme watcher. */
-import { bakesPending } from '#src/agents/vendor/plastic.js';
+import { bakesPending } from "#src/agents/vendor/plastic.js";
 
 export const SHOW_WITHIN = 4000;
 export const waiters = new Map<object, { ready: () => boolean; show: () => void }>();
@@ -45,19 +45,19 @@ const themeListeners = new Set<() => void>();
 let themeWatch: (() => void) | null = null;
 export function onThemeChange(fn: () => void): () => void {
   themeListeners.add(fn);
-  if (!themeWatch && typeof MutationObserver === 'function' && typeof document !== 'undefined') {
+  if (!themeWatch && typeof MutationObserver === "function" && typeof document !== "undefined") {
     const fire = () => {
       for (const l of themeListeners) l();
     };
     const mo = new MutationObserver(fire);
-    const opts = { attributes: true, attributeFilter: ['class', 'data-theme'] };
+    const opts = { attributes: true, attributeFilter: ["class", "data-theme"] };
     mo.observe(document.documentElement, opts);
     if (document.body) mo.observe(document.body, opts);
-    const mq = typeof matchMedia === 'function' ? matchMedia('(prefers-color-scheme: dark)') : null;
-    mq?.addEventListener('change', fire);
+    const mq = typeof matchMedia === "function" ? matchMedia("(prefers-color-scheme: dark)") : null;
+    mq?.addEventListener("change", fire);
     themeWatch = () => {
       mo.disconnect();
-      mq?.removeEventListener('change', fire);
+      mq?.removeEventListener("change", fire);
     };
   }
   return () => {

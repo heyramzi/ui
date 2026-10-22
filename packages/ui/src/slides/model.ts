@@ -1,7 +1,7 @@
 /* Data-driven decks: a deck is JSON, and a registry says how each slide type draws itself. */
 
-import type { Component } from 'svelte';
-import type { Canvas, DeckTheme } from '#src/slides/types.js';
+import type { Component } from "svelte";
+import type { Canvas, DeckTheme } from "#src/slides/types.js";
 
 export type SlideInstance<Content = unknown> = {
   id: string;
@@ -33,7 +33,8 @@ export type SlideType<Content = any> = {
 export type SlideRegistry = Readonly<Record<string, SlideType>>;
 
 /** Identity function that fixes `Content` from the layout. */
-export const defineSlideType = <Content>(definition: SlideType<Content>): SlideType<Content> => definition;
+export const defineSlideType = <Content>(definition: SlideType<Content>): SlideType<Content> =>
+  definition;
 
 /** Keys the types by their `type`. Two with the same name is a mistake worth failing on. */
 export function defineRegistry(types: readonly SlideType[]): SlideRegistry {
@@ -44,4 +45,3 @@ export function defineRegistry(types: readonly SlideType[]): SlideRegistry {
   }
   return registry;
 }
-

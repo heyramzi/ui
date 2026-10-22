@@ -12,7 +12,7 @@
 		id: string;
 		/** Fraction of the shape's width faded at each side, 0-0.45. */
 		amount?: number;
-	};
+	}
 
 	// =========================
 	// PROPS

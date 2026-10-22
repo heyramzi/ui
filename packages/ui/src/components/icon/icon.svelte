@@ -1,20 +1,20 @@
 <script lang="ts">
-import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
+	import type { PhosphorIcon, IconWeight } from "#src/lib/icon-types.js";
 
-// =========================
-// TYPES
-// =========================
-interface Props {
-	icon: PhosphorIcon;
-	size?: number;
-	class?: string;
-	weight?: IconWeight;
-};
+	// =========================
+	// TYPES
+	// =========================
+	interface Props {
+		icon: PhosphorIcon;
+		size?: number;
+		class?: string;
+		weight?: IconWeight;
+	}
 
-// =========================
-// PROPS
-// =========================
-let { icon: IconComp, size = 24, class: className = "", weight }: Props = $props();
+	// =========================
+	// PROPS
+	// =========================
+	let { icon: IconComp, size = 24, class: className = "", weight }: Props = $props();
 </script>
 
 <!-- =========================== -->

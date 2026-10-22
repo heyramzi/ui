@@ -10,7 +10,7 @@
 	interface Props {
 		/** Gradient id. Paint the highlight line with `stroke: url(#id)`. */
 		id: string;
-	};
+	}
 
 	// =========================
 	// PROPS

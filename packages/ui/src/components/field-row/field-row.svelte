@@ -25,7 +25,15 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { label, for: htmlFor, description, error, class: className, children, action }: Props = $props();
+	let {
+		label,
+		for: htmlFor,
+		description,
+		error,
+		class: className,
+		children,
+		action,
+	}: Props = $props();
 </script>
 
 <!-- =========================== -->
@@ -35,13 +43,7 @@
 <!-- WHY the coarse-pointer height: Button grows to 44px on touch and Input
      does not, so a row built from the two drew a 12px step. -->
 <!-- =========================== -->
-<Field.Simple
-	{label}
-	{description}
-	{error}
-	for={htmlFor}
-	class={cn("max-w-xl", className)}
->
+<Field.Simple {label} {description} {error} for={htmlFor} class={cn("max-w-xl", className)}>
 	<div
 		class="flex items-start gap-2 any-pointer-coarse:[&_[data-slot=input]]:h-11"
 		data-slot="field-row"
