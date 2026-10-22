@@ -883,3 +883,14 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): status, panel, record, thread and threaded inbox subpaths
 
+
+## [2.2.0](https://github.com/heyramzi/ui/compare/ui-v2.1.0...ui-v2.2.0) (2026-10-22)
+
+### Features
+
+* feat(ui): one inbox, built on the list-page kit
+
+### Bug Fixes
+
+* fix(ui): gate raw hover styles behind the hover media query
+
