@@ -16,7 +16,7 @@ let app: Record<string, unknown> | undefined;
 function render(extra: Record<string, unknown> = {}) {
   target = document.createElement("div");
   document.body.append(target);
-  app = mount(TaskGantt, {
+  app = mount(TaskGantt<Task>, {
     target,
     props: {
       items,
