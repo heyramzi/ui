@@ -2,9 +2,9 @@
   import { Icon } from "@heyramzi/ui/components/icon";
   import { Svg } from "@heyramzi/ui/components/svg";
   import { Bell, Calendar, ChatCircle, Gear } from "phosphor-svelte";
+  import mark from "#lib/demos/icon-mark.svg?raw";
 
   const weights = ["thin", "light", "regular", "bold", "fill", "duotone"] as const;
-  const mark = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>`;
 </script>
 
 <div class="flex flex-col items-center gap-6">
