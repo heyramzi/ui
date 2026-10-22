@@ -6,12 +6,9 @@ Svelte 5 components for our product teams. SvelteKit first, no React ports.
 
 | Package | What it is |
 | --- | --- |
-| `@heyramzi/ui` | shadcn primitives, effects, animations, chat and AI surfaces, and bot avatars at `@heyramzi/ui/agents` (a Svelte port of [bot-avatars](https://github.com/Jakubantalik/Libraries.dev/tree/main/packages/bot-avatars)) |
-| `@heyramzi/charts` | Area, line, bar, donut, ring and gauge charts, sparklines and stat cards on [LayerChart](https://layerchart.com). Moved out of `@heyramzi/ui`, which had them up to 6.x |
-| `@heyramzi/tasks` | One set of tasks as a drag-and-drop board, a grouped list or a gantt timeline, plus status badges, dots and icons from one config. Was `@heyramzi/board` |
+| `@heyramzi/ui` | The kit on [ui.heyramzi.com](https://ui.heyramzi.com): tokens and theming, shadcn primitives, effects, charts on [LayerChart](https://layerchart.com), and blocks (chat, agents, tasks, editor, onboarding, slides, canvas) at subpaths such as `@heyramzi/ui/charts` and `@heyramzi/ui/tasks` |
 | `@heyramzi/marketing` | Brand tokens and testimonial surfaces |
 | `@heyramzi/review` | The review page, mounted anywhere |
-| `@heyramzi/slides` | Keyboard and swipe slide decks, with a print stylesheet |
 
 Run the site: `pnpm install && pnpm --filter site dev`.
 
@@ -25,7 +22,7 @@ The shadcn primitives in `@heyramzi/ui` start from [shadcn-svelte](https://githu
 
 ## Releasing
 
-Releases run from the Mac, for `ui`, `charts`, `tasks` and `marketing` only. `slides` and `review` aren't published yet: use them from a clone. `@heyramzi/agents` moved into `@heyramzi/ui/agents`.
+Releases run from the Mac, for `ui`, `marketing` and `review`. Charts, tasks, slides and the agents moved into `@heyramzi/ui` as subpaths.
 
 Release steps:
 
@@ -42,4 +39,4 @@ pnpm add @heyramzi/ui
 
 Our own apps map the whole `@heyramzi` scope to GitHub Packages for private packages, so they keep installing these from there. Same versions, both registries.
 
-The website ships to ui.heyramzi.com on Cloudflare with `cd site && pnpm exec wrangler deploy`. It's public: the Worker only serves the built assets.
+The website ships to ui.heyramzi.com on Cloudflare at the end of every `pnpm release`, so the version in its nav is the one on npm. By hand: `cd site && pnpm run deploy`. It's public: the Worker only serves the built assets.

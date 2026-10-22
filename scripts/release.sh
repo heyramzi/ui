@@ -205,4 +205,7 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
 done
 
 rm -rf "$NOTES_DIR"
+# The site's nav shows the ui version, so every release ships it too.
+(cd site && pnpm run deploy)
+
 echo "release: done."

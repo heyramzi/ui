@@ -9,8 +9,6 @@
     "deploy": "vite build && wrangler deploy"
   },
   "dependencies": {
-    "@heyramzi/marketing": "workspace:*",
-    "@heyramzi/review": "workspace:*",
     "@heyramzi/ui": "workspace:*",
     "phosphor-svelte": "^3.1.1"
   },

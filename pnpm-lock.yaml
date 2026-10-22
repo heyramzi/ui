@@ -378,12 +378,6 @@ importers:
 
   site:
     dependencies:
-      '@heyramzi/marketing':
-        specifier: workspace:*
-        version: link:../packages/marketing
-      '@heyramzi/review':
-        specifier: workspace:*
-        version: link:../packages/review
       '@heyramzi/ui':
         specifier: workspace:*
         version: link:../packages/ui

@@ -9,7 +9,14 @@ export default defineConfig({
 		tailwindcss(),
 		sveltekit({
 			preprocess: vitePreprocess(),
-			adapter: adapter({ fallback: "404.html" })
+			adapter: adapter({ fallback: "404.html" }),
+			prerender: {
+				// Demos keep placeholder anchors: upstream's `#/` in any tile, and the record demo's links
+				// to records it never renders. Every other anchor still has to land.
+				handleMissingId: ({ path, id, message }) => {
+					if (id !== "/" && path !== "/tasks/record") throw new Error(message);
+				}
+			}
 		})
 	],
 	// SSR bundles every dependency. @heyramzi/utils ships raw .ts (Node won't strip types under

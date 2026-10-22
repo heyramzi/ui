@@ -11,12 +11,12 @@
   ];
 </script>
 
-<PackagePage id="slides" blurb="Decks on a fixed canvas that scales to any screen. Press O for the overview.">
+<PackagePage title="Deck and presenter" from="@heyramzi/ui/slides" blurb="Decks on a fixed canvas that scales to any screen. Press O for the overview.">
   <Demo presenter="/slides/presenter" />
 
   <div class="mt-16 grid gap-6 lg:grid-cols-2 print:hidden">
     {#each examples as example (example.title)}
-      <div>
+      <div class="min-w-0">
         <h2 class="mb-3 text-lg font-semibold tracking-tight">{example.title}</h2>
         <CodeBlock.Root class="rounded-2xl">
           <CodeBlock.Content>
