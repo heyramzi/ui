@@ -8,10 +8,12 @@
   color: color-mix(in oklch, var(--color-background) 70%, transparent);
 }
 
-.theme-toggle--inverted:hover {
-  border-color: color-mix(in oklch, var(--color-background) 40%, transparent);
-  background: color-mix(in oklch, var(--color-background) 12%, transparent);
-  color: var(--color-background);
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle--inverted:hover {
+    border-color: color-mix(in oklch, var(--color-background) 40%, transparent);
+    background: color-mix(in oklch, var(--color-background) 12%, transparent);
+    color: var(--color-background);
+  }
 }
 
 /* The slide variant, a pill track with a moving thumb; a caller sets brand
@@ -43,12 +45,18 @@
   --tt-thumb: 2rem;
 }
 
-.theme-toggle-slide:hover {
-  background: var(
-    --theme-toggle-track-hover,
-    color-mix(in oklch, var(--color-foreground) 20%, transparent)
-  );
-  box-shadow: 0 0 15px color-mix(in oklch, var(--theme-toggle-glow, transparent) 30%, transparent);
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle-slide:hover {
+    background: var(
+      --theme-toggle-track-hover,
+      color-mix(in oklch, var(--color-foreground) 20%, transparent)
+    );
+    box-shadow: 0 0 15px color-mix(in oklch, var(--theme-toggle-glow, transparent) 30%, transparent);
+  }
+
+  .theme-toggle-slide:hover .theme-toggle-slide__glow {
+    opacity: 1;
+  }
 }
 
 .theme-toggle-slide:active {
@@ -72,10 +80,6 @@
     transparent 70%
   );
   transition: opacity 500ms;
-}
-
-.theme-toggle-slide:hover .theme-toggle-slide__glow {
-  opacity: 1;
 }
 
 .theme-toggle-slide[data-state="dark"] {
@@ -163,12 +167,12 @@
 
 .theme-toggle-slide__mark--moon {
   opacity: 0;
-  transform: scale(0) rotate(-90deg);
+  transform: scale(0.9) rotate(-90deg);
 }
 
 .theme-toggle-slide[data-state="dark"] .theme-toggle-slide__mark--sun {
   opacity: 0;
-  transform: scale(0) rotate(90deg);
+  transform: scale(0.9) rotate(90deg);
 }
 
 .theme-toggle-slide[data-state="dark"] .theme-toggle-slide__mark--moon {

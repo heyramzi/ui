@@ -6,14 +6,20 @@
     box-shadow 300ms ease;
 }
 
-.magic-card:hover {
-  border-color: color-mix(
-    in oklch,
-    var(--magic-card-glow, var(--color-primary)) 30%,
-    var(--color-border)
-  );
-  box-shadow: 0 0 0 1px
-    color-mix(in oklch, var(--magic-card-glow, var(--color-primary)) 8%, transparent);
+@media (hover: hover) and (pointer: fine) {
+  .magic-card:hover {
+    border-color: color-mix(
+      in oklch,
+      var(--magic-card-glow, var(--color-primary)) 30%,
+      var(--color-border)
+    );
+    box-shadow: 0 0 0 1px
+      color-mix(in oklch, var(--magic-card-glow, var(--color-primary)) 8%, transparent);
+  }
+
+  .magic-card:hover .magic-card__glow {
+    opacity: 1;
+  }
 }
 
 .magic-card:focus-within {
@@ -38,10 +44,6 @@
       0%,
     transparent 40%
   );
-}
-
-.magic-card:hover .magic-card__glow {
-  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

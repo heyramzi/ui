@@ -37,8 +37,10 @@
     background-color: var(--color-border, var(--border));
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-muted-foreground, var(--muted-foreground));
+  @media (hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: var(--color-muted-foreground, var(--muted-foreground));
+    }
   }
 }
 
@@ -69,9 +71,11 @@
       transform var(--duration-fast) var(--ease-smooth-out);
   }
 
-  .t-lift:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--elev-raised);
+  @media (hover: hover) and (pointer: fine) {
+    .t-lift:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--elev-raised);
+    }
   }
 
   /* A surface arriving. The open carries the distance, the scale and the blur;
@@ -91,9 +95,14 @@
       transition: none;
     }
 
-    .t-press:active,
-    .t-lift:hover {
+    .t-press:active {
       transform: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .t-lift:hover {
+        transform: none;
+      }
     }
 
     .t-enter,
