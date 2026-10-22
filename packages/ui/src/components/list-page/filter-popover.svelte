@@ -7,7 +7,7 @@ import * as Popover from "#src/shadcn/popover/index.js";
 import { Funnel as FunnelIcon } from "phosphor-svelte";
 import { cn } from "#src/lib/utils.js";
 import { Button } from "#src/shadcn/button/index.js";
-import { toolbarTriggerClass } from "#src/components/list-page/toolbar-trigger.js";
+import { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
 // phosphor-svelte v2 (resolved here) and v3 (what consumers run) differ only in

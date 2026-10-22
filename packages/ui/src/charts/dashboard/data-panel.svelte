@@ -5,7 +5,7 @@
 import type { Snippet } from "svelte";
 import { cn } from "#src/lib/utils.js";
 import { panelHeaderClass, panelShellClass } from "#src/lib/panel.js";
-import { SectionLabel } from "#src/components/list-page/index.js";
+import { SectionLabel } from "#src/components/section-header/index.js";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
 // =========================

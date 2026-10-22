@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import SectionLabel from "#src/components/list-page/section-label.svelte";
+	import SectionLabel from "#src/components/section-header/section-label.svelte";
 
 	// =========================
 	// TYPES

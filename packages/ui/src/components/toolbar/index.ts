@@ -3,3 +3,5 @@
  * each of those folds into a menu and the row never wraps.
  */
 export { default as Toolbar } from "#src/components/toolbar/toolbar.svelte";
+export { default as ToolbarSearch } from "#src/components/toolbar/toolbar-search.svelte";
+export { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";

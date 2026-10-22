@@ -12,7 +12,7 @@ export { default as RailBody } from "#src/components/list-page/rail-body.svelte"
 export { default as RailEmpty } from "#src/components/list-page/rail-empty.svelte";
 export { default as RailHead } from "#src/components/list-page/rail-head.svelte";
 export { default as RailRow } from "#src/components/list-page/rail-row.svelte";
-export { default as SectionLabel } from "#src/components/list-page/section-label.svelte";
+export { default as SectionLabel } from "#src/components/section-header/section-label.svelte";
 export { queueRailClass, queueRailWidth } from "#src/components/list-page/queue-rail.js";
 export { default as FilterPopover } from "#src/components/list-page/filter-popover.svelte";
 export { filterSectionClass } from "#src/components/list-page/filter-section.js";
@@ -21,8 +21,8 @@ export { default as ListPageShell } from "#src/components/list-page/list-page-sh
 export { default as MasterDetail } from "#src/components/list-page/master-detail.svelte";
 // The segmented control isn't re-exported here. Two import paths drifted, so
 // its one home is `@heyramzi/ui/components/segmented`.
-export { default as ToolbarSearch } from "#src/components/list-page/toolbar-search.svelte";
-export { toolbarTriggerClass } from "#src/components/list-page/toolbar-trigger.js";
+export { default as ToolbarSearch } from "#src/components/toolbar/toolbar-search.svelte";
+export { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
 export { listTable } from "#src/components/list-page/list-table.js";
 export type { ViewMode } from "#src/components/list-page/types.js";
 export { getSectionHost, setSectionHost, type SectionHost } from "#src/components/list-page/section-host.js";

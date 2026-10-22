@@ -3,7 +3,7 @@
 // IMPORTS
 // =========================
 import type { Snippet } from "svelte";
-import SectionLabel from "#src/components/list-page/section-label.svelte";
+import SectionLabel from "#src/components/section-header/section-label.svelte";
 import { cn } from "#src/lib/utils.js";
 import { panelHeaderClass, panelShellClass } from "#src/lib/panel.js";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";

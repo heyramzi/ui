@@ -6,8 +6,8 @@
 	import { CaretDown, MagnifyingGlass } from "phosphor-svelte";
 	import { SegmentedFilter } from "#src/components/segmented/index.js";
 	import type { TabDef } from "#src/components/segmented/animated-tabs.svelte";
-	import { toolbarTriggerClass } from "#src/components/list-page/toolbar-trigger.js";
-	import ToolbarSearch from "#src/components/list-page/toolbar-search.svelte";
+	import { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
+	import ToolbarSearch from "#src/components/toolbar/toolbar-search.svelte";
 	import { Input } from "#src/shadcn/input/index.js";
 	import * as DropdownMenu from "#src/shadcn/dropdown-menu/index.js";
 	import * as Popover from "#src/shadcn/popover/index.js";
