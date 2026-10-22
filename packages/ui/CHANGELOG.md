@@ -869,3 +869,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): raw :hover in canvas, gantt and Segmented only fires where a pointer hovers
 
+
+## [2.0.1](https://github.com/heyramzi/ui/compare/ui-v2.0.0...ui-v2.0.1) (2026-10-22)
+
+### Bug Fixes
+
+* fix(ui): stop the rich editor rebuilding in a loop when an app feeds its output back as content
+
