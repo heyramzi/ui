@@ -876,3 +876,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): stop the rich editor rebuilding in a loop when an app feeds its output back as content
 
+
+## [2.1.0](https://github.com/heyramzi/ui/compare/ui-v2.0.1...ui-v2.1.0) (2026-10-22)
+
+### Features
+
+* feat(ui): status, panel, record, thread and threaded inbox subpaths
+
