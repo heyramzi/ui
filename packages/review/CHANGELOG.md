@@ -32,3 +32,17 @@
 
 * fix(review): name the pin index in the transcript so the slop gate stops reading it as a list
 
+
+## [1.0.0](https://github.com/heyramzi/ui/compare/review-v0.3.1...review-v1.0.0) (2026-10-22)
+
+### Features
+
+* feat(review): publish review through the release script
+* feat(ui): tasks, charts, slides, editor, onboarding and canvas become subpaths of ui
+* feat(ui): agents move into @heyramzi/ui/agents, draw is retired, marketing gets a site page
+
+### Bug Fixes
+
+* fix(ui): raw :hover in canvas, gantt and Segmented only fires where a pointer hovers
+* fix(ui): gate raw :hover behind (hover: hover) and (pointer: fine)
+
