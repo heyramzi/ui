@@ -47,7 +47,7 @@
 <!-- A div, not a link: a live demo can hold links of its own, and a link inside a link breaks
      hydration. The title's link stretches over the whole card instead. -->
 <div
-  class="group relative flex min-w-0 flex-col rounded-[26px] border border-border bg-card/60 p-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-xl"
+  class="group relative flex min-w-0 flex-col rounded-[26px] border border-border bg-card/60 p-1.5 transition-[translate,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-xl"
 >
   <div class="canvas-dots relative h-60 overflow-hidden rounded-[20px] border border-border bg-background" bind:clientWidth={width} bind:clientHeight={height}>
     <div class="pointer-events-none absolute left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2" style="width:{stageWidth}px; scale:{scale}" aria-hidden="true">
@@ -57,7 +57,7 @@
     </div>
     <button
       type="button"
-      class="absolute right-2 top-2 z-10 grid size-8 place-items-center rounded-lg border border-border bg-card/80 text-muted-foreground opacity-0 shadow-sm backdrop-blur transition-all hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
+      class="absolute right-2 top-2 z-10 grid size-8 place-items-center rounded-lg border border-border bg-card/80 text-muted-foreground opacity-0 shadow-sm backdrop-blur transition-[opacity,color] hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
       aria-label="Copy"
       title="Copy"
       onclick={copy}
