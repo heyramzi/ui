@@ -53,3 +53,10 @@
 
 * fix(review): ship declarations for the root export
 
+
+## [1.0.2](https://github.com/heyramzi/ui/compare/review-v1.0.1...review-v1.0.2) (2026-10-22)
+
+### Bug Fixes
+
+* fix(review): ship compiled JS for the Node exports
+
