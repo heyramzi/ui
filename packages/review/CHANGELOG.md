@@ -46,3 +46,10 @@
 * fix(ui): raw :hover in canvas, gantt and Segmented only fires where a pointer hovers
 * fix(ui): gate raw :hover behind (hover: hover) and (pointer: fine)
 
+
+## [1.0.1](https://github.com/heyramzi/ui/compare/review-v1.0.0...review-v1.0.1) (2026-10-22)
+
+### Bug Fixes
+
+* fix(review): ship declarations for the root export
+

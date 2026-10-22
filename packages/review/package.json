@@ -1,6 +1,6 @@
 {
   "name": "@heyramzi/review",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The one review UI for Editor OS, Shorts OS and any client tool. A Svelte 5 page built to two static files, plus the Node handler that serves it.",
   "license": "MIT",
   "repository": {
