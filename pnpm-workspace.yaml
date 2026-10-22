@@ -15,3 +15,5 @@ packageExtensions:
 allowBuilds:
   esbuild: true
   workerd: true
+minimumReleaseAgeExclude:
+  - "@heyramzi/lint@1.32.5"
