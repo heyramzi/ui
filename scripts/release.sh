@@ -23,10 +23,11 @@ DRY_RUN="${DRY_RUN:-0}"
 TODAY=$(date +%Y-%m-%d)
 NOTES_DIR=$(mktemp -d)
 
-# component -> package dir. review is a private workspace package. tasks, charts, slides, the editor,
-# onboarding and the canvas ship inside ui as subpaths.
+# component -> package dir. tasks, charts, slides, the editor, onboarding and the canvas ship
+# inside ui as subpaths.
 COMPONENTS="ui packages/ui
-marketing packages/marketing"
+marketing packages/marketing
+review packages/review"
 
 plan=""
 while read -r component dir; do

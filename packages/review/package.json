@@ -1,7 +1,6 @@
 {
   "name": "@heyramzi/review",
   "version": "0.3.1",
-  "private": true,
   "description": "The one review UI for Editor OS, Shorts OS and any client tool. A Svelte 5 page built to two static files, plus the Node handler that serves it.",
   "license": "MIT",
   "repository": {
@@ -15,6 +14,7 @@
     "src/server",
     "src/theme",
     "src/index.ts",
+    "src/diagrams/figure.ts",
     "src/diagrams/placeholder.ts",
     "package.json"
   ],
@@ -54,6 +54,7 @@
   "scripts": {
     "dev": "vp dev --port 3321 --strictPort",
     "build": "vp build",
+    "prepack": "vp build",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:tokens": "node scripts/check-tokens.mjs",
     "test": "vp test run",
