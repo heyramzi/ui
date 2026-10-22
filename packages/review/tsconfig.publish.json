@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "allowImportingTsExtensions": false,
+    "rootDir": "src",
+    "outDir": "dist/node"
+  },
+  "include": [
+    "src/index.ts",
+    "src/server/index.ts",
+    "src/core/types.ts",
+    "src/diagrams/figure.ts",
+    "src/diagrams/placeholder.ts",
+    "src/env.d.ts"
+  ]
+}

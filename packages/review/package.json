@@ -10,12 +10,7 @@
   },
   "files": [
     "dist",
-    "src/core",
-    "src/server",
     "src/theme",
-    "src/index.ts",
-    "src/diagrams/figure.ts",
-    "src/diagrams/placeholder.ts",
     "package.json"
   ],
   "type": "module",
@@ -29,32 +24,32 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
+      "types": "./dist/node/index.d.ts",
       "default": "./dist/review.js"
     },
     "./review.css": "./dist/review.css",
     "./tokens.css": "./src/theme/tokens.css",
     "./server": {
-      "types": "./src/server/index.ts",
-      "default": "./src/server/index.ts"
+      "types": "./dist/node/server/index.d.ts",
+      "default": "./dist/node/server/index.js"
     },
     "./types": {
-      "types": "./src/core/types.ts",
-      "default": "./src/core/types.ts"
+      "types": "./dist/node/core/types.d.ts",
+      "default": "./dist/node/core/types.js"
     },
     "./figure": {
-      "types": "./src/diagrams/figure.ts",
-      "default": "./src/diagrams/figure.ts"
+      "types": "./dist/node/diagrams/figure.d.ts",
+      "default": "./dist/node/diagrams/figure.js"
     },
     "./placeholder": {
-      "types": "./src/diagrams/placeholder.ts",
-      "default": "./src/diagrams/placeholder.ts"
+      "types": "./dist/node/diagrams/placeholder.d.ts",
+      "default": "./dist/node/diagrams/placeholder.js"
     }
   },
   "scripts": {
     "dev": "vp dev --port 3321 --strictPort",
     "build": "vp build",
-    "prepack": "vp build && node scripts/build-types.mjs",
+    "prepack": "vp build && node scripts/build-publish.mjs",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:tokens": "node scripts/check-tokens.mjs",
     "test": "vp test run",
