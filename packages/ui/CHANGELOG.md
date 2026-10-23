@@ -915,3 +915,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): AreaChart takes a resting headline, like a period total, shown until a point is hovered
 
+
+## [2.6.0](https://github.com/heyramzi/ui/compare/ui-v2.5.0...ui-v2.6.0) (2026-10-23)
+
+### Features
+
+* feat(ui): InfoList takes layout="row", a read-only band of items with term, content and action snippets
+
