@@ -22,7 +22,7 @@
 		/** Accessible name of the YouTube, Vimeo or Loom frame. */
 		title?: string;
 		class?: string;
-	};
+	}
 
 	// =========================
 	// PROPS

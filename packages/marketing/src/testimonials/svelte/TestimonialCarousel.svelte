@@ -5,6 +5,7 @@
 	import type { PublicTestimonial } from "#src/testimonials/types.js";
 	import { renderTestimonialContent } from "#src/testimonials/render-content.js";
 	import StarRating from "#src/testimonials/svelte/StarRating.svelte";
+	import AuthorAvatar from "#src/testimonials/svelte/AuthorAvatar.svelte";
 	import TestimonialVideoPlayer from "#src/testimonials/svelte/TestimonialVideoPlayer.svelte";
 
 	// =========================
@@ -78,34 +79,28 @@
 					</div>
 				{/if}
 
-				<blockquote class="mb-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+				<blockquote
+					class="mb-4 text-sm leading-relaxed [overflow-wrap:anywhere] text-gray-700 dark:text-gray-300"
+				>
 					"<!-- eslint-disable-next-line svelte/no-at-html-tags -->{@html renderTestimonialContent(
 						testimonial.content,
 					)}"
 				</blockquote>
 
 				<div class="flex items-center gap-3">
-					{#if testimonial.authorPhotoUrl}
-						<img
-							src={testimonial.authorPhotoUrl}
-							alt={testimonial.authorName}
-							class="size-9 rounded-full object-cover"
-							loading="lazy"
-						/>
-					{:else}
-						<div
-							class="flex size-9 items-center justify-center rounded-full bg-gray-100 text-sm font-medium text-gray-700 dark:bg-gray-900 dark:text-gray-300"
-						>
-							{testimonial.authorName.charAt(0).toUpperCase()}
-						</div>
-					{/if}
+					<AuthorAvatar
+						name={testimonial.authorName}
+						src={testimonial.authorPhotoUrl}
+						class="size-9"
+						fallbackClass="bg-gray-100 text-sm text-gray-700 dark:bg-gray-900 dark:text-gray-300"
+					/>
 
-					<div>
-						<p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+					<div class="min-w-0">
+						<p class="text-sm font-semibold break-words text-gray-900 dark:text-gray-100">
 							{testimonial.authorName}
 						</p>
 						{#if testimonial.authorRole || testimonial.authorCompany}
-							<p class="text-xs text-gray-500 dark:text-gray-300">
+							<p class="text-xs break-words text-gray-500 dark:text-gray-300">
 								{[testimonial.authorRole, testimonial.authorCompany].filter(Boolean).join(" at ")}
 							</p>
 						{/if}

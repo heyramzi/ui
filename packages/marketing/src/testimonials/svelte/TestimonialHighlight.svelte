@@ -5,6 +5,7 @@
 	import type { PublicTestimonial } from "#src/testimonials/types.js";
 	import { renderTestimonialContent } from "#src/testimonials/render-content.js";
 	import StarRating from "#src/testimonials/svelte/StarRating.svelte";
+	import AuthorAvatar from "#src/testimonials/svelte/AuthorAvatar.svelte";
 	import TestimonialVideoPlayer from "#src/testimonials/svelte/TestimonialVideoPlayer.svelte";
 	import quoteIcon from "#src/testimonials/svelte/quote-icon.svg?raw";
 
@@ -37,7 +38,9 @@
 			</div>
 		{/if}
 
-		<blockquote class="mb-6 text-lg leading-relaxed text-gray-900 sm:text-xl dark:text-gray-200">
+		<blockquote
+			class="mb-6 [overflow-wrap:anywhere] text-lg leading-relaxed text-gray-900 sm:text-xl dark:text-gray-200"
+		>
 			"<!-- eslint-disable-next-line svelte/no-at-html-tags -->{@html renderTestimonialContent(
 				featured.content,
 			)}"
@@ -50,27 +53,19 @@
 		{/if}
 
 		<div class="flex items-center gap-3">
-			{#if featured.authorPhotoUrl}
-				<img
-					src={featured.authorPhotoUrl}
-					alt={featured.authorName}
-					class="size-12 rounded-full object-cover"
-					loading="lazy"
-				/>
-			{:else}
-				<div
-					class="flex size-12 items-center justify-center rounded-full bg-gray-100 text-base font-medium text-gray-700 dark:bg-gray-900 dark:text-gray-300"
-				>
-					{featured.authorName.charAt(0).toUpperCase()}
-				</div>
-			{/if}
+			<AuthorAvatar
+				name={featured.authorName}
+				src={featured.authorPhotoUrl}
+				class="size-12"
+				fallbackClass="bg-gray-100 text-base text-gray-700 dark:bg-gray-900 dark:text-gray-300"
+			/>
 
-			<div>
-				<p class="text-base font-semibold text-gray-900 dark:text-gray-100">
+			<div class="min-w-0">
+				<p class="text-base font-semibold break-words text-gray-900 dark:text-gray-100">
 					{featured.authorName}
 				</p>
 				{#if featured.authorRole || featured.authorCompany}
-					<p class="text-sm text-gray-500 dark:text-gray-300">
+					<p class="text-sm break-words text-gray-500 dark:text-gray-300">
 						{[featured.authorRole, featured.authorCompany].filter(Boolean).join(" at ")}
 					</p>
 				{/if}

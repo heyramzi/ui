@@ -4,6 +4,7 @@
 	// =========================
 	import type { PublicTestimonial } from "#src/testimonials/types.js";
 	import StarRating from "#src/testimonials/svelte/StarRating.svelte";
+	import AuthorAvatar from "#src/testimonials/svelte/AuthorAvatar.svelte";
 
 	// =========================
 	// PROPS
@@ -28,19 +29,6 @@
 			.toSorted((a, b) => (b.authorPhotoUrl ? 1 : 0) - (a.authorPhotoUrl ? 1 : 0))
 			.slice(0, 5),
 	);
-
-	// =========================
-	// FUNCTIONS
-	// =========================
-	function getInitials(name: string | undefined | null): string {
-		if (!name) return "?";
-		return name
-			.split(" ")
-			.map((n) => n[0])
-			.join("")
-			.toUpperCase()
-			.slice(0, 2);
-	}
 </script>
 
 <!-- =========================== -->
@@ -50,20 +38,12 @@
 	{#if avatars.length > 0}
 		<div class="flex -space-x-2">
 			{#each avatars as testimonial (testimonial.id)}
-				{#if testimonial.authorPhotoUrl}
-					<img
-						src={testimonial.authorPhotoUrl}
-						alt={testimonial.authorName ?? "Reviewer"}
-						class="size-8 rounded-full border-2 border-white object-cover dark:border-gray-900"
-						loading="lazy"
-					/>
-				{:else}
-					<div
-						class="flex size-8 items-center justify-center rounded-full border-2 border-white bg-gray-100 text-xs font-medium text-gray-700 dark:border-gray-900 dark:bg-gray-900 dark:text-gray-300"
-					>
-						{getInitials(testimonial.authorName)}
-					</div>
-				{/if}
+				<AuthorAvatar
+					name={testimonial.authorName ?? "Reviewer"}
+					src={testimonial.authorPhotoUrl}
+					class="size-8 border-2 border-white dark:border-gray-900"
+					fallbackClass="bg-gray-100 text-xs text-gray-700 dark:bg-gray-900 dark:text-gray-300"
+				/>
 			{/each}
 		</div>
 	{/if}
@@ -82,10 +62,10 @@
 		     below the 4.5:1 AA floor and too small for the large-text exception. -->
 		<p class="text-xs text-gray-700 dark:text-gray-300">
 			{#if avgRating > 0}
-				Rated {displayRating}/5 based on {testimonials.length}
+				Rated {displayRating}/5 based on {testimonials.length.toLocaleString()}
 				{testimonials.length === 1 ? "review" : "reviews"}
 			{:else}
-				{testimonials.length}
+				{testimonials.length.toLocaleString()}
 				{testimonials.length === 1 ? "review" : "reviews"}
 			{/if}
 		</p>

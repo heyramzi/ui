@@ -6,6 +6,7 @@
 	import type { GetCaption } from "#src/testimonials/svelte/types.js";
 	import { renderTestimonialContent } from "#src/testimonials/render-content.js";
 	import StarRating from "#src/testimonials/svelte/StarRating.svelte";
+	import AuthorAvatar from "#src/testimonials/svelte/AuthorAvatar.svelte";
 	import TestimonialVideoPlayer from "#src/testimonials/svelte/TestimonialVideoPlayer.svelte";
 
 	// =========================
@@ -20,7 +21,7 @@
 		lessLabel?: string;
 		clampChars?: number;
 		getCaption?: GetCaption;
-	};
+	}
 
 	// =========================
 	// PROPS
@@ -105,23 +106,18 @@
 					{/if}
 
 					<div class="flex items-center gap-3">
-						{#if testimonial.authorPhotoUrl}
-							<img
-								src={testimonial.authorPhotoUrl}
-								alt={testimonial.authorName}
-								class="size-9 rounded-full object-cover"
-								loading="lazy"
-							/>
-						{:else}
-							<div
-								class="flex size-9 items-center justify-center rounded-full bg-muted text-sm font-medium text-foreground"
-							>
-								{testimonial.authorName?.charAt(0).toUpperCase() ?? "?"}
-							</div>
-						{/if}
+						<AuthorAvatar
+							name={testimonial.authorName}
+							src={testimonial.authorPhotoUrl}
+							class="size-9"
+							fallbackClass="bg-muted text-sm text-foreground"
+						/>
 
 						<div class="min-w-0">
-							<p class="truncate text-sm font-semibold text-foreground">
+							<p
+								class="truncate text-sm font-semibold text-foreground"
+								title={testimonial.authorName}
+							>
 								{testimonial.authorName}
 							</p>
 							{#if testimonial.authorRole || testimonial.authorCompany}
@@ -163,6 +159,7 @@
 	}
 	.testimonial-content > p {
 		overflow: hidden;
+		overflow-wrap: anywhere;
 	}
 	.testimonial-content.can-clamp > p {
 		min-height: calc(1.625em * 5);

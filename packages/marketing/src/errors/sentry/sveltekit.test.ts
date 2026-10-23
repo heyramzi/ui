@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { isStaleChunk, reloadForStaleChunk, shouldReport } from "#src/errors/sentry/sveltekit.js";
 
 describe("shouldReport", () => {
@@ -25,7 +25,9 @@ describe("shouldReport", () => {
 
 describe("isStaleChunk", () => {
   it("matches the Chrome, Safari and Firefox wordings", () => {
-    expect(isStaleChunk(new Error("Failed to fetch dynamically imported module: /a.js"))).toBe(true);
+    expect(isStaleChunk(new Error("Failed to fetch dynamically imported module: /a.js"))).toBe(
+      true,
+    );
     expect(isStaleChunk(new Error("Importing a module script failed."))).toBe(true);
     expect(isStaleChunk(new Error("error loading dynamically imported module: /a.js"))).toBe(true);
   });

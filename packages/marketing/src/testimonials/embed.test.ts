@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { getEmbedUrl } from "#src/testimonials/embed.js";
 
 describe("getEmbedUrl", () => {
@@ -9,7 +9,9 @@ describe("getEmbedUrl", () => {
   });
 
   it("keeps a youtube embed link as it is", () => {
-    expect(getEmbedUrl("https://youtube.com/embed/abc123")).toBe("https://youtube.com/embed/abc123");
+    expect(getEmbedUrl("https://youtube.com/embed/abc123")).toBe(
+      "https://youtube.com/embed/abc123",
+    );
   });
 
   it("turns a youtu.be short link into its embed url", () => {
@@ -17,7 +19,9 @@ describe("getEmbedUrl", () => {
   });
 
   it("turns a vimeo link into the player url", () => {
-    expect(getEmbedUrl("https://vimeo.com/76979871")).toBe("https://player.vimeo.com/video/76979871");
+    expect(getEmbedUrl("https://vimeo.com/76979871")).toBe(
+      "https://player.vimeo.com/video/76979871",
+    );
   });
 
   it("turns a loom share link into its embed url", () => {

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { buildErrorRequest, parseDsn, parseStack } from "#src/errors/sentry/protocol.js";
 
 const DSN = "https://abc123@o42.ingest.de.sentry.io/4507";
@@ -77,7 +77,9 @@ describe("buildErrorRequest", () => {
     const a = new Error("a");
     const b = new Error("b", { cause: a });
     a.cause = b;
-    const event = JSON.parse((buildErrorRequest({ dsn: DSN, error: a })?.body ?? "").split("\n")[2]);
+    const event = JSON.parse(
+      (buildErrorRequest({ dsn: DSN, error: a })?.body ?? "").split("\n")[2],
+    );
     expect(event.exception.values).toHaveLength(2);
   });
 });

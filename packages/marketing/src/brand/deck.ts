@@ -120,7 +120,7 @@ export const DECK_SIZES = {
  * The old ramp the sales and support layouts still set in. A rebuilt
  * layout moves to DECK_SIZES, and this goes with the last of them.
  */
-const LEGACY_TYPE = {
+const SALES_TYPE = {
   coverTitle: { size: 66, weight: 800, tracking: "-0.03em", leading: 1.02 },
   coverSub: { size: 20, weight: 600, tracking: "-0.02em", leading: 1.2 },
   statement: { size: 42, weight: 800, tracking: "-0.03em", leading: 1.05 },
@@ -135,8 +135,8 @@ const LEGACY_TYPE = {
   label: { size: 10, weight: 400, tracking: "0.08em", leading: 1.4 },
 } as const;
 
-/** Every token a layout may name: the four of the new design, then the legacy ones. */
-export const DECK_TYPE = { ...DECK_SIZES, ...LEGACY_TYPE } as const;
+/** Every token a layout may name: the four of the new design, then the sales and support ones. */
+export const DECK_TYPE = { ...DECK_SIZES, ...SALES_TYPE } as const;
 
 export type DeckTypeToken = keyof typeof DECK_TYPE;
 export type DeckSizeToken = keyof typeof DECK_SIZES;
@@ -150,7 +150,7 @@ export const DECK_FONTS = {
 /**
  * Inline style string for a type token, for `style={...}` on an element. The
  * four DECK_SIZES tokens are always Manrope, whatever `family` says.
- * `family` exists for the legacy layouts.
+ * `family` exists for the sales and support layouts.
  */
 export function deckType(token: DeckTypeToken, family: keyof typeof DECK_FONTS = "heading") {
   const t = DECK_TYPE[token];
@@ -165,7 +165,7 @@ export function deckType(token: DeckTypeToken, family: keyof typeof DECK_FONTS =
 }
 
 // =============================================================================
-// LEGACY: sales, support and the standalone sheets
+// SALES AND SUPPORT: layouts and the standalone sheets
 // =============================================================================
 
 /**
@@ -208,7 +208,7 @@ export const DECK_LOCKUP = {
 } as const;
 
 /**
- * Slide margins of the legacy layouts. Rebuilt layouts use
+ * Slide margins of the sales and support layouts. Rebuilt layouts use
  * DECK_GEOMETRY and DeckFrame.
  */
 export const DECK_SPACE = {
