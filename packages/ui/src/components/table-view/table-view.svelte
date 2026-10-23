@@ -43,6 +43,8 @@
 		sort?: SortState<Row>;
 		/** Where a row goes. Draws a real link over the row, so middle-click and cmd-click work. */
 		rowHref?: (row: Row) => string | undefined;
+		/** Runs on a plain left click of the row link. Call `event.preventDefault()` to open in place; a modified click still follows `href`. */
+		onRowLink?: (row: Row, event: MouseEvent) => void;
 		/** The link's accessible name. Defaults to the row's first column text. */
 		rowLabel?: (row: Row) => string;
 		/** Adds a checkbox column with a select-all in the head. */
@@ -53,8 +55,8 @@
 		selectRowLabel?: (row: Row) => string;
 		/** The items of a right-click menu for one row: `ContextMenu.Item`s. */
 		rowMenu?: Snippet<[Row]>;
-		/** Rows that return the same key sit under one header row. Order `rows` so a group is contiguous. */
-		group?: (row: Row) => string;
+		/** Rows that return the same key sit under one header row, and `null` rows sit with no header. Order `rows` so a group is contiguous. */
+		group?: (row: Row) => string | null;
 		/** Draws a group's header. Prints the key when left out. */
 		groupHeader?: Snippet<[TableGroup<Row>]>;
 		/** Makes each group header a button that folds its rows. */
@@ -94,6 +96,7 @@
 		class: className,
 		sort = $bindable(null),
 		rowHref,
+		onRowLink,
 		rowLabel,
 		selectable = false,
 		selected = $bindable(new Set<string>()),
@@ -127,15 +130,16 @@
 			align: column.numeric ? ("right" as const) : ("left" as const),
 		})),
 	]);
-	let entries = $derived.by<{ group: TableGroup<Row> }[]>(() => {
+	type Run = { id: string; key: string | null; rows: Row[] };
+	let entries = $derived.by<Run[]>(() => {
 		if (!group) return [];
-		const out: { group: TableGroup<Row> }[] = [];
-		let current: TableGroup<Row> | undefined;
+		const out: Run[] = [];
+		let current: Run | undefined;
 		for (const row of rows) {
 			const groupKey = group(row);
 			if (!current || current.key !== groupKey) {
-				current = { key: groupKey, rows: [] };
-				out.push({ group: current });
+				current = { id: groupKey ?? `\u0000${out.length}`, key: groupKey, rows: [] };
+				out.push(current);
 			}
 			current.rows.push(row);
 		}
@@ -202,6 +206,12 @@
 		if (event.key !== "Enter" && event.key !== " ") return;
 		event.preventDefault();
 		onRowClick?.(row);
+	}
+
+	function linkClick(event: MouseEvent, row: Row) {
+		if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+			return;
+		onRowLink?.(row, event);
 	}
 
 	function linkName(row: Row): string {
@@ -288,6 +298,7 @@
 				<a
 					{href}
 					aria-label={linkName(row)}
+					onclick={onRowLink ? (event: MouseEvent) => linkClick(event, row) : undefined}
 					class="absolute inset-0 z-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
 				></a>
 			</td>
@@ -370,40 +381,45 @@
 			<TableSkeleton rows={skeletonRows} columns={skeletonColumns} />
 		{:else}
 			{#if group}
-				{#each entries as entry (entry.group.key)}
-					{@const folded = collapsible && collapsed.has(entry.group.key)}
+				{#each entries as entry (entry.id)}
+					{@const folded = entry.key !== null && collapsible && collapsed.has(entry.key)}
+					{@const tableGroup = { key: entry.key ?? "", rows: entry.rows }}
 					<Table.Body>
-						<Table.Row class="bg-muted/40 hover:bg-muted/40 hover:translate-y-0 hover:shadow-none">
-							<Table.Head
-								colspan={span + (rowHref ? 1 : 0)}
-								scope="colgroup"
-								class="text-foreground h-10 p-0"
+						{#if entry.key !== null}
+							<Table.Row
+								class="bg-muted/40 hover:bg-muted/40 hover:translate-y-0 hover:shadow-none"
 							>
-								{#if collapsible}
-									<button
-										type="button"
-										aria-expanded={!folded}
-										class="t-press focus-visible:ring-ring flex h-10 w-full items-center gap-2 px-2 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset"
-										onclick={() => toggleGroup(entry.group.key)}
-									>
-										<CaretDown
-											class={cn(
-												"size-3.5 shrink-0 transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] motion-reduce:transition-none",
-												folded && "-rotate-90",
-											)}
-											aria-hidden="true"
-										/>
-										{#if groupHeader}{@render groupHeader(entry.group)}{:else}{entry.group.key}{/if}
-									</button>
-								{:else}
-									<span class="flex h-10 items-center px-2">
-										{#if groupHeader}{@render groupHeader(entry.group)}{:else}{entry.group.key}{/if}
-									</span>
-								{/if}
-							</Table.Head>
-						</Table.Row>
+								<Table.Head
+									colspan={span + (rowHref ? 1 : 0)}
+									scope="colgroup"
+									class="text-foreground h-10 p-0"
+								>
+									{#if collapsible}
+										<button
+											type="button"
+											aria-expanded={!folded}
+											class="t-press focus-visible:ring-ring flex h-10 w-full items-center gap-2 px-2 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset"
+											onclick={() => toggleGroup(tableGroup.key)}
+										>
+											<CaretDown
+												class={cn(
+													"size-3.5 shrink-0 transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] motion-reduce:transition-none",
+													folded && "-rotate-90",
+												)}
+												aria-hidden="true"
+											/>
+											{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
+										</button>
+									{:else}
+										<span class="flex h-10 items-center px-2">
+											{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
+										</span>
+									{/if}
+								</Table.Head>
+							</Table.Row>
+						{/if}
 						{#if !folded}
-							{#each entry.group.rows as row (rowKey(row))}
+							{#each entry.rows as row (rowKey(row))}
 								{@render rowOrMenu(row)}
 							{/each}
 						{/if}
