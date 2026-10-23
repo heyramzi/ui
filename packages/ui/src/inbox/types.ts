@@ -124,8 +124,6 @@ export type InboxLabels = {
   from: string;
   open: string;
   agent: string;
-  showMore: string;
-  showLess: string;
   statusMoved: string;
   statusSet: string;
   assigned: string;
@@ -173,8 +171,6 @@ export const DEFAULT_INBOX_LABELS: InboxLabels = {
   from: "From",
   open: "Open",
   agent: "AI",
-  showMore: "Show more",
-  showLess: "Show less",
   statusMoved: "moved this from {from} to {to}",
   statusSet: "set this to {to}",
   assigned: "assigned this to {assignee}",

@@ -30,17 +30,20 @@
 	import { Kbd, KbdGroup } from "#src/shadcn/kbd/index.js";
 	import { cn } from "#src/lib/utils.js";
 	import { TONE_CLASS } from "#src/lib/tone.js";
-	import ActorFace from "#src/inbox/actor-face.svelte";
-	import EntryBody from "#src/inbox/entry-body.svelte";
+	import {
+		Thread,
+		type ThreadComment,
+		type ThreadEvent,
+		type ThreadLabels,
+	} from "#src/thread/index.js";
 	import InboxCard from "#src/work/inbox/inbox-card.svelte";
 	import { whenOf } from "#src/work/inbox/inbox-logic.js";
 	import type { InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
 	import {
 		NO_FILTER,
 		actorNames,
-		entryLine,
 		sentenceOf,
-		timelineOf,
+		isEvent,
 		filterThreads,
 		inboxKeyOf,
 		resolveInboxLabels,
@@ -76,6 +79,8 @@
 		renderProposal?: Snippet<[InboxItem]>;
 		/** Content under an entry's text, such as links to what it mentions. */
 		attachments?: Snippet<[InboxEntry]>;
+		/** The words of the thread under the pinned card, such as its "Activity" heading. */
+		threadLabels?: Partial<ThreadLabels>;
 		/** How a timestamp reads. Defaults to a relative time. */
 		when?: (at: string) => string;
 		onSelect?: (thread: InboxThread) => void;
@@ -113,6 +118,7 @@
 		status,
 		renderProposal,
 		attachments,
+		threadLabels,
 		when = (at) => whenOf(at),
 		onSelect,
 		onRead,
@@ -156,6 +162,27 @@
 		all.filter((thread) => thread.unread === 0 && thread.pending.length === 0),
 	);
 	let pinned = $derived(current?.pending[0]);
+	let rest = $derived(current?.entries.filter((entry) => !current.pending.includes(entry)) ?? []);
+	let byId = $derived(new Map(rest.map((entry) => [entry.id, entry])));
+	let comments = $derived(
+		rest
+			.filter((entry) => !isEvent(entry))
+			.map((entry): ThreadComment => ({
+				id: entry.id,
+				author: entry.actor,
+				body: entry.body ?? "",
+				createdAt: entry.at,
+			})),
+	);
+	let events = $derived(
+		rest.filter(isEvent).map((entry): ThreadEvent => ({
+			id: entry.id,
+			title: sentenceOf(entry, labels),
+			at: entry.at,
+			icon: entry.kind === "status" ? ArrowRight : entry.kind === "assigned" ? UserPlus : Sparkle,
+		})),
+	);
+
 	function open(thread: InboxThread): void {
 		selected = thread.key;
 		snoozing = false;
@@ -254,6 +281,15 @@
 		return thread.entries[thread.entries.length - 1];
 	}
 </script>
+
+{#snippet threadAvatar(comment: ThreadComment)}
+	{@render avatar?.(comment.author)}
+{/snippet}
+
+{#snippet threadAttachments(comment: ThreadComment)}
+	{@const entry = byId.get(comment.id)}
+	{#if entry}{@render attachments?.(entry)}{/if}
+{/snippet}
 
 {#snippet subjectStatus()}
 	{#if current}{@render status?.(current.subject)}{/if}
@@ -485,75 +521,20 @@
 					/>
 				{/each}
 
-				{#if timeline.length > 0}
+				{#if comments.length + events.length > 0}
 					<DetailPanel>
-						<ol class="flex flex-col gap-4">
-							{#each timeline as block (block.key)}
-								{#if block.type === "message"}
-									{@const entry = block.entry}
-									<li class="flex gap-3">
-										<ActorFace actor={entry.actor} {avatar} />
-										<div class="min-w-0 flex-1">
-											<div class="flex min-h-6 flex-wrap items-center gap-x-2 text-[13px]">
-												<span class="truncate font-medium">{entry.actor.name}</span>
-												{#if entry.actor.kind === "agent"}<span class="sr-only">{labels.agent}</span
-													>{/if}
-												{#if entry.kind === "mention"}
-													<span class="text-muted-foreground">{entryLine(entry, labels)}</span>
-												{/if}
-												<time
-													class="text-xs text-muted-foreground tabular-nums"
-													datetime={entry.at}
-													title={full(entry.at)}>{when(entry.at)}</time
-												>
-												{#if !entry.read}
-													<Circle
-														weight="fill"
-														class="size-1.5 text-primary"
-														aria-label={labels.unread}
-													/>
-												{/if}
-											</div>
-											{#if entry.body}
-												<EntryBody
-													text={entry.body}
-													more={labels.showMore}
-													less={labels.showLess}
-												/>
-											{/if}
-											{@render attachments?.(entry)}
-										</div>
-									</li>
-								{:else}
-									<li class="flex flex-col gap-1">
-										{#each block.entries as entry, i (entry.id)}
-											<div class="flex items-start gap-2 text-xs text-muted-foreground">
-												<span class="grid size-6 shrink-0 place-items-center" aria-hidden="true">
-													{#if entry.kind === "status"}
-														<ArrowRight size={14} />
-													{:else if entry.kind === "assigned"}
-														<UserPlus size={14} />
-													{:else}
-														<Sparkle size={14} />
-													{/if}
-												</span>
-												<!-- Wraps, not truncates: a status name can be a sentence, and a touch screen has no hover title. -->
-												<p class="min-w-0 flex-1 py-1 text-pretty [overflow-wrap:anywhere]">
-													{i === 0 || !entry.actor.name
-														? sentenceOf(entry, labels)
-														: entryLine(entry, labels)}
-												</p>
-												<time
-													class="shrink-0 py-1 tabular-nums"
-													datetime={entry.at}
-													title={full(entry.at)}>{when(entry.at)}</time
-												>
-											</div>
-										{/each}
-									</li>
-								{/if}
-							{/each}
-						</ol>
+						<Thread
+							{comments}
+							{events}
+							labels={{
+								agent: labels.agent,
+								...threadLabels,
+							}}
+							avatar={avatar ? threadAvatar : undefined}
+							attachments={attachments ? threadAttachments : undefined}
+							when={(comment) => when(comment.createdAt)}
+							whenEvent={(event) => when(event.at)}
+						/>
 					</DetailPanel>
 				{/if}
 			{:else}

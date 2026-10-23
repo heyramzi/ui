@@ -6,11 +6,21 @@
 	import { AgentAvatar } from "#src/agents/index.js";
 	import RichRenderer from "#src/editor/renderer.svelte";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
-	import { buildThread, fillCount, resolveThreadLabels, resolvedCount } from "#src/thread/logic.js";
-	import type { ThreadComment, ThreadLabels, ThreadPost } from "#src/thread/types.js";
+	import ThreadBody from "#src/thread/thread-body.svelte";
+	import ThreadEvents from "#src/thread/thread-events.svelte";
+	import {
+		buildThread,
+		fillCount,
+		interleave,
+		resolveThreadLabels,
+		resolvedCount,
+	} from "#src/thread/logic.js";
+	import type { ThreadComment, ThreadEvent, ThreadLabels, ThreadPost } from "#src/thread/types.js";
 
 	interface Props {
 		comments: ThreadComment[];
+		/** Status moves, assignments and the like, one quiet line each between the comments. */
+		events?: ThreadEvent[];
 		/** Rows still on their way. Draws skeleton rows in place of the thread. */
 		loading?: boolean;
 		labels?: Partial<ThreadLabels>;
@@ -22,6 +32,8 @@
 		anchorChip?: Snippet<[ThreadComment]>;
 		/** How a timestamp reads. Defaults to a short date. */
 		when?: (comment: ThreadComment) => string;
+		/** How an event's time reads. Defaults to a short date. */
+		whenEvent?: (event: ThreadEvent) => string;
 		/** Returns false to keep the draft. Without it no composer shows. */
 		onPost?: (post: ThreadPost) => void | boolean | Promise<void | boolean>;
 		onEdit?: (comment: ThreadComment, body: string) => void | Promise<void>;
@@ -37,13 +49,14 @@
 
 	let {
 		comments,
+		events = [],
 		loading = false,
 		labels: labelOverrides,
 		avatar,
 		attachments,
 		anchorChip,
-		when = (comment) =>
-			new Date(comment.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+		when = (comment) => shortDate(comment.createdAt),
+		whenEvent = (event) => shortDate(event.at),
 		onPost,
 		onEdit,
 		onDelete,
@@ -58,6 +71,11 @@
 	let resolved = $derived(resolvedCount(nodes));
 	let showResolved = $state(false);
 	let shown = $derived(showResolved ? nodes : nodes.filter((node) => !node.comment.resolved));
+	let items = $derived(interleave(shown, events));
+
+	function shortDate(at: string): string {
+		return new Date(at).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+	}
 
 	let draft = $state("");
 	let replyTo = $state<string | null>(null);
@@ -243,7 +261,7 @@
 			{:else if comment.content}
 				<div class="text-sm leading-relaxed"><RichRenderer content={comment.content} /></div>
 			{:else}
-				<p class="text-sm leading-relaxed whitespace-pre-wrap text-pretty">{comment.body}</p>
+				<ThreadBody text={comment.body} more={labels.showMore} less={labels.showLess} />
 			{/if}
 
 			{@render attachments?.(comment)}
@@ -278,49 +296,54 @@
 				</li>
 			{/each}
 		</ol>
-	{:else if shown.length > 0}
+	{:else if items.length > 0}
 		<ol class="flex flex-col gap-4">
-			{#each shown as node (node.comment.id)}
-				<li
-					class={cn("flex flex-col gap-3", node.comment.resolved && "opacity-60")}
-					data-resolved={node.comment.resolved || undefined}
-				>
-					{@render row(node.comment, true)}
-					{#if node.comment.resolved}
-						<span class="ms-9 text-xs text-muted-foreground">{labels.resolved}</span>
-					{/if}
-					{#if node.replies.length > 0}
-						<ol class="ms-3 flex flex-col gap-3 border-s border-border ps-6">
-							{#each node.replies as reply (reply.id)}
-								<li>{@render row(reply, false)}</li>
-							{/each}
-						</ol>
-					{/if}
-					{#if onPost && !node.comment.resolved}
-						{#if replyTo === node.comment.id}
-							<div class="ms-9">
-								{@render composer(
-									replyDraft,
-									labels.replyPlaceholder,
-									sendReply,
-									(next) => (replyDraft = next),
-									true,
-								)}
-							</div>
-						{:else}
-							<button
-								type="button"
-								class="thread-button ms-9 flex w-fit items-center gap-1.5"
-								onclick={() => {
-									replyTo = node.comment.id;
-									replyDraft = "";
-								}}
-							>
-								<ArrowBendDownRight class="size-3.5" aria-hidden="true" />{labels.reply}
-							</button>
+			{#each items as item (item.key)}
+				{#if item.type === "events"}
+					<li><ThreadEvents events={item.events} when={whenEvent} /></li>
+				{:else}
+					{@const node = item.node}
+					<li
+						class={cn("flex flex-col gap-3", node.comment.resolved && "opacity-60")}
+						data-resolved={node.comment.resolved || undefined}
+					>
+						{@render row(node.comment, true)}
+						{#if node.comment.resolved}
+							<span class="ms-9 text-xs text-muted-foreground">{labels.resolved}</span>
 						{/if}
-					{/if}
-				</li>
+						{#if node.replies.length > 0}
+							<ol class="ms-3 flex flex-col gap-3 border-s border-border ps-6">
+								{#each node.replies as reply (reply.id)}
+									<li>{@render row(reply, false)}</li>
+								{/each}
+							</ol>
+						{/if}
+						{#if onPost && !node.comment.resolved}
+							{#if replyTo === node.comment.id}
+								<div class="ms-9">
+									{@render composer(
+										replyDraft,
+										labels.replyPlaceholder,
+										sendReply,
+										(next) => (replyDraft = next),
+										true,
+									)}
+								</div>
+							{:else}
+								<button
+									type="button"
+									class="thread-button ms-9 flex w-fit items-center gap-1.5"
+									onclick={() => {
+										replyTo = node.comment.id;
+										replyDraft = "";
+									}}
+								>
+									<ArrowBendDownRight class="size-3.5" aria-hidden="true" />{labels.reply}
+								</button>
+							{/if}
+						{/if}
+					</li>
+				{/if}
 			{/each}
 		</ol>
 	{:else if !onPost}

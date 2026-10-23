@@ -1,9 +1,20 @@
-import type { ThreadComment, ThreadLabels, ThreadNode } from "#src/thread/types.js";
+import type {
+  ThreadComment,
+  ThreadEvent,
+  ThreadItem,
+  ThreadLabels,
+  ThreadNode,
+} from "#src/thread/types.js";
 import { DEFAULT_THREAD_LABELS } from "#src/thread/types.js";
 
-function time(comment: ThreadComment): number {
-  const ms = Date.parse(comment.createdAt);
+/** A timestamp as a number, a malformed one last. */
+function at(iso: string): number {
+  const ms = Date.parse(iso);
   return Number.isNaN(ms) ? Number.POSITIVE_INFINITY : ms;
+}
+
+function time(comment: ThreadComment): number {
+  return at(comment.createdAt);
 }
 
 /** Oldest first, a malformed timestamp last, ties in the order they came. */
@@ -58,4 +69,23 @@ export function resolveThreadLabels(overrides?: Partial<ThreadLabels>): ThreadLa
 /** Fills `{count}` in a label, so a French host writes its own sentence. */
 export function fillCount(label: string, count: number): string {
   return label.replaceAll("{count}", String(count));
+}
+
+/** Conversations and events in time order, each run of events between two conversations as one item. */
+export function interleave(nodes: ThreadNode[], events: ThreadEvent[]): ThreadItem[] {
+  const timed = [
+    ...nodes.map((node, index) => ({ at: at(node.comment.createdAt), index, node })),
+    ...events.map((event, index) => ({ at: at(event.at), index: nodes.length + index, event })),
+  ].toSorted((a, b) => a.at - b.at || a.index - b.index);
+  const items: ThreadItem[] = [];
+  for (const row of timed) {
+    if ("node" in row) {
+      items.push({ type: "node", key: row.node.comment.id, node: row.node });
+      continue;
+    }
+    const last = items.at(-1);
+    if (last?.type === "events") last.events.push(row.event);
+    else items.push({ type: "events", key: row.event.id, events: [row.event] });
+  }
+  return items;
 }

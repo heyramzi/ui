@@ -24,6 +24,8 @@ One comment thread for any subject: a task, a project, a doc or a diagram. The t
 - **Resolve.** Pass `onResolve` and each root gets a check. Resolved roots fold away behind a "Show N resolved" button.
 - **Anchor.** `anchor` carries `{ nodeId, dx, dy, x, y }` for a canvas pin. A pinned comment shows a chip, and `onAnchor` fires on a click so the canvas can move to the node. `anchorChip` replaces the chip.
 - **Attachments.** The `attachments` snippet draws under a comment's body.
+- **Events.** `events` takes `ThreadEvent`s (a whole sentence, a time, an optional Phosphor icon) and draws each as one `Trace` line between the conversations, in time order. `whenEvent(event)` formats its time. `interleave(nodes, events)` gives the same order without the component.
+- **Long bodies.** A body over 6 lines folds behind `showMore` and `showLess`.
 - **Labels.** Every string comes from `labels`, a partial of `ThreadLabels`. `showResolved` holds a `{count}` slot. `when(comment)` formats the time.
 
 ```ts

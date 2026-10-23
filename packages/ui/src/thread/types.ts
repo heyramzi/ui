@@ -1,3 +1,5 @@
+import type { PhosphorIcon } from "#src/lib/icon-types.js";
+
 export type ThreadAuthorKind = "user" | "agent";
 
 export type ThreadAuthor = {
@@ -47,6 +49,21 @@ export type ThreadNode = {
   replies: ThreadComment[];
 };
 
+/** Something that happened to the subject, drawn as one quiet line between comments. */
+export type ThreadEvent = {
+  id: string;
+  /** The whole sentence, actor first: "Project Manager moved this from Open to In progress". */
+  title: string;
+  /** ISO timestamp. */
+  at: string;
+  icon?: PhosphorIcon;
+};
+
+/** The thread in time order: a conversation, or a run of events between two of them. */
+export type ThreadItem =
+  | { type: "node"; key: string; node: ThreadNode }
+  | { type: "events"; key: string; events: ThreadEvent[] };
+
 export type ThreadLabels = {
   title: string;
   empty: string;
@@ -68,6 +85,8 @@ export type ThreadLabels = {
   hideResolved: string;
   agent: string;
   pinned: string;
+  showMore: string;
+  showLess: string;
 };
 
 export const DEFAULT_THREAD_LABELS: ThreadLabels = {
@@ -90,4 +109,6 @@ export const DEFAULT_THREAD_LABELS: ThreadLabels = {
   hideResolved: "Hide resolved",
   agent: "AI",
   pinned: "Pinned",
+  showMore: "Show more",
+  showLess: "Show less",
 };

@@ -3,7 +3,6 @@ import {
   ALL,
   DEFAULT_INBOX_LABELS,
   type InboxEntry,
-  type InboxActor,
   type InboxEntryKind,
   type InboxFilter,
   type InboxKey,
@@ -191,33 +190,4 @@ const EVENT_KINDS: ReadonlySet<InboxEntryKind> = new Set(["status", "assigned", 
 
 export function isEvent(entry: InboxEntry): boolean {
   return EVENT_KINDS.has(entry.kind);
-}
-
-export type TimelineBlock =
-  | { type: "events"; key: string; actor: InboxActor; entries: InboxEntry[] }
-  | { type: "message"; key: string; entry: InboxEntry };
-
-/**
- * The thread as blocks: each written message alone, and a run of events by one actor as one
- * quiet group.
- */
-export function timelineOf(entries: InboxEntry[]): TimelineBlock[] {
-  const blocks: TimelineBlock[] = [];
-  for (const entry of entries) {
-    if (!isEvent(entry)) {
-      blocks.push({ type: "message", key: entry.id, entry });
-      continue;
-    }
-    const last = blocks.at(-1);
-    if (
-      last?.type === "events" &&
-      last.actor.name === entry.actor.name &&
-      last.actor.kind === entry.actor.kind
-    ) {
-      last.entries.push(entry);
-    } else {
-      blocks.push({ type: "events", key: entry.id, actor: entry.actor, entries: [entry] });
-    }
-  }
-  return blocks;
 }
