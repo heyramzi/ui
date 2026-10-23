@@ -392,6 +392,28 @@ function youtubeToMd(node: TiptapNode): string {
 
 const dropped: MdWriter = () => "";
 
+function taskBullet(item: TiptapNode): string {
+  return item.attrs?.checked === true ? "- [x]" : "- [ ]";
+}
+
+// GFM pipe table. The first row is the header; a cell holds its paragraphs on one line.
+function tableToMd(node: TiptapNode): string {
+  const rows = (node.content ?? []).map((row) =>
+    (row.content ?? []).map((cell) =>
+      (cell.content ?? [])
+        .map((block) => inlineToMd(block.content ?? []))
+        .join(" ")
+        .replace(/\|/g, "\\|"),
+    ),
+  );
+  if (rows.length === 0) return "";
+  const width = Math.max(...rows.map((row) => row.length));
+  const line = (cells: string[]) =>
+    `| ${Array.from({ length: width }, (_, i) => cells[i] ?? "").join(" | ")} |`;
+  const rule = `| ${Array.from({ length: width }, () => "---").join(" | ")} |`;
+  return [line(rows[0]), rule, ...rows.slice(1).map(line)].join("\n");
+}
+
 const MD_WRITERS: Record<string, MdWriter> = {
   paragraph: (node) => inlineToMd(node.content ?? []),
   heading: headingToMd,
@@ -405,10 +427,13 @@ const MD_WRITERS: Record<string, MdWriter> = {
   horizontalRule: () => "---",
   hardBreak: () => "  \n",
   youtube: youtubeToMd,
-  // WHY: images, cmsBlock and tables are out of scope for the notes bridge.
+  taskList: (node, listDepth) =>
+    (node.content ?? []).map((item) => listItemToMd(item, taskBullet(item), listDepth)).join("\n"),
+  taskItem: (node, listDepth) => listItemContentsToMd(node, listDepth),
+  table: tableToMd,
+  // WHY: images and cmsBlock are out of scope for the notes bridge.
   image: dropped,
   cmsBlock: dropped,
-  table: dropped,
   tableRow: dropped,
   tableCell: dropped,
   tableHeader: dropped,

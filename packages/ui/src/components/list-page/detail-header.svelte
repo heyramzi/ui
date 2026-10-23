@@ -77,14 +77,18 @@
 			     flex sibling it wrapped to its own row on every two-line title. -->
 			<!-- No text-balance: it evens the lines out, so a two-line title stopped
 			     short of the corner instead of running the full width. -->
-			<h2 class="min-w-0 font-heading text-lg font-semibold leading-snug tracking-tight">
+			<h2
+				class="min-w-0 font-heading text-lg [overflow-wrap:anywhere] font-semibold leading-snug tracking-tight"
+			>
 				{title}{#if badge}<span class="ms-2 inline-flex align-middle">{@render badge()}</span>{/if}
 			</h2>
 			{#if facts.length > 0}
 				<!-- Each dot hangs off the fact it leads, so a wrapped line's dot stays
 				     in the gutter. A standalone flex-item dot dangled on the line above. -->
 				<div class="mt-1 overflow-hidden">
-					<p class="-ms-3 flex flex-wrap items-center text-sm text-muted-foreground">
+					<p
+						class="-ms-3 flex flex-wrap items-center text-sm text-muted-foreground [overflow-wrap:anywhere]"
+					>
 						{#each facts as fact, i (i)}
 							<span
 								class="relative ps-3 before:absolute before:start-1 before:opacity-40 before:content-['·']"
@@ -95,7 +99,7 @@
 				</div>
 			{/if}
 			{#if note}
-				<p class="mt-1 text-sm text-muted-foreground">{note}</p>
+				<p class="mt-1 text-sm text-muted-foreground [overflow-wrap:anywhere]">{note}</p>
 			{/if}
 			<!-- With a picture or a corner, actions sit in this column. Pinned right
 			     they wrapped under the picture and read like its caption. -->

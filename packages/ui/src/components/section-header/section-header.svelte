@@ -34,18 +34,18 @@
 <header class="flex items-end justify-between gap-3">
 	<div class="min-w-0 space-y-1">
 		<svelte:element this={`h${level}`} class="flex items-center gap-2">
-			<SectionLabel>{title}</SectionLabel>
+			<SectionLabel class="min-w-0 [overflow-wrap:anywhere]">{title}</SectionLabel>
 			{#if count !== undefined}
 				<span
-					class="rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none font-medium tabular-nums text-muted-foreground"
-					aria-label={`${count} ${countLabel}`}
+					class="shrink-0 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none font-medium tabular-nums text-muted-foreground"
+					aria-label={`${count.toLocaleString()} ${countLabel}`}
 				>
-					{count}
+					{count.toLocaleString()}
 				</span>
 			{/if}
 		</svelte:element>
 		{#if description}
-			<p class="text-sm text-muted-foreground">{description}</p>
+			<p class="text-sm text-muted-foreground [overflow-wrap:anywhere]">{description}</p>
 		{/if}
 	</div>
 	{#if actions}

@@ -15,6 +15,13 @@
 		/** The fill's colour on the severity scale. Left out, the primary colour. */
 		tone?: Tone;
 	} = $props();
+
+	// WHY clamped: a value past max drew a positive translateX and the fill left its track.
+	let pct = $derived.by(() => {
+		const top = max && max > 0 ? max : 1;
+		const raw = (100 * (value ?? 0)) / top;
+		return Number.isFinite(raw) ? Math.min(100, Math.max(0, raw)) : 0;
+	});
 </script>
 
 <ProgressPrimitive.Root
@@ -31,6 +38,6 @@
 	<div
 		data-slot="progress-indicator"
 		class="{progressToneClass(tone)} size-full flex-1 transition-transform duration-[var(--duration-slow)] ease-[var(--ease-smooth-out)] motion-reduce:transition-none"
-		style="transform: translateX(-{100 - (100 * (value ?? 0)) / (max ?? 1)}%)"
+		style="transform: translateX(-{100 - pct}%)"
 	></div>
 </ProgressPrimitive.Root>

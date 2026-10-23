@@ -102,9 +102,9 @@ const HALF_DEPTH = 15;
 const CAP = 0.9;
 const profile = (z: number, cap: number) => cap + (1 - cap) * Math.sqrt(Math.max(0, 1 - z * z));
 
-/* Big, plain dark eyes: they carry the face at 24px. */
+/* Big, plain eyes, a little taller than wide: a round dot reads as a button at 24px. */
 const EYE_GAP = 25;
-const EYE_RX = 6.3;
+const EYE_RX = 5.6;
 const EYE_Y = { eyes: 1, mouth: -3.5 } as const;
 
 interface Palette {
@@ -781,9 +781,9 @@ function drawFace(ctx: CanvasRenderingContext2D, pose: Pose, cfg: DrawConfig): [
       kSleep = ws;
     const x0 = kOpen * 0.01 + kShut * 5.4 + kLaugh * 6.2 + kSleep * 6;
     const y0 =
-      kOpen * 1.1 * tall + kShut * 0.6 + kLaugh * (2.2 - lift * 1.5) + kSleep * (-1.4 + sag);
+      kOpen * 2 * tall + kShut * 0.6 + kLaugh * (2.2 - lift * 1.5) + kSleep * (-1.4 + sag);
     const cy =
-      kOpen * -3.3 * tall + kShut * 0.6 + kLaugh * (-11.4 - 4 * lift) + kSleep * (5.4 + 2 * sag);
+      kOpen * -6 * tall + kShut * 0.6 + kLaugh * (-11.4 - 4 * lift) + kSleep * (5.4 + 2 * sag);
     const w = kOpen * EYE_RX * 2 * wide + kShut * 2.8 + kLaugh * 4.4 + kSleep * 4;
     /* the eyes drift toward the look when open, less so when shut */
     const dx = lx * (kOpen + 0.5 * (kShut + kLaugh)),

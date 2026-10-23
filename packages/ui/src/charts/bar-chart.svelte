@@ -75,7 +75,11 @@
 	// =========================
 	let active = $state<TData | null>(null);
 
-	// ========================= FUNCTIONS ========================= WHY: called from the tooltip header's value expression so it re-runs on every active-band change; an unread {@const} side effect only evaluates once.
+	// =========================
+	// FUNCTIONS
+	// =========================
+
+	// WHY: the tooltip header calls this so it re-runs per active band; an unread {@const} runs once.
 
 	// The microtask defers the state write out of template evaluation.
 	function trackActive(d: TData): string {
@@ -128,6 +132,17 @@
 		return [...groups].map(([c, rows]) => ({ key: c, color: c, rows, at: undefined }));
 	});
 	const activeColor = $derived(active && colorOf ? colorOf(active) : color);
+
+	// WHY: "1,000,000" overflows the 48px gutter and the gap between ticks, so a long label
+	// falls back to "1M"; the tooltip keeps the full value.
+	const compact = new Intl.NumberFormat(undefined, {
+		notation: "compact",
+		maximumFractionDigits: 1,
+	});
+	function valueTick(v: number): string {
+		const full = formatValue(v);
+		return full.length > 6 && Number.isFinite(v) ? compact.format(v) : full;
+	}
 </script>
 
 <!-- =========================== -->
@@ -172,12 +187,12 @@
 				<Svg>
 					{#if horizontal}
 						<Axis placement="left" format={(v) => (formatTick ?? formatX)(v)} />
-						<Axis placement="bottom" format={(v) => formatValue(Number(v))} ticks={4} />
+						<Axis placement="bottom" format={(v) => valueTick(Number(v))} ticks={4} />
 						<g class="hr-bar-grid">
 							<Axis placement="bottom" grid rule={false} ticks={4} format={() => ""} />
 						</g>
 					{:else}
-						<Axis placement="left" format={(v) => formatValue(Number(v))} ticks={4} />
+						<Axis placement="left" format={(v) => valueTick(Number(v))} ticks={4} />
 						<Axis placement="bottom" format={(v) => (formatTick ?? formatX)(v)} />
 						<g class="hr-bar-grid">
 							<Axis placement="left" grid rule={false} ticks={4} format={() => ""} />

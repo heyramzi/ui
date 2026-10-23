@@ -12,6 +12,8 @@ import {
   ImageSquare,
   Paragraph,
   VideoCamera,
+  ListChecks,
+  Table,
 } from "phosphor-svelte";
 
 export type SlashItem = {
@@ -62,6 +64,22 @@ export function buildSlashItems(editor: Editor, query: string, options: SlashOpt
       icon: ListNumbers,
       command: () => run().toggleOrderedList().run(),
     },
+    ...(full
+      ? [
+          {
+            label: "Checklist",
+            description: "Tasks with checkboxes",
+            icon: ListChecks,
+            command: () => run().toggleTaskList().run(),
+          },
+          {
+            label: "Table",
+            description: "Rows and columns",
+            icon: Table,
+            command: () => run().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+          },
+        ]
+      : []),
     {
       label: "Quote",
       description: "Blockquote",

@@ -17,16 +17,20 @@
 		label: string;
 		onselect: (id: string) => void;
 		/**
-		 * `rail` is the column beside the document. `bar` is the strip that takes
-		 * its place on a narrow pane: it names where you are and opens the list.
+		 * `rail` sits beside the document, `bar` replaces it on a narrow pane, and `ticks` marks
+		 * each heading in the gutter with a card of headings on hover or focus.
 		 */
-		variant?: "rail" | "bar";
+		variant?: "rail" | "bar" | "ticks";
 	}
 
 	// =========================
 	// PROPS
 	// =========================
 	let { items, active, label, onselect, variant = "rail" }: Props = $props();
+
+	let hovering = $state(false);
+	let focusing = $state(false);
+	let showCard = $derived(hovering || focusing);
 
 	// =========================
 	// STATE
@@ -101,7 +105,63 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-{#if variant === "rail"}
+{#if variant === "ticks"}
+	<nav
+		aria-label={label}
+		class="otp-ticks relative"
+		onpointerenter={() => (hovering = true)}
+		onpointerleave={() => (hovering = false)}
+		onfocusin={() => (focusing = true)}
+		onfocusout={(event) => {
+			if (!event.currentTarget.contains(event.relatedTarget as Node | null)) focusing = false;
+		}}
+	>
+		<ul class="flex flex-col py-2">
+			{#each items as item (item.id)}
+				{@const current = item.id === active}
+				<li>
+					<button
+						type="button"
+						aria-label={item.label}
+						aria-current={current ? "location" : undefined}
+						onclick={() => pick(item.id)}
+						class="otp-tick group/tick flex h-3.5 w-7 items-center pl-2 any-pointer-coarse:h-6"
+					>
+						<span
+							class="block h-0.5 rounded-full transition-[width,background-color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {current
+								? 'w-3 bg-foreground'
+								: 'w-2 bg-foreground/25 group-hover/tick:bg-foreground/60'}"
+						></span>
+					</button>
+				</li>
+			{/each}
+		</ul>
+		<!-- The card starts inside the nav's own box, so moving from a tick onto it never leaves
+		     the hover. Rows are for the pointer; the ticks are the keyboard path. -->
+		<div
+			inert={!showCard}
+			data-open={showCard}
+			class="otp-card thin-scrollbar absolute left-full top-1/2 z-30 max-h-[min(70svh,28rem)] w-max min-w-44 max-w-64 overflow-y-auto rounded-xl bg-popover p-1.5 shadow-raised ring-1 ring-foreground/10"
+		>
+			{#each items as item (item.id)}
+				{@const current = item.id === active}
+				<button
+					type="button"
+					tabindex="-1"
+					onclick={() => pick(item.id)}
+					class="block w-full truncate rounded-md py-1 pr-3 text-left text-[13px] leading-5 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:bg-foreground/6 {item.level ===
+					3
+						? 'pl-5'
+						: 'pl-2'} {current
+						? 'font-medium text-foreground'
+						: 'text-muted-foreground hover:text-foreground'}"
+				>
+					{item.label}
+				</button>
+			{/each}
+		</div>
+	</nav>
+{:else if variant === "rail"}
 	<nav aria-label={label} class="flex max-h-[calc(100svh-8rem)] flex-col gap-3">
 		<!-- Set like the map's own headings on the left, so the two rails read as one. -->
 		<p class="font-heading text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -221,9 +281,26 @@
 		);
 	}
 
+	/* Opacity and a short slide, no scale: the card is anchored to a line of ticks. */
+	.otp-card {
+		opacity: 0;
+		translate: -4px -50%;
+		pointer-events: none;
+		transition:
+			opacity var(--duration-fast) var(--ease-smooth-out),
+			translate var(--duration-fast) var(--ease-smooth-out);
+	}
+
+	.otp-card[data-open="true"] {
+		opacity: 1;
+		translate: 0 -50%;
+		pointer-events: auto;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.otp-marker.is-ready,
-		.otp-progress {
+		.otp-progress,
+		.otp-card {
 			transition: none;
 		}
 	}

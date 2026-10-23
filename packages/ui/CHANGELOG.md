@@ -4,6 +4,7 @@
 
 ### Breaking changes
 
+* feat(ui)!: `./tasks` is now `./work`, since the module holds docs as well as tasks, and no `./tasks` subpath resolves. Swap `@heyramzi/ui/tasks` for `@heyramzi/ui/work` (`/kanban`, `/list`, `/gantt`, `/time`, `/inbox`, `/detail`, `/presets/sales` keep their tails). The moved names leave it: `StatusBadge`, `StatusDot`, `StatusIcon`, `defineStatuses` and their types come from `@heyramzi/ui/status`, `SidePanel` and `PanelStat` from `@heyramzi/ui/panel`, the record shell from `@heyramzi/ui/record`. `tasks/status` → `import { StatusBadge } from "@heyramzi/ui/status"`, `tasks/status-dot` → `{ StatusDot }`, `tasks/statuses` → `{ defineStatuses }`, `tasks/side-panel` → `import { SidePanel } from "@heyramzi/ui/panel"`, `tasks/record-demo.svelte` → `record/demo.svelte`. The site page moved from `/tasks` to `/work`, and `/tasks` redirects
 * feat(ui)!: `./lib/*` resolves real files with types, and takes `.js` or no extension: `@heyramzi/ui/lib/layout.js`
 * feat(ui)!: remove `lib/utils.ts`; import `cn`, `WithElementRef`, `WithoutChildren`, `Result` and `tryCatch` from `@heyramzi/utils`, and drop `clsx` and `tailwind-merge` as direct dependencies
 * feat(ui)!: remove `Composer` and the `./ai` export `ComposerProps`; `PromptInput` takes its `error` and `accent`, and puts a leading control or a header inside `PromptInputBody`

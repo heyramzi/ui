@@ -114,6 +114,16 @@
 	const fadeMask = $derived(fade > 0 ? `url(#${uid}-fade)` : undefined);
 	const fallback = $derived(data.length > 0 ? data[data.length - 1] : null);
 	const display = $derived(active ?? fallback);
+
+	// A long tick label ("1,000,000") falls back to "1M" so the left gutter holds it.
+	const compact = new Intl.NumberFormat(undefined, {
+		notation: "compact",
+		maximumFractionDigits: 1,
+	});
+	function valueTick(v: number): string {
+		const full = formatValue(v);
+		return full.length > 6 && Number.isFinite(v) ? compact.format(v) : full;
+	}
 	const figureRows = $derived(
 		display
 			? series.map((s) => ({ value: Number(display[s.key]), label: s.label, color: s.color }))
@@ -158,7 +168,7 @@
 				motion={DOMAIN_MOTION}
 			>
 				<Svg>
-					<Axis placement="left" format={(v) => formatValue(Number(v))} ticks={4} />
+					<Axis placement="left" format={(v) => valueTick(Number(v))} ticks={4} />
 					<Axis placement="bottom" format={(v) => formatX(v)} ticks={xTicks} />
 					<g class="hr-area-grid">
 						<Axis placement="left" grid rule={false} ticks={4} format={() => ""} />

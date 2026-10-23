@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { cn } from "#src/lib/utils.js";
+	import { initial } from "#src/lib/initials.js";
 
 	// =========================
 	// TYPES
@@ -61,6 +62,6 @@
 			className,
 		)}
 	>
-		{label.charAt(0)}
+		{initial(label, "")}
 	</span>
 {/if}

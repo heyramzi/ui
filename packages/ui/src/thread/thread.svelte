@@ -2,8 +2,8 @@
 	import type { Snippet } from "svelte";
 	import { ArrowBendDownRight, Check, MapPin, PencilSimple, Trash } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import { initial } from "#src/lib/initials.js";
 	import { AgentAvatar } from "#src/agents/index.js";
-	import { TONE_CLASS } from "#src/lib/tone.js";
 	import RichRenderer from "#src/editor/renderer.svelte";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
 	import { buildThread, fillCount, resolveThreadLabels, resolvedCount } from "#src/thread/logic.js";
@@ -101,10 +101,6 @@
 		if (!body || body === comment.body) return;
 		await onEdit?.(comment, body);
 	}
-
-	function initial(name: string): string {
-		return name.trim().charAt(0).toLocaleUpperCase() || "?";
-	}
 </script>
 
 {#snippet composer(
@@ -164,14 +160,7 @@
 			<div class="flex min-h-6 flex-wrap items-center gap-x-2">
 				<span class="truncate text-[13px] font-medium">{comment.author.name}</span>
 				{#if comment.author.kind === "agent"}
-					<span
-						class={cn(
-							"inline-flex h-5 items-center rounded-sm border px-1.5 text-xs font-medium",
-							TONE_CLASS.accent,
-						)}
-					>
-						{labels.agent}
-					</span>
+					<span class="sr-only">{labels.agent}</span>
 				{/if}
 				<span class="text-xs text-muted-foreground tabular-nums">{when(comment)}</span>
 				{#if comment.edited}

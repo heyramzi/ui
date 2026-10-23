@@ -3,7 +3,7 @@ import { sortParentsFirst, stripCallbacks } from "#src/canvas/headless/canvas-cl
 import { makeNode } from "#src/canvas/test-utils.js";
 import type { CanvasNode } from "#src/canvas/types.js";
 
-/** Read serialized data as a loose record: these tests exercise legacy fields
+/** Read serialized data as a loose record: these tests exercise old fields
  * that are no longer part of any per-type shape but must survive the denylist. */
 function loose(node: { data: unknown }): Record<string, unknown> {
   return node.data as Record<string, unknown>;

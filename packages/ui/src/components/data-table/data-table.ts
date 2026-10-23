@@ -69,9 +69,8 @@ export function totalPages(total: number, pageSize: number): number {
 
 export function formatCount(visible: number, total: number, label: string): string {
   const singular = label.endsWith("s") ? label.slice(0, -1) : label;
-  if (visible === total) {
-    const displayLabel = visible === 1 ? singular : label;
-    return `${total} ${displayLabel}`;
-  }
-  return `${visible} of ${total} ${label}`;
+  // The noun agrees with the total: "0 of 1 item", not "0 of 1 items".
+  const noun = total === 1 ? singular : label;
+  if (visible === total) return `${total.toLocaleString()} ${noun}`;
+  return `${visible.toLocaleString()} of ${total.toLocaleString()} ${noun}`;
 }

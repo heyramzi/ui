@@ -15,7 +15,7 @@
  */
 
 /*
- * car-garage, hammer / wave-saw-tool, helmet, trowel, grid-dots, leaf, car, crane. Svelte 5 port is ` @tabler/icons-svelte-runes` (runes, not legacy ` @tabler/icons-svelte`).
+ * car-garage, hammer / wave-saw-tool, helmet, trowel, grid-dots, leaf, car, crane. Svelte 5 port is ` @tabler/icons-svelte-runes` (runes, not the Svelte 4 ` @tabler/icons-svelte`).
  */
 
 import {

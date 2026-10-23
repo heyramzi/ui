@@ -36,7 +36,7 @@ export const patchNodeOp = z.object({
   kind: z.literal("patchNode"),
   nodeId: z.string().min(1),
   data: z.record(z.string(), z.unknown()).optional(),
-  // Merged into the node's style object. A legacy CSS-string style is replaced
+  // Merged into the node's style object. A CSS-string style from an old save is replaced
   // wholesale (there is nothing sane to merge into).
   style: z.record(z.string(), z.unknown()).optional(),
   width: z.number().optional(),

@@ -154,6 +154,11 @@
 	function textOf(column: TableColumn<Row>, row: Row): string {
 		const value = (row as Record<string, unknown>)[key(column)];
 		if (column.format) return column.format(value, row);
+		// WHY: a raw 1284 or 0.30000000000000004 in an amount column. Only `numeric`
+		// columns: an unformatted year or id must print as it is.
+		if (column.numeric && typeof value === "number") {
+			return Number.isFinite(value) ? value.toLocaleString() : "";
+		}
 		return value === null || value === undefined ? "" : String(value);
 	}
 
@@ -227,7 +232,7 @@
 		<Table.Cell
 			class={cn(
 				"align-top",
-				column.numeric ? "text-end tabular-nums" : "whitespace-normal",
+				column.numeric ? "text-end tabular-nums" : "whitespace-normal [overflow-wrap:anywhere]",
 				column.muted && "text-muted-foreground",
 				column.interactive && "relative z-10",
 				column.hideBelow && HIDE[column.hideBelow],

@@ -166,7 +166,7 @@
 {#snippet display(row: InfoRow, clamp = false)}
 	{#if row.chips?.length}
 		<span class="flex flex-wrap items-center gap-1">
-			{#each row.chips as chip (chip.label)}
+			{#each row.chips as chip, i (i)}
 				<StatusBadge tone={chip.tone ?? "neutral"} capitalize={false}>{chip.label}</StatusBadge>
 			{/each}
 		</span>
@@ -175,6 +175,7 @@
 	{:else if row.href && row.value}
 		<a
 			href={row.href}
+			title={row.value}
 			class={cn(
 				"min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline",
 				clamp &&
@@ -262,7 +263,7 @@
 					<dt
 						class={cn(
 							"flex items-center gap-1.5 text-xs text-muted-foreground",
-							labelPosition === "beside" && "shrink-0",
+							labelPosition === "beside" ? "shrink-0" : "[overflow-wrap:anywhere]",
 						)}
 					>
 						{#if row.term}
@@ -301,7 +302,7 @@
 			<h2 class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{title}</h2>
 		{/if}
 		<dl
-			class="grid grid-cols-[minmax(5rem,max-content)_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5"
+			class="grid grid-cols-[minmax(5rem,min(max-content,45%))_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5"
 		>
 			{#each shown as row, index (row.divider ? `divider-${index}` : keyOf(row))}
 				{#if row.divider}
@@ -311,7 +312,7 @@
 					{@const long = row.input === "longtext"}
 					<dt
 						class={cn(
-							"flex min-h-7 items-center gap-2 text-sm text-muted-foreground",
+							"flex min-h-7 min-w-0 items-center gap-2 text-sm [overflow-wrap:anywhere] text-muted-foreground",
 							long && "col-span-2 min-h-0",
 						)}
 					>

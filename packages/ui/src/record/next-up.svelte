@@ -8,7 +8,7 @@
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import { gutterClass } from "#src/record/gutter.js";
 	import { formatRange } from "#src/record/format.js";
-	import { todayIso } from "#src/tasks/dates.js";
+	import { todayIso } from "#src/work/dates.js";
 	import { resolveLabels, type RecordLabels, type RecordNext } from "#src/record/types.js";
 
 	// =========================

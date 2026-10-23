@@ -1,6 +1,6 @@
 # @heyramzi/ui/status
 
-Status badge, dot and icon from one map. `defineStatuses` builds the map, and the three parts read it, so a status looks the same everywhere. They used to live in `@heyramzi/ui/tasks`, which still re-exports every name.
+Status badge, dot and icon from one map. `defineStatuses` builds the map, and the three parts read it, so a status looks the same everywhere. They used to live in `@heyramzi/ui/work`, which still re-exports every name.
 
 ```svelte
 <script lang="ts">

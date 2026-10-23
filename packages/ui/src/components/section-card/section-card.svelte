@@ -32,7 +32,9 @@
 <!-- =========================== -->
 <Card.Root class={cn("gap-0 py-0", className)}>
 	<header class="flex min-h-14 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-		<Card.Title as="h3" class="text-base font-medium">{title}</Card.Title>
+		<Card.Title as="h3" class="min-w-0 text-base font-medium [overflow-wrap:anywhere]"
+			>{title}</Card.Title
+		>
 		{#if actions}
 			<div class="flex shrink-0 items-center gap-2">{@render actions()}</div>
 		{/if}

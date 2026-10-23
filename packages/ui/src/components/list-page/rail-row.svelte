@@ -122,6 +122,7 @@
 					titleLines === 2 ? "line-clamp-2" : "truncate",
 					selected && "text-accent-foreground",
 				)}
+				{title}
 			>
 				{title}
 			</span>
@@ -130,7 +131,7 @@
 			{#if preview || trailing}
 				<span class="flex min-w-0 items-center text-xs text-muted-foreground">
 					{#if preview}
-						<span class="truncate">{preview}</span>
+						<span class="truncate" title={preview}>{preview}</span>
 					{/if}
 					{#if trailing}
 						<span class="ml-auto flex shrink-0 items-center gap-1.5 pl-2">{@render trailing()}</span
@@ -146,7 +147,9 @@
 						{/if}
 						{@const flexible =
 							facts.length > 1 && i === (metaTruncate === "last" ? facts.length - 1 : 0)}
-						<span class={flexible ? "truncate" : "shrink-0"}>{fact}</span>
+						<span class={flexible ? "truncate" : "shrink-0"} title={flexible ? fact : undefined}
+							>{fact}</span
+						>
 					{/each}
 					{#if metaTrail}
 						<span class="ml-1.5 flex shrink-0 items-center gap-1">{@render metaTrail()}</span>

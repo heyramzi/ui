@@ -198,7 +198,7 @@
 			removable ? "rounded-(--radius-xs) pr-0.5" : "rounded-(--radius-sm)",
 		)}
 	>
-		<span class="truncate">{tag}</span>
+		<span class="truncate" title={tag}>{tag}</span>
 		{#if removable}
 			<button
 				type="button"

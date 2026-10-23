@@ -3,7 +3,10 @@ import { StarterKit } from "@tiptap/starter-kit";
 import { Image } from "@tiptap/extension-image";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { DragHandle } from "@tiptap/extension-drag-handle";
+import { TaskItem, TaskList } from "@tiptap/extension-list";
+import { Table, TableCell, TableHeader, TableRow } from "@tiptap/extension-table";
 import { BlockIdExtension } from "#src/editor/block-id.js";
+import { CodeBlockChrome, HeadingAnchors } from "#src/editor/doc-blocks.js";
 
 const CmsBlock = TiptapNode.create({
   name: "cmsBlock",
@@ -127,17 +130,38 @@ export type ExtensionOptions = {
   preset: "full" | "notes";
   placeholder: string;
   blockIds: boolean;
+  /** A document page: heading anchors with a hover "Copy link", and the label for it. */
+  anchors?: { label: string; oncopy?: (url: string, id: string) => void } | false;
 };
 
 /** The extension list for a preset: `full` adds CMS blocks, YouTube, images and H4. */
-export function buildExtensions({ preset, placeholder, blockIds }: ExtensionOptions): Extensions {
+export function buildExtensions({
+  preset,
+  placeholder,
+  blockIds,
+  anchors = false,
+}: ExtensionOptions): Extensions {
   const full = preset === "full";
   return dedupeExtensions([
     StarterKit.configure({
       heading: { levels: full ? [1, 2, 3, 4] : [1, 2, 3] },
       link: { openOnClick: false },
     }),
-    ...(full ? [CmsBlock, Youtube, Image.configure({ inline: false })] : []),
+    ...(full
+      ? [
+          CmsBlock,
+          Youtube,
+          Image.configure({ inline: false }),
+          TaskList,
+          TaskItem.configure({ nested: true }),
+          Table.configure({ resizable: false }),
+          TableRow,
+          TableHeader,
+          TableCell,
+          CodeBlockChrome,
+        ]
+      : []),
+    ...(anchors ? [HeadingAnchors.configure(anchors)] : []),
     Placeholder.configure({ placeholder }),
     dragHandle(),
     ...(blockIds ? [BlockIdExtension] : []),

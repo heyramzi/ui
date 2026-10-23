@@ -9,7 +9,7 @@ import {
   threadsOf,
 } from "#src/inbox/logic.js";
 import type { InboxEntry, InboxSubject } from "#src/inbox/types.js";
-import type { InboxItem } from "#src/tasks/inbox/inbox-types.js";
+import type { InboxItem } from "#src/work/inbox/inbox-types.js";
 
 const tsk7: InboxSubject = { type: "task", id: "7", ref: "TSK-7", title: "Write the pricing page" };
 const tsk9: InboxSubject = { type: "task", id: "9", ref: "TSK-9", title: "Fix the footer" };

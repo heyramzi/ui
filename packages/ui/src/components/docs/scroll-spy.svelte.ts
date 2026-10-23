@@ -3,7 +3,12 @@
  * side rail and the compact bar, so the two can never disagree.
  */
 
-export type DocHeading = { id: string; label: string };
+export type DocHeading = {
+  id: string;
+  label: string;
+  /** 2 or 3. A list with no levels is flat; the edge ticks indent a 3 under its 2. */
+  level?: 2 | 3;
+};
 
 /**
  * A heading's offset in scroller coordinates. A framed document must supply its own, since

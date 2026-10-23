@@ -139,6 +139,6 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 
 ---
 
-Skipped on purpose: brand assets (logos, marks, brand renderer), kanban, list, gantt and status (they live in `@heyramzi/ui/tasks`), and charts
+Skipped on purpose: brand assets (logos, marks, brand renderer), kanban, list, gantt and status (they live in `@heyramzi/ui/work`), and charts
 (they live in `@heyramzi/ui/charts`). The bot avatars
 are in `src/agents`, imported from `@heyramzi/ui/agents`.

@@ -5,6 +5,7 @@
 	import { Editor } from "@tiptap/core";
 	import { untrack } from "svelte";
 	import "#src/editor/content.css";
+	import "#src/editor/doc-page.css";
 	import { buildExtensions } from "#src/editor/extensions.js";
 	import { buildSlashItems, type SlashItem } from "#src/editor/slash-items.js";
 	import { parseYoutubeUrl } from "#src/editor/youtube-url.js";
@@ -22,6 +23,17 @@
 		minHeight?: string;
 		preset?: "full" | "notes";
 		blockIds?: boolean;
+		/**
+		 * `box` is the framed editor with a toolbar. `page` is a document: no frame, no toolbar,
+		 * type set by `.doc-surface` (see doc-page.css), heading anchors on.
+		 */
+		variant?: "box" | "page";
+		/** The word on a heading's hover button, for `page`. */
+		copyLinkLabel?: string;
+		/** A heading's link was copied. */
+		oncopylink?: (url: string, id: string) => void;
+		/** The live editor, for a host that needs focus or the document. */
+		instance?: Editor | null;
 	}
 
 	// =========================
@@ -34,6 +46,10 @@
 		minHeight = "28rem",
 		preset = "full",
 		blockIds = false,
+		variant = "box",
+		copyLinkLabel = "Copy link",
+		oncopylink,
+		instance = $bindable(null),
 	}: Props = $props();
 
 	// =========================
@@ -59,6 +75,11 @@
 	// DERIVED
 	// =========================
 	let editor: Editor | null = $derived(tick >= 0 ? editorInstance : null);
+	let isPage = $derived(variant === "page");
+
+	$effect(() => {
+		instance = editorInstance;
+	});
 
 	let slashItems = $derived.by((): SlashItem[] =>
 		editor
@@ -204,7 +225,12 @@
 	function mount() {
 		if (!editorElement || editorInstance) return;
 
-		const extensions = buildExtensions({ preset, placeholder, blockIds });
+		const extensions = buildExtensions({
+			preset,
+			placeholder,
+			blockIds,
+			anchors: variant === "page" ? { label: copyLinkLabel, oncopy: oncopylink } : false,
+		});
 
 		editorInstance = new Editor({
 			element: editorElement,
@@ -309,10 +335,14 @@
 <!-- =========================== -->
 <div
 	class="editor-wrapper"
-	class:focused={editor?.isFocused}
+	class:focused={editor?.isFocused && !isPage}
+	class:page={isPage}
+	class:doc-surface={isPage}
 	style="--editor-min-height: {minHeight};"
 >
-	<EditorToolbar {editor} {tick} {preset} onInsertYoutube={insertYoutubeVideo} />
+	{#if !isPage}
+		<EditorToolbar {editor} {tick} {preset} onInsertYoutube={insertYoutubeVideo} />
+	{/if}
 
 	<!-- Editor surface -->
 	<div bind:this={editorElement} class="editor-surface tiptap-content"></div>
@@ -334,7 +364,7 @@
 	{/if}
 
 	<!-- Status bar -->
-	{#if editor}
+	{#if editor && !isPage}
 		<div class="status-bar">
 			<span class="status-hint">Type <kbd>/</kbd> for commands</span>
 		</div>
@@ -361,12 +391,24 @@
 		box-shadow: 0 0 0 3px oklch(from var(--color-brand) l c h / 0.06);
 	}
 
+	/* A document page owns its frame, so the editor draws none. */
+	.editor-wrapper.page {
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.editor-wrapper.page .editor-surface :global(.tiptap) {
+		outline: none;
+		min-height: var(--editor-min-height, 28rem);
+	}
+
 	/* ---- EDITOR SURFACE ---- */
 	.editor-surface {
 		min-height: var(--editor-min-height, 28rem);
 	}
 
-	.editor-surface :global(.tiptap) {
+	.editor-wrapper:not(.page) .editor-surface :global(.tiptap) {
 		padding: 2rem 2.5rem;
 		outline: none;
 		min-height: var(--editor-min-height, 28rem);

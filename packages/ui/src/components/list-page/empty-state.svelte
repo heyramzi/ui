@@ -45,7 +45,9 @@
 				<Icon weight={iconWeight} class="size-8" />
 			</Empty.Media>
 		{/if}
-		<Empty.Title class="font-heading text-lg font-semibold">{title}</Empty.Title>
+		<Empty.Title class="font-heading text-lg font-semibold [overflow-wrap:anywhere]"
+			>{title}</Empty.Title
+		>
 		{#if description}
 			<Empty.Description>{description}</Empty.Description>
 		{/if}

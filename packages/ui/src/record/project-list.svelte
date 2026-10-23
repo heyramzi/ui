@@ -6,7 +6,7 @@
 	import { Progress } from "#src/shadcn/progress/index.js";
 	import { TONE_TEXT } from "#src/lib/tone.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
-	import { todayIso } from "#src/tasks/dates.js";
+	import { todayIso } from "#src/work/dates.js";
 	import { formatMoney, formatRange } from "#src/record/format.js";
 	import {
 		resolveLabels,

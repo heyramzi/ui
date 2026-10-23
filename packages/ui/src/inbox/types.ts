@@ -1,4 +1,4 @@
-import type { InboxItem } from "#src/tasks/inbox/inbox-types.js";
+import type { InboxItem } from "#src/work/inbox/inbox-types.js";
 
 export type InboxActorKind = "user" | "agent";
 
@@ -28,6 +28,10 @@ export type InboxSubject = {
   /** A status id the host draws itself, for a badge in the thread header. */
   status?: string;
   href?: string;
+  /** ISO time a snoozed thread comes back. Set only when the host shows snoozed threads. */
+  snoozedUntil?: string;
+  /** The person follows this subject, so the thread offers Unfollow. */
+  followed?: boolean;
 };
 
 export type InboxEntry = {
@@ -77,7 +81,11 @@ export type InboxKey =
   | "next"
   | "previous"
   | "toggleRead"
+  | "readAll"
   | "snooze"
+  | "unfollow"
+  | "clear"
+  | "clearRead"
   | "approve"
   | "decline"
   | "steer"
@@ -101,6 +109,13 @@ export type InboxLabels = {
   snoozeLater: string;
   snoozeTomorrow: string;
   snoozeNextWeek: string;
+  snoozed: string;
+  showSnoozed: string;
+  unsnooze: string;
+  unfollow: string;
+  markAllRead: string;
+  clear: string;
+  clearRead: string;
   selectThread: string;
   filterType: string;
   filterWho: string;
@@ -109,6 +124,8 @@ export type InboxLabels = {
   from: string;
   open: string;
   agent: string;
+  showMore: string;
+  showLess: string;
   statusMoved: string;
   statusSet: string;
   assigned: string;
@@ -119,7 +136,9 @@ export type InboxLabels = {
   /** Keyboard hint words. */
   hintMove: string;
   hintRead: string;
+  hintReadAll: string;
   hintSnooze: string;
+  hintClear: string;
   hintAct: string;
 };
 
@@ -139,6 +158,13 @@ export const DEFAULT_INBOX_LABELS: InboxLabels = {
   snoozeLater: "Later today",
   snoozeTomorrow: "Tomorrow",
   snoozeNextWeek: "Next week",
+  snoozed: "Snoozed",
+  showSnoozed: "Show snoozed",
+  unsnooze: "Unsnooze",
+  unfollow: "Unfollow",
+  markAllRead: "Mark all read",
+  clear: "Clear",
+  clearRead: "Clear read",
   selectThread: "Select a thread",
   filterType: "Filter by type",
   filterWho: "Filter by person or agent",
@@ -147,6 +173,8 @@ export const DEFAULT_INBOX_LABELS: InboxLabels = {
   from: "From",
   open: "Open",
   agent: "AI",
+  showMore: "Show more",
+  showLess: "Show less",
   statusMoved: "moved this from {from} to {to}",
   statusSet: "set this to {to}",
   assigned: "assigned this to {assignee}",
@@ -156,6 +184,8 @@ export const DEFAULT_INBOX_LABELS: InboxLabels = {
   proposed: "asks for your call",
   hintMove: "move",
   hintRead: "read",
+  hintReadAll: "all read",
   hintSnooze: "snooze",
+  hintClear: "clear, with shift every read thread",
   hintAct: "approve, decline, steer, edit",
 };

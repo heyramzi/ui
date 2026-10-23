@@ -95,7 +95,7 @@
 				"group-data-[state=active]/segment:bg-brand/14 group-data-[state=active]/segment:text-brand",
 		)}
 	>
-		{count}
+		{count.toLocaleString()}
 	</span>
 {:else if done}
 	<span

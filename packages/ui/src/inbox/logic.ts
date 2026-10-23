@@ -1,8 +1,10 @@
-import { isOpen, isTyping } from "#src/tasks/inbox/inbox-logic.js";
+import { isOpen, isTyping } from "#src/work/inbox/inbox-logic.js";
 import {
   ALL,
   DEFAULT_INBOX_LABELS,
   type InboxEntry,
+  type InboxActor,
+  type InboxEntryKind,
   type InboxFilter,
   type InboxKey,
   type InboxLabels,
@@ -97,13 +99,15 @@ export function subjectTypes(threads: InboxThread[]): string[] {
 }
 
 export function actorNames(threads: InboxThread[]): string[] {
-  return [...new Set(threads.flatMap((thread) => thread.entries.map((entry) => entry.actor.name)))];
+  return [
+    ...new Set(threads.flatMap((thread) => thread.entries.map((entry) => entry.actor.name))),
+  ].filter(Boolean);
 }
 
 type KeyEventLike = Pick<
   KeyboardEvent,
   "key" | "metaKey" | "ctrlKey" | "altKey" | "defaultPrevented" | "target"
->;
+> & { shiftKey?: boolean; code?: string };
 
 const KEYS: Record<string, InboxKey> = {
   j: "next",
@@ -113,13 +117,20 @@ const KEYS: Record<string, InboxKey> = {
   a: "approve",
   d: "decline",
   s: "steer",
+  S: "unfollow",
   e: "edit",
 };
 
-/** What a key press asks for, or null when it isn't ours: a modifier is held, or focus is in a text field. */
+/**
+ * What a key press asks for, or null when it isn't ours: focus is in a text field, or a modifier
+ * other than Linear's Shift+S, Shift+Backspace and Alt+U is held.
+ */
 export function inboxKeyOf(event: KeyEventLike): InboxKey | null {
-  if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return null;
+  if (event.defaultPrevented || event.metaKey || event.ctrlKey) return null;
   if (isTyping(event.target)) return null;
+  // Option+U on a Mac types a dead key, so the physical key decides.
+  if (event.altKey) return event.code === "KeyU" && !event.shiftKey ? "readAll" : null;
+  if (event.key === "Backspace") return event.shiftKey ? "clearRead" : "clear";
   return KEYS[event.key] ?? null;
 }
 
@@ -166,4 +177,47 @@ export function entryLine(entry: InboxEntry, labels: InboxLabels): string {
     default:
       return labels.commented;
   }
+}
+
+/** An entry as a sentence: who, then what. With no known actor it starts with the verb, capitalised. */
+export function sentenceOf(entry: InboxEntry, labels: InboxLabels): string {
+  const line = entryLine(entry, labels);
+  if (entry.actor.name) return `${entry.actor.name} ${line}`;
+  return line.charAt(0).toUpperCase() + line.slice(1);
+}
+
+/** What happened to the subject, as against something a person wrote. */
+const EVENT_KINDS: ReadonlySet<InboxEntryKind> = new Set(["status", "assigned", "proposal"]);
+
+export function isEvent(entry: InboxEntry): boolean {
+  return EVENT_KINDS.has(entry.kind);
+}
+
+export type TimelineBlock =
+  | { type: "events"; key: string; actor: InboxActor; entries: InboxEntry[] }
+  | { type: "message"; key: string; entry: InboxEntry };
+
+/**
+ * The thread as blocks: each written message alone, and a run of events by one actor as one
+ * quiet group.
+ */
+export function timelineOf(entries: InboxEntry[]): TimelineBlock[] {
+  const blocks: TimelineBlock[] = [];
+  for (const entry of entries) {
+    if (!isEvent(entry)) {
+      blocks.push({ type: "message", key: entry.id, entry });
+      continue;
+    }
+    const last = blocks.at(-1);
+    if (
+      last?.type === "events" &&
+      last.actor.name === entry.actor.name &&
+      last.actor.kind === entry.actor.kind
+    ) {
+      last.entries.push(entry);
+    } else {
+      blocks.push({ type: "events", key: entry.id, actor: entry.actor, entries: [entry] });
+    }
+  }
+  return blocks;
 }

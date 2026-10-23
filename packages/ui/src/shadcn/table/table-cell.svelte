@@ -5,15 +5,23 @@
 	let {
 		ref = $bindable(null),
 		class: className,
+		wrap = false,
 		children,
 		...restProps
-	}: WithElementRef<HTMLTdAttributes> = $props();
+	}: WithElementRef<HTMLTdAttributes> & {
+		/** Lets a long user string wrap, so a trailing action cell keeps its place. Off by default: amounts and dates stay on one line. */
+		wrap?: boolean;
+	} = $props();
 </script>
 
 <td
 	bind:this={ref}
 	data-slot="table-cell"
-	class={cn("p-2 align-middle whitespace-nowrap tabular-nums [&:has([role=checkbox])]:pr-0", className)}
+	class={cn(
+		"p-2 align-middle tabular-nums [&:has([role=checkbox])]:pr-0",
+		wrap ? "whitespace-normal [overflow-wrap:anywhere]" : "whitespace-nowrap",
+		className,
+	)}
 	{...restProps}
 >
 	{@render children?.()}

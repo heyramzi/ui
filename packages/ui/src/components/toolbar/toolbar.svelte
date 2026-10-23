@@ -115,7 +115,7 @@
 								{item.label}
 								{#if item.count != null}
 									<span class="ms-auto pe-2 text-xs text-muted-foreground tabular-nums"
-										>{item.count}</span
+										>{item.count.toLocaleString()}</span
 									>
 								{/if}
 							</DropdownMenu.RadioItem>

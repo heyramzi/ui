@@ -65,7 +65,7 @@ One package, six larger parts, each imported from its own subpath:
 
 | Subpath | What it is |
 | --- | --- |
-| `@heyramzi/ui/tasks` | Board, list, gantt, status badges, task detail, record, time tracker, inbox |
+| `@heyramzi/ui/work` | Board, list, gantt, status badges, task detail, record, time tracker, inbox |
 | `@heyramzi/ui/charts` | LayerChart charts, sparklines, stat cards, and `/charts/dashboard` |
 | `@heyramzi/ui/slides` | Decks on a fixed canvas, plus `/slides/model` and `/slides/export` |
 | `@heyramzi/ui/editor` | The Tiptap editor, its renderer, `/editor/markdown`, `/editor/block-ops` |

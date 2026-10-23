@@ -26,7 +26,9 @@
 
 {#if pages > 1}
 	<div class="flex items-center justify-between border-t px-4 py-3 text-sm text-muted-foreground">
-		<span>{start}-{end} of {total}</span>
+		<span class="tabular-nums"
+			>{start.toLocaleString()}-{end.toLocaleString()} of {total.toLocaleString()}</span
+		>
 		<div class="flex items-center gap-1">
 			{#if buildHref}
 				{#if hasPrev}
@@ -38,7 +40,7 @@
 						<CaretLeft class="size-4" />
 					</Button>
 				{/if}
-				<span class="mx-2 tabular-nums">{page} / {pages}</span>
+				<span class="mx-2 tabular-nums">{page.toLocaleString()} / {pages.toLocaleString()}</span>
 				{#if hasNext}
 					<Button variant="outline" size="sm" icon href={buildHref(page + 1)}>
 						<CaretRight class="size-4" />
@@ -58,7 +60,7 @@
 				>
 					<CaretLeft class="size-4" />
 				</Button>
-				<span class="mx-2 tabular-nums">{page} / {pages}</span>
+				<span class="mx-2 tabular-nums">{page.toLocaleString()} / {pages.toLocaleString()}</span>
 				<Button
 					variant="outline"
 					size="sm"

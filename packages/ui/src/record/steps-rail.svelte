@@ -18,7 +18,7 @@
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
 	import * as Popover from "#src/shadcn/popover/index.js";
 	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
-	import { todayIso } from "#src/tasks/dates.js";
+	import { todayIso } from "#src/work/dates.js";
 	import { formatRange } from "#src/record/format.js";
 	import {
 		groupSteps,
@@ -280,8 +280,8 @@
 							<DotsThreeVertical class="size-4" weight="bold" />
 							{#if hiddenCount > 0}
 								<span
-									class="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-muted text-xs font-medium tabular-nums"
-									>{hiddenCount}</span
+									class="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-muted px-1 text-xs font-medium tabular-nums"
+									>{hiddenCount.toLocaleString()}</span
 								>
 							{/if}
 						</Button>

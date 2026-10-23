@@ -1,7 +1,7 @@
 {
   "name": "@heyramzi/ui",
   "version": "2.8.0",
-  "description": "Svelte 5 UI for apps: primitives, effects and animations, plus tasks, charts, slides, an editor, onboarding and a canvas as subpaths.",
+  "description": "Svelte 5 UI for apps: primitives, effects and animations, plus work (tasks and docs), charts, slides, an editor, onboarding and a canvas as subpaths.",
   "homepage": "https://ui.heyramzi.com",
   "license": "MIT",
   "repository": {
@@ -28,6 +28,7 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./package.json": "./package.json",
     "./tokens.css": "./src/tokens/index.css",
     "./brand": {
       "svelte": "./src/brand/index.ts",
@@ -187,6 +188,7 @@
       "types": "./src/record/index.ts",
       "default": "./src/record/index.ts"
     },
+    "./record/demo.svelte": "./src/record/record-demo.svelte",
     "./thread": {
       "svelte": "./src/thread/index.ts",
       "types": "./src/thread/index.ts",
@@ -197,78 +199,58 @@
       "types": "./src/inbox/index.ts",
       "default": "./src/inbox/index.ts"
     },
-    "./tasks": {
-      "svelte": "./src/tasks/index.ts",
-      "types": "./src/tasks/index.ts",
-      "default": "./src/tasks/index.ts"
+    "./work": {
+      "svelte": "./src/work/index.ts",
+      "types": "./src/work/index.ts",
+      "default": "./src/work/index.ts"
     },
-    "./tasks/kanban": {
-      "svelte": "./src/tasks/kanban-board.svelte",
-      "types": "./src/tasks/kanban-board.svelte",
-      "default": "./src/tasks/kanban-board.svelte"
+    "./work/kanban": {
+      "svelte": "./src/work/kanban-board.svelte",
+      "types": "./src/work/kanban-board.svelte",
+      "default": "./src/work/kanban-board.svelte"
     },
-    "./tasks/list": {
-      "svelte": "./src/tasks/task-list.svelte",
-      "types": "./src/tasks/task-list.svelte",
-      "default": "./src/tasks/task-list.svelte"
+    "./work/list": {
+      "svelte": "./src/work/task-list.svelte",
+      "types": "./src/work/task-list.svelte",
+      "default": "./src/work/task-list.svelte"
     },
-    "./tasks/gantt": {
-      "svelte": "./src/tasks/task-gantt.svelte",
-      "types": "./src/tasks/task-gantt.svelte",
-      "default": "./src/tasks/task-gantt.svelte"
+    "./work/gantt": {
+      "svelte": "./src/work/task-gantt.svelte",
+      "types": "./src/work/task-gantt.svelte",
+      "default": "./src/work/task-gantt.svelte"
     },
-    "./tasks/status": {
-      "svelte": "./src/status/status-badge.svelte",
-      "types": "./src/status/status-badge.svelte",
-      "default": "./src/status/status-badge.svelte"
+    "./work/time": {
+      "svelte": "./src/work/time/time-tracker.svelte",
+      "types": "./src/work/time/time-tracker.svelte",
+      "default": "./src/work/time/time-tracker.svelte"
     },
-    "./tasks/status-dot": {
-      "svelte": "./src/status/status-dot.svelte",
-      "types": "./src/status/status-dot.svelte",
-      "default": "./src/status/status-dot.svelte"
+    "./work/inbox": {
+      "svelte": "./src/work/inbox/index.ts",
+      "types": "./src/work/inbox/index.ts",
+      "default": "./src/work/inbox/index.ts"
     },
-    "./tasks/statuses": {
-      "svelte": "./src/status/define-statuses.ts",
-      "types": "./src/status/define-statuses.ts",
-      "default": "./src/status/define-statuses.ts"
+    "./work/presets/sales": {
+      "svelte": "./src/work/presets/sales.ts",
+      "types": "./src/work/presets/sales.ts",
+      "default": "./src/work/presets/sales.ts"
     },
-    "./tasks/time": {
-      "svelte": "./src/tasks/time/time-tracker.svelte",
-      "types": "./src/tasks/time/time-tracker.svelte",
-      "default": "./src/tasks/time/time-tracker.svelte"
+    "./work/detail": {
+      "svelte": "./src/work/detail/task-detail.svelte",
+      "types": "./src/work/detail/task-detail.svelte",
+      "default": "./src/work/detail/task-detail.svelte"
     },
-    "./tasks/inbox": {
-      "svelte": "./src/tasks/inbox/index.ts",
-      "types": "./src/tasks/inbox/index.ts",
-      "default": "./src/tasks/inbox/index.ts"
+    "./work/docs": {
+      "svelte": "./src/work/docs/index.ts",
+      "types": "./src/work/docs/index.ts",
+      "default": "./src/work/docs/index.ts"
     },
-    "./tasks/side-panel": {
-      "svelte": "./src/panel/side-panel.svelte",
-      "types": "./src/panel/side-panel.svelte",
-      "default": "./src/panel/side-panel.svelte"
+    "./work/docs-demo.svelte": "./src/work/docs/docs-demo.svelte",
+    "./work/detail-demo.svelte": "./src/work/detail/detail-demo.svelte",
+    "./work/demo": {
+      "svelte": "./src/work/demo.svelte",
+      "default": "./src/work/demo.svelte"
     },
-    "./tasks/presets/sales": {
-      "svelte": "./src/tasks/presets/sales.ts",
-      "types": "./src/tasks/presets/sales.ts",
-      "default": "./src/tasks/presets/sales.ts"
-    },
-    "./tasks/detail": {
-      "svelte": "./src/tasks/detail/task-detail.svelte",
-      "types": "./src/tasks/detail/task-detail.svelte",
-      "default": "./src/tasks/detail/task-detail.svelte"
-    },
-    "./tasks/detail-demo.svelte": "./src/tasks/detail/detail-demo.svelte",
-    "./tasks/record": {
-      "svelte": "./src/record/index.ts",
-      "types": "./src/record/index.ts",
-      "default": "./src/record/index.ts"
-    },
-    "./tasks/record-demo.svelte": "./src/record/record-demo.svelte",
-    "./tasks/demo": {
-      "svelte": "./src/tasks/demo.svelte",
-      "default": "./src/tasks/demo.svelte"
-    },
-    "./tasks/demo.svelte": "./src/tasks/demo.svelte",
+    "./work/demo.svelte": "./src/work/demo.svelte",
     "./charts": {
       "svelte": "./src/charts/index.ts",
       "types": "./src/charts/index.ts",
@@ -373,7 +355,9 @@
     "@tiptap/core": "^3.32.0",
     "@tiptap/extension-drag-handle": "^3.32.0",
     "@tiptap/extension-image": "^3.32.0",
+    "@tiptap/extension-list": "^3.32.0",
     "@tiptap/extension-placeholder": "^3.32.0",
+    "@tiptap/extension-table": "^3.32.0",
     "@tiptap/pm": "^3.32.0",
     "@tiptap/starter-kit": "^3.32.0",
     "@zag-js/svelte": "^1.46.0",

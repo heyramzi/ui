@@ -27,5 +27,5 @@ export type {
 } from "#src/inbox/types.js";
 
 // The approval card a pinned proposal is drawn with, and the types its `proposal` field carries.
-export { default as InboxCard } from "#src/tasks/inbox/inbox-card.svelte";
-export type { InboxItem, InboxVerdict } from "#src/tasks/inbox/inbox-types.js";
+export { default as InboxCard } from "#src/work/inbox/inbox-card.svelte";
+export type { InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
