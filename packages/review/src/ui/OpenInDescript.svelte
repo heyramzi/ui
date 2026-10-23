@@ -200,9 +200,13 @@
 		text-decoration: none;
 		transition: background-color var(--duration-quick) var(--ease-smooth-out);
 	}
-	.item:hover,
 	.item:focus-visible {
 		background: var(--hover);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.item:hover {
+			background: var(--hover);
+		}
 	}
 	.item:focus-visible {
 		outline: 2px solid var(--accent);

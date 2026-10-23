@@ -228,9 +228,11 @@
 			background-color var(--duration-quick) var(--ease-smooth-out),
 			transform var(--duration-micro) var(--ease-smooth-out);
 	}
-	button.row:hover {
-		background: var(--hover);
-		color: var(--text);
+	@media (hover: hover) and (pointer: fine) {
+		button.row:hover {
+			background: var(--hover);
+			color: var(--text);
+		}
 	}
 	button.row:active {
 		transform: scale(var(--scale-small));
@@ -337,9 +339,13 @@
 		transform-origin: left center;
 		white-space: nowrap;
 	}
-	.strip .row[data-tip]:hover,
 	.strip .row[data-tip]:focus-visible {
 		z-index: 40;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.strip .row[data-tip]:hover {
+			z-index: 40;
+		}
 	}
 	.strip .label,
 	.strip .meta,

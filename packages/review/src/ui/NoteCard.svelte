@@ -242,14 +242,20 @@
 		inset: 0 12px auto;
 		border-top: 1px solid var(--line-soft);
 	}
-	.note:hover {
-		background: var(--hover);
+	@media (hover: hover) and (pointer: fine) {
+		.note:hover {
+			background: var(--hover);
+		}
 	}
-	.note:hover::before,
 	.note.active::before,
-	:global(.note:hover) + .note::before,
 	:global(.note.active) + .note::before {
 		border-color: transparent;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.note:hover::before,
+		:global(.note:hover) + .note::before {
+			border-color: transparent;
+		}
 	}
 	.note.active {
 		background: var(--surface);
@@ -428,8 +434,10 @@
 	.thread-toggle[aria-expanded="true"] :global(.ic) {
 		rotate: 90deg;
 	}
-	.thread-toggle:hover {
-		color: var(--text);
+	@media (hover: hover) and (pointer: fine) {
+		.thread-toggle:hover {
+			color: var(--text);
+		}
 	}
 	.thread {
 		display: grid;
@@ -476,8 +484,10 @@
 		cursor: text;
 		transition: border-color var(--duration-quick) var(--ease-smooth-out);
 	}
-	.field:hover {
-		border-color: var(--line-strong);
+	@media (hover: hover) and (pointer: fine) {
+		.field:hover {
+			border-color: var(--line-strong);
+		}
 	}
 	.field:focus-within {
 		border-color: var(--accent-line);

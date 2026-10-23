@@ -103,8 +103,10 @@
 		line-height: 1.5;
 		transition: border-color var(--duration-quick) var(--ease-smooth-out);
 	}
-	textarea:hover:not(:disabled) {
-		border-color: var(--line-strong);
+	@media (hover: hover) and (pointer: fine) {
+		textarea:hover:not(:disabled) {
+			border-color: var(--line-strong);
+		}
 	}
 	textarea:disabled {
 		opacity: 0.6;

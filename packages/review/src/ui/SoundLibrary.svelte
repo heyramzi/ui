@@ -212,8 +212,10 @@
 		cursor: pointer;
 		transition: background-color var(--duration-quick) var(--ease-smooth-out);
 	}
-	.play:hover:not(:disabled) {
-		background: var(--press);
+	@media (hover: hover) and (pointer: fine) {
+		.play:hover:not(:disabled) {
+			background: var(--press);
+		}
 	}
 	.play:focus-visible {
 		outline: 2px solid var(--accent);

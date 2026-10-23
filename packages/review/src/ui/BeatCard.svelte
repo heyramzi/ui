@@ -169,8 +169,10 @@
 			background-color var(--duration-fast) var(--ease-smooth-out),
 			box-shadow var(--duration-fast) var(--ease-smooth-out);
 	}
-	.beat:hover {
-		border-color: var(--line);
+	@media (hover: hover) and (pointer: fine) {
+		.beat:hover {
+			border-color: var(--line);
+		}
 	}
 	.beat.current {
 		border-color: var(--accent);
@@ -254,9 +256,11 @@
 			color var(--duration-quick) var(--ease-smooth-out),
 			transform var(--duration-micro) var(--ease-smooth-out);
 	}
-	.opt:hover {
-		background: var(--hover);
-		color: var(--text);
+	@media (hover: hover) and (pointer: fine) {
+		.opt:hover {
+			background: var(--hover);
+			color: var(--text);
+		}
 	}
 	.opt:active {
 		transform: scale(var(--scale-medium));

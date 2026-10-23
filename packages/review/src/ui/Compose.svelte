@@ -211,9 +211,11 @@
 			border-color var(--duration-quick) var(--ease-smooth-out),
 			color var(--duration-quick) var(--ease-smooth-out);
 	}
-	.opener:hover {
-		border-color: var(--accent-line);
-		color: var(--text);
+	@media (hover: hover) and (pointer: fine) {
+		.opener:hover {
+			border-color: var(--accent-line);
+			color: var(--text);
+		}
 	}
 	.opener :global(kbd) {
 		margin-left: auto;

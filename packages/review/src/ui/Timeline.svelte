@@ -247,7 +247,7 @@
 		overflow: hidden;
 		color: var(--faint);
 		font-size: var(--fs-xs);
-		line-height: 22px;
+		line-height: calc(22 / 12);
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
@@ -292,7 +292,7 @@
 		color: var(--text);
 		font-size: var(--fs-xs);
 		font-weight: 600;
-		line-height: 18px;
+		line-height: 1.5;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
@@ -308,12 +308,12 @@
 			gap: 2px;
 		}
 		.gutter {
-			line-height: 16px;
+			line-height: calc(16 / 12);
 		}
 		.span {
 			top: 1px;
 			bottom: 1px;
-			line-height: 14px;
+			line-height: calc(14 / 12);
 		}
 	}
 	.sel {

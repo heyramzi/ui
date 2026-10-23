@@ -91,9 +91,13 @@
 		opacity: 0;
 		transition: opacity var(--duration-quick) var(--ease-smooth-out);
 	}
-	.grip:hover::after,
 	.grip:focus-visible::after {
 		opacity: 0.7;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.grip:hover::after {
+			opacity: 0.7;
+		}
 	}
 	.grip:focus-visible {
 		outline: none;

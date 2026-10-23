@@ -137,8 +137,10 @@
 			border-color var(--duration-fast) var(--ease-smooth-out),
 			background-color var(--duration-fast) var(--ease-smooth-out);
 	}
-	.track:hover {
-		border-color: var(--line);
+	@media (hover: hover) and (pointer: fine) {
+		.track:hover {
+			border-color: var(--line);
+		}
 	}
 	.track.on {
 		border-color: var(--accent-line);

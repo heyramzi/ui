@@ -116,9 +116,13 @@
 	.pace.tone-warn {
 		color: var(--warn-text);
 	}
-	.pace:hover,
 	.pace[aria-expanded="true"] {
 		text-decoration-color: currentColor;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.pace:hover {
+			text-decoration-color: currentColor;
+		}
 	}
 	.pace:focus-visible {
 		outline: 2px solid var(--accent);

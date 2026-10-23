@@ -168,10 +168,15 @@
 		font-weight: 500;
 		transition: background-color var(--duration-quick) var(--ease-smooth-out);
 	}
-	.status:hover,
 	.status[aria-expanded="true"] {
 		background: var(--hover);
 		color: var(--text);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.status:hover {
+			background: var(--hover);
+			color: var(--text);
+		}
 	}
 	.status:focus-visible {
 		outline: 2px solid var(--accent);
