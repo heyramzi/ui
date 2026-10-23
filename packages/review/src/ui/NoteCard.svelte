@@ -97,7 +97,9 @@
 >
 	<header>
 		<TargetChip target={note.target} />
-		{#if note.check}<span class="tag">Automatic check</span>{:else if captionCheck}<span class="tag">Caption</span>{:else if agentTag}<span class="tag">From your agent</span>{/if}
+		{#if note.check}<span class="tag">Automatic check</span>{:else if captionCheck}<span class="tag"
+				>Caption</span
+			>{:else if agentTag}<span class="tag">From your agent</span>{/if}
 		{#if note.orphaned}<span class="cut" data-tip="That moment was cut.">Line cut</span>{/if}
 		{#if showStatus}<span class="status s-{note.status}"
 				><i></i><Swap value={pending ? "Sending" : STATUS[note.status]} /></span
@@ -176,7 +178,9 @@
 							class="btn {active && i === 0 && verb.primary ? 'primary' : 'quiet'}"
 							onclick={() => run(verb.act)}
 						>
-							<Icon name={verb.icon} small />{verb.label}{#if verb.key && active}<Kbd combo={verb.key} />{/if}
+							<Icon name={verb.icon} small />{verb.label}{#if verb.key && active}<Kbd
+									combo={verb.key}
+								/>{/if}
 						</button>
 					{/each}
 				</div>
@@ -191,7 +195,11 @@
 				>
 					<input
 						bind:value={reply}
-						placeholder={captionCheck ? "Type the correct word or phrase" : note.status === "proposal" ? "Add a comment to this suggestion" : "Not quite? Say what's off"}
+						placeholder={captionCheck
+							? "Type the correct word or phrase"
+							: note.status === "proposal"
+								? "Add a comment to this suggestion"
+								: "Not quite? Say what's off"}
 						aria-label={captionCheck ? `Correct caption ${note.id}` : `Reply to note ${note.id}`}
 						{...picker.attrs}
 						oninput={(e) => picker.sync(e.currentTarget)}
@@ -200,8 +208,10 @@
 						onkeydown={(e) => picker.keydown(e)}
 					/>
 					<RefMenu {picker} />
-					<button class="btn icon send" aria-label={captionCheck ? "Save caption correction" : "Send reply"} disabled={!reply.trim()}
-						><Icon name="send" small /></button
+					<button
+						class="btn icon send"
+						aria-label={captionCheck ? "Save caption correction" : "Send reply"}
+						disabled={!reply.trim()}><Icon name="send" small /></button
 					>
 				</form>
 			{/if}

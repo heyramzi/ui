@@ -51,11 +51,13 @@
 		aria-label="Type what you said between {clock(gap.start)} and {clock(gap.end)}"
 		placeholder="What you said"
 		disabled={sent}
-		onkeydown={onkey}
-	></textarea>
+		onkeydown={onkey}></textarea>
 	<div class="foot">
 		<span class="count num"
-			>{#if sent}Spreading the words over the speech{:else if words}{plural(words, "word")}{/if}</span
+			>{#if sent}Spreading the words over the speech{:else if words}{plural(
+					words,
+					"word",
+				)}{/if}</span
 		>
 		<button class="btn primary" disabled={!text.trim() || sent} onclick={submit}
 			>Add the words<Kbd combo="mod+enter" /></button

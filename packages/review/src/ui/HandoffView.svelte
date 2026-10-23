@@ -30,10 +30,8 @@
 		title={left === 0 ? "Everything has an answer" : `${plural(left, "change")} still to decide`}
 		hint="{kept} kept, {skipped} skipped. Your agent updates the video to match."
 	>
-		<button
-			class="btn primary"
-			disabled={sent || app.review.session === "offline"}
-			onclick={send}>{sent ? "Sent" : "Send to agent"}</button
+		<button class="btn primary" disabled={sent || app.review.session === "offline"} onclick={send}
+			>{sent ? "Sent" : "Send to agent"}</button
 		>
 	</Empty>
 </section>

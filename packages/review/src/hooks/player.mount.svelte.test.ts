@@ -1,5 +1,5 @@
 import { flushSync } from "svelte";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createFilePlayer } from "#src/hooks/player.svelte.js";
 
 /** jsdom has no media pipeline: a video here is a log of what was asked of it. */

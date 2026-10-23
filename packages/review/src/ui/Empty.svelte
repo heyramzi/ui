@@ -9,7 +9,13 @@
 		hint,
 		large = false,
 		children,
-	}: { icon: IconName; title: string; hint?: string; large?: boolean; children?: Snippet } = $props();
+	}: {
+		icon: IconName;
+		title: string;
+		hint?: string;
+		large?: boolean;
+		children?: Snippet;
+	} = $props();
 </script>
 
 <div class="empty" class:large>

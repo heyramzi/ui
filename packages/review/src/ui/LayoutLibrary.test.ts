@@ -1,5 +1,5 @@
 import { flushSync, mount, unmount } from "svelte";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vite-plus/test";
 import type { LibraryCard } from "#src/core/types.js";
 import LayoutLibrary from "#src/ui/LayoutLibrary.svelte";
 

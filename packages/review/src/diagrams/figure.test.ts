@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { person } from "#src/diagrams/figure.js";
 
 const box = (role: string, x: number, y: number, w: number, h: number, zoom?: number) => ({

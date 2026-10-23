@@ -9,7 +9,9 @@
 <!-- Its own class name: the studio's shelf styles `.find` for the header search, and those rules would win here. -->
 <label class="lib-find">
 	<span class="sr">{label}</span>
-	<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><line x1="10.5" y1="10.5" x2="14" y2="14" /></svg>
+	<svg viewBox="0 0 16 16" aria-hidden="true"
+		><circle cx="7" cy="7" r="4.5" /><line x1="10.5" y1="10.5" x2="14" y2="14" /></svg
+	>
 	<input type="search" {placeholder} bind:value autocomplete="off" spellcheck="false" />
 </label>
 

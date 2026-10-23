@@ -1,8 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { locate, nextJump, outputAt, playlist, relocate } from "#src/core/clock.js";
 import type { LiveRange } from "#src/core/types.js";
 
-const r = (source: string, start: number, end: number, kept = true): LiveRange => ({ source, start, end, kept });
+const r = (source: string, start: number, end: number, kept = true): LiveRange => ({
+  source,
+  start,
+  end,
+  kept,
+});
 
 // Two takes: A 0-4 and 6-9 kept, B 10-12 kept, A 4-6 dropped.
 const ranges = [r("a", 0, 4), r("a", 4, 6, false), r("a", 6, 9), r("b", 10, 12)];

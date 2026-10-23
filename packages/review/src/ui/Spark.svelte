@@ -32,14 +32,20 @@
 	class="spark"
 	class:done={phase === "copied"}
 	data-state={phase === "idle" ? undefined : phase}
-	title={phase === "copied" ? "Copied" : phase === "failed" ? "Couldn't copy. Allow clipboard access and try again." : "Copy for your agent"}
+	title={phase === "copied"
+		? "Copied"
+		: phase === "failed"
+			? "Couldn't copy. Allow clipboard access and try again."
+			: "Copy for your agent"}
 	aria-label={label}
 	onclick={copy}
 >
 	<span class="glyphs">
 		<Icon name={phase === "copied" ? "check" : "spark"} />
 	</span>
-	<span class="sr" aria-live="polite">{phase === "copied" ? "Copied" : phase === "failed" ? "Couldn't copy" : ""}</span>
+	<span class="sr" aria-live="polite"
+		>{phase === "copied" ? "Copied" : phase === "failed" ? "Couldn't copy" : ""}</span
+	>
 </button>
 
 <style>

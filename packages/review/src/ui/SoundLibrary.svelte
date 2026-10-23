@@ -118,52 +118,56 @@
 
 <div class="library">
 	{#if sounds.length}
-		<LibrarySearch bind:value={query} label="Search sounds" placeholder="Search {sounds.length} sounds" />
+		<LibrarySearch
+			bind:value={query}
+			label="Search sounds"
+			placeholder="Search {sounds.length} sounds"
+		/>
 	{/if}
 	{#each groups as { group, cards } (group)}
 		<LibraryGroup title={group} count={cards.length}>
-				{#each cards as card (card.id)}
-					{@const lit = playing === card.id ? Math.round(progress * BARS) : 0}
-					<li
-						class="has-spark"
-						class:playing={playing === card.id}
-						aria-current={playing === card.id ? "true" : undefined}
-						use:watch={card}
-					>
-						<figure>
-							<button
-								type="button"
-								class="play"
-								disabled={!card.src || broken[card.id]}
-								aria-label="{playing === card.id ? 'Pause' : 'Play'} {title(card)}"
-								data-tip={!card.src
-									? "Sound file missing"
-									: broken[card.id]
-										? "This sound won't play"
-										: undefined}
-								onclick={() => toggle(card)}
-							>
-								<Icon name={playing === card.id ? "pause" : "play"} />
-							</button>
-							<div class="wave" aria-hidden="true">
-								{#each { length: BARS } as _, i (i)}
-									<span
-										class:on={i < lit}
-										style:height="{Math.max(8, Math.round((peaks[card.id]?.[i] ?? 0.08) * 100))}%"
-									></span>
-								{/each}
-							</div>
-						</figure>
-						{#if card.agent}
-							<Spark label="Copy {title(card)} for your agent" text={card.agent} />
-						{/if}
-						<div class="head">
-							<b>{title(card)}</b>
-							<span class="len">{length(card.seconds)}</span>
+			{#each cards as card (card.id)}
+				{@const lit = playing === card.id ? Math.round(progress * BARS) : 0}
+				<li
+					class="has-spark"
+					class:playing={playing === card.id}
+					aria-current={playing === card.id ? "true" : undefined}
+					use:watch={card}
+				>
+					<figure>
+						<button
+							type="button"
+							class="play"
+							disabled={!card.src || broken[card.id]}
+							aria-label="{playing === card.id ? 'Pause' : 'Play'} {title(card)}"
+							data-tip={!card.src
+								? "Sound file missing"
+								: broken[card.id]
+									? "This sound won't play"
+									: undefined}
+							onclick={() => toggle(card)}
+						>
+							<Icon name={playing === card.id ? "pause" : "play"} />
+						</button>
+						<div class="wave" aria-hidden="true">
+							{#each { length: BARS } as _, i (i)}
+								<span
+									class:on={i < lit}
+									style:height="{Math.max(8, Math.round((peaks[card.id]?.[i] ?? 0.08) * 100))}%"
+								></span>
+							{/each}
 						</div>
-						{#if card.job}<small class="job">{card.job}</small>{/if}
-					</li>
-				{/each}
+					</figure>
+					{#if card.agent}
+						<Spark label="Copy {title(card)} for your agent" text={card.agent} />
+					{/if}
+					<div class="head">
+						<b>{title(card)}</b>
+						<span class="len">{length(card.seconds)}</span>
+					</div>
+					{#if card.job}<small class="job">{card.job}</small>{/if}
+				</li>
+			{/each}
 		</LibraryGroup>
 	{:else}
 		<LibraryEmpty {query} onclear={() => (query = "")}>

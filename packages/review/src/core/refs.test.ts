@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { findItem, insertRef, itemsFor, splitRefs, triggerAt } from "#src/core/refs.js";
 import type { Shelf } from "#src/core/types.js";
 import { must } from "#src/test-support.js";

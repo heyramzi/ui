@@ -55,8 +55,7 @@ export function applyNoteAct(notes: readonly Note[], id: string, act: NoteAct): 
   const note = notes.find((item) => item.id === id);
   if (!note) return fail("That note is gone.");
   const verb = NOTE_VERBS[act];
-  if (!verb.from.includes(note.status))
-    return fail("That note can't be changed now.");
+  if (!verb.from.includes(note.status)) return fail("That note can't be changed now.");
   if (verb.to === null) return { ok: true, notes: notes.filter((item) => item.id !== id) };
   const to = verb.to;
   const next: Note = {

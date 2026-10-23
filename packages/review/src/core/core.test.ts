@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { ICONS, spriteMarkup } from "#src/ui/sprite.js";
 import { applyOptimistic } from "#src/core/optimistic.js";
 import { effectiveState, passMeta, splitRail } from "#src/core/passes.js";

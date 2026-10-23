@@ -1,9 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import type { Paragraph, TranscriptLine } from "#src/core/types.js";
 import { must } from "#src/test-support.js";
 import { timedWords, wordAt, wordClock, wordKey, wordStart } from "#src/core/words.js";
 
-const line = (text: string, seconds: number, wordSeconds?: number[], cut = false): TranscriptLine => ({
+const line = (
+  text: string,
+  seconds: number,
+  wordSeconds?: number[],
+  cut = false,
+): TranscriptLine => ({
   at: "0:00",
   seconds,
   text,

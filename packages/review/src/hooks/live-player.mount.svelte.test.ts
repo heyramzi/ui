@@ -1,5 +1,5 @@
 import { flushSync } from "svelte";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createLivePlayer } from "#src/hooks/live-player.svelte.js";
 import type { LivePlan } from "#src/core/types.js";
 
@@ -45,7 +45,10 @@ describe("the play-list player under the stage's mount effect", () => {
     // Mounted once: two videos, none torn down, the proxy asked for once per slot.
     expect(host.querySelectorAll("video")).toHaveLength(2);
     expect(loads).toBe(0);
-    expect([...host.querySelectorAll("video")].map((el) => el.getAttribute("src"))).toEqual(["/a.mp4", "/a.mp4"]);
+    expect([...host.querySelectorAll("video")].map((el) => el.getAttribute("src"))).toEqual([
+      "/a.mp4",
+      "/a.mp4",
+    ]);
     // A later lock and unlock (the job flips outdated and back) doesn't remount either.
     player.lock(true);
     player.lock(false);

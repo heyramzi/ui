@@ -65,10 +65,7 @@
 	></audio>
 
 	{#if !music || music.options.length === 0}
-		<Empty
-			icon="music"
-			title={music?.more ? wait : "No tracks yet"}
-		>
+		<Empty icon="music" title={music?.more ? wait : "No tracks yet"}>
 			{#if !music?.more}<button
 					class="btn primary"
 					onclick={() => app.review.act({ type: "music", more: true })}

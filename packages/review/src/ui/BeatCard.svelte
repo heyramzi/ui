@@ -94,10 +94,10 @@
 			>
 			{#if option?.alpha}<span class="chip">Transparent</span>{/if}
 			<span class="at num">{beat.at}</span>
-			{#if shown !== hideState}<span class="state s-{shown}"><Swap value={STATE_LABEL[shown]} /></span
+			{#if shown !== hideState}<span class="state s-{shown}"
+					><Swap value={STATE_LABEL[shown]} /></span
 				>{/if}
-			{#if beat.orphaned}<span class="chip" data-tip="That moment was cut.">Line cut</span
-				>{/if}
+			{#if beat.orphaned}<span class="chip" data-tip="That moment was cut.">Line cut</span>{/if}
 			{#if noted > 0}<span class="chip tinted tone-accent"
 					><Icon name="note" small /><Swap value={noted} /></span
 				>{/if}
@@ -135,8 +135,7 @@
 						class="btn"
 						class:primary={current}
 						class:solid={!current}
-						onclick={() => decide("approved")}
-						>Keep<Kbd combo="y" /></button
+						onclick={() => decide("approved")}>Keep<Kbd combo="y" /></button
 					>
 				{/if}
 				<button class="btn solid" onclick={() => decide("skipped")}>Skip<Kbd combo="n" /></button>

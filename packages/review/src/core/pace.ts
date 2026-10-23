@@ -30,14 +30,13 @@ export function lengthOf(model: Pick<ReviewModel, "player" | "paragraphs" | "bea
  * Intro is the first chapter, outro the last, the meat everything between. With fewer than
  * three chapters there's nothing to split, so the whole video is one section.
  */
-export function sectionsOf(
-  model: Pick<ReviewModel, "player" | "paragraphs" | "beats">,
-): Section[] {
+export function sectionsOf(model: Pick<ReviewModel, "player" | "paragraphs" | "beats">): Section[] {
   const end = lengthOf(model);
   const starts = model.paragraphs.filter((p) => p.chapter).map((p) => clockToSeconds(p.at));
   const introEnd = starts[1];
   const outroStart = starts.at(-1);
-  if (starts.length < 3 || end <= 0 || introEnd === undefined || outroStart === undefined) return [];
+  if (starts.length < 3 || end <= 0 || introEnd === undefined || outroStart === undefined)
+    return [];
   return [
     { id: "intro", label: "Intro", from: 0, to: introEnd },
     { id: "meat", label: "Meat", from: introEnd, to: outroStart },
@@ -48,7 +47,9 @@ export function sectionsOf(
 export function paceOf(model: Pick<ReviewModel, "player" | "paragraphs" | "beats">): PaceRow[] {
   const beats = model.beats.filter(live);
   const row = (id: PaceRow["id"], label: string, from: number, to: number): PaceRow => {
-    const inside = beats.filter((b) => b.seconds >= from && b.seconds < to + (id === "outro" || id === "all" ? 1 : 0));
+    const inside = beats.filter(
+      (b) => b.seconds >= from && b.seconds < to + (id === "outro" || id === "all" ? 1 : 0),
+    );
     return {
       id,
       label,

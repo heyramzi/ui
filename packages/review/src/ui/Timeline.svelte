@@ -208,8 +208,7 @@
 								style:left="{pct(span.from)}%"
 								style:width="{pct(span.to) - pct(span.from)}%"
 								onfocus={hidden ? focusSpan : undefined}
-								onblur={hidden ? leave : undefined}
-								>{hidden ? "" : (text ?? "")}</span
+								onblur={hidden ? leave : undefined}>{hidden ? "" : (text ?? "")}</span
 							>
 						{/each}
 					</div>

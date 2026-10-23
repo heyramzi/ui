@@ -9,13 +9,16 @@
 
 <!-- A phone's way between the pass, the notes and the steps. The video stays above all three. -->
 <nav class="tabs" aria-label="Sections">
-	<button class="tab" aria-current={tab === "work" ? "page" : undefined} onclick={() => p.hideSheet()}
-		><Icon name="check" />Work</button
+	<button
+		class="tab"
+		aria-current={tab === "work" ? "page" : undefined}
+		onclick={() => p.hideSheet()}><Icon name="check" />Work</button
 	>
 	<button
 		class="tab"
 		aria-current={tab === "notes" ? "page" : undefined}
-		onclick={() => (tab === "notes" ? p.hideSheet() : p.showPanel())}><Icon name="note" />Notes</button
+		onclick={() => (tab === "notes" ? p.hideSheet() : p.showPanel())}
+		><Icon name="note" />Notes</button
 	>
 	<button
 		class="tab"

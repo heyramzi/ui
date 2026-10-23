@@ -17,9 +17,7 @@
 	// WHY: the panel and the pane fit the screen until dragged, so a drag starts from the width on screen, not the stored one.
 	function current(): number {
 		const box =
-			side === "pane"
-				? grip?.closest(".body")?.querySelector(".pane-scroll")
-				: grip?.parentElement;
+			side === "pane" ? grip?.closest(".body")?.querySelector(".pane-scroll") : grip?.parentElement;
 		return box ? Math.round(box.getBoundingClientRect().width) : width;
 	}
 

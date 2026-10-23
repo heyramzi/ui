@@ -139,8 +139,7 @@
 					onkeyup={(e) =>
 						/^(Arrow(Left|Right)|Home|End)$/.test(e.key) && picker.sync(e.currentTarget)}
 					onblur={() => picker.close()}
-					onkeydown={onkey}
-				></textarea>
+					onkeydown={onkey}></textarea>
 				<RefMenu {picker} />
 			</div>
 			<div class="row">
@@ -178,8 +177,9 @@
 						class="btn"
 						onmousedown={(e) => e.preventDefault()}
 						onclick={mention}
-						data-tip="Mention a {app.library.shelves.map((s) => s.label.toLowerCase()).join(', ')} item"
-						><Icon name="plus" small />Mention<Kbd combo="@" /></button
+						data-tip="Mention a {app.library.shelves
+							.map((s) => s.label.toLowerCase())
+							.join(', ')} item"><Icon name="plus" small />Mention<Kbd combo="@" /></button
 					>
 				{/if}
 				<button class="btn primary" disabled={!c.text.trim()} onclick={submit}

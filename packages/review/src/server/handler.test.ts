@@ -3,7 +3,7 @@ import type { AddressInfo } from "node:net";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vite-plus/test";
 import type { ReviewAction, ReviewAdapter, ReviewModel } from "#src/core/types.js";
 import { createReviewHandler, ReviewError } from "#src/server/index.js";
 import { must } from "#src/test-support.js";

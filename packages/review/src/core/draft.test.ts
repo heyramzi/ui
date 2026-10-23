@@ -1,5 +1,12 @@
-import { describe, expect, it } from "vitest";
-import { finalButton, finalRoute, guessedRenderMs, previewToShow, progressOf, renderEstimate } from "#src/core/draft.js";
+import { describe, expect, it } from "vite-plus/test";
+import {
+  finalButton,
+  finalRoute,
+  guessedRenderMs,
+  previewToShow,
+  progressOf,
+  renderEstimate,
+} from "#src/core/draft.js";
 
 describe("previewToShow", () => {
   it("keeps the file on screen while the preview waits or renders", () => {
@@ -62,7 +69,10 @@ describe("renderEstimate", () => {
 describe("finalButton", () => {
   it("offers the final when there isn't a current one, and says why when it can", () => {
     expect(finalButton({ state: "none" })).toEqual({ label: "Render final", disabled: false });
-    expect(finalButton({ state: "outdated" })).toMatchObject({ label: "Render final", disabled: false });
+    expect(finalButton({ state: "outdated" })).toMatchObject({
+      label: "Render final",
+      disabled: false,
+    });
     expect(finalButton({ state: "failed", stage: "render", error: "disk full" })).toMatchObject({
       disabled: false,
       tip: "The last try didn't finish. Try again.",
@@ -70,13 +80,29 @@ describe("finalButton", () => {
   });
 
   it("can't be pressed while the final waits, draws, or is up to date", () => {
-    expect(finalButton({ state: "queued", ahead: 0, outdated: false })).toEqual({ label: "Your final is next in line", disabled: true });
-    expect(finalButton({ state: "queued", ahead: 2, outdated: true }).label).toBe("Your final is in line");
-    expect(finalButton({ state: "rendering", elapsedMs: 5, outdated: false })).toEqual({ label: "Making your final", disabled: true });
+    expect(finalButton({ state: "queued", ahead: 0, outdated: false })).toEqual({
+      label: "Your final is next in line",
+      disabled: true,
+    });
+    expect(finalButton({ state: "queued", ahead: 2, outdated: true }).label).toBe(
+      "Your final is in line",
+    );
+    expect(finalButton({ state: "rendering", elapsedMs: 5, outdated: false })).toEqual({
+      label: "Making your final",
+      disabled: true,
+    });
     expect(
-      finalButton({ state: "rendering", elapsedMs: 5, outdated: false, progress: { stage: "preparing" } }).label,
+      finalButton({
+        state: "rendering",
+        elapsedMs: 5,
+        outdated: false,
+        progress: { stage: "preparing" },
+      }).label,
     ).toBe("Making your final, getting ready");
-    expect(finalButton({ state: "current" })).toEqual({ label: "Final is up to date", disabled: true });
+    expect(finalButton({ state: "current" })).toEqual({
+      label: "Final is up to date",
+      disabled: true,
+    });
   });
 
   it("asks the studio's render route for the video, name encoded", () => {

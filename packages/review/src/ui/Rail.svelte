@@ -70,7 +70,7 @@
 	// WHY: the number is what the 1-9 keys jump to, so the collapsed strip shows it as each node's own cue.
 	const order = $derived(new Map(model ? clickable(model).map((pass, i) => [pass.id, i + 1]) : []));
 
-	const railFocused = ()=> !!list?.contains(document.activeElement);
+	const railFocused = () => !!list?.contains(document.activeElement);
 
 	async function step(delta: number) {
 		const target = app.pass.move(delta);
@@ -150,7 +150,9 @@
 								<span class="step num" aria-hidden="true">{order.get(pass.id)}</span>
 								<span class="label">{pass.label}</span>
 								{@render meta(pass)}
-								{#if open > 0}<span class="notes num" aria-label="{open} {open === 1 ? 'note' : 'notes'} open"
+								{#if open > 0}<span
+										class="notes num"
+										aria-label="{open} {open === 1 ? 'note' : 'notes'} open"
 										><Swap value={open} /></span
 									>{/if}
 							</button>

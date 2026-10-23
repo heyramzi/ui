@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { parseAction } from "#src/server/guards.js";
 
 const good = { type: "speech", source: "cam", start: 8, end: 14, text: "the line" };

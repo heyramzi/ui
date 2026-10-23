@@ -1,6 +1,6 @@
 <script lang="ts" generics="Id extends string">
 	import { tick } from "svelte";
-	import StatusDot from "@heyramzi/ui/tasks/status-dot";
+	import { StatusDot } from "@heyramzi/ui/status";
 	import { MARKS, type Mark } from "#src/ui/marks.js";
 	import Swap from "#src/ui/Swap.svelte";
 	import { glide } from "#src/ui/glide.js";

@@ -1,6 +1,6 @@
-import StatusDot from "@heyramzi/ui/tasks/status-dot";
+import { StatusDot } from "@heyramzi/ui/status";
 import { flushSync, mount, unmount } from "svelte";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vite-plus/test";
 import { must } from "#src/test-support.js";
 import { MARKS, type Mark } from "#src/ui/marks.js";
 

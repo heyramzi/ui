@@ -47,8 +47,8 @@ export function useTheme() {
       }
       const style = getComputedStyle(document.documentElement);
       const raw = style.getPropertyValue("--duration-slow").trim();
-      // WHY: the built stylesheet is minified, so 400ms can come back as .4s.
-      const duration = raw.endsWith("ms") ? parseFloat(raw) : parseFloat(raw) * 1000 || 400;
+      // WHY: the built stylesheet is minified, so 300ms can come back as .3s.
+      const duration = raw.endsWith("ms") ? parseFloat(raw) : parseFloat(raw) * 1000 || 300;
       const easing = style.getPropertyValue("--ease-smooth-out").trim() || "ease-out";
       revealTheme(
         event,

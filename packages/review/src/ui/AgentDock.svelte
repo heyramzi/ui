@@ -75,7 +75,9 @@
 		class="btn send solid"
 		class:primary={left === 0}
 		disabled={sent || session === "offline"}
-		data-tip={left > 0 ? `${left} ${left === 1 ? "change" : "changes"} still to decide` : "Ask your agent to update the video to match"}
+		data-tip={left > 0
+			? `${left} ${left === 1 ? "change" : "changes"} still to decide`
+			: "Ask your agent to update the video to match"}
 		onclick={send}
 	>
 		<Icon name="send" small />

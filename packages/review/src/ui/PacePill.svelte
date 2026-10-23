@@ -64,16 +64,22 @@
 							class="cell tone-{toneOf(layouts, TARGETS.layouts)}"
 							title="{row.layouts} layout changes in {minutes(row.minutes)}"
 						>
-							<span class="value num">{Math.round(layouts)}<span class="of"> / {TARGETS.layouts}</span></span>
-							<span class="meter" style:--fill="{Math.min(layouts / TARGETS.layouts, 1) * 100}%"></span>
+							<span class="value num"
+								>{Math.round(layouts)}<span class="of"> / {TARGETS.layouts}</span></span
+							>
+							<span class="meter" style:--fill="{Math.min(layouts / TARGETS.layouts, 1) * 100}%"
+							></span>
 							<span class="kind">Layout changes</span>
 						</span>
 						<span
 							class="cell tone-{toneOf(inserts, TARGETS.inserts)}"
 							title="{row.inserts} clips in {minutes(row.minutes)}"
 						>
-							<span class="value num">{Math.round(inserts)}<span class="of"> / {TARGETS.inserts}</span></span>
-							<span class="meter" style:--fill="{Math.min(inserts / TARGETS.inserts, 1) * 100}%"></span>
+							<span class="value num"
+								>{Math.round(inserts)}<span class="of"> / {TARGETS.inserts}</span></span
+							>
+							<span class="meter" style:--fill="{Math.min(inserts / TARGETS.inserts, 1) * 100}%"
+							></span>
 							<span class="kind">Clips</span>
 						</span>
 					</li>

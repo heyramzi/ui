@@ -8,7 +8,8 @@
 	// WHY the same key as the shelf: both pages share one origin, so a choice made on a card is the one this button opens.
 	const KEY = "editor-os.descript-open";
 	// WHY: a phone has no Descript app to hand the link to, so the app row would be a dead end there.
-	const canApp = typeof matchMedia === "function" ? matchMedia("(any-pointer: fine)").matches : true;
+	const canApp =
+		typeof matchMedia === "function" ? matchMedia("(any-pointer: fine)").matches : true;
 
 	function remembered(): Target {
 		try {
@@ -109,7 +110,9 @@
 					<span class="name">{row.label}</span>
 					<span class="note">{row.note}</span>
 				</span>
-				<span class="mark">{#if row.id === current}<Icon name="check" small />{/if}</span>
+				<span class="mark"
+					>{#if row.id === current}<Icon name="check" small />{/if}</span
+				>
 			</a>
 		{/each}
 	</div>

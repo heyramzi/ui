@@ -41,7 +41,8 @@ export const ICONS: Record<IconName, string> = {
   plus: '<path d="M12 5v14M5 12h14"/>',
   expand: '<path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/>',
   "skip-back": '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5V9h4.5"/>',
-  external: '<path d="M14 4h6v6M20 4l-9 9M18 14v3.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 4 17.5v-9A2.5 2.5 0 0 1 6.5 6H10"/>',
+  external:
+    '<path d="M14 4h6v6M20 4l-9 9M18 14v3.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 4 17.5v-9A2.5 2.5 0 0 1 6.5 6H10"/>',
   "skip-fwd": '<path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4.5V9h-4.5"/>',
   minus: '<path d="M5 12h14"/>',
   alert: '<path d="M12 4 3 19.5h18z"/><path d="M12 10v4M12 17h.01"/>',

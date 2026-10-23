@@ -26,6 +26,6 @@ mounted = mountReview(document.getElementById("root") as HTMLElement, {
 if (params.get("toolbar") !== "0") mountToolbar(id);
 void mounted;
 
-// WHY: React Grab is a dev tool. A dynamic import in this file keeps it out of the library build.
+// WHY: grab is a dev tool. A dynamic import in this file keeps it out of the library build.
 if (import.meta.env.DEV && params.get("grab") !== "0")
-  void import("react-grab").catch(() => undefined);
+  void import("@heyramzi/utils/grab").catch(() => undefined);

@@ -171,7 +171,7 @@
   --bad-soft: color-mix(in oklab, var(--bad) 16%, var(--surface));
   --bot-soft: color-mix(in oklab, var(--bot) 15%, var(--surface));
 
-  /* The @heyramzi/tasks tone names, read by its status dots, mapped onto review's palette. */
+  /* The @heyramzi/ui/work tone names, read by its status dots, mapped onto review's palette. */
   --color-muted-foreground: var(--dim);
   --tone-accent: var(--accent);
   --color-success: var(--ok);

@@ -84,10 +84,7 @@
 	<div class="right">
 		{#if model?.descript}<OpenInDescript links={model.descript} />{/if}
 		<RenderFinal />
-		<SaveStatus
-			status={app.review.save}
-			onretry={() => app.review.retry()}
-		/>
+		<SaveStatus status={app.review.save} onretry={() => app.review.retry()} />
 		<button
 			class="btn icon"
 			class:spinning={app.review.reloading}

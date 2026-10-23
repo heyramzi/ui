@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { NOTE_VERBS } from "#src/core/notes.js";
 import type { Note, NoteStatus } from "#src/core/types.js";
 import { addNote, applyNoteAct, applyReply, nextId, replyTo } from "#src/server/notes.js";
@@ -55,7 +55,11 @@ describe("notes verbs", () => {
   });
   it("a proposal takes a comment and becomes a person-owned open note", () => {
     const result = applyReply([note("n1", "proposal", { by: "agent" })], "n1", "Claude");
-    expect(result.ok && result.notes[0]).toMatchObject({ status: "open", by: "person", thread: [{ by: "person", text: "Claude" }] });
+    expect(result.ok && result.notes[0]).toMatchObject({
+      status: "open",
+      by: "person",
+      thread: [{ by: "person", text: "Claude" }],
+    });
     expect(applyReply([note("n1", "proposal")], "n1", " ").ok).toBe(false);
   });
   it("reply moves the old answer into the thread and reopens", () => {

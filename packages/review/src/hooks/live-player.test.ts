@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createLivePlayer } from "#src/hooks/live-player.svelte.js";
 import type { LivePlan } from "#src/core/types.js";
 
@@ -22,7 +22,12 @@ beforeEach(() => {
     },
   });
   Object.defineProperty(proto, "readyState", { configurable: true, get: () => 4 });
-  Object.defineProperty(proto, "paused", { configurable: true, get(this: HTMLMediaElement) { return !playing.has(this); } });
+  Object.defineProperty(proto, "paused", {
+    configurable: true,
+    get(this: HTMLMediaElement) {
+      return !playing.has(this);
+    },
+  });
   proto.play = function (this: HTMLMediaElement) {
     playing.add(this);
     this.dispatchEvent(new Event("play"));
@@ -114,7 +119,14 @@ describe("the play-list player", () => {
     player.toggle();
     time.set(one, 2);
     frame();
-    player.follow(plan({ ranges: [{ source: "a", start: 0, end: 3, kept: true }, { source: "b", start: 10, end: 12, kept: true }] }));
+    player.follow(
+      plan({
+        ranges: [
+          { source: "a", start: 0, end: 3, kept: true },
+          { source: "b", start: 10, end: 12, kept: true },
+        ],
+      }),
+    );
     expect(player.locked).toBe(false);
     expect(player.duration).toBe(5);
     expect(player.paused).toBe(false);

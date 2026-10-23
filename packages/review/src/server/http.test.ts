@@ -1,6 +1,6 @@
 import { createServer, type Server } from "node:http";
 import type { AddressInfo } from "node:net";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vite-plus/test";
 import { json, readBody, readBytes } from "#src/server/index.js";
 
 let server: Server;
@@ -37,7 +37,10 @@ describe("readBody and json", () => {
   });
 
   it("keeps binary bytes as they came", async () => {
-    const res = await fetch(`${url}/bytes`, { method: "POST", body: new Uint8Array([0x25, 0x50, 0xff, 0x00]) });
+    const res = await fetch(`${url}/bytes`, {
+      method: "POST",
+      body: new Uint8Array([0x25, 0x50, 0xff, 0x00]),
+    });
     expect(await res.json()).toEqual({ hex: "2550ff00" });
   });
 
