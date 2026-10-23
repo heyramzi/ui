@@ -29,6 +29,14 @@ export type BrandColors = {
   surfaceLight?: CssColor;
   /** Borders on a light page. */
   lineLight?: CssColor;
+  /** The key button on a light page. Falls back to the near-black neutral. */
+  primary?: CssColor;
+  /** Text on the key button on a light page. */
+  primaryForeground?: CssColor;
+  /** The key button on a dark page. Falls back to paper. */
+  primaryOnDark?: CssColor;
+  /** Text on the key button on a dark page. */
+  primaryForegroundOnDark?: CssColor;
 };
 
 export type BrandFonts = {
@@ -61,6 +69,10 @@ const COLOR_VARS = {
   paper: "--brand-paper",
   surfaceLight: "--brand-surface-light",
   lineLight: "--brand-line-light",
+  primary: "--brand-primary",
+  primaryForeground: "--brand-primary-foreground",
+  primaryOnDark: "--brand-primary-on-dark",
+  primaryForegroundOnDark: "--brand-primary-foreground-on-dark",
 } as const satisfies Record<keyof BrandColors, string>;
 
 const FONT_VARS = {

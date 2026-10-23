@@ -38,6 +38,12 @@
   --brand-surface-light: oklch(0.99 0 0); /* Cards on a light page */
   --brand-line-light: oklch(0.91 0 0); /* Borders on a light page */
 
+  /* The key button. Each theme has its own pair, since a hue lifted for dark needs dark text. */
+  --brand-primary: var(--gray-900);
+  --brand-primary-foreground: var(--gray-50);
+  --brand-primary-on-dark: var(--brand-paper);
+  --brand-primary-foreground-on-dark: var(--gray-900);
+
   /* === Tint scales ===
      Mixed from the three hues so `--brand` alone yields 100 to 800; 400 is the colour lifted
      for dark, 600 the colour itself. */
@@ -220,8 +226,8 @@
   --color-popover: var(--brand-surface-light);
   --color-popover-foreground: var(--gray-900);
 
-  --color-primary: var(--gray-900);
-  --color-primary-foreground: var(--gray-50);
+  --color-primary: var(--brand-primary);
+  --color-primary-foreground: var(--brand-primary-foreground);
 
   --color-secondary: var(--gray-100);
   --color-secondary-foreground: var(--gray-900);
@@ -320,8 +326,8 @@
   --color-popover: var(--brand-surface);
   --color-popover-foreground: var(--brand-paper);
 
-  --color-primary: var(--brand-paper);
-  --color-primary-foreground: var(--gray-900);
+  --color-primary: var(--brand-primary-on-dark);
+  --color-primary-foreground: var(--brand-primary-foreground-on-dark);
 
   --color-secondary: var(--brand-raised);
   --color-secondary-foreground: var(--brand-paper);
