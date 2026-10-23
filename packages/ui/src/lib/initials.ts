@@ -14,9 +14,8 @@ export function initial(name: string | null | undefined, fallback = "?"): string
 }
 
 /**
- * Two letters for an avatar fallback: the first of the first word and the first of the last.
- * Suffix words (III, Jr) are skipped, so "Christopher Alexander Montgomery III" gives "CM".
- * A one-word name gives one letter.
+ * Two letters for an avatar fallback, first and last word, skipping suffixes: "Christopher
+ * Montgomery III" gives "CM". A one-word name gives one letter.
  */
 export function initials(name: string | null | undefined, fallback = "?"): string {
   const words = (name ?? "")

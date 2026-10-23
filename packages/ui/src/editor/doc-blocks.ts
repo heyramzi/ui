@@ -1,7 +1,6 @@
 /**
- * The two document-only behaviours that need the editor's own DOM: an anchor on every
- * heading with a "Copy link" on hover, and a code block with line numbers and a
- * language label. Both are decorations, so the document stays plain Tiptap JSON.
+ * Heading anchors with a hover "Copy link", and code blocks with line numbers and a language
+ * label. Both are decorations, so the document stays plain Tiptap JSON.
  */
 import { Extension } from "@tiptap/core";
 import { Plugin, PluginKey } from "@tiptap/pm/state";

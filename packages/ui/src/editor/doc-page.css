@@ -1,5 +1,5 @@
-/* A document's type, scoped to `.doc-surface` so the boxed editor and the blog renderer keep
-   theirs. One scale: 15/24 body, 19 and 17 for the two heading steps the outline lists. */
+/* A document's type, scoped to `.doc-surface` so other editors keep theirs: 15/24 body,
+   19 and 17 for the two heading steps. */
 
 .doc-surface .tiptap {
   font-family: var(--font-sans);
