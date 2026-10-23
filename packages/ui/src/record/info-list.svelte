@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import type { Snippet } from "svelte";
 	import { Check, CaretUpDown } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
@@ -23,9 +24,32 @@
 		/** A heading over the list. Left out, nothing is drawn. */
 		title?: string | null;
 		labels?: Partial<RecordLabels>;
+		/**
+		 * `list` is the editable label and value grid. `row` is a read-only band of items that
+		 * wrap, with values that truncate. Rows ignore `onSave` there and keep their empty ones.
+		 */
+		layout?: "list" | "row";
+		/** `row` only. Where the label sits against its value. */
+		labelPosition?: "above" | "beside";
+		/** `row` only. Classes for the `<dl>`, to set a grid or a gap. */
+		listClass?: string;
+		/** `row` only. Classes for each item, to cap its width. */
+		itemClass?: string;
+		/** `row` only. Sits after the list on the same line, a button for the whole band. */
+		trailing?: Snippet;
 		class?: string;
 	}
-	let { rows, title = null, labels, class: className }: Props = $props();
+	let {
+		rows,
+		title = null,
+		labels,
+		layout = "list",
+		labelPosition = "above",
+		listClass,
+		itemClass,
+		trailing,
+		class: className,
+	}: Props = $props();
 
 	// =========================
 	// STATE
@@ -42,9 +66,13 @@
 	let t = $derived(resolveLabels(labels));
 	// A read-only row with nothing in it is noise. An editable one stays, as the way to fill it.
 	let shown = $derived(
-		rows.filter(
+		(layout === "row" ? rows.filter((r) => !r.divider) : rows).filter(
 			(r) =>
-				r.divider || r.onSave || (r.value != null && r.value !== "") || (r.chips?.length ?? 0) > 0,
+				layout === "row" ||
+				r.divider ||
+				r.onSave ||
+				(r.value != null && r.value !== "") ||
+				(r.chips?.length ?? 0) > 0,
 		),
 	);
 	// Past this many options a plain list is slower than typing.
@@ -135,7 +163,7 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-{#snippet display(row: InfoRow)}
+{#snippet display(row: InfoRow, clamp = false)}
 	{#if row.chips?.length}
 		<span class="flex flex-wrap items-center gap-1">
 			{#each row.chips as chip (chip.label)}
@@ -147,12 +175,17 @@
 	{:else if row.href && row.value}
 		<a
 			href={row.href}
-			class="min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline">{row.value}</a
+			class={cn(
+				"min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline",
+				clamp &&
+					"rounded-xs focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+			)}>{row.value}</a
 		>
 	{:else if row.value}
 		<span
 			class={cn(
-				"min-w-0 text-sm font-medium tabular-nums wrap-anywhere whitespace-pre-line",
+				"min-w-0 text-sm font-medium tabular-nums",
+				clamp ? "truncate" : "wrap-anywhere whitespace-pre-line",
 				row.muted && "text-muted-foreground",
 			)}>{row.value}</span
 		>
@@ -215,7 +248,54 @@
 	</Popover.Root>
 {/snippet}
 
-{#if shown.length > 0}
+{#if layout === "row" && (shown.length > 0 || trailing)}
+	<div class={cn("flex items-start justify-between gap-4", className)}>
+		<dl class={cn("flex min-w-0 flex-1 flex-wrap gap-x-8 gap-y-2", listClass)}>
+			{#each shown as row (keyOf(row))}
+				<div
+					class={cn(
+						"min-w-0",
+						labelPosition === "beside" && "flex items-baseline gap-2",
+						itemClass,
+					)}
+				>
+					<dt
+						class={cn(
+							"flex items-center gap-1.5 text-xs text-muted-foreground",
+							labelPosition === "beside" && "shrink-0",
+						)}
+					>
+						{#if row.term}
+							{@render row.term()}
+						{:else}
+							{#if row.icon}
+								{@const Icon = row.icon}
+								<Icon class="size-3.5 shrink-0" aria-hidden="true" />
+							{/if}
+							{row.label}
+						{/if}
+					</dt>
+					<dd
+						class="flex min-w-0 items-center gap-1.5"
+						title={row.content ? undefined : (row.value ?? undefined)}
+					>
+						{#if row.content}
+							{@render row.content()}
+						{:else if isEmpty(row)}
+							<span class="min-w-0 truncate text-sm text-muted-foreground" title={row.placeholder}
+								>{row.placeholder ?? "-"}</span
+							>
+						{:else}
+							{@render display(row, true)}
+						{/if}
+						{@render row.action?.()}
+					</dd>
+				</div>
+			{/each}
+		</dl>
+		{@render trailing?.()}
+	</div>
+{:else if shown.length > 0}
 	<div class={cn("flex flex-col gap-2", className)}>
 		{#if title}
 			<h2 class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{title}</h2>

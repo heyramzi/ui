@@ -133,6 +133,10 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `typing-dots` — TypingDots
 - `voice-waveform` — VoiceWaveform
 
+## Record (`src/record`)
+
+- `info-list` — InfoList. An editable label and value `<dl>`; `layout="row"` makes it a read-only band of items that wrap and truncate, with `term`, `content` and `action` snippets per row and a `trailing` snippet after the list
+
 ---
 
 Skipped on purpose: brand assets (logos, marks, brand renderer), kanban, list, gantt and status (they live in `@heyramzi/ui/tasks`), and charts

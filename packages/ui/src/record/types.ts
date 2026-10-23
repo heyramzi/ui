@@ -1,5 +1,6 @@
 // The view types of a client or project record. Plain data in, nothing loaded:
 // the host maps its own rows onto these and passes them down.
+import type { Snippet } from "svelte";
 import type { PhosphorIcon } from "#src/lib/icon-types.js";
 import type { Tone } from "#src/lib/tone.js";
 
@@ -186,6 +187,12 @@ export type InfoRow = {
   /** Without it the row is read-only. A multi row passes the picked keys. */
   onSave?: (value: string | string[]) => void | Promise<void>;
   divider?: boolean;
+  /** `layout="row"` only. Replaces the label text inside the `<dt>` (key chips, say). `label` still names the row. */
+  term?: Snippet;
+  /** `layout="row"` only. Replaces the drawn value with arbitrary content. A row with one is never hidden for lacking a value. */
+  content?: Snippet;
+  /** `layout="row"` only. Draws after the value, inside the `<dd>`. */
+  action?: Snippet;
 };
 
 /** A kind of event: how its filter chip and its default row read. */
