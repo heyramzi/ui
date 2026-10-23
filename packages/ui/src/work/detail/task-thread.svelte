@@ -21,6 +21,8 @@
 		avatar?: Snippet<[TaskComment]>;
 		/** How a timestamp reads. Defaults to a short date. */
 		when?: (comment: TaskComment) => string;
+		/** The locale the default times read in. */
+		locale?: string;
 		/** Returns false to keep the draft. Without it the composer is hidden. */
 		onSend?: (body: string) => void | boolean | Promise<void | boolean>;
 		onEdit?: (comment: TaskComment, body: string) => void | Promise<void>;
@@ -34,8 +36,11 @@
 		labels: labelOverrides,
 		agentAvatar,
 		avatar,
+		locale = "en-GB",
 		when = (comment) =>
-			new Date(comment.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+			new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(
+				new Date(comment.createdAt),
+			),
 		onSend,
 		onEdit,
 		onDelete,

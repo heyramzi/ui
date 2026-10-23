@@ -75,16 +75,16 @@ const UNITS: [number, Intl.RelativeTimeFormatUnit][] = [
  * A time as a person says it: "3 hr. ago", "Oct 12". A host-formatted string stays as written,
  * and a raw ISO string never reaches the screen.
  */
-export function whenOf(at: string, now: number = Date.now()): string {
+export function whenOf(at: string, now: number = Date.now(), locale = "en-GB"): string {
   if (!ISO.test(at)) return at;
   const time = Date.parse(at);
   if (Number.isNaN(time)) return "";
   const seconds = Math.round((time - now) / 1000);
   const age = Math.abs(seconds);
   if (age >= 4 * 604_800) {
-    return new Date(time).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(time);
   }
-  const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto", style: "short" });
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });
   for (const [size, unit] of UNITS) {
     if (age >= size) return rtf.format(Math.round(seconds / size), unit);
   }

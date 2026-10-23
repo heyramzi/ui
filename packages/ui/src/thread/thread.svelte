@@ -34,6 +34,8 @@
 		when?: (comment: ThreadComment) => string;
 		/** How an event's time reads. Defaults to a short date. */
 		whenEvent?: (event: ThreadEvent) => string;
+		/** The locale the default times read in. */
+		locale?: string;
 		/** Returns false to keep the draft. Without it no composer shows. */
 		onPost?: (post: ThreadPost) => void | boolean | Promise<void | boolean>;
 		onEdit?: (comment: ThreadComment, body: string) => void | Promise<void>;
@@ -50,6 +52,7 @@
 	let {
 		comments,
 		events = [],
+		locale = "en-GB",
 		loading = false,
 		labels: labelOverrides,
 		avatar,
@@ -74,7 +77,7 @@
 	let items = $derived(interleave(shown, events));
 
 	function shortDate(at: string): string {
-		return new Date(at).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+		return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(new Date(at));
 	}
 
 	let draft = $state("");

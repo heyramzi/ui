@@ -465,7 +465,7 @@
 	}
 
 	.time-toggle:active {
-		transform: scale(0.94);
+		transform: scale(0.96);
 	}
 
 	@media (any-pointer: coarse) {
