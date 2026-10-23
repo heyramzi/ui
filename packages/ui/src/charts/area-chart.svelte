@@ -45,6 +45,8 @@
 		xTicks?: number;
 		/** A target drawn across the plot, like the deal a cost runs up to. */
 		reference?: ChartReference;
+		/** The headline while no point is hovered, like a period total. Defaults to the last point. */
+		resting?: { value: number; label: string };
 		class?: string;
 	}
 
@@ -65,6 +67,7 @@
 		formatX = (v) => String(v),
 		xTicks = 6,
 		reference,
+		resting,
 		class: className,
 	}: Props = $props();
 
@@ -127,7 +130,14 @@
 	aria-label="Area chart"
 	onpointerleave={() => (active = null)}
 >
-	{#if figureRows && display}
+	{#if resting && !active && series[0]}
+		<Figure
+			series={[{ value: resting.value, label: series[0].label, color: series[0].color }]}
+			eyebrow={resting.label}
+			format={formatValue}
+			size="md"
+		/>
+	{:else if figureRows && display}
 		<Figure series={figureRows} eyebrow={formatX(display[xKey])} format={formatValue} size="md" />
 	{:else}
 		<Figure value="—" eyebrow="Latest" size="md" />
