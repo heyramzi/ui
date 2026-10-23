@@ -60,3 +60,10 @@
 
 * fix(review): ship compiled JS for the Node exports
 
+
+## [1.1.0](https://github.com/heyramzi/ui/compare/review-v1.0.2...review-v1.1.0) (2026-10-23)
+
+### Features
+
+* feat(ui)!: keep UI motion under 300ms; very-slow splits into overlay and loop
+

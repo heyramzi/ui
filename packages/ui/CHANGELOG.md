@@ -929,3 +929,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): brand settings take primary colors for the key button, light and dark
 
+
+## [2.8.0](https://github.com/heyramzi/ui/compare/ui-v2.7.0...ui-v2.8.0) (2026-10-23)
+
+### Features
+
+* feat(ui)!: keep UI motion under 300ms; very-slow splits into overlay and loop
+
