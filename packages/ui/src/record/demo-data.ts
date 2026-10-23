@@ -185,7 +185,7 @@ export const websiteEvents: RecordEvent[] = [
       { label: "Length", value: "45 min" },
       { label: "With", value: "Jane Roe, Tom Bell" },
     ],
-    href: "#call-scoping",
+    href: "#",
   },
   {
     id: "w3",
@@ -233,7 +233,7 @@ export const websiteEvents: RecordEvent[] = [
 export const website: RecordSummary = {
   id: "p-web",
   name: "Website rebuild",
-  href: "#project-web",
+  href: "#",
   stageKey: "sent",
   value: 12000,
   currency: "EUR",
@@ -254,7 +254,7 @@ export const website: RecordSummary = {
 export const audit: RecordSummary = {
   id: "p-audit",
   name: "Brand audit",
-  href: "#project-audit",
+  href: "#",
   stageKey: "lost",
   stageDetail: "Price",
   value: 4500,
@@ -272,7 +272,7 @@ export const audit: RecordSummary = {
 export const portal: RecordSummary = {
   id: "p-portal",
   name: "Booking portal",
-  href: "#project-portal",
+  href: "#",
   stageKey: "paid",
   value: 18000,
   paid: 18000,
