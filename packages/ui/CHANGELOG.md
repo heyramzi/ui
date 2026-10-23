@@ -908,3 +908,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): TableView takes onRowLink for in-place row links, and a null group key draws no header
 
+
+## [2.5.0](https://github.com/heyramzi/ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-10-23)
+
+### Features
+
+* feat(ui): AreaChart takes a resting headline, like a period total, shown until a point is hovered
+
