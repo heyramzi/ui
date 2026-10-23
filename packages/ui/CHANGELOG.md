@@ -937,3 +937,15 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui)!: keep UI motion under 300ms; very-slow splits into overlay and loop
 
+
+## [2.9.0](https://github.com/heyramzi/ui/compare/ui-v2.8.0...ui-v2.9.0) (2026-10-23)
+
+### Features
+
+* feat(thread): events between comments, long bodies fold, and the inbox draws its thread through it
+* feat(ui): rename the tasks subpaths to work
+
+### Bug Fixes
+
+* fix(ui): hover styles only on hover devices, unitless line heights, and default dates take a locale
+

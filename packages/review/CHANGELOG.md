@@ -67,3 +67,11 @@
 
 * feat(ui)!: keep UI motion under 300ms; very-slow splits into overlay and loop
 
+
+## [1.1.1](https://github.com/heyramzi/ui/compare/review-v1.1.0...review-v1.1.1) (2026-10-23)
+
+### Bug Fixes
+
+* fix(review): hover styles only on hover devices, and timeline line heights without units
+* fix(review): grab loads from @heyramzi/utils, and the motion fallback matches the 300ms cap
+

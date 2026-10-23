@@ -279,3 +279,10 @@ _Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(marketing): renderImage takes the SatoriNode that html returns
 
+
+## [1.20.1](https://github.com/heyramzi/ui/compare/marketing-v1.20.0...marketing-v1.20.1) (2026-10-23)
+
+### Bug Fixes
+
+* fix(marketing): testimonial quotes wrap long words, and the deck's older type tokens are named sales and support
+
