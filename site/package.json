@@ -2,11 +2,16 @@
   "name": "site",
   "private": true,
   "type": "module",
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*",
+    "#src/*": "./src/*"
+  },
   "scripts": {
-    "dev": "vite dev --port 3101",
-    "build": "vite build",
+    "dev": "vp dev --port 3101",
+    "build": "vp build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "deploy": "vite build && wrangler deploy"
+    "deploy": "vp build && wrangler deploy"
   },
   "dependencies": {
     "@heyramzi/ui": "workspace:*",
@@ -24,12 +29,7 @@
     "svelte-sonner": "^1.2.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vite": "^8.3.5",
+    "vite": "catalog:",
     "wrangler": "^4.151.3"
-  },
-  "imports": {
-    "#lib": "./src/lib/index.js",
-    "#lib/*": "./src/lib/*",
-    "#src/*": "./src/*"
   }
 }

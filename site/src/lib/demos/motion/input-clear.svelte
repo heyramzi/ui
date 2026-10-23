@@ -164,11 +164,7 @@
 		<div bind:this={clearMirror} class="t-clear-mirror clear-text" aria-hidden="true">
 			{CLEAR_TEXT}
 		</div>
-		<div
-			bind:this={clearPhold}
-			class="t-clear-placeholder clear-text clear-ph"
-			aria-hidden="true"
-		>
+		<div bind:this={clearPhold} class="t-clear-placeholder clear-text clear-ph" aria-hidden="true">
 			Search
 		</div>
 		<div bind:this={clearGlow} class="t-clear-glow" aria-hidden="true"></div>

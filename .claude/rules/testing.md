@@ -11,4 +11,4 @@ paths:
 
 - E2E is the default and usually the only mechanism. That's Playwright on the web and XCUITest on Apple, and each run leaves a trace, screenshot or report anyone can rerun.
 - A unit or integration test needs a source outside your head. That's test cases Ramzi wrote or named, or a bug that really happened, reproduced as a failing test before the fix (`diagnose` owns that). Anything else, prove with E2E or say what's unproven.
-- **Run a suite through `vp test run`, never `npx vitest`.** vibe-kit aliases `vitest` to `@voidzero-dev/vite-plus-test`, so the bare binary skips Vite+'s setup and every suite dies on `Cannot read properties of undefined (reading 'config')`.
+- **Run a suite through `vp test run`, never `npx vitest`.** Vite+ is the whole toolchain (Ramzi, 22 Oct 2026), and since `vp migrate` most packages no longer install `vitest` at all.

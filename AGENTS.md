@@ -9,7 +9,7 @@ Confirm messages sent under the user's name, payments or refunds, deleting anoth
 
 Client, past-call or personal decisions: search `qmd` before relying on memory or declaring information unknown.
 
-Delegation is a judgment call: do quick work and repository gates in the session. Hand a complex task, or one bigger than its brief, to a subagent through the Agent tool, and review what comes back.
+Delegation is a judgment call: do quick work and repository gates in the session. Hand a complex task, or one bigger than its brief, to a subagent through the Agent tool, and review what comes back. A subagent finishes its own brief and starts another agent only when the brief asks it to. Tool names are case-sensitive (`Bash`, not `bash`), and a deferred tool loads through `ToolSearch` before its first call.
 
 Code, copy, dependencies, scripts, commands or product/design/release decisions: read the relevant sections of [CODING_STANDARDS.md](CODING_STANDARDS.md) before acting.
 

@@ -6,7 +6,7 @@ Svelte 5 components for our product teams. SvelteKit first, no React ports.
 
 | Package | What it is |
 | --- | --- |
-| `@heyramzi/ui` | The kit on [ui.heyramzi.com](https://ui.heyramzi.com): tokens and theming, shadcn primitives, effects, charts on [LayerChart](https://layerchart.com), and blocks (chat, agents, tasks, editor, onboarding, slides, canvas) at subpaths such as `@heyramzi/ui/charts` and `@heyramzi/ui/tasks` |
+| `@heyramzi/ui` | The kit on [ui.heyramzi.com](https://ui.heyramzi.com): tokens and theming, shadcn primitives, effects, charts on [LayerChart](https://layerchart.com), and blocks (chat, agents, work, editor, onboarding, slides, canvas) at subpaths such as `@heyramzi/ui/charts` and `@heyramzi/ui/work` |
 | `@heyramzi/marketing` | Brand tokens and testimonial surfaces |
 | `@heyramzi/review` | The review page, mounted anywhere |
 
@@ -22,7 +22,7 @@ The shadcn primitives in `@heyramzi/ui` start from [shadcn-svelte](https://githu
 
 ## Releasing
 
-Releases run from the Mac, for `ui`, `marketing` and `review`. Charts, tasks, slides and the agents moved into `@heyramzi/ui` as subpaths.
+Releases run from the Mac, for `ui`, `marketing` and `review`. Charts, tasks (now `work`), slides and the agents moved into `@heyramzi/ui` as subpaths.
 
 Release steps:
 

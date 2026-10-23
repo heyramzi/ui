@@ -10,6 +10,7 @@ paths:
 # Swift
 
 - **Build through the Makefile**: `make build`, `make test`, `make generate`, and any other target it defines. The `command-guard` hook refuses a raw `xcodebuild` or `xcodegen` where the Makefile has the target. When a build fails, rerun with `XCBEAUTIFY=cat` or the real `file.swift:12:5: error:` lines are gone.
+- **Every Xcode build on the Mac queues, one at a time at two jobs.** `~/.local/bin/xcodebuild` and `swift` link to `vibe-kit/swift/scripts/xcode-queue.py`, and the hook refuses an absolute path or `xcrun` around it. Two at once crash the laptop (23 Oct 2026), so a "waiting for" line means wait, not retry, and never brief several agents to build at once. The queue isn't enough alone: the same night one build still hit 16 GB swap while other repos ran checks. Run `memory_pressure | tail -1` first and hold off when free memory is low. `make -n` isn't a dry run here, since recipes calling `$(MAKE)` still execute.
 - **A concurrency error usually means the ownership is wrong**, not that an annotation is missing. Never silence one with a detached task you can't explain.
 - **Extensions have budgets.** A keyboard extension dies around 60MB, and share and widget extensions are tighter. Check which target an import lands in before you add it.
 - **`// MARK: -` for sections.** Comments say why, and the best one names the alternative you rejected.

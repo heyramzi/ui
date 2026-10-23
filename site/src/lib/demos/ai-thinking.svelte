@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ThinkingDots } from "@heyramzi/ui/ai";
+	import { ThinkingDots } from "@heyramzi/ui/ai";
 </script>
 
 <div class="flex min-h-20 w-full items-center justify-center">
-  <ThinkingDots label="Thinking" />
+	<ThinkingDots label="Thinking" />
 </div>

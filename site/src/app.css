@@ -12,17 +12,24 @@
   --font-heading: "Geist", system-ui, sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   background: var(--background);
   color: var(--foreground);
 }
-::selection { background: color-mix(in oklab, var(--brand) 30%, transparent); }
+::selection {
+  background: color-mix(in oklab, var(--brand) 30%, transparent);
+}
 
 /* The dotted canvas behind every live preview. */
 .canvas-dots {
-  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 8%, transparent) 1px, transparent 1px);
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--foreground) 8%, transparent) 1px,
+    transparent 1px
+  );
   background-size: 16px 16px;
 }

@@ -204,7 +204,7 @@ export const sections: Section[] = [
       },
       { title: "Agents", items: ["agent-avatar", "agent-cast"] },
       {
-        title: "Tasks",
+        title: "Work",
         items: [
           "status-dot",
           "status-badge",
@@ -215,7 +215,7 @@ export const sections: Section[] = [
           "side-panel",
           "thread",
           "threaded-inbox",
-          { title: "Task app", href: "/tasks" },
+          { title: "Task app", href: "/work" },
         ],
       },
       { title: "Editor", items: ["inline-editor", "rich-editor"] },
