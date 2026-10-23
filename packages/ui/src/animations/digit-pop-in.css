@@ -7,7 +7,7 @@
 */
 
 :root {
-  --digit-dur: var(--duration-very-slow, 500ms);
+  --digit-dur: var(--duration-slow, 300ms);
   --digit-distance: var(--distance-base, 8px);
   --digit-stagger: 70ms;
   --digit-blur: var(--blur-small, 2px);

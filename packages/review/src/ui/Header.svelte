@@ -216,7 +216,7 @@
 		}
 	}
 	.spinning :global(.ic) {
-		animation: spin var(--duration-very-slow) var(--ease-linear) infinite;
+		animation: spin var(--duration-loop) var(--ease-linear) infinite;
 	}
 	@keyframes spin {
 		to {

@@ -3,8 +3,8 @@
 :root {
   --learn-shift: 2px;
   --learn-spread: 8deg;
-  --learn-in: var(--duration-medium, 350ms);
-  --learn-out: var(--duration-medium, 350ms);
+  --learn-in: var(--duration-medium, 280ms);
+  --learn-out: var(--duration-medium, 280ms);
   --learn-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 }
 

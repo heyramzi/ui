@@ -408,7 +408,7 @@
 	}
 
 	.tl-row {
-		animation: tl-row-in var(--duration-slow, 400ms)
+		animation: tl-row-in var(--duration-slow, 300ms)
 			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 		animation-delay: calc(var(--tl-i, 0) * var(--duration-stagger, 40ms));
 		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);

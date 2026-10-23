@@ -1,6 +1,6 @@
 /* Shared by the bar, the derived bar and the group summary: they all slide in the same way. */
 .g-enter {
-  animation: g-bar-in var(--duration-slow, 400ms)
+  animation: g-bar-in var(--duration-slow, 300ms)
     var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
   animation-delay: calc(var(--g-i, 0) * var(--duration-stagger, 40ms));
 }

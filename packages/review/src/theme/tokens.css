@@ -73,11 +73,12 @@
   --duration-micro: 80ms;
   --duration-quick: 150ms;
   --duration-fast: 250ms;
-  --duration-medium: 350ms;
-  --duration-slow: 400ms;
-  --duration-very-slow: 500ms;
+  --duration-medium: 280ms;
+  --duration-slow: 300ms;
+  --duration-overlay: 500ms;
+  --duration-loop: 500ms;
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: ease-in-out;
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-out: ease-out;
   --ease-linear: linear;
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
@@ -143,7 +144,8 @@
     --duration-fast: 0ms;
     --duration-medium: 0ms;
     --duration-slow: 0ms;
-    --duration-very-slow: 0ms;
+    --duration-overlay: 0ms;
+    --duration-loop: 0ms;
     --pulse-dur: 0ms;
     --bot-think-dur: 0ms;
     --shimmer-dur: 0ms;

@@ -124,7 +124,7 @@
 		--shimmer-highlight: color-mix(in oklab, black 45%, var(--color-brand));
 		--shimmer-band: 400%;
 		--shimmer-ease: linear;
-		--digit-dur: var(--duration-very-slow);
+		--digit-dur: var(--duration-slow);
 		--digit-distance: var(--distance-base);
 		--digit-blur: var(--blur-small);
 		--digit-ease: var(--ease-smooth-out);
@@ -219,7 +219,7 @@
 		transform-origin: left;
 		border-radius: 9999px;
 		background: var(--color-brand);
-		transition: transform var(--duration-slow, 400ms) var(--ease-smooth-out, ease);
+		transition: transform var(--duration-slow, 300ms) var(--ease-smooth-out, ease);
 	}
 
 	/* A job with no step count still has to look like it is running, so the fill

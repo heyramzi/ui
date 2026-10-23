@@ -93,7 +93,7 @@
 	.kanban-column-expanding {
 		flex: 0 0 280px;
 		width: 280px;
-		animation: column-expand var(--duration-slow, 320ms) var(--ease-smooth-out, ease-out) both;
+		animation: column-expand var(--duration-slow, 300ms) var(--ease-smooth-out, ease-out) both;
 	}
 
 	@keyframes column-expand {

@@ -9,8 +9,8 @@
 
 :root {
   --clear-dur: 1000ms;
-  --clear-out-dur: var(--duration-slow, 400ms);
-  --clear-in-dur: var(--duration-slow, 400ms);
+  --clear-out-dur: var(--duration-slow, 300ms);
+  --clear-in-dur: var(--duration-slow, 300ms);
   --clear-out-fly: 12px;
   --clear-in-fly: 12px;
   --clear-out-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));

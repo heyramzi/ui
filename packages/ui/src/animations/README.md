@@ -76,7 +76,7 @@ The two merged into components are the exception — `switch.svelte` and `checkb
 Every transition reads semantic CSS variables (`--modal-open-dur`, `--tilt-follow`, `--think-swap`). Where the shared motion scale in `@heyramzi/ui/design` has a token at that exact value, the variable defaults to it and keeps the literal as the fallback:
 
 ```css
---toast-open: var(--duration-medium, 350ms);
+--toast-open: var(--duration-medium, 280ms);
 ```
 
 So the scale is single-sourced when the design layer is imported, and the transition still runs at the shipped value when it is not. A value the scale has no token for — a 1000ms tilt return, a 90ms reel stagger — stays a literal rather than being rounded onto the nearest rung. Override any of them at `:root` or per-scope to retune without forking the CSS.

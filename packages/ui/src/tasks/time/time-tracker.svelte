@@ -538,7 +538,7 @@
 	}
 
 	.time-segment {
-		transition: width var(--duration-slow, 400ms)
+		transition: width var(--duration-slow, 300ms)
 			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 	}
 

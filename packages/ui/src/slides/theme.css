@@ -28,7 +28,7 @@
   --deck-text-caption: 13px;
 
   --deck-t-slide: var(--duration-fast, 250ms);
-  --deck-t-morph: var(--duration-slow, 400ms);
+  --deck-t-morph: var(--duration-slow, 300ms);
   --deck-t-quick: var(--duration-quick, 150ms);
   --deck-stagger: var(--duration-stagger, 40ms);
   --deck-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
@@ -132,7 +132,7 @@
 
 /* A morph runs on the whole page, so it gets the deck's timing while it plays. */
 html[data-deck-vt] ::view-transition-group(*) {
-  animation-duration: var(--duration-slow, 400ms);
+  animation-duration: var(--duration-slow, 300ms);
   animation-timing-function: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
 }
 

@@ -93,12 +93,13 @@
   --duration-micro: 80ms;
   --duration-quick: 150ms; /* every close, text swap, tooltip in */
   --duration-fast: 250ms; /* every open, tabs, icon swap, page slide */
-  --duration-medium: 350ms; /* panel close, toast close */
-  --duration-slow: 400ms; /* panel open, skeleton reveal */
-  --duration-very-slow: 500ms; /* emphasis: badge, text reveal, success check */
+  --duration-medium: 280ms; /* panel close, toast close */
+  --duration-slow: 300ms; /* panel open, skeleton reveal, emphasis: badge, text reveal, success check. The UI ceiling. */
+  --duration-overlay: 500ms; /* modal, drawer, marketing explainer: the only place past 300ms */
+  --duration-loop: 500ms; /* one cycle of a spinner or flowing dash, not a transition */
 
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1); /* all surface motion */
-  --ease-in-out: ease-in-out; /* swaps and cross-fades */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* swaps, cross-fades, on-screen movement */
   --ease-out: ease-out; /* tooltips */
   --ease-linear: linear; /* shimmer, pulse, spinner */
 
@@ -147,7 +148,8 @@
   --transition-duration-fast: var(--duration-fast);
   --transition-duration-medium: var(--duration-medium);
   --transition-duration-slow: var(--duration-slow);
-  --transition-duration-very-slow: var(--duration-very-slow);
+  --transition-duration-overlay: var(--duration-overlay);
+  --transition-duration-loop: var(--duration-loop);
 }
 
 /* Each bits-ui variant matches v2's `data-open` and v1's `data-state`, and ships

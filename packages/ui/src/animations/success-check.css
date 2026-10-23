@@ -7,14 +7,14 @@
 */
 
 :root {
-  --check-opacity-dur: var(--duration-very-slow, 500ms);
-  --check-rotate-dur: var(--duration-very-slow, 500ms);
+  --check-opacity-dur: var(--duration-slow, 300ms);
+  --check-rotate-dur: var(--duration-slow, 300ms);
   --check-rotate-from: 80deg;
-  --check-bob-dur: var(--duration-very-slow, 500ms);
+  --check-bob-dur: var(--duration-slow, 300ms);
   --check-y-amount: 40px;
-  --check-blur-dur: var(--duration-very-slow, 500ms);
+  --check-blur-dur: var(--duration-slow, 300ms);
   --check-blur-from: 10px;
-  --check-path-dur: var(--duration-very-slow, 500ms);
+  --check-path-dur: var(--duration-slow, 300ms);
   --check-path-delay: 80ms;
   --check-ease-out: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
   --check-ease-opacity: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));

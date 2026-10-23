@@ -10,7 +10,7 @@ export interface RevealThemeOptions {
 /** Where the wipe grows from: a click, an element, or a point in the viewport. */
 export type RevealOrigin = MouseEvent | Element | { x: number; y: number };
 
-const DEFAULT_DURATION = 400;
+const DEFAULT_DURATION = 300;
 const STYLE_ID = "heyramzi-reveal-theme";
 
 /**
@@ -22,7 +22,11 @@ export function revealTheme(
   apply: () => void,
   options: RevealThemeOptions = {},
 ): void {
-  const { skip = false, duration = DEFAULT_DURATION, easing = "ease-in-out" } = options;
+  const {
+    skip = false,
+    duration = DEFAULT_DURATION,
+    easing = "cubic-bezier(0.77, 0, 0.175, 1)",
+  } = options;
   const point = resolveOrigin(origin);
 
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

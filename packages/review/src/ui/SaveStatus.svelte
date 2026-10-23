@@ -86,7 +86,7 @@
 		border-radius: 50%;
 		border: 1.75px solid var(--line-strong);
 		border-top-color: var(--dim);
-		animation: spin var(--duration-very-slow) var(--ease-linear) infinite;
+		animation: spin var(--duration-loop) var(--ease-linear) infinite;
 	}
 	.retry {
 		min-height: 22px;

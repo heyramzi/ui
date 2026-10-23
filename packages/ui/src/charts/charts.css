@@ -174,7 +174,8 @@
 /* bklit-ui's hover: the series drops to 0.3 and hover-focus.svelte redraws the
    stretch around the point at full strength. */
 .hr-hover-dim {
-  transition: opacity 400ms ease-in-out;
+  transition: opacity var(--duration-slow, 300ms)
+    var(--ease-in-out, cubic-bezier(0.77, 0, 0.175, 1));
 }
 .hr-hover-dim.hr-hover-dimmed {
   opacity: 0.3;

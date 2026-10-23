@@ -5,7 +5,7 @@
   --tilt-perspective: 1000px;
   --tilt-return: 1000ms;
   --tilt-return-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-  --tilt-follow: var(--duration-slow, 400ms);
+  --tilt-follow: var(--duration-slow, 300ms);
   --tilt-follow-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
   --tilt-glare-opacity: 0.32;
   --tilt-glare-fade: 300ms;

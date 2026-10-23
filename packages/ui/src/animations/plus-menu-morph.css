@@ -1,7 +1,7 @@
 /* transitions.dev `dropdown-menu-morph`: the trigger itself becomes the menu. Set the open
    size on the consumer side, since these sizes are the upstream demo's. */
 :root {
-  --morph-open-dur: var(--duration-medium, 350ms);
+  --morph-open-dur: var(--duration-medium, 280ms);
   --morph-close-dur: var(--duration-fast, 250ms);
   --morph-ease: var(--ease-smooth-out);
   --morph-close-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));

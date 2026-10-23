@@ -153,7 +153,7 @@
 
 	.sd-fill {
 		transform-origin: 7px 7px;
-		animation: sd-fill-in var(--duration-slow, 320ms) var(--ease-smooth-out, ease-out) forwards;
+		animation: sd-fill-in var(--duration-slow, 300ms) var(--ease-smooth-out, ease-out) forwards;
 	}
 
 	@keyframes sd-fill-in {
@@ -169,7 +169,7 @@
 
 	.sd-pop {
 		transform-origin: 7px 7px;
-		animation: sd-pop-in var(--duration-medium, 240ms) var(--ease-smooth-out, ease-out) forwards;
+		animation: sd-pop-in var(--duration-medium, 280ms) var(--ease-smooth-out, ease-out) forwards;
 	}
 
 	@keyframes sd-pop-in {
@@ -190,7 +190,7 @@
 	.sd-check {
 		stroke-dasharray: 12;
 		stroke-dashoffset: 12;
-		animation: sd-trace var(--duration-medium, 240ms) var(--ease-smooth-out, ease-out)
+		animation: sd-trace var(--duration-medium, 280ms) var(--ease-smooth-out, ease-out)
 			var(--duration-quick, 120ms) forwards;
 	}
 

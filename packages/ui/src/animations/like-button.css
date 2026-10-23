@@ -3,7 +3,7 @@
 :root {
   --like-color: #f40051;
   --like-fill: var(--duration-quick, 150ms);
-  --like-pop: var(--duration-medium, 350ms);
+  --like-pop: var(--duration-medium, 280ms);
   --like-pop-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
   --like-particle-dur: 600ms;
   --like-particle-dist: 20px;

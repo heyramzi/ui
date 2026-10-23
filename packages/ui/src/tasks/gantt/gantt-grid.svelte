@@ -73,7 +73,7 @@
 <style>
 	.g-today {
 		transform-origin: top;
-		animation: g-today-in var(--duration-very-slow, 500ms)
+		animation: g-today-in var(--duration-slow, 300ms)
 			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
 	}
 
@@ -89,7 +89,7 @@
 	.g-arrow-line {
 		stroke-dasharray: 1;
 		stroke-dashoffset: 0;
-		animation: g-draw var(--duration-very-slow, 500ms)
+		animation: g-draw var(--duration-slow, 300ms)
 			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) 300ms backwards;
 	}
 
