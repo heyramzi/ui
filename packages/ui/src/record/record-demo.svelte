@@ -198,7 +198,7 @@
 					{#snippet header()}
 						<RecordHeader
 							title={website.name}
-							parent={{ label: "Marlow & Finch", href: "#client" }}
+							parent={{ label: "Marlow & Finch", href: "#" }}
 							stage={stage ? { label: stage.label, tone: stage.tone } : null}
 							facts={[
 								formatMoney(website.value ?? 0, "EUR", locale),
@@ -287,7 +287,7 @@
 					{#snippet header()}
 						<RecordHeader
 							title="Marlow & Finch"
-							parent={{ label: "Clients", href: "#clients" }}
+							parent={{ label: "Clients", href: "#" }}
 							facts={[
 								`Pipeline ${formatMoney(rollup.totals.EUR?.pipeline ?? 0, "EUR", locale, true)}`,
 								`Won ${formatMoney(rollup.totals.EUR?.won ?? 0, "EUR", locale, true)}`,
