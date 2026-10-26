@@ -962,3 +962,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * fix(ui): point the record demo data's links at the page
 * fix(ui): point the record demo's breadcrumbs at the page
 
+
+## [2.10.1](https://github.com/heyramzi/ui/compare/ui-v2.10.0...ui-v2.10.1) (2026-10-26)
+
+### Bug Fixes
+
+* fix(ui): StatusDot's progress pie starts at 12 o'clock
+
