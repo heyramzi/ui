@@ -54,7 +54,6 @@
 	let dasharray = $derived(
 		fraction != null ? `${INNER_CIRC * fraction} ${INNER_CIRC * (1 - fraction)}` : undefined,
 	);
-	let dashoffset = $derived(fraction != null ? INNER_CIRC * 0.25 : undefined);
 </script>
 
 {#if resolvedVariant === "completed"}
@@ -128,7 +127,6 @@
 				stroke={resolvedColor}
 				stroke-width="4"
 				stroke-dasharray={dasharray}
-				stroke-dashoffset={dashoffset}
 				transform="rotate(-90 7 7)"
 				class={animate ? "sd-fill" : ""}
 			></circle>
