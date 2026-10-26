@@ -949,3 +949,16 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): hover styles only on hover devices, unitless line heights, and default dates take a locale
 
+
+## [2.10.0](https://github.com/heyramzi/ui/compare/ui-v2.9.0...ui-v2.10.0) (2026-10-26)
+
+### Features
+
+* feat(ui): ship a built dist so plain Node can load the TypeScript entries
+
+### Bug Fixes
+
+* fix(ui): toolbar triggers get the outline button's edge and a card fill
+* fix(ui): point the record demo data's links at the page
+* fix(ui): point the record demo's breadcrumbs at the page
+
