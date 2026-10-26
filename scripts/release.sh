@@ -82,6 +82,16 @@ if [ -z "$plan" ]; then
   exit 0
 fi
 
+# The pack reads the working tree, so a package with uncommitted work would ship another session's
+# half-done edits. Release from a clean checkout instead: git worktree add ../.ui-release origin/main.
+dirty=$(printf '%s' "$plan" | while read -r component dir version next bump first_release; do
+  if [ "$bump" != "first" ] && [ -n "$(git status --porcelain -- "$dir")" ]; then echo "$dir"; fi
+done)
+if [ -n "$dirty" ]; then
+  echo "release: uncommitted changes in $(echo $dirty). Run it from a clean worktree of origin/main." >&2
+  exit 1
+fi
+
 echo "release plan:"
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
   echo "  $component: $version -> $next ($bump)"
@@ -151,7 +161,8 @@ git add -- "${release_files[@]}"
 targets=$(printf '%s' "$plan" | while read -r component dir version next bump first_release; do printf '%s-v%s, ' "$component" "$next"; done)
 targets=${targets%, }
 git commit -m "chore: release ${targets}" -- "${release_files[@]}"
-git push origin HEAD
+# HEAD:main, so a release from a detached clean worktree pushes too.
+git push origin HEAD:main
 
 # This repo's .npmrc maps the @heyramzi scope, and pnpm 12 lets that beat --registry, so pack
 # once and npm-publish the tarball from outside the repo.

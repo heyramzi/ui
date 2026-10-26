@@ -14,7 +14,8 @@
     "scripts",
     "package.json",
     "README.md",
-    "COMPONENTS.md"
+    "COMPONENTS.md",
+    "dist"
   ],
   "type": "module",
   "svelte": "./src/index.ts",
@@ -26,6 +27,7 @@
     ".": {
       "svelte": "./src/index.ts",
       "types": "./src/index.ts",
+      "node": "./dist/index.js",
       "default": "./src/index.ts"
     },
     "./package.json": "./package.json",
@@ -33,16 +35,19 @@
     "./brand": {
       "svelte": "./src/brand/index.ts",
       "types": "./src/brand/index.ts",
+      "node": "./dist/brand/index.js",
       "default": "./src/brand/index.ts"
     },
     "./lib/*.js": {
       "svelte": "./src/lib/*.ts",
       "types": "./src/lib/*.ts",
+      "node": "./dist/lib/*.js",
       "default": "./src/lib/*.ts"
     },
     "./lib/*": {
       "svelte": "./src/lib/*.ts",
       "types": "./src/lib/*.ts",
+      "node": "./dist/lib/*.js",
       "default": "./src/lib/*.ts"
     },
     "./border-beam": {
@@ -64,6 +69,7 @@
     "./effects/animated-beam": {
       "svelte": "./src/effects/animated-beam/index.ts",
       "types": "./src/effects/animated-beam/index.ts",
+      "node": "./dist/effects/animated-beam/index.js",
       "default": "./src/effects/animated-beam/index.ts"
     },
     "./effects/spotlight": {
@@ -81,16 +87,19 @@
     "./effects/image-reveal": {
       "svelte": "./src/effects/image-reveal/index.ts",
       "types": "./src/effects/image-reveal/index.ts",
+      "node": "./dist/effects/image-reveal/index.js",
       "default": "./src/effects/image-reveal/index.ts"
     },
     "./effects/shader-gradient": {
       "svelte": "./src/effects/shader-gradient/index.ts",
       "types": "./src/effects/shader-gradient/index.ts",
+      "node": "./dist/effects/shader-gradient/index.js",
       "default": "./src/effects/shader-gradient/index.ts"
     },
     "./effects/reveal": {
       "svelte": "./src/effects/reveal/index.ts",
       "types": "./src/effects/reveal/index.ts",
+      "node": "./dist/effects/reveal/index.js",
       "default": "./src/effects/reveal/index.ts"
     },
     "./effects/progressive-blur": {
@@ -108,16 +117,19 @@
     "./effects/magnetic": {
       "svelte": "./src/effects/magnetic/magnetic.ts",
       "types": "./src/effects/magnetic/magnetic.ts",
+      "node": "./dist/effects/magnetic/magnetic.js",
       "default": "./src/effects/magnetic/magnetic.ts"
     },
     "./icons/sf-symbols": {
       "svelte": "./src/icons/sf-symbols.ts",
       "types": "./src/icons/sf-symbols.ts",
+      "node": "./dist/icons/sf-symbols.js",
       "default": "./src/icons/sf-symbols.ts"
     },
     "./icons/trades": {
       "svelte": "./src/icons/trades.ts",
       "types": "./src/icons/trades.ts",
+      "node": "./dist/icons/trades.js",
       "default": "./src/icons/trades.ts"
     },
     "./icons/TradeIcon": {
@@ -133,6 +145,7 @@
       "default": "./src/animations/index.css"
     },
     "./animations/text-swap": {
+      "node": "./dist/animations/text-swap.js",
       "default": "./src/animations/text-swap.ts"
     },
     "./animations/*": {
@@ -141,16 +154,19 @@
     "./shadcn/hooks/*": {
       "svelte": "./src/shadcn/hooks/*.ts",
       "types": "./src/shadcn/hooks/*.ts",
+      "node": "./dist/shadcn/hooks/*.js",
       "default": "./src/shadcn/hooks/*.ts"
     },
     "./shadcn/*": {
       "svelte": "./src/shadcn/*/index.ts",
       "types": "./src/shadcn/*/index.ts",
+      "node": "./dist/shadcn/*/index.js",
       "default": "./src/shadcn/*/index.ts"
     },
     "./components/*": {
       "svelte": "./src/components/*/index.ts",
       "types": "./src/components/*/index.ts",
+      "node": "./dist/components/*/index.js",
       "default": "./src/components/*/index.ts"
     },
     "./shadcn/utilities.css": {
@@ -160,48 +176,57 @@
     "./ai": {
       "svelte": "./src/ai/index.ts",
       "types": "./src/ai/index.ts",
+      "node": "./dist/ai/index.js",
       "default": "./src/ai/index.ts"
     },
     "./ai/*": {
       "svelte": "./src/ai/*/index.ts",
       "types": "./src/ai/*/index.ts",
+      "node": "./dist/ai/*/index.js",
       "default": "./src/ai/*/index.ts"
     },
     "./agents": {
       "svelte": "./src/agents/index.ts",
       "types": "./src/agents/index.ts",
+      "node": "./dist/agents/index.js",
       "default": "./src/agents/index.ts"
     },
     "./agents/demo.svelte": "./src/agents/demo.svelte",
     "./status": {
       "svelte": "./src/status/index.ts",
       "types": "./src/status/index.ts",
+      "node": "./dist/status/index.js",
       "default": "./src/status/index.ts"
     },
     "./panel": {
       "svelte": "./src/panel/index.ts",
       "types": "./src/panel/index.ts",
+      "node": "./dist/panel/index.js",
       "default": "./src/panel/index.ts"
     },
     "./record": {
       "svelte": "./src/record/index.ts",
       "types": "./src/record/index.ts",
+      "node": "./dist/record/index.js",
       "default": "./src/record/index.ts"
     },
     "./record/demo.svelte": "./src/record/record-demo.svelte",
     "./thread": {
       "svelte": "./src/thread/index.ts",
       "types": "./src/thread/index.ts",
+      "node": "./dist/thread/index.js",
       "default": "./src/thread/index.ts"
     },
     "./inbox": {
       "svelte": "./src/inbox/index.ts",
       "types": "./src/inbox/index.ts",
+      "node": "./dist/inbox/index.js",
       "default": "./src/inbox/index.ts"
     },
     "./work": {
       "svelte": "./src/work/index.ts",
       "types": "./src/work/index.ts",
+      "node": "./dist/work/index.js",
       "default": "./src/work/index.ts"
     },
     "./work/kanban": {
@@ -227,11 +252,13 @@
     "./work/inbox": {
       "svelte": "./src/work/inbox/index.ts",
       "types": "./src/work/inbox/index.ts",
+      "node": "./dist/work/inbox/index.js",
       "default": "./src/work/inbox/index.ts"
     },
     "./work/presets/sales": {
       "svelte": "./src/work/presets/sales.ts",
       "types": "./src/work/presets/sales.ts",
+      "node": "./dist/work/presets/sales.js",
       "default": "./src/work/presets/sales.ts"
     },
     "./work/detail": {
@@ -242,6 +269,7 @@
     "./work/docs": {
       "svelte": "./src/work/docs/index.ts",
       "types": "./src/work/docs/index.ts",
+      "node": "./dist/work/docs/index.js",
       "default": "./src/work/docs/index.ts"
     },
     "./work/docs-demo.svelte": "./src/work/docs/docs-demo.svelte",
@@ -254,24 +282,29 @@
     "./charts": {
       "svelte": "./src/charts/index.ts",
       "types": "./src/charts/index.ts",
+      "node": "./dist/charts/index.js",
       "default": "./src/charts/index.ts"
     },
     "./charts/dashboard": {
       "svelte": "./src/charts/dashboard/index.ts",
       "types": "./src/charts/dashboard/index.ts",
+      "node": "./dist/charts/dashboard/index.js",
       "default": "./src/charts/dashboard/index.ts"
     },
     "./slides": {
       "types": "./src/slides/index.ts",
       "svelte": "./src/slides/index.ts",
+      "node": "./dist/slides/index.js",
       "default": "./src/slides/index.ts"
     },
     "./slides/model": {
       "types": "./src/slides/model.ts",
+      "node": "./dist/slides/model.js",
       "default": "./src/slides/model.ts"
     },
     "./slides/export": {
       "types": "./src/slides/export/index.ts",
+      "node": "./dist/slides/export/index.js",
       "default": "./src/slides/export/index.ts"
     },
     "./slides/demo": {
@@ -287,18 +320,22 @@
     "./editor": {
       "svelte": "./src/editor/index.ts",
       "types": "./src/editor/index.ts",
+      "node": "./dist/editor/index.js",
       "default": "./src/editor/index.ts"
     },
     "./editor/serializer": {
       "types": "./src/editor/serializer.ts",
+      "node": "./dist/editor/serializer.js",
       "default": "./src/editor/serializer.ts"
     },
     "./editor/markdown": {
       "types": "./src/editor/markdown.ts",
+      "node": "./dist/editor/markdown.js",
       "default": "./src/editor/markdown.ts"
     },
     "./editor/block-ops": {
       "types": "./src/editor/block-ops.ts",
+      "node": "./dist/editor/block-ops.js",
       "default": "./src/editor/block-ops.ts"
     },
     "./editor/inline-editor": {
@@ -312,11 +349,13 @@
     "./onboarding": {
       "svelte": "./src/onboarding/index.ts",
       "types": "./src/onboarding/index.ts",
+      "node": "./dist/onboarding/index.js",
       "default": "./src/onboarding/index.ts"
     },
     "./onboarding/stores": {
       "svelte": "./src/onboarding/stores.ts",
       "types": "./src/onboarding/stores.ts",
+      "node": "./dist/onboarding/stores.js",
       "default": "./src/onboarding/stores.ts"
     },
     "./onboarding/demo": {
@@ -327,6 +366,7 @@
     "./canvas": {
       "types": "./src/canvas/index.ts",
       "svelte": "./src/canvas/index.ts",
+      "node": "./dist/canvas/index.js",
       "default": "./src/canvas/index.ts"
     },
     "./canvas/*.svelte": {
@@ -338,6 +378,7 @@
     "./canvas/*.js": {
       "types": "./src/canvas/*.ts",
       "svelte": "./src/canvas/*.ts",
+      "node": "./dist/canvas/*.js",
       "default": "./src/canvas/*.ts"
     }
   },
@@ -347,7 +388,9 @@
     "sync:shadcn": "node scripts/sync-shadcn.mjs",
     "sync": "pnpm sync:transitions && pnpm sync:shadcn",
     "sync:check": "node scripts/sync-transitions.mjs --check && node scripts/sync-shadcn.mjs --check",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "build": "node ../../../vibe-kit/scripts/build-dist.mjs",
+    "prepack": "pnpm build"
   },
   "dependencies": {
     "@dagrejs/dagre": "^3.1.1",
