@@ -1,6 +1,6 @@
 # @heyramzi/marketing
 
-Marketing utilities for the vibe-kit ecosystem: analytics plumbing and a generic HTML→image rendering pipeline.
+Marketing utilities for the vibe-kit ecosystem: analytics, error reporting, brand and testimonial surfaces, and a generic HTML→image rendering pipeline.
 
 ## Features
 
