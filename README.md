@@ -26,10 +26,9 @@ Releases run from the Mac, for `ui`, `marketing` and `review`. Charts, tasks (no
 
 Release steps:
 
-1. Commit with [Conventional Commits](https://www.conventionalcommits.org): `feat(tasks): ...`, `fix(ui): ...`. A `feat` bumps the minor, a `fix` the patch, and `feat!` the major.
-2. Push to `main`, then run `pnpm release` (or `DRY_RUN=1 pnpm release` to preview). For each package with changes since its last tag, the script bumps the version from the commit types, writes the `CHANGELOG.md` entry, commits the bumps, tags `<name>-v<version>`, creates the GitHub release and publishes to npmjs and to GitHub Packages. Both tokens come from `~/.npmrc`.
-
-The commit that moves the charts out of `ui` has to read `feat(charts)!: ...` (the `!` is what the script sees; a `BREAKING CHANGE` footer isn't), so `ui` goes to the next major and `charts` starts at 1.0.0. To force it, run `BUMP="ui=major charts=major" pnpm release`.
+1. Commit with [Conventional Commits](https://www.conventionalcommits.org): `feat(work): ...`, `fix(ui): ...`. A `feat` or a breaking change bumps the minor, anything else the patch. Only a `Release-As: 3.0.0` footer cuts a major. A removal committed as `refactor:` would ship as a patch, so say so with `BUMP="ui=minor" pnpm release`.
+2. Push to `main`, then run `pnpm release` (or `DRY_RUN=1 pnpm release` to preview). For each package with changes since its last tag, the script bumps the version, writes the `CHANGELOG.md` entry, commits the bumps, tags `<name>-v<version>`, publishes to GitHub Packages and creates the GitHub release with the packed tarball attached.
+3. The release starts `.github/workflows/publish-npmjs.yml`, which publishes that same tarball to npmjs with npm trusted publishing. No npm token is involved. The GitHub Packages token is the one in `~/.npmrc`.
 
 Install from npm:
 
