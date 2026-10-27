@@ -286,3 +286,10 @@ _Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(marketing): testimonial quotes wrap long words, and the deck's older type tokens are named sales and support
 
+
+## [1.20.2](https://github.com/heyramzi/ui/compare/marketing-v1.20.1...marketing-v1.20.2) (2026-10-27)
+
+### Bug Fixes
+
+* fix(marketing): the npm description names Sentry, brand and testimonials too
+
