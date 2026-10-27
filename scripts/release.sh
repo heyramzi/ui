@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Releases from the Mac, since there's no CI. The pack reads the working tree, so
+# Releases from the Mac; CI only forwards the tarball to npmjs. The pack reads the working tree, so
 # ONLY="ui" releases that package alone, holding back any with another session's work.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -165,37 +165,39 @@ git commit -m "chore: release ${targets}" -- "${release_files[@]}"
 git push origin HEAD:main
 
 # This repo's .npmrc maps the @heyramzi scope, and pnpm 12 lets that beat --registry, so pack
-# once and npm-publish the tarball from outside the repo.
-publish_both() {
-  local out tgz
-  out=$(mktemp -d)
-  (cd "$1" && pnpm pack --pack-destination "$out" >/dev/null)
-  tgz=$(ls "$out"/*.tgz)
-  for registry in https://registry.npmjs.org/ https://npm.pkg.github.com/; do
-    (cd "$out" && npm publish "$tgz" --access public \
-      --registry="$registry" "--@heyramzi:registry=$registry")
-  done
-  rm -rf "${out:?}"
+# once into $2 and npm-publish the tarball from outside the repo.
+publish_github() {
+  local tgz
+  (cd "$1" && pnpm pack --pack-destination "$2" >/dev/null)
+  tgz=$(ls "$2"/*.tgz)
+  (cd "$2" && npm publish "$tgz" --access public \
+    --registry=https://npm.pkg.github.com/ "--@heyramzi:registry=https://npm.pkg.github.com/")
 }
 
 # Vite can't resolve a package's own #src imports inside node_modules, so rewrite them for the
 # pack and restore only the touched files, keeping other sessions' edits.
-publish_rewritten() {
+pack_rewritten() {
   local backup status=0
   backup=$(mktemp -d)
   node scripts/relative-imports.mjs "$backup" "$1"
-  publish_both "$1" || status=$?
+  publish_github "$1" "$2" || status=$?
   node scripts/relative-imports.mjs --restore "$backup"
   rm -rf "${backup:?}"
   return "$status"
 }
 
+# npmjs gets the same tarball from CI: it rides on the GitHub release, and publish-npmjs.yml
+# publishes it with npm trusted publishing, so no npm token lives on this Mac. The build can't run
+# in CI because it calls vibe-kit's build-dist.mjs, and vibe-kit is private.
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
   tag="$component-v$next"
+  out=$(mktemp -d)
   git tag "$tag"
   git push origin "$tag"
-  gh release create "$tag" --repo heyramzi/ui --title "$tag" --notes-file "$NOTES_DIR/$component.md"
-  publish_rewritten "$dir"
+  pack_rewritten "$dir" "$out"
+  gh release create "$tag" "$out"/*.tgz --repo heyramzi/ui --title "$tag" \
+    --notes-file "$NOTES_DIR/$component.md"
+  rm -rf "${out:?}"
 done
 
 rm -rf "$NOTES_DIR"

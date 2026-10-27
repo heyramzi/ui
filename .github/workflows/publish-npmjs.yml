@@ -1,0 +1,58 @@
+name: Publish to npmjs
+
+# ui, marketing and review are open source on npmjs, so a client app installs them with no token.
+# scripts/release.sh packs each package on the Mac, publishes it to GitHub Packages and attaches
+# the tarball to the GitHub release. This publishes that same tarball to npmjs.
+#
+# WHY a GitHub-hosted runner: npm trusted publishing (OIDC) trusts only GitHub-hosted runners.
+# Trust is set on each package's npm access page for heyramzi/ui + this file name, so no npm token
+# exists to leak or expire. It runs once per release, about a minute each.
+#
+# WHY the tarball and not a build here: the build calls vibe-kit's build-dist.mjs, and vibe-kit is
+# private. Both registries get the same bytes this way.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish, like ui-v2.10.1
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-npmjs
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # No registry-url: setup-node would write an npmrc that expects NODE_AUTH_TOKEN, and OIDC
+      # needs none. Trusted publishing needs npm 11.5.1 or later.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - run: npm install -g npm@11
+
+      # A version already on npmjs is skipped, so a rerun does nothing.
+      - name: Publish the release tarball
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          NPMJS=https://registry.npmjs.org/
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.tgz' --dir out
+          for tgz in out/*.tgz; do
+            id=$(tar -xOzf "$tgz" package/package.json | node -p 'const j = JSON.parse(require("fs").readFileSync(0, "utf8")); j.name + "@" + j.version')
+            if npm view "$id" version --registry="$NPMJS" >/dev/null 2>&1; then
+              echo "$id already on npmjs"
+              continue
+            fi
+            npm publish "./$tgz" --access public --registry="$NPMJS"
+            echo "published $id to npmjs"
+          done
