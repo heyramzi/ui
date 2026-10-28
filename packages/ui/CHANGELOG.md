@@ -976,3 +976,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(tags-input): a free mode adds what's typed, with no options menu
 
+
+## [2.11.1](https://github.com/heyramzi/ui/compare/ui-v2.11.0...ui-v2.11.1) (2026-10-28)
+
+### Bug Fixes
+
+* fix(tags-input): clicking the field opens it in Chrome
+
