@@ -62,16 +62,14 @@ export function markdownToTiptap(md: string): TiptapDoc {
 function parseTokensToBlocks(tokens: Token[]): TiptapNode[] {
   const blocks: TiptapNode[] = [];
   let i = 0;
-  while (i < tokens.length) {
-    const parse = Object.hasOwn(BLOCK_PARSERS, tokens[i].type)
-      ? BLOCK_PARSERS[tokens[i].type]
-      : null;
+  for (let tok = tokens[i]; tok; tok = tokens[i]) {
+    const parse = Object.hasOwn(BLOCK_PARSERS, tok.type) ? BLOCK_PARSERS[tok.type] : null;
     // Unknown or unhandled tokens (html_block, etc.) are skipped.
     if (!parse) {
       i++;
       continue;
     }
-    const { node, next } = parse(tokens, i);
+    const { node, next } = parse(tokens, i, tok);
     blocks.push(stampId(node));
     i = next;
   }
@@ -79,7 +77,7 @@ function parseTokensToBlocks(tokens: Token[]): TiptapNode[] {
 }
 
 type Parsed = { node: TiptapNode; next: number };
-type BlockParser = (tokens: Token[], i: number) => Parsed;
+type BlockParser = (tokens: Token[], i: number, tok: Token) => Parsed;
 
 function inlineChildrenAt(tokens: Token[], i: number): Token[] {
   const inlineTok = tokens[i];
@@ -95,7 +93,8 @@ function orderedStart(tok: Token): number {
 function parseParagraph(tokens: Token[], i: number): Parsed {
   const children = inlineChildrenAt(tokens, i + 1);
   // A lone image with a YouTube src becomes a `youtube` block.
-  const youtube = children.length === 1 ? imageTokenToYoutubeNode(children[0]) : null;
+  const [only, ...rest] = children;
+  const youtube = only && !rest.length ? imageTokenToYoutubeNode(only) : null;
   const node = youtube ?? {
     type: "paragraph",
     attrs: { id: null },
@@ -104,14 +103,13 @@ function parseParagraph(tokens: Token[], i: number): Parsed {
   return { node, next: i + 3 };
 }
 
-function parseHeading(tokens: Token[], i: number): Parsed {
-  const level = headingLevel(tokens[i].markup);
+function parseHeading(tokens: Token[], i: number, tok: Token): Parsed {
+  const level = headingLevel(tok.markup);
   const content = parseInlineChildren(inlineChildrenAt(tokens, i + 1));
   return { node: { type: "heading", attrs: { level, id: null }, content }, next: i + 3 };
 }
 
-function parseFence(tokens: Token[], i: number): Parsed {
-  const tok = tokens[i];
+function parseFence(_tokens: Token[], i: number, tok: Token): Parsed {
   const lang = tok.info.trim() || null;
   const code = tok.content.endsWith("\n") ? tok.content.slice(0, -1) : tok.content;
   const node = {
@@ -136,8 +134,8 @@ function parseBulletList(tokens: Token[], i: number): Parsed {
   return { node, next: next + 1 };
 }
 
-function parseOrderedList(tokens: Token[], i: number): Parsed {
-  const start = orderedStart(tokens[i]);
+function parseOrderedList(tokens: Token[], i: number, tok: Token): Parsed {
+  const start = orderedStart(tok);
   const { inner, next } = collectUntilClose(tokens, i + 1, "ordered_list");
   const node = { type: "orderedList", attrs: { id: null, start }, content: parseListItems(inner) };
   return { node, next: next + 1 };
@@ -163,21 +161,20 @@ function collectUntilClose(
   const openType = `${type}_open`;
   const closeType = `${type}_close`;
   let depth = 1;
-  let i = start;
 
-  while (i < tokens.length) {
-    if (tokens[i].type === openType) depth++;
-    else if (tokens[i].type === closeType) {
+  for (let i = start; i < tokens.length; i++) {
+    const type = tokens[i]?.type;
+    if (type === openType) depth++;
+    else if (type === closeType) {
       depth--;
       if (depth === 0) {
         return { inner: tokens.slice(start, i), next: i };
       }
     }
-    i++;
   }
 
   // Unclosed block: return everything remaining.
-  return { inner: tokens.slice(start), next: i };
+  return { inner: tokens.slice(start), next: tokens.length };
 }
 
 // Parse list_item_open ... list_item_close pairs into listItem nodes.
@@ -185,8 +182,8 @@ function parseListItems(tokens: Token[]): TiptapNode[] {
   const items: TiptapNode[] = [];
   let i = 0;
 
-  while (i < tokens.length) {
-    if (tokens[i].type === "list_item_open") {
+  for (let tok = tokens[i]; tok; tok = tokens[i]) {
+    if (tok.type === "list_item_open") {
       const { inner, next } = collectUntilClose(tokens, i + 1, "list_item");
       items.push(parseListItemContent(inner));
       i = next + 1;
@@ -204,8 +201,7 @@ function parseListItemContent(tokens: Token[]): TiptapNode {
   const content: TiptapNode[] = [];
   let i = 0;
 
-  while (i < tokens.length) {
-    const tok = tokens[i];
+  for (let tok = tokens[i]; tok; tok = tokens[i]) {
     if (tok.type === "paragraph_open") {
       content.push({
         type: "paragraph",
@@ -213,7 +209,8 @@ function parseListItemContent(tokens: Token[]): TiptapNode {
       });
       i += 3;
     } else if (tok.type === "bullet_list_open" || tok.type === "ordered_list_open") {
-      const { node, next } = BLOCK_PARSERS[tok.type](tokens, i);
+      const parse = tok.type === "bullet_list_open" ? parseBulletList : parseOrderedList;
+      const { node, next } = parse(tokens, i, tok);
       content.push(stripId(node));
       i = next;
     } else {
@@ -294,12 +291,8 @@ const INLINE_HANDLERS: Record<string, InlineHandler> = {
 };
 
 function removeLastMark(stack: TiptapMark[], type: string): void {
-  for (let i = stack.length - 1; i >= 0; i--) {
-    if (stack[i].type === type) {
-      stack.splice(i, 1);
-      return;
-    }
-  }
+  const i = stack.findLastIndex((mark) => mark.type === type);
+  if (i >= 0) stack.splice(i, 1);
 }
 
 function headingLevel(markup: string): number {
@@ -406,12 +399,13 @@ function tableToMd(node: TiptapNode): string {
         .replace(/\|/g, "\\|"),
     ),
   );
-  if (rows.length === 0) return "";
+  const [header, ...body] = rows;
+  if (!header) return "";
   const width = Math.max(...rows.map((row) => row.length));
   const line = (cells: string[]) =>
     `| ${Array.from({ length: width }, (_, i) => cells[i] ?? "").join(" | ")} |`;
   const rule = `| ${Array.from({ length: width }, () => "---").join(" | ")} |`;
-  return [line(rows[0]), rule, ...rows.slice(1).map(line)].join("\n");
+  return [line(header), rule, ...body.map(line)].join("\n");
 }
 
 const MD_WRITERS: Record<string, MdWriter> = {
@@ -441,8 +435,8 @@ const MD_WRITERS: Record<string, MdWriter> = {
 };
 
 function nodeToMd(node: TiptapNode, listDepth: number): string {
-  if (Object.hasOwn(MD_WRITERS, node.type)) return MD_WRITERS[node.type](node, listDepth);
-  return childrenToMd(node, listDepth);
+  const write = Object.hasOwn(MD_WRITERS, node.type) ? MD_WRITERS[node.type] : null;
+  return write ? write(node, listDepth) : childrenToMd(node, listDepth);
 }
 
 function listItemToMd(item: TiptapNode, bullet: string, depth: number): string {
@@ -487,7 +481,8 @@ const MARK_WRAPS: Record<string, (text: string) => string> = {
 // A code span keeps its raw text verbatim and replaces whatever was wrapped before it.
 function applyMark(text: string, mark: TiptapMark, raw: string): string {
   if (mark.type === "code") return `\`${raw}\``;
-  return Object.hasOwn(MARK_WRAPS, mark.type) ? MARK_WRAPS[mark.type](text) : text;
+  const wrap = Object.hasOwn(MARK_WRAPS, mark.type) ? MARK_WRAPS[mark.type] : null;
+  return wrap ? wrap(text) : text;
 }
 
 function inlineTextToMd(node: TiptapNode): string {
