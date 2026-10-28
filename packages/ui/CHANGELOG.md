@@ -983,3 +983,13 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(tags-input): clicking the field opens it in Chrome
 
+
+## [2.11.2](https://github.com/heyramzi/ui/compare/ui-v2.11.1...ui-v2.11.2) (2026-10-28)
+
+### Bug Fixes
+
+* fix(ui): editor markdown reads every token safely, so a consumer with noUncheckedIndexedAccess typechecks
+* fix(ui): text-swap resolves to source under Svelte, like the effects subpaths
+* fix(ui): rail titles get the width the hover actions held back
+* fix(ui): the master-detail pane no longer clips the top edge of a card
+
