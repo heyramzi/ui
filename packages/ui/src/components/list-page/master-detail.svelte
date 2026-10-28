@@ -132,7 +132,9 @@
 					{backLabel}
 				</Button>
 			{/if}
-			<div class={cn("min-h-0 min-w-0 flex-1", detailClass)}>
+			<!-- p-px: a card's edge is a 1px outer shadow, and every caller makes this a
+			     scroller, which clipped the top edge of a card flush with it. -->
+			<div class={cn("min-h-0 min-w-0 flex-1 p-px", detailClass)}>
 				{@render detail()}
 			</div>
 		</div>
