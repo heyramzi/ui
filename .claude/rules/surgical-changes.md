@@ -7,4 +7,4 @@ paths:
 
 # Surgical changes
 
-Every changed line traces back to the request. Leave nearby code, comments and formatting alone, and don't refactor what isn't broken. Remove the orphans *your* change created, and leave dead code that was already there unless you're asked.
+Don't restyle what isn't broken. What *is* broken is yours: a bug, leaked secret, dead code or stale doc you find gets fixed and verified this session, never listed as a leftover (25 Oct 2026). "As fast as possible" overrides that: run only the asked steps, in parallel, and offer the rest in one line (28 Oct 2026). Remove the orphans your change created.
