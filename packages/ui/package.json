@@ -145,6 +145,8 @@
       "default": "./src/animations/index.css"
     },
     "./animations/text-swap": {
+      "svelte": "./src/animations/text-swap.ts",
+      "types": "./src/animations/text-swap.ts",
       "node": "./dist/animations/text-swap.js",
       "default": "./src/animations/text-swap.ts"
     },
