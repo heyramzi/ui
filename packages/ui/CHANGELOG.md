@@ -969,3 +969,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): StatusDot's progress pie starts at 12 o'clock
 
+
+## [2.11.0](https://github.com/heyramzi/ui/compare/ui-v2.10.1...ui-v2.11.0) (2026-10-28)
+
+### Features
+
+* feat(tags-input): a free mode adds what's typed, with no options menu
+
