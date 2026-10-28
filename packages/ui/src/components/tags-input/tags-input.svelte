@@ -203,7 +203,9 @@
 		);
 	}
 
+	// WHY: Chrome fires focusout from the read-state button as editing removes it, so only the input leaving counts.
 	function onFocusOut(event: FocusEvent) {
+		if (event.target !== input) return;
 		const next = event.relatedTarget as Node | null;
 		if (editing && !(next && root?.contains(next))) stop();
 	}
