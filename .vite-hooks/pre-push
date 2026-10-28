@@ -1,0 +1,238 @@
+#!/usr/bin/env sh
+# >>> push scope (managed) >>>
+# What this push changes against the upstream. Every guard below judges only these files.
+__push_tip=""
+if [ "${PUSH_FILES+x}" != x ]; then
+  __push_lines=$(cat)
+  # Each pushed tip is judged on its own, so a push of two refs runs this hook once per tip.
+  __push_tips=$(printf '%s\n' "$__push_lines" | awk 'NF == 4 && $2 ~ /[^0]/ { print $2 }' | sort -u)
+  if [ "$(printf '%s\n' "$__push_tips" | grep -c .)" -gt 1 ]; then
+    __push_e=""
+    case $- in *e*) __push_e=-e ;; esac
+    for __push_one in $__push_tips; do
+      echo "push scope: judging $(git rev-parse --short "$__push_one")"
+      printf '%s\n' "$__push_lines" | awk -v t="$__push_one" '$2 == t' | sh $__push_e "$0" "$@" || exit 1
+    done
+    exit 0
+  fi
+  PUSH_FILES=""
+  __push_refs=0
+  while read -r __local_ref __local_sha __remote_ref __remote_sha; do
+    [ -n "$__local_ref" ] || continue
+    __push_refs=1
+    case "$__local_sha" in *[!0]*) ;; *) continue ;; esac
+    __push_tip="$__local_sha"
+    case "$__remote_sha" in
+      *[!0]*) __push_base="$__remote_sha" ;;
+      *) __push_base=$(git merge-base "$__local_sha" '@{u}' 2>/dev/null || git merge-base "$__local_sha" origin/HEAD 2>/dev/null || true) ;;
+    esac
+    if [ -n "$__push_base" ]; then
+      __push_files=$(git diff --name-status -M --diff-filter=ACMR "$__push_base" "$__local_sha" | awk -F'\t' '$1 != "R100" { print $NF }') || exit 1
+    else
+      __push_files=$(git ls-tree -r --name-only "$__local_sha") || exit 1
+    fi
+    PUSH_FILES="${PUSH_FILES}${PUSH_FILES:+
+}${__push_files}"
+  done <<__PUSH_REFS
+$__push_lines
+__PUSH_REFS
+  if [ "$__push_refs" -eq 0 ]; then
+    __push_tip=$(git rev-parse --verify --quiet HEAD || true)
+    __push_base=$(git merge-base HEAD '@{u}' 2>/dev/null || git merge-base HEAD origin/HEAD 2>/dev/null || true)
+    if [ -n "$__push_base" ]; then
+      PUSH_FILES=$(git diff --name-status -M --diff-filter=ACMR "$__push_base" HEAD | awk -F'\t' '$1 != "R100" { print $NF }') || exit 1
+    else
+      PUSH_FILES=$(git ls-files) || exit 1
+    fi
+  fi
+  # A pure move (R100) changes nothing. Projections and the Editor OS plugin build are generated and judged at their source.
+  PUSH_FILES=$(printf '%s\n' "$PUSH_FILES" | grep -vE '^\.(agents|claude|opencode|gemini)/|^\.github/skills/|^plugins/editor-os/(agents|bin|descript|edit|motion|skills|studio)/' || true)
+fi
+# Gates read files from disk. When the working tree holds anything other than the pushed tip
+# (another session's half-edit, or a fix not yet committed), they read a temporary worktree of the tip.
+if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __push_stale=0
+  [ "$(git rev-parse --verify --quiet HEAD || true)" = "$__push_tip" ] || __push_stale=1
+  # The whole tree, not only PUSH_FILES: Fallow reads every file, so a half-edit elsewhere failed the push.
+  if [ "$__push_stale" = 0 ]; then
+    git diff --quiet "$__push_tip" -- >/dev/null 2>&1 || __push_stale=1
+    [ -z "$(git ls-files --others --exclude-standard | head -n 1)" ] || __push_stale=1
+  fi
+  if [ "$__push_stale" = 0 ]; then
+    echo "push scope: working tree matches $(git rev-parse --short "$__push_tip"), gates read it in place"
+  else
+    __push_real=$(git rev-parse --show-toplevel)
+    # Beside the repo, not in $TMPDIR: a skill symlinked to a sibling repo, and Studio itself, resolve from there.
+    __push_wt=$(mktemp -d "$(dirname "$__push_real")/.push-gate-$(basename "$__push_real").XXXXXX")
+    __push_links="$__push_wt.links"
+    : > "$__push_links"
+    # The links go first: a recursive delete must never reach the real node_modules behind them.
+    trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; git worktree remove --force "$__push_wt" >/dev/null 2>&1 || rm -rf "$__push_wt"; git worktree prune >/dev/null 2>&1; rm -f "$__push_links"' EXIT
+    trap 'exit 130' INT TERM HUP
+    git -c core.hooksPath=/dev/null worktree add --quiet --detach "$__push_wt" "$__push_tip" || exit 1
+    # A worktree lacks node_modules and generated output (paraglide, .svelte-kit, .wxt), so fallow called every message import unresolved.
+    ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm"
+    while IFS= read -r __push_nm; do
+      __push_nm=${__push_nm#./}
+      if [ ! -d "$__push_wt/$(dirname "$__push_nm")" ] || [ -e "$__push_wt/$__push_nm" ]; then
+        :
+      elif [ -d "$__push_real/$__push_nm/\$app" ]; then
+        # Kit's $app/tsconfig.json holds relative paths, so it's copied: through a link it resolved outside the worktree and fallow dropped @ext.
+        mkdir "$__push_wt/$__push_nm" || exit 1
+        for __push_e in "$__push_real/$__push_nm"/* "$__push_real/$__push_nm"/.[!.]*; do
+          [ -e "$__push_e" ] || [ -L "$__push_e" ] || continue
+          [ "$(basename "$__push_e")" = "\$app" ] && continue
+          ln -s "$__push_e" "$__push_wt/$__push_nm/" && printf '%s\n' "$__push_wt/$__push_nm/$(basename "$__push_e")" >> "$__push_links"
+        done
+        cp -R "$__push_real/$__push_nm/\$app" "$__push_wt/$__push_nm/"
+      else
+        ln -s "$__push_real/$__push_nm" "$__push_wt/$__push_nm" && printf '%s\n' "$__push_wt/$__push_nm" >> "$__push_links"
+      fi
+    done < "$__push_wt.nm"
+    rm -f "$__push_wt.nm"
+    echo "push scope: working tree differs from $(git rev-parse --short "$__push_tip"), gates read a temporary worktree of it"
+    cd "$__push_wt"
+    # pnpm's install before a script wrote through the links and repointed the real .bin shims at this worktree.
+    export pnpm_config_verify_deps_before_run=false
+    # A detached HEAD has no upstream, so push-diff takes its base from here.
+    if [ -z "${PUSH_BASE-}" ] && [ -n "${__push_base-}" ]; then export PUSH_BASE="$__push_base"; fi
+  fi
+fi
+export PUSH_FILES
+__push_code=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|svelte)$' || true)
+# <<< push scope (managed) <<<
+
+# >>> comment-length pre-push guard (managed) >>>
+# The 30-word comment cap, packages/lint/README.md in vibe-kit. Installed by
+# vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __cl_root=$(git rev-parse --show-toplevel)
+  __cl_bin="$HOME/Studio/vibe-kit/packages/lint/bin/heyramzi-comment-length.js"
+  [ -f "$__cl_bin" ] || __cl_bin="$__cl_root/node_modules/@heyramzi/lint/bin/heyramzi-comment-length.js"
+  if [ -z "${__push_code-}" ]; then
+    echo "comment-length: skip (no code in this push)"
+  elif [ -f "$__cl_bin" ]; then
+    echo "comment-length: checking ..."
+    ( cd "$__cl_root" && node "$__cl_bin" ) || exit 1
+  else
+    echo "comment-length: skip (@heyramzi/lint not installed)"
+  fi
+fi
+# <<< comment-length pre-push guard (managed) <<<
+
+# >>> code gate pre-push guard (managed) >>>
+# Format and lint only the pushed files. Whole-project checks run in CI.
+# vibe-kit svelte-standards/references/lint.md. Installed by pre-push-hooks.sh.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __cg_root=$(git rev-parse --show-toplevel)
+  if [ -z "${__push_code-}" ]; then
+    echo "code gate: skip (no code in this push)"
+  else
+    __cg_n=$(printf '%s\n' "$__push_code" | wc -l | tr -d ' ')
+    if [ -x "$__cg_root/node_modules/.bin/vp" ]; then
+      echo "code gate: format and lint $__cg_n pushed files ..."
+      __cg_cfg=""
+      [ -f "$__cg_root/.oxlintrc.json" ] && __cg_cfg="-c .oxlintrc.json"
+      ( cd "$__cg_root" && printf '%s\n' "$__push_code" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \
+        | xargs -0 node_modules/.bin/vp fmt --check --no-error-on-unmatched-pattern ) || exit 1
+      ( cd "$__cg_root" && printf '%s\n' "$__push_code" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \
+        | xargs -0 node_modules/.bin/vp lint --quiet --no-error-on-unmatched-pattern $__cg_cfg ) || exit 1
+    else
+      echo "code gate: skip (Vite+ not installed)"
+    fi
+  fi
+fi
+# <<< code gate pre-push guard (managed) <<<
+
+# >>> slop pre-push guard (managed) >>>
+# The slop check over this repo's copy. Installed by
+# vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __sl_check="$HOME/Studio/vibe-kit/ai-doc/scripts/slop-check.mjs"
+  if [ -f "$__sl_check" ]; then
+    echo "slop: checking ..."
+    ( cd "$(git rev-parse --show-toplevel)" && __sl_files=$(node "$__sl_check" --list) && printf '%s\n' "$__sl_files" | node -e '
+      const { spawnSync } = require("node:child_process");
+      const { existsSync } = require("node:fs");
+      const pushed = new Set(process.env.PUSH_FILES.split("\n"));
+      let input = "";
+      process.stdin.on("data", d => input += d).on("end", () => {
+        const files = input.split("\n").filter(f => pushed.has(f) && existsSync(f));
+        if (!files.length) return;
+        process.exit(spawnSync("node", [process.argv[1], ...files], { stdio: "inherit" }).status ?? 1);
+      });' "$HOME/Studio/vibe-kit/packages/lint/bin/heyramzi-slop.js" ) || exit 1
+    # Instruction files aren't copy, so they get the one check every file passes: no dashes.
+    # Vendored text is replaced whole on its next upgrade, so it's skipped.
+    __sl_docs=$(printf '%s\n' "$PUSH_FILES" | grep -E '^ai-doc/.*\.md$|(^|/)(AGENTS|CLAUDE|GEMINI|CODING_STANDARDS)\.md$' \
+      | grep -vE '^ai-doc/references/demandcurve/|^ai-doc/skills/content/video/tesseract-video/|^ai-doc/skills/engineering/security/security-audit/|/motion-design/references/remotion/|/anti-ai-slop/references/color-expert\.md$' || true)
+    if [ -n "$__sl_docs" ]; then
+      echo "slop: instruction files, dashes ..."
+      ( cd "$(git rev-parse --show-toplevel)" && printf '%s\n' "$__sl_docs" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \
+        | xargs -0 sh -c 'if [ $# -gt 0 ]; then exec node "$0" --only=dash "$@"; fi' "$HOME/Studio/vibe-kit/packages/lint/bin/heyramzi-slop.js" ) || exit 1
+    fi
+  else
+    echo "slop: skip (no vibe-kit checkout)"
+  fi
+fi
+# <<< slop pre-push guard (managed) <<<
+
+# >>> design pre-push guard (managed) >>>
+# Impeccable detector over pushed UI files. Installed by
+# vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __design_root=$(git rev-parse --show-toplevel)
+  __design_bin="$__design_root/.claude/skills/impeccable/scripts/impeccable"
+  [ -x "$__design_bin" ] || __design_bin="$__design_root/.agents/skills/impeccable/scripts/impeccable"
+  [ -x "$__design_bin" ] || __design_bin="$HOME/.agents/skills/impeccable/scripts/impeccable"
+  # A sync replaces .upstream/ copies whole, so their upstream style isn't ours to judge.
+  __design_files=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(tsx|jsx|html|vue|svelte|astro|css|scss|sass|less|ts|js)$' | grep -v '/skills/impeccable/' | grep -v 'node_modules/' | grep -vE '(^|/)playground/' | grep -v '/\.upstream/' | grep -v '/inputs/' | grep -vE '(^|/)(emails?|[a-z-]*email-templates|resend-templates)/|(^|/)emails?\.(ts|js)$' || true)
+  if [ -z "$__design_files" ]; then
+    echo "design: skip (no UI files in this push)"
+  elif [ ! -x "$__design_bin" ]; then
+    echo "design: skip (impeccable not installed)"
+  else
+    echo "design: checking ..."
+    ( cd "$__design_root" && printf '%s\n' "$__design_files" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \
+      | xargs -0 sh -c 'if [ $# -gt 0 ]; then exec "$0" detect "$@"; fi' "$__design_bin" ) || exit 1
+  fi
+fi
+# <<< design pre-push guard (managed) <<<
+
+# >>> inline-path pre-push guard (managed) >>>
+# Disallow inline SVG paths in components across the repo. SVGs must be separate
+# files (.svg) and imported. Installed by vibe-kit/ai-doc/scripts/pre-push-hooks.sh.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __ip_check="$HOME/Studio/vibe-kit/ai-doc/scripts/inline-path-check.mjs"
+  if ! printf '%s\n' "$PUSH_FILES" | grep -qE '\.(svelte|vue|jsx|tsx)$'; then
+    echo "inline-path: skip (no components in this push)"
+  elif [ -f "$__ip_check" ]; then
+    echo "inline-path: checking ..."
+    ( cd "$(git rev-parse --show-toplevel)" && node "$__ip_check" ) || exit 1
+  else
+    echo "inline-path: skip (no vibe-kit checkout)"
+  fi
+fi
+# <<< inline-path pre-push guard (managed) <<<
+
+# >>> push gates (managed) >>>
+# UI, Svelte markup, pushed-diff, old-name and repo convention gates over PUSH_FILES. Installed by
+# vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __pg_root=$(git rev-parse --show-toplevel)
+  __pg_lint="$HOME/Studio/vibe-kit/packages/lint/bin"
+  [ -d "$__pg_lint" ] || __pg_lint="$__pg_root/node_modules/@heyramzi/lint/bin"
+  for __pg_gate in ui-rules svelte-markup push-diff old-names; do
+    [ -f "$__pg_lint/heyramzi-$__pg_gate.js" ] || continue
+    ( cd "$__pg_root" && node "$__pg_lint/heyramzi-$__pg_gate.js" ) || exit 1
+  done
+  for __pg_check in check-conventions check-no-core; do
+    [ -f "$__pg_root/scripts/$__pg_check.mjs" ] || continue
+    ( cd "$__pg_root" && node "scripts/$__pg_check.mjs" ) || exit 1
+  done
+  # Only repos a stranger or a buyer reads: ai-agency is public, agency-os ships to buyers.
+  case "$(basename "$__pg_root")" in
+    ai-agency | agency-os)
+      ( cd "$__pg_root" && node "$HOME/Studio/vibe-kit/ai-doc/scripts/check-public-hygiene.mjs" ) || exit 1 ;;
+  esac
+fi
+# <<< push gates (managed) <<<
