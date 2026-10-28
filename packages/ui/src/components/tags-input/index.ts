@@ -10,4 +10,5 @@ export {
   matchOptions,
   removeTag,
   splitTags,
+  splitTyped,
 } from "#src/components/tags-input/tags.js";

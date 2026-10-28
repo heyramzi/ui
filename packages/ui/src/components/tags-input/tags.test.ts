@@ -8,6 +8,7 @@ import {
   matchOptions,
   removeTag,
   splitTags,
+  splitTyped,
 } from "#src/components/tags-input/tags.js";
 
 const options = ["Airtable", "Docusign", "QuickBooks", "SharePoint", "Supabase"];
@@ -15,6 +16,16 @@ const options = ["Airtable", "Docusign", "QuickBooks", "SharePoint", "Supabase"]
 describe("tags as labels", () => {
   it("splits on commas and newlines", () => {
     expect(splitTags(" a, b,,\nc ,")).toEqual(["a", "b", "c"]);
+  });
+
+  // save-to-clickup, 28 Oct 2026: client domains pasted from anywhere, separated any way.
+  it("splits a free field's paste on commas, semicolons, newlines and spaces", () => {
+    expect(splitTyped("acme.com, bo.io;\nzed.co  ann@x.dev")).toEqual([
+      "acme.com",
+      "bo.io",
+      "zed.co",
+      "ann@x.dev",
+    ]);
   });
 
   it("counts a transposition as one edit", () => {

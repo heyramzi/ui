@@ -11,6 +11,7 @@
 		matchOptions,
 		removeTag,
 		splitTags,
+		splitTyped,
 	} from "#src/components/tags-input/tags.js";
 
 	// =========================
@@ -40,6 +41,11 @@
 		allowCreate?: boolean;
 		/** Most tags the list holds. Past it the input goes away. */
 		max?: number;
+		/**
+		 * Tags typed freely, with no options and no menu: Enter, comma, space or Tab adds what's
+		 * typed, a pasted list adds every part, and leaving the field keeps what was typed.
+		 */
+		free?: boolean;
 		/** Accessible name of the field. */
 		label: string;
 		labels?: Partial<Labels>;
@@ -56,6 +62,7 @@
 		options = [],
 		allowCreate = true,
 		max,
+		free = false,
 		label,
 		labels,
 		disabled = false,
@@ -90,11 +97,17 @@
 	const matches = $derived(matchOptions(options, tags, query));
 	const creatable = $derived(canCreate(options, tags, query, allowCreate));
 	// Options closest first (a typo's fix comes before anything new), then the one row that makes what's typed.
-	const rows = $derived([
-		...matches.map((name) => ({ kind: "pick" as const, name })),
-		...(creatable ? [{ kind: "create" as const, name: query.trim() }] : []),
-	]);
-	const nothing = $derived(editing && !full && query.trim() !== "" && rows.length === 0);
+	const rows = $derived(
+		free
+			? []
+			: [
+					...matches.map((name) => ({ kind: "pick" as const, name })),
+					...(creatable ? [{ kind: "create" as const, name: query.trim() }] : []),
+				],
+	);
+	const nothing = $derived(
+		!free && editing && !full && query.trim() !== "" && rows.length === 0,
+	);
 	const open = $derived(editing && !full && (rows.length > 0 || nothing));
 
 	// =========================
@@ -117,12 +130,12 @@
 	}
 
 	// Leaving the field keeps what was typed only when it is an existing label said another way.
-	// Anything else is dropped: free text is never saved by walking away.
+	// Anything else is dropped unless the field is free: free text is never saved by walking away.
 	function stop() {
 		const typed = query;
 		query = "";
 		editing = false;
-		const match = findOption(options, typed);
+		const match = free ? typed.trim() : findOption(options, typed);
 		if (match) void commit(addTag(tags, match, options, max));
 	}
 
@@ -134,7 +147,12 @@
 
 	function onKey(event: KeyboardEvent) {
 		const last = rows.length - 1;
-		if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+		const separator = event.key === "," || (free && event.key === " ");
+		if (free && (separator || event.key === "Enter" || (event.key === "Tab" && query.trim()))) {
+			event.preventDefault();
+			if (query.trim()) add(query);
+			else if (event.key === "Enter") stop();
+		} else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
 			if (rows.length === 0) return;
 			event.preventDefault();
 			const step = event.key === "ArrowDown" ? 1 : -1;
@@ -162,6 +180,7 @@
 	// Pasted words that are existing labels are added. The rest stay in the box to be created on purpose.
 	function onPaste(event: ClipboardEvent) {
 		const pasted = event.clipboardData?.getData("text") ?? "";
+		if (free) return pasteTyped(event, pasted);
 		if (!/[,\n]/.test(pasted)) return;
 		event.preventDefault();
 		const parts = splitTags(pasted);
@@ -170,6 +189,17 @@
 		query = rest.join(", ");
 		void commit(
 			known.reduce((list, part) => addTag(list, part, options, max), tags as readonly string[]),
+		);
+	}
+
+	// A free field takes a pasted list whole, one tag per part. One word pastes into the box as usual.
+	function pasteTyped(event: ClipboardEvent, pasted: string) {
+		const parts = splitTyped(pasted);
+		if (parts.length < 2) return;
+		event.preventDefault();
+		query = "";
+		void commit(
+			parts.reduce((list, part) => addTag(list, part, options, max), tags as readonly string[]),
 		);
 	}
 

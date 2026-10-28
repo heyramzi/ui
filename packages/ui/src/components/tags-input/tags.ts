@@ -9,6 +9,11 @@ export function splitTags(text: string): string[] {
     .filter(Boolean);
 }
 
+/** Splits typed or pasted text for a free field: commas, semicolons, newlines and spaces all separate. */
+export function splitTyped(text: string): string[] {
+  return text.split(/[\s,;]+/).filter(Boolean);
+}
+
 /** What two spellings are compared by: no case, no spaces, no marks ("Share Point" is "SharePoint"). */
 export function fold(text: string): string {
   return text
