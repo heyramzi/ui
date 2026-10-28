@@ -103,9 +103,9 @@
 		class={cn(
 			"t-press flex w-full items-start gap-3 px-4 py-3 text-left any-pointer-coarse:py-3.5",
 			"focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset",
-			// WHY: the hover actions sit over this corner, so the text stops short
-			// of them rather than sliding underneath when a title is long.
-			actions && "pr-24",
+			// Room for the actions only where they always show; a hover-only reserve
+			// cost every title 96px. The overlay below sits on its own surface instead.
+			actions && "any-pointer-coarse:pr-24",
 		)}
 		onclick={select}
 		aria-current={selected ? "page" : undefined}
@@ -162,7 +162,7 @@
 		<!-- WHY visible on a coarse pointer: there is no hover on a touchscreen, so
 		     the row's actions would be unreachable there. -->
 		<div
-			class="absolute right-2 top-2 hidden items-center gap-1 group-hover:flex group-focus-within:flex any-pointer-coarse:flex"
+			class="absolute right-2 top-2 hidden items-center gap-1 rounded-md bg-card shadow-btn group-hover:flex group-focus-within:flex any-pointer-coarse:flex"
 		>
 			{@render actions()}
 		</div>
