@@ -67,9 +67,19 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     __push_links="$__push_wt.links"
     : > "$__push_links"
     # The links go first: a recursive delete must never reach the real node_modules behind them.
-    trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; git worktree remove --force "$__push_wt" >/dev/null 2>&1 || rm -rf "$__push_wt"; git worktree prune >/dev/null 2>&1; rm -f "$__push_links"' EXIT
+    # A linked worktree built by hand, not `git worktree add`: the same .git file, refs, objects and config, but
+    # nothing in .git/worktrees, which Orca listed as a detached HEAD coming and going on every push (29 Oct 2026).
+    __push_common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
+    __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
+    trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; rm -rf "$__push_wt" "$__push_admin"; rm -f "$__push_links"' EXIT
     trap 'exit 130' INT TERM HUP
-    git -c core.hooksPath=/dev/null worktree add --quiet --detach "$__push_wt" "$__push_tip" || exit 1
+    mkdir -p "$__push_admin" || exit 1
+    printf '%s\n' "$__push_common" > "$__push_admin/commondir"
+    printf '%s\n' "$__push_tip" > "$__push_admin/HEAD"
+    printf 'gitdir: %s\n' "$__push_admin" > "$__push_wt/.git"
+    # The explicit dirs and the unset index keep an inherited GIT_DIR or GIT_INDEX_FILE from resetting the real checkout.
+    env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$__push_admin" --work-tree="$__push_wt" \
+      -c core.hooksPath=/dev/null read-tree --reset -u HEAD || exit 1
     # A worktree lacks node_modules and generated output (paraglide, .svelte-kit, .wxt), so fallow called every message import unresolved.
     ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm"
     while IFS= read -r __push_nm; do
