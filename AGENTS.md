@@ -9,7 +9,7 @@ Confirm messages sent under the user's name, payments or refunds, deleting anoth
 
 Client, past-call or personal decisions: search `qmd` before relying on memory or declaring information unknown.
 
-Delegation is a judgment call: do quick work and repository gates in the session. Hand a complex task to a subagent through the Agent tool, briefed for the fix alone (no gates, re-audits or waits), and review what comes back. A subagent finishes its own brief and starts another agent only when the brief asks it to. Tool names are case-sensitive (`Bash`, not `bash`), and a deferred tool loads through `ToolSearch` before its first call.
+Delegate all work to Opus subagents, quick fixes too; the session briefs, reviews and runs gates. Hand a task to the named agent that owns it (screens and screenshots go to `frontend-designer`), briefed for the fix alone (no gates, re-audits or waits) and sized to finish inside its turn limit (about 15 items, a sign-in plus 5 page actions, or one job moved to the VPS; 49 items and 2 job moves ran out). A subagent finishes its brief and starts another agent only when it says so. Tool names are case-sensitive (`Bash`, not `bash`), a deferred tool loads through `ToolSearch` first, and a skill this repo doesn't list is read at its `vibe-kit/ai-doc/skills` path, never by name.
 
 Code, copy, dependencies, scripts, commands or product/design/release decisions: read the relevant sections of [CODING_STANDARDS.md](CODING_STANDARDS.md) before acting.
 
