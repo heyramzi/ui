@@ -36,6 +36,15 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/components/docs/on-this-page.svelte",
     "packages/ui/src/components/docs/scroll-spy.svelte.ts",
   ],
+  "tag-chip": ["packages/ui/src/components/chip/tag-chip.svelte"],
+  "work-parts": [
+    "packages/ui/src/components/work-parts/work-well.svelte",
+    "packages/ui/src/components/work-parts/work-card.svelte",
+    "packages/ui/src/components/work-parts/group-head.svelte",
+    "packages/ui/src/components/work-parts/count-chip.svelte",
+    "packages/ui/src/components/work-parts/property-row.svelte",
+    "packages/ui/src/components/work-parts/looks.ts",
+  ],
   "tags-input": [
     "packages/ui/src/components/tags-input/tags-input.svelte",
     "packages/ui/src/components/tags-input/tags.ts",

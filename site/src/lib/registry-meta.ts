@@ -428,6 +428,20 @@ export const meta: Record<string, Meta> = {
       "One page anatomy for documentation: an icon, title and summary header, a reading column and an On this page rail that becomes a bar on a narrow pane.",
     height: 540,
   },
+  "tag-chip": {
+    title: "Tag chip",
+    icon: "tag",
+    description:
+      "A label the user wrote: a grey rectangle at the chip radius, an optional mark, and a remove button with a 24px hit area.",
+    height: 160,
+  },
+  "work-parts": {
+    title: "Work parts",
+    icon: "kanban",
+    description:
+      "The pieces the kanban, task list and gantt share: a group head with its count, the grey well, a white card, a drop hole and a property row.",
+    height: 320,
+  },
   "tags-input": {
     title: "Tags input",
     icon: "form",
