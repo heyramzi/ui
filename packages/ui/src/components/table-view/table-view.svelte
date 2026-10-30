@@ -36,7 +36,7 @@
 		rowClass?: (row: Row) => string | undefined;
 		/** Below this width the table scrolls sideways inside its frame. */
 		minWidth?: string;
-		/** No outer border or radius, for a table inside a card. */
+		/** Ignored: the panel or card under a table is its frame, so it draws none of its own. */
 		bare?: boolean;
 		class?: string;
 		/** The sorted column and its direction. Bind it; columns with `sortable` set it. */
@@ -92,7 +92,6 @@
 		cell,
 		rowClass,
 		minWidth = "0",
-		bare = false,
 		class: className,
 		sort = $bindable(null),
 		rowHref,
@@ -318,7 +317,8 @@
 	{/if}
 {/snippet}
 
-<div class={cn(!bare && "overflow-hidden rounded-xl border", className)}>
+<!-- WHY no frame: the surface under a table is its frame, the white panel or a section card. -->
+<div class={cn("min-w-0", className)}>
 	<Table.Root
 		aria-label={label}
 		aria-busy={loading || undefined}

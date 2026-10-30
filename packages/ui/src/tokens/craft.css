@@ -11,6 +11,12 @@
   --radius-3xl: 20px; /* hero surface, full-bleed panel */
 }
 
+/* ── Type, by role ───────────────────────────────────────────
+   Tailwind's own `text-xs` to `text-base` cover the rest. */
+@theme {
+  --text-2xs: 0.6875rem; /* a count, a kbd hint, a meta line under a tile; the floor */
+}
+
 /* ── Elevation ───────────────────────────────────────────────
    The steps carry no ring, since a bordered box would get two edges a pixel
    apart; a borderless one adds `var(--elev-hairline)` in front. */

@@ -109,10 +109,13 @@ describe("TableView extensions", () => {
     done();
   });
 
-  it("drops the frame when bare", () => {
-    const { target, done } = render({ bare: true });
-    expect((target.firstElementChild as HTMLElement).className).not.toContain("border");
-    done();
+  it("draws no frame of its own, bare or not", () => {
+    for (const bare of [false, true]) {
+      const { target, done } = render({ bare });
+      const frame = (target.firstElementChild as HTMLElement).className;
+      expect(frame).not.toMatch(/\b(border|ring|shadow|rounded)/);
+      done();
+    }
   });
 });
 
