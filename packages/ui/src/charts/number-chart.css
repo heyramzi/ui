@@ -53,7 +53,11 @@
   align-items: center;
   flex: none;
 }
+/* One label line tall, so a chip on one tile never drops its value below the next tile's. */
 .hr-number-trailing {
+  display: flex;
+  align-items: center;
+  height: 1lh;
   margin-left: auto;
   flex: none;
   font-size: 0.625rem;
@@ -74,7 +78,6 @@
   font-family: var(--font-heading, inherit);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum";
   line-height: 1.15;
   letter-spacing: -0.015em;
   color: var(--foreground, oklch(0.2 0.01 286));
