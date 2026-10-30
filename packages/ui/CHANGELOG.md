@@ -993,3 +993,14 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * fix(ui): rail titles get the width the hover actions held back
 * fix(ui): the master-detail pane no longer clips the top edge of a card
 
+
+## [2.12.0](https://github.com/heyramzi/ui/compare/ui-v2.11.2...ui-v2.12.0) (2026-10-30)
+
+### Features
+
+* feat(ui): TableView draws no frame by default, and craft.css ships --text-2xs
+
+### Bug Fixes
+
+* fix(charts): a chip beside a tile label no longer pushes its value down
+
