@@ -12,6 +12,8 @@ paths:
 
 # Svelte and SvelteKit
 
+**Load the skill before you read further into the code.** A page's layout, audit, spacing or polish is `ui-design`. An animation is `transitions-dev`. Runes, markup and the toolchain are `svelte-standards`. On 30 Oct 2026 the routing eval sent "audit the clients page" straight into the code, and it never loaded `ui-design` in 6 turns.
+
 Each of these failed silently at least once. The story behind each is in the `svelte-standards` skill's `references/traps.md`.
 
 - **A duplicate `{#each}` key kills the whole subtree**, not one row: 221 tiles turned into dead buttons. Key on a real unique id, and read the console before you reason about a click.
