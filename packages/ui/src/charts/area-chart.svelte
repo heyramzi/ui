@@ -15,6 +15,7 @@
 	import ReferenceLine, { type ChartReference } from "#src/charts/reference-line.svelte";
 	import {
 		ROLLING_LABEL,
+		averageTo,
 		smoothSeries,
 		weekOf,
 		ticksForWidth,
@@ -99,7 +100,7 @@
 	/** What a drawn point is: a day, the week it opens, or the end of a 7-day average. */
 	function pointLabel(d: TData): string {
 		const x = formatX(d[xKey]);
-		return mode === "weekly" ? weekOf(x) : x;
+		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x) : x;
 	}
 
 	// =========================

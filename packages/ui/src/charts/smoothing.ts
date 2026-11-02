@@ -15,6 +15,7 @@ export type SmoothMode = "raw" | "rolling" | "weekly";
 /** The tooltip's name for a drawn point, beside its date. */
 export const ROLLING_LABEL = "7-day average";
 export const weekOf = (start: string) => `Week of ${start}`;
+export const averageTo = (end: string) => `${ROLLING_LABEL} to ${end}`;
 
 const DAY = 86_400_000;
 const WINDOW = 7;

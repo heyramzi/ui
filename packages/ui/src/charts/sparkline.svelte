@@ -6,7 +6,13 @@
 	import { Area, Chart, Highlight, LinearGradient, Points, Spline, Svg, Tooltip } from "layerchart";
 	import { curveMonotoneX } from "d3-shape";
 	import Reveal from "#src/charts/reveal.svelte";
-	import { ROLLING_LABEL, smoothSeries, weekOf, type Smoothing } from "#src/charts/smoothing.js";
+	import {
+		ROLLING_LABEL,
+		averageTo,
+		smoothSeries,
+		weekOf,
+		type Smoothing,
+	} from "#src/charts/smoothing.js";
 
 	// =========================
 	// TYPES
@@ -71,7 +77,7 @@
 			active = d;
 		});
 		const x = formatX(d[xKey]);
-		return mode === "weekly" ? weekOf(x) : x;
+		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x) : x;
 	}
 
 	// =========================
