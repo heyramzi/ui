@@ -15,13 +15,7 @@
 		resolveThreadLabels,
 		resolvedCount,
 	} from "#src/thread/logic.js";
-	import type {
-		ThreadComment,
-		ThreadEntry,
-		ThreadEvent,
-		ThreadLabels,
-		ThreadPost,
-	} from "#src/thread/types.js";
+	import type { ThreadComment, ThreadEvent, ThreadLabels, ThreadPost } from "#src/thread/types.js";
 
 	interface Props {
 		comments: ThreadComment[];
@@ -54,9 +48,6 @@
 		canEdit?: (comment: ThreadComment) => boolean;
 		/** False hides the visible title, for a thread already named by its tab. Screen readers still get it. */
 		heading?: boolean;
-		/** Rows the host draws through `entry`, placed in time among the comments. */
-		entries?: ThreadEntry[];
-		entry?: Snippet<[ThreadEntry]>;
 		/** Drawn above the composer, such as a question waiting on an answer. */
 		footer?: Snippet;
 		class?: string;
@@ -80,8 +71,6 @@
 		onAnchor,
 		canEdit = () => false,
 		heading = true,
-		entries = [],
-		entry,
 		footer,
 		class: className,
 	}: Props = $props();
@@ -91,7 +80,7 @@
 	let resolved = $derived(resolvedCount(nodes));
 	let showResolved = $state(false);
 	let shown = $derived(showResolved ? nodes : nodes.filter((node) => !node.comment.resolved));
-	let items = $derived(interleave(shown, events, entry ? entries : []));
+	let items = $derived(interleave(shown, events));
 
 	function shortDate(at: string): string {
 		return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(new Date(at));
@@ -321,8 +310,6 @@
 			{#each items as item (item.key)}
 				{#if item.type === "events"}
 					<li><ThreadEvents events={item.events} when={whenEvent} /></li>
-				{:else if item.type === "entry"}
-					<li class="min-w-0">{@render entry?.(item.entry)}</li>
 				{:else}
 					{@const node = item.node}
 					<li

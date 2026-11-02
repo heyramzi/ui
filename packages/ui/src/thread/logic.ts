@@ -1,6 +1,5 @@
 import type {
   ThreadComment,
-  ThreadEntry,
   ThreadEvent,
   ThreadItem,
   ThreadLabels,
@@ -72,32 +71,16 @@ export function fillCount(label: string, count: number): string {
   return label.replaceAll("{count}", String(count));
 }
 
-/**
- * Conversations, events and the host's entries in time order, each run of events between two
- * other items as one item.
- */
-export function interleave(
-  nodes: ThreadNode[],
-  events: ThreadEvent[],
-  entries: ThreadEntry[] = [],
-): ThreadItem[] {
+/** Conversations and events in time order, each run of events between two conversations as one item. */
+export function interleave(nodes: ThreadNode[], events: ThreadEvent[]): ThreadItem[] {
   const timed = [
     ...nodes.map((node, index) => ({ at: at(node.comment.createdAt), index, node })),
     ...events.map((event, index) => ({ at: at(event.at), index: nodes.length + index, event })),
-    ...entries.map((entry, index) => ({
-      at: at(entry.at),
-      index: nodes.length + events.length + index,
-      entry,
-    })),
   ].toSorted((a, b) => a.at - b.at || a.index - b.index);
   const items: ThreadItem[] = [];
   for (const row of timed) {
     if ("node" in row) {
       items.push({ type: "node", key: row.node.comment.id, node: row.node });
-      continue;
-    }
-    if ("entry" in row) {
-      items.push({ type: "entry", key: `entry-${row.entry.id}`, entry: row.entry });
       continue;
     }
     const last = items.at(-1);
