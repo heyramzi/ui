@@ -136,6 +136,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 ## Record (`src/record`)
 
 - `info-list` — InfoList. An editable label and value `<dl>`; `layout="row"` makes it a read-only band of items that wrap and truncate, with `term`, `content` and `action` snippets per row and a `trailing` snippet after the list
+- `record-rail` — RecordRail, RecordRailTab. A record's side rail split into tabs (fields in one, a comment thread in the next), each with an optional count. A single tab draws no strip
 
 ---
 

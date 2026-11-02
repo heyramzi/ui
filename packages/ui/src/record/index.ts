@@ -8,6 +8,8 @@ export { default as RecordTimeline } from "#src/record/record-timeline.svelte";
 export { default as ProjectList } from "#src/record/project-list.svelte";
 export { default as FieldSection } from "#src/record/field-section.svelte";
 export { default as InfoList } from "#src/record/info-list.svelte";
+export { default as RecordRail } from "#src/record/record-rail.svelte";
+export type { RecordRailTab } from "#src/record/record-rail.svelte";
 
 export { DEFAULT_RECORD_FILTERS, DEFAULT_RECORD_KINDS } from "#src/record/kinds.js";
 export { DEFAULT_RECORD_LABELS, resolveLabels } from "#src/record/types.js";
