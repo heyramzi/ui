@@ -366,8 +366,11 @@
 		opacity: 1;
 	}
 
-	/* clip, not hidden: the margin lets a lifted card's shadow out while the fold stays shut. */
+	/* clip, not hidden: the margin lets a lifted card's shadow out while the fold stays shut.
+	   relative: a card's sr-only labels are absolute, and clip only cuts what this box contains.
+	   Without it they hang below a shut fold and the page scrolls past its last lane (TSK-1617). */
 	.kanban-fold-inner {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: 0.375rem;
