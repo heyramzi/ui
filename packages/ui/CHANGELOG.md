@@ -1042,3 +1042,14 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): commit lib/motion.ts, which kanban-board-state, task-list and charts/motion import
 
+
+## [2.16.0](https://github.com/heyramzi/ui/compare/ui-v2.15.1...ui-v2.16.0) (2026-11-02)
+
+### Features
+
+* feat(record): RecordRail, a record's side rail split into tabs
+
+### Bug Fixes
+
+* fix(work): a shut kanban fold contains its cards sr-only labels
+
