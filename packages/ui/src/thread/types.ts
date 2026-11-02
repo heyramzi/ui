@@ -59,10 +59,18 @@ export type ThreadEvent = {
   icon?: PhosphorIcon;
 };
 
-/** The thread in time order: a conversation, or a run of events between two of them. */
+/** A row the host draws itself, placed in time among the comments, such as an agent's run or a message to it. */
+export type ThreadEntry = {
+  id: string;
+  /** ISO timestamp. */
+  at: string;
+};
+
+/** The thread in time order: a conversation, a run of events between two of them, or a host's entry. */
 export type ThreadItem =
   | { type: "node"; key: string; node: ThreadNode }
-  | { type: "events"; key: string; events: ThreadEvent[] };
+  | { type: "events"; key: string; events: ThreadEvent[] }
+  | { type: "entry"; key: string; entry: ThreadEntry };
 
 export type ThreadLabels = {
   title: string;

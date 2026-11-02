@@ -24,7 +24,9 @@ One comment thread for any subject: a task, a project, a doc or a diagram. The t
 - **Resolve.** Pass `onResolve` and each root gets a check. Resolved roots fold away behind a "Show N resolved" button.
 - **Anchor.** `anchor` carries `{ nodeId, dx, dy, x, y }` for a canvas pin. A pinned comment shows a chip, and `onAnchor` fires on a click so the canvas can move to the node. `anchorChip` replaces the chip.
 - **Attachments.** The `attachments` snippet draws under a comment's body.
-- **Events.** `events` takes `ThreadEvent`s (a whole sentence, a time, an optional Phosphor icon) and draws each as one `Trace` line between the conversations, in time order. `whenEvent(event)` formats its time. `interleave(nodes, events)` gives the same order without the component.
+- **Events.** `events` takes `ThreadEvent`s (a whole sentence, a time, an optional Phosphor icon) and draws each as one `Trace` line between the conversations, in time order. `whenEvent(event)` formats its time. `interleave(nodes, events, entries)` gives the same order without the component.
+- **Entries.** `entries` takes `{ id, at }` rows that the `entry` snippet draws, such as an agent's run or a message to it, so a comment thread and an agent conversation read as one back-and-forth. `footer` draws above the composer, for a question waiting on an answer. `onPost` decides where a root post goes.
+- **Heading.** `heading={false}` keeps the title for screen readers only, for a thread its tab already names.
 - **Long bodies.** A body over 6 lines folds behind `showMore` and `showLess`.
 - **Labels.** Every string comes from `labels`, a partial of `ThreadLabels`. `showResolved` holds a `{count}` slot. `when(comment)` formats the time.
 
