@@ -1053,3 +1053,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(work): a shut kanban fold contains its cards sr-only labels
 
+
+## [2.16.1](https://github.com/heyramzi/ui/compare/ui-v2.16.0...ui-v2.16.1) (2026-11-02)
+
+### Bug Fixes
+
+* fix(thread): a heading prop for a tab-named thread, and long words wrap
+
