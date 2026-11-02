@@ -1035,3 +1035,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * fix(ui): smoothed charts draw a missing day as a gap, and a year as a 28-day average (TSK-1562)
 * fix(work): the column fold caret shows only while the column is hovered
 
+
+## [2.15.1](https://github.com/heyramzi/ui/compare/ui-v2.15.0...ui-v2.15.1) (2026-11-02)
+
+### Bug Fixes
+
+* fix(ui): commit lib/motion.ts, which kanban-board-state, task-list and charts/motion import
+
