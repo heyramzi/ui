@@ -36,4 +36,5 @@ export {
   type Smoothing,
   type SeriesKind,
   type SmoothMode,
+  type Smoothed,
 } from "#src/charts/smoothing.js";

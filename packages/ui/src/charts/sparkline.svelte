@@ -7,7 +7,8 @@
 	import { curveMonotoneX } from "d3-shape";
 	import Reveal from "#src/charts/reveal.svelte";
 	import {
-		ROLLING_LABEL,
+		NO_DATA,
+		averageLabel,
 		averageTo,
 		smoothSeries,
 		weekOf,
@@ -77,7 +78,7 @@
 			active = d;
 		});
 		const x = formatX(d[xKey]);
-		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x) : x;
+		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x, smoothed.window) : x;
 	}
 
 	// =========================
@@ -87,13 +88,14 @@
 	const smoothed = $derived(
 		smoothing
 			? smoothSeries(input, xKey, [yKey], smoothing)
-			: { points: input, mode: "raw" as const },
+			: { points: input, mode: "raw" as const, window: 1 },
 	);
 	const data = $derived(smoothed.points);
 	const mode = $derived(smoothed.mode);
-	const valueLabel = $derived(mode === "rolling" ? ROLLING_LABEL : String(yKey));
+	const valueLabel = $derived(mode === "rolling" ? averageLabel(smoothed.window) : String(yKey));
 	const curve = $derived(smooth ? curveMonotoneX : undefined);
-	const last = $derived(data.length > 0 ? data[data.length - 1] : null);
+	// The newest measured point: a gap at the end has no height for the dot to sit at.
+	const last = $derived(data.findLast((d) => d[yKey] != null) ?? null);
 	const display = $derived(active ?? last);
 	const dot = $derived(endCap && !bare);
 	// Bare runs to the edges: the fill reaches the bottom of the box and the line keeps three pixels of head so its stroke is not cut at the series
@@ -150,7 +152,10 @@
 						{#snippet children({ data: d })}
 							<Tooltip.Header value={trackActive(d as TData)} />
 							<Tooltip.List>
-								<Tooltip.Item label={valueLabel} value={formatValue(Number(d[yKey]))} />
+								<Tooltip.Item
+									label={valueLabel}
+									value={d[yKey] == null ? NO_DATA : formatValue(Number(d[yKey]))}
+								/>
 							</Tooltip.List>
 						{/snippet}
 					</Tooltip.Root>

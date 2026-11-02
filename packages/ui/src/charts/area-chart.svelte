@@ -14,7 +14,8 @@
 	import Reveal from "#src/charts/reveal.svelte";
 	import ReferenceLine, { type ChartReference } from "#src/charts/reference-line.svelte";
 	import {
-		ROLLING_LABEL,
+		NO_DATA,
+		averageLabel as averageName,
 		averageTo,
 		smoothSeries,
 		weekOf,
@@ -97,10 +98,15 @@
 		return pointLabel(d);
 	}
 
-	/** What a drawn point is: a day, the week it opens, or the end of a 7-day average. */
+	/** What a drawn point is: a day, the week it opens, or the end of a 7 or 28-day average. */
 	function pointLabel(d: TData): string {
 		const x = formatX(d[xKey]);
-		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x) : x;
+		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x, smoothed.window) : x;
+	}
+
+	/** A missing point reads "No data", never the 0 Number(null) would claim. */
+	function shown(value: unknown): string {
+		return value == null ? NO_DATA : formatValue(Number(value));
 	}
 
 	// =========================
@@ -126,12 +132,12 @@
 					series.map((s) => s.key),
 					smoothing,
 				)
-			: { points: input, mode: "raw" as const },
+			: { points: input, mode: "raw" as const, window: 1 },
 	);
 	const data = $derived(smoothed.points);
 	const mode = $derived(smoothed.mode);
-	// The series label in the readout, unless the point is an average of the week before it.
-	const averageLabel = $derived(mode === "rolling" ? ROLLING_LABEL : null);
+	// The series label in the readout, unless the point is an average of the days before it.
+	const averageLabel = $derived(mode === "rolling" ? averageName(smoothed.window) : null);
 	const dataMax = $derived.by(() => {
 		if (stacked) {
 			return Math.max(0, ...data.map((d) => series.reduce((s, k) => s + Number(d[k.key] ?? 0), 0)));
@@ -182,6 +188,8 @@
 			format={formatValue}
 			size="md"
 		/>
+	{:else if display && series.every((s) => display[s.key] == null)}
+		<Figure value={NO_DATA} eyebrow={pointLabel(display)} size="md" />
 	{:else if figureRows && display}
 		<Figure series={figureRows} eyebrow={pointLabel(display)} format={formatValue} size="md" />
 	{:else}
@@ -246,7 +254,7 @@
 							{#each series as s (s.key)}
 								<Tooltip.Item
 									label={averageLabel ?? s.label}
-									value={formatValue(Number(d[s.key]))}
+									value={shown(d[s.key])}
 									color={s.color}
 								/>
 							{/each}
