@@ -13,6 +13,13 @@
 	import { DOMAIN_MOTION, TOOLTIP_GAP, TOOLTIP_TOP } from "#src/charts/motion.js";
 	import Reveal from "#src/charts/reveal.svelte";
 	import ReferenceLine, { type ChartReference } from "#src/charts/reference-line.svelte";
+	import {
+		ROLLING_LABEL,
+		smoothSeries,
+		weekOf,
+		ticksForWidth,
+		type Smoothing,
+	} from "#src/charts/smoothing.js";
 
 	// =========================
 	// TYPES
@@ -47,6 +54,8 @@
 		reference?: ChartReference;
 		/** The headline while no point is hovered, like a period total. Defaults to the last point. */
 		resting?: { value: number; label: string };
+		/** Smooths the drawn line by the window shown; the resting figure stays the caller's total. */
+		smoothing?: Smoothing;
 		class?: string;
 	}
 
@@ -54,7 +63,7 @@
 	// PROPS
 	// =========================
 	let {
-		data,
+		data: input,
 		xKey,
 		yKey,
 		series: seriesInput,
@@ -68,6 +77,7 @@
 		xTicks = 6,
 		reference,
 		resting,
+		smoothing,
 		class: className,
 	}: Props = $props();
 
@@ -83,7 +93,13 @@
 		queueMicrotask(() => {
 			active = d;
 		});
-		return formatX(d[xKey]);
+		return pointLabel(d);
+	}
+
+	/** What a drawn point is: a day, the week it opens, or the end of a 7-day average. */
+	function pointLabel(d: TData): string {
+		const x = formatX(d[xKey]);
+		return mode === "weekly" ? weekOf(x) : x;
 	}
 
 	// =========================
@@ -101,6 +117,20 @@
 				? [{ key: yKey, label: yKey, color }]
 				: [],
 	);
+	const smoothed = $derived(
+		smoothing
+			? smoothSeries(
+					input,
+					xKey,
+					series.map((s) => s.key),
+					smoothing,
+				)
+			: { points: input, mode: "raw" as const },
+	);
+	const data = $derived(smoothed.points);
+	const mode = $derived(smoothed.mode);
+	// The series label in the readout, unless the point is an average of the week before it.
+	const averageLabel = $derived(mode === "rolling" ? ROLLING_LABEL : null);
 	const dataMax = $derived.by(() => {
 		if (stacked) {
 			return Math.max(0, ...data.map((d) => series.reduce((s, k) => s + Number(d[k.key] ?? 0), 0)));
@@ -126,7 +156,11 @@
 	}
 	const figureRows = $derived(
 		display
-			? series.map((s) => ({ value: Number(display[s.key]), label: s.label, color: s.color }))
+			? series.map((s) => ({
+					value: Number(display[s.key]),
+					label: averageLabel ?? s.label,
+					color: s.color,
+				}))
 			: null,
 	);
 </script>
@@ -148,7 +182,7 @@
 			size="md"
 		/>
 	{:else if figureRows && display}
-		<Figure series={figureRows} eyebrow={formatX(display[xKey])} format={formatValue} size="md" />
+		<Figure series={figureRows} eyebrow={pointLabel(display)} format={formatValue} size="md" />
 	{:else}
 		<Figure value="—" eyebrow="Latest" size="md" />
 	{/if}
@@ -169,7 +203,7 @@
 			>
 				<Svg>
 					<Axis placement="left" format={(v) => valueTick(Number(v))} ticks={4} />
-					<Axis placement="bottom" format={(v) => formatX(v)} ticks={xTicks} />
+					<Axis placement="bottom" format={(v) => formatX(v)} ticks={ticksForWidth(xTicks)} />
 					<g class="hr-area-grid">
 						<Axis placement="left" grid rule={false} ticks={4} format={() => ""} />
 					</g>
@@ -210,7 +244,7 @@
 						<Tooltip.List>
 							{#each series as s (s.key)}
 								<Tooltip.Item
-									label={s.label}
+									label={averageLabel ?? s.label}
 									value={formatValue(Number(d[s.key]))}
 									color={s.color}
 								/>

@@ -6,6 +6,7 @@
 	import { Area, Chart, Highlight, LinearGradient, Points, Spline, Svg, Tooltip } from "layerchart";
 	import { curveMonotoneX } from "d3-shape";
 	import Reveal from "#src/charts/reveal.svelte";
+	import { ROLLING_LABEL, smoothSeries, weekOf, type Smoothing } from "#src/charts/smoothing.js";
 
 	// =========================
 	// TYPES
@@ -31,6 +32,10 @@
 		 */
 		bare?: boolean;
 		formatValue?: (v: number) => string;
+		/** The tooltip's date. */
+		formatX?: (v: unknown) => string;
+		/** Smooths the drawn line by the window shown, so a year doesn't draw as a barcode. */
+		smoothing?: Smoothing;
 		class?: string;
 	}
 
@@ -38,7 +43,7 @@
 	// PROPS
 	// =========================
 	let {
-		data,
+		data: input,
 		xKey,
 		yKey,
 		color = "var(--chart-1)",
@@ -48,6 +53,8 @@
 		showLast = false,
 		bare = false,
 		formatValue = (v) => v.toLocaleString(),
+		formatX = (v) => String(v),
+		smoothing,
 		class: className,
 	}: Props = $props();
 
@@ -63,13 +70,22 @@
 		queueMicrotask(() => {
 			active = d;
 		});
-		return String(d[xKey]);
+		const x = formatX(d[xKey]);
+		return mode === "weekly" ? weekOf(x) : x;
 	}
 
 	// =========================
 	// DERIVED
 	// =========================
 	const uid = `hr-spark-${Math.random().toString(36).slice(2, 8)}`;
+	const smoothed = $derived(
+		smoothing
+			? smoothSeries(input, xKey, [yKey], smoothing)
+			: { points: input, mode: "raw" as const },
+	);
+	const data = $derived(smoothed.points);
+	const mode = $derived(smoothed.mode);
+	const valueLabel = $derived(mode === "rolling" ? ROLLING_LABEL : String(yKey));
 	const curve = $derived(smooth ? curveMonotoneX : undefined);
 	const last = $derived(data.length > 0 ? data[data.length - 1] : null);
 	const display = $derived(active ?? last);
@@ -128,7 +144,7 @@
 						{#snippet children({ data: d })}
 							<Tooltip.Header value={trackActive(d as TData)} />
 							<Tooltip.List>
-								<Tooltip.Item label={String(yKey)} value={formatValue(Number(d[yKey]))} />
+								<Tooltip.Item label={valueLabel} value={formatValue(Number(d[yKey]))} />
 							</Tooltip.List>
 						{/snippet}
 					</Tooltip.Root>

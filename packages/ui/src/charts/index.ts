@@ -29,3 +29,11 @@ export {
   setChartContext,
   THEMES,
 } from "#src/charts/primitives/index.js";
+export {
+  smoothSeries,
+  smoothMode,
+  ticksForWidth,
+  type Smoothing,
+  type SeriesKind,
+  type SmoothMode,
+} from "#src/charts/smoothing.js";
