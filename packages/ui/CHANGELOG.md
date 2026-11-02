@@ -1023,3 +1023,15 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): a smoothed point names itself in the hover readout (TSK-1562)
 
+
+## [2.15.0](https://github.com/heyramzi/ui/compare/ui-v2.14.0...ui-v2.15.0) (2026-11-02)
+
+### Features
+
+* feat(work): kanban columns share the board's width, 280 to 420px (TSK-1563)
+
+### Bug Fixes
+
+* fix(ui): smoothed charts draw a missing day as a gap, and a year as a 28-day average (TSK-1562)
+* fix(work): the column fold caret shows only while the column is hovered
+
