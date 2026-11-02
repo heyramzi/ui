@@ -290,7 +290,7 @@
 
 <div
 	class={cn(
-		"kanban-board flex min-h-0 flex-1 items-stretch gap-4 overflow-x-auto pb-2",
+		"kanban-board @container/kanban-board flex min-h-0 flex-1 items-stretch gap-4 overflow-x-auto pb-2",
 		"max-sm:-mx-4 max-sm:snap-x max-sm:snap-proximity max-sm:scroll-px-4 max-sm:px-4",
 		className,
 	)}
