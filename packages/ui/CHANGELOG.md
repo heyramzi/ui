@@ -1012,3 +1012,14 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * feat(ui): charts smooth the drawn line by the window shown (TSK-1562)
 * feat(ui): TagChip and the work parts, with their site demos
 
+
+## [2.14.0](https://github.com/heyramzi/ui/compare/ui-v2.13.0...ui-v2.14.0) (2026-11-02)
+
+### Features
+
+* feat(work): kanban columns fold to 5 cards, open one lane or the whole column (TSK-1563)
+
+### Bug Fixes
+
+* fix(ui): a smoothed point names itself in the hover readout (TSK-1562)
+
