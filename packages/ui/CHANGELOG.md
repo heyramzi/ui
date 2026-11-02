@@ -1067,3 +1067,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(thread): host-drawn entries in the timeline and a footer above the composer
 
+
+## [2.18.0](https://github.com/heyramzi/ui/compare/ui-v2.17.0...ui-v2.18.0) (2026-11-02)
+
+### Features
+
+* initial publish from this repo
+
