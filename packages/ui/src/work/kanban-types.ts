@@ -56,8 +56,10 @@ export type KanbanColumnContext = {
   capped: boolean;
   /** Fold the column into the hidden rail. Needs `hidden` or `onHiddenChange` on the board. */
   hide: () => void;
-  /** Lift the `limit` so every card shows. */
+  /** Open the fold so every card shows. */
   expand: () => void;
+  /** Shut the fold back down to `limit`. */
+  collapse: () => void;
 };
 
 /** The default header renderer when no `columnHeader` snippet is given. */

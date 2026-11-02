@@ -1,7 +1,8 @@
 <script lang="ts" generics="T, C extends KanbanColumnDef = KanbanColumnDef">
-	import type { Snippet } from "svelte";
+	import { untrack, type Snippet } from "svelte";
 	import { SvelteSet } from "svelte/reactivity";
 	import { prefersReducedMotion } from "svelte/motion";
+	import { durationMs } from "#src/lib/motion.js";
 	import { cubicOut } from "svelte/easing";
 	import { slide } from "svelte/transition";
 	import KanbanColumn from "#src/work/kanban-column.svelte";
@@ -10,6 +11,9 @@
 	import { cn } from "#src/lib/utils.js";
 	import { createKanbanDnd } from "#src/work/use-kanban-dnd.svelte.js";
 	import { CaretDown } from "phosphor-svelte";
+	import { Button } from "#src/shadcn/button/index.js";
+	import GroupHead from "#src/components/work-parts/group-head.svelte";
+	import { workLooks } from "#src/components/work-parts/looks.js";
 	import type {
 		KanbanCardContext,
 		KanbanColumn as KanbanColumnDef,
@@ -51,12 +55,26 @@
 		/** The screen-reader name of a card. Defaults to a hint about the keyboard move. */
 		getLabel?: (item: T) => string;
 		emptyLabel?: string;
+		/** Shows a plus in each default column head that adds a card to that column. */
+		onAdd?: (columnId: string) => void;
+		/** The plus button's accessible name, followed by the column label. */
+		addLabel?: string;
 		/**
-		 * Cards a column shows before the rest fold behind a footer, or undefined for no cap; a
-		 * capped column drops on top, since its tail is out of sight.
+		 * Cards a column shows before the rest fold behind "Show N more": a number for every
+		 * column, or per column (undefined for no cap). `Infinity` turns the fold off.
 		 */
-		limit?: (columnId: string) => number | undefined;
-		/** Column ids whose `limit` is lifted. Controlled; leave out to let the board remember. */
+		limit?: number | ((columnId: string) => number | undefined);
+		/** The fold's open button, given how many cards it holds. */
+		moreLabel?: (hidden: number) => string;
+		/** The fold's close button. */
+		lessLabel?: string;
+		/** The header caret's open and close names, followed by the column label. */
+		expandColumnLabel?: string;
+		collapseColumnLabel?: string;
+		/**
+		 * Column ids the header caret opened. Pass one array to every board in a stack of
+		 * swimlanes, so the caret opens that column in each. "Show N more" stays per board.
+		 */
 		expanded?: string[];
 		onExpandedChange?: (ids: string[]) => void;
 		/** Column ids folded into the rail on the right. Controlled; leave out to let the board remember. */
@@ -96,7 +114,13 @@
 		getLabel,
 		onSelect,
 		emptyLabel = "Nothing here yet",
-		limit,
+		onAdd,
+		addLabel = "Add a card",
+		limit = 5,
+		moreLabel = (hidden) => `Show ${hidden} more`,
+		lessLabel = "Show less",
+		expandColumnLabel = "Show every card in",
+		collapseColumnLabel = "Fold back",
 		expanded,
 		onExpandedChange,
 		hidden,
@@ -111,7 +135,10 @@
 
 	// The drop slot takes the held card's height, so the column doesn't jump when it lands.
 	let slotHeight = $state(0);
-	let slotMotion = $derived({ duration: prefersReducedMotion.current ? 0 : 180, easing: cubicOut });
+	let slotMotion = $derived({
+		duration: prefersReducedMotion.current ? 0 : durationMs("quick"),
+		easing: cubicOut,
+	});
 
 	let internalExpanded = $state<string[]>([]);
 	let internalHidden = $state<string[]>([]);
@@ -152,20 +179,76 @@
 		return item === undefined ? null : getId(item);
 	}
 
+	function capOf(columnId: string): number | undefined {
+		return typeof limit === "function" ? limit(columnId) : limit;
+	}
+
+	/** The column holds more cards than its cap, so it gets a fold. */
+	function isFoldable(columnId: string, total: number): boolean {
+		const cap = capOf(columnId);
+		return cap !== undefined && total > cap;
+	}
+
+	// Open from this board's "Show N more", on top of the header caret's `expanded`.
+	const laneOpen = new SvelteSet<string>();
+
+	function isOpen(columnId: string): boolean {
+		return expandedIds.includes(columnId) || laneOpen.has(columnId);
+	}
+
+	/** The fold is shut, so the tail is out of sight. */
 	function isCapped(columnId: string, total: number): boolean {
-		const cap = limit?.(columnId);
-		return cap !== undefined && !expandedIds.includes(columnId) && total > cap;
+		return isFoldable(columnId, total) && !isOpen(columnId);
+	}
+
+	// A card moved into a folded column stays in view, wherever its sort puts it.
+	const pinned = new SvelteSet<string>();
+
+	// The caret folding a column shuts this board's own fold of it too, so every lane lands on the cap.
+	let previousExpanded: string[] = [];
+	$effect(() => {
+		const now = expandedIds;
+		untrack(() => {
+			for (const id of previousExpanded) if (!now.includes(id)) shut(id);
+		});
+		previousExpanded = [...now];
+	});
+
+	function moveAndPin(id: string, move: KanbanMove): void | Promise<void> {
+		pinned.add(id);
+		return onMove(id, move);
 	}
 
 	function canDrop(columnId: string): boolean {
 		return isDroppable?.(columnId) ?? columns.find((c) => c.id === columnId)?.droppable ?? true;
 	}
 
-	function expand(columnId: string): void {
-		if (expandedIds.includes(columnId)) return;
-		const next = [...expandedIds, columnId];
+	function setExpanded(next: string[]): void {
 		internalExpanded = next;
 		onExpandedChange?.(next);
+	}
+
+	// Shutting drops the column's pins, so the fold closes to exactly its cap.
+	function shut(columnId: string): void {
+		laneOpen.delete(columnId);
+		for (const item of sortedByColumn(columnId)) pinned.delete(getId(item));
+	}
+
+	/** "Show N more": opens this board's cell only. */
+	function expand(columnId: string): void {
+		laneOpen.add(columnId);
+	}
+
+	/** "Show less": shuts this board's cell, and lifts the caret's open if it was the caret's. */
+	function collapse(columnId: string): void {
+		shut(columnId);
+		if (expandedIds.includes(columnId)) setExpanded(expandedIds.filter((id) => id !== columnId));
+	}
+
+	/** The header caret: the whole column, in every board that shares `expanded`. */
+	function toggleColumn(columnId: string): void {
+		if (expandedIds.includes(columnId)) collapse(columnId);
+		else setExpanded([...expandedIds, columnId]);
 	}
 
 	function setHidden(next: string[]): void {
@@ -209,7 +292,7 @@
 		getColumnItems: sortedByColumn,
 		getSortKey: () => sortKey,
 		boardOrder: (item) => boardOrder?.(item),
-		onMove: (id, move) => onMove(id, move),
+		onMove: moveAndPin,
 		dropAtTop: (columnId) =>
 			dropAtTop?.(columnId) ?? isCapped(columnId, sortedByColumn(columnId).length),
 		isDroppable: canDrop,
@@ -242,7 +325,7 @@
 				const index = atTop ? 0 : column.length;
 				const before = column[index - 1];
 				const after = column[index];
-				void onMove(id, {
+				void moveAndPin(id, {
 					columnId: target.id,
 					...(boardOrder
 						? { boardOrder: boardOrderAt(column, index, (entry) => boardOrder(entry)) }
@@ -251,7 +334,7 @@
 					afterId: after === undefined ? null : getId(after),
 				});
 			} else {
-				void onMove(id, { columnId: target.id });
+				void moveAndPin(id, { columnId: target.id });
 			}
 			return;
 		}
@@ -279,33 +362,36 @@
 	let view = $derived(
 		columns.map((column) => {
 			const all = sortedByColumn(column.id);
-			const capped = isCapped(column.id, all.length);
-			const cap = limit?.(column.id);
-			return {
-				column,
-				all,
-				cards: capped && cap !== undefined ? all.slice(0, cap) : all,
-				capped,
-			};
+			const cap = capOf(column.id);
+			const foldable = isFoldable(column.id, all.length);
+			const open = foldable && isOpen(column.id);
+			if (!foldable || cap === undefined) {
+				return { column, all, head: all, tail: [] as T[], foldable, open, capped: false };
+			}
+			// Head: the first `cap` cards plus any pinned ones, in sort order. The fold holds the rest.
+			const head: T[] = [];
+			const tail: T[] = [];
+			all.forEach((item, index) => {
+				(index < cap || pinned.has(getId(item)) ? head : tail).push(item);
+			});
+			return { column, all, head, tail, foldable, open, capped: !open && tail.length > 0 };
 		}),
 	);
 
 	let hiddenColumns = $derived(columns.filter((column) => hiddenSet.has(column.id)));
 
-	function contextOf(
-		column: C,
-		all: T[],
-		cards: T[],
-		capped: boolean,
-		active: boolean,
-	): KanbanColumnContext {
+	type ColumnView = (typeof view)[number];
+
+	function contextOf(entry: ColumnView, active: boolean): KanbanColumnContext {
+		const { column, all, head, capped } = entry;
 		return {
 			count: all.length,
 			active,
-			shown: cards.length,
+			shown: capped ? head.length : all.length,
 			capped,
 			hide: () => hide(column.id),
 			expand: () => expand(column.id),
+			collapse: () => collapse(column.id),
 		};
 	}
 </script>
@@ -313,7 +399,7 @@
 <!-- The slot keeps the drag state where it is, or hovering it would bubble to the column and jump it to the end. -->
 {#snippet dropSlot()}
 	<div
-		class="kanban-drop-slot"
+		class={cn("kanban-drop-slot min-h-10 shrink-0", workLooks.hole)}
 		aria-hidden="true"
 		style:height="{slotHeight}px"
 		transition:slide={slotMotion}
@@ -324,15 +410,54 @@
 	></div>
 {/snippet}
 
-{#snippet columnShell(
-	column: C,
-	all: T[],
-	cards: T[],
-	capped: boolean,
-	extra: Record<string, unknown>,
-)}
+{#snippet card(column: C, item: T, index: number, list: T[])}
+	{@const id = getId(item)}
+	{@const nextId = idAt(list, index + 1)}
+	{@const isSource = dnd.isDragSource(id)}
+	<!-- The slot right after the held card is its own spot, so the card's place shows it instead. -->
+	{@const atOrigin =
+		!dnd.dragOver || (dnd.dragOver.columnId === column.id && dnd.dragOver.overId === nextId)}
+	{#if dnd.showIndicatorBefore(column.id, id) && !isSource && idAt(list, index - 1) !== dnd.draggedId}
+		{@render dropSlot()}
+	{/if}
+	<!-- WHY: a card is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
+	<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
+	<div
+		role="listitem"
+		tabindex="0"
+		aria-label={getLabel?.(item) ??
+			"Card. Press Alt plus Left or Right arrow to move between columns."}
+		aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight"
+		draggable="true"
+		ondragstart={(e) => {
+			slotHeight = e.currentTarget.getBoundingClientRect().height;
+			liftDragImage(e);
+			dnd.onDragStart(e, id);
+		}}
+		ondragend={() => {
+			dnd.resetDrag();
+			dragOverHidden = null;
+		}}
+		ondragover={(e) => dnd.onItemDragOver(e, column.id, id, nextId)}
+		onkeydown={(e) => onCardKeyDown(e, id)}
+		class={cn(
+			"kanban-card cursor-grab outline-none focus-visible:shadow-(--ring-focus) active:cursor-grabbing",
+			workLooks.card,
+			isSource && (atOrigin ? cn("kanban-origin-slot", workLooks.hole) : "kanban-lifted-out"),
+		)}
+	>
+		{@render renderCard(item, { columnId: column.id, index })}
+	</div>
+{/snippet}
+
+{#snippet columnShell(entry: ColumnView, extra: Record<string, unknown>)}
+	{@const { column, all, head, tail, open, capped } = entry}
 	{@const active = dnd.dragOver?.columnId === column.id}
-	{@const context = contextOf(column, all, cards, capped, active)}
+	{@const context = contextOf(entry, active)}
+	{@const showTail = tail.length > 0}
+	{@const list = [...head, ...tail]}
+	{@const columnOpen = expandedIds.includes(column.id)}
+	{@const shown = capped ? head : list}
 	<KanbanColumn
 		{...extra}
 		hue={column.hue}
@@ -348,66 +473,80 @@
 			{#if columnHeader}
 				{@render columnHeader(column, context)}
 			{:else}
-				<span class="truncate text-sm font-medium text-foreground">{column.label}</span>
-				<span
-					class="grid h-5 min-w-5 place-items-center rounded-sm bg-foreground/5 px-1 text-xs font-medium text-muted-foreground tabular-nums"
+				<GroupHead
+					label={column.label}
+					hue={column.hue}
+					count={all.length}
+					onAdd={onAdd ? () => onAdd(column.id) : undefined}
+					{addLabel}
+				/>
+			{/if}
+			{#if entry.foldable}
+				<!-- Opens the column in every lane; "Show N more" opens one. Hiding into the rail stays the header's own button. -->
+				<Button
+					variant="ghost"
+					size="sm"
+					icon
+					aria-expanded={columnOpen}
+					aria-label="{columnOpen ? collapseColumnLabel : expandColumnLabel} {column.label}"
+					onclick={() => toggleColumn(column.id)}
+					class="-me-1 ms-auto size-6 shrink-0 text-muted-foreground/60 hover:text-foreground"
 				>
-					{all.length}
-				</span>
+					<span
+						class={cn(
+							"kanban-fold-chevron size-3 [&>svg]:size-full",
+							columnOpen && "kanban-fold-chevron-open",
+						)}
+						aria-hidden="true"><CaretDown weight="bold" /></span
+					>
+				</Button>
 			{/if}
 		{/snippet}
 
-		{#each cards as item, index (getId(item))}
-			{@const id = getId(item)}
-			{@const nextId = idAt(cards, index + 1)}
-			{@const isSource = dnd.isDragSource(id)}
-			<!-- The slot right after the held card is its own spot, so the card's place shows it instead. -->
-			{@const atOrigin =
-				!dnd.dragOver || (dnd.dragOver.columnId === column.id && dnd.dragOver.overId === nextId)}
-			{#if dnd.showIndicatorBefore(column.id, id) && !isSource && idAt(cards, index - 1) !== dnd.draggedId}
-				{@render dropSlot()}
-			{/if}
-			<!-- WHY: a card is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
-			<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
-			<div
-				role="listitem"
-				tabindex="0"
-				aria-label={getLabel?.(item) ??
-					"Card. Press Alt plus Left or Right arrow to move between columns."}
-				aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight"
-				draggable="true"
-				ondragstart={(e) => {
-					slotHeight = e.currentTarget.getBoundingClientRect().height;
-					liftDragImage(e);
-					dnd.onDragStart(e, id);
-				}}
-				ondragend={() => {
-					dnd.resetDrag();
-					dragOverHidden = null;
-				}}
-				ondragover={(e) => dnd.onItemDragOver(e, column.id, id, nextId)}
-				onkeydown={(e) => onCardKeyDown(e, id)}
-				class={cn(
-					"kanban-card cursor-grab rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring/60 active:cursor-grabbing",
-					isSource && (atOrigin ? "kanban-origin-slot" : "kanban-lifted-out"),
-				)}
-			>
-				{@render renderCard(item, { columnId: column.id, index })}
-			</div>
+		{#each head as item, index (getId(item))}
+			{@render card(column, item, index, list)}
 		{/each}
 
-		{#if dnd.showIndicatorEnd(column.id) && idAt(cards, cards.length - 1) !== dnd.draggedId}
+		{#if showTail}
+			<!-- The tail sits shut in a 0fr row, so opening and closing animate its height. -->
+			<div class="kanban-fold" data-open={open} inert={!open}>
+				<div class="kanban-fold-inner">
+					{#each tail as item, index (getId(item))}
+						{@render card(column, item, head.length + index, list)}
+					{/each}
+				</div>
+			</div>
+		{/if}
+
+		{#if dnd.showIndicatorEnd(column.id) && idAt(shown, shown.length - 1) !== dnd.draggedId}
 			{@render dropSlot()}
+		{/if}
+
+		{#if tail.length > 0 || open}
+			<Button
+				variant="ghost"
+				size="sm"
+				aria-expanded={open}
+				onclick={() => (open ? collapse(column.id) : expand(column.id))}
+				class="shrink-0 justify-start gap-1.5 px-2 text-xs font-normal text-muted-foreground"
+			>
+				<span
+					class={cn(
+						"kanban-fold-chevron size-2.5 [&>svg]:size-full",
+						open && "kanban-fold-chevron-open",
+					)}
+					aria-hidden="true"><CaretDown weight="bold" /></span
+				>
+				<span class="tabular-nums">{open ? lessLabel : moreLabel(tail.length)}</span>
+			</Button>
 		{/if}
 
 		{#if columnFooter}
 			{@render columnFooter(column, context)}
 		{/if}
 
-		{#if cards.length === 0 && !active}
-			<div
-				class="rounded-xl border-2 border-dashed border-border py-6 text-center text-xs text-muted-foreground"
-			>
+		{#if all.length === 0 && !active}
+			<div class={cn(workLooks.hole, "py-6 text-center text-xs text-muted-foreground")}>
 				{emptyLabel}
 			</div>
 		{/if}
@@ -421,36 +560,38 @@
 		className,
 	)}
 >
-	{#each view as { column, all, cards, capped } (column.id)}
+	{#each view as entry (entry.column.id)}
+		{@const column = entry.column}
 		{#if !hiddenSet.has(column.id) || collapsing.has(column.id)}
 			{#if wrapColumn}
 				{#snippet inner(props: Record<string, unknown>)}
-					{@render columnShell(column, all, cards, capped, props)}
+					{@render columnShell(entry, props)}
 				{/snippet}
 				{@render wrapColumn(column, inner)}
 			{:else}
-				{@render columnShell(column, all, cards, capped, {})}
+				{@render columnShell(entry, {})}
 			{/if}
 		{/if}
 	{/each}
 
 	{#if hiddenColumns.length > 0}
 		<div class="kanban-rail flex w-40 shrink-0 flex-col gap-1">
-			<button
-				type="button"
+			<Button
+				variant="ghost"
+				size="sm"
 				aria-expanded={railOpen}
 				onclick={() => (railOpen = !railOpen)}
-				class="flex h-8 items-center gap-1.5 rounded-md px-2 text-start text-xs text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,120ms)] hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-ring/60"
+				class="justify-start px-2 text-xs font-normal text-muted-foreground"
 			>
 				<span
 					class={cn(
-						"size-2.5 transition-transform duration-[var(--duration-fast,160ms)] ease-[var(--ease-smooth-out,ease-out)] [&>svg]:size-full",
+						"size-2.5 transition-transform duration-fast ease-smooth-out motion-reduce:transition-none [&>svg]:size-full",
 						!railOpen && "-rotate-90",
 					)}
 					aria-hidden="true"><CaretDown weight="bold" /></span
 				>
 				{hiddenLabel}
-			</button>
+			</Button>
 
 			{#if railOpen}
 				<div class="flex flex-col gap-0.5">
@@ -462,7 +603,8 @@
 							role="region"
 							aria-label={column.ariaLabel ?? column.label}
 							class={cn(
-								"kanban-rail-item rounded-md transition-[background-color,outline-color] duration-[var(--duration-quick,120ms)] ease-[var(--ease-smooth-out,ease-out)]",
+								"kanban-rail-item transition-[background-color,outline-color] duration-quick ease-smooth-out",
+								workLooks.row,
 								leaving.has(column.id) && "kanban-rail-item-leaving",
 							)}
 							style:background="color-mix(in oklch, {hue}
@@ -473,10 +615,11 @@
 							ondragleave={onHiddenDragLeave}
 							ondrop={(e) => onHiddenDrop(e, column.id)}
 						>
-							<button
-								type="button"
+							<Button
+								variant="ghost"
+								size="lg"
 								onclick={() => show(column.id)}
-								class="flex h-9 w-full items-center gap-2 rounded-md px-2.5 text-start text-xs font-medium text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,120ms)] hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-ring/60"
+								class="w-full justify-start gap-2 text-xs text-muted-foreground"
 							>
 								{#if hiddenItem}
 									{@render hiddenItem(column, { count, active: over })}
@@ -488,18 +631,19 @@
 										>
 									{/if}
 								{/if}
-							</button>
+							</Button>
 						</div>
 					{/each}
 
 					{#if hiddenColumns.length > 1}
-						<button
-							type="button"
+						<Button
+							variant="ghost"
+							size="sm"
 							onclick={showAll}
-							class="mt-1 flex h-8 items-center rounded-md px-2.5 text-start text-xs text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,120ms)] hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-ring/60"
+							class="mt-1 justify-start text-xs font-normal text-muted-foreground"
 						>
 							{showAllLabel}
-						</button>
+						</Button>
 					{/if}
 				</div>
 			{/if}
@@ -508,36 +652,18 @@
 </div>
 
 <style>
-	/* The drop slot and the held card's own place share a look: a dashed hole the card's size. */
-	.kanban-drop-slot,
-	.kanban-origin-slot {
-		border-radius: var(--radius-lg, 0.5rem);
-		background: color-mix(in oklch, var(--color-muted, #e5e7eb) 70%, transparent);
-		outline: 1px dashed var(--color-border, #d1d5db);
-		outline-offset: -1px;
-	}
-
-	.kanban-drop-slot {
-		flex-shrink: 0;
-		min-height: 2.5rem;
-	}
-
 	/* A grid row folds the card out of the column smoothly, so the cards below slide up. */
 	.kanban-card {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr);
 		grid-template-rows: 1fr;
 		transition:
-			grid-template-rows var(--duration-quick, 180ms) var(--ease-smooth-out, ease-out),
-			margin-top var(--duration-quick, 180ms) var(--ease-smooth-out, ease-out);
+			grid-template-rows var(--duration-quick) var(--ease-smooth-out),
+			margin-top var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	.kanban-card > :global(*) {
 		min-height: 0;
-	}
-
-	.kanban-origin-slot > :global(*) {
-		visibility: hidden;
 	}
 
 	/* -0.375rem cancels the column's gap-1.5, so a folded card leaves no gap behind. */
@@ -551,14 +677,60 @@
 		visibility: hidden;
 	}
 
+	/* The fold: height rides grid-template-rows 0fr to 1fr, the fade runs shorter so it leads.
+	   Shut, -0.375rem cancels the well's gap-1.5, so a closed fold leaves no gap behind. */
+	.kanban-fold {
+		display: grid;
+		grid-template-rows: 0fr;
+		margin-top: -0.375rem;
+		opacity: 0;
+		transition:
+			grid-template-rows var(--duration-fast) var(--ease-smooth-out),
+			margin-top var(--duration-fast) var(--ease-smooth-out),
+			opacity var(--duration-quick) var(--ease-smooth-out);
+	}
+
+	.kanban-fold[data-open="true"] {
+		grid-template-rows: 1fr;
+		margin-top: 0;
+		opacity: 1;
+	}
+
+	/* clip, not hidden: the margin lets a lifted card's shadow out while the fold stays shut. */
+	.kanban-fold-inner {
+		display: flex;
+		flex-direction: column;
+		gap: 0.375rem;
+		min-height: 0;
+		overflow: clip;
+		overflow-clip-margin: 0.375rem;
+	}
+
+	.kanban-fold-chevron {
+		display: inline-flex;
+		transition: transform var(--duration-fast) var(--ease-smooth-out);
+	}
+
+	.kanban-fold-chevron-open {
+		transform: scaleY(-1);
+	}
+
 	.kanban-rail-item-leaving {
 		pointer-events: none;
 		opacity: 0;
-		transition: opacity var(--duration-quick, 120ms) var(--ease-smooth-out, ease-out);
+		transition: opacity var(--duration-quick) var(--ease-smooth-out);
+	}
+
+	/* The held card's place keeps its hole, never its content. */
+	.kanban-origin-slot > :global(*) {
+		visibility: hidden;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.kanban-card {
+		.kanban-card,
+		.kanban-fold,
+		.kanban-fold-chevron,
+		.kanban-rail-item-leaving {
 			transition: none;
 		}
 	}

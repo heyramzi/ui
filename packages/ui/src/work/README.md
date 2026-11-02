@@ -81,15 +81,15 @@ isn't a drop target (an Overdue lane, say).
 | `manualTiebreak` | `(a: T, b: T) => number`                               | Settles two cards with the same manual key, or none.        |
 | `getLabel`      | `(item: T) => string`                                   | The screen-reader name of a card. Defaults to a keyboard hint. |
 | `onSelect`      | `(id: string) => void`                                  | Enter or Space on a focused card.                           |
-| `columnFooter`  | `Snippet<[Column, KanbanColumnContext]>`                | Under a column's cards: a "Show all" or an add button.      |
+| `columnFooter`  | `Snippet<[Column, KanbanColumnContext]>`                | Under a column's cards and its fold button, e.g. an add button. |
 | `wrapColumn`    | `Snippet<[Column, Snippet<[props]>]>`                   | Wraps a whole column, for a context menu. Render the inner snippet once with the props you are handed. |
-| `limit`         | `(columnId: string) => number \| undefined`             | Cards a column shows before the rest fold. `expanded` and `onExpandedChange` lift it per column. |
+| `limit`         | `number \| ((columnId: string) => number \| undefined)` | Cards a column shows before the rest fold, 5 by default; `Infinity` for none. A "Show N more" button opens the fold and "Show less" shuts it, both animated. `moreLabel`, `lessLabel`, `expanded` and `onExpandedChange` go with it. A card moved into a shut column stays in view. |
 | `hidden`        | `string[]`                                              | Columns folded into a rail on the right. Fold and unfold animate, and a card dropped on a rail entry brings the column back. `onHiddenChange`, `hiddenLabel`, `showAllLabel` and `hiddenItem` go with it. |
 
 `columns` can be your own type, as long as it extends `KanbanColumn`: the
 header, footer and wrap snippets get it back as you passed it, so a column can
 carry a status or a stage for your own markup. The header and footer context is
-`{ count, active, shown, capped, hide, expand }`.
+`{ count, active, shown, capped, hide, expand, collapse }`.
 
 `onMove` gives `{ columnId, boardOrder?, beforeId?, afterId? }`. On a manual
 drop `beforeId` and `afterId` name the cards above and below the new slot (null
