@@ -1060,3 +1060,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(thread): a heading prop for a tab-named thread, and long words wrap
 
+
+## [2.17.0](https://github.com/heyramzi/ui/compare/ui-v2.16.1...ui-v2.17.0) (2026-11-02)
+
+### Features
+
+* feat(thread): host-drawn entries in the timeline and a footer above the composer
+
