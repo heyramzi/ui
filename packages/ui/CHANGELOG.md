@@ -1004,3 +1004,11 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(charts): a chip beside a tile label no longer pushes its value down
 
+
+## [2.13.0](https://github.com/heyramzi/ui/compare/ui-v2.12.0...ui-v2.13.0) (2026-11-02)
+
+### Features
+
+* feat(ui): charts smooth the drawn line by the window shown (TSK-1562)
+* feat(ui): TagChip and the work parts, with their site demos
+
