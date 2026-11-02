@@ -46,6 +46,8 @@
 		onAnchor?: (comment: ThreadComment) => void;
 		/** Whose comments carry the edit and delete buttons. A rich comment can't be edited here. */
 		canEdit?: (comment: ThreadComment) => boolean;
+		/** False hides the visible title, for a thread already named by its tab. Screen readers still get it. */
+		heading?: boolean;
 		class?: string;
 	}
 
@@ -66,6 +68,7 @@
 		onResolve,
 		onAnchor,
 		canEdit = () => false,
+		heading = true,
 		class: className,
 	}: Props = $props();
 
@@ -273,8 +276,8 @@
 {/snippet}
 
 <section aria-label={labels.title} class={cn("flex flex-col gap-3", className)}>
-	<div class="flex h-7 items-center justify-between">
-		<h2 class="text-xs font-medium text-muted-foreground">{labels.title}</h2>
+	<div class={cn("flex h-7 items-center justify-between", !heading && resolved === 0 && "sr-only")}>
+		<h2 class={cn("text-xs font-medium text-muted-foreground", !heading && "sr-only")}>{labels.title}</h2>
 		{#if resolved > 0}
 			<button
 				type="button"

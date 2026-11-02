@@ -17,7 +17,8 @@
 <div class="flex flex-col items-start gap-1">
 	<p
 		class={cn(
-			"text-sm leading-relaxed font-normal whitespace-pre-wrap text-pretty",
+			// A long unbroken word, such as a class name, otherwise widens a narrow rail.
+			"max-w-full text-sm leading-relaxed font-normal whitespace-pre-wrap text-pretty wrap-break-word",
 			long && !open && "line-clamp-6",
 			className,
 		)}
