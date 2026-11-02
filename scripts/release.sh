@@ -166,11 +166,14 @@ git push origin HEAD:main
 
 # This repo's .npmrc maps the @heyramzi scope, and pnpm 12 lets that beat --registry, so pack
 # once into $2 and npm-publish the tarball from outside the repo.
+# Publishes with the gh token: ~/.npmrc's GitHub Packages token lacks write:packages and got a
+# 403 on 2.15.0 (2 Nov 2026). A 0600 npmrc in the pack folder keeps it off the command line.
 publish_github() {
-  local tgz
+  local tgz rc="$2/.npmrc-publish"
   (cd "$1" && pnpm pack --pack-destination "$2" >/dev/null)
   tgz=$(ls "$2"/*.tgz)
-  (cd "$2" && npm publish "$tgz" --access public \
+  (umask 077 && printf '//npm.pkg.github.com/:_authToken=%s\n' "$(gh auth token)" > "$rc")
+  (cd "$2" && NPM_CONFIG_USERCONFIG="$rc" npm publish "$tgz" --access public \
     --registry=https://npm.pkg.github.com/ "--@heyramzi:registry=https://npm.pkg.github.com/")
 }
 
