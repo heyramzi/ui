@@ -490,7 +490,7 @@
 					aria-expanded={columnOpen}
 					aria-label="{columnOpen ? collapseColumnLabel : expandColumnLabel} {column.label}"
 					onclick={() => toggleColumn(column.id)}
-					class="-me-1 ms-auto size-6 shrink-0 text-muted-foreground/60 hover:text-foreground"
+					class="-me-1 ms-auto size-6 shrink-0 text-muted-foreground/60 opacity-0 transition-opacity duration-(--duration-quick) hover:text-foreground focus-visible:opacity-100 [.kanban-column:hover_&]:opacity-100 [@media(hover:none)]:opacity-100"
 				>
 					<span
 						class={cn(
