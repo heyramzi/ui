@@ -95,6 +95,34 @@ Many components take their content through snippets, so you keep full control:
 <Button variant="outline" size="sm" onclick={save}>Save</Button>
 ```
 
+## Sound
+
+`@heyramzi/ui/lib/sound` gives the kit's controls interaction sounds from
+[cuelume](https://cuelume.dev). They're off until the person turns them on, and the choice is
+saved in their browser. Start it once in the root layout:
+
+```svelte
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { startSound } from "@heyramzi/ui/lib/sound";
+
+  onMount(() => startSound());
+</script>
+```
+
+It reads each control's `data-slot`, so buttons tap, switches toggle, dialog triggers open and
+menu items select without a prop. `SLOT_CUES` in `src/lib/sound.ts` is the full map. The rest:
+
+- **The setting.** Call `setSound(on)` from the click that flips your Sound toggle. It resolves
+  `false` when the browser still blocks audio. `soundOn()` reads the saved choice.
+- **Outcomes.** `cue("success")` after a save, `cue("error")` on a failure, `cue("ready")` when a
+  long job lands. It plays nothing while sound is off.
+- **Recording.** `const resume = silence()` before the mic opens and `resume()` after, or the
+  sounds end up in the take.
+- **Opting out.** `data-sound="off"` on an element quiets it and everything inside. A control
+  that sets its own `data-cuelume-*` attribute keeps it. Text fields are quiet unless you add
+  `data-cuelume-type`.
+
 ## shadcn-svelte
 
 The primitives in `src/shadcn` are copies of

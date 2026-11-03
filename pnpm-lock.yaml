@@ -303,6 +303,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      cuelume:
+        specifier: ^0.2.8
+        version: 0.2.8
       d3-scale:
         specifier: ^4.0.2
         version: 4.0.2
@@ -2263,6 +2266,9 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
+  cuelume@0.2.8:
+    resolution: {integrity: sha512-jnwAdMMUK4emaUWRd9l2RjpfixAMFOFrVkjoVK59FIfk7D3Vuvt+vBBJvU/J+2EiXrDlduialwDKJZorS5Nxqg==}
 
   custom-media-element@1.4.7:
     resolution: {integrity: sha512-rNBpnzkTAWPhE3cSajteAvg9qfFTsTd0b6dt33y9Q0Pq8afMvxL7SbvxzbUCqIRk/raIJHbJrHheCPADdK9+Ww==}
@@ -5106,6 +5112,8 @@ snapshots:
       source-map-js: 1.2.2
 
   csstype@3.2.3: {}
+
+  cuelume@0.2.8: {}
 
   custom-media-element@1.4.7: {}
 
