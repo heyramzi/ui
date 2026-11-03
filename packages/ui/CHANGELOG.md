@@ -1082,3 +1082,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 * feat(segmented): iconOnly draws an option's mark alone, its label on hover (TSK-1679)
 * feat(ui): opt-in interaction sounds from cuelume (TSK-1650)
 
+
+## [2.19.1](https://github.com/heyramzi/ui/compare/ui-v2.19.0...ui-v2.19.1) (2026-11-03)
+
+### Bug Fixes
+
+* fix(charts): each chart loads its own tokens, so a stat tile keeps its card edge (TSK-1665)
+
