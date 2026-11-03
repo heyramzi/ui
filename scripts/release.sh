@@ -4,6 +4,12 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# prepack builds with ../vibe-kit, so a checkout outside ~/Studio tags and pushes, then packs nothing.
+if [ ! -d ../vibe-kit ]; then
+  echo "release: no ../vibe-kit beside this checkout. Use a worktree under ~/Studio: git worktree add ../.ui-release-\$\$ origin/main" >&2
+  exit 1
+fi
+
 DRY_RUN="${DRY_RUN:-0}"
 TODAY=$(date +%Y-%m-%d)
 NOTES_DIR=$(mktemp -d)
@@ -83,12 +89,12 @@ if [ -z "$plan" ]; then
 fi
 
 # The pack reads the working tree, so a package with uncommitted work would ship another session's
-# half-done edits. Release from a clean checkout instead: git worktree add ../.ui-release origin/main.
+# half-done edits. Release from your own clean worktree: a shared name gets removed by the next session.
 dirty=$(printf '%s' "$plan" | while read -r component dir version next bump first_release; do
   if [ "$bump" != "first" ] && [ -n "$(git status --porcelain -- "$dir")" ]; then echo "$dir"; fi
 done)
 if [ -n "$dirty" ]; then
-  echo "release: uncommitted changes in $(echo $dirty). Run it from a clean worktree of origin/main." >&2
+  echo "release: uncommitted changes in $(echo $dirty). Run it from your own clean worktree: git worktree add ../.ui-release-\$\$ origin/main" >&2
   exit 1
 fi
 
