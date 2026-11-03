@@ -13,6 +13,8 @@
 		splitSegments,
 	} from "#src/components/segmented/collapse.js";
 	import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
+	import { Icon } from "#src/components/icon/index.js";
+	import { Mark } from "#src/components/mark/index.js";
 
 	// =========================
 	// TYPES
@@ -42,6 +44,10 @@
 		max?: number | "none";
 		/** What the menu segment says. Translate at the call site. */
 		moreLabel?: string;
+		/** An option with an `image` or `icon` draws the mark alone, and its label
+		 *  moves to `aria-label` and the hover title. For a toolbar with no room
+		 *  for words, where every mark is a brand people know. */
+		iconOnly?: boolean;
 		class?: string;
 	}
 
@@ -57,6 +63,7 @@
 		block = true,
 		max = SEGMENT_MAX,
 		moreLabel,
+		iconOnly = false,
 		class: className,
 	}: Props = $props();
 
@@ -99,21 +106,39 @@
 	<SegmentedTrack fill={block}>
 		{#each split.visible as option (option.value)}
 			{@const active = value === option.value}
+			{@const markOnly = iconOnly && Boolean(option.image || option.icon)}
 			<button
 				type="button"
 				class={segmentedTriggerClass({ fill: block, active })}
 				onclick={() => pick(option.value)}
 				aria-pressed={active}
+				aria-label={markOnly ? option.label : undefined}
+				title={markOnly ? option.label : undefined}
 			>
-				<Segment
-					label={option.label}
-					count={option.count}
-					icon={option.icon}
-					image={option.image}
-					done={option.done}
-					badge={option.badge}
-					{active}
-				/>
+				<!-- WHY the mark is drawn here, not by `Segment`: `Segment` always
+				     writes the label, and a count or dot beside a bare mark reads as noise. -->
+				{#if markOnly && option.image}
+					<Mark
+						src={option.image}
+						label={option.label}
+						class={cn(
+							"opacity-75 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-hover/segment:opacity-100",
+							active && "opacity-100",
+						)}
+					/>
+				{:else if markOnly && option.icon}
+					<Icon icon={option.icon} size={16} class="shrink-0" />
+				{:else}
+					<Segment
+						label={option.label}
+						count={option.count}
+						icon={option.icon}
+						image={option.image}
+						done={option.done}
+						badge={option.badge}
+						{active}
+					/>
+				{/if}
 			</button>
 		{/each}
 		{#snippet after()}
