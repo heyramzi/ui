@@ -1,3 +1,4 @@
+import "#src/charts/chart-tokens.css";
 import "#src/charts/charts.css";
 
 export { default as BarChart } from "#src/charts/bar-chart.svelte";

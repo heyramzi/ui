@@ -1,6 +1,6 @@
 import { cubicInOut } from "svelte/easing";
 
-/** Mirrors `--chart-motion-reveal` in charts.css, for when no element is mounted to read it from. */
+/** Mirrors `--chart-motion-reveal` in chart-tokens.css, for when no element is mounted to read it from. */
 export const REVEAL_MS = 1100;
 
 /** Rescales the axes when the data changes; the first render never animates. */

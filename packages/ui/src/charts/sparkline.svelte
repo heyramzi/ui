@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/sparkline.css";
 	import { Area, Chart, Highlight, LinearGradient, Points, Spline, Svg, Tooltip } from "layerchart";
 	import { curveMonotoneX } from "d3-shape";

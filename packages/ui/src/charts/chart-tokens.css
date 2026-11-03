@@ -1,0 +1,36 @@
+/* Each chart imports these beside its own stylesheet, so a deep import such as
+   `@heyramzi/ui/charts/dashboard` keeps its card edge without the barrel. */
+
+/* Shared chart tokens, held at zero specificity by `:where()`. The reveal pair
+   is the entrance every chart shares; motion.ts mirrors its duration. */
+:where(
+  .hr-area-chart,
+  .hr-bar-chart,
+  .hr-line-chart,
+  .hr-sparkline,
+  .hr-number-chart,
+  .hr-stat-card,
+  .hr-legend,
+  .hr-ts-chart,
+  .hr-donut-chart,
+  .hr-ring,
+  .hr-gauge
+) {
+  --chart-label: var(--muted-foreground, oklch(0.5 0.01 286));
+  --chart-grid: color-mix(in srgb, var(--border, oklch(0.5 0.01 286)) 50%, transparent);
+  --chart-ease-out: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  --chart-motion-fast: var(--duration-quick, 150ms);
+  --chart-motion: var(--duration-fast, 250ms);
+  --chart-motion-slow: 800ms;
+  --chart-motion-reveal: 1100ms;
+  --chart-ease-reveal: cubic-bezier(0.85, 0, 0.15, 1);
+  --chart-stagger: 30ms;
+  --chart-crosshair: color-mix(
+    in srgb,
+    var(--muted-foreground, oklch(0.5 0.01 286)) 60%,
+    transparent
+  );
+  /* The card step draws its own hairline, so a chart card carries no border of its own. */
+  --chart-card-shadow: var(--elev-card);
+  --chart-card-shadow-hover: var(--elev-card-hover);
+}

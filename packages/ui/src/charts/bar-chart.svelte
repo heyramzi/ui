@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/bar-chart.css";
 	import { Axis, Bars, Chart, Highlight, Svg, Tooltip } from "layerchart";
 	import { scaleBand } from "d3-scale";

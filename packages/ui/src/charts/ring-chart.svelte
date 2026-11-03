@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/ring-chart.css";
 	import type { Snippet } from "svelte";
 	import { cn } from "#src/lib/utils.js";

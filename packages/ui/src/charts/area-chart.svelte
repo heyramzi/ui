@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/area-chart.css";
 	import { Area, Axis, Chart, Highlight, LinearGradient, Spline, Svg, Tooltip } from "layerchart";
 	import { curveMonotoneX } from "d3-shape";

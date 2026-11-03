@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/legend.css";
 	import { cn } from "#src/lib/utils.js";
 

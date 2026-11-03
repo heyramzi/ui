@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/donut-chart.css";
 	import { Arc, Chart, Group, Pie, Svg, Text } from "layerchart";
 	import { scaleOrdinal } from "d3-scale";

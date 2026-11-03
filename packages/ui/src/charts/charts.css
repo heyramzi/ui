@@ -67,38 +67,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Shared chart tokens, held at zero specificity by `:where()`. The reveal pair
-   is the entrance every chart shares; motion.ts mirrors its duration. */
-:where(
-  .hr-area-chart,
-  .hr-bar-chart,
-  .hr-line-chart,
-  .hr-sparkline,
-  .hr-number-chart,
-  .hr-stat-card,
-  .hr-legend,
-  .hr-ts-chart,
-  .hr-donut-chart,
-  .hr-ring,
-  .hr-gauge
-) {
-  --chart-label: var(--muted-foreground, oklch(0.5 0.01 286));
-  --chart-grid: color-mix(in srgb, var(--border, oklch(0.5 0.01 286)) 65%, transparent);
-  --chart-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --chart-motion-fast: 150ms;
-  --chart-motion: 250ms;
-  --chart-motion-slow: 800ms;
-  --chart-motion-reveal: 1100ms;
-  --chart-ease-reveal: cubic-bezier(0.85, 0, 0.15, 1);
-  --chart-stagger: 30ms;
-  --chart-crosshair: color-mix(
-    in srgb,
-    var(--muted-foreground, oklch(0.5 0.01 286)) 60%,
-    transparent
-  );
-  --chart-card-shadow: 0 1px 2px 0 oklch(0 0 0 / 0.04), 0 1px 3px 0 oklch(0 0 0 / 0.06);
-}
-
 /* Axis labels, grid rules and hover highlights for every chart, defined once.
    `:where()` keeps specificity at 0 so a component can still override them. */
 :where(

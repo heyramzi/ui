@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/stat-card.css";
 	import { Area, Bars, Chart, Highlight, LinearGradient, Spline, Svg, Tooltip } from "layerchart";
 	import { scaleBand } from "d3-scale";

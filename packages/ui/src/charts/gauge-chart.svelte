@@ -8,6 +8,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/gauge-chart.css";
 	import { cn } from "#src/lib/utils.js";
 	import AnimatedValue from "#src/charts/animated-value.svelte";

@@ -13,6 +13,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/number-chart.css";
 	import { Minus, TrendDown, TrendUp } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";

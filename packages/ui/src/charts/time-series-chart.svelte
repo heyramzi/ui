@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import "#src/charts/chart-tokens.css";
 	import "#src/charts/time-series-chart.css";
 	import { scaleTime } from "d3-scale";
 	import { curveMonotoneX } from "d3-shape";
