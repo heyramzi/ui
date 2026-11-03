@@ -1074,3 +1074,11 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * initial publish from this repo
 
+
+## [2.19.0](https://github.com/heyramzi/ui/compare/ui-v2.18.0...ui-v2.19.0) (2026-11-03)
+
+### Features
+
+* feat(segmented): iconOnly draws an option's mark alone, its label on hover (TSK-1679)
+* feat(ui): opt-in interaction sounds from cuelume (TSK-1650)
+
