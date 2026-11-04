@@ -54,14 +54,19 @@
 		const startOf = (para: Paragraph) =>
 			(para.lines.find((line) => !line.marks?.includes("cut")) ?? para.lines[0])?.seconds ?? 0;
 		const host = (gap: SpeechGap) =>
-			Math.max(0, paragraphs.findLastIndex((para) => startOf(para) <= gap.seconds));
+			Math.max(
+				0,
+				paragraphs.findLastIndex((para) => startOf(para) <= gap.seconds),
+			);
 		return paragraphs.map((para, pi): Segment[] => {
 			const mine = gaps.filter((gap) => host(gap) === pi);
 			const out: Segment[] = [];
 			let from = 0;
 			for (const gap of mine) {
 				const upTo = Math.max(from, para.lines.findLastIndex((line) => playsBefore(line, gap)) + 1);
-				out.push({ lines: para.lines.slice(from, upTo).map((line, n) => ({ line, li: from + n })) });
+				out.push({
+					lines: para.lines.slice(from, upTo).map((line, n) => ({ line, li: from + n })),
+				});
 				out.push({ lines: [], gap });
 				from = upTo;
 			}
@@ -111,7 +116,10 @@
 			if (!host) continue;
 			const starts = timedWords(host.line) ? (host.line.wordSeconds ?? []) : [];
 			const word = starts.length
-				? Math.max(0, starts.findLastIndex((at) => at <= beat.seconds))
+				? Math.max(
+						0,
+						starts.findLastIndex((at) => at <= beat.seconds),
+					)
 				: Infinity;
 			map.set(host.key, [...(map.get(host.key) ?? []), { beat, word }]);
 		}
@@ -124,7 +132,10 @@
 	function piecesOf(line: TranscriptLine, at: Pin[]): Piece[] {
 		const words = timedWords(line);
 		if (!words || !at.length)
-			return [{ pins: [], text: line.text, from: 0 }, { pins: at.map((p) => p.beat), text: "", from: 0 }];
+			return [
+				{ pins: [], text: line.text, from: 0 },
+				{ pins: at.map((p) => p.beat), text: "", from: 0 },
+			];
 		const pieces: Piece[] = [];
 		words.forEach((word, i) => {
 			const here = at.filter((pin) => pin.word === i).map((pin) => pin.beat);
@@ -268,15 +279,15 @@
 >
 	<PassHead {pass}>
 		{#if allParagraphs.length > 0}<button
-			type="button"
-			class="btn transcript-toggle"
-			aria-pressed={app.showRemovedText}
-			aria-controls="transcript-read"
-			disabled={removedCount === 0}
-			title={removedCount === 0 ? "No removed text in this transcript." : undefined}
-			onclick={() => (app.showRemovedText = !app.showRemovedText)}
-			>{app.showRemovedText ? "Hide removed text" : "Show removed text"}</button
-		>{/if}
+				type="button"
+				class="btn transcript-toggle"
+				aria-pressed={app.showRemovedText}
+				aria-controls="transcript-read"
+				disabled={removedCount === 0}
+				title={removedCount === 0 ? "No removed text in this transcript." : undefined}
+				onclick={() => (app.showRemovedText = !app.showRemovedText)}
+				>{app.showRemovedText ? "Hide removed text" : "Show removed text"}</button
+			>{/if}
 		{#if counts.some((c) => c.n > 0)}
 			<ul class="legend" aria-label="What this step changed">
 				{#each counts.filter((c) => c.n > 0) as { mark, n } (mark)}
@@ -322,55 +333,54 @@
 				<div class="para" data-chapter={para.chapter ? pi : undefined}>
 					{#if para.chapter}<h2 class="ch">{para.chapter}</h2>{/if}
 					{#each segments[pi] ?? [] as seg, si (si)}
-					{#if seg.gap}
-						<div class="row"><span class="at"></span><SpeechGapView gap={seg.gap} /></div>
-					{:else}
-					<div class="row">
-						<span class="at num">{si === 0 ? para.at : ""}</span>
-						<p class="text">
-							{#each seg.lines as { line, li } (li)}
-								{@const marks = marksOf(line)}
-								{@const note = noteAt(line)}
-								{#each piecesOf(line, pins.get(`${pi}:${li}`) ?? []) as piece, pc (pc)}{#each piece.pins as beat (beat.id)}{@const kind = model
-										? kindOf(model, beat.kind)
-										: undefined}<button
-										class="pin tone-{kind?.tone ?? 'neutral'} p-{beat.state}"
-										class:on={expanded.includes(beat.id)}
-										aria-expanded={expanded.includes(beat.id)}
-										class:peeking={peekId === beat.id}
-										data-pin={beat.id}
-										aria-label="{kind?.label ?? beat.kind} at {beat.at}"
-										onpointerenter={(event) => peekSoon(beat.id, event.currentTarget)}
-										onpointerleave={unpeekSoon}
-										onfocus={(event) => peekSoon(beat.id, event.currentTarget)}
-										onblur={unpeekSoon}
-										onclick={() => (unpeek(), toggle(beat.id))}
-										><Icon name={kind?.icon ?? "video"} small /></button
-									>{" "}{/each}{#if piece.text}<span
-										class="line"
-										class:m-cut={marks.includes("cut")}
-										class:m-moved={marks.includes("moved")}
-										class:m-pause={marks.includes("pause")}
-										class:noted={!!note}
-										data-line
-										data-at={line.at}
-										data-seconds={line.seconds}
-										tabindex="-1"
-										role="presentation"
-										onclick={(event) => {
-											if (note) ((app.activeNote = note.id), app.panels.showPanel());
-											seekToWord(event, line);
-										}}
-										>{#each piece.text.split(" ") as word, wi (wi)}{#if wi > 0}{" "}{/if}<span
-												class="w"
-												class:now={now === wordKey(pi, li, piece.from + wi)}
-												data-w={piece.from + wi}>{word}</span
-											>{/each}</span
-									>{" "}{/if}{/each}
-							{/each}
-						</p>
-					</div>
-					{/if}
+						{#if seg.gap}
+							<div class="row"><span class="at"></span><SpeechGapView gap={seg.gap} /></div>
+						{:else}
+							<div class="row">
+								<span class="at num">{si === 0 ? para.at : ""}</span>
+								<p class="text">
+									{#each seg.lines as { line, li } (li)}
+										{@const marks = marksOf(line)}
+										{@const note = noteAt(line)}
+										{#each piecesOf(line, pins.get(`${pi}:${li}`) ?? []) as piece, pc (pc)}{#each piece.pins as beat (beat.id)}{@const kind =
+													model ? kindOf(model, beat.kind) : undefined}<button
+													class="pin tone-{kind?.tone ?? 'neutral'} p-{beat.state}"
+													class:on={expanded.includes(beat.id)}
+													aria-expanded={expanded.includes(beat.id)}
+													class:peeking={peekId === beat.id}
+													data-pin={beat.id}
+													aria-label="{kind?.label ?? beat.kind} at {beat.at}"
+													onpointerenter={(event) => peekSoon(beat.id, event.currentTarget)}
+													onpointerleave={unpeekSoon}
+													onfocus={(event) => peekSoon(beat.id, event.currentTarget)}
+													onblur={unpeekSoon}
+													onclick={() => (unpeek(), toggle(beat.id))}
+													><Icon name={kind?.icon ?? "video"} small /></button
+												>{" "}{/each}{#if piece.text}<span
+													class="line"
+													class:m-cut={marks.includes("cut")}
+													class:m-moved={marks.includes("moved")}
+													class:m-pause={marks.includes("pause")}
+													class:noted={!!note}
+													data-line
+													data-at={line.at}
+													data-seconds={line.seconds}
+													tabindex="-1"
+													role="presentation"
+													onclick={(event) => {
+														if (note) ((app.activeNote = note.id), app.panels.showPanel());
+														seekToWord(event, line);
+													}}
+													>{#each piece.text.split(" ") as word, wi (wi)}{#if wi > 0}{" "}{/if}<span
+															class="w"
+															class:now={now === wordKey(pi, li, piece.from + wi)}
+															data-w={piece.from + wi}>{word}</span
+														>{/each}</span
+												>{" "}{/if}{/each}
+									{/each}
+								</p>
+							</div>
+						{/if}
 					{/each}
 					{#each open as beat (beat.id)}
 						<BeatCard {beat} compact />

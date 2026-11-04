@@ -44,7 +44,10 @@
 			const start = renderWords.making("video", !first);
 			if (pace === "late") return `${start}, taking longer than usual`;
 			if (pace === "soon") return `${start}, a few seconds left`;
-			const left = seconds >= 60 ? `${Math.floor(seconds / 60)}m${seconds % 60 ? ` ${seconds % 60}s` : ""}` : `${seconds}s`;
+			const left =
+				seconds >= 60
+					? `${Math.floor(seconds / 60)}m${seconds % 60 ? ` ${seconds % 60}s` : ""}`
+					: `${seconds}s`;
 			return `${start}, about ${left} left`;
 		},
 		progress: "Estimated progress",
@@ -54,7 +57,13 @@
 		// The take proxies report no progress, so the bar sweeps until they're ready.
 		if (gate.say) return { queued: true, estimated: false, fraction: 0, ahead: 0, label: gate.say };
 		if (job?.state === "queued")
-			return { queued: true, estimated: false, fraction: 0, ahead: job.ahead, label: COPY.queued(job.ahead) };
+			return {
+				queued: true,
+				estimated: false,
+				fraction: 0,
+				ahead: job.ahead,
+				label: COPY.queued(job.ahead),
+			};
 		if (job?.state !== "rendering")
 			return { queued: false, estimated: false, fraction: 1, ahead: 0, label: COPY.loading };
 		if (job.progress) {
@@ -64,7 +73,13 @@
 		}
 		const expected = job.expectedMs ?? guessedRenderMs(duration);
 		const { fraction, pace, seconds } = renderEstimate(elapsed, expected);
-		return { queued: false, estimated: true, fraction, ahead: 0, label: COPY.working(!job.outdated, pace, seconds) };
+		return {
+			queued: false,
+			estimated: true,
+			fraction,
+			ahead: 0,
+			label: COPY.working(!job.outdated, pace, seconds),
+		};
 	});
 	/** What the cover said last, so it fades out saying the same thing. */
 	let said = $state.raw(untrack(() => cover));
@@ -202,79 +217,84 @@
 <section class="stage" aria-label="Video">
 	<div class="viewer">
 		<div class="fit">
-		<div
-			class="frame"
-			class:pinning={app.pinning}
-			style:--ratio={p.ratio}
-			bind:this={frameEl}
-			role="presentation"
-			onpointerdown={down}
-			onpointermove={move}
-			onpointerup={up}
-			onpointercancel={up}
-		>
-			<!-- The space key plays and pauses, so the click is a pointer shortcut. -->
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<div
-				class="screen"
-				bind:this={screen}
+				class="frame"
+				class:pinning={app.pinning}
+				style:--ratio={p.ratio}
+				bind:this={frameEl}
 				role="presentation"
-				onclick={() => !app.pinning && p.toggle()}
-			></div>
-			{#each boxes as box (box.id)}
-				<i
-					class="mark"
-					class:area={box.frame.w !== undefined}
-					class:active={box.active}
-					style:left="{box.frame.x * 100}%"
-					style:top="{box.frame.y * 100}%"
-					style:width={box.frame.w !== undefined ? `${box.frame.w * 100}%` : undefined}
-					style:height={box.frame.h !== undefined ? `${box.frame.h * 100}%` : undefined}
-				></i>
-			{/each}
-			{#if draft}
-				<i
-					class="mark active"
-					class:area={draft.w !== undefined}
-					style:left="{draft.x * 100}%"
-					style:top="{draft.y * 100}%"
-					style:width={draft.w !== undefined ? `${draft.w * 100}%` : undefined}
-					style:height={draft.h !== undefined ? `${draft.h * 100}%` : undefined}
-				></i>
-			{/if}
-			{#if app.pinning}<span class="hint">Click a spot or drag an area</span>{/if}
-			<div class="rerender" class:on={failure !== "" && !covered} inert={failure === "" || covered} role="status">
-				<div class="band">
-					<p class="say">{failure}</p>
-				</div>
-			</div>
-			<div class="rerender" class:on={covered} inert={!covered} role="status">
-				<div class="band">
-				<p class="say">{said.label}</p>
-				{#if said.queued && said.ahead > 0}
-					<!-- While waiting the bar is the line: one mark per video, the one rendering now pulses, yours is last. -->
-					<ol class="line-up" aria-hidden="true">
-						{#each { length: said.ahead + 1 }, i (i)}
-							<li class:now={i === 0} class:mine={i === said.ahead}></li>
-						{/each}
-					</ol>
-				{:else}
-					<div
-						class="bar-est"
-						class:sweep={said.queued && !said.estimated}
-						role="progressbar"
-						aria-label={COPY.progress}
-						aria-valuemin="0"
-						aria-valuemax="100"
-						aria-valuenow={said.queued ? undefined : Math.round(said.fraction * 100)}
-						aria-valuetext={said.label}
-					>
-						<span class="fill" style:--p={said.queued ? 0 : said.fraction}></span>
-					</div>
+				onpointerdown={down}
+				onpointermove={move}
+				onpointerup={up}
+				onpointercancel={up}
+			>
+				<!-- The space key plays and pauses, so the click is a pointer shortcut. -->
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<div
+					class="screen"
+					bind:this={screen}
+					role="presentation"
+					onclick={() => !app.pinning && p.toggle()}
+				></div>
+				{#each boxes as box (box.id)}
+					<i
+						class="mark"
+						class:area={box.frame.w !== undefined}
+						class:active={box.active}
+						style:left="{box.frame.x * 100}%"
+						style:top="{box.frame.y * 100}%"
+						style:width={box.frame.w !== undefined ? `${box.frame.w * 100}%` : undefined}
+						style:height={box.frame.h !== undefined ? `${box.frame.h * 100}%` : undefined}
+					></i>
+				{/each}
+				{#if draft}
+					<i
+						class="mark active"
+						class:area={draft.w !== undefined}
+						style:left="{draft.x * 100}%"
+						style:top="{draft.y * 100}%"
+						style:width={draft.w !== undefined ? `${draft.w * 100}%` : undefined}
+						style:height={draft.h !== undefined ? `${draft.h * 100}%` : undefined}
+					></i>
 				{/if}
+				{#if app.pinning}<span class="hint">Click a spot or drag an area</span>{/if}
+				<div
+					class="rerender"
+					class:on={failure !== "" && !covered}
+					inert={failure === "" || covered}
+					role="status"
+				>
+					<div class="band">
+						<p class="say">{failure}</p>
+					</div>
+				</div>
+				<div class="rerender" class:on={covered} inert={!covered} role="status">
+					<div class="band">
+						<p class="say">{said.label}</p>
+						{#if said.queued && said.ahead > 0}
+							<!-- While waiting the bar is the line: one mark per video, the one rendering now pulses, yours is last. -->
+							<ol class="line-up" aria-hidden="true">
+								{#each { length: said.ahead + 1 }, i (i)}
+									<li class:now={i === 0} class:mine={i === said.ahead}></li>
+								{/each}
+							</ol>
+						{:else}
+							<div
+								class="bar-est"
+								class:sweep={said.queued && !said.estimated}
+								role="progressbar"
+								aria-label={COPY.progress}
+								aria-valuemin="0"
+								aria-valuemax="100"
+								aria-valuenow={said.queued ? undefined : Math.round(said.fraction * 100)}
+								aria-valuetext={said.label}
+							>
+								<span class="fill" style:--p={said.queued ? 0 : said.fraction}></span>
+							</div>
+						{/if}
+					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 		<!-- The clock and the tools take equal columns, so play sits on the video's centre line. -->
 		<div class="bar">
