@@ -1096,3 +1096,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): InfoList list rows put the label beside its value again (TSK-1764)
 
+
+## [2.19.3](https://github.com/heyramzi/ui/compare/ui-v2.19.2...ui-v2.19.3) (2026-11-04)
+
+### Bug Fixes
+
+* fix(ui): a lone tone badge in an InfoList row keeps its own width (TSK-1764)
+
