@@ -1117,3 +1117,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): craft refresh, the shared look on one token layer (TSK-1794)
 
+
+## [2.21.1](https://github.com/heyramzi/ui/compare/ui-v2.21.0...ui-v2.21.1) (2026-11-04)
+
+### Bug Fixes
+
+* fix(ui): named values re-exported from .svelte move to .ts modules (TSK-1839)
+
