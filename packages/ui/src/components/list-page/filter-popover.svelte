@@ -71,7 +71,7 @@
 		{/if}
 		{#if hasCount}
 			<span
-				class="ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand/15 px-1 text-[10px] tabular-nums font-semibold text-brand dark:text-brand-light"
+				class="ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand/12 px-1 text-xs leading-none font-semibold text-brand tabular-nums dark:text-brand-light"
 			>
 				{count.toLocaleString()}
 			</span>

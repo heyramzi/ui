@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { docLooks } from "#src/components/work-parts/looks.js";
 	import { ClockCounterClockwise, SlidersHorizontal } from "phosphor-svelte";
 	import { Avatar, AvatarFallback, AvatarImage } from "#src/shadcn/avatar/index.js";
 	import { Popover, PopoverContent, PopoverTrigger } from "#src/shadcn/popover/index.js";
@@ -70,13 +71,17 @@
 {#if hasDetails}
 	<Popover>
 		<PopoverTrigger
-			class="t-press inline-flex h-7 items-center gap-1.5 rounded-md bg-foreground/5 px-2 @max-xl/doc:px-1.5 text-[13px] font-medium text-foreground/90 tabular-nums transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/8 focus-visible:ring-3 focus-visible:ring-ring/50 aria-expanded:bg-foreground/8 any-pointer-coarse:h-10"
+			class="t-press inline-flex h-7 items-center gap-1.5 {docLooks.chip} bg-foreground/5 px-2 @max-xl/doc:px-1.5 text-(length:--text-control) font-medium text-foreground/90 tabular-nums transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/8 focus-visible:shadow-(--ring-focus) aria-expanded:bg-foreground/8 any-pointer-coarse:h-10"
 		>
 			<SlidersHorizontal size={14} class="text-muted-foreground" aria-hidden="true" />
 			<!-- On a narrow page the glyph stands alone, so the title keeps the bar. -->
 			<span class="@max-xl/doc:sr-only">{chip}</span>
 		</PopoverTrigger>
-		<PopoverContent align="end" sideOffset={6} class="w-[21.5rem] gap-0 p-0 text-[13px]">
+		<PopoverContent
+			align="end"
+			sideOffset={6}
+			class="w-[21.5rem] gap-0 p-0 text-(length:--text-control)"
+		>
 			<div class="divide-y divide-border/70">
 				{#if onshowauthors}
 					<div class="flex items-center justify-between px-4 py-3">
@@ -108,7 +113,7 @@
 						<button
 							type="button"
 							onclick={onhistory}
-							class="t-press flex h-8 w-full items-center justify-center gap-2 rounded-lg bg-foreground/5 font-medium transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/8 focus-visible:ring-3 focus-visible:ring-ring/50"
+							class="t-press flex h-8 w-full items-center justify-center gap-2 {docLooks.control} bg-foreground/5 font-medium transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/8 focus-visible:shadow-(--ring-focus)"
 						>
 							<ClockCounterClockwise size={14} aria-hidden="true" />
 							{t.showHistory}
@@ -119,7 +124,9 @@
 		</PopoverContent>
 	</Popover>
 {:else}
-	<span class="inline-flex h-7 items-center text-[13px] text-muted-foreground tabular-nums">
+	<span
+		class="inline-flex h-7 items-center text-(length:--text-control) text-muted-foreground tabular-nums"
+	>
 		{chip}
 	</span>
 {/if}

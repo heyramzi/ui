@@ -157,7 +157,7 @@
 								<span
 									role="presentation"
 									aria-hidden="true"
-									class="flex shrink-0 items-center px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+									class="flex shrink-0 items-center px-2 text-xs font-medium text-muted-foreground"
 									>{tab.group.label}</span
 								>
 							{/if}

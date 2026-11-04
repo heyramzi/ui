@@ -42,7 +42,7 @@
 			{#if href}
 				<a
 					{href}
-					class="group inline-flex items-center gap-1 rounded-md text-xs font-medium text-muted-foreground transition-colors duration-[var(--duration-quick)] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+					class="group inline-flex items-center gap-1 rounded-md text-xs font-medium text-muted-foreground transition-colors duration-[var(--duration-quick)] hover:text-foreground focus-visible:shadow-(--ring-focus) focus-visible:outline-none"
 				>
 					{openLabel}
 					<ArrowRight

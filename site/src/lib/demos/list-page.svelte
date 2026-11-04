@@ -153,14 +153,14 @@
 									title={selected.client}
 									meta={[selected.title, selected.id, selected.owner]}
 								/>
-								<DetailPanel label="Lines">
+								<DetailPanel label="Lines" pad={false}>
 									{#each selected.lines as [item, amount] (item)}
-										<DetailRow>
+										<DetailRow class="flex gap-4">
 											<span>{item}</span>
 											<span class="ms-auto tabular-nums">{amount}</span>
 										</DetailRow>
 									{/each}
-									<DetailRow muted>
+									<DetailRow muted class="flex gap-4">
 										<span>Total</span>
 										<span class="ms-auto tabular-nums">{selected.total}</span>
 									</DetailRow>

@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { docLooks } from "#src/components/work-parts/looks.js";
 	import {
 		ArrowsOutCardinal,
 		CaretLeft,
@@ -238,7 +239,7 @@
 				<button
 					{...props}
 					type="button"
-					class="t-press inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 aria-expanded:bg-foreground/6 aria-expanded:text-foreground any-pointer-coarse:size-10"
+					class="t-press inline-flex size-7 items-center justify-center {docLooks.control} text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:shadow-(--ring-focus) aria-expanded:bg-foreground/6 aria-expanded:text-foreground any-pointer-coarse:size-10"
 				>
 					<DotsThree size={18} weight="bold" aria-hidden="true" />
 				</button>
@@ -246,7 +247,7 @@
 		{/snippet}
 	</PopoverTrigger>
 	<PopoverContent align="start" sideOffset={6} class="w-64 gap-0 overflow-hidden p-0">
-		<Command shouldFilter={false} onkeydown={onListKey} class="rounded-xl">
+		<Command shouldFilter={false} onkeydown={onListKey}>
 			<CommandInput
 				bind:value={query}
 				placeholder={page === "copy" ? t.copy : t.filter}
@@ -284,7 +285,9 @@
 						</CommandGroup>
 					{/each}
 					{#if visible.length === 0}
-						<CommandEmpty class="py-6 text-center text-[13px] text-muted-foreground">
+						<CommandEmpty
+							class="py-6 text-center text-(length:--text-control) text-muted-foreground"
+						>
 							{t.noResults}
 						</CommandEmpty>
 					{/if}
@@ -304,7 +307,9 @@
 						{/each}
 					</CommandGroup>
 					{#if copies.length === 0}
-						<CommandEmpty class="py-6 text-center text-[13px] text-muted-foreground">
+						<CommandEmpty
+							class="py-6 text-center text-(length:--text-control) text-muted-foreground"
+						>
 							{t.noResults}
 						</CommandEmpty>
 					{/if}

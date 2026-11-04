@@ -12,6 +12,10 @@
 <div
 	bind:this={ref}
 	data-slot="skeleton"
-	class={cn("bg-muted rounded-md animate-pulse", className)}
+	class={cn(
+		// A foreground wash on light, because `bg-muted` (L 0.94) vanished on the 0.945 canvas.
+		"bg-foreground/6 dark:bg-muted rounded-sm animate-pulse motion-reduce:animate-none",
+		className,
+	)}
 	{...restProps}
 ></div>

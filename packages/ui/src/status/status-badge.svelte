@@ -2,7 +2,8 @@
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { cn } from "#src/lib/utils.js";
-	import { Badge } from "#src/shadcn/badge/index.js";
+	import StatusPill from "#src/status/status-pill.svelte";
+	import StatusIcon from "#src/status/status-icon.svelte";
 	import { Spinner } from "#src/shadcn/spinner/index.js";
 	import { TONE_COLOR, type Tone } from "#src/lib/tone.js";
 	import type { Statuses } from "#src/status/status-types.js";
@@ -44,22 +45,35 @@
 	let resolvedLabel = $derived(
 		label ?? (statuses && status ? statuses.label(status) : (status ?? "")),
 	);
+	// Every registry status: StatusIcon draws the variant's shape when the map has none (DESIGN.md, Patterns).
+	let hasIcon = $derived(Boolean(statuses && status && statuses.has(status)));
 </script>
 
-<Badge tone={resolvedTone} class={cn(capitalize && "capitalize", className)} {...restProps}>
-	{#if dot}
+<!-- The pill draws the tint; this picks what goes before the label. A registry icon wins,
+     so the state reads without its colour. -->
+{#snippet lead()}
+	{#if busy}
+		<Spinner class="size-3" aria-hidden="true" />
+	{:else if hasIcon && statuses && status}
+		<StatusIcon {statuses} {status} size={12} animate={false} />
+	{:else if dot}
 		<span
 			class="size-1.5 shrink-0 rounded-full"
 			style:background-color={TONE_COLOR[resolvedTone]}
 			aria-hidden="true"
 		></span>
 	{/if}
-	{#if busy}
-		<Spinner class="size-3" aria-hidden="true" />
-	{/if}
+{/snippet}
+
+<StatusPill
+	tone={resolvedTone}
+	icon={busy || hasIcon || dot ? lead : undefined}
+	class={cn(capitalize && "capitalize", className)}
+	{...restProps}
+>
 	{#if children}
 		{@render children()}
 	{:else}
 		{resolvedLabel}
 	{/if}
-</Badge>
+</StatusPill>

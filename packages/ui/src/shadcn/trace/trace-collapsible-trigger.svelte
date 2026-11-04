@@ -17,7 +17,7 @@
 	bind:ref
 	data-slot="trace-collapsible-trigger"
 	class={cn(
-		"gap-1 rounded-md focus-visible:ring-3 focus-visible:ring-ring/50 group/trace-collapsible-trigger flex w-fit max-w-full min-w-0 cursor-pointer items-center text-left text-muted-foreground transition-colors outline-none hover:text-foreground has-[[data-status=error]]:text-destructive",
+		"gap-1 rounded-md focus-visible:shadow-(--ring-focus) group/trace-collapsible-trigger flex w-fit max-w-full min-w-0 cursor-pointer items-center text-left text-muted-foreground transition-colors outline-none hover:text-foreground has-[[data-status=error]]:text-destructive",
 		className
 	)}
 	{...restProps}

@@ -1,25 +1,31 @@
 /* ── Radius, by role not by size ─────────────────────────────
-   These override Tailwind's own names, so `rounded-lg` on a button already
-   resolves to the control radius. */
+   Tailwind's names, so `rounded-lg` is the control radius. Five steps, 4px
+   apart; xs and md fold into sm. */
 @theme {
-  --radius-xs: 4px; /* tag, dot, inline code */
-  --radius-sm: 6px; /* chip, badge, small pill */
-  --radius-md: 7px; /* between a chip and a control */
-  --radius-lg: 8px; /* control: button, input, select, menu item */
-  --radius-xl: 10px; /* card, panel, stage */
-  --radius-2xl: 14px; /* overlay: dialog, sheet, command palette */
-  --radius-3xl: 20px; /* hero surface, full-bleed panel */
+  --radius-sm: 6px; /* chip, badge, tag, inline code */
+  --radius-xs: var(--radius-sm); /* folded, was 4px */
+  --radius-md: var(--radius-sm); /* folded, was 7px */
+  --radius-lg: 10px; /* control: button, input, select, menu item */
+  --radius-xl: 14px; /* card, panel, stage */
+  --radius-2xl: 18px; /* overlay: dialog, sheet, popover, command palette */
+  --radius-3xl: 22px; /* shell panel, the inset page */
 }
 
 /* ── Type, by role ───────────────────────────────────────────
-   Tailwind's own `text-xs` to `text-base` cover the rest. */
+   Tailwind's own `text-xs` to `text-base` cover the rest. Control text sits
+   between them: 13px at weight 500 is Linear's property row, measured 31 Aug
+   2026 on a 16px root, where 14px reads looser. No line height of its own, so
+   it inherits like the `text-[13px]` it replaces. Write it
+   `text-(length:--text-control)`: tailwind-merge takes a bare `text-control`
+   for a colour and drops it beside `text-muted-foreground`. */
 @theme {
+  --text-control: 0.8125rem; /* a picker trigger, a property value */
   --text-2xs: 0.6875rem; /* a count, a kbd hint, a meta line under a tile; the floor */
 }
 
 /* ── Elevation ───────────────────────────────────────────────
-   The steps carry no ring, since a bordered box would get two edges a pixel
-   apart; a borderless one adds `var(--elev-hairline)` in front. */
+   `--elev-card` and its hover carry their own hairline, so a box that also
+   draws `border` gets a 2px edge. The other steps carry none. */
 :root {
   /* Resting on the page. A button, a chip, a row. */
   --elev-btn:
@@ -28,21 +34,28 @@
 
   /* Sitting on the page. A card, a stage, a panel. */
   --elev-card:
-    0 1px 2px -1px color-mix(in oklab, var(--elev-tint) 7%, transparent),
-    0 4px 9px -3px color-mix(in oklab, var(--elev-tint) 6%, transparent),
-    0 14px 28px -10px color-mix(in oklab, var(--elev-tint) 7%, transparent);
+    var(--elev-hairline), 0 1px 2px color-mix(in oklab, var(--elev-tint) 4%, transparent);
 
-  /* Lifted off the page. A hovered card, a popover, a menu. */
+  /* A hovered card: the edge darkens 3% toward the text and a soft shadow lifts it.
+     Pair it with a 1px rise, as `.t-lift` does. */
+  --elev-card-hover:
+    0 0 0 1px
+      color-mix(
+        in oklab,
+        var(--color-border, var(--border)),
+        var(--color-foreground, var(--foreground)) 3%
+      ),
+    0 6px 16px -4px color-mix(in oklab, var(--elev-tint) 8%, transparent);
+
+  /* Lifted off the page. A popover, a menu, a hovered bordered card. */
   --elev-raised:
-    0 1px 2px -1px color-mix(in oklab, var(--elev-tint) 8%, transparent),
-    0 6px 13px -4px color-mix(in oklab, var(--elev-tint) 9%, transparent),
-    0 20px 40px -12px color-mix(in oklab, var(--elev-tint) 12%, transparent);
+    0 2px 4px -1px color-mix(in oklab, var(--elev-tint) 5%, transparent),
+    0 8px 20px -6px color-mix(in oklab, var(--elev-tint) 10%, transparent);
 
   /* Floating over a dimmed page. A dialog, a sheet, a command palette. */
   --elev-overlay:
-    0 2px 4px -1px color-mix(in oklab, var(--elev-tint) 8%, transparent),
-    0 12px 26px -8px color-mix(in oklab, var(--elev-tint) 12%, transparent),
-    0 40px 72px -20px color-mix(in oklab, var(--elev-tint) 20%, transparent);
+    0 4px 8px -2px color-mix(in oklab, var(--elev-tint) 6%, transparent),
+    0 24px 48px -12px color-mix(in oklab, var(--elev-tint) 16%, transparent);
 
   /* A hairline separates a surface from what's behind it; a rim is light on the
      top edge, which makes a filled control read as a key. */
@@ -58,8 +71,11 @@
 .dark {
   --elev-btn: 0 1px 2px color-mix(in oklab, black 30%, transparent);
   --elev-card:
-    0 1px 2px color-mix(in oklab, black 24%, transparent),
-    0 4px 12px -4px color-mix(in oklab, black 30%, transparent);
+    0 0 0 1px color-mix(in oklab, white 10%, transparent),
+    0 1px 2px color-mix(in oklab, black 24%, transparent);
+  --elev-card-hover:
+    0 0 0 1px color-mix(in oklab, white 16%, transparent),
+    0 8px 20px -6px color-mix(in oklab, black 40%, transparent);
   --elev-raised:
     0 2px 6px color-mix(in oklab, black 30%, transparent),
     0 10px 24px -6px color-mix(in oklab, black 38%, transparent);
@@ -77,10 +93,12 @@
    then a soft halo. */
 :root {
   --ring-color: var(--color-ring, var(--ring));
-  --ring-halo: color-mix(in oklab, var(--ring-color) 16%, transparent);
-  /* The halo is 16% over 4px, not 30% over 2px, because a stronger band reads
-     as a second border instead of a glow. */
-  --ring-focus: 0 0 0 1px var(--ring-color), 0 0 0 5px var(--ring-halo);
+  --ring-halo: color-mix(in oklab, var(--ring-color) 10%, transparent);
+  /* The 1px edge carries the 3:1 contrast alone; a 5px 16% halo read as a thick grey band
+     (Ramzi, 24 Oct 2026), so it's 2px at 10%. */
+  --ring-focus: 0 0 0 1px var(--ring-color), 0 0 0 3px var(--ring-halo);
+  /* Rows inside a clipped list focus inward, where an outer ring would be cut off. */
+  --ring-focus-inset: inset 0 0 0 1px var(--ring-color), inset 0 0 0 3px var(--ring-halo);
 }
 
 /* ── Motion ──────────────────────────────────────────────────
@@ -124,6 +142,7 @@
   --shadow-hairline: var(--elev-hairline);
   --shadow-btn: var(--elev-btn);
   --shadow-card: var(--elev-card);
+  --shadow-card-hover: var(--elev-card-hover);
   --shadow-raised: var(--elev-raised);
   --shadow-overlay: var(--elev-overlay);
   --shadow-field: var(--elev-field);
@@ -132,7 +151,7 @@
      because the two never appear apart and utilities cannot be stacked. */
   --shadow-key: var(--elev-rim), var(--elev-btn);
   /* The composed pair, for a surface that draws no border of its own. */
-  --shadow-edge-card: var(--elev-hairline), var(--elev-card);
+  --shadow-edge-card: var(--elev-card); /* the card step carries its own hairline */
   --shadow-edge-raised: var(--elev-hairline), var(--elev-raised);
   --shadow-edge-overlay: var(--elev-hairline), var(--elev-overlay);
 
@@ -161,12 +180,12 @@
 
   .hover-row:has(:focus-visible) .row-action,
   .row-action:is(
-      :focus-visible,
-      :has(:focus-visible),
-      [data-state="open"],
-      [aria-expanded="true"],
-      :has([data-state="open"], [aria-expanded="true"])
-    ) {
+    :focus-visible,
+    :has(:focus-visible),
+    [data-state="open"],
+    [aria-expanded="true"],
+    :has([data-state="open"], [aria-expanded="true"])
+  ) {
     opacity: 1;
   }
 

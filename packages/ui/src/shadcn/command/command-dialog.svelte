@@ -37,13 +37,13 @@
 			// WHY: search is the one dialog that must sit above the keyboard rather
 
 			// than under it, so it stays top-anchored on phones instead of taking the shared bottom-sheet position, and hugs the safe area at the top.
-			"rounded-xl! top-[max(0.5rem,env(safe-area-inset-top))] right-2 bottom-auto left-2 w-auto max-h-[70svh] translate-y-0 gap-0 overflow-hidden p-0 sm:p-0",
+			"rounded-2xl! top-[max(0.5rem,env(safe-area-inset-top))] right-2 bottom-auto left-2 w-auto max-h-[70svh] translate-y-0 gap-0 overflow-hidden p-0 sm:p-0",
 			// WHY no border and no card background here: the palette is a floating
 
 			// object, so its edge is a lit rim and a cast shadow rather than a drawn line, and the surface itself belongs to the Command root beneath so its translucency
 
 			// can read the dimmed page through it.
-			"border-0 bg-transparent ring-1 ring-foreground/15 shadow-overlay",
+			"border-0 bg-transparent shadow-edge-overlay",
 			// WHY a third of the way down rather than centred: the eye is already at
 
 			// the top of the screen when the shortcut is pressed, and a list that grows downward should not push its first row past the fold.

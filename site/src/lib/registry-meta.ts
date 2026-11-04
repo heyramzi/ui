@@ -239,7 +239,8 @@ export const meta: Record<string, Meta> = {
   dialog: {
     title: "Dialog",
     icon: "dialog",
-    description: "A modal with a header, fields and a footer.",
+    description:
+      "Dialog, alert dialog and sheet on one set of parts: header, body and a banded footer.",
     height: 240,
   },
   select: {

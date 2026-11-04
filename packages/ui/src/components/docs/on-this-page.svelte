@@ -149,7 +149,7 @@
 					type="button"
 					tabindex="-1"
 					onclick={() => pick(item.id)}
-					class="block w-full truncate rounded-md py-1 pr-3 text-left text-[13px] leading-5 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:bg-foreground/6 {item.level ===
+					class="block w-full truncate rounded-md py-1 pr-3 text-left text-(length:--text-control) leading-5 transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:bg-foreground/6 {item.level ===
 					3
 						? 'pl-5'
 						: 'pl-2'} {current
@@ -164,7 +164,7 @@
 {:else if variant === "rail"}
 	<nav aria-label={label} class="flex max-h-[calc(100svh-8rem)] flex-col gap-3">
 		<!-- Set like the map's own headings on the left, so the two rails read as one. -->
-		<p class="font-heading text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+		<p class="font-heading text-xs font-semibold text-muted-foreground">
 			{label}
 		</p>
 		<div
@@ -190,7 +190,7 @@
 								data-current={current}
 								aria-current={current ? "location" : undefined}
 								onclick={() => pick(item.id)}
-								class="otp-row block w-full py-1.5 pl-3 pr-1 text-left text-[13px] leading-snug transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] any-pointer-coarse:py-2.5 {current
+								class="otp-row block w-full py-1.5 pl-3 pr-1 text-left text-(length:--text-control) leading-snug transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] any-pointer-coarse:py-2.5 {current
 									? 'font-medium text-foreground'
 									: 'text-muted-foreground hover:text-foreground'}"
 							>
@@ -232,7 +232,7 @@
 		{#if open}
 			<nav
 				aria-label={label}
-				class="thin-scrollbar absolute inset-x-2 top-full z-20 mt-1 max-h-[60svh] overflow-y-auto rounded-xl border border-border bg-popover p-1.5 shadow-lg"
+				class="thin-scrollbar absolute inset-x-2 top-full z-20 mt-1 max-h-[60svh] overflow-y-auto rounded-2xl bg-popover p-1.5 shadow-edge-raised"
 			>
 				<ul class="flex flex-col">
 					{#each items as item (item.id)}

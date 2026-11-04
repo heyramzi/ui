@@ -4,6 +4,9 @@
 	import { initial } from "#src/lib/initials.js";
 	import { AgentAvatar } from "#src/agents/index.js";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Textarea } from "#src/shadcn/textarea/index.js";
+	import * as Avatar from "#src/shadcn/avatar/index.js";
 	import {
 		DEFAULT_TASK_DETAIL_LABELS,
 		type TaskComment,
@@ -103,7 +106,7 @@
 	{:else if comments.length > 0}
 		<ol class="flex flex-col gap-4">
 			{#each comments as comment (comment.id)}
-				<li class="group relative flex gap-3">
+				<li class="group hover-row relative flex gap-3">
 					<!-- The rail that ties one avatar to the next, as in an activity feed. -->
 					<span
 						class="absolute start-[11.5px] top-8 -bottom-3 w-px bg-border group-last:hidden"
@@ -119,18 +122,18 @@
 						{:else if avatar}
 							{@render avatar(comment)}
 						{:else}
-							<span
-								class="grid size-6 place-items-center rounded-full bg-muted text-xs font-medium text-muted-foreground"
-								aria-hidden="true"
-							>
-								{initial(comment.author)}
-							</span>
+							<Avatar.Root class="size-6" aria-hidden="true">
+								<Avatar.Fallback class="text-xs font-medium"
+									>{initial(comment.author)}</Avatar.Fallback
+								>
+							</Avatar.Root>
 						{/if}
 					</span>
 
 					<div class="min-w-0 flex-1">
 						<div class="flex h-6 items-center gap-2">
-							<span class="truncate text-[13px] font-medium">{comment.author}</span>
+							<span class="truncate text-(length:--text-control) font-medium">{comment.author}</span
+							>
 							{#if comment.agent}
 								<span class="sr-only">{labels.ai}</span>
 							{/if}
@@ -139,49 +142,47 @@
 								<span class="text-xs text-muted-foreground">{labels.commentEdited}</span>
 							{/if}
 							{#if canEdit(comment) && editingId !== comment.id}
-								<span
-									class="ms-auto flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100"
-								>
+								<span class="row-action ms-auto flex gap-0.5">
 									{#if onEdit}
-										<button
-											type="button"
-											class="thread-icon"
+										<Button
+											variant="ghost"
+											size="sm"
+											icon
+											class="text-muted-foreground"
 											aria-label={labels.commentEdit}
 											onclick={() => startEdit(comment)}
 										>
-											<PencilSimple class="size-3.5" aria-hidden="true" />
-										</button>
+											<PencilSimple aria-hidden="true" />
+										</Button>
 									{/if}
 									{#if onDelete}
-										<button
-											type="button"
-											class="thread-icon"
+										<Button
+											variant="ghost"
+											size="sm"
+											icon
+											class="text-muted-foreground"
 											aria-label={labels.commentDelete}
 											onclick={() => onDelete?.(comment)}
 										>
-											<Trash class="size-3.5" aria-hidden="true" />
-										</button>
+											<Trash aria-hidden="true" />
+										</Button>
 									{/if}
 								</span>
 							{/if}
 						</div>
 
 						{#if editingId === comment.id}
-							<textarea
+							<Textarea
 								bind:value={editDraft}
 								rows={3}
 								aria-label={labels.comments}
-								class="mt-1 w-full resize-y rounded-md border border-input bg-transparent px-2.5 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-							></textarea>
+								class="mt-1 resize-y leading-relaxed"
+							/>
 							<div class="mt-2 flex justify-end gap-1.5">
-								<button type="button" class="thread-button" onclick={() => (editingId = null)}
-									>{labels.cancel}</button
+								<Button variant="ghost" size="sm" onclick={() => (editingId = null)}
+									>{labels.cancel}</Button
 								>
-								<button
-									type="button"
-									class="thread-button thread-primary"
-									onclick={() => saveEdit(comment)}>{labels.save}</button
-								>
+								<Button size="sm" onclick={() => saveEdit(comment)}>{labels.save}</Button>
 							</div>
 						{:else}
 							<p class="text-sm leading-relaxed whitespace-pre-wrap text-pretty">{comment.body}</p>
@@ -191,102 +192,30 @@
 			{/each}
 		</ol>
 	{:else if !onSend}
-		<p class="text-[13px] text-muted-foreground">{labels.commentsEmpty}</p>
+		<p class="text-(length:--text-control) text-muted-foreground">{labels.commentsEmpty}</p>
 	{/if}
 
 	{#if onSend}
-		<div
-			class="rounded-lg border border-input transition-shadow focus-within:ring-3 focus-within:ring-ring/50"
-		>
-			<textarea
+		<!-- The send button sits inside the field's bottom edge, so the composer reads as one box. -->
+		<div class="relative">
+			<Textarea
 				bind:value={draft}
 				onkeydown={onComposerKeydown}
 				rows={2}
 				placeholder={labels.commentPlaceholder}
 				aria-label={labels.commentPlaceholder}
-				class="block max-h-60 min-h-16 w-full resize-none border-0 bg-transparent px-3 py-2 text-sm leading-relaxed outline-none [field-sizing:content] placeholder:text-muted-foreground"
-			></textarea>
-			<div class="flex justify-end px-2 pb-2">
-				<button
-					type="button"
-					class="thread-button thread-primary"
-					onclick={send}
-					disabled={!canSend}
-				>
-					{sending ? labels.saving : labels.commentSend}
-				</button>
-			</div>
+				class="max-h-60 resize-none px-3 pb-11 leading-relaxed"
+			/>
+			<!-- An empty draft reads as an outlined button, not a faded fill. -->
+			<Button
+				size="sm"
+				variant={canSend ? "default" : "outline"}
+				class="absolute end-2 bottom-2 disabled:opacity-100"
+				onclick={send}
+				disabled={!canSend}
+			>
+				{sending ? labels.saving : labels.commentSend}
+			</Button>
 		</div>
 	{/if}
 </section>
-
-<style>
-	.thread-icon {
-		display: grid;
-		place-items: center;
-		width: 1.75rem;
-		height: 1.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		color: var(--color-muted-foreground);
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.thread-icon:hover {
-			background: var(--color-muted);
-			color: var(--color-foreground);
-		}
-	}
-
-	.thread-icon:focus-visible,
-	.thread-button:focus-visible {
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
-	}
-
-	.thread-button {
-		height: 1.75rem;
-		padding-inline: 0.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		font-size: 0.8125rem;
-		font-weight: 500;
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.thread-button:hover:not(:disabled) {
-			background: var(--color-muted);
-		}
-	}
-
-	.thread-button:disabled {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-
-	.thread-primary {
-		background: var(--color-primary);
-		color: var(--color-primary-foreground);
-	}
-
-	/* An empty draft reads as an outlined button, not a faded fill. */
-	.thread-primary:disabled {
-		opacity: 1;
-		background: transparent;
-		box-shadow: inset 0 0 0 1px var(--color-border);
-		color: var(--color-muted-foreground);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.thread-primary:hover:not(:disabled) {
-			background: color-mix(in oklab, var(--color-primary) 90%, transparent);
-		}
-	}
-
-	@media (any-pointer: coarse) {
-		.thread-button {
-			height: 2.5rem;
-		}
-	}
-</style>

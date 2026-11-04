@@ -379,7 +379,7 @@
 	.editor-wrapper {
 		position: relative;
 		border-radius: var(--radius-xl);
-		background: var(--color-background);
+		background: var(--color-card);
 		border: 1px solid var(--color-border);
 		transition:
 			border-color var(--duration-quick) var(--ease-smooth-out),

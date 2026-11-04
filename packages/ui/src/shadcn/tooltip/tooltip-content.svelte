@@ -27,7 +27,7 @@
 		{sideOffset}
 		{side}
 		class={cn(
-			"t-dropdown z-50 w-fit max-w-xs rounded-lg border border-border bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-raised select-none outline-none",
+			"t-dropdown z-50 w-fit max-w-xs rounded-lg bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-edge-raised select-none outline-none",
 			"has-data-[slot=kbd]:pr-1.5 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-sm",
 			className,
 		)}

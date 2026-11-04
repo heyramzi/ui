@@ -2,6 +2,8 @@
 	import type { Snippet } from "svelte";
 	import { Circle, CheckCircle, PencilSimple } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Textarea } from "#src/shadcn/textarea/index.js";
 	import {
 		DEFAULT_TASK_DETAIL_LABELS,
 		type TaskComment,
@@ -118,13 +120,15 @@
 		<header class="min-w-0 px-4 pt-6 @3xl:col-start-1 @3xl:px-8">
 			<div class="mx-auto w-full max-w-184">
 				<div class="flex items-start gap-2">
-					<button
-						type="button"
+					<Button
+						variant="ghost"
+						size="sm"
+						icon
 						onclick={onToggleDone}
 						disabled={!onToggleDone}
 						aria-label={done ? labels.markIncomplete : labels.markComplete}
 						class={cn(
-							"tk-icon mt-px",
+							"mt-px disabled:opacity-100",
 							done ? "text-success" : "text-muted-foreground/60 hover:text-foreground",
 						)}
 					>
@@ -133,30 +137,30 @@
 						{:else}
 							<Circle class="size-5" aria-hidden="true" />
 						{/if}
-					</button>
+					</Button>
 
 					{#if editingTitle}
-						<textarea
-							bind:this={titleField}
+						<Textarea
+							bind:ref={titleField}
 							bind:value={titleDraft}
 							onkeydown={onTitleKeydown}
 							onblur={commitTitle}
 							rows={2}
 							aria-label={labels.editTitle}
-							class="-mx-2 -my-1 min-w-0 flex-1 resize-none rounded-md border border-input bg-transparent px-2 py-1 text-2xl leading-tight font-semibold tracking-tight outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-						></textarea>
+							class="-mx-2 -my-1 min-h-0 min-w-0 flex-1 resize-none px-2 py-1 text-2xl leading-tight font-semibold tracking-tight md:text-2xl"
+						/>
 					{:else}
 						<h1
 							class="min-w-0 flex-1 text-2xl leading-tight font-semibold tracking-tight text-balance break-words"
 						>
-							<button
-								type="button"
+							<Button
+								variant="text"
 								onclick={startTitle}
 								disabled={!onTitleChange}
 								aria-label={labels.editTitle}
 								class={cn(
-									"group -mx-2 -my-1 rounded-md px-2 py-1 text-start outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-									onTitleChange && "hover:bg-muted/60",
+									"group -mx-2 -my-1 px-2 py-1 text-2xl leading-tight font-semibold tracking-tight disabled:opacity-100",
+									!onTitleChange && "hover:bg-transparent",
 									closed && "text-muted-foreground",
 								)}
 							>
@@ -167,7 +171,7 @@
 										aria-hidden="true"
 									/>
 								{/if}
-							</button>
+							</Button>
 						</h1>
 					{/if}
 				</div>
@@ -203,58 +207,56 @@
 					<div class="flex h-7 items-center justify-between">
 						<h2 class="text-xs font-medium text-muted-foreground">{labels.description}</h2>
 						{#if !editingDescription && description && onDescriptionChange}
-							<button
-								type="button"
-								class="tk-icon"
+							<Button
+								variant="ghost"
+								size="sm"
+								icon
+								class="text-muted-foreground"
 								onclick={startDescription}
 								aria-label={labels.editDescription}
 							>
-								<PencilSimple class="size-3.5" aria-hidden="true" />
-							</button>
+								<PencilSimple aria-hidden="true" />
+							</Button>
 						{/if}
 					</div>
 
 					{#if editingDescription}
-						<textarea
+						<Textarea
 							bind:value={descriptionDraft}
 							rows={8}
 							placeholder={labels.addDescription}
 							aria-label={labels.description}
-							class="w-full resize-y rounded-md border border-input bg-transparent px-3 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-						></textarea>
+							class="resize-y px-3 leading-relaxed"
+						/>
 						<div class="mt-1 flex justify-end gap-1.5">
-							<button type="button" class="tk-button" onclick={() => (editingDescription = false)}
-								>{labels.cancel}</button
+							<Button variant="ghost" size="sm" onclick={() => (editingDescription = false)}
+								>{labels.cancel}</Button
 							>
-							<button
-								type="button"
-								class="tk-button tk-primary"
-								onclick={saveDescription}
-								disabled={savingDescription}
-							>
+							<Button size="sm" onclick={saveDescription} disabled={savingDescription}>
 								{savingDescription ? labels.saving : labels.save}
-							</button>
+							</Button>
 						</div>
 					{:else if description}
-						<button
-							type="button"
+						<Button
+							variant="text"
 							onclick={startDescription}
 							disabled={!onDescriptionChange}
 							class={cn(
-								"-mx-3 block w-[calc(100%+1.5rem)] rounded-md px-3 py-1.5 text-start text-sm leading-relaxed whitespace-pre-wrap text-pretty outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-								onDescriptionChange && "hover:bg-muted/50",
+								"-mx-3 block w-[calc(100%+1.5rem)] px-3 py-1.5 leading-relaxed font-normal whitespace-pre-wrap text-pretty disabled:opacity-100",
+								!onDescriptionChange && "hover:bg-transparent",
 							)}
 						>
 							{description}
-						</button>
+						</Button>
 					{:else if onDescriptionChange}
-						<button
-							type="button"
+						<Button
+							variant="dashed"
+							size="sm"
 							onclick={startDescription}
-							class="flex h-7 w-full items-center rounded-md border border-dashed border-border px-2.5 text-[13px] text-muted-foreground transition-colors outline-none hover:border-muted-foreground/40 hover:bg-muted/40 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+							class="w-full justify-start text-(length:--text-control) font-normal"
 						>
 							{labels.addDescription}
-						</button>
+						</Button>
 					{/if}
 				</div>
 
@@ -274,72 +276,3 @@
 		</section>
 	</div>
 </div>
-
-<style>
-	.tk-icon {
-		display: grid;
-		place-items: center;
-		width: 1.75rem;
-		height: 1.75rem;
-		flex: none;
-		border-radius: var(--radius-md, 0.5rem);
-		outline: none;
-		transition:
-			background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out),
-			color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.tk-icon:hover:not(:disabled) {
-			background: var(--color-muted);
-		}
-	}
-
-	.tk-icon:focus-visible,
-	.tk-button:focus-visible {
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
-	}
-
-	.tk-button {
-		height: 1.75rem;
-		padding-inline: 0.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		font-size: 0.8125rem;
-		font-weight: 500;
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.tk-button:hover:not(:disabled) {
-			background: var(--color-muted);
-		}
-	}
-
-	.tk-button:disabled {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-
-	.tk-primary {
-		background: var(--color-primary);
-		color: var(--color-primary-foreground);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.tk-primary:hover:not(:disabled) {
-			background: color-mix(in oklab, var(--color-primary) 90%, transparent);
-		}
-	}
-
-	@media (any-pointer: coarse) {
-		.tk-icon {
-			width: 2.5rem;
-			height: 2.5rem;
-		}
-
-		.tk-button {
-			height: 2.5rem;
-		}
-	}
-</style>

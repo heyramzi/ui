@@ -34,10 +34,12 @@
 		/** Draws a cell its own way. Print `text` for the plain case. */
 		cell?: Snippet<[TableCell<Row>]>;
 		rowClass?: (row: Row) => string | undefined;
-		/** Below this width the table scrolls sideways inside its frame. */
+		/**
+		 * Below this width the table scrolls sideways inside its frame. Defaults to the columns'
+		 * own widths (8rem a text column, 5rem a number), so a phone scrolls rather than splits words.
+		 * Pass "0" for a table that should squeeze.
+		 */
 		minWidth?: string;
-		/** Ignored: the panel or card under a table is its frame, so it draws none of its own. */
-		bare?: boolean;
 		class?: string;
 		/** The sorted column and its direction. Bind it; columns with `sortable` set it. */
 		sort?: SortState<Row>;
@@ -91,7 +93,7 @@
 		footer,
 		cell,
 		rowClass,
-		minWidth = "0",
+		minWidth,
 		class: className,
 		sort = $bindable(null),
 		rowHref,
@@ -120,6 +122,17 @@
 	// DERIVED
 	// =========================
 	let span = $derived(columns.length + (selectable ? 1 : 0));
+	// WHY a floor from the columns: with none, a 390px panel squeezed a text column until it broke
+	// "Handover" mid-word. A column hidden on small screens doesn't count, since it's gone there.
+	let floor = $derived.by(() => {
+		const parts = columns
+			.filter((c) => !c.hideBelow)
+			.map((c) =>
+				c.width && /^[\d.]+(rem|px)$/.test(c.width) ? c.width : c.numeric ? "5rem" : "8rem",
+			);
+		if (selectable) parts.push("2.5rem");
+		return parts.length ? `calc(${parts.join(" + ")})` : "0";
+	});
 	let selectedCount = $derived(rows.filter((row) => selected.has(rowKey(row))).length);
 	let allSelected = $derived(rows.length > 0 && selectedCount === rows.length);
 	let someSelected = $derived(selectedCount > 0 && !allSelected);
@@ -230,12 +243,15 @@
 	{#each columns as column (column.key)}
 		<Table.Cell
 			class={cn(
-				"align-top",
-				column.numeric ? "text-end tabular-nums" : "whitespace-normal [overflow-wrap:anywhere]",
+				"h-8 py-1.5 align-top any-pointer-coarse:h-11",
+				// WHY break-words, not overflow-wrap anywhere: anywhere shrinks a cell's min-content to one
+				// letter, so the table split words before it scrolled. break-words only splits a word
+				// longer than the whole column, a URL.
+				column.numeric ? "text-end tabular-nums" : "whitespace-normal break-words",
 				column.muted && "text-muted-foreground",
 				column.interactive && "relative z-10",
 				column.hideBelow && HIDE[column.hideBelow],
-				column.sticky && "bg-background sticky left-0 z-10",
+				column.sticky && "bg-card sticky left-0 z-10",
 				column.class,
 			)}
 		>
@@ -280,9 +296,12 @@
 		onclick={onRowClick ? (event: MouseEvent) => rowClick(event, row) : undefined}
 		onkeydown={onRowClick ? (event: KeyboardEvent) => rowKeydown(event, row) : undefined}
 		class={cn(
-			href && "relative t-press active:bg-muted/50",
+			// Rows, not a card per row (DESIGN.md rule 19): a hairline under each and a flat
+			// hover tint. The atom's row lifts; this one does not.
+			"border-b border-border/70 last:border-b-0 hover:translate-y-0 hover:bg-foreground/3 hover:shadow-none",
+			href && "relative t-press active:bg-foreground/6",
 			onRowClick &&
-				"t-press active:bg-muted/50 focus-visible:ring-ring cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-inset",
+				"t-press active:bg-foreground/6 cursor-pointer outline-none focus-visible:shadow-(--ring-focus-inset)",
 			rowClass?.(row),
 		)}
 	>
@@ -303,13 +322,13 @@
 					{href}
 					aria-label={linkName(row)}
 					onclick={onRowLink ? (event: MouseEvent) => linkClick(event, row) : undefined}
-					class="absolute inset-0 z-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+					class="absolute inset-0 z-0 outline-none focus-visible:shadow-(--ring-focus-inset)"
 				></a>
 			</td>
 		{/if}
 	</Table.Row>
 	{#if subRow && expanded?.(row)}
-		<Table.Row class="bg-muted/20 hover:bg-muted/20 hover:translate-y-0 hover:shadow-none">
+		<Table.Row class="bg-foreground/2 hover:bg-foreground/2 hover:translate-y-0 hover:shadow-none">
 			<Table.Cell colspan={span + (rowHref ? 1 : 0)} class="whitespace-normal">
 				{@render subRow(row)}
 			</Table.Cell>
@@ -317,16 +336,16 @@
 	{/if}
 {/snippet}
 
-<!-- WHY no frame: the surface under a table is its frame, the white panel or a section card. -->
+<!-- WHY no frame: the surface under a table is its frame, the white panel or a section card (DESIGN.md, Patterns: tables). -->
 <div class={cn("min-w-0", className)}>
 	<Table.Root
 		aria-label={label}
 		aria-busy={loading || undefined}
-		style={`min-width: ${minWidth}`}
+		style={`min-width: ${minWidth ?? floor}`}
 		class="min-w-0"
 	>
-		<Table.Header>
-			<Table.Row>
+		<Table.Header class="bg-foreground/3">
+			<Table.Row class="hover:translate-y-0 hover:bg-transparent hover:shadow-none">
 				{#if selectable}
 					<Table.Head class="w-10">
 						<Checkbox
@@ -343,9 +362,9 @@
 						class={cn(
 							"whitespace-normal",
 							column.numeric && "text-end",
-							column.sortable && "h-10 p-0",
+							column.sortable && "h-8 p-0",
 							column.hideBelow && HIDE[column.hideBelow],
-							column.sticky && "bg-background sticky left-0 z-20",
+							column.sticky && "bg-card sticky left-0 z-20",
 							column.headClass ?? column.class,
 						)}
 						style={column.width ? `width: ${column.width}` : undefined}
@@ -356,7 +375,7 @@
 							<button
 								type="button"
 								class={cn(
-									"t-press hover:bg-muted/30 focus-visible:ring-ring flex h-10 w-full items-center gap-1 px-2 text-xs font-medium outline-none focus-visible:ring-2 focus-visible:ring-inset",
+									"t-press transition-colors duration-quick ease-smooth-out hover:bg-foreground/4 flex h-8 w-full items-center gap-1 px-2 text-xs font-medium outline-none focus-visible:shadow-(--ring-focus-inset)",
 									column.numeric ? "justify-end" : "justify-start",
 								)}
 								onclick={() => (sort = toggleSort(sort, column.key as keyof Row & string))}
@@ -367,7 +386,7 @@
 								{:else if dir === "desc"}
 									<CaretDown class="text-foreground size-3.5" weight="bold" aria-hidden="true" />
 								{:else}
-									<CaretUpDown class="text-muted-foreground/75 size-3.5" aria-hidden="true" />
+									<CaretUpDown class="text-muted-foreground size-3.5" aria-hidden="true" />
 								{/if}
 							</button>
 						{:else if head}
@@ -392,23 +411,23 @@
 					<Table.Body>
 						{#if entry.key !== null}
 							<Table.Row
-								class="bg-muted/40 hover:bg-muted/40 hover:translate-y-0 hover:shadow-none"
+								class="bg-foreground/4 hover:translate-y-0 hover:bg-foreground/4 hover:shadow-none"
 							>
 								<Table.Head
 									colspan={span + (rowHref ? 1 : 0)}
 									scope="colgroup"
-									class="text-foreground h-10 p-0"
+									class="text-foreground h-8 p-0"
 								>
 									{#if collapsible}
 										<button
 											type="button"
 											aria-expanded={!folded}
-											class="t-press focus-visible:ring-ring flex h-10 w-full items-center gap-2 px-2 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset"
+											class="t-press flex h-8 w-full items-center gap-2 px-2 text-start outline-none focus-visible:shadow-(--ring-focus-inset)"
 											onclick={() => toggleGroup(tableGroup.key)}
 										>
 											<CaretDown
 												class={cn(
-													"size-3.5 shrink-0 transition-transform duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] motion-reduce:transition-none",
+													"size-3.5 shrink-0 transition-transform duration-fast ease-smooth-out motion-reduce:transition-none",
 													folded && "-rotate-90",
 												)}
 												aria-hidden="true"
@@ -416,7 +435,7 @@
 											{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
 										</button>
 									{:else}
-										<span class="flex h-10 items-center px-2">
+										<span class="flex h-8 items-center px-2">
 											{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
 										</span>
 									{/if}

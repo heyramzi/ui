@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { cn } from "#src/lib/utils.js";
+	import PopValue from "#src/charts/pop-value.svelte";
 	import type { PanelStat } from "#src/panel/side-panel-types.js";
 	import { gutterClass } from "#src/record/gutter.js";
 
@@ -36,10 +37,15 @@
 		{#each stats as stat (stat.label)}
 			<div class="min-w-0">
 				<dt class="text-xs text-muted-foreground">{stat.label}</dt>
-				<dd class={cn("text-sm font-medium tabular-nums", TONE[stat.tone ?? "default"])}>
-					{stat.value}
+				<dd
+					class={cn(
+						"text-lg leading-tight font-semibold tabular-nums",
+						TONE[stat.tone ?? "default"],
+					)}
+				>
+					<PopValue value={stat.value} />
 					{#if stat.sub}
-						<span class="text-xs font-normal text-muted-foreground">{stat.sub}</span>
+						<span class="ms-1 text-xs font-normal text-muted-foreground">{stat.sub}</span>
 					{/if}
 				</dd>
 			</div>

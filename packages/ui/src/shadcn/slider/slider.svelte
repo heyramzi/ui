@@ -45,7 +45,7 @@
 				data-slot="slider-thumb"
 				aria-label={thumbLabel}
 				aria-valuetext={valueText}
-				class="bg-background focus-visible:ring-ring/50 block size-5 cursor-grab rounded-full border-2 border-current shadow-[var(--elev-btn)] transition-[transform,box-shadow] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] outline-none hover:scale-110 focus-visible:ring-3 active:cursor-grabbing data-active:scale-110 data-active:shadow-[var(--elev-raised)] pointer-coarse:size-6 after:absolute after:top-1/2 after:left-1/2 after:size-8 after:-translate-x-1/2 after:-translate-y-1/2 any-pointer-coarse:after:size-11"
+				class="bg-card block size-5 cursor-grab rounded-full border-2 border-current shadow-[var(--elev-btn)] transition-[transform,box-shadow] duration-[var(--duration-quick)] ease-[var(--ease-smooth-out)] outline-none hover:scale-110 focus-visible:shadow-(--ring-focus) active:cursor-grabbing data-active:scale-110 data-active:shadow-[var(--elev-raised)] pointer-coarse:size-6 after:absolute after:top-1/2 after:left-1/2 after:size-8 after:-translate-x-1/2 after:-translate-y-1/2 any-pointer-coarse:after:size-11"
 			/>
 		{/each}
 	{/snippet}

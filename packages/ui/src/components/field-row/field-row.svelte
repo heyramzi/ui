@@ -52,7 +52,7 @@
 		{#if action}
 			<!-- A disabled action reads as a muted button, not a half-faded one. -->
 			<div
-				class="shrink-0 [&_button:disabled]:bg-muted [&_button:disabled]:text-muted-foreground [&_button:disabled]:opacity-100 [&_button:disabled]:shadow-none"
+				class="shrink-0 [&_button:disabled]:bg-foreground/6 [&_button:disabled]:text-muted-foreground [&_button:disabled]:opacity-100 [&_button:disabled]:shadow-none"
 			>
 				{@render action()}
 			</div>

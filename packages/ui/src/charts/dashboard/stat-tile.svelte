@@ -119,7 +119,7 @@
 	data-series={hasSeries ? "" : undefined}
 	class={cn(
 		"hr-stat-tile group/tile relative block rounded-xl",
-		href && "t-press focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+		href && "t-press focus-visible:shadow-(--ring-focus) focus-visible:outline-none",
 		className,
 	)}
 >

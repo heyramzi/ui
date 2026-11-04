@@ -65,7 +65,7 @@
 	{#each strip.runs as run, index (index)}
 		<div class={cn("flex shrink-0 items-center gap-2", index === firstTitled && "ml-auto")}>
 			{#if run.label}
-				<span class="text-[10px] font-medium tracking-wider text-muted-foreground uppercase">
+				<span class="text-xs font-medium text-muted-foreground">
 					{run.label}
 				</span>
 			{/if}

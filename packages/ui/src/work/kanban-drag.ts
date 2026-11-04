@@ -1,15 +1,17 @@
-const FRAME_PAD = 16;
+const FRAME_PAD = 24;
 
 /**
- * Native drag shows a flat, faded snapshot. This hands the browser a tilted
- * copy with a lifted shadow instead. Call it from `ondragstart`.
+ * Native drag shows a flat, faded snapshot. This hands the browser a lifted copy instead: the
+ * raised elevation step and a 2% grow, so the held card reads as picked up. The browser moves the
+ * image with the pointer itself, so there's no transition while it moves. Call it from
+ * `ondragstart`. `tilt` rotates the copy in degrees, 0 by default.
  */
-export function liftDragImage(e: DragEvent, tilt = -3): void {
+export function liftDragImage(e: DragEvent, tilt = 0): void {
   const source = e.currentTarget as HTMLElement | null;
   if (!source || !e.dataTransfer) return;
   const rect = source.getBoundingClientRect();
 
-  // The padded frame leaves room for the tilt and shadow, or the snapshot crops them.
+  // The padded frame leaves room for the shadow and the grow, or the snapshot crops them.
   const frame = document.createElement("div");
   Object.assign(frame.style, {
     position: "fixed",
@@ -20,13 +22,16 @@ export function liftDragImage(e: DragEvent, tilt = -3): void {
   });
 
   const ghost = source.cloneNode(true) as HTMLElement;
+  // The copy's first child is the card the consumer drew, so the shadow sits on its corners.
+  const card = (ghost.firstElementChild as HTMLElement | null) ?? ghost;
   Object.assign(ghost.style, {
     width: `${rect.width}px`,
     opacity: "1",
-    rotate: `${tilt}deg`,
-    filter:
-      "drop-shadow(0 2px 4px rgb(35 35 35 / 0.08)) drop-shadow(0 10px 18px rgb(35 35 35 / 0.14))",
+    rotate: tilt ? `${tilt}deg` : "",
+    // 2 minus the tooltip's shrink step is a 1.02 grow, kept on the motion scale.
+    scale: "calc(2 - var(--scale-small))",
   });
+  card.style.boxShadow = "var(--elev-raised)";
   frame.appendChild(ghost);
   document.body.appendChild(frame);
   e.dataTransfer.setDragImage(

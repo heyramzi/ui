@@ -17,10 +17,10 @@ export const segmentedTrackClass = tv({
   // WHY no size variant: `sm` drew 24px, and every tab control must share one height.
   base: "h-7 any-pointer-coarse:h-11 shrink-0 items-stretch",
   variants: {
-    // `pill`: a bordered well with a travelling highlight. `underline`: bare
+    // `pill`: grey track, sliding white thumb. `underline`: bare
     // labels over one hairline, the active one marked by a rule that travels.
     variant: {
-      pill: "overflow-hidden rounded-lg border border-border p-0.5 any-pointer-coarse:border-0 any-pointer-coarse:px-[3px] any-pointer-coarse:py-0",
+      pill: "overflow-hidden rounded-lg bg-foreground/6 p-0.5",
       underline: "gap-5 border-b border-border",
     },
     // Fill the row rather than sit at its natural width. For a narrow rail.
@@ -46,16 +46,16 @@ export const segmentedTriggerClass = tv({
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     // WHY an inset focus ring: the track clips to its rounded corners, so an
     // outside ring was cut in half on the end segments.
-    "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none",
+    "focus-visible:shadow-(--ring-focus-inset) focus-visible:outline-none",
     // WHY no height on the trigger: an icon makes a segment taller than a word.
     // `h-full` against the track's `items-stretch` keeps every segment the same box.
     "h-full text-xs",
   ],
   variants: {
-    // The pill sits concentric in the track's 2px inset; the underline has no well, so
+    // The pill sits concentric in the track's 2px inset , so 8px; the underline has no well, so
     // no padding, and its rule is as wide as the label.
     variant: {
-      pill: "rounded-[calc(var(--radius-lg)-3px)] px-2.5 any-pointer-coarse:px-3.5",
+      pill: "rounded-[calc(var(--radius-lg)-2px)] px-2.5 any-pointer-coarse:px-3.5",
       underline: "rounded-sm px-0",
     },
     // WHY `min-w-fit flex-auto`, not equal fractions: fractions cut "Approved" to

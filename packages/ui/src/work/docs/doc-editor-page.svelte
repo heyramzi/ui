@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { docLooks } from "#src/components/work-parts/looks.js";
 	import type { Editor } from "@tiptap/core";
 	import { FileText } from "phosphor-svelte";
 	import type { Snippet } from "svelte";
@@ -105,11 +106,11 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div class="@container/doc flex h-full min-h-0 flex-col bg-background text-foreground">
+<div class="@container/doc flex h-full min-h-0 flex-col bg-card text-foreground">
 	<header
 		class="flex h-11 shrink-0 items-center gap-2 border-b border-border/70 px-3 @2xl/doc:px-4"
 	>
-		<div class="flex min-w-0 flex-1 items-center gap-1 text-[13px]">
+		<div class="flex min-w-0 flex-1 items-center gap-1 text-(length:--text-control)">
 			{#if breadcrumb}{@render breadcrumb()}{/if}
 			{#if menu}{@render menu()}{/if}
 		</div>
@@ -133,7 +134,7 @@
 			</div>
 			<!-- Narrow: the strip the reading pages use, since a phone has no gutter. -->
 			<div
-				class="absolute inset-x-0 top-0 z-20 border-b border-border/70 bg-background/95 backdrop-blur @4xl/doc:hidden"
+				class="absolute inset-x-0 top-0 z-20 border-b border-border/70 bg-card/95 backdrop-blur @4xl/doc:hidden"
 			>
 				<OnThisPage
 					variant="bar"
@@ -152,7 +153,7 @@
 					: 'pt-8 @2xl/doc:pt-14'}"
 			>
 				<div
-					class="mb-4 flex size-12 items-center justify-center rounded-xl border border-border bg-muted/40 text-muted-foreground"
+					class="mb-4 flex size-12 items-center justify-center {docLooks.tile} border border-border bg-muted/40 text-muted-foreground"
 				>
 					{#if icon}{@render icon()}{:else}<FileText size={22} aria-hidden="true" />{/if}
 				</div>

@@ -35,7 +35,7 @@
 	data-slot="table-head"
 	class={cn(
 		"text-muted-foreground h-8 px-2 text-left align-middle text-xs font-medium whitespace-nowrap select-none",
-		"cursor-pointer hover:bg-muted/30 transition-colors",
+		"cursor-pointer transition-colors duration-quick ease-smooth-out hover:bg-foreground/4 motion-reduce:transition-none",
 		className,
 	)}
 	tabindex="0"
@@ -50,7 +50,7 @@
 		{:else if direction === "desc"}
 			<CaretDown class="size-3.5 text-foreground" weight="bold" />
 		{:else}
-			<CaretUpDown class="size-3.5 text-muted-foreground/75" />
+			<CaretUpDown class="size-3.5 text-muted-foreground" />
 		{/if}
 	</span>
 </th>

@@ -41,7 +41,7 @@
 		{onMove}
 	>
 		{#snippet renderRow(task)}
-			<div class="flex h-10 items-center gap-3 px-2 text-sm">
+			<div class="flex items-center gap-3 px-2 text-sm">
 				<span class="min-w-0 flex-1 truncate">{task.title}</span>
 				<span class="text-xs text-muted-foreground">{task.owner}</span>
 			</div>

@@ -29,7 +29,7 @@
 	import { Button } from "#src/shadcn/button/index.js";
 	import { Kbd, KbdGroup } from "#src/shadcn/kbd/index.js";
 	import { cn } from "#src/lib/utils.js";
-	import { TONE_CLASS } from "#src/lib/tone.js";
+	import StatusPill from "#src/status/status-pill.svelte";
 	import {
 		Thread,
 		type ThreadComment,
@@ -414,14 +414,7 @@
 									{#if thread.subject.snoozedUntil}
 										<BellSlash class="size-3.5 text-muted-foreground" aria-label={labels.snoozed} />
 									{:else if thread.pending.length > 0}
-										<span
-											class={cn(
-												"inline-flex h-5 items-center rounded-sm border px-1.5 font-medium",
-												TONE_CLASS.warning,
-											)}
-										>
-											{labels.needsYou}
-										</span>
+										<StatusPill tone="warning">{labels.needsYou}</StatusPill>
 									{:else if thread.unread > 0}
 										<Circle
 											weight="fill"

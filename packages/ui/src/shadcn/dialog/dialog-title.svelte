@@ -9,9 +9,10 @@
 	}: DialogPrimitive.TitleProps = $props();
 </script>
 
+<!-- 16px on a 24px line: the close button centres on that line. -->
 <DialogPrimitive.Title
 	bind:ref
 	data-slot="dialog-title"
-	class={cn("leading-none font-medium", className)}
+	class={cn("text-base leading-6 font-semibold tracking-tight", className)}
 	{...restProps}
 />

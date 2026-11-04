@@ -27,7 +27,8 @@
 <!-- =========================== -->
 <div
 	class={cn(
-		"border-t border-border px-4 py-3 text-sm leading-relaxed",
+		// WHY first:border-t-0: the panel header already draws the line above the first row.
+		"border-t border-border px-4 py-3 text-sm leading-relaxed first:border-t-0",
 		muted && "text-xs text-muted-foreground",
 		className,
 	)}

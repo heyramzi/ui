@@ -64,7 +64,7 @@
 		src={image}
 		{label}
 		class={cn(
-			"opacity-75 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-hover/segment:opacity-100",
+			"opacity-75 transition-opacity duration-fast ease-smooth-out motion-reduce:transition-none group-hover/segment:opacity-100",
 			on && "opacity-100",
 			auto && "group-data-[state=active]/segment:opacity-100",
 		)}
@@ -76,9 +76,7 @@
 {label}
 
 {#if badge}
-	<span class="text-primary text-[10px] font-semibold tracking-wide whitespace-nowrap uppercase"
-		>{badge}</span
-	>
+	<span class="text-primary text-xs font-semibold whitespace-nowrap">{badge}</span>
 {/if}
 
 {#if count != null}
@@ -88,8 +86,8 @@
 
 			// WHY min-width equals height with 4px padding: `min-w-5 px-1.5` made a digit
 			// 20 by 18, so `rounded-full` drew an ellipse.
-			"inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none font-medium tabular-nums",
-			"bg-muted-foreground/15 text-muted-foreground",
+			"inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-xs leading-none font-medium tabular-nums",
+			"bg-foreground/8 text-muted-foreground",
 			on && "bg-brand/14 text-brand",
 			auto &&
 				"group-data-[state=active]/segment:bg-brand/14 group-data-[state=active]/segment:text-brand",

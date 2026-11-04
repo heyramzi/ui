@@ -61,7 +61,7 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<section class={cn("overflow-hidden rounded-xl border border-border bg-card", className)}>
+<section class={cn("overflow-hidden rounded-xl bg-card shadow-card", className)}>
 	<div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-3 p-4">
 		{#if leading}
 			<div class="shrink-0">{@render leading()}</div>

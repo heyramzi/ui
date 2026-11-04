@@ -22,7 +22,7 @@
 		// at half strength is a two-percent lightness step on the dark surface, so the one row the arrow keys are on was the hardest row to find.
 
 		// A foreground wash plus an inset hairline works in both modes from one rule.
-		"group/command-item data-selected:bg-foreground/6 data-selected:ring-foreground/10 data-selected:text-foreground data-selected:*:[svg]:text-foreground relative flex min-h-8 cursor-default items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13px] outline-hidden transition-colors duration-[var(--duration-fast)] select-none active:translate-y-px data-selected:ring-1 data-selected:ring-inset data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+		"group/command-item data-selected:bg-foreground/6 data-selected:ring-foreground/10 data-selected:text-foreground data-selected:*:[svg]:text-foreground relative flex min-h-8 cursor-default items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-(length:--text-control) outline-hidden select-none active:translate-y-px data-selected:ring-1 data-selected:ring-inset data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 		className,
 	)}
 	{...restProps}

@@ -72,6 +72,7 @@
      call site that forgot would open the row as well. -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
+	role="presentation"
 	class="inline-flex shrink-0"
 	onclick={(e) => e.stopPropagation()}
 	onkeydown={(e) => e.stopPropagation()}
@@ -89,7 +90,7 @@
 					? "inline-flex shrink-0 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
 					: cn(
 							"inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
-							size === "sm" ? "px-1.5 py-0.5 text-[11px]" : "px-2 py-1 text-xs",
+							size === "sm" ? "px-1.5 py-0.5 text-2xs" : "px-2 py-1 text-xs",
 						),
 			variant === "icon" && (size === "sm" ? "size-5" : "size-6"),
 			className,

@@ -43,9 +43,7 @@
 			>
 			{#each section.categories as category (category.title)}
 				{#if category.title}
-					<p
-						class="mb-1 mt-3 px-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70"
-					>
+					<p class="mb-1 mt-3 px-2 text-2xs font-medium text-muted-foreground/70">
 						{category.title}
 					</p>
 				{/if}

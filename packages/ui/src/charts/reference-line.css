@@ -12,7 +12,7 @@
   fill: var(--hr-reference-color);
   font-size: 0.75rem;
   font-weight: 500;
-  stroke: var(--background);
+  stroke: var(--card);
   stroke-width: 3;
   paint-order: stroke;
 }

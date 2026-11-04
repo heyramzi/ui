@@ -3,8 +3,8 @@
  * A class, not a wrapper: the shell's `<aside>` already owns the scroll height.
  */
 // Copies of this string drifted to `rounded-lg`, the control radius, not the container one.
-export const queueRailClass =
-  "flex flex-col overflow-hidden rounded-xl border border-border bg-card";
+// No `border`: the card shadow draws its own hairline, and both drew a 2px edge.
+export const queueRailClass = "flex flex-col overflow-hidden rounded-xl bg-card shadow-card";
 
 /**
  * The rail column track, passed to `MasterDetail`'s `railWidth`. One page ran

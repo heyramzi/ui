@@ -1,5 +1,17 @@
 <script lang="ts">
-	import { CalendarBlank, CircleDashed, Flag, Folder, User } from "phosphor-svelte";
+	import {
+		CalendarBlank,
+		CircleDashed,
+		CircleHalf,
+		Flag,
+		Folder,
+		Timer,
+		User,
+		UserCircle,
+	} from "phosphor-svelte";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { Card } from "#src/shadcn/card/index.js";
+	import * as Avatar from "#src/shadcn/avatar/index.js";
 	import TaskDetail from "#src/work/detail/task-detail.svelte";
 	import TaskProperty from "#src/work/detail/task-property.svelte";
 	import TaskChip from "#src/work/detail/task-chip.svelte";
@@ -144,29 +156,27 @@
 <div class="flex flex-col gap-3">
 	<div class="flex flex-wrap items-center gap-1.5" role="group" aria-label="Scenario">
 		{#each scenarios as item (item.id)}
-			<button
-				type="button"
+			<Button
+				size="sm"
+				variant={scenario === item.id ? "default" : "outline"}
 				aria-pressed={scenario === item.id}
 				onclick={() => (scenario = item.id)}
-				class="h-7 rounded-md border border-border px-2.5 text-[13px] font-medium transition-colors hover:bg-muted aria-pressed:bg-foreground aria-pressed:text-background"
 			>
 				{item.label}
-			</button>
+			</Button>
 		{/each}
-		<button
-			type="button"
+		<Button
+			size="sm"
+			variant={narrow ? "default" : "outline"}
+			class="ms-auto"
 			aria-pressed={narrow}
 			onclick={() => (narrow = !narrow)}
-			class="ms-auto h-7 rounded-md border border-border px-2.5 text-[13px] font-medium transition-colors hover:bg-muted aria-pressed:bg-foreground aria-pressed:text-background"
 		>
 			390 wide
-		</button>
+		</Button>
 	</div>
 
-	<div
-		class="mx-auto w-full overflow-hidden rounded-xl border border-border bg-background"
-		style:max-width={narrow ? "390px" : "none"}
-	>
+	<Card class="mx-auto w-full gap-0 py-0" style="max-width: {narrow ? '390px' : 'none'}">
 		<TaskDetail
 			{title}
 			onTitleChange={(next) => {
@@ -192,35 +202,34 @@
 				<span class="tabular-nums">Created Sep 9, 2026</span>
 			{/snippet}
 			{#snippet properties()}
-				<TaskProperty label="Status">
+				<TaskProperty label="Status" icon={CircleHalf}>
 					<TaskChip aria-label="Status: {statusLabel}"
 						><StatusDot {statuses} {status} size={14} animate={false} />{statusLabel}</TaskChip
 					>
 				</TaskProperty>
-				<TaskProperty label="Priority">
+				<TaskProperty label="Priority" icon={Flag}>
 					<TaskChip><Flag weight="fill" class="text-destructive" aria-hidden="true" />High</TaskChip
 					>
 				</TaskProperty>
-				<TaskProperty label="Assignee">
+				<TaskProperty label="Assignee" icon={UserCircle}>
 					{#if assignee}
 						<TaskChip>
-							<span
-								class="grid size-4 place-items-center rounded-full bg-muted text-[0px]"
-								aria-hidden="true"><User /></span
-							>
+							<Avatar.Root class="size-4" aria-hidden="true">
+								<Avatar.Fallback><User class="size-3" /></Avatar.Fallback>
+							</Avatar.Root>
 							{assignee}
 						</TaskChip>
 					{:else}
 						<TaskChip empty><CircleDashed aria-hidden="true" />Assign</TaskChip>
 					{/if}
 				</TaskProperty>
-				<TaskProperty label="Due date">
+				<TaskProperty label="Due date" icon={CalendarBlank}>
 					<TaskChip><CalendarBlank aria-hidden="true" />Oct 9, 2026</TaskChip>
 				</TaskProperty>
-				<TaskProperty label="Project">
+				<TaskProperty label="Project" icon={Folder}>
 					<TaskChip><Folder aria-hidden="true" />Agency OS</TaskChip>
 				</TaskProperty>
-				<TaskProperty label="Time">
+				<TaskProperty label="Time" icon={Timer}>
 					<TimeTracker
 						{entries}
 						running={timer}
@@ -242,5 +251,5 @@
 				</TaskProperty>
 			{/snippet}
 		</TaskDetail>
-	</div>
+	</Card>
 </div>

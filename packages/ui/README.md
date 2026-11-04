@@ -23,6 +23,8 @@ only a convenience.
 
 See [COMPONENTS.md](./COMPONENTS.md) for the full list, one line each.
 
+See [DESIGN.md](./DESIGN.md) for the design rules: what tokens, atoms, molecules and organisms may and may not do.
+
 ## Setup
 
 Import the style layer once, after Tailwind:

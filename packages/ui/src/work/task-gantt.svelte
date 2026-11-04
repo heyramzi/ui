@@ -1,4 +1,5 @@
 <script lang="ts" generics="T">
+	import { workLooks } from "#src/components/work-parts/looks.js";
 	import type { Snippet } from "svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { dayNumber, isoFromDay, todayIso } from "#src/work/dates.js";
@@ -193,7 +194,7 @@
 	bind:this={scroller}
 	class={cn(
 		"task-gantt relative min-h-0 flex-1 overflow-auto overscroll-x-contain",
-		flat ? "bg-background" : "rounded-xl border border-border bg-card text-card-foreground",
+		flat ? "bg-card" : workLooks.panel,
 		drag && "select-none",
 		className,
 	)}

@@ -1,4 +1,7 @@
 <script lang="ts" generics="T">
+	import { ganttLooks } from "#src/components/work-parts/looks.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { cn } from "#src/lib/utils.js";
 	import type { Snippet } from "svelte";
 	import { CaretRight, FlagPennant } from "phosphor-svelte";
 	import type { GanttChange, GanttLabelContext } from "#src/work/task-types.js";
@@ -79,12 +82,14 @@
 	>
 		{#if nested}
 			{#if row.hasChildren}
-				<button
-					type="button"
+				<Button
+					variant="ghost"
+					size="sm"
+					icon
 					aria-expanded={row.open}
 					aria-label="{row.open ? 'Fold' : 'Unfold'} {title}"
 					onclick={() => onToggle(row.id)}
-					class="-ml-1 grid size-5 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
+					class="-ml-1.5 size-6 text-muted-foreground"
 				>
 					<span
 						class="g-chevron size-3.5 [&>svg]:size-full"
@@ -93,7 +98,7 @@
 					>
 						<CaretRight weight="bold" />
 					</span>
-				</button>
+				</Button>
 			{:else}
 				<span class="-ml-1 size-5 shrink-0" aria-hidden="true"></span>
 			{/if}
@@ -117,7 +122,10 @@
 				type="button"
 				aria-label="{title}, {describe(span)}"
 				title="{title}, {describe(span)}"
-				class="g-flag absolute top-1/2 grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+				class={cn(
+					"g-flag absolute top-1/2 grid size-6 -translate-x-1/2 -translate-y-1/2 place-items-center outline-none focus-visible:shadow-(--ring-focus)",
+					ganttLooks.mark,
+				)}
 				style:--g-hue={hue}
 				style:left="{dayX(layout, span.end) + layout.dayWidth / 2}px"
 				onclick={() => onSelect?.(row.id)}
@@ -135,7 +143,10 @@
 				tabindex="0"
 				aria-label="{title}, {describe(span)}"
 				title="{title}, {describe(span)}"
-				class="g-derived g-enter absolute top-1/2 -translate-y-1/2 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+				class={cn(
+					"g-derived g-enter absolute top-1/2 -translate-y-1/2 outline-none focus-visible:shadow-(--ring-focus)",
+					ganttLooks.mark,
+				)}
 				style:--g-hue={hue}
 				style:--g-i={Math.min(row.order, staggerCap)}
 				style:left="{dayX(layout, span.start) + layout.inset}px"
@@ -172,7 +183,7 @@
 
 <style>
 	.g-row {
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+		transition: background-color var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	.g-row-hot {
@@ -180,8 +191,7 @@
 	}
 
 	.g-chevron {
-		transition: rotate var(--duration-fast, 250ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: rotate var(--duration-fast) var(--ease-smooth-out);
 	}
 
 	.g-chevron-open {

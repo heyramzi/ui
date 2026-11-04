@@ -28,12 +28,12 @@
 <!-- =========================== -->
 <span
 	class={cn(
-		"flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground",
+		"flex items-center gap-2 text-xs font-semibold text-balance text-muted-foreground",
 		className,
 	)}
 >
 	{#if Icon}
-		<Icon class="size-4 text-brand" aria-hidden="true" />
+		<Icon class="size-4" weight="bold" aria-hidden="true" />
 	{/if}
 	{@render children()}
 </span>

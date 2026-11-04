@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ganttLooks } from "#src/components/work-parts/looks.js";
 	import { cn } from "#src/lib/utils.js";
 	import type { GanttDay, Layout } from "#src/work/gantt/logic.js";
 
@@ -62,7 +63,8 @@
 					{#if showNumber}
 						<span
 							class={cn(
-								"grid h-4 min-w-4 place-items-center rounded-full px-1 font-medium",
+								"grid h-4 min-w-4 place-items-center px-1 font-medium",
+								ganttLooks.day,
 								layout.dayWidth < 18 && "absolute left-1 whitespace-nowrap",
 								isToday && "bg-primary text-primary-foreground",
 							)}

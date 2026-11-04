@@ -29,7 +29,7 @@
 	     shows the trigger's own active background and never an empty pill. -->
 	<span
 		aria-hidden="true"
-		class="bg-background dark:border-input dark:bg-input/30 pointer-events-none absolute inset-y-[3px] left-0 z-0 w-0 rounded-md border border-transparent opacity-0 shadow-sm transition-[transform,width,opacity] duration-[var(--duration-fast,250ms)] ease-[var(--ease-smooth-out,cubic-bezier(0.22,1,0.36,1))] will-change-[transform,width] motion-reduce:transition-opacity"
+		class="bg-card dark:bg-input/30 pointer-events-none absolute inset-y-[3px] left-0 z-0 w-0 rounded-[calc(var(--radius-lg)-3px)] border border-transparent opacity-0 shadow-btn transition-[transform,width,opacity] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] will-change-transform motion-reduce:transition-opacity"
 		{@attach slidingPill}
 	></span>
 	{@render children?.()}

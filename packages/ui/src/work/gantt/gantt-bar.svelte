@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ganttLooks } from "#src/components/work-parts/looks.js";
 	import { cn } from "#src/lib/utils.js";
 	import { isoFromDay } from "#src/work/dates.js";
 	import type { GanttChange } from "#src/work/task-types.js";
@@ -101,7 +102,8 @@
 		? ' Arrow keys move it a day, Shift plus arrow keys change its end.'
 		: ''}"
 	class={cn(
-		"g-bar g-enter absolute top-1/2 flex -translate-y-1/2 items-center rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+		"g-bar g-enter absolute top-1/2 flex -translate-y-1/2 items-center outline-none focus-visible:shadow-(--ring-focus)",
+		ganttLooks.bar,
 		editable && "cursor-grab",
 		dragging && "g-bar-dragging cursor-grabbing",
 	)}
@@ -120,7 +122,7 @@
 >
 	{#if progress > 0}
 		<!-- The clip keeps the bar's rounded corners while the fill scales. -->
-		<span class="absolute inset-0 overflow-hidden rounded-lg" aria-hidden="true">
+		<span class={cn("absolute inset-0 overflow-hidden", ganttLooks.bar)} aria-hidden="true">
 			<span class="g-progress absolute inset-0 origin-left" style:transform="scaleX({progress})"
 			></span>
 		</span>
@@ -140,7 +142,8 @@
 	{#if dragging && drag && drag.dx !== 0}
 		<span
 			class={cn(
-				"g-tip pointer-events-none absolute left-0 z-20 rounded-md bg-foreground px-2 py-1 text-[11px] font-medium whitespace-nowrap text-background tabular-nums shadow-md",
+				"g-tip pointer-events-none absolute left-0 z-20",
+				ganttLooks.tip,
 				tipBelow ? "top-full mt-1.5" : "bottom-full mb-1.5",
 			)}
 		>
@@ -150,7 +153,10 @@
 </div>
 {#if width < inlineTitleMin}
 	<span
-		class="pointer-events-none absolute top-1/2 -translate-y-1/2 truncate rounded-sm bg-card/90 px-1 text-xs text-muted-foreground"
+		class={cn(
+			"pointer-events-none absolute top-1/2 -translate-y-1/2 truncate",
+			ganttLooks.outsideLabel,
+		)}
 		style:left="{dayX(layout, span.end + 1) + 16}px"
 		style:max-width="200px"
 	>
@@ -165,9 +171,9 @@
 		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 34%, transparent);
 		/* Snapping to whole days reads as a glide, not a jump. */
 		transition:
-			left var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			width var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			box-shadow var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+			left var(--duration-quick) var(--ease-smooth-out),
+			width var(--duration-quick) var(--ease-smooth-out),
+			box-shadow var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
@@ -192,8 +198,7 @@
 
 	.g-progress {
 		background: color-mix(in oklab, var(--g-hue) 32%, var(--color-card, white));
-		transition: transform var(--duration-fast, 250ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: transform var(--duration-fast) var(--ease-smooth-out);
 	}
 
 	/* Resize grips: a wide invisible hit area, a slim pill that shows on hover. */
@@ -214,10 +219,9 @@
 		left: 50%;
 		width: 3px;
 		translate: -50% 0;
-		border-radius: 999px;
-		background: color-mix(in oklab, var(--g-hue) 70%, var(--color-foreground, black));
+		background: color-mix(in oklab, var(--g-hue) 70%, var(--color-foreground));
 		opacity: 0;
-		transition: opacity var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+		transition: opacity var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
@@ -232,13 +236,13 @@
 	}
 
 	.g-tip {
-		animation: g-tip-in var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out) both;
+		animation: g-tip-in var(--duration-quick) var(--ease-smooth-out) both;
 	}
 
 	@keyframes g-tip-in {
 		from {
 			opacity: 0;
-			translate: 0 var(--distance-micro, 4px);
+			translate: 0 var(--distance-micro);
 		}
 	}
 

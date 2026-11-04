@@ -201,7 +201,7 @@
 	@media (prefers-reduced-motion: reduce) {
 		.md-cols > .md-rail,
 		.md-cols > .md-detail {
-			animation-duration: 1ms;
+			animation: none;
 		}
 	}
 </style>

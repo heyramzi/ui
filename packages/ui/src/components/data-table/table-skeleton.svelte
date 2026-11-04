@@ -42,13 +42,13 @@
 	{#each { length: rows } as _, rowIdx (rowIdx)}
 		<tr
 			data-slot="table-row"
-			class="border-b border-border/50 transition-opacity"
-			style="animation: skeleton-fade-in var(--duration-slow) var(--ease-out) calc(var(--duration-stagger) * {rowIdx}) both"
+			class="border-b border-border/70 transition-opacity"
+			style="animation: skeleton-fade-in var(--duration-slow) var(--ease-smooth-out) calc(var(--duration-stagger) * {rowIdx}) both"
 		>
 			{#each cols as col, colIdx (colIdx)}
 				<td
 					data-slot="table-cell"
-					class="h-11 px-2 {col.align === 'center'
+					class="h-8 px-2 any-pointer-coarse:h-11 {col.align === 'center'
 						? 'text-center'
 						: col.align === 'right'
 							? 'text-right'
@@ -62,10 +62,10 @@
 								: ''}"
 					>
 						{#if col.circle}
-							<Skeleton class="size-6 shrink-0 rounded-md" />
+							<Skeleton class="size-5 shrink-0 rounded-full" />
 						{/if}
 						<Skeleton
-							class="h-3.5 rounded {col.width ?? WIDTHS[(rowIdx + colIdx) % WIDTHS.length]}"
+							class="h-3 rounded-sm {col.width ?? WIDTHS[(rowIdx + colIdx) % WIDTHS.length]}"
 						/>
 					</div>
 				</td>

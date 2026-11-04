@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { docLooks } from "#src/components/work-parts/looks.js";
 	import { Bell, FileText, LinkSimple, Star } from "phosphor-svelte";
 	import DocEditorPage from "#src/work/docs/doc-editor-page.svelte";
 	import DocMenu from "#src/work/docs/doc-menu.svelte";
@@ -139,7 +140,7 @@
 <!-- =========================== -->
 <div class="flex flex-col gap-2">
 	<div
-		class="h-[min(48rem,calc(100svh-9rem))] overflow-hidden rounded-xl border border-border bg-background"
+		class="h-[min(48rem,calc(100svh-9rem))] overflow-hidden {docLooks.frame} border border-border bg-card"
 	>
 		<DocEditorPage
 			bind:title
@@ -165,7 +166,7 @@
 					aria-label={favorited ? "Remove from favorites" : "Favorite"}
 					aria-pressed={favorited}
 					onclick={() => (favorited = !favorited)}
-					class="t-press inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 any-pointer-coarse:size-10"
+					class="t-press inline-flex size-7 items-center justify-center {docLooks.control} text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:shadow-(--ring-focus) any-pointer-coarse:size-10"
 				>
 					<Star
 						size={15}
@@ -202,8 +203,7 @@
 			{/snippet}
 
 			{#snippet actions()}
-				{@const button =
-					"t-press inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 any-pointer-coarse:size-10"}
+				{@const button = `t-press inline-flex size-7 items-center justify-center ${docLooks.control} text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:shadow-(--ring-focus) any-pointer-coarse:size-10`}
 				<button
 					type="button"
 					aria-label="Copy link"

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from "#src/lib/utils.js";
-	import { TONE_CLASS, TONE_TEXT } from "#src/lib/tone.js";
+	import { TONE_TEXT } from "#src/lib/tone.js";
+	import StatusPill from "#src/status/status-pill.svelte";
 	import { budgetTone, formatMinutes } from "#src/work/time/duration.js";
 	import TimeDot from "#src/work/time/time-dot.svelte";
 	import TimeRing from "#src/work/time/time-ring.svelte";
@@ -34,27 +35,23 @@
 	);
 </script>
 
+<!-- Logged time is a status of the task's budget, so it's a StatusPill: the icon sits in the tint. -->
 {#if visible}
-	<span
+	<StatusPill
 		role="img"
 		aria-label={spoken}
-		class={cn(
-			"inline-flex h-5 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border px-1.5 text-xs font-medium tabular-nums",
-			running
-				? TONE_CLASS.accent
-				: tone === "neutral"
-					? "border-transparent text-muted-foreground"
-					: TONE_CLASS[tone],
-			className,
-		)}
+		tone={running ? "accent" : tone}
+		class={cn("tabular-nums", className)}
 	>
-		{#if running}
-			<TimeDot running size={6} />
-		{:else if estimate}
-			<TimeRing value={minutes} max={estimate} size={12} stroke={6} />
-		{:else}
-			<span class="size-3 shrink-0 [&>svg]:size-full" aria-hidden="true"><Clock /></span>
-		{/if}
+		{#snippet icon()}
+			{#if running}
+				<TimeDot running size={6} />
+			{:else if estimate}
+				<TimeRing value={minutes} max={estimate} size={12} stroke={6} />
+			{:else}
+				<Clock aria-hidden="true" />
+			{/if}
+		{/snippet}
 		<span aria-hidden="true">
 			{formatMinutes(minutes)}{#if estimate}<span
 					class={cn(
@@ -65,5 +62,5 @@
 					/ {formatMinutes(estimate)}</span
 				>{/if}
 		</span>
-	</span>
+	</StatusPill>
 {/if}

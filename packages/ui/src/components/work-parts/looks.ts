@@ -31,7 +31,7 @@ export const ganttLooks = {
   bar: "rounded-lg",
   mark: "rounded-sm",
   /** The readout that follows a dragged bar. */
-  tip: "rounded-sm bg-foreground px-2 py-1 text-[11px] font-medium whitespace-nowrap text-background tabular-nums shadow-raised",
+  tip: "rounded-sm bg-foreground px-2 py-1 text-2xs font-medium whitespace-nowrap text-background tabular-nums shadow-raised",
   /** A title that didn't fit its bar, set beside it. */
   outsideLabel: "rounded-sm bg-card/90 px-1 text-xs text-muted-foreground",
   track: "rounded-full",

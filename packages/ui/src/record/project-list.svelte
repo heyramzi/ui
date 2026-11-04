@@ -122,7 +122,7 @@
 						aria-current={active ? "page" : undefined}
 						class={cn(
 							"flex flex-col gap-1.5 rounded-lg px-2 py-2 transition-colors any-pointer-coarse:py-3",
-							"outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+							"outline-none focus-visible:shadow-(--ring-focus)",
 							active ? "bg-muted" : "hover:bg-muted/60",
 						)}
 					>

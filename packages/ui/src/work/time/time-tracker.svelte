@@ -4,6 +4,10 @@
 	import { initial } from "#src/lib/initials.js";
 	import { TONE_COLOR, TONE_TEXT } from "#src/lib/tone.js";
 	import * as Popover from "#src/shadcn/popover/index.js";
+	import { Button, buttonVariants } from "#src/shadcn/button/index.js";
+	import { Input } from "#src/shadcn/input/index.js";
+	import * as Avatar from "#src/shadcn/avatar/index.js";
+	import { ganttLooks, workLooks } from "#src/components/work-parts/looks.js";
 	import {
 		budgetTone,
 		dayLabel,
@@ -214,22 +218,35 @@
 	<div class="sr-only" role="status" aria-live="polite">{status}</div>
 
 	<Popover.Root bind:open>
-		<div class="time-chip" class:is-running={!!running}>
-			<button
-				type="button"
+		<div
+			class={cn(
+				"time-chip inline-flex items-stretch text-(length:--text-control) text-foreground",
+				workLooks.row,
+			)}
+			class:is-running={!!running}
+		>
+			<Button
+				variant="ghost"
+				size="sm"
+				icon
 				onclick={toggle}
 				aria-label={running ? labels.stop : labels.start}
 				aria-keyshortcuts="Alt+S"
 				title="{running ? labels.stop : labels.start} (Alt+S)"
-				class="time-toggle"
 			>
 				{#if running}
 					<Stop weight="fill" class="size-3.5" aria-hidden="true" />
 				{:else}
 					<Play weight="fill" class="size-3.5" aria-hidden="true" />
 				{/if}
-			</button>
-			<Popover.Trigger class="time-open" aria-label={labels.title}>
+			</Button>
+			<Popover.Trigger
+				class={cn(
+					buttonVariants({ variant: "ghost", size: "sm" }),
+					"time-open gap-1.5 ps-1 pe-2 text-(length:--text-control) tabular-nums data-[state=open]:bg-muted",
+				)}
+				aria-label={labels.title}
+			>
 				{#if running}
 					<TimeDot running size={6} />
 					<span role="timer" aria-label={labels.elapsed}
@@ -248,11 +265,14 @@
 			</Popover.Trigger>
 		</div>
 
-		<Popover.Content align="start" class="flex w-80 flex-col gap-3 p-3 text-[13px]">
+		<Popover.Content
+			align="start"
+			class="flex w-80 flex-col gap-3 p-3 text-(length:--text-control)"
+		>
 			<form onsubmit={submit} class="grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-2">
 				<div class="relative">
-					<input
-						bind:this={durationInput}
+					<Input
+						bind:ref={durationInput}
 						bind:value={duration}
 						oninput={() => (invalid = false)}
 						placeholder={labels.durationPlaceholder}
@@ -261,7 +281,10 @@
 						aria-describedby={invalid ? "time-invalid" : undefined}
 						autocomplete="off"
 						inputmode="text"
-						class={cn("time-field w-full tabular-nums", preview && "pr-12")}
+						class={cn(
+							"h-7 text-(length:--text-control) tabular-nums md:text-(length:--text-control)",
+							preview && "pr-12",
+						)}
 					/>
 					{#if preview && preview !== duration.trim()}
 						<span
@@ -272,22 +295,22 @@
 						</span>
 					{/if}
 				</div>
-				<input
+				<Input
 					type="date"
 					bind:value={day}
 					aria-label={labels.date}
-					class="time-field w-full tabular-nums"
+					class="h-7 text-(length:--text-control) tabular-nums md:text-(length:--text-control)"
 				/>
-				<input
+				<Input
 					bind:value={note}
 					placeholder={labels.notePlaceholder}
 					aria-label={labels.note}
 					autocomplete="off"
-					class="time-field"
+					class="h-7 text-(length:--text-control) md:text-(length:--text-control)"
 				/>
-				<button type="submit" disabled={saving || !duration.trim()} class="time-log">
+				<Button type="submit" variant="outline" size="sm" disabled={saving || !duration.trim()}>
 					{saving ? labels.saving : labels.log}
-				</button>
+				</Button>
 			</form>
 			{#if invalid}
 				<p id="time-invalid" class="text-xs text-destructive" role="alert">{labels.invalid}</p>
@@ -303,9 +326,9 @@
 					</div>
 					{#if estimate}
 						<div class="flex flex-col gap-1">
-							<div class="h-1 overflow-hidden rounded-full bg-muted" aria-hidden="true">
+							<div class={cn("h-1 overflow-hidden bg-muted", ganttLooks.track)} aria-hidden="true">
 								<div
-									class="time-segment h-full rounded-full"
+									class={cn("time-segment h-full", ganttLooks.track)}
 									style:background={tone === "neutral"
 										? "var(--color-foreground)"
 										: TONE_COLOR[tone]}
@@ -329,7 +352,7 @@
 							{#each people as person (person.key)}
 								<li class="flex items-center gap-1.5 text-xs">
 									<span
-										class="size-2 rounded-full"
+										class={cn("size-2", ganttLooks.day)}
 										style:background={personColor(person.key)}
 										aria-hidden="true"
 									></span>
@@ -359,18 +382,20 @@
 									{@const name = getPerson(entry)}
 									{@const text = getNote?.(entry)}
 									<li
-										class="time-row group flex h-7 items-center gap-2 rounded-md px-1 transition-colors hover:bg-muted/50 focus-within:bg-muted/50"
+										class={cn(
+											"time-row group flex h-7 items-center gap-2 px-1 transition-colors duration-quick ease-smooth-out hover:bg-muted/50 focus-within:bg-muted/50",
+											workLooks.row,
+										)}
 										class:is-new={!firstIds.has(getId(entry))}
 										class:opacity-50={deleting === getId(entry)}
 									>
-										<span
-											class="grid size-5 shrink-0 place-items-center rounded-full text-xs font-semibold text-white"
-											style:background={personColor(getPersonId?.(entry) ?? name)}
-											title={name}
-											aria-hidden="true"
-										>
-											{initial(name)}
-										</span>
+										<Avatar.Root class="size-5" title={name} aria-hidden="true">
+											<Avatar.Fallback
+												class="text-xs font-semibold text-white"
+												style="background: {personColor(getPersonId?.(entry) ?? name)}"
+												>{initial(name)}</Avatar.Fallback
+											>
+										</Avatar.Root>
 										<span class="min-w-0 flex-1 truncate">
 											<span class="sr-only">{name},</span>
 											{#if text}{text}{:else}<span class="text-muted-foreground">{name}</span>{/if}
@@ -382,15 +407,17 @@
 											>{formatMinutes(getMinutes(entry))}</span
 										>
 										{#if onDelete && (canDelete?.(entry) ?? true)}
-											<button
-												type="button"
+											<Button
+												variant="ghost"
+												size="sm"
+												icon
 												onclick={() => remove(entry)}
 												disabled={deleting === getId(entry)}
 												aria-label={labels.deleteEntry(formatMinutes(getMinutes(entry)))}
-												class="time-delete grid size-6 shrink-0 place-items-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-destructive/10 hover:text-destructive focus-visible:ring-[3px] focus-visible:ring-ring/50"
+												class="time-delete size-6 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
 											>
 												<X weight="bold" class="size-3" aria-hidden="true" />
-											</button>
+											</Button>
 										{/if}
 									</li>
 								{/each}
@@ -406,14 +433,9 @@
 </section>
 
 <style>
+	/* A running timer tints the whole split button in the accent. */
 	.time-chip {
-		display: inline-flex;
-		align-items: stretch;
-		height: 1.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		font-size: 0.8125rem;
-		color: var(--color-foreground);
-		transition: background-color var(--duration-fast, 250ms) var(--ease-smooth-out, ease-out);
+		transition: background-color var(--duration-fast) var(--ease-smooth-out);
 	}
 
 	.time-chip.is-running {
@@ -424,173 +446,57 @@
 		color: var(--tone-accent, var(--color-primary));
 	}
 
-	.time-toggle,
-	:global(.time-open) {
-		display: inline-flex;
-		align-items: center;
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	.time-toggle {
-		justify-content: center;
-		width: 1.75rem;
-		border-start-start-radius: inherit;
-		border-end-start-radius: inherit;
-	}
-
-	:global(.time-open) {
-		gap: 0.375rem;
-		padding-inline: 0.25rem 0.5rem;
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-		border-start-end-radius: inherit;
-		border-end-end-radius: inherit;
-	}
-
-	:global(.time-open[data-state="open"]) {
-		background: color-mix(in oklab, var(--color-foreground) 7%, transparent);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.time-toggle:hover,
-		:global(.time-open:hover) {
-			background: color-mix(in oklab, var(--color-foreground) 7%, transparent);
-		}
-	}
-
-	.time-toggle:focus-visible,
-	:global(.time-open:focus-visible) {
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
-	}
-
-	.time-toggle:active {
-		transform: scale(0.96);
-	}
-
-	@media (any-pointer: coarse) {
-		.time-chip {
-			height: 2.5rem;
-		}
-
-		.time-toggle {
-			width: 2.5rem;
-		}
-	}
-
-	.time-field {
-		height: 1.75rem;
-		min-width: 0;
-		border-radius: var(--radius-md, 0.5rem);
-		border: 1px solid var(--color-input, var(--color-border));
-		background: var(--color-background);
-		padding-inline: 0.5rem;
-		font-size: 0.8125rem;
-		color: var(--color-foreground);
-		outline: none;
-		transition:
-			border-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out),
-			box-shadow var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	.time-field::placeholder {
-		color: var(--color-muted-foreground);
-		opacity: 0.7;
-	}
-
-	.time-field:focus-visible {
-		border-color: var(--color-ring);
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 40%, transparent);
-	}
-
-	.time-field[aria-invalid="true"] {
-		border-color: var(--color-destructive);
-	}
-
-	.time-log {
-		height: 1.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		border: 1px solid var(--color-border);
-		background: var(--color-background);
-		padding-inline: 0.75rem;
-		font-size: 0.8125rem;
-		font-weight: 500;
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.time-log:hover:not(:disabled) {
-			background: var(--color-muted);
-		}
-	}
-
-	.time-log:focus-visible {
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
-	}
-
-	.time-log:disabled {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-
 	.time-segment {
-		transition: width var(--duration-slow, 300ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: width var(--duration-slow) var(--ease-smooth-out);
 	}
 
-	.time-delete {
+	.time-row :global(.time-delete) {
 		opacity: 0;
 	}
 
-	.time-row:focus-within .time-delete {
+	.time-row:focus-within :global(.time-delete) {
 		opacity: 1;
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.time-row:hover .time-delete {
+		.time-row:hover :global(.time-delete) {
 			opacity: 1;
 		}
 	}
 
 	@media (hover: none) {
-		.time-delete {
+		.time-row :global(.time-delete) {
 			opacity: 1;
 		}
 	}
 
 	.time-pop,
 	.time-preview {
-		animation: time-pop var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out) backwards;
+		animation: time-pop var(--duration-quick) var(--ease-smooth-out) backwards;
 	}
 
 	.time-row.is-new {
-		animation: time-row-in var(--duration-fast, 250ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation: time-row-in var(--duration-fast) var(--ease-smooth-out) backwards;
 	}
 
 	@keyframes time-pop {
 		from {
 			opacity: 0;
-			transform: translateY(4px);
-			filter: blur(var(--blur-small, 2px));
+			transform: translateY(var(--distance-micro));
+			filter: blur(var(--blur-small));
 		}
 	}
 
 	@keyframes time-row-in {
 		from {
 			opacity: 0;
-			transform: translateY(var(--distance-base, 8px));
-			filter: blur(var(--blur-small, 2px));
+			transform: translateY(var(--distance-base));
+			filter: blur(var(--blur-small));
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.time-chip,
-		.time-toggle,
-		:global(.time-open),
-		.time-field,
-		.time-log,
 		.time-segment {
 			transition: none;
 		}

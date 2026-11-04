@@ -3,8 +3,7 @@
  * dashboards share nothing but the look, and each drew its own slightly different one.
  */
 
-// Heads aren't uppercase. `SectionLabel` already is, and a nine-column head in
-// the same style fights the panel title and reads worse where density matters.
+// Heads are sentence case, like every label (DESIGN.md, Patterns: labels).
 export const dataTableClass = "w-full text-sm";
 
 export const dataTheadClass = "bg-muted/40 text-xs text-muted-foreground";

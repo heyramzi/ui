@@ -14,6 +14,7 @@
 	import type { Tone } from "#src/lib/tone.js";
 	import { cn } from "#src/lib/utils.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
+	import PopValue from "#src/charts/pop-value.svelte";
 
 	// =========================
 	// PROPS
@@ -113,7 +114,8 @@
 		side="right"
 		bind:ref={panel}
 		tabindex={-1}
-		class={cn("flex w-full flex-col gap-0 p-0", WIDTH[width], bare && "overflow-hidden")}
+		floating
+		class={cn("flex w-full flex-col gap-0 overflow-hidden p-0", WIDTH[width])}
 		{onOpenAutoFocus}
 	>
 		{#if bare}
@@ -165,11 +167,14 @@
 							<div class="min-w-0">
 								<dt class="text-xs text-muted-foreground">{stat.label}</dt>
 								<dd
-									class={cn("text-sm font-medium tabular-nums", STAT_TONE[stat.tone ?? "default"])}
+									class={cn(
+										"text-lg leading-tight font-semibold tabular-nums",
+										STAT_TONE[stat.tone ?? "default"],
+									)}
 								>
-									{stat.value}
+									<PopValue value={stat.value} />
 									{#if stat.sub}
-										<span class="text-xs font-normal text-muted-foreground">{stat.sub}</span>
+										<span class="ms-1 text-xs font-normal text-muted-foreground">{stat.sub}</span>
 									{/if}
 								</dd>
 							</div>

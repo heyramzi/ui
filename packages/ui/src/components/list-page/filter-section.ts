@@ -5,8 +5,5 @@ import { cn } from "#src/lib/utils.js";
 
 // `first:` drops the leading header's top padding, since the popover pads itself.
 export function filterSectionClass(className?: string): string {
-  return cn(
-    "px-2 pt-2 pb-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground first:pt-1",
-    className,
-  );
+  return cn("px-2 pt-2 pb-1 text-2xs font-medium text-muted-foreground first:pt-1", className);
 }

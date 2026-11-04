@@ -28,13 +28,13 @@
 <!-- =========================== -->
 <button
 	type="button"
-	class="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm transition-colors hover:bg-muted"
+	class="flex min-h-8 items-center gap-2 rounded-lg px-2 text-sm transition-colors duration-quick ease-smooth-out hover:bg-foreground/6 motion-reduce:transition-none any-pointer-coarse:min-h-11"
 	{onclick}
 >
 	{#if variant === "radio"}
 		<span
 			class={cn(
-				"grid size-3.5 shrink-0 place-items-center rounded-full border transition-colors",
+				"grid size-3.5 shrink-0 place-items-center rounded-full border transition-colors duration-quick ease-smooth-out motion-reduce:transition-none",
 				checked ? "border-primary bg-primary text-primary-foreground" : "border-border",
 			)}
 		>

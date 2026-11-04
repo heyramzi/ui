@@ -23,7 +23,7 @@
 <!-- =========================== -->
 <CaretRight
 	class={cn(
-		"size-3.5 text-muted-foreground opacity-0 transition-opacity group-hover/row:opacity-100",
+		"size-3.5 text-muted-foreground opacity-0 transition-opacity duration-quick ease-smooth-out group-hover/row:opacity-100",
 		className,
 	)}
 	weight="bold"

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { ganttLooks } from "#src/components/work-parts/looks.js";
+	import { cn } from "#src/lib/utils.js";
 	import { dayX, type Arrow, type GanttDay, type Layout } from "#src/work/gantt/logic.js";
 
 	interface Props {
@@ -41,7 +43,7 @@
 			class="g-today absolute inset-y-0 w-px bg-primary"
 			style:left="{dayX(layout, layout.todayDay) + layout.dayWidth / 2}px"
 		>
-			<span class="absolute -top-1 -left-[3px] size-[7px] rounded-full bg-primary"></span>
+			<span class={cn("absolute -top-1 -left-[3px] size-[7px] bg-primary", ganttLooks.day)}></span>
 		</div>
 	{/if}
 	<svg
@@ -73,13 +75,12 @@
 <style>
 	.g-today {
 		transform-origin: top;
-		animation: g-today-in var(--duration-slow, 300ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+		animation: g-today-in var(--duration-slow) var(--ease-smooth-out) backwards;
 	}
 
 	.g-arrow {
 		stroke: color-mix(in oklab, var(--color-muted-foreground, gray) 55%, transparent);
-		transition: stroke var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+		transition: stroke var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	.g-arrow-lit {
@@ -89,12 +90,11 @@
 	.g-arrow-line {
 		stroke-dasharray: 1;
 		stroke-dashoffset: 0;
-		animation: g-draw var(--duration-slow, 300ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) 300ms backwards;
+		animation: g-draw var(--duration-slow) var(--ease-smooth-out) 300ms backwards;
 	}
 
 	.g-arrow-head {
-		animation: g-fade var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out) 700ms backwards;
+		animation: g-fade var(--duration-quick) var(--ease-smooth-out) 700ms backwards;
 	}
 
 	@keyframes g-today-in {

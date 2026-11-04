@@ -68,7 +68,7 @@
 		oninput={(event) => write({ subject: event.currentTarget.value })}
 		aria-label="Subject"
 		{disabled}
-		class="bg-background"
+		class="bg-card"
 	/>
 	<Textarea
 		bind:ref={bodyEl}
@@ -76,7 +76,7 @@
 		oninput={(event) => write({ body: event.currentTarget.value })}
 		aria-label="Email body"
 		{disabled}
-		class="bg-background min-h-28 text-sm"
+		class="bg-card min-h-28 text-sm"
 	/>
 	<p class="text-muted-foreground text-xs" aria-live="polite">
 		{edited ? "Edited by you. Send uses your text." : "The agent's draft. Edit it before you send."}

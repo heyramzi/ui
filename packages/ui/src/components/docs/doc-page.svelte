@@ -89,9 +89,7 @@
 >
 	{#if hasRail}
 		<!-- Below the rail's width the contents sit on a strip that stays put. -->
-		<div
-			class="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur @3xl/page:hidden"
-		>
+		<div class="sticky top-0 z-20 border-b border-border bg-card/95 backdrop-blur @3xl/page:hidden">
 			<OnThisPage
 				variant="bar"
 				items={headings}

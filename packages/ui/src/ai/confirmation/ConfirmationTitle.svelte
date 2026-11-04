@@ -15,10 +15,7 @@
 </script>
 
 <p
-	class={cn(
-		"text-[11px] font-medium uppercase tracking-[0.16em] text-[color:var(--muted-foreground,inherit)]",
-		className,
-	)}
+	class={cn("text-2xs font-medium text-[color:var(--muted-foreground,inherit)]", className)}
 	{...rest}
 >
 	{@render children?.()}

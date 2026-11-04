@@ -16,7 +16,7 @@
 	interface Props {
 		/** Fill the row rather than sit at its natural width. */
 		fill?: boolean;
-		/** `pill`, a bordered well with a travelling highlight, or `underline`, a travelling rule. */
+		/** `pill`, a grey track with a white thumb that slides, or `underline`, a travelling rule. */
 		variant?: SegmentedVariant;
 		class?: string;
 		children: Snippet;
@@ -64,45 +64,6 @@
 <!-- STYLES -->
 <!-- =========================== -->
 <style>
-	/* Inset separators keep the strip one bordered object. */
-	.track :global(.ui-segment)::before {
-		content: "";
-		position: absolute;
-		top: 22%;
-		bottom: 22%;
-		left: 0;
-		width: 1px;
-		background-color: var(--color-border);
-		transition: opacity var(--duration-fast) var(--ease-smooth-out);
-		pointer-events: none;
-	}
-
-	.track :global(.pill + .ui-segment)::before,
-	.track :global([data-slot="tabs-list"] > .ui-segment:first-child)::before {
-		display: none;
-	}
-
-	/* The highlight and hover wash hide the seams on either side. */
-	.track :global(.ui-segment[data-state="active"])::before,
-	.track :global(.ui-segment[aria-current="page"])::before,
-	.track :global(.ui-segment[aria-pressed="true"])::before,
-	.track :global(.ui-segment[data-state="active"] + .ui-segment)::before,
-	.track :global(.ui-segment[aria-current="page"] + .ui-segment)::before,
-	.track :global(.ui-segment[aria-pressed="true"] + .ui-segment)::before,
-	.track
-		:global(
-			[data-slot="tabs-list"]:has(> .ui-segment:last-child[data-state="active"]) + .ui-segment
-		)::before {
-		opacity: 0;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.track :global(.ui-segment:hover)::before,
-		.track :global(.ui-segment:hover + .ui-segment)::before {
-			opacity: 0;
-		}
-	}
-
 	/* The label's colour lands with the pill, on the same fast step. */
 	.track :global(.ui-segment) {
 		transition:
@@ -122,7 +83,7 @@
 						[data-state="open"]
 					)
 			) {
-			background-color: color-mix(in oklch, var(--color-muted) 55%, transparent);
+			background-color: color-mix(in oklch, var(--color-foreground) 5%, transparent);
 		}
 	}
 
@@ -134,17 +95,18 @@
 		z-index: 0;
 		width: 0;
 		opacity: 0;
-		/* Concentric with the border and the 2px inset. */
-		border-radius: calc(var(--radius-lg) - 3px);
-		background-color: var(--color-muted);
-		box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-foreground) 6%, transparent);
+		/* The white thumb on the grey track. Concentric: the track's control radius less its
+		   2px inset. The resting button shadow lifts it; no border, so no seam to fight. */
+		border-radius: calc(var(--radius-lg) - 2px);
+		background-color: var(--color-card);
+		box-shadow: var(--elev-btn), var(--elev-hairline);
 		transform: translateX(0);
 		/* transitions-dev `16-tabs-sliding`: the fast step, 250ms. */
 		transition:
 			transform var(--duration-fast) var(--ease-smooth-out),
 			width var(--duration-fast) var(--ease-smooth-out),
 			opacity var(--duration-quick) var(--ease-smooth-out);
-		will-change: transform, width;
+		will-change: transform;
 		pointer-events: none;
 	}
 
@@ -152,16 +114,20 @@
 	   so a server-rendered strip is right before any JS arrives. */
 	.track:not([data-pill="on"])
 		:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
-		background-color: var(--color-muted);
-		box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-foreground) 6%, transparent);
+		background-color: var(--color-card);
+		box-shadow: var(--elev-btn), var(--elev-hairline);
 	}
 
-	/* The underline: no seams, no wash, and the pill becomes a 2px rule on the
+	/* On dark the card is the darker surface, so the thumb lifts toward the text instead. */
+	:global(.dark) .pill,
+	:global(.dark)
+		.track:not([data-pill="on"])
+		:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
+		background-color: color-mix(in oklch, var(--color-foreground) 14%, var(--color-card));
+	}
+
+	/* The underline: no wash, and the pill becomes a 2px rule on the
 	   hairline. `--segmented-rule` lets a brand colour it from a class. */
-	.track[data-variant="underline"] :global(.ui-segment)::before {
-		display: none;
-	}
-
 	@media (hover: hover) {
 		.track[data-variant="underline"]
 			:global(

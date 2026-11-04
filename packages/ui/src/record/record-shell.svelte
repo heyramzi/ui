@@ -62,7 +62,7 @@
 <!-- =========================== -->
 <!-- WHY a container query: the record sits in a page with its own sidebar, so the
      viewport says nothing about how much room it has. -->
-<div class={cn("@container flex min-w-0 flex-col bg-background", className)}>
+<div class={cn("@container flex min-w-0 flex-col bg-card", className)}>
 	{@render header()}
 	{@render banner?.()}
 

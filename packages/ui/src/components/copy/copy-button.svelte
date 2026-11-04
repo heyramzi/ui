@@ -105,35 +105,36 @@
 	title={label}
 	aria-label={announce === "name" && copied ? copiedLabel : label}
 	class={cn(
-		"group/copy t-press shrink-0 outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+		"group/copy t-press shrink-0 outline-none focus-visible:shadow-(--ring-focus)",
 		text === undefined
 			? size === "sm"
-				? "grid size-5 place-items-center rounded-md hover:bg-accent"
+				? "grid size-5 place-items-center rounded-sm transition-colors duration-quick ease-smooth-out hover:bg-foreground/6 motion-reduce:transition-none"
 				: buttonVariants({
 						variant: variant === "outline" ? "outline" : "ghost",
 						size: size === "md" ? "sm" : "default",
 						icon: true,
 					})
 			: inline
-				? "inline-flex cursor-copy items-baseline gap-1.5 transition-colors hover:text-foreground"
-				: "flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-xs tabular-nums text-muted-foreground/70 transition-colors hover:bg-muted hover:text-foreground",
+				? "inline-flex cursor-copy items-baseline gap-1.5 transition-colors duration-quick ease-smooth-out hover:text-foreground motion-reduce:transition-none"
+				: "flex items-center gap-1 rounded-sm px-1.5 py-0.5 font-mono text-xs tabular-nums text-muted-foreground transition-colors duration-quick ease-smooth-out hover:bg-foreground/6 hover:text-foreground motion-reduce:transition-none",
 		className,
 	)}
 >
 	<!-- One slot, two glyphs, per the transitions-dev icon-swap: the check
-	     arrives on the bounce, the copy glyph leaves without one. -->
+	     grows in from half size, the copy glyph only fades. Reduced motion keeps the fade. -->
 	<span
 		class={cn(
 			"relative grid place-items-center",
 			text === undefined && size !== "sm" ? "size-4" : "size-3",
-			inline && "order-last self-center opacity-60 transition-opacity group-hover/copy:opacity-100",
+			inline &&
+				"order-last self-center opacity-60 transition-opacity duration-quick ease-smooth-out group-hover/copy:opacity-100",
 		)}
 	>
 		<Check
 			class={cn(
-				"col-start-1 row-start-1 size-full transition-[opacity,transform] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]",
+				"col-start-1 row-start-1 size-full transition-[opacity,transform] duration-fast ease-smooth-out motion-reduce:transition-opacity",
 				inline ? "text-current" : "text-success-800 dark:text-success-400",
-				copied ? "scale-100 opacity-100" : "scale-50 opacity-0",
+				copied ? "scale-100 opacity-100" : "scale-50 opacity-0 motion-reduce:scale-100",
 			)}
 			weight="bold"
 			aria-hidden="true"
@@ -141,7 +142,7 @@
 		{#if agent}
 			<StarFour
 				class={cn(
-					"col-start-1 row-start-1 size-full text-brand/70 transition-[opacity,color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-hover/copy:text-brand",
+					"col-start-1 row-start-1 size-full text-brand/70 transition-[opacity,color] duration-fast ease-smooth-out motion-reduce:transition-opacity group-hover/copy:text-brand",
 					copied ? "opacity-0" : "opacity-100",
 				)}
 				weight="bold"
@@ -150,7 +151,7 @@
 		{:else}
 			<Copy
 				class={cn(
-					"col-start-1 row-start-1 size-full transition-[opacity,color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)]",
+					"col-start-1 row-start-1 size-full transition-[opacity,color] duration-fast ease-smooth-out motion-reduce:transition-opacity",
 					inline ? "text-current" : "text-muted-foreground group-hover/copy:text-foreground",
 					copied ? "opacity-0" : "opacity-100",
 				)}

@@ -2,6 +2,7 @@
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
 	import { cn } from "#src/lib/utils.js";
+	import WorkWell from "#src/components/work-parts/work-well.svelte";
 
 	interface Props extends HTMLAttributes<HTMLDivElement> {
 		/** Any CSS color. Only shows while a card is held over the column. */
@@ -34,13 +35,6 @@
 		bodyClass,
 		...restProps
 	}: Props = $props();
-
-	// A column rests neutral. Its hue shows only while a card is held over it.
-	let style = $derived(
-		hue && active
-			? `background: color-mix(in oklch, ${hue} 8%, var(--color-muted, transparent)); outline: 1px solid color-mix(in oklch, ${hue} 30%, transparent);`
-			: undefined,
-	);
 </script>
 
 <div
@@ -53,14 +47,12 @@
 		className,
 	)}
 >
-	<div
+	<WorkWell
 		role="region"
 		aria-label={ariaLabel}
-		class={cn(
-			"flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto overflow-x-hidden rounded-xl bg-muted/50 p-1.5 outline-offset-[-1px] transition-[background-color,outline-color] duration-[var(--duration-quick,120ms)] ease-[var(--ease-smooth-out,ease-out)] dark:bg-muted/30",
-			bodyClass,
-		)}
-		{style}
+		{hue}
+		{active}
+		class={cn("flex-1", bodyClass)}
 		{ondragover}
 		{ondragleave}
 		{ondrop}
@@ -69,7 +61,7 @@
 			{@render header()}
 		</div>
 		{@render children()}
-	</div>
+	</WorkWell>
 </div>
 
 <style>
@@ -79,7 +71,7 @@
 		flex: 1 1 0;
 		min-width: var(--kanban-column-min, 280px);
 		max-width: var(--kanban-column-max, 420px);
-		transition: opacity var(--duration-quick, 120ms) var(--ease-smooth-out, ease-out);
+		transition: opacity var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	/* A board under 40rem wide (a phone, a side panel) shows one column and a peek of the next, as 82vw did on a phone. */

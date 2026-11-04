@@ -2,8 +2,9 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { Plus, X } from "phosphor-svelte";
+	import { Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import TagChip from "#src/components/chip/tag-chip.svelte";
 	import {
 		addTag,
 		canCreate,
@@ -105,9 +106,7 @@
 					...(creatable ? [{ kind: "create" as const, name: query.trim() }] : []),
 				],
 	);
-	const nothing = $derived(
-		!free && editing && !full && query.trim() !== "" && rows.length === 0,
-	);
+	const nothing = $derived(!free && editing && !full && query.trim() !== "" && rows.length === 0);
 	const open = $derived(editing && !full && (rows.length > 0 || nothing));
 
 	// =========================
@@ -129,8 +128,7 @@
 		queueMicrotask(() => input?.focus());
 	}
 
-	// Leaving the field keeps what was typed only when it is an existing label said another way.
-	// Anything else is dropped unless the field is free: free text is never saved by walking away.
+	// Blur keeps typed text only when it's an existing label spelt another way, or the field is free.
 	function stop() {
 		const typed = query;
 		query = "";
@@ -219,31 +217,19 @@
 
 <!-- =========================== -->
 <!-- MARKUP -->
-<!-- WHY: the edit frame is --radius-lg with 4px of padding, so the chip inside is --radius-xs
-     (8 - 4), and a read-state chip on its own takes --radius-sm. -->
+<!-- WHY: the chips are TagChip at --radius-sm (6px); the edit frame is --radius-lg (10px), which
+     is 6 plus its 4px of padding, so the curves stay concentric. -->
 <!-- WHY text-base on the input: below 16px iOS zooms the page when it gets focus. -->
 <!-- =========================== -->
 {#snippet chip(tag: string, removable: boolean)}
-	<span
-		class={cn(
-			"inline-flex h-5 max-w-full items-center gap-0.5 bg-muted px-1.5 text-xs font-medium text-foreground",
-			removable ? "rounded-(--radius-xs) pr-0.5" : "rounded-(--radius-sm)",
-		)}
+	<TagChip
+		title={tag}
+		removeLabel={text.remove(tag)}
+		removeFocusable={false}
+		onremove={removable ? () => commit(removeTag(tags, tag)) : undefined}
 	>
-		<span class="truncate" title={tag}>{tag}</span>
-		{#if removable}
-			<button
-				type="button"
-				tabindex="-1"
-				class="relative grid size-4 shrink-0 place-items-center rounded-(--radius-xs) text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground before:absolute before:-inset-1.5 before:content-['']"
-				aria-label={text.remove(tag)}
-				onmousedown={(e) => e.preventDefault()}
-				onclick={() => commit(removeTag(tags, tag))}
-			>
-				<X class="size-3" weight="bold" aria-hidden="true" />
-			</button>
-		{/if}
-	</span>
+		{tag}
+	</TagChip>
 {/snippet}
 
 <div
@@ -254,7 +240,7 @@
 >
 	{#if editing}
 		<div
-			class="-ml-1.5 flex min-h-7 flex-wrap items-center gap-1 rounded-lg bg-background p-1 ring-1 ring-ring/60 focus-within:ring-2 focus-within:ring-ring"
+			class="-ml-1.5 flex min-h-7 flex-wrap items-center gap-1 rounded-lg bg-card p-1 ring-1 ring-ring/60 focus-within:ring-2 focus-within:ring-ring"
 		>
 			{#each tags as tag (tag.toLowerCase())}
 				{@render chip(tag, true)}
@@ -288,7 +274,7 @@
 				id={listId}
 				role="listbox"
 				aria-label={label}
-				class="absolute top-full left-0 z-50 mt-1 max-h-60 w-full min-w-48 overflow-y-auto rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-(--elev-overlay)"
+				class="absolute top-full left-0 z-50 mt-1 max-h-60 w-full min-w-48 overflow-y-auto rounded-xl bg-popover p-1 text-popover-foreground shadow-edge-raised"
 			>
 				{#each rows as row, index (row.kind + row.name)}
 					<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -298,7 +284,7 @@
 						aria-selected={index === active}
 						class={cn(
 							"flex min-h-8 cursor-default items-center gap-2 rounded-lg px-2 text-sm any-pointer-coarse:min-h-11",
-							index === active && "bg-accent text-accent-foreground",
+							index === active && "bg-foreground/6 text-foreground",
 						)}
 						onmousedown={(e) => e.preventDefault()}
 						onmousemove={() => (active = index)}
@@ -321,7 +307,7 @@
 		<button
 			type="button"
 			class={cn(
-				"-ml-1.5 flex min-h-7 w-full flex-wrap items-center gap-1 rounded-lg px-1.5 py-1 text-left transition-colors outline-none hover:bg-muted/60 focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none",
+				"-ml-1.5 flex min-h-7 w-full flex-wrap items-center gap-1 rounded-lg px-1.5 py-1 text-left transition-colors outline-none duration-quick ease-smooth-out hover:bg-foreground/4 focus-visible:shadow-(--ring-focus) disabled:pointer-events-none motion-reduce:transition-none",
 			)}
 			aria-label={label}
 			{disabled}

@@ -6,6 +6,8 @@
 	import { AgentAvatar } from "#src/agents/index.js";
 	import RichRenderer from "#src/editor/renderer.svelte";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
+	import { Button } from "#src/shadcn/button/index.js";
+	import { TagChip } from "#src/components/chip/index.js";
 	import ThreadBody from "#src/thread/thread-body.svelte";
 	import ThreadEvents from "#src/thread/thread-events.svelte";
 	import {
@@ -152,20 +154,15 @@
 			class="block max-h-60 min-h-16 w-full resize-none border-0 bg-transparent px-3 py-2 text-sm leading-relaxed outline-none [field-sizing:content] placeholder:text-muted-foreground"
 		></textarea>
 		<div class="flex justify-end px-2 pb-2">
-			<button
-				type="button"
-				class="thread-button thread-primary"
-				onclick={onSend}
-				disabled={!value.trim() || sending}
-			>
+			<Button size="sm" onclick={onSend} disabled={!value.trim() || sending}>
 				{sending ? labels.sending : isReply ? labels.reply : labels.send}
-			</button>
+			</Button>
 		</div>
 	</div>
 {/snippet}
 
 {#snippet row(comment: ThreadComment, isRoot: boolean)}
-	<div class="group/row relative flex gap-3">
+	<div class="group/row hover-row relative flex gap-3">
 		<span class="relative size-6 shrink-0">
 			{#if avatar}
 				{@render avatar(comment)}
@@ -185,7 +182,7 @@
 
 		<div class="min-w-0 flex-1">
 			<div class="flex min-h-6 flex-wrap items-center gap-x-2">
-				<span class="truncate text-[13px] font-medium">{comment.author.name}</span>
+				<span class="truncate text-(length:--text-control) font-medium">{comment.author.name}</span>
 				{#if comment.author.kind === "agent"}
 					<span class="sr-only">{labels.agent}</span>
 				{/if}
@@ -197,35 +194,40 @@
 					{#if anchorChip}
 						{@render anchorChip(comment)}
 					{:else if onAnchor}
-						<button type="button" class="thread-chip" onclick={() => onAnchor(comment)}>
-							<MapPin class="size-3" aria-hidden="true" />{labels.pinned}
-						</button>
+						<button
+							type="button"
+							class="rounded-sm outline-none focus-visible:shadow-[var(--ring-focus)]"
+							onclick={() => onAnchor(comment)}
+							><TagChip
+								>{#snippet icon()}<MapPin aria-hidden="true" />{/snippet}{labels.pinned}</TagChip
+							></button
+						>
 					{:else}
-						<span class="thread-chip"
-							><MapPin class="size-3" aria-hidden="true" />{labels.pinned}</span
+						<TagChip
+							>{#snippet icon()}<MapPin aria-hidden="true" />{/snippet}{labels.pinned}</TagChip
 						>
 					{/if}
 				{/if}
 				{#if editingId !== comment.id}
-					<span
-						class="ms-auto flex gap-0.5 opacity-0 transition-opacity group-hover/row:opacity-100 focus-within:opacity-100 [@media(hover:none)]:opacity-100"
-					>
+					<span class="row-action ms-auto flex gap-0.5">
 						{#if isRoot && onResolve}
-							<button
-								type="button"
-								class="thread-icon"
+							<Button
+								variant="ghost"
+								size="sm"
+								icon
 								aria-label={comment.resolved ? labels.unresolve : labels.resolve}
 								aria-pressed={comment.resolved ?? false}
 								onclick={() => onResolve(comment, !comment.resolved)}
 							>
 								<Check class="size-3.5" aria-hidden="true" />
-							</button>
+							</Button>
 						{/if}
 						{#if canEdit(comment)}
 							{#if onEdit && !comment.content}
-								<button
-									type="button"
-									class="thread-icon"
+								<Button
+									variant="ghost"
+									size="sm"
+									icon
 									aria-label={labels.edit}
 									onclick={() => {
 										editingId = comment.id;
@@ -233,17 +235,18 @@
 									}}
 								>
 									<PencilSimple class="size-3.5" aria-hidden="true" />
-								</button>
+								</Button>
 							{/if}
 							{#if onDelete}
-								<button
-									type="button"
-									class="thread-icon"
+								<Button
+									variant="ghost"
+									size="sm"
+									icon
 									aria-label={labels.delete}
 									onclick={() => onDelete?.(comment)}
 								>
 									<Trash class="size-3.5" aria-hidden="true" />
-								</button>
+								</Button>
 							{/if}
 						{/if}
 					</span>
@@ -255,20 +258,20 @@
 					bind:value={editDraft}
 					rows={3}
 					aria-label={labels.edit}
-					class="mt-1 w-full resize-y rounded-md border border-input bg-transparent px-2.5 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+					class="mt-1 w-full resize-y rounded-md border border-input bg-transparent px-2.5 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:shadow-(--ring-focus)"
 				></textarea>
 				<div class="mt-2 flex justify-end gap-1.5">
-					<button type="button" class="thread-button" onclick={() => (editingId = null)}
-						>{labels.cancel}</button
+					<Button variant="ghost" size="sm" onclick={() => (editingId = null)}
+						>{labels.cancel}</Button
 					>
-					<button
-						type="button"
-						class="thread-button thread-primary"
-						onclick={() => saveEdit(comment)}>{labels.save}</button
-					>
+					<Button size="sm" onclick={() => saveEdit(comment)}>{labels.save}</Button>
 				</div>
 			{:else if comment.content}
-				<div class="text-sm leading-relaxed"><RichRenderer content={comment.content} /></div>
+				<div
+					class="text-sm leading-relaxed [--content-gap:0.5em] [--content-leading:1.625] [--content-size:var(--text-sm)]"
+				>
+					<RichRenderer content={comment.content} />
+				</div>
 			{:else}
 				<ThreadBody text={comment.body} more={labels.showMore} less={labels.showLess} />
 			{/if}
@@ -280,16 +283,18 @@
 
 <section aria-label={labels.title} class={cn("flex flex-col gap-3", className)}>
 	<div class={cn("flex h-7 items-center justify-between", !heading && resolved === 0 && "sr-only")}>
-		<h2 class={cn("text-xs font-medium text-muted-foreground", !heading && "sr-only")}>{labels.title}</h2>
+		<h2 class={cn("text-xs font-medium text-muted-foreground", !heading && "sr-only")}>
+			{labels.title}
+		</h2>
 		{#if resolved > 0}
-			<button
-				type="button"
-				class="thread-button"
+			<Button
+				variant="ghost"
+				size="sm"
 				aria-expanded={showResolved}
 				onclick={() => (showResolved = !showResolved)}
 			>
 				{showResolved ? labels.hideResolved : fillCount(labels.showResolved, resolved)}
-			</button>
+			</Button>
 		{/if}
 	</div>
 
@@ -339,16 +344,17 @@
 									)}
 								</div>
 							{:else}
-								<button
-									type="button"
-									class="thread-button ms-9 flex w-fit items-center gap-1.5"
+								<Button
+									variant="ghost"
+									size="sm"
+									class="ms-9 w-fit"
 									onclick={() => {
 										replyTo = node.comment.id;
 										replyDraft = "";
 									}}
 								>
 									<ArrowBendDownRight class="size-3.5" aria-hidden="true" />{labels.reply}
-								</button>
+								</Button>
 							{/if}
 						{/if}
 					</li>
@@ -356,7 +362,7 @@
 			{/each}
 		</ol>
 	{:else if !onPost}
-		<p class="text-[13px] text-muted-foreground">{labels.empty}</p>
+		<p class="text-(length:--text-control) text-muted-foreground">{labels.empty}</p>
 	{/if}
 
 	{@render footer?.()}
@@ -365,91 +371,3 @@
 		{@render composer(draft, labels.placeholder, sendRoot, (next) => (draft = next), false)}
 	{/if}
 </section>
-
-<style>
-	.thread-icon {
-		display: grid;
-		place-items: center;
-		width: 1.75rem;
-		height: 1.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		color: var(--color-muted-foreground);
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	.thread-chip {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-		height: 1.25rem;
-		padding-inline: 0.375rem;
-		border-radius: var(--radius-sm, 0.25rem);
-		background: var(--color-muted);
-		color: var(--color-muted-foreground);
-		font-size: 0.75rem;
-		outline: none;
-	}
-
-	button.thread-chip:focus-visible {
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.thread-icon:hover {
-			background: var(--color-muted);
-			color: var(--color-foreground);
-		}
-	}
-
-	.thread-icon:focus-visible,
-	.thread-button:focus-visible {
-		box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ring) 50%, transparent);
-	}
-
-	.thread-button {
-		height: 1.75rem;
-		padding-inline: 0.75rem;
-		border-radius: var(--radius-md, 0.5rem);
-		font-size: 0.8125rem;
-		font-weight: 500;
-		outline: none;
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.thread-button:hover:not(:disabled) {
-			background: var(--color-muted);
-		}
-	}
-
-	.thread-button:disabled {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-
-	.thread-primary {
-		background: var(--color-primary);
-		color: var(--color-primary-foreground);
-	}
-
-	/* An empty draft reads as an outlined button, not a faded fill. */
-	.thread-primary:disabled {
-		opacity: 1;
-		background: transparent;
-		box-shadow: inset 0 0 0 1px var(--color-border);
-		color: var(--color-muted-foreground);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.thread-primary:hover:not(:disabled) {
-			background: color-mix(in oklab, var(--color-primary) 90%, transparent);
-		}
-	}
-
-	@media (any-pointer: coarse) {
-		.thread-button {
-			height: 2.5rem;
-		}
-	}
-</style>

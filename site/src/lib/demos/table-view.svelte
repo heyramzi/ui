@@ -24,12 +24,5 @@
 </script>
 
 <SectionCard title="Quote lines" flush class="w-full max-w-2xl">
-	<TableView
-		{columns}
-		rows={lines}
-		rowKey={(row) => row.id}
-		label="Quote lines"
-		{footer}
-		class="rounded-none border-0"
-	/>
+	<TableView {columns} rows={lines} rowKey={(row) => row.id} label="Quote lines" {footer} />
 </SectionCard>

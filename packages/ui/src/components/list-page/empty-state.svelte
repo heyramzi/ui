@@ -36,16 +36,18 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<!-- The four parts arrive in reading order. The stagger is what says the page
-     finished loading and is simply empty. -->
+<!-- transitions-dev texts reveal: the parts arrive in reading order, so the page reads as
+     loaded and empty. Reduced motion keeps the fade. -->
 <Empty.Root class="t-empty py-16">
 	<Empty.Header class="max-w-md">
 		{#if Icon}
-			<Empty.Media class="mb-4 size-16 rounded-2xl bg-brand/10 text-brand">
-				<Icon weight={iconWeight} class="size-8" />
+			<!-- A white tile, not a brand tint: the accent marks the one action (DESIGN.md
+			     rule 1), and the button below is it. -->
+			<Empty.Media class="mb-3 size-12 rounded-xl bg-card text-foreground shadow-card">
+				<Icon weight={iconWeight} class="size-6" />
 			</Empty.Media>
 		{/if}
-		<Empty.Title class="font-heading text-lg font-semibold [overflow-wrap:anywhere]"
+		<Empty.Title class="font-heading text-base font-semibold text-balance [overflow-wrap:anywhere]"
 			>{title}</Empty.Title
 		>
 		{#if description}
@@ -84,10 +86,16 @@
 		}
 	}
 
+	@keyframes -global-t-empty-fade {
+		from {
+			opacity: 0;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		:global(.t-empty) > :global(*) {
-			animation-duration: 1ms;
-			animation-delay: 0ms;
+			animation-name: t-empty-fade;
+			animation-delay: 0s;
 		}
 	}
 </style>

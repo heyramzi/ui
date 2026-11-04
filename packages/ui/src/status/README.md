@@ -15,4 +15,4 @@ Status badge, dot and icon from one map. `defineStatuses` builds the map, and th
 <StatusBadge {statuses} status="sent" />
 ```
 
-Exports: `StatusBadge`, `StatusDot`, `StatusIcon`, `defineStatuses` and the types `StatusDef`, `StatusDotVariant`, `StatusId`, `StatusMap`, `Statuses`. The old subpaths `tasks/status`, `tasks/status-dot` and `tasks/statuses` resolve to the same files.
+Exports: `StatusBadge`, `StatusPill` (the tinted pill StatusBadge draws, for an organism that has its own icon and label), `StatusDot`, `StatusIcon`, `defineStatuses` and the types `StatusDef`, `StatusDotVariant`, `StatusId`, `StatusMap`, `Statuses`. The old subpaths `tasks/status`, `tasks/status-dot` and `tasks/statuses` resolve to the same files.

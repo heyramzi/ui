@@ -171,15 +171,16 @@
 			{/each}
 		</span>
 	{:else if row.tone && row.value}
-		<StatusBadge tone={row.tone} capitalize={false} class="w-fit max-w-full">{row.value}</StatusBadge>
+		<StatusBadge tone={row.tone} capitalize={false} class="w-fit max-w-full"
+			>{row.value}</StatusBadge
+		>
 	{:else if row.href && row.value}
 		<a
 			href={row.href}
 			title={row.value}
 			class={cn(
 				"min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline",
-				clamp &&
-					"rounded-xs focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+				clamp && "rounded-xs focus-visible:shadow-(--ring-focus) focus-visible:outline-none",
 			)}>{row.value}</a
 		>
 	{:else if row.value}
@@ -299,12 +300,10 @@
 {:else if shown.length > 0}
 	<div class={cn("flex flex-col gap-2", className)}>
 		{#if title}
-			<h2 class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{title}</h2>
+			<h2 class="text-xs font-medium text-muted-foreground">{title}</h2>
 		{/if}
 		<!-- Labels size to their text, capped at 45%; the dt's min-w-20 is the 5rem floor. min() can't take max-content, so a min() template is dropped whole. -->
-		<dl
-			class="grid grid-cols-[fit-content(45%)_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5"
-		>
+		<dl class="grid grid-cols-[fit-content(45%)_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5">
 			{#each shown as row, index (row.divider ? `divider-${index}` : keyOf(row))}
 				{#if row.divider}
 					<div class="col-span-2 -my-0.5 border-t border-border/50"></div>
@@ -355,7 +354,7 @@
 								<Select.Trigger
 									size="sm"
 									aria-label={t.edit(row.label)}
-									class="-ml-1.5 min-h-7 h-auto w-fit max-w-full gap-1.5 border-transparent bg-transparent px-1.5 shadow-none transition-colors hover:bg-muted/60 focus-visible:ring-3 data-[state=open]:bg-muted/60"
+									class="-ml-1.5 min-h-7 h-auto w-fit max-w-full gap-1.5 border-transparent bg-transparent px-1.5 shadow-none transition-colors hover:bg-muted/60 focus-visible:shadow-(--ring-focus) data-[state=open]:bg-muted/60"
 								>
 									<span data-slot="select-value" class="flex min-w-0 items-center gap-1.5">
 										{@render display(row)}

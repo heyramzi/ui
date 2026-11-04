@@ -2,11 +2,15 @@
 	import type { Snippet } from "svelte";
 	import { flip } from "svelte/animate";
 	import { cubicOut } from "svelte/easing";
+	import { durationMs } from "#src/lib/motion.js";
 	import { liftDragImage } from "#src/work/kanban-drag.js";
 	import { boardOrderAt } from "#src/work/board-order.js";
 	import { cn } from "#src/lib/utils.js";
 	import { createKanbanDnd } from "#src/work/use-kanban-dnd.svelte.js";
 	import { CaretRight } from "phosphor-svelte";
+	import { Button } from "#src/shadcn/button/index.js";
+	import GroupHead from "#src/components/work-parts/group-head.svelte";
+	import { workLooks } from "#src/components/work-parts/looks.js";
 	import type {
 		KanbanColumn as KanbanColumnDef,
 		KanbanMove,
@@ -55,6 +59,10 @@
 		/** Group ids that start folded. */
 		collapsed?: string[];
 		emptyLabel?: string;
+		/** Shows a plus in each default group head that adds a row to that group. */
+		onAdd?: (groupId: string) => void;
+		/** The plus button's accessible name, followed by the group label. */
+		addLabel?: string;
 		isDroppable?: (groupId: string) => boolean;
 		/** Drops the card chrome (border, radius, fill) so the list sits flat on the page. Group dividers stay. */
 		flat?: boolean;
@@ -83,6 +91,8 @@
 		collapsible = true,
 		collapsed = [],
 		emptyLabel = "Nothing here yet",
+		onAdd,
+		addLabel = "Add a task",
 		isDroppable,
 		flat = false,
 		class: className,
@@ -222,20 +232,22 @@
 	>
 		<div
 			class={cn(
-				"sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm",
-				flat ? "bg-background/90" : "bg-card/90",
+				"hover-row sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm",
+				flat ? "bg-card/90" : "bg-card/90",
 				depth === 0 && (head ? "top-9" : "top-0"),
 			)}
 			style:top={depth > 0 ? `${(head ? 2.25 : 0) + depth * 2.5}rem` : undefined}
 			style:padding-inline-start={depth > 0 ? `${0.75 + depth * 1.25}rem` : undefined}
 		>
 			{#if collapsible}
-				<button
-					type="button"
+				<Button
+					variant="ghost"
+					size="sm"
+					icon
 					aria-expanded={open}
 					aria-label="{open ? 'Fold' : 'Unfold'} {group.label}"
 					onclick={() => toggle(group.id)}
-					class="-ml-1 grid size-6 place-items-center rounded-md text-muted-foreground outline-none transition-colors duration-[var(--duration-quick,150ms)] hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
+					class="-ml-1.5 text-muted-foreground"
 				>
 					<span
 						class="tl-chevron size-3.5 [&>svg]:size-full"
@@ -244,23 +256,21 @@
 					>
 						<CaretRight weight="bold" />
 					</span>
-				</button>
+				</Button>
 			{/if}
 			{#if groupHeader}
 				{@render groupHeader(group, context)}
 			{:else}
-				<span class="size-2 shrink-0 rounded-full" style:background={hue}></span>
-				<span class="truncate text-sm font-medium text-foreground">{group.label}</span>
-				<span
-					class="grid h-5 min-w-5 place-items-center rounded-sm bg-foreground/5 px-1 text-xs font-medium text-muted-foreground tabular-nums"
-				>
-					{count.toLocaleString()}
-				</span>
+				<GroupHead
+					label={group.label}
+					{hue}
+					{count}
+					onAdd={onAdd ? () => onAdd(group.id) : undefined}
+					{addLabel}
+				/>
 			{/if}
 			{#if actions}
-				<div
-					class="tl-actions ms-auto flex shrink-0 items-center gap-1 opacity-0 transition-opacity duration-[var(--duration-quick,150ms)] focus-within:opacity-100 any-pointer-coarse:opacity-100"
-				>
+				<div class="tl-actions row-action ms-auto flex shrink-0 items-center gap-1">
 					{@render actions(group, context)}
 				</div>
 			{/if}
@@ -286,10 +296,10 @@
 									: undefined)}
 							aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
 							draggable={draggable ? "true" : undefined}
-							animate:flip={{ duration: 250, easing: cubicOut }}
+							animate:flip={{ duration: () => durationMs("fast"), easing: cubicOut }}
 							ondragstart={draggable
 								? (e) => {
-										liftDragImage(e, -1);
+										liftDragImage(e);
 										dnd.onDragStart(e, id);
 									}
 								: undefined}
@@ -300,7 +310,9 @@
 							onkeydown={draggable ? (e) => onRowKeyDown(e, id) : undefined}
 							style:--tl-i={Math.min(index, STAGGER_CAP)}
 							class={cn(
-								"tl-row relative mx-1.5 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/60",
+								"tl-row relative mx-1.5 outline-none focus-visible:shadow-(--ring-focus)",
+								workLooks.row,
+								workLooks.rowHeight,
 								draggable && "cursor-grab active:cursor-grabbing",
 								dropBefore && "tl-drop-before",
 								dnd.isDragSource(id) && "opacity-40",
@@ -319,9 +331,7 @@
 					{/if}
 
 					{#if rows.length === 0 && children.length === 0 && !active}
-						<p
-							class="mx-1.5 rounded-lg border border-dashed border-border px-3 py-3 text-xs text-muted-foreground"
-						>
+						<p class={cn(workLooks.rowHole, "mx-1.5 px-3 py-3 text-xs text-muted-foreground")}>
 							{emptyLabel}
 						</p>
 					{/if}
@@ -338,7 +348,7 @@
 <div
 	class={cn(
 		"task-list flex min-h-0 flex-1 flex-col overflow-y-auto",
-		flat ? "bg-background" : "rounded-xl border border-border bg-card text-card-foreground",
+		flat ? "bg-card" : workLooks.panel,
 		className,
 	)}
 >
@@ -346,7 +356,7 @@
 		<div
 			class={cn(
 				"sticky top-0 z-20 flex h-9 shrink-0 items-center border-b border-border text-xs font-medium text-muted-foreground backdrop-blur-sm",
-				flat ? "bg-background/90" : "bg-card/90",
+				flat ? "bg-card/90" : "bg-card/90",
 			)}
 		>
 			{@render head()}
@@ -360,17 +370,7 @@
 
 <style>
 	.tl-group {
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
-	}
-
-	.tl-group :global(.tl-actions:focus-within) {
-		opacity: 1;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.tl-group:hover :global(.tl-actions) {
-			opacity: 1;
-		}
+		transition: background-color var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	.tl-group-active {
@@ -378,8 +378,7 @@
 	}
 
 	.tl-chevron {
-		transition: rotate var(--duration-fast, 250ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		transition: rotate var(--duration-fast) var(--ease-smooth-out);
 	}
 
 	.tl-chevron-open {
@@ -392,9 +391,8 @@
 		grid-template-rows: 0fr;
 		opacity: 0;
 		transition:
-			grid-template-rows var(--duration-fast, 250ms)
-				var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			opacity var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+			grid-template-rows var(--duration-fast) var(--ease-smooth-out),
+			opacity var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	.tl-fold-open {
@@ -408,15 +406,14 @@
 	}
 
 	.tl-row {
-		animation: tl-row-in var(--duration-slow, 300ms)
-			var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
-		animation-delay: calc(var(--tl-i, 0) * var(--duration-stagger, 40ms));
-		transition: background-color var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out);
+		animation: tl-row-in var(--duration-slow) var(--ease-smooth-out) backwards;
+		animation-delay: calc(var(--tl-i, 0) * var(--duration-stagger));
+		transition: background-color var(--duration-quick) var(--ease-smooth-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
 		.tl-row:hover {
-			background: color-mix(in oklab, var(--color-foreground, currentColor) 4%, transparent);
+			background: color-mix(in oklab, var(--color-foreground) 4%, transparent);
 		}
 	}
 
@@ -428,9 +425,8 @@
 		left: 0.5rem;
 		right: 0.5rem;
 		height: 2px;
-		border-radius: 1px;
 		background: var(--tl-hue);
-		animation: tl-line-in var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out) both;
+		animation: tl-line-in var(--duration-quick) var(--ease-smooth-out) both;
 	}
 
 	/* A ring where the line starts, so the drop point reads at a glance. */
@@ -441,10 +437,15 @@
 		left: 0.25rem;
 		width: 8px;
 		height: 8px;
-		border-radius: 999px;
-		border: 2px solid var(--tl-hue);
-		background: var(--color-card, white);
-		animation: tl-line-in var(--duration-quick, 150ms) var(--ease-smooth-out, ease-out) both;
+		/* A ring drawn as a gradient, so the line needs no radius or border of its own. */
+		background: radial-gradient(
+			circle closest-side,
+			var(--color-card) calc(50% - 0.5px),
+			var(--tl-hue) 50%,
+			var(--tl-hue) calc(100% - 0.5px),
+			transparent 100%
+		);
+		animation: tl-line-in var(--duration-quick) var(--ease-smooth-out) both;
 	}
 
 	.tl-drop-before::before {
@@ -466,8 +467,8 @@
 	@keyframes tl-row-in {
 		from {
 			opacity: 0;
-			transform: translateY(var(--distance-micro, 4px));
-			filter: blur(var(--blur-small, 2px));
+			transform: translateY(var(--distance-micro));
+			filter: blur(var(--blur-small));
 		}
 	}
 

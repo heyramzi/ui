@@ -8,6 +8,7 @@ import Header from "#src/shadcn/sheet/sheet-header.svelte";
 import Footer from "#src/shadcn/sheet/sheet-footer.svelte";
 import Title from "#src/shadcn/sheet/sheet-title.svelte";
 import Description from "#src/shadcn/sheet/sheet-description.svelte";
+import Body from "#src/shadcn/sheet/sheet-body.svelte";
 
 export {
   Root,
@@ -20,6 +21,7 @@ export {
   Footer,
   Title,
   Description,
+  Body,
   //
   Root as Sheet,
   Close as SheetClose,
@@ -31,4 +33,5 @@ export {
   Footer as SheetFooter,
   Title as SheetTitle,
   Description as SheetDescription,
+  Body as SheetBody,
 };

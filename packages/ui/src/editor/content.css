@@ -3,8 +3,8 @@
    consuming Svelte components. */
 
 .tiptap-content {
-  line-height: 1.75;
-  font-size: 1rem;
+  line-height: var(--content-leading, 1.75);
+  font-size: var(--content-size, 1rem);
   color: var(--color-foreground);
 }
 
@@ -63,7 +63,7 @@
 }
 
 .tiptap-content p {
-  margin-bottom: 1rem;
+  margin-bottom: var(--content-gap, 1rem);
   text-wrap: pretty;
   overflow-wrap: break-word;
 }

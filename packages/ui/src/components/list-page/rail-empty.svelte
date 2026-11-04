@@ -33,7 +33,7 @@
 	{#if Icon}
 		<Icon
 			weight={iconWeight}
-			class={cn("size-6", iconClass ?? "text-muted-foreground/40")}
+			class={cn("size-6", iconClass ?? "text-muted-foreground")}
 			aria-hidden="true"
 		/>
 	{/if}

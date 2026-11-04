@@ -183,7 +183,7 @@
 	</div>
 
 	<div class={narrow ? "mx-auto w-full max-w-[390px]" : "w-full"}>
-		<div class="overflow-hidden rounded-xl border border-border">
+		<div class="overflow-hidden rounded-xl shadow-card">
 			{#if fixture === "project"}
 				<RecordShell
 					bind:tab
@@ -320,9 +320,7 @@
 					{#snippet rail()}
 						<div class="flex flex-col gap-6">
 							<section class="flex flex-col gap-2">
-								<h2 class="px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-									Projects
-								</h2>
+								<h2 class="px-2 text-xs font-medium text-muted-foreground">Projects</h2>
 								<ProjectList projects={summaries} {stages} today={DEMO_TODAY} {locale} />
 							</section>
 							<FieldSection

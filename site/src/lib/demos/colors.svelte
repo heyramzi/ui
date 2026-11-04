@@ -30,7 +30,7 @@
 <div class="flex w-full max-w-3xl flex-col gap-6">
 	{#each groups as group (group.title)}
 		<div>
-			<p class="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+			<p class="mb-2 text-xs font-medium text-muted-foreground">
 				{group.title}
 			</p>
 			<div class="grid grid-cols-2 gap-2 sm:grid-cols-4">

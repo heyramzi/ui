@@ -151,7 +151,7 @@
 
 	.sd-fill {
 		transform-origin: 7px 7px;
-		animation: sd-fill-in var(--duration-slow, 300ms) var(--ease-smooth-out, ease-out) forwards;
+		animation: sd-fill-in var(--duration-slow) var(--ease-smooth-out) forwards;
 	}
 
 	@keyframes sd-fill-in {
@@ -167,17 +167,13 @@
 
 	.sd-pop {
 		transform-origin: 7px 7px;
-		animation: sd-pop-in var(--duration-medium, 280ms) var(--ease-smooth-out, ease-out) forwards;
+		animation: sd-pop-in var(--duration-medium) var(--ease-smooth-out) forwards;
 	}
 
 	@keyframes sd-pop-in {
 		from {
 			transform: scale(0.4);
 			opacity: 0;
-		}
-		60% {
-			transform: scale(1.08);
-			opacity: 1;
 		}
 		to {
 			transform: scale(1);
@@ -188,19 +184,18 @@
 	.sd-check {
 		stroke-dasharray: 12;
 		stroke-dashoffset: 12;
-		animation: sd-trace var(--duration-medium, 280ms) var(--ease-smooth-out, ease-out)
-			var(--duration-quick, 120ms) forwards;
+		animation: sd-trace var(--duration-medium) var(--ease-smooth-out) var(--duration-quick) forwards;
 	}
 
 	.sd-cross {
 		stroke-dasharray: 6;
 		stroke-dashoffset: 6;
-		animation: sd-trace calc(var(--duration-fast, 160ms) / 2) var(--ease-smooth-out, ease-out)
-			var(--duration-quick, 120ms) forwards;
+		animation: sd-trace calc(var(--duration-fast) / 2) var(--ease-smooth-out) var(--duration-quick)
+			forwards;
 	}
 
 	.sd-cross-second {
-		animation-delay: calc(var(--duration-quick, 120ms) + var(--duration-fast, 160ms) / 2);
+		animation-delay: calc(var(--duration-quick) + var(--duration-fast) / 2);
 	}
 
 	@keyframes sd-trace {

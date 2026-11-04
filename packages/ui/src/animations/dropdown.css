@@ -68,36 +68,45 @@
     transform var(--dropdown-close-dur) var(--dropdown-ease),
     opacity var(--dropdown-close-dur) var(--dropdown-ease);
 }
+/* WHY the floating var first: bits-ui computes the exact point on the trigger after
+   a flip or a shift, so a menu nudged off the viewport edge still grows from its
+   trigger. The side and align corners stay as the fallback for a non-bits surface. */
 .t-dropdown[data-side="bottom"][data-align="start"] {
-  transform-origin: top left;
+  transform-origin: var(--bits-floating-transform-origin, top left);
 }
 .t-dropdown[data-side="bottom"][data-align="center"] {
-  transform-origin: top center;
+  transform-origin: var(--bits-floating-transform-origin, top center);
 }
 .t-dropdown[data-side="bottom"][data-align="end"] {
-  transform-origin: top right;
+  transform-origin: var(--bits-floating-transform-origin, top right);
 }
 .t-dropdown[data-side="top"][data-align="start"] {
-  transform-origin: bottom left;
+  transform-origin: var(--bits-floating-transform-origin, bottom left);
 }
 .t-dropdown[data-side="top"][data-align="center"] {
-  transform-origin: bottom center;
+  transform-origin: var(--bits-floating-transform-origin, bottom center);
 }
 .t-dropdown[data-side="top"][data-align="end"] {
-  transform-origin: bottom right;
+  transform-origin: var(--bits-floating-transform-origin, bottom right);
 }
 .t-dropdown[data-side="left"],
 .t-dropdown[data-side="inline-end"] {
-  transform-origin: right center;
+  transform-origin: var(--bits-floating-transform-origin, right center);
 }
 .t-dropdown[data-side="right"],
 .t-dropdown[data-side="inline-start"] {
-  transform-origin: left center;
+  transform-origin: var(--bits-floating-transform-origin, left center);
 }
 
+/* Reduced motion keeps the fade and drops the scale (DESIGN.md rule 13). Same
+   specificity as the state rules above and later, so it wins without !important. */
 @media (prefers-reduced-motion: reduce) {
-  .t-dropdown {
-    transition: none !important;
+  .t-dropdown,
+  .t-dropdown.is-open,
+  .t-dropdown.is-closing,
+  .t-dropdown[data-state] {
+    transform: none;
+    transition-property: opacity;
   }
 }
 

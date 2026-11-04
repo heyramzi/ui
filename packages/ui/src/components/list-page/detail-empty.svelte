@@ -10,8 +10,8 @@
 	// TYPES
 	// =========================
 	interface Props {
-		// Shown when nothing is picked or the board is empty. Both mean "content
-		// goes here", so both get a dashed `border-2` edge.
+		// Shown when nothing is picked or the board is empty. It sits on the white
+		// panel with no frame of its own: a dashed edge drew a box round nothing.
 		icon?: PhosphorIcon;
 		iconWeight?: IconWeight;
 		title: string;
@@ -40,11 +40,6 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div
-	class={cn(
-		"flex h-full items-center justify-center rounded-xl border-2 border-dashed border-border",
-		className,
-	)}
->
+<div class={cn("flex h-full items-center justify-center rounded-xl bg-card", className)}>
 	<EmptyState {icon} {iconWeight} {title} {description} {actionLabel} {actionHref} {onAction} />
 </div>

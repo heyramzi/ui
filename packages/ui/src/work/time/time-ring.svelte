@@ -65,9 +65,8 @@
 <style>
 	.time-ring-arc {
 		transition:
-			stroke-dasharray var(--duration-slow, 300ms)
-				var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			color var(--duration-fast, 250ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+			stroke-dasharray var(--duration-slow) var(--ease-smooth-out),
+			color var(--duration-fast) var(--ease-smooth-out);
 	}
 
 	.time-ring-arc.is-empty {

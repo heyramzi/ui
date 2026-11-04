@@ -37,7 +37,7 @@
 			<SectionLabel class="min-w-0 [overflow-wrap:anywhere]">{title}</SectionLabel>
 			{#if count !== undefined}
 				<span
-					class="shrink-0 rounded-md bg-muted px-1.5 py-0.5 text-xs leading-none font-medium tabular-nums text-muted-foreground"
+					class="shrink-0 rounded-full bg-foreground/6 px-1.5 py-0.5 text-xs leading-none font-medium tabular-nums text-muted-foreground"
 					aria-label={`${count.toLocaleString()} ${countLabel}`}
 				>
 					{count.toLocaleString()}
@@ -45,7 +45,9 @@
 			{/if}
 		</svelte:element>
 		{#if description}
-			<p class="text-sm text-muted-foreground [overflow-wrap:anywhere]">{description}</p>
+			<p class="text-sm text-pretty text-muted-foreground [overflow-wrap:anywhere]">
+				{description}
+			</p>
 		{/if}
 	</div>
 	{#if actions}

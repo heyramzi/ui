@@ -1,10 +1,12 @@
 /* The sheet slide: transitions.dev panel reveal, owned by the sheet. */
 
+/* The same 300ms open and 250ms close as before, named. DESIGN.md hasn't decided
+   whether the sheet takes Vaul's 500ms drawer timing, so the values hold. */
 :root {
-  --sheet-open-dur: 300ms;
-  --sheet-close-dur: 250ms;
+  --sheet-open-dur: var(--duration-slow);
+  --sheet-close-dur: var(--duration-fast);
   --sheet-translate: 100%;
-  --sheet-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sheet-ease: var(--ease-smooth-out);
 }
 
 .t-sheet {
@@ -41,8 +43,12 @@
     opacity var(--sheet-open-dur) var(--sheet-ease);
 }
 
+/* Reduced motion keeps the fade and drops the slide (DESIGN.md rule 13). */
 @media (prefers-reduced-motion: reduce) {
-  .t-sheet {
-    transition: none !important;
+  .t-sheet,
+  .t-sheet[data-side],
+  .t-sheet[data-state] {
+    transform: none;
+    transition-property: opacity;
   }
 }

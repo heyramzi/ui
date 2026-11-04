@@ -245,21 +245,21 @@
 			<Check class="size-2.5" weight="bold" />
 		</span>
 	{:else if kind === "current"}
-		<span class="rounded-full bg-background p-0.75">
+		<span class="rounded-full bg-card p-0.75">
 			<span
 				class="block size-2 rounded-full bg-[color:var(--tone-accent,var(--color-primary))] ring-3 ring-[color-mix(in_oklab,var(--tone-accent,var(--color-primary))_20%,transparent)]"
 			></span>
 		</span>
 	{:else if kind === "late"}
-		<span class="size-2 rounded-full border-2 border-warning bg-background"></span>
+		<span class="size-2 rounded-full border-2 border-warning bg-card"></span>
 	{:else}
-		<span class="size-2 rounded-full border border-muted-foreground/40 bg-background"></span>
+		<span class="size-2 rounded-full border border-muted-foreground/40 bg-card"></span>
 	{/if}
 {/snippet}
 
 <div class={cn("flex flex-col", className)}>
 	<div class="mb-2 flex min-h-7 items-center gap-2 px-2">
-		<h2 class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{t.steps}</h2>
+		<h2 class="text-xs font-medium text-muted-foreground">{t.steps}</h2>
 		{#if !loading}
 			<span class="text-xs tabular-nums text-muted-foreground">
 				{t.stepsCount(progress.done, progress.total)}
@@ -290,9 +290,7 @@
 				<Popover.Content align="end" class="w-64 p-1">
 					{#each menuBuckets as bucket (bucket.key)}
 						{#if bucket.label}
-							<p
-								class="px-2 pt-2 pb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase"
-							>
+							<p class="px-2 pt-2 pb-1 text-xs font-medium text-muted-foreground">
 								{bucket.label}
 							</p>
 						{/if}
@@ -342,9 +340,7 @@
 			{#each buckets as bucket (bucket.key)}
 				<div class="flex flex-col">
 					{#if bucket.label}
-						<h3
-							class="mb-1 px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase select-none"
-						>
+						<h3 class="mb-1 px-2 text-xs font-medium text-muted-foreground select-none">
 							{bucket.label}
 						</h3>
 					{/if}
@@ -375,7 +371,7 @@
 										draggable={canReorder && !renaming}
 										class={cn(
 											"relative flex min-h-9 w-full items-start gap-2.5 rounded-lg px-2 py-2 text-left transition-colors any-pointer-coarse:min-h-11 any-pointer-coarse:py-3",
-											"outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+											"outline-none focus-visible:shadow-(--ring-focus)",
 											canReorder && "active:cursor-grabbing",
 											active ? "bg-muted" : "hover:bg-muted/60",
 										)}

@@ -49,7 +49,7 @@
 			"caret-brand placeholder:text-muted-foreground/70 w-full bg-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
 			// A combobox popover's search line is 36px, measured; `lg` is the
 			// standalone palette header and keeps its own larger rhythm.
-			size === "lg" ? "py-3.5 text-[15px]" : "py-2 text-[13px]",
+			size === "lg" ? "py-3.5 text-[15px]" : "py-2 text-(length:--text-control)",
 			className,
 		)}
 		bind:ref

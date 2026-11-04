@@ -125,7 +125,7 @@
 			<!-- Sticky, because the section tabs live here. `-mx-4 px-4` covers the
 			     gutter, `-mt-4 py-4` pulls the top padding inside the sticky box. -->
 			<div
-				class="@container/toolbar sticky top-0 z-20 -mx-4 -mt-4 bg-background/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/70"
+				class="@container/toolbar sticky top-0 z-20 -mx-4 -mt-4 bg-card/95 px-4 py-4 backdrop-blur supports-[backdrop-filter]:bg-card/70"
 			>
 				<div class={cn("flex flex-wrap items-center gap-2", toolbarClass)}>
 					<!-- The section tabs lead: which page comes before which slice of it.

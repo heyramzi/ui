@@ -26,6 +26,9 @@
 		inboxStates,
 	} from "#src/work/inbox/inbox-statuses.js";
 	import InboxTraceView from "#src/work/inbox/inbox-trace.svelte";
+	import { TagChip } from "#src/components/chip/index.js";
+	import { workLooks } from "#src/components/work-parts/looks.js";
+	import { FolderSimple } from "phosphor-svelte";
 	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
 
 	interface Props {
@@ -173,8 +176,9 @@
 	);
 </script>
 
-<!-- WHY a bordered card only while it waits: a decided or automatic item is a
-     line in a log, so it loses the border and the queue stays scannable. -->
+<!-- WHY a card only while it waits: a decided or automatic item is a line in a log, so it
+     drops to the grey ground and the queue stays scannable. The card step draws its own
+     hairline, so a border on top of it would show a 2px edge. -->
 <!-- WHY a focusable article: j and k move focus card to card, and a screen reader
      reads the card as one labelled unit. -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -186,12 +190,10 @@
 	onfocusin={onselect}
 	onpointerdown={onselect}
 	class={cn(
-		"flex flex-col gap-3 rounded-xl p-3 outline-none transition-[background-color,border-color,box-shadow] duration-[var(--duration-quick,120ms)] ease-[var(--ease-smooth-out,ease-out)]",
-		"focus-visible:ring-ring/50 focus-visible:ring-3",
-		open
-			? "border-border bg-card border shadow-[var(--elev-card,none)]"
-			: "bg-muted/30 border border-transparent",
-		selected && open && "border-ring",
+		"flex flex-col gap-3 p-3 outline-none transition-[background-color,box-shadow] duration-quick ease-smooth-out motion-reduce:transition-none",
+		"focus-visible:shadow-(--ring-focus)",
+		open ? workLooks.panel : cn(workLooks.card, "bg-muted/30"),
+		selected && open && "ring-ring ring-1",
 	)}
 >
 	<header class="flex items-start gap-2.5">
@@ -214,7 +216,7 @@
 				{#if facts.command}
 					<div class="flex flex-col items-start gap-1">
 						<!-- The padding sits on a wrapper: on the clamped box itself, the 4th line showed through it. -->
-						<div class="bg-muted/50 w-full rounded-md px-2.5 py-2">
+						<div class={cn(workLooks.inset, "w-full px-2.5 py-2")}>
 							<pre
 								class={cn(
 									"text-foreground font-mono text-xs leading-5 break-words whitespace-pre-wrap",
@@ -263,6 +265,26 @@
 							{SOURCE_LABEL[item.trace.source.type]}
 						</span>
 					{/if}
+					<span class={FACT}>
+						<!-- The linked record is a chip inside the line, a link when the project has a page. -->
+						{#if item.project.href}
+							<a
+								href={item.project.href}
+								class={workLooks.chipLink}
+								aria-label="Project: {item.project.name}"
+							>
+								<TagChip class="hover:bg-muted">
+									{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
+									{item.project.name}
+								</TagChip>
+							</a>
+						{:else}
+							<TagChip>
+								{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
+								{item.project.name}
+							</TagChip>
+						{/if}
+					</span>
 					{#if time}
 						<span class={cn(FACT, "tabular-nums")}>{time}</span>
 					{/if}
@@ -323,7 +345,7 @@
 				onkeydown={onNoteKeydown}
 				placeholder="Tell the agent what to do instead"
 				aria-label="Note for the agent"
-				class="bg-background min-h-20 text-sm"
+				class="bg-card min-h-20 text-sm"
 			/>
 			<div class="flex flex-wrap items-center gap-2">
 				<Button size="sm" onclick={submitSteer} disabled={!note.trim()}>Send to agent</Button>

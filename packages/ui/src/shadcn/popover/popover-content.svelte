@@ -30,7 +30,7 @@
 		{align}
 		{collisionPadding}
 		class={cn(
-			"t-dropdown bg-popover text-popover-foreground ring-foreground/10 rounded-xl p-4 text-sm shadow-raised ring-1 z-50 w-72 max-h-[var(--bits-floating-available-height,100svh)] max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain outline-hidden",
+			"t-dropdown bg-popover text-popover-foreground rounded-2xl p-4 text-sm shadow-edge-raised z-50 w-72 max-h-[var(--bits-floating-available-height,100svh)] max-w-[calc(100vw-1rem)] overflow-y-auto overscroll-contain outline-hidden",
 			className,
 		)}
 		{...restProps}

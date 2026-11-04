@@ -31,7 +31,7 @@
 >
 	{#if heading}
 		<CommandPrimitive.GroupHeading
-			class="text-muted-foreground px-2.5 pt-2.5 pb-1.5 text-xs font-medium tracking-[0.09em] uppercase"
+			class="text-muted-foreground px-2.5 pt-2.5 pb-1.5 text-xs font-medium"
 		>
 			{heading}
 		</CommandPrimitive.GroupHeading>

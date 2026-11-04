@@ -31,11 +31,13 @@
 
   /* Dark surfaces. Light pendants are surface-light, line-light and paper. */
   --brand-ink: oklch(0.145 0 0); /* Page background */
-  --brand-surface: oklch(0.19 0 0); /* Cards, panels */
+  --brand-surface: oklch(0.2 0 0); /* Cards, panels: 0.055 over the page, the light step */
   --brand-line: oklch(0.29 0 0); /* Borders, dividers */
   --brand-raised: oklch(0.24 0 0); /* Hover surfaces, inputs, between surface and line */
   --brand-paper: oklch(0.97 0 0); /* Text on dark, light backgrounds */
-  --brand-surface-light: oklch(0.99 0 0); /* Cards on a light page */
+  /* Two levels, grey canvas and white card: the 0.055 step dark uses, and muted text keeps 6.3:1. */
+  --brand-canvas-light: oklch(0.945 0 0); /* The page, the sidebar under it */
+  --brand-surface-light: oklch(1 0 0); /* Cards, popovers, the shell panel on a light page */
   --brand-line-light: oklch(0.91 0 0); /* Borders on a light page */
 
   /* The key button. Each theme has its own pair, since a hue lifted for dark needs dark text. */
@@ -111,12 +113,12 @@
   --black: oklch(0 0 0);
 
   /* === Sidebar Colors === */
-  /* Sidebar is one shade darker than content — Linear-style depth */
-  --sidebar: oklch(0.96 0 0);
+  /* The sidebar sits on the canvas, not on a third grey, and the active item is a card on it. */
+  --sidebar: var(--brand-canvas-light);
   --sidebar-foreground: oklch(0.45 0 0);
   --sidebar-primary: oklch(0.15 0 0);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.92 0 0);
+  --sidebar-accent: var(--brand-surface-light);
   --sidebar-accent-foreground: oklch(0.15 0 0);
   --sidebar-border: oklch(0.91 0 0);
   --sidebar-ring: var(--brand);
@@ -146,6 +148,7 @@
   --color-line: var(--brand-line);
   --color-raised: var(--brand-raised);
   --color-paper: var(--brand-paper);
+  --color-canvas-light: var(--brand-canvas-light);
   --color-surface-light: var(--brand-surface-light);
   --color-line-light: var(--brand-line-light);
 
@@ -216,7 +219,7 @@
   );
 
   /* Light theme color system: the light surfaces and lines of the brand roles */
-  --color-background: var(--gray-50);
+  --color-background: var(--brand-canvas-light);
   --color-foreground: var(--gray-900);
   --color-foreground-muted: var(--gray-700);
 
@@ -342,14 +345,18 @@
   --color-destructive-foreground: var(--brand-paper);
 
   --color-border: var(--brand-line);
-  --color-input: var(--brand-raised);
+  /* WHY not raised: raised equals muted, so an input's edge vanished on the card. Mixed from the
+     brand's own paper and surface so a brand that moves them keeps the step. Neutral defaults:
+     L 0.547, 3.7:1 on the card (L 0.2), 4.0:1 on the canvas (L 0.145), past the 3:1 for an edge.
+     Fills read it at /30 (L 0.30), a step over the card. */
+  --color-input: color-mix(in oklab, var(--brand-paper) 45%, var(--brand-surface));
   --color-ring: var(--brand-on-dark);
 
   /* The brand colour lifts for contrast on the dark page. */
   --color-brand: var(--brand-on-dark);
 
-  /* Dark sidebar */
-  --sidebar: var(--brand-surface);
+  /* Dark sidebar: on the page, like light, so the cards are the only raised level */
+  --sidebar: var(--brand-ink);
   --sidebar-foreground: var(--brand-paper);
   --sidebar-primary: var(--brand-on-dark);
   --sidebar-primary-foreground: oklch(1 0 0);

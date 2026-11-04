@@ -91,10 +91,10 @@
 <div
 	bind:this={row}
 	class={cn(
-		// `group/row` too: `CopyHandoff` waits for `group-hover/row`, and a bare
-		// `group` left it invisible on every rail.
-		"group group/row relative border-t border-border first:border-t-0",
-		selected ? "bg-accent" : "hover:bg-muted/50",
+		// `hover-row`: a caller's `row-action` (CopyHandoff) reveals on it. DESIGN.md Patterns.
+		"group group/row hover-row relative border-t border-border first:border-t-0",
+		"transition-colors duration-quick ease-smooth-out motion-reduce:transition-none",
+		selected ? "bg-accent" : "hover:bg-foreground/4",
 		className,
 	)}
 >
@@ -102,7 +102,7 @@
 		type="button"
 		class={cn(
 			"t-press flex w-full items-start gap-3 px-4 py-3 text-left any-pointer-coarse:py-3.5",
-			"focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset",
+			"focus-visible:outline-none focus-visible:shadow-(--ring-focus-inset)",
 			// Room for the actions only where they always show; a hover-only reserve
 			// cost every title 96px. The overlay below sits on its own surface instead.
 			actions && "any-pointer-coarse:pr-24",

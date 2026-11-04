@@ -14,10 +14,11 @@ import { tv } from "tailwind-variants";
 // box shows only under the pointer and on focus.
 export const pickerTriggerClass = tv({
   base: [
-    // 13px at weight 500 is Linear's own property row, measured 31 Aug 2026 on a
-    // 16px root. 14px reads looser than the reference, and it shows in the sidebar.
-    "t-press inline-flex min-w-0 items-center gap-1.5 rounded-md text-[13px] font-medium whitespace-nowrap select-none",
-    "hover:bg-muted data-[state=open]:bg-muted",
+    // `length:` stops tailwind-merge reading `text-control` as a colour (craft.css, Type).
+    "t-press inline-flex min-w-0 items-center gap-1.5 rounded-lg text-(length:--text-control) font-medium whitespace-nowrap select-none",
+    // The hover box is a foreground tint: property rows sit on the canvas too, where bg-muted
+    // is 0.005 L away and vanished. Radius is the control step, 10px.
+    "transition-colors duration-quick ease-smooth-out hover:bg-foreground/6 data-[state=open]:bg-foreground/6 motion-reduce:transition-none",
     "disabled:pointer-events-none disabled:opacity-50",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
   ],
@@ -34,7 +35,7 @@ export const pickerTriggerClass = tv({
      */
     block: { true: "flex w-full", false: "w-fit" },
     /** No value yet: the label is a prompt, so it recedes until hovered. */
-    empty: { true: "text-muted-foreground/70 hover:text-muted-foreground", false: "" },
+    empty: { true: "text-muted-foreground hover:text-foreground", false: "" },
     /** A row that carries no action still needs the column's box. */
     inert: { true: "hover:bg-transparent cursor-default", false: "" },
   },

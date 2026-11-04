@@ -8,6 +8,8 @@
 		ref = $bindable(null),
 		sideOffset = 4,
 		align = "start",
+		// Keeps 8px between the menu and the viewport edge, matching the `100vw-1rem` width cap.
+		collisionPadding = 8,
 		portalProps,
 		class: className,
 		...restProps
@@ -22,8 +24,10 @@
 		data-slot="dropdown-menu-content"
 		{sideOffset}
 		{align}
+		{collisionPadding}
 		class={cn(
-			"t-dropdown ring-foreground/10 bg-popover text-popover-foreground min-w-32 rounded-xl p-1 shadow-raised ring-1 z-50 w-(--bits-dropdown-menu-anchor-width) max-h-[var(--bits-floating-available-height,100svh)] max-w-[calc(100vw-1rem)] overflow-x-hidden overflow-y-auto overscroll-contain outline-none data-closed:overflow-hidden",
+			// 14px around 10px rows inside a 4px inset, so the corners run concentric.
+			"t-dropdown bg-popover text-popover-foreground min-w-32 rounded-xl p-1 shadow-edge-raised z-50 w-(--bits-dropdown-menu-anchor-width) max-h-[var(--bits-floating-available-height,100svh)] max-w-[calc(100vw-1rem)] overflow-x-hidden overflow-y-auto overscroll-contain outline-none data-closed:overflow-hidden",
 			className,
 		)}
 		{...restProps}

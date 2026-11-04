@@ -67,9 +67,14 @@
   transition: opacity var(--modal-close-dur) var(--modal-ease);
 }
 
+/* Reduced motion keeps the fade and drops the scale (DESIGN.md rule 13). The
+   backdrop only ever fades, so it keeps its transition. */
 @media (prefers-reduced-motion: reduce) {
   .t-modal,
-  .t-modal-backdrop {
-    transition: none !important;
+  .t-modal.is-open,
+  .t-modal.is-closing,
+  .t-modal[data-state] {
+    transform: none;
+    transition-property: opacity;
   }
 }

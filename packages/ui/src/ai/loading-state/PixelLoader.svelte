@@ -69,7 +69,7 @@
 	<span class="shimmer text-sm font-medium">{label}</span>
 
 	{#if elapsed}
-		<span class="font-mono text-[11px] tabular-nums text-[color:var(--muted-foreground,#71717a)]">
+		<span class="font-mono text-2xs tabular-nums text-[color:var(--muted-foreground,#71717a)]">
 			{clock}
 		</span>
 	{/if}

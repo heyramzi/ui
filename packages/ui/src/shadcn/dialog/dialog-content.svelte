@@ -31,13 +31,20 @@
 	<DialogPrimitive.Content
 		bind:ref
 		data-slot="dialog-content"
+		data-close={showCloseButton || undefined}
 		class={cn(
-			"t-modal bg-background ring-foreground/10 shadow-overlay fixed z-50 grid w-full gap-4 text-sm ring-1 outline-none",
+			// The popover surface, white on light: `bg-background` is the grey canvas now. The edge
+			// and the depth both come from `shadow-edge-overlay`, so no ring draws a second line.
+			"t-modal bg-popover text-popover-foreground shadow-edge-overlay fixed z-50 grid w-full gap-4 text-sm outline-none",
 			// WHY: on a phone a centered card puts its controls at the top of the reach arc and leaves the on-screen keyboard fighting it for the middle of the screen.
 
 			// Below sm the dialog docks to the bottom edge instead, scrolls inside itself, and clears the home indicator.
-			"right-0 bottom-0 left-0 max-h-[88svh] overflow-y-auto overscroll-contain rounded-t-xl rounded-b-none p-4 pb-[max(1rem,env(safe-area-inset-bottom))]",
-			"sm:top-1/2 sm:right-auto sm:bottom-auto sm:left-1/2 sm:max-h-[calc(100svh-4rem)] sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:p-6",
+			"right-0 bottom-0 left-0 max-h-[88svh] overflow-y-auto overscroll-contain rounded-t-2xl rounded-b-none",
+			// One padding for every part, held in `--dialog-pad` so the header, the close button and a
+			// banded footer all read the same number. A single `p-` class, not `p-4 sm:p-6`: a caller's
+			// `p-0` used to cancel only the phone padding and leave 24px on desktop.
+			"[--dialog-pad:1rem] sm:[--dialog-pad:1.5rem] p-(--dialog-pad) pb-[max(var(--dialog-pad),env(safe-area-inset-bottom))]",
+			"sm:top-1/2 sm:right-auto sm:bottom-auto sm:left-1/2 sm:max-h-[calc(100svh-4rem)] sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl",
 			className,
 		)}
 		{...restProps}
@@ -46,7 +53,15 @@
 		{#if showCloseButton}
 			<DialogPrimitive.Close data-slot="dialog-close">
 				{#snippet child({ props })}
-					<Button variant="ghost" class="absolute top-4 right-4" size="sm" icon {...props}>
+					<!-- Centred on the title's 24px line, the glyph's right edge on the content edge:
+				     a 32px button sits 4px above and 8px past the padding. -->
+					<Button
+						variant="ghost"
+						class="absolute top-[calc(var(--dialog-pad)-0.25rem)] right-[calc(var(--dialog-pad)-0.5rem)]"
+						size="sm"
+						icon
+						{...props}
+					>
 						<X size={16} />
 						<span class="sr-only">Close</span>
 					</Button>

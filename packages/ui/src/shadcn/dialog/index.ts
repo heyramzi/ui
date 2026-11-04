@@ -8,6 +8,7 @@ import Content from "#src/shadcn/dialog/dialog-content.svelte";
 import Description from "#src/shadcn/dialog/dialog-description.svelte";
 import Trigger from "#src/shadcn/dialog/dialog-trigger.svelte";
 import Close from "#src/shadcn/dialog/dialog-close.svelte";
+import Body from "#src/shadcn/dialog/dialog-body.svelte";
 
 export {
   Root,
@@ -20,6 +21,7 @@ export {
   Content,
   Description,
   Close,
+  Body,
   //
   Root as Dialog,
   Title as DialogTitle,
@@ -31,4 +33,5 @@ export {
   Content as DialogContent,
   Description as DialogDescription,
   Close as DialogClose,
+  Body as DialogBody,
 };

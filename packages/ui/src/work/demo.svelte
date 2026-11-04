@@ -3,7 +3,19 @@
 	import TaskList from "#src/work/task-list.svelte";
 	import TaskGantt from "#src/work/task-gantt.svelte";
 	import { SegmentedFilter } from "#src/components/segmented/index.js";
-	import { ChartBarHorizontal, Kanban, ListBullets } from "phosphor-svelte";
+	import {
+		CalendarBlank,
+		CellSignalFull,
+		CellSignalLow,
+		CellSignalMedium,
+		ChartBarHorizontal,
+		Kanban,
+		ListBullets,
+	} from "phosphor-svelte";
+	import StatusPill from "#src/status/status-pill.svelte";
+	import { Card } from "#src/shadcn/card/index.js";
+	import WorkCard from "#src/components/work-parts/work-card.svelte";
+	import type { Tone } from "#src/lib/tone.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import StatusDot from "#src/status/status-dot.svelte";
 	import { defineStatuses } from "#src/status/define-statuses.js";
@@ -161,11 +173,12 @@
 		{ id: "due", label: "Due date", compare: (a: Task, b: Task) => a.end.localeCompare(b.end) },
 	];
 
-	const priorityClass: Record<Priority, string> = {
-		low: "bg-muted text-muted-foreground",
-		medium: "bg-warning/15 text-warning-700 dark:text-warning-400",
-		high: "bg-destructive/15 text-destructive",
+	const priorityTone: Record<Priority, Tone> = {
+		low: "neutral",
+		medium: "warning",
+		high: "destructive",
 	};
+	const priorityIcon = { low: CellSignalLow, medium: CellSignalMedium, high: CellSignalFull };
 
 	const people: Record<string, string> = {
 		Ada: "oklch(0.72 0.12 280)",
@@ -275,6 +288,14 @@
 		"grid grid-cols-[minmax(0,1fr)_7rem_5.5rem_4.5rem] items-center gap-3 max-sm:grid-cols-[minmax(0,1fr)_4.5rem]";
 </script>
 
+{#snippet priority(level: Priority)}
+	{@const Icon = priorityIcon[level]}
+	<StatusPill tone={priorityTone[level]} class="capitalize">
+		{#snippet icon()}<Icon weight="bold" aria-hidden="true" />{/snippet}
+		{level}
+	</StatusPill>
+{/snippet}
+
 {#snippet avatar(name: string)}
 	<span
 		class="grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-semibold text-white"
@@ -285,7 +306,7 @@
 	</span>
 {/snippet}
 
-<div class="flex flex-col gap-6 rounded-xl border border-border bg-background p-4">
+<Card class="gap-6 p-4">
 	<div class="flex h-[600px] flex-col gap-3">
 		<div class="flex flex-wrap items-center gap-2">
 			<SegmentedFilter options={views} bind:value={view} ariaLabel="Task view" block={false} />
@@ -312,7 +333,7 @@
 					<select
 						id="tasks-sort"
 						bind:value={sortKey}
-						class="h-8 rounded-md border border-border bg-background px-2 text-xs text-foreground"
+						class="h-8 rounded-md border border-border bg-card px-2 text-xs text-foreground"
 					>
 						<option value="manual">Manual</option>
 						{#each sortKeys as key (key.id)}
@@ -338,15 +359,15 @@
 					>
 						{#snippet renderCard(task)}
 							{@const d = due(task)}
-							<article
-								class="rounded-xl border border-border bg-card p-2.5 text-card-foreground shadow-sm"
-							>
-								<p class="text-sm leading-snug">{task.title}</p>
-								<div class="mt-2.5 flex items-center gap-2 text-xs">
-									{@render avatar(task.assignee)}
-									<span class={d.late ? "font-medium text-destructive" : "text-muted-foreground"}
-										>{d.label}</span
+							<WorkCard>
+								{task.title}
+								{#snippet meta()}
+									<span
+										class="flex items-center gap-1 {d.late ? 'font-medium text-destructive' : ''}"
 									>
+										<CalendarBlank class="size-3.5" aria-hidden="true" />
+										{d.label}
+									</span>
 									{#if tracking}
 										<TimeChip
 											minutes={minutesByTask[task.id] ?? 0}
@@ -354,15 +375,12 @@
 											running={timer?.taskId === task.id}
 										/>
 									{/if}
-									<span
-										class="ml-auto rounded-full px-1.5 py-0.5 font-medium capitalize {priorityClass[
-											task.priority
-										]}"
-									>
-										{task.priority}
+									<span class="ms-auto flex items-center gap-1.5">
+										{@render priority(task.priority)}
+										{@render avatar(task.assignee)}
 									</span>
-								</div>
-							</article>
+								{/snippet}
+							</WorkCard>
 						{/snippet}
 					</KanbanBoard>
 				{:else if view === "list"}
@@ -386,7 +404,7 @@
 						{/snippet}
 						{#snippet renderRow(task)}
 							{@const d = due(task)}
-							<div class="{listGrid} h-10 px-2 text-sm">
+							<div class="{listGrid} px-2 text-sm">
 								<span class="flex min-w-0 items-center gap-2.5">
 									{#key task.status}
 										<StatusDot {statuses} status={task.status} />
@@ -410,15 +428,7 @@
 									{@render avatar(task.assignee)}
 									<span class="truncate">{task.assignee}</span>
 								</span>
-								<span class="max-sm:hidden">
-									<span
-										class="rounded-full px-1.5 py-0.5 text-xs font-medium capitalize {priorityClass[
-											task.priority
-										]}"
-									>
-										{task.priority}
-									</span>
-								</span>
+								<span class="max-sm:hidden">{@render priority(task.priority)}</span>
 								<span
 									class="text-right text-xs tabular-nums {d.late
 										? 'font-medium text-destructive'
@@ -469,13 +479,11 @@
 	{#if tracking}
 		<section class="flex flex-col gap-3 border-t border-border pt-4">
 			<div class="flex items-center justify-between gap-3">
-				<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-					Task time
-				</h3>
+				<h3 class="text-xs font-semibold text-muted-foreground">Task time</h3>
 				<select
 					bind:value={timeTaskId}
 					aria-label="Task"
-					class="h-8 max-w-[60%] rounded-md border border-border bg-background px-2 text-xs text-foreground"
+					class="h-8 max-w-[60%] rounded-md border border-border bg-card px-2 text-xs text-foreground"
 				>
 					{#each tasks as task (task.id)}
 						<option value={task.id}>{task.title}</option>
@@ -483,7 +491,7 @@
 				</select>
 			</div>
 			<TimeTracker
-				class="mx-auto w-full max-w-xl"
+				class="w-full max-w-xl"
 				entries={timeEntries}
 				getId={(entry) => entry.id}
 				getMinutes={(entry) => entry.minutes}
@@ -505,9 +513,7 @@
 	{/if}
 
 	<section class="flex flex-col gap-2 border-t border-border pt-4">
-		<h3 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-			Status badges
-		</h3>
+		<h3 class="text-xs font-semibold text-muted-foreground">Status badges</h3>
 		<div class="flex flex-wrap items-center gap-2">
 			{#each salesStatuses.ids as id (id)}
 				<StatusBadge statuses={salesStatuses} status={id} />
@@ -522,7 +528,7 @@
 			{/each}
 		</ul>
 	</section>
-</div>
+</Card>
 
 <style>
 	/* Switching views: the new one rises in with a touch of blur, the old one is gone at once. */

@@ -92,7 +92,7 @@
 		<HoldToConfirm
 			duration={800}
 			onConfirm={onDelete}
-			class="relative flex w-full cursor-default items-center justify-start gap-2 rounded-md px-1.5 py-1 text-sm text-destructive outline-hidden"
+			class="relative flex w-full cursor-default items-center justify-start gap-2 rounded-lg px-1.5 py-1 text-sm text-destructive outline-hidden"
 		>
 			{#snippet idle()}
 				<Trash size={14} />

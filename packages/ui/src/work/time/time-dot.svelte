@@ -24,7 +24,8 @@
 		flex: none;
 		width: var(--time-dot-size);
 		height: var(--time-dot-size);
-		border-radius: 9999px;
+		/* A dot, the one round shape DESIGN rule 15 allows for a status. */
+		border-radius: 50%;
 		background: currentColor;
 	}
 

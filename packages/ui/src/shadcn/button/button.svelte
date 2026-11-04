@@ -4,7 +4,9 @@
 	import { type VariantProps, tv } from "tailwind-variants";
 
 	export const buttonVariants = tv({
-		base: "t-press focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-lg border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+		// Focus is the kit's one ring, `--ring-focus`, written as a utility because the
+		// variant shadows (`shadow-key`, `shadow-btn`) would otherwise cover the base-layer rule.
+		base: "t-press focus-visible:shadow-(--ring-focus) aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-lg border border-transparent bg-clip-padding text-sm font-medium aria-invalid:ring-3 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
 		variants: {
 			// Five roles: fill, outline, ghost, destructive, and dashed for an empty
 			// slot. `secondary` and `link` went on 4 Sep 2026, one real caller between
@@ -13,14 +15,18 @@
 				default:
 					"bg-primary text-primary-foreground shadow-key hover:bg-primary/90 active:shadow-none [a]:hover:bg-primary/80",
 				outline:
-					"border-border bg-background shadow-btn hover:bg-muted hover:text-foreground active:shadow-none dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+					// `bg-card`, not `bg-background`: the background is the grey canvas now, so an
+					// outline button on a white panel read as a grey slab.
+					"border-border bg-card shadow-btn hover:bg-muted hover:border-foreground/15 hover:text-foreground active:shadow-none dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+				// A foreground wash, not `bg-muted`: muted is L 0.94 and the canvas 0.945, so a
+				// ghost hover on the page drew nothing. The wash reads on canvas and card alike.
 				ghost:
-					"hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+					"hover:bg-foreground/6 hover:text-foreground aria-expanded:bg-foreground/6 aria-expanded:text-foreground",
 				destructive:
-					"bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive dark:text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
+					"bg-destructive/10 hover:bg-destructive/20 dark:bg-destructive/20 text-destructive dark:text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
 				// Quiet text that opens an editor or a menu: a ghost that wraps to as many lines as its
 				// label needs, aligned left, never a fixed-height square.
-				text: "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
+				text: "hover:bg-foreground/6 hover:text-foreground aria-expanded:bg-foreground/6 aria-expanded:text-foreground",
 				// WHY a variant and not a class every call site writes: "add another
 
 				// row", "add a step", "attach a call" is one affordance, and it was hand-drawn eleven times across the app with four radii, three text sizes and three different hover hues.

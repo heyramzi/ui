@@ -19,6 +19,7 @@
 		class: className,
 		side = "right",
 		showCloseButton = true,
+		floating,
 		portalProps,
 		children,
 		...restProps
@@ -26,20 +27,38 @@
 		portalProps?: WithoutChildrenOrChild<ComponentProps<typeof SheetPortal>>;
 		side?: Side;
 		showCloseButton?: boolean;
+		/**
+		 * From `sm` up the sheet floats 8px off the viewport edge at the overlay radius, like
+		 * SidePanel. On by default for left and right sheets; `floating={false}` keeps one flush.
+		 * Under `sm` it stays full bleed, since a phone needs the width.
+		 */
+		floating?: boolean;
 		children: Snippet;
 	} = $props();
+
+	// Side sheets float unless a caller opts out; a bottom sheet stays docked.
+	const floats = $derived(floating ?? side !== "bottom");
 
 	// Plain side utilities, not `data-[side=x]:` variants, because the variant outranks a
 	// caller's `sm:max-w-xl` and tailwind-merge can't dedupe across modifier sets.
 	const SIDE_CLASS: Record<Side, string> = {
 		// h-dvh, not h-full: on iOS Safari a fixed panel sizes against the layout
 		// viewport, which is taller than the visible area, so h-full hides the footer.
-		right: "inset-y-0 right-0 h-dvh w-3/4 border-l sm:max-w-sm",
-		left: "inset-y-0 left-0 h-dvh w-3/4 border-r sm:max-w-sm",
+		// No side border: `shadow-edge-overlay` draws the hairline and the depth.
+		right: "inset-y-0 right-0 h-dvh w-3/4 sm:max-w-sm",
+		left: "inset-y-0 left-0 h-dvh w-3/4 sm:max-w-sm",
 		// Full width, capped at 80vh so the overlay stays visible. The safe-area
 		// padding keeps the last row clear of the home indicator.
 		bottom:
-			"inset-x-0 bottom-0 h-auto max-h-[80vh] w-full rounded-t-lg border-t pb-[env(safe-area-inset-bottom)]",
+			"inset-x-0 bottom-0 h-auto max-h-[80vh] w-full rounded-t-2xl pb-[env(safe-area-inset-bottom)]",
+	};
+
+	// Floating: an 8px inset (`2`) on the sheet's own sides, the height cut by both gutters,
+	// and the overlay radius on every corner (DESIGN.md rule 2).
+	const FLOATING_CLASS: Record<Side, string> = {
+		right: "sm:inset-y-2 sm:right-2 sm:h-[calc(100dvh-1rem)] sm:rounded-2xl",
+		left: "sm:inset-y-2 sm:left-2 sm:h-[calc(100dvh-1rem)] sm:rounded-2xl",
+		bottom: "sm:inset-x-2 sm:bottom-2 sm:w-[calc(100%-1rem)] sm:rounded-2xl",
 	};
 </script>
 
@@ -49,9 +68,12 @@
 		bind:ref
 		data-slot="sheet-content"
 		data-side={side}
+		data-floating={floats || undefined}
+		data-close={showCloseButton || undefined}
 		class={cn(
-			"t-sheet bg-background fixed z-50 flex flex-col gap-4 bg-clip-padding text-sm shadow-overlay",
+			"t-sheet bg-popover text-popover-foreground fixed z-50 flex flex-col gap-4 bg-clip-padding text-sm shadow-edge-overlay",
 			SIDE_CLASS[side],
+			floats && FLOATING_CLASS[side],
 			className,
 		)}
 		{...restProps}
@@ -60,7 +82,7 @@
 		{#if showCloseButton}
 			<SheetPrimitive.Close data-slot="sheet-close">
 				{#snippet child({ props })}
-					<Button variant="ghost" class="absolute top-3 right-3" size="sm" icon {...props}>
+					<Button variant="ghost" class="absolute top-3 right-2" size="sm" icon {...props}>
 						<X size={16} />
 						<span class="sr-only">Close</span>
 					</Button>
