@@ -51,8 +51,8 @@ may do), its link in `packages/ui/README.md`, `status/README.md`.
 
 ## In the branch but not the redesign
 
-`thread/*` (4 files) adds `ThreadEventRecord`, a record chip inside an activity line (2 Nov). It's
-a feature, tangled with the thread's restyle in one 180-line diff, so it rides along; review it apart.
+`ThreadEventRecord`, a record chip inside an activity line (2 Nov), moved to its own branch,
+`feat/thread-event-record`, cut from main and not released. The thread restyle stays here.
 
 ## Left in the tree, not this redesign
 
