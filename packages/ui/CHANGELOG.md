@@ -1103,3 +1103,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): a lone tone badge in an InfoList row keeps its own width (TSK-1764)
 
+
+## [2.20.0](https://github.com/heyramzi/ui/compare/ui-v2.19.3...ui-v2.20.0) (2026-11-04)
+
+### Features
+
+* feat(ui): row-action and hover-row show a row's actions on hover, keyboard focus and touch (TSK-1764)
+
