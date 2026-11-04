@@ -301,8 +301,9 @@
 		{#if title}
 			<h2 class="text-xs font-medium tracking-wide text-muted-foreground uppercase">{title}</h2>
 		{/if}
+		<!-- Labels size to their text, capped at 45%; the dt's min-w-20 is the 5rem floor. min() can't take max-content, so a min() template is dropped whole. -->
 		<dl
-			class="grid grid-cols-[minmax(5rem,min(max-content,45%))_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5"
+			class="grid grid-cols-[fit-content(45%)_minmax(0,1fr)] items-start gap-x-4 gap-y-2.5"
 		>
 			{#each shown as row, index (row.divider ? `divider-${index}` : keyOf(row))}
 				{#if row.divider}
@@ -312,7 +313,7 @@
 					{@const long = row.input === "longtext"}
 					<dt
 						class={cn(
-							"flex min-h-7 min-w-0 items-center gap-2 text-sm [overflow-wrap:anywhere] text-muted-foreground",
+							"flex min-h-7 min-w-20 items-center gap-2 text-sm [overflow-wrap:anywhere] text-muted-foreground",
 							long && "col-span-2 min-h-0",
 						)}
 					>
