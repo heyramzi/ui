@@ -1089,3 +1089,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(charts): each chart loads its own tokens, so a stat tile keeps its card edge (TSK-1665)
 
+
+## [2.19.2](https://github.com/heyramzi/ui/compare/ui-v2.19.1...ui-v2.19.2) (2026-11-04)
+
+### Bug Fixes
+
+* fix(ui): InfoList list rows put the label beside its value again (TSK-1764)
+
