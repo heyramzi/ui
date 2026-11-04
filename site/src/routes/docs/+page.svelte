@@ -90,7 +90,7 @@ export const handle = ({ event, resolve }) =>
 			<li>
 				<a
 					href="/{s.id}"
-					class="flex h-full flex-col gap-1 rounded-xl border border-border p-3 text-sm transition-colors hover:border-foreground/30"
+					class="flex h-full flex-col gap-1 rounded-xl bg-card p-3 text-sm shadow-card transition-shadow duration-quick ease-smooth-out hover:shadow-card-hover"
 					><span class="font-mono text-xs text-muted-foreground">{i + 1}</span>{s.title}</a
 				>
 			</li>
@@ -102,7 +102,7 @@ export const handle = ({ event, resolve }) =>
 			<h2 class="text-2xl font-semibold tracking-tight">{block.title}</h2>
 			{#each block.steps as step (step.label)}
 				<h3 class="mb-3 mt-8 text-sm font-medium">{step.label}</h3>
-				<CodeBlock.Root class="rounded-2xl">
+				<CodeBlock.Root class="rounded-2xl border-0 bg-card shadow-card dark:bg-card">
 					<CodeBlock.Content>
 						{#each step.lines.current as line, index (index)}<CodeBlock.Line code={line} />{/each}
 					</CodeBlock.Content>
