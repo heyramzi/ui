@@ -4,7 +4,7 @@ export {
   type ToggleSize,
   type ToggleVariant,
   type ToggleVariants,
-} from "#src/shadcn/toggle/toggle.svelte";
+} from "#src/shadcn/toggle/toggle-variants.js";
 
 export {
   Root,
