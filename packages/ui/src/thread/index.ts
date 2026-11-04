@@ -13,6 +13,7 @@ export type {
   ThreadAuthorKind,
   ThreadComment,
   ThreadEvent,
+  ThreadEventRecord,
   ThreadItem,
   ThreadLabels,
   ThreadNode,
