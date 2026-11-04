@@ -1110,3 +1110,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): row-action and hover-row show a row's actions on hover, keyboard focus and touch (TSK-1764)
 
+
+## [2.21.0](https://github.com/heyramzi/ui/compare/ui-v2.20.0...ui-v2.21.0) (2026-11-04)
+
+### Features
+
+* feat(ui): craft refresh, the shared look on one token layer (TSK-1794)
+
