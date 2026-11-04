@@ -516,13 +516,18 @@
 	.seekable .w {
 		cursor: pointer;
 	}
-	.seekable .w:hover {
-		background: color-mix(in oklab, var(--accent) 12%, transparent);
-	}
-	.w.now,
-	.seekable .w.now:hover {
+	.w.now {
 		background: color-mix(in oklab, var(--accent) 34%, transparent);
 		color: var(--text);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.seekable .w:hover {
+			background: color-mix(in oklab, var(--accent) 12%, transparent);
+		}
+		.seekable .w.now:hover {
+			background: color-mix(in oklab, var(--accent) 34%, transparent);
+			color: var(--text);
+		}
 	}
 	.line.noted {
 		cursor: pointer;
@@ -557,9 +562,13 @@
 			transform var(--duration-micro) var(--ease-smooth-out),
 			opacity var(--duration-quick) var(--ease-smooth-out);
 	}
-	.pin:hover,
 	.pin.peeking {
 		box-shadow: 0 0 0 1.5px var(--tone);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.pin:hover {
+			box-shadow: 0 0 0 1.5px var(--tone);
+		}
 	}
 	.pin:focus-visible {
 		outline: 2px solid var(--tone);
