@@ -171,7 +171,7 @@
 			{/each}
 		</span>
 	{:else if row.tone && row.value}
-		<StatusBadge tone={row.tone} capitalize={false}>{row.value}</StatusBadge>
+		<StatusBadge tone={row.tone} capitalize={false} class="w-fit max-w-full">{row.value}</StatusBadge>
 	{:else if row.href && row.value}
 		<a
 			href={row.href}
