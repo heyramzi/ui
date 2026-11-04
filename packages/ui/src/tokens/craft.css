@@ -149,3 +149,42 @@
   --transition-duration-overlay: var(--duration-overlay);
   --transition-duration-loop: var(--duration-loop);
 }
+
+/* ── Row actions ─────────────────────────────────────────────
+   `hover-row` marks the host, `row-action` each action: hidden under a pointer
+   until hover or keyboard focus, always shown on touch. */
+@layer components {
+  .row-action {
+    opacity: 0;
+    transition: opacity var(--duration-quick) var(--ease-smooth-out);
+  }
+
+  .hover-row:has(:focus-visible) .row-action,
+  .row-action:is(
+      :focus-visible,
+      :has(:focus-visible),
+      [data-state="open"],
+      [aria-expanded="true"],
+      :has([data-state="open"], [aria-expanded="true"])
+    ) {
+    opacity: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-row:hover .row-action {
+      opacity: 1;
+    }
+  }
+
+  @media (hover: none), (any-pointer: coarse) {
+    .row-action {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .row-action {
+      transition: none;
+    }
+  }
+}
