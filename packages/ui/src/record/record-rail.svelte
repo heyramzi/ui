@@ -51,7 +51,11 @@
 
 <!-- A record's side rail with tabs: the fields in one, a thread or a log in the next,
      so the thread sits beside the record and not a screen below it. One tab draws no strip. -->
-<Tabs.Root value={open} onValueChange={(next) => (value = next)} class={cn("min-w-0 gap-0", className)}>
+<Tabs.Root
+	value={open}
+	onValueChange={(next) => (value = next)}
+	class={cn("min-w-0 gap-0", className)}
+>
 	{#if tabs.length > 1}
 		<div class={cn("pb-3", listClass)}>
 			<Tabs.List size="sm" class="w-full" aria-label={label}>
