@@ -7,6 +7,8 @@
     "typecheck": "pnpm -r check",
     "prepare": "vp config",
     "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "verify": "pnpm check && pnpm test && pnpm lint",
     "lint": "vp fmt --check . && vp lint -c .oxlintrc.json . && pnpm lint:comment-length",
     "lint:fix": "vp fmt . && vp lint -c .oxlintrc.json --fix .",
     "lint:comment-length": "heyramzi-comment-length",
