@@ -27,17 +27,31 @@
 	}
 
 	$effect(() => {
-		// 600px ahead of the viewport: the chunk is usually in before the box scrolls in.
-		const observer = new IntersectionObserver(
-			(seen) => {
-				if (!seen.some((e) => e.isIntersecting)) return;
-				observer.disconnect();
-				start();
-			},
-			{ rootMargin: "600px 0px" },
-		);
-		observer.observe(box);
-		return () => observer.disconnect();
+		// Until the first scroll only a box already on screen loads, so the first load carries
+		// the fold and nothing else: a 600px lead from the start pulled in the canvas, the chart
+		// and the editor on a 900px screen. Once someone scrolls, boxes load 600px ahead, so the
+		// chunk is usually in before the box scrolls in.
+		let observer: IntersectionObserver | undefined;
+		const watch = (rootMargin: string) => {
+			observer?.disconnect();
+			observer = new IntersectionObserver(
+				(seen) => {
+					if (!seen.some((e) => e.isIntersecting)) return;
+					stop();
+					start();
+				},
+				{ rootMargin },
+			);
+			observer.observe(box);
+		};
+		const lookAhead = () => watch("600px 0px");
+		const stop = () => {
+			observer?.disconnect();
+			window.removeEventListener("scroll", lookAhead);
+		};
+		watch("0px");
+		window.addEventListener("scroll", lookAhead, { once: true, passive: true });
+		return stop;
 	});
 </script>
 
