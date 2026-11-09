@@ -6,21 +6,12 @@
 	import { sections } from "#lib/registry.js";
 	import Sidebar from "#lib/Sidebar.svelte";
 	import { version } from "@heyramzi/ui/package.json";
+	import { mode, toggleMode } from "@heyramzi/ui/components/theme";
+	import SearchPalette from "#lib/SearchPalette.svelte";
 
 	const links = [["/docs", "Docs"], ...sections.map((s) => [`/${s.id}`, s.title])];
 
-	let isDark = $state(false);
 	let menuOpen = $state(false);
-	$effect(() => {
-		isDark = document.documentElement.classList.contains("dark");
-	});
-	function toggle() {
-		isDark = !isDark;
-		document.documentElement.classList.toggle("dark", isDark);
-		try {
-			localStorage.setItem("theme", isDark ? "dark" : "light");
-		} catch {}
-	}
 	// A demo page lives at /components/<slug> whatever its section, so it lights its section's tab.
 	const section = $derived(page.data.entry?.section as string | undefined);
 	const active = (href: string) =>
@@ -60,18 +51,22 @@
 			class="rounded-full border border-border px-2 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors hover:text-foreground"
 			>v{version}</a
 		>
+		<!-- WHY the padding pulled back by a negative margin: the strip scrolls sideways, and a
+		     scroller clips its children's box-shadow, so a pill's focus ring drew as two side arcs. -->
 		<nav
-			class="hidden min-w-0 items-center overflow-x-auto text-[13px] [scrollbar-width:none] md:flex"
+			aria-label="Sections"
+			class="-mx-1 -my-1 hidden min-w-0 items-center overflow-x-auto p-1 text-[13px] [scrollbar-width:none] md:flex"
 		>
 			{#each links as [href, label] (href)}
 				<a
 					{href}
 					class="whitespace-nowrap rounded-full px-3 py-1.5 transition-colors {active(href)
-						? 'bg-muted font-medium text-foreground'
+						? 'bg-foreground/6 font-medium text-foreground'
 						: 'text-muted-foreground hover:text-foreground'}">{label}</a
 				>
 			{/each}
 		</nav>
+		<SearchPalette />
 		<a
 			href="https://github.com/heyramzi/ui"
 			aria-label="GitHub"
@@ -79,6 +74,11 @@
 		>
 			<GithubLogo weight="fill" class="size-4" aria-hidden="true" />
 		</a>
-		<ThemeToggle {isDark} variant="ghost" class="rounded-full" onToggle={toggle} />
+		<ThemeToggle
+			isDark={mode.current === "dark"}
+			variant="ghost"
+			class="rounded-full"
+			onToggle={toggleMode}
+		/>
 	</div>
 </div>

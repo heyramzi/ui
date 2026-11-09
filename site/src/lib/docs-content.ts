@@ -39,7 +39,10 @@ import { brandStyle } from "@heyramzi/ui/brand";
 import { brand } from "$lib/brand";
 
 export const handle = ({ event, resolve }) =>
-  resolve(event, { transformPageChunk: ({ html }) => html.replace("<html", \`<html style="\${brandStyle(brand)}"\`) });`;
+  resolve(event, {
+    transformPageChunk: ({ html }) =>
+      html.replace("<html", \`<html style="\${brandStyle(brand)}"\`),
+  });`;
 
 const mode = `<script lang="ts">
   import { ThemeProvider } from "@heyramzi/ui/components/theme";

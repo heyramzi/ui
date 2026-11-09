@@ -40,6 +40,9 @@
 			{#each block.steps as step (step.label)}
 				<h3 class="mb-3 mt-8 text-sm font-medium">{step.label}</h3>
 				<CodeBlock.Root class="rounded-2xl border-0 bg-card shadow-card dark:bg-card">
+					<CodeBlock.Actions>
+						<CodeBlock.CopyButton value={step.code} label="Copy code" />
+					</CodeBlock.Actions>
 					<CodeBlock.Content>
 						{#each step.lines.current as line, index (index)}<CodeBlock.Line code={line} />{/each}
 					</CodeBlock.Content>
