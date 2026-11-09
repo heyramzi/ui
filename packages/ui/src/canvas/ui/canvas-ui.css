@@ -43,6 +43,37 @@
   transform: translateX(-50%);
 }
 
+/* A phone has no room for a side rail: at 390px a rail on the left covers the
+   board xyflow just fitted. The rail lies flat along the bottom edge instead,
+   with its style bar stacked above it. */
+@media (max-width: 639px) {
+  .svelte-flow .svelte-flow__panel.cv-dock.left.center {
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .cv-dock > .cv-row {
+    flex-direction: column-reverse;
+  }
+
+  .cv-dock .cv-rail {
+    flex-direction: row;
+  }
+}
+
+/* xyflow's credit is #999 on a half-white wash, which turns grey on grey on a
+   dark board. It takes the chrome's surface and muted ink in both themes. */
+.svelte-flow .svelte-flow__attribution {
+  border-top-left-radius: var(--radius-sm, 4px);
+  background: var(--cv-surface);
+}
+
+.svelte-flow .svelte-flow__attribution a {
+  color: var(--cv-ink-muted);
+}
+
 /* Beside the selection: StylePanel writes the spot, and a phone keeps its own row above the pill. */
 @media (min-width: 640px) {
   .svelte-flow .svelte-flow__panel.cv-dock.cv-style-dock.is-placed {

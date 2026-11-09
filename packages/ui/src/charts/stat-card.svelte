@@ -81,7 +81,7 @@
 		trend,
 		caption,
 		figureOnly = false,
-		color = "var(--chart-1)",
+		color = "var(--chart-series-1)",
 		height = 150,
 		smooth = true,
 		edgeFade = true,

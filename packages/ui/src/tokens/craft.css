@@ -23,6 +23,21 @@
   --text-2xs: 0.6875rem; /* a count, a kbd hint, a meta line under a tile; the floor */
 }
 
+/* ── Control height ──────────────────────────────────────────
+   One height for every control that sits in a row together: an input, a
+   default button, a select trigger. 32px on a desktop row, 44px under a finger
+   (DESIGN.md rule 12), so a search field and its button always line up. Write
+   it `h-(--control-height)`. */
+:root {
+  --control-height: 2rem;
+}
+
+@media (any-pointer: coarse) {
+  :root {
+    --control-height: 2.75rem;
+  }
+}
+
 /* ── Elevation ───────────────────────────────────────────────
    `--elev-card` and its hover carry their own hairline, so a box that also
    draws `border` gets a 2px edge. The other steps carry none. */
@@ -86,6 +101,21 @@
   --elev-hairline: 0 0 0 1px color-mix(in oklab, white 10%, transparent);
   --elev-rim: inset 0 1px 0 color-mix(in oklab, white 10%, transparent);
   --elev-field: inset 0 1px 2px color-mix(in oklab, black 40%, transparent);
+}
+
+/* ── Scrim ───────────────────────────────────────────────────
+   The dim behind a dialog, an alert dialog and a sheet. A dim with a 2px blur:
+   the page behind stays legible as the page you came from, so the overlay reads
+   as on top of it, not instead of it. Dark needs a deeper dim, since 32% black
+   on an already dark page barely moves it. */
+:root {
+  --scrim: color-mix(in oklab, var(--elev-tint) 32%, transparent);
+  --scrim-blur: var(--blur-small);
+}
+
+/* After `:root`, since `.dark` sits on the same element at the same specificity. */
+.dark {
+  --scrim: color-mix(in oklab, black 55%, transparent);
 }
 
 /* ── Focus ───────────────────────────────────────────────────

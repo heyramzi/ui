@@ -57,9 +57,7 @@
 					class={cn(
 						"font-normal",
 						tone === "neutral" ? "text-muted-foreground/70" : TONE_TEXT[tone],
-					)}
-				>
-					/ {formatMinutes(estimate)}</span
+					)}>{`\u2009/\u2009${formatMinutes(estimate)}`}</span
 				>{/if}
 		</span>
 	</StatusPill>

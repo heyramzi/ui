@@ -61,7 +61,7 @@
 		<span class="text-sm tabular-nums text-muted-foreground">
 			{formatCount(matches.length, clients.length, "clients")}
 		</span>
-		<Button variant="outline" size="sm" class="ms-auto" onclick={reload}>Reload</Button>
+		<Button variant="outline" class="ms-auto" onclick={reload}>Reload</Button>
 	</div>
 
 	<div class="overflow-hidden rounded-xl border border-border bg-card">

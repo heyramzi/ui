@@ -97,7 +97,7 @@
 		deltaThreshold = 0.5,
 		share,
 		shareLabel,
-		color = "var(--chart-1)",
+		color = "var(--chart-series-1)",
 		size = "md",
 		caption,
 		negative = false,

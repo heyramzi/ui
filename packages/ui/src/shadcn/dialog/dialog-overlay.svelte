@@ -13,7 +13,7 @@
 	bind:ref
 	data-slot="dialog-overlay"
 	class={cn(
-		"t-modal-backdrop supports-backdrop-filter:backdrop-blur-xs fixed inset-0 isolate z-50",
+		"t-modal-backdrop fixed inset-0 isolate z-50",
 		className,
 	)}
 	{...restProps}

@@ -68,7 +68,7 @@
 		xKey,
 		yKey,
 		series: seriesInput,
-		color = "var(--chart-1)",
+		color = "var(--chart-series-1)",
 		height = 240,
 		smooth = true,
 		edgeFade = true,
@@ -104,7 +104,7 @@
 			? seriesInput.map((s, i) => ({
 					key: s.key,
 					label: s.label ?? s.key,
-					color: s.color ?? `var(--chart-${(i % 5) + 1})`,
+					color: s.color ?? `var(--chart-series-${(i % 6) + 1})`,
 				}))
 			: yKey
 				? [{ key: yKey, label: yKey, color }]

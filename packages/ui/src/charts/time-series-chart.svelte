@@ -62,7 +62,7 @@
 		data,
 		label = "Value",
 		label2,
-		color = "var(--chart-1)",
+		color = "var(--chart-series-1)",
 		color2 = "var(--muted-foreground)",
 		formatValue = (v) => v.toLocaleString(),
 		formatValue2,

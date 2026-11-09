@@ -16,7 +16,7 @@
 		value: number;
 		/** Denominator for the progress arc. */
 		maxValue: number;
-		/** CSS color or var. Falls back to --chart-1..5. */
+		/** CSS color or var. Falls back to --chart-series-1..6. */
 		color?: string;
 	};
 
@@ -82,7 +82,7 @@
 				index: i,
 				radius,
 				progress,
-				color: d.color ?? `var(--chart-${(i % 5) + 1})`,
+				color: d.color ?? `var(--chart-series-${(i % 6) + 1})`,
 			};
 		}),
 	);

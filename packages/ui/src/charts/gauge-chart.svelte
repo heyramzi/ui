@@ -90,7 +90,7 @@
 		endAngle = 405,
 		useGradient = false,
 		activeGradient,
-		activeFill = "var(--chart-1)",
+		activeFill = "var(--chart-series-1)",
 		inactiveFill,
 		activeFillOpacity = 1,
 		inactiveFillOpacity = 0.12,

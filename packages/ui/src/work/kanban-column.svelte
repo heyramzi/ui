@@ -65,11 +65,13 @@
 </div>
 
 <style>
-	/* Columns split the board's width equally, never under 280px (the board scrolls instead)
-	   nor over 420px (a 2-line card title stays near 55 characters a line). */
+	/* Columns split the board's width equally, never under 240px (the board scrolls instead)
+	   nor over 420px (a 2-line card title stays near 55 characters a line). At 280px four
+	   columns needed 1168px, so a docs page at 1440 cut the Done column off; 240px fits four
+	   in the 1008px a 1440 page leaves, and a card's meta row still fits on one line. */
 	.kanban-column {
 		flex: 1 1 0;
-		min-width: var(--kanban-column-min, 280px);
+		min-width: var(--kanban-column-min, 240px);
 		max-width: var(--kanban-column-max, 420px);
 		transition: opacity var(--duration-quick) var(--ease-smooth-out);
 	}

@@ -54,7 +54,7 @@
 		data: input,
 		xKey,
 		yKey,
-		color = "var(--chart-1)",
+		color = "var(--chart-series-1)",
 		height = 44,
 		smooth = true,
 		endCap = true,

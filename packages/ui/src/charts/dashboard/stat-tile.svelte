@@ -159,7 +159,7 @@
 				data={points}
 				xKey="i"
 				yKey="v"
-				color={color ?? "var(--chart-1)"}
+				color={color ?? "var(--chart-series-1)"}
 				height={48}
 				bare
 			/>

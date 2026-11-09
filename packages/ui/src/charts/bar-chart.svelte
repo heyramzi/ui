@@ -55,7 +55,7 @@
 		xKey,
 		yKey,
 		series,
-		color = "var(--chart-1)",
+		color = "var(--chart-series-1)",
 		colorOf,
 		height = 240,
 		orientation = "vertical",
@@ -161,7 +161,7 @@
 	{#if showFigure}
 		<Figure
 			value={active ? valueOf(active) : total}
-			color="var(--chart-1)"
+			color="var(--chart-series-1)"
 			eyebrow={active ? formatX(active[xKey]) : "Total"}
 			format={formatValue}
 			size="md"

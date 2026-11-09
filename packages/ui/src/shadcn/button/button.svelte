@@ -47,7 +47,7 @@
 			size: {
 				sm: "relative after:absolute after:top-1/2 after:left-1/2 after:h-[max(100%,2rem)] after:w-[max(100%,2rem)] after:-translate-x-1/2 after:-translate-y-1/2 any-pointer-coarse:after:h-[max(100%,2.75rem)] any-pointer-coarse:after:w-[max(100%,2.75rem)] h-7 gap-1 px-2.5 text-[0.8rem] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5 any-pointer-coarse:h-10 any-pointer-coarse:px-3",
 				default:
-					"h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 any-pointer-coarse:h-11 any-pointer-coarse:px-3.5",
+					"h-(--control-height) gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 any-pointer-coarse:px-3.5",
 				lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 any-pointer-coarse:h-11 any-pointer-coarse:px-3.5",
 			},
 			/** A glyph with no label: square at the height its size already sets. */

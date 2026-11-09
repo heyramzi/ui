@@ -130,7 +130,7 @@
 									cornerRadius={3}
 									fill={colorKey
 										? String((arc.data as TData)[colorKey])
-										: `var(--chart-${(i % 5) + 1})`}
+										: `var(--chart-series-${(i % 6) + 1})`}
 									class="hr-donut-arc"
 									data-hovered={isHovered ? "" : undefined}
 									style="opacity: {dimmed ? 0.4 : 1}; translate: {dx}px {dy}px"
