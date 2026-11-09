@@ -4113,7 +4113,7 @@
       "props": [
         {
           "name": "kind",
-          "type": "ConfirmationState",
+          "type": "ConfirmationKind",
           "values": ["\"idle\"", "\"requested\"", "\"accepted\"", "\"rejected\"", "\"failed\""],
           "required": true
         },
@@ -4161,9 +4161,15 @@
       ]
     },
     {
-      "name": "Confirmation.Request",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationRequest.svelte",
+      "name": "Confirmation.State",
+      "file": "packages/ui/src/ai/confirmation/ConfirmationState.svelte",
       "props": [
+        {
+          "name": "when",
+          "type": "Exclude<ConfirmationKind, \"idle\">",
+          "required": true,
+          "description": "The state whose content this shows."
+        },
         {
           "name": "children",
           "type": "Snippet"
@@ -4257,39 +4263,6 @@
           "from": "svelte/elements"
         }
       ]
-    },
-    {
-      "name": "Confirmation.Accepted",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationAccepted.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "Confirmation.Rejected",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationRejected.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "Confirmation.Failed",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationFailed.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
     }
   ],
   "context-menu": [
@@ -5116,16 +5089,11 @@
           "description": "Omit for every row on one page."
         },
         {
-          "name": "sortKey",
-          "type": "string | null",
+          "name": "sort",
+          "type": "SortState",
           "default": "null",
-          "bindable": true
-        },
-        {
-          "name": "descending",
-          "type": "boolean",
-          "default": "true",
-          "bindable": true
+          "bindable": true,
+          "description": "The ranked column and its direction. Bind it; a column with `sort` sets it."
         },
         {
           "name": "page",
@@ -5170,35 +5138,6 @@
           "name": "hint",
           "type": "string",
           "description": "What the letter hides: the score and what it was charged for."
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "DashboardEmpty",
-      "file": "packages/ui/src/charts/dashboard/dashboard-empty.svelte",
-      "props": [
-        {
-          "name": "icon",
-          "type": "PhosphorIcon"
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "name": "actions",
-          "type": "Snippet",
-          "description": "One or two buttons. Omit where there is nothing the reader can do."
         },
         {
           "name": "class",
@@ -7166,33 +7105,6 @@
   ],
   "icon": [
     {
-      "name": "Icon",
-      "file": "packages/ui/src/components/icon/icon.svelte",
-      "props": [
-        {
-          "name": "icon",
-          "type": "PhosphorIcon",
-          "required": true
-        },
-        {
-          "name": "size",
-          "type": "number",
-          "default": "24"
-        },
-        {
-          "name": "class",
-          "type": "string",
-          "default": "\"\""
-        },
-        {
-          "name": "weight",
-          "type": "IconWeight",
-          "values": ["\"bold\"", "\"duotone\"", "\"fill\"", "\"light\"", "\"thin\"", "\"regular\""]
-        }
-      ],
-      "bases": []
-    },
-    {
       "name": "Svg",
       "file": "packages/ui/src/components/svg/svg.svelte",
       "props": [
@@ -7955,8 +7867,8 @@
         {
           "name": "flags",
           "type": "Record<string, string>",
-          "default": "DEFAULT_FLAGS",
-          "description": "Language code to image URL."
+          "default": "LANGUAGE_FLAGS",
+          "description": "Language code to image URL, for another set or path."
         },
         {
           "name": "size",
@@ -8535,47 +8447,6 @@
       "bases": []
     },
     {
-      "name": "DetailEmpty",
-      "file": "packages/ui/src/components/list-page/detail-empty.svelte",
-      "props": [
-        {
-          "name": "icon",
-          "type": "PhosphorIcon"
-        },
-        {
-          "name": "iconWeight",
-          "type": "IconWeight",
-          "values": ["\"bold\"", "\"duotone\"", "\"fill\"", "\"light\"", "\"thin\"", "\"regular\""]
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "name": "actionLabel",
-          "type": "string"
-        },
-        {
-          "name": "actionHref",
-          "type": "string"
-        },
-        {
-          "name": "onAction",
-          "type": "() => void"
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
       "name": "FilterItem",
       "file": "packages/ui/src/components/list-page/filter-item.svelte",
       "props": [
@@ -8666,39 +8537,6 @@
           "name": "children",
           "type": "Snippet",
           "required": true
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "RailEmpty",
-      "file": "packages/ui/src/components/list-page/rail-empty.svelte",
-      "props": [
-        {
-          "name": "icon",
-          "type": "PhosphorIcon"
-        },
-        {
-          "name": "iconWeight",
-          "type": "IconWeight",
-          "values": ["\"bold\"", "\"duotone\"", "\"fill\"", "\"light\"", "\"thin\"", "\"regular\""]
-        },
-        {
-          "name": "iconClass",
-          "type": "string"
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "hint",
-          "type": "string"
         },
         {
           "name": "class",
@@ -8905,40 +8743,6 @@
           "from": "svelte/elements"
         }
       ]
-    }
-  ],
-  "locale-switch": [
-    {
-      "name": "LocaleSwitch",
-      "file": "packages/ui/src/components/locale-switch/locale-switch.svelte",
-      "props": [
-        {
-          "name": "value",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "onchange",
-          "type": "(value: string) => void",
-          "required": true
-        },
-        {
-          "name": "options",
-          "type": "LocaleOption[]",
-          "default": "[ { value: \"en\", label: \"EN\", flag: \"/flags/US.svg\" }, { value: \"fr\", label: ..."
-        },
-        {
-          "name": "ariaLabel",
-          "type": "string",
-          "default": "\"Language\"",
-          "description": "Names the control for a screen reader. Without it the group is two bare letters."
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
     }
   ],
   "magic-card": [
