@@ -66,7 +66,11 @@ export {
 // THINKING DOTS
 // =========================
 
-export { ThinkingDots, type ThinkingDotsProps } from "#src/ai/thinking-dots/index.js";
+// ThinkingDots is TypingDots with a `label`; this second name goes in the next major.
+export {
+  TypingDots as ThinkingDots,
+  type TypingDotsProps as ThinkingDotsProps,
+} from "#src/ai/typing-dots/index.js";
 
 // =========================
 // VOICE WAVEFORM

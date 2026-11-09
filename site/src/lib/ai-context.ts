@@ -70,7 +70,6 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/slides/Slide.svelte",
     "../../../packages/ui/src/ai/prompt-input/PromptInput.svelte",
     "../../../packages/ui/src/ai/response/Response.svelte",
-    "../../../packages/ui/src/ai/thinking-dots/ThinkingDots.svelte",
     "../../../packages/ui/src/ai/typing-dots/TypingDots.svelte",
     "../../../packages/ui/src/tokens/palette.css",
     "../../../packages/ui/src/brand/index.ts",

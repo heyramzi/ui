@@ -129,8 +129,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `reasoning` — Reasoning, ReasoningTrigger, ReasoningContent
 - `response` — Response
 - `suggestion` — Suggestion, Suggestions
-- `thinking-dots` — ThinkingDots
-- `typing-dots` — TypingDots
+- `typing-dots` — TypingDots. A `label` makes it a `role="status"` line; also exported as ThinkingDots until the next major
 - `voice-waveform` — VoiceWaveform
 
 ## Record (`src/record`)

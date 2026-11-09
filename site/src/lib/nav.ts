@@ -194,7 +194,6 @@ export const sections: Section[] = [
           "reasoning",
           "confirmation",
           "chat-typing",
-          "ai-thinking",
           "loading-state",
           "generation-progress",
           "voice-waveform",

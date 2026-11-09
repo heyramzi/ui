@@ -408,16 +408,10 @@ export const meta: Record<string, Meta> = {
     description: "Ask box with suggestions and send states.",
     height: 300,
   },
-  "ai-thinking": {
-    title: "Thinking dots",
-    icon: "thinking",
-    description: "Three dots while the answer forms.",
-    height: 200,
-  },
   "chat-typing": {
     title: "Typing dots",
     icon: "typing",
-    description: "Who is typing, in three dots.",
+    description: "Who is typing, or a labelled line while the answer forms.",
     height: 200,
   },
   "doc-page": {
