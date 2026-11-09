@@ -40,9 +40,7 @@
 			"rounded-2xl! top-[max(0.5rem,env(safe-area-inset-top))] right-2 bottom-auto left-2 w-auto max-h-[70svh] translate-y-0 gap-0 overflow-hidden p-0 sm:p-0",
 			// WHY no border and no card background here: the palette is a floating
 
-			// object, so its edge is a lit rim and a cast shadow rather than a drawn line, and the surface itself belongs to the Command root beneath so its translucency
-
-			// can read the dimmed page through it.
+			// object, so its edge is a lit rim and a cast shadow rather than a drawn line, and the surface belongs to the Command root beneath.
 			"border-0 bg-transparent shadow-edge-overlay",
 			// WHY a third of the way down rather than centred: the eye is already at
 
@@ -55,12 +53,9 @@
 		{showCloseButton}
 		{portalProps}
 	>
-		<Command
-			{...restProps}
-			bind:value
-			bind:ref
-			class="bg-popover supports-backdrop-filter:bg-popover/94 supports-backdrop-filter:backdrop-blur-2xl"
-			{children}
-		/>
+		<!-- WHY the root's opaque `bg-popover`, no glass: `.t-modal` on the content sets `will-change:
+		     opacity`, which makes the content the backdrop root, so a blur here read only the empty content
+		     box, never the page. Its 94% surface let page text show through the rows (light, 390px). -->
+		<Command {...restProps} bind:value bind:ref {children} />
 	</Dialog.Content>
 </Dialog.Root>
