@@ -117,7 +117,7 @@ const sources = import.meta.glob(
 const keyFor = (path: string) => `../../../${path}`;
 
 /** Every `@heyramzi/*` import statement in a demo, flattened to one line each. */
-function packageImports(source: string): string[] {
+export function packageImports(source: string): string[] {
   const statement = /import\s+[^;]*?from\s+["']@heyramzi\/[^"']+["'];?/g;
   return [...source.matchAll(statement)].map((m) => m[0].replace(/\s+/g, " ").trim());
 }
