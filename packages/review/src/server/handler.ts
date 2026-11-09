@@ -10,6 +10,8 @@ export type ReviewHandlerOptions = {
   heartbeatMs?: number;
   /** Largest POST body in bytes. */
   maxBody?: number;
+  /** Extra origins allowed to write, beyond the request's own host. */
+  allowedOrigins?: string[];
 };
 
 export type ReviewHandler = (request: IncomingMessage, response: ServerResponse) => boolean;
@@ -23,6 +25,15 @@ function fail(response: ServerResponse, error: unknown): void {
   if (error instanceof ReviewError) return problem(response, error.status, error.message);
   console.error("[review]", error);
   problem(response, 500, "Couldn't read this video.");
+}
+
+/** A client that drops mid-upload rejects the body read; left unhandled, that ends the process. */
+function settle(work: Promise<void>, response: ServerResponse): void {
+  work.catch((error: unknown) => {
+    if (!response.headersSent && !response.destroyed) return fail(response, error);
+    console.error("[review]", error);
+    if (response.writable) response.end();
+  });
 }
 
 /**
@@ -88,12 +99,26 @@ export function createReviewHandler(
     });
   }
 
+  /** Stops other pages in the browser writing here. Browsers send Origin cross-site; CLIs don't. */
+  function sameOrigin(request: IncomingMessage): boolean {
+    const origin = request.headers.origin;
+    if (!origin) return true;
+    if (options.allowedOrigins?.includes(origin)) return true;
+    try {
+      return new URL(origin).host === request.headers.host;
+    } catch {
+      return false;
+    }
+  }
+
   async function act(
     request: IncomingMessage,
     response: ServerResponse,
     id: string,
   ): Promise<void> {
-    if (!String(request.headers["content-type"] ?? "").includes("application/json")) {
+    if (!sameOrigin(request)) return problem(response, 403, "Wrong origin.");
+    const type = String(request.headers["content-type"] ?? "").split(";")[0] ?? "";
+    if (type.trim().toLowerCase() !== "application/json") {
       return problem(response, 415, "Send JSON.");
     }
     const raw = await readBody(request, maxBody);
@@ -138,7 +163,7 @@ export function createReviewHandler(
         (error: unknown) => fail(response, error),
       );
     } else if (route === "events" && method === "GET") {
-      void events(request, response, id);
+      settle(events(request, response, id), response);
     } else if (route === "media" && reading) {
       const file = url.searchParams.get("file");
       const path = file ? adapter.media(id, file) : null;
@@ -150,7 +175,7 @@ export function createReviewHandler(
         (error: unknown) => fail(response, error),
       );
     } else if (route === "act" && method === "POST") {
-      void act(request, response, id);
+      settle(act(request, response, id), response);
     } else if (["state", "events", "media", "act", "library"].includes(route)) {
       response.setHeader("allow", route === "act" ? "POST" : "GET");
       problem(response, 405, "Wrong method.");

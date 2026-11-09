@@ -1,5 +1,5 @@
 import { createServer, type Server } from "node:http";
-import type { AddressInfo } from "node:net";
+import { connect, type AddressInfo } from "node:net";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -104,6 +104,41 @@ describe("createReviewHandler", () => {
   it("answers 400 for broken JSON and 415 for the wrong type", async () => {
     expect((await post("{nope")).status).toBe(400);
     expect((await post({ type: "refresh" }, "text/plain")).status).toBe(415);
+  });
+  it("answers 415 when application/json is only a parameter", async () => {
+    expect((await post({ type: "refresh" }, "text/plain; x=application/json")).status).toBe(415);
+  });
+  it("still reads JSON with a charset", async () => {
+    expect((await post({ type: "refresh" }, "application/json; charset=utf-8")).status).toBe(200);
+  });
+  const postFrom = (origin: string) =>
+    fetch(`${url}/review/v1/act`, {
+      method: "POST",
+      headers: { "content-type": "application/json", origin },
+      body: JSON.stringify({ type: "refresh" }),
+    });
+  it("refuses a write from another origin", async () => {
+    const before = seen.length;
+    expect((await postFrom("https://elsewhere.example")).status).toBe(403);
+    expect(seen.length).toBe(before);
+  });
+  it("takes a write from its own origin and from a client that sends none", async () => {
+    expect((await postFrom(url)).status).toBe(200);
+    expect((await post({ type: "refresh" })).status).toBe(200);
+  });
+  it("stays up when a client drops mid-upload", async () => {
+    const socket = connect((server.address() as AddressInfo).port, "localhost");
+    await new Promise<void>((done) => socket.once("connect", done));
+    // Let the server start reading the body before the client vanishes.
+    await new Promise<void>((done) =>
+      socket.write(
+        'POST /review/v1/act HTTP/1.1\r\nhost: localhost\r\ncontent-type: application/json\r\ncontent-length: 1000\r\n\r\n{"type":',
+        () => setTimeout(done, 20),
+      ),
+    );
+    socket.destroy();
+    await new Promise((done) => setTimeout(done, 50));
+    expect((await fetch(`${url}/review/v1/state`)).status).toBe(200);
   });
   it("serves the library, and an empty one when the adapter has none", async () => {
     const res = await fetch(`${url}/review/v1/library`);
