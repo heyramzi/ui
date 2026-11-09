@@ -10,10 +10,10 @@ describe("buttonVariants text", () => {
       expect(classes).toContain("any-pointer-coarse:min-h-11");
       expect(classes).not.toContain("whitespace-nowrap");
       expect(classes).not.toContain("h-7");
-      expect(classes).not.toContain("h-8");
+      expect(classes).not.toContain("h-(--control-height)");
     });
   }
   it("leaves the other variants fixed-height", () => {
-    expect(buttonVariants({ variant: "ghost" }).split(" ")).toContain("h-8");
+    expect(buttonVariants({ variant: "ghost" }).split(" ")).toContain("h-(--control-height)");
   });
 });
