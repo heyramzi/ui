@@ -1131,3 +1131,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * feat(ui): list-page toolbar folds its tabs into a dropdown instead of wrapping (TSK-2121)
 
+
+## [2.22.1](https://github.com/heyramzi/ui/compare/ui-v2.22.0...ui-v2.22.1) (2026-11-09)
+
+### Performance
+
+* perf(canvas): the dot grid paints only the strip a pan uncovers (TSK-1131)
+
