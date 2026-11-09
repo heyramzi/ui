@@ -42,9 +42,14 @@
 	 * optional pager. A row opens by `rowHref` or `onRowClick`, stretched over the row from the lead.
 	 */
 	import { cn } from "#src/lib/utils.js";
-	import DataSortHead from "#src/charts/dashboard/data-sort-head.svelte";
 	import RatingChip from "#src/charts/dashboard/rating-chip.svelte";
-	import { Pagination, paginateRows, totalPages } from "#src/components/data-table/index.js";
+	import {
+		Pagination,
+		SortableHead,
+		paginateRows,
+		totalPages,
+		type SortState,
+	} from "#src/components/data-table/index.js";
 	import {
 		dataTableClass,
 		dataTdClass,
@@ -122,6 +127,11 @@
 		return [...rows].sort((left, right) => (by(left) - by(right)) * direction);
 	});
 
+	// The public `sortKey` + `descending` pair, in the shape `SortableHead` reads.
+	const sort = $derived<SortState<Record<string, unknown>>>(
+		sortKey ? { key: sortKey, direction: descending ? "desc" : "asc" } : null,
+	);
+
 	const visible = $derived(pageSize ? paginateRows(sorted, page, pageSize) : sorted);
 	const opens = $derived(Boolean(rowHref || onRowClick));
 
@@ -168,16 +178,16 @@
 			<th scope="col" class={dataThClass}>{leadLabel}</th>
 			{#each columns as column (column.key)}
 				{#if column.sort}
-					<DataSortHead
+					<SortableHead
+						key={column.key}
+						{sort}
+						onSort={rankBy}
 						numeric={column.align !== "start"}
-						class={columnClass(column)}
-						active={sortKey === column.key}
-						{descending}
-						onSort={() => rankBy(column.key)}
+						class={cn(column.align === "start" ? dataThClass : dataThNumClass, columnClass(column))}
 						title={column.hint}
 					>
 						{column.label}
-					</DataSortHead>
+					</SortableHead>
 				{:else}
 					<th
 						scope="col"

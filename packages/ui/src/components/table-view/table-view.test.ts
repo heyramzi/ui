@@ -64,14 +64,17 @@ describe("TableView extensions", () => {
     { key: "total", label: "Total", numeric: true, sortable: true },
   ];
 
-  it("sorts from a head button and sets aria-sort", () => {
+  it("sorts from a head, by click or Enter, and sets aria-sort", () => {
     const { target, done } = render({ columns: sortable, sort: { key: "name", direction: "asc" } });
-    const heads = target.querySelectorAll("thead th");
+    const heads = target.querySelectorAll<HTMLElement>("thead th");
     expect(heads[0].getAttribute("aria-sort")).toBe("ascending");
     expect(heads[1].getAttribute("aria-sort")).toBe("none");
-    (heads[1].querySelector("button") as HTMLButtonElement).click();
+    heads[1].click();
     flushSync();
     expect(target.querySelectorAll("thead th")[1].getAttribute("aria-sort")).toBe("ascending");
+    heads[1].dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    flushSync();
+    expect(target.querySelectorAll("thead th")[1].getAttribute("aria-sort")).toBe("descending");
     done();
   });
 

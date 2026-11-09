@@ -11,12 +11,12 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { CaretDown, CaretUp, CaretUpDown } from "phosphor-svelte";
+	import { CaretDown } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import * as Table from "#src/shadcn/table/index.js";
 	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
 	import { Checkbox } from "#src/shadcn/checkbox/index.js";
-	import { TableSkeleton } from "#src/components/data-table/index.js";
+	import { SortableHead, TableSkeleton } from "#src/components/data-table/index.js";
 	import { toggleSort, type SortState } from "#src/components/data-table/data-table.js";
 
 	// =========================
@@ -172,12 +172,6 @@
 			return Number.isFinite(value) ? value.toLocaleString() : "";
 		}
 		return value === null || value === undefined ? "" : String(value);
-	}
-
-	function ariaSort(column: TableColumn<Row>): "ascending" | "descending" | "none" | undefined {
-		if (!column.sortable) return undefined;
-		if (sort?.key !== column.key) return "none";
-		return sort.direction === "asc" ? "ascending" : "descending";
 	}
 
 	function toggleRow(row: Row, on: boolean) {
@@ -358,43 +352,35 @@
 					</Table.Head>
 				{/if}
 				{#each columns as column (column.key)}
-					<Table.Head
-						class={cn(
-							"whitespace-normal",
-							column.numeric && "text-end",
-							column.sortable && "h-8 p-0",
-							column.hideBelow && HIDE[column.hideBelow],
-							column.sticky && "bg-card sticky left-0 z-20",
-							column.headClass ?? column.class,
-						)}
-						style={column.width ? `width: ${column.width}` : undefined}
-						aria-sort={ariaSort(column)}
-					>
-						{#if column.sortable}
-							{@const dir = sort?.key === column.key ? sort.direction : null}
-							<button
-								type="button"
-								class={cn(
-									"t-press transition-colors duration-quick ease-smooth-out hover:bg-foreground/4 flex h-8 w-full items-center gap-1 px-2 text-xs font-medium outline-none focus-visible:shadow-(--ring-focus-inset)",
-									column.numeric ? "justify-end" : "justify-start",
-								)}
-								onclick={() => (sort = toggleSort(sort, column.key as keyof Row & string))}
-							>
-								{#if head}{@render head(column)}{:else}{column.label}{/if}
-								{#if dir === "asc"}
-									<CaretUp class="text-foreground size-3.5" weight="bold" aria-hidden="true" />
-								{:else if dir === "desc"}
-									<CaretDown class="text-foreground size-3.5" weight="bold" aria-hidden="true" />
-								{:else}
-									<CaretUpDown class="text-muted-foreground size-3.5" aria-hidden="true" />
-								{/if}
-							</button>
-						{:else if head}
-							{@render head(column)}
-						{:else}
-							{column.label}
-						{/if}
-					</Table.Head>
+					{@const headClass = cn(
+						"whitespace-normal",
+						column.numeric && "text-end",
+						column.hideBelow && HIDE[column.hideBelow],
+						column.sticky && "bg-card sticky left-0 z-20",
+						column.headClass ?? column.class,
+					)}
+					{@const headStyle = column.width ? `width: ${column.width}` : undefined}
+					{#if column.sortable}
+						<!-- A sticky head keeps its card under the hover tint, or rows show through it. -->
+						<SortableHead
+							key={column.key as keyof Row & string}
+							{sort}
+							onSort={(key) => (sort = toggleSort(sort, key))}
+							numeric={column.numeric}
+							class={cn(
+								headClass,
+								column.sticky &&
+									"hover:bg-[color-mix(in_oklab,var(--color-foreground)_4%,var(--color-card))]",
+							)}
+							style={headStyle}
+						>
+							{#if head}{@render head(column)}{:else}{column.label}{/if}
+						</SortableHead>
+					{:else}
+						<Table.Head class={headClass} style={headStyle}>
+							{#if head}{@render head(column)}{:else}{column.label}{/if}
+						</Table.Head>
+					{/if}
 				{/each}
 				{#if rowHref}
 					<th class="w-0 p-0"><span class="sr-only">Open</span></th>
