@@ -63,7 +63,7 @@
 		label = "Value",
 		label2,
 		color = "var(--chart-series-1)",
-		color2 = "var(--muted-foreground)",
+		color2 = "var(--chart-series-2)",
 		formatValue = (v) => v.toLocaleString(),
 		formatValue2,
 		height = 280,
@@ -152,7 +152,7 @@
 						<Spline
 							y="value2"
 							curve={curveMonotoneX}
-							style="stroke: {color2}; stroke-dasharray: 4 4; stroke-width: 1; fill: none"
+							style="stroke: {color2}; stroke-dasharray: 4 4; stroke-width: 1.5; fill: none"
 						/>
 					{/if}
 				</Reveal>
@@ -168,9 +168,13 @@
 						})}
 					/>
 					<Tooltip.List>
-						<Tooltip.Item {label} value={formatValue(d.value)} />
+						<Tooltip.Item {label} {color} value={formatValue(d.value)} />
 						{#if label2 && d.value2 !== undefined}
-							<Tooltip.Item label={label2} value={(formatValue2 ?? formatValue)(d.value2)} />
+							<Tooltip.Item
+								label={label2}
+								color={color2}
+								value={(formatValue2 ?? formatValue)(d.value2)}
+							/>
 						{/if}
 					</Tooltip.List>
 				{/snippet}
