@@ -4,6 +4,7 @@
 	// =========================
 	import type { Snippet } from "svelte";
 	import SectionLabel from "#src/components/section-header/section-label.svelte";
+	import CountChip from "#src/components/chip/count-chip.svelte";
 
 	// =========================
 	// TYPES
@@ -36,12 +37,7 @@
 		<svelte:element this={`h${level}`} class="flex items-center gap-2">
 			<SectionLabel class="min-w-0 [overflow-wrap:anywhere]">{title}</SectionLabel>
 			{#if count !== undefined}
-				<span
-					class="shrink-0 rounded-full bg-foreground/6 px-1.5 py-0.5 text-xs leading-none font-medium tabular-nums text-muted-foreground"
-					aria-label={`${count.toLocaleString()} ${countLabel}`}
-				>
-					{count.toLocaleString()}
-				</span>
+				<CountChip {count} size="sm" aria-label={`${count.toLocaleString()} ${countLabel}`} />
 			{/if}
 		</svelte:element>
 		{#if description}

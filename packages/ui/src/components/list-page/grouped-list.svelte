@@ -6,6 +6,7 @@
 	import { SvelteSet } from "svelte/reactivity";
 	import { CaretDown, Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import CountChip from "#src/components/chip/count-chip.svelte";
 
 	// =========================
 	// TYPES
@@ -110,10 +111,7 @@
 					/>
 					{@render header(group, { collapsed: isCollapsed })}
 					{#if getCount}
-						<span
-							class="rounded-full bg-foreground/6 px-1.5 text-xs leading-5 font-medium text-muted-foreground tabular-nums"
-							>{getCount(group)}</span
-						>
+						<CountChip count={getCount(group)} />
 					{/if}
 				</button>
 				{#if actions}

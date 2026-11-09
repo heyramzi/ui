@@ -32,6 +32,7 @@
 	import { cn } from "#src/lib/utils.js";
 	import { Icon } from "#src/components/icon/index.js";
 	import { Mark } from "#src/components/mark/index.js";
+	import CountChip from "#src/components/chip/count-chip.svelte";
 
 	// =========================
 	// TYPES
@@ -80,21 +81,15 @@
 {/if}
 
 {#if count != null}
-	<span
-		class={cn(
-			// WHY 16px, not 18: inside a 22px segment, 18 read as a chip nested in the pill.
-
-			// WHY min-width equals height with 4px padding: `min-w-5 px-1.5` made a digit
-			// 20 by 18, so `rounded-full` drew an ellipse.
-			"inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-xs leading-none font-medium tabular-nums",
-			"bg-foreground/8 text-muted-foreground",
-			on && "bg-brand/14 text-brand",
-			auto &&
-				"group-data-[state=active]/segment:bg-brand/14 group-data-[state=active]/segment:text-brand",
-		)}
-	>
-		{count.toLocaleString()}
-	</span>
+	<!-- WHY 16px, not 18: inside a 22px segment, 18 read as a chip nested in the pill. -->
+	<CountChip
+		{count}
+		size="sm"
+		tone={on ? "brand" : "neutral"}
+		class={auto
+			? "group-data-[state=active]/segment:bg-brand/12 group-data-[state=active]/segment:text-brand dark:group-data-[state=active]/segment:text-brand-light"
+			: undefined}
+	/>
 {:else if done}
 	<span
 		class={cn(

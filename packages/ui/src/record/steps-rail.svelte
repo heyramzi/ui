@@ -14,6 +14,7 @@
 	} from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
+	import CountChip from "#src/components/chip/count-chip.svelte";
 	import { Input } from "#src/shadcn/input/index.js";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
 	import * as Popover from "#src/shadcn/popover/index.js";
@@ -279,10 +280,12 @@
 						>
 							<DotsThreeVertical class="size-4" weight="bold" />
 							{#if hiddenCount > 0}
-								<span
-									class="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-muted px-1 text-xs font-medium tabular-nums"
-									>{hiddenCount.toLocaleString()}</span
-								>
+								<!-- Opaque, since it sits over the icon's corner. -->
+								<CountChip
+									count={hiddenCount}
+									size="sm"
+									class="absolute -top-0.5 -right-0.5 bg-muted"
+								/>
 							{/if}
 						</Button>
 					{/snippet}

@@ -8,6 +8,7 @@
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
+	import CountChip from "#src/components/chip/count-chip.svelte";
 	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
 	// phosphor-svelte v2 (resolved here) and v3 (what consumers run) differ only in
@@ -70,11 +71,7 @@
 			{@render trailing()}
 		{/if}
 		{#if hasCount}
-			<span
-				class="ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-brand/12 px-1 text-xs leading-none font-semibold text-brand tabular-nums dark:text-brand-light"
-			>
-				{count.toLocaleString()}
-			</span>
+			<CountChip {count} size="sm" tone="brand" class="ml-0.5" />
 		{/if}
 	</Popover.Trigger>
 	<Popover.Content class={cn("p-2", width, contentClass)} {align}>

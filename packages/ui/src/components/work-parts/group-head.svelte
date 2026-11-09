@@ -3,7 +3,7 @@
 	import { Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
-	import CountChip from "#src/components/work-parts/count-chip.svelte";
+	import CountChip from "#src/components/chip/count-chip.svelte";
 
 	interface Props {
 		label: string;
