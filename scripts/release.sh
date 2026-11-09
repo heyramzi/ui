@@ -108,10 +108,12 @@ if [ "$DRY_RUN" = "1" ]; then
   exit 0
 fi
 
-# Run the push gate before the bump: a rejected push after it leaves a local
-# release commit, and a rerun then reads the new version as never tagged.
-if [ -x .git/hooks/pre-push ]; then
-  .git/hooks/pre-push origin "$(git remote get-url origin)" </dev/null
+# Gate before the bump: a failure after it leaves a local release commit, and a rerun then reads
+# the new version as never tagged. SKIP_VERIFY=1 is for a rerun that already passed.
+if [ "${SKIP_VERIFY:-0}" = "1" ]; then
+  echo "release: SKIP_VERIFY=1, not running pnpm verify." >&2
+else
+  FULL_CHECK=1 pnpm verify
 fi
 
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
@@ -170,9 +172,13 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
   node -e "
     const fs = require('fs');
     const p = './$dir/CHANGELOG.md';
-    let cur = fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '# Changelog\n';
-    if (!cur.endsWith('\n')) cur += '\n';
-    fs.writeFileSync(p, cur + '\n' + fs.readFileSync('$NOTES_DIR/$component.md', 'utf8'));
+    const cur = fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '# Changelog\n';
+    const notes = fs.readFileSync('$NOTES_DIR/$component.md', 'utf8').trimEnd();
+    // Newest first: the entry goes above the first release heading, never at the end.
+    const at = cur.search(/^## /m);
+    const head = (at === -1 ? cur : cur.slice(0, at)).trimEnd();
+    const rest = at === -1 ? '' : '\n\n' + cur.slice(at);
+    fs.writeFileSync(p, head + '\n\n' + notes + '\n' + rest);
   "
 done
 
