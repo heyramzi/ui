@@ -34,9 +34,8 @@ export function usePathCalculator() {
     const rectA = fromRef.getBoundingClientRect();
     const rectB = toRef.getBoundingClientRect();
 
-    // A scaled ancestor (a gallery tile shrinking the demo) shrinks every rect, but the SVG draws in
-    // the container's own unscaled pixels. Divide by that scale, or the beams stop short of their
-    // nodes.
+    // A scaled ancestor shrinks every rect, but the SVG draws in the container's own pixels.
+    // Divide the scale out, or the beams stop short of their nodes.
     const scaleX = containerRef.offsetWidth ? containerRect.width / containerRef.offsetWidth : 1;
     const scaleY = containerRef.offsetHeight ? containerRect.height / containerRef.offsetHeight : 1;
     const local = (rect: DOMRect) =>

@@ -50,8 +50,10 @@
     transparent
   );
 }
-.marquee[data-pause-hover]:hover .marquee__track {
-  animation-play-state: paused;
+@media (hover: hover) and (pointer: fine) {
+  .marquee[data-pause-hover]:hover .marquee__track {
+    animation-play-state: paused;
+  }
 }
 .marquee[data-paused] .marquee__track {
   animation-play-state: paused;

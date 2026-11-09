@@ -114,8 +114,8 @@
 			const track = firstTrack.getBoundingClientRect();
 			const padStart = parseFloat(vertical ? computed.paddingTop : computed.paddingLeft) || 0;
 			const padEnd = parseFloat(vertical ? computed.paddingBottom : computed.paddingRight) || 0;
-			// Rects carry any ancestor's CSS scale (a gallery tile), padding and speed don't. Back to
-			// the box's own pixels, or a scaled box under-counts and the loop runs at the wrong speed.
+			// Rects carry an ancestor's CSS scale, padding and speed don't. Back to the box's own
+			// pixels, or a scaled box loops at the wrong speed.
 			const own = vertical ? root.offsetHeight : root.offsetWidth;
 			const scale = own ? (vertical ? box.height : box.width) / own : 1;
 			boxSize = (vertical ? box.height : box.width) / scale - padStart - padEnd;
