@@ -25,5 +25,5 @@ export default defineConfig({
     // Svelte files indent with tabs (the measured house style); .ts/.js keep 2 spaces.
     overrides: [{ files: ["**/*.svelte"], options: { svelte: true, useTabs: true } }],
   },
-  staged: { "*.{js,mjs,ts,svelte,css}": "vp fmt" },
+  staged: { "*.{js,mjs,ts,svelte,css}": "vp fmt --no-error-on-unmatched-pattern" },
 });
