@@ -126,16 +126,6 @@
       "node": "./dist/icons/sf-symbols.js",
       "default": "./src/icons/sf-symbols.ts"
     },
-    "./icons/trades": {
-      "svelte": "./src/icons/trades.ts",
-      "types": "./src/icons/trades.ts",
-      "node": "./dist/icons/trades.js",
-      "default": "./src/icons/trades.ts"
-    },
-    "./icons/TradeIcon": {
-      "svelte": "./src/icons/TradeIcon.svelte",
-      "default": "./src/icons/TradeIcon.svelte"
-    },
     "./design": {
       "style": "./src/design/index.css",
       "default": "./src/design/index.css"
@@ -446,7 +436,6 @@
   },
   "peerDependencies": {
     "@internationalized/date": "^3.12.4",
-    "@tabler/icons-svelte-runes": "^3.46.0",
     "@xyflow/svelte": "^1.7.0",
     "bits-ui": "^2.19.5",
     "mode-watcher": "^1.1.0",
@@ -461,9 +450,6 @@
       "optional": true
     },
     "@internationalized/date": {
-      "optional": true
-    },
-    "@tabler/icons-svelte-runes": {
       "optional": true
     },
     "@xyflow/svelte": {

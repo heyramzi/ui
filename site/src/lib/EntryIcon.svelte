@@ -45,7 +45,6 @@
 		UserCircle,
 		UsersThree,
 		WaveSine,
-		Wrench,
 	} from "phosphor-svelte";
 
 	let { icon, class: className = "size-5" }: { icon: Icon; class?: string } = $props();
@@ -89,7 +88,6 @@
 		conversation: Chats,
 		thinking: DotsThree,
 		typing: Keyboard,
-		tradeicon: Wrench,
 		brand: Palette,
 		testimonial: Quotes,
 		reviewpage: MonitorPlay,

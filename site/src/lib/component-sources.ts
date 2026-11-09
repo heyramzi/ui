@@ -117,7 +117,6 @@ export const componentSources: Record<string, string[]> = {
   "ai-prompt": ["packages/ui/src/ai/prompt-input/PromptInput.svelte"],
   "ai-thinking": ["packages/ui/src/ai/thinking-dots/ThinkingDots.svelte"],
   "chat-typing": ["packages/ui/src/ai/typing-dots/TypingDots.svelte"],
-  "trade-icon": ["packages/ui/src/icons/TradeIcon.svelte"],
   colors: ["packages/ui/src/tokens/palette.css"],
   theming: ["packages/ui/src/brand/index.ts"],
   "sf-symbols": ["packages/ui/src/icons/sf-symbols.ts"],

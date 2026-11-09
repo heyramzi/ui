@@ -79,6 +79,5 @@ export const peers: [name: string, part: string][] = [
   ["svelte-sonner", "Toasts"],
   ["mode-watcher", "Toasts and the theme provider"],
   ["@internationalized/date", "Calendar"],
-  ["@tabler/icons-svelte-runes", "Trade icons"],
   ["@xyflow/svelte", "Canvas"],
 ];

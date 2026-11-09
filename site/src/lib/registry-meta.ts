@@ -420,12 +420,6 @@ export const meta: Record<string, Meta> = {
     description: "Who is typing, in three dots.",
     height: 200,
   },
-  "trade-icon": {
-    title: "Trade icon",
-    icon: "tradeicon",
-    description: "One glyph per trade, same stroke.",
-    height: 240,
-  },
   "doc-page": {
     title: "Doc page",
     icon: "list",

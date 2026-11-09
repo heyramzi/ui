@@ -41,7 +41,6 @@ export type Icon =
   | "conversation"
   | "thinking"
   | "typing"
-  | "tradeicon"
   | "brand"
   | "testimonial"
   | "reviewpage"
@@ -65,7 +64,7 @@ export const sections: Section[] = [
     title: "Foundations",
     categories: [
       { title: "Theming", items: ["colors", "theming"] },
-      { title: "Icons", items: ["icon", "trade-icon", "sf-symbols"] },
+      { title: "Icons", items: ["icon", "sf-symbols"] },
       { title: "Motion", items: ["motion"] },
     ],
   },
