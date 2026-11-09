@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import { itemLink, sections } from "#lib/registry.js";
+	import { itemLink, sections } from "#lib/nav.js";
 
 	// The docs tree: Get started, then every section in the order the kit builds up.
 	let { onnavigate }: { onnavigate?: () => void } = $props();

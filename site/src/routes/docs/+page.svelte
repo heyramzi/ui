@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as CodeBlock from "@heyramzi/ui/shadcn/code-block";
 	import { useHighlightedCode } from "@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte";
-	import { sections } from "#lib/registry.js";
+	import { sections } from "#lib/nav.js";
 	import { docBlocks, docsIntro, docsTitle, peers, peersTitle } from "#lib/docs-content.js";
 
 	const blocks = docBlocks.map((b) => ({

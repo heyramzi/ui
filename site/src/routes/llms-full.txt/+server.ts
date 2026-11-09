@@ -2,4 +2,4 @@ import { llmsFull, textFile } from "#lib/llms.js";
 
 export const prerender = true;
 
-export const GET = () => textFile(llmsFull(), "text/plain");
+export const GET = async () => textFile(await llmsFull(), "text/plain");

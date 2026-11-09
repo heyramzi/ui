@@ -1,10 +1,7 @@
-import type { Entry } from "#lib/registry.js";
+import type { Card } from "#lib/nav.js";
 
 /** Title, icon, blurb and preview height for each written demo in `demos/`, keyed by slug. */
-export type Meta = Omit<
-  Entry,
-  "slug" | "section" | "category" | "component" | "source" | "sourceFiles"
->;
+export type Meta = Omit<Card, "slug" | "section" | "category" | "demo">;
 
 export const meta: Record<string, Meta> = {
   colors: {

@@ -1,16 +1,18 @@
 import { error } from "@sveltejs/kit";
-import { bySlug, entries as all, sectionById } from "#lib/registry.js";
+import { cardBySlug, cards, sectionById } from "#lib/nav.js";
+import { loadEntry } from "#lib/registry.js";
 
 export const prerender = true;
 
 export function entries() {
-  return all.map((e) => ({ slug: e.slug }));
+  return cards.map((c) => ({ slug: c.slug }));
 }
 
-export function load({ params, data }) {
-  const entry = bySlug(params.slug);
-  if (!entry) error(404, "No such component");
-  const section = sectionById(entry.section);
-  if (!section) error(500, `No section "${entry.section}"`);
-  return { ...data, entry, section };
+/** The page's own demo and source, on their own chunk: nothing of the other demos loads. */
+export async function load({ params, data }) {
+  const card = cardBySlug(params.slug);
+  if (!card) error(404, "No such component");
+  const section = sectionById(card.section);
+  if (!section) error(500, `No section "${card.section}"`);
+  return { ...data, entry: await loadEntry(card.slug), section };
 }

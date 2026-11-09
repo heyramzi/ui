@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { categoryId, entries, importOf } from "#lib/registry.js";
+	import { cards, categoryId } from "#lib/nav.js";
+	import { importOf } from "#lib/registry.js";
 	import ComponentApi from "#lib/ComponentApi.svelte";
 	import Viewer from "#lib/Viewer.svelte";
 	import { ArrowLeft, ArrowRight } from "phosphor-svelte";
@@ -7,9 +8,9 @@
 	let { data } = $props();
 	const entry = $derived(data.entry);
 	const section = $derived(data.section);
-	const index = $derived(entries.findIndex((e) => e.slug === entry.slug));
-	const prev = $derived(entries[index - 1]);
-	const next = $derived(entries[index + 1]);
+	const index = $derived(cards.findIndex((c) => c.slug === entry.slug));
+	const prev = $derived(cards[index - 1]);
+	const next = $derived(cards[index + 1]);
 	const from = $derived(importOf(entry));
 </script>
 

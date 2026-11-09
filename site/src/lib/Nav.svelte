@@ -3,7 +3,7 @@
 	import ThemeToggle from "@heyramzi/ui/effects/theme-toggle";
 	import * as Sheet from "@heyramzi/ui/shadcn/sheet";
 	import { GithubLogo, List } from "phosphor-svelte";
-	import { sections } from "#lib/registry.js";
+	import { sections } from "#lib/nav.js";
 	import Sidebar from "#lib/Sidebar.svelte";
 	import { version } from "@heyramzi/ui/package.json";
 	import { mode, toggleMode } from "@heyramzi/ui/components/theme";

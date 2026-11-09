@@ -3,7 +3,7 @@
 	import * as Command from "@heyramzi/ui/shadcn/command";
 	import { Kbd } from "@heyramzi/ui/shadcn/kbd";
 	import { ArrowRight, BookOpen, MagnifyingGlass, SquaresFour } from "phosphor-svelte";
-	import { bySlug, itemLink, sections } from "#lib/registry.js";
+	import { itemLink, sections } from "#lib/nav.js";
 
 	// The site's own index: the docs pages, then each section and every page it places.
 	type Row = { title: string; href: string; hint: string; keywords: string[] };
@@ -27,13 +27,8 @@
 				{ title: s.title, href: `/${s.id}`, hint: "Section", keywords: [] },
 				...s.categories.flatMap((c) =>
 					c.items.map((item) => {
-						const link = itemLink(item);
-						const entry = typeof item === "string" ? bySlug(item) : undefined;
-						return {
-							...link,
-							hint: c.title,
-							keywords: [s.title, c.title, ...(entry ? [entry.slug] : [])],
-						};
+						const slug = typeof item === "string" ? [item] : [];
+						return { ...itemLink(item), hint: c.title, keywords: [s.title, c.title, ...slug] };
 					}),
 				),
 			],

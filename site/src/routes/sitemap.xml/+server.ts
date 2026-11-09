@@ -1,5 +1,5 @@
 import { SITE, textFile } from "#lib/llms.js";
-import { entries, sections } from "#lib/registry.js";
+import { cards, sections } from "#lib/nav.js";
 
 export const prerender = true;
 
@@ -13,7 +13,7 @@ const pageModules = import.meta.glob<{ prerender?: boolean }>("/src/routes/**/+p
 /** The values a dynamic route is prerendered with, matching each route's own `entries()`. */
 const expansions: Record<string, () => string[]> = {
   "/[section]": () => sections.map((s) => `/${s.id}`),
-  "/components/[slug]": () => entries.map((e) => `/components/${e.slug}`),
+  "/components/[slug]": () => cards.map((c) => `/components/${c.slug}`),
 };
 
 function paths(): string[] {

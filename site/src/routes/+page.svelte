@@ -5,8 +5,7 @@
 	import WorkStage from "#lib/home/WorkStage.svelte";
 
 	// Every demo here loads on its own chunk as it nears the viewport, so the canvas, the
-	// charts and the editor cost nothing until someone scrolls to them. The page never imports
-	// the registry, which pulls every demo in the site.
+	// charts and the editor cost nothing until someone scrolls to them.
 	const rest = [
 		{ href: "/foundations", title: "Foundations" },
 		{ href: "/components", title: "Components" },

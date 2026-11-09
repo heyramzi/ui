@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Icon } from "#lib/registry.js";
+	import type { Icon } from "#lib/nav.js";
 	import {
 		ArrowsHorizontal,
 		Article,

@@ -1,15 +1,15 @@
 import { error } from "@sveltejs/kit";
 import { componentMarkdown, textFile } from "#lib/llms.js";
-import { bySlug, entries as all } from "#lib/registry.js";
+import { cardBySlug, cards } from "#lib/nav.js";
+import { loadEntry } from "#lib/registry.js";
 
 export const prerender = true;
 
 export function entries() {
-  return all.map((e) => ({ slug: e.slug }));
+  return cards.map((c) => ({ slug: c.slug }));
 }
 
-export function GET({ params }) {
-  const entry = bySlug(params.slug);
-  if (!entry) error(404, "No such component");
-  return textFile(componentMarkdown(entry), "text/markdown");
+export async function GET({ params }) {
+  if (!cardBySlug(params.slug)) error(404, "No such component");
+  return textFile(componentMarkdown(await loadEntry(params.slug)), "text/markdown");
 }

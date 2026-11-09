@@ -7,7 +7,8 @@ import {
   peers,
   peersTitle,
 } from "#lib/docs-content.js";
-import { entries, importOf, sectionById, sections, type Entry } from "#lib/registry.js";
+import { cards, sectionById, sections } from "#lib/nav.js";
+import { importOf, loadEntry, type Entry } from "#lib/registry.js";
 
 /** The production origin every absolute link in the machine-readable files points at. */
 export const SITE = "https://ui.heyramzi.com";
@@ -87,7 +88,7 @@ export function llmsIndex(): string {
     link(docsTitle, "/docs.md", docsDescription),
   ];
   for (const section of sections) {
-    const inSection = entries.filter((e) => e.section === section.id);
+    const inSection = cards.filter((c) => c.section === section.id);
     if (!inSection.length) continue;
     parts.push("", `## ${section.title}`, "");
     for (const e of inSection) parts.push(link(e.title, `/components/${e.slug}.md`, e.description));
@@ -96,8 +97,9 @@ export function llmsIndex(): string {
 }
 
 /** `/llms-full.txt`: the docs page and every component page, in sidebar order, in one file. */
-export function llmsFull(): string {
-  const pages = [docsMarkdown(), ...entries.map(componentMarkdown)];
+export async function llmsFull(): Promise<string> {
+  const loaded = await Promise.all(cards.map((c) => loadEntry(c.slug)));
+  const pages = [docsMarkdown(), ...loaded.map(componentMarkdown)];
   return `# ${NAME}\n\n> ${summary}\n\n---\n\n${pages.join("\n---\n\n")}`;
 }
 

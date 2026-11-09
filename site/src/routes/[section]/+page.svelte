@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { categoryId, entryOf } from "#lib/registry.js";
+	import { categoryId } from "#lib/nav.js";
 	import Tile from "#lib/Tile.svelte";
 	import { ArrowRight } from "phosphor-svelte";
 
@@ -25,7 +25,7 @@
 			<div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
 				{#each category.items as item (typeof item === "string" ? item : item.href)}
 					{#if typeof item === "string"}
-						<Tile entry={entryOf(item)} />
+						<Tile entry={data.demos[item]} />
 					{:else}
 						<a
 							href={item.href}
