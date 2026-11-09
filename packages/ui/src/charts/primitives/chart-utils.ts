@@ -39,6 +39,22 @@ export function getPayloadConfigFromPayload(
   return configLabelKey in config ? config[configLabelKey] : config[key as keyof typeof config];
 }
 
+const compact = new Intl.NumberFormat(undefined, {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+/**
+ * An axis tick formatter. "1,000,000" overflows the 48px gutter and the gap between ticks, so a
+ * label over 6 characters falls back to "1M"; the tooltip keeps the full value.
+ */
+export function valueTick(format: (v: number) => string): (v: number) => string {
+  return (v) => {
+    const full = format(v);
+    return full.length > 6 && Number.isFinite(v) ? compact.format(v) : full;
+  };
+}
+
 type ChartContextValue = {
   config: ChartConfig;
 };

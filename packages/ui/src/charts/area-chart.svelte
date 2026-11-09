@@ -12,6 +12,7 @@
 	import Figure from "#src/charts/figure.svelte";
 	import HoverFocus from "#src/charts/hover-focus.svelte";
 	import { DOMAIN_MOTION, TOOLTIP_GAP, TOOLTIP_TOP } from "#src/charts/motion.js";
+	import { valueTick } from "#src/charts/primitives/chart-utils.js";
 	import Reveal from "#src/charts/reveal.svelte";
 	import ReferenceLine, { type ChartReference } from "#src/charts/reference-line.svelte";
 	import {
@@ -153,15 +154,7 @@
 	const fallback = $derived(data.length > 0 ? data[data.length - 1] : null);
 	const display = $derived(active ?? fallback);
 
-	// A long tick label ("1,000,000") falls back to "1M" so the left gutter holds it.
-	const compact = new Intl.NumberFormat(undefined, {
-		notation: "compact",
-		maximumFractionDigits: 1,
-	});
-	function valueTick(v: number): string {
-		const full = formatValue(v);
-		return full.length > 6 && Number.isFinite(v) ? compact.format(v) : full;
-	}
+	const tick = $derived(valueTick(formatValue));
 	const figureRows = $derived(
 		display
 			? series.map((s) => ({
@@ -212,7 +205,7 @@
 				motion={DOMAIN_MOTION}
 			>
 				<Svg>
-					<Axis placement="left" format={(v) => valueTick(Number(v))} ticks={4} />
+					<Axis placement="left" format={(v) => tick(Number(v))} ticks={4} />
 					<Axis placement="bottom" format={(v) => formatX(v)} ticks={ticksForWidth(xTicks)} />
 					<g class="hr-area-grid">
 						<Axis placement="left" grid rule={false} ticks={4} format={() => ""} />

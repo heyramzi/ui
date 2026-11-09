@@ -8,6 +8,7 @@
 	import { scaleBand } from "d3-scale";
 	import Figure from "#src/charts/figure.svelte";
 	import { TOOLTIP_GAP, TOOLTIP_TOP } from "#src/charts/motion.js";
+	import { valueTick } from "#src/charts/primitives/chart-utils.js";
 
 	// =========================
 	// TYPES
@@ -134,16 +135,7 @@
 	});
 	const activeColor = $derived(active && colorOf ? colorOf(active) : color);
 
-	// WHY: "1,000,000" overflows the 48px gutter and the gap between ticks, so a long label
-	// falls back to "1M"; the tooltip keeps the full value.
-	const compact = new Intl.NumberFormat(undefined, {
-		notation: "compact",
-		maximumFractionDigits: 1,
-	});
-	function valueTick(v: number): string {
-		const full = formatValue(v);
-		return full.length > 6 && Number.isFinite(v) ? compact.format(v) : full;
-	}
+	const tick = $derived(valueTick(formatValue));
 </script>
 
 <!-- =========================== -->
@@ -188,12 +180,12 @@
 				<Svg>
 					{#if horizontal}
 						<Axis placement="left" format={(v) => (formatTick ?? formatX)(v)} />
-						<Axis placement="bottom" format={(v) => valueTick(Number(v))} ticks={4} />
+						<Axis placement="bottom" format={(v) => tick(Number(v))} ticks={4} />
 						<g class="hr-bar-grid">
 							<Axis placement="bottom" grid rule={false} ticks={4} format={() => ""} />
 						</g>
 					{:else}
-						<Axis placement="left" format={(v) => valueTick(Number(v))} ticks={4} />
+						<Axis placement="left" format={(v) => tick(Number(v))} ticks={4} />
 						<Axis placement="bottom" format={(v) => (formatTick ?? formatX)(v)} />
 						<g class="hr-bar-grid">
 							<Axis placement="left" grid rule={false} ticks={4} format={() => ""} />
