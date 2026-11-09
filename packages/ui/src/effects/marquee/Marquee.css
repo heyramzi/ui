@@ -23,9 +23,10 @@
 .marquee__track--reverse {
   animation-direction: reverse;
 }
+/* fit-content already stops at the parent's width. No max-width here: this sheet is unlayered, so
+   it would beat a caller's max-w-* utility and the line would never overflow its box. */
 .marquee[data-overflow-only] {
   width: fit-content;
-  max-width: 100%;
   padding: 0;
 }
 .marquee[data-still] .marquee__track {

@@ -15,6 +15,8 @@
 <style>
 	.frame {
 		position: relative;
+		/* A flex row holds the demo, so without a width the frame shrinks to the label. */
+		width: 100%;
 		height: 9rem;
 		overflow: hidden;
 		border: 1px solid var(--border);

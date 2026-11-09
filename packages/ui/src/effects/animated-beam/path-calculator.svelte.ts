@@ -34,12 +34,27 @@ export function usePathCalculator() {
     const rectA = fromRef.getBoundingClientRect();
     const rectB = toRef.getBoundingClientRect();
 
-    svgDimensions = { width: containerRect.width, height: containerRect.height };
+    // A scaled ancestor (a gallery tile shrinking the demo) shrinks every rect, but the SVG draws in
+    // the container's own unscaled pixels. Divide by that scale, or the beams stop short of their
+    // nodes.
+    const scaleX = containerRef.offsetWidth ? containerRect.width / containerRef.offsetWidth : 1;
+    const scaleY = containerRef.offsetHeight ? containerRect.height / containerRef.offsetHeight : 1;
+    const local = (rect: DOMRect) =>
+      new DOMRect(
+        (rect.left - containerRect.left) / scaleX,
+        (rect.top - containerRect.top) / scaleY,
+        rect.width / scaleX,
+        rect.height / scaleY,
+      );
+    const a = local(rectA);
+    const b = local(rectB);
 
-    const startX = anchorX(rectA, containerRect.left, fromAnchor, startXOffset);
-    const startY = rectA.top - containerRect.top + rectA.height / 2 + startYOffset;
-    const endX = anchorX(rectB, containerRect.left, toAnchor, endXOffset);
-    const endY = rectB.top - containerRect.top + rectB.height / 2 + endYOffset;
+    svgDimensions = { width: containerRect.width / scaleX, height: containerRect.height / scaleY };
+
+    const startX = anchorX(a, 0, fromAnchor, startXOffset);
+    const startY = a.top + a.height / 2 + startYOffset;
+    const endX = anchorX(b, 0, toAnchor, endXOffset);
+    const endY = b.top + b.height / 2 + endYOffset;
 
     // A cubic with horizontal handles, not a quadratic through a raised midpoint.
 
