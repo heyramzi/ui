@@ -670,30 +670,6 @@
       ]
     }
   ],
-  "ai-thinking": [
-    {
-      "name": "ThinkingDots",
-      "file": "packages/ui/src/ai/thinking-dots/ThinkingDots.svelte",
-      "props": [
-        {
-          "name": "label",
-          "type": "string",
-          "default": "\"Thinking\""
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": [
-        {
-          "kind": "package",
-          "label": "HTMLAttributes<HTMLDivElement>",
-          "from": "svelte/elements"
-        }
-      ]
-    }
-  ],
   "alert": [
     {
       "name": "Alert.Root",
@@ -3406,6 +3382,11 @@
           "description": "Dot diameter in px."
         },
         {
+          "name": "label",
+          "type": "string",
+          "description": "Set, even to \"\", the dots become a `role=\"status\"` line; the text shows when non-empty."
+        },
+        {
           "name": "class",
           "type": "string"
         }
@@ -3413,7 +3394,7 @@
       "bases": [
         {
           "kind": "package",
-          "label": "HTMLAttributes<HTMLSpanElement>",
+          "label": "HTMLAttributes<HTMLElement>",
           "from": "svelte/elements"
         }
       ]
@@ -4180,17 +4161,6 @@
       ]
     },
     {
-      "name": "Confirmation.Request",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationRequest.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
-    },
-    {
       "name": "Confirmation.Actions",
       "file": "packages/ui/src/ai/confirmation/ConfirmationActions.svelte",
       "props": [
@@ -4276,39 +4246,6 @@
           "from": "svelte/elements"
         }
       ]
-    },
-    {
-      "name": "Confirmation.Accepted",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationAccepted.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "Confirmation.Rejected",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationRejected.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "Confirmation.Failed",
-      "file": "packages/ui/src/ai/confirmation/ConfirmationFailed.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet"
-        }
-      ],
-      "bases": []
     }
   ],
   "context-menu": [
@@ -13692,13 +13629,13 @@
         {
           "name": "when",
           "type": "(comment: ThreadComment) => string",
-          "default": "(comment) => shortDate(comment.createdAt)",
+          "default": "(comment) => shortDate(comment.createdAt, { locale })",
           "description": "How a timestamp reads. Defaults to a short date."
         },
         {
           "name": "whenEvent",
           "type": "(event: ThreadEvent) => string",
-          "default": "(event) => shortDate(event.at)",
+          "default": "(event) => shortDate(event.at, { locale })",
           "description": "How an event's time reads. Defaults to a short date."
         },
         {
@@ -13906,7 +13843,7 @@
         {
           "name": "color2",
           "type": "string",
-          "default": "\"var(--muted-foreground)\""
+          "default": "\"var(--chart-series-2)\""
         },
         {
           "name": "formatValue",
@@ -14514,51 +14451,6 @@
           "from": "svelte/elements"
         }
       ]
-    }
-  ],
-  "trade-icon": [
-    {
-      "name": "TradeIcon",
-      "file": "packages/ui/src/icons/TradeIcon.svelte",
-      "props": [
-        {
-          "name": "trade",
-          "type": "TradeSlug",
-          "values": [
-            "\"plumbers\"",
-            "\"electricians\"",
-            "\"roofers\"",
-            "\"handymen\"",
-            "\"locksmiths\"",
-            "\"window-cleaners\"",
-            "\"garages\"",
-            "\"carpenters\"",
-            "\"builders\"",
-            "\"plasterers\"",
-            "\"tilers\"",
-            "\"gardeners\"",
-            "\"mobile-mechanics\"",
-            "\"construction-companies\""
-          ],
-          "required": true
-        },
-        {
-          "name": "size",
-          "type": "number",
-          "default": "14"
-        },
-        {
-          "name": "stroke",
-          "type": "number",
-          "default": "2"
-        },
-        {
-          "name": "class",
-          "type": "string",
-          "default": "\"\""
-        }
-      ],
-      "bases": []
     }
   ],
   "triage-queue": [
