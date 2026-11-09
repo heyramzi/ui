@@ -1,7 +1,5 @@
 <script lang="ts">
 	import type { Entry } from "#lib/registry.js";
-	import * as CodeBlock from "@heyramzi/ui/shadcn/code-block";
-	import { useHighlightedCode } from "@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte";
 	import { copyAiContext } from "#lib/ai-context.js";
 	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
 	import { ArrowCounterClockwise, Check, Copy } from "phosphor-svelte";
@@ -16,10 +14,6 @@
 	let tab = $state<(typeof views)[number]["value"]>("preview");
 	let run = $state(0);
 	let copied = $state(false);
-	const lines = useHighlightedCode(
-		() => entry.source,
-		() => "svelte",
-	);
 
 	// One button, the full block: usage and component source. A person pastes the
 	// part they want, an agent gets everything.
@@ -75,15 +69,8 @@
 			{/key}
 		</div>
 	{:else}
-		<CodeBlock.Root class="rounded-none border-0">
-			<CodeBlock.Content
-				class="max-h-[560px]"
-				style="min-height:{Math.min(entry.height ?? 240, 320)}px"
-			>
-				{#each lines.current as line, index (index)}
-					<CodeBlock.Line code={line} />
-				{/each}
-			</CodeBlock.Content>
-		</CodeBlock.Root>
+		{#await import("#lib/ViewerCode.svelte") then { default: ViewerCode }}
+			<ViewerCode source={entry.source} height={entry.height ?? 240} />
+		{/await}
 	{/if}
 </section>
