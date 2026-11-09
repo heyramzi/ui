@@ -10,4 +10,4 @@ export type {
   Statuses,
 } from "#src/status/status-types.js";
 export { default as StatusPill } from "#src/status/status-pill.svelte";
-export { PILL_TINT } from "#src/status/pill-tint.js";
+export { TONE_TINT as PILL_TINT } from "#src/lib/tone.js";

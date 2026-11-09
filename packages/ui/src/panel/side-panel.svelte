@@ -11,7 +11,7 @@
 	import * as Sheet from "#src/shadcn/sheet/index.js";
 	import { OpenIn, type OpenInTool } from "#src/components/open-in/index.js";
 	import { CopyButton } from "#src/components/copy/index.js";
-	import type { Tone } from "#src/lib/tone.js";
+	import { TONE_TEXT, type Tone } from "#src/lib/tone.js";
 	import { cn } from "#src/lib/utils.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import PopValue from "#src/charts/pop-value.svelte";
@@ -75,9 +75,9 @@
 	let hasRow = $derived(badges.length > 0 || openIn.length > 0 || Boolean(handoff || actions));
 	const STAT_TONE = {
 		default: "",
-		muted: "text-muted-foreground",
-		good: "text-success",
-		bad: "text-destructive",
+		muted: TONE_TEXT.neutral,
+		good: TONE_TEXT.success,
+		bad: TONE_TEXT.destructive,
 	} as const;
 	const WIDTH: Record<SidePanelWidth, string> = {
 		sm: "sm:max-w-sm",

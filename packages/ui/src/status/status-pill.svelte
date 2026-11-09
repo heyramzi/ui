@@ -1,13 +1,7 @@
-<script lang="ts" module>
-	import type { Tone } from "#src/lib/tone.js";
-	import { PILL_TINT } from "#src/status/pill-tint.js";
-
-	export { PILL_TINT };
-</script>
-
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
+	import { TONE_TINT, type Tone } from "#src/lib/tone.js";
 	import { cn } from "#src/lib/utils.js";
 
 	interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "class" | "children"> {
@@ -30,7 +24,7 @@
 		"transition-[background-color,color] duration-quick ease-smooth-out motion-reduce:transition-none",
 		"[&>svg]:size-3 [&>svg]:shrink-0",
 		icon && "pl-1.5",
-		PILL_TINT[tone],
+		TONE_TINT[tone],
 		className,
 	)}
 	{...restProps}

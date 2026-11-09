@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { TONE_TEXT } from "#src/lib/tone.js";
 	import { cn } from "#src/lib/utils.js";
 	import PopValue from "#src/charts/pop-value.svelte";
 	import type { PanelStat } from "#src/panel/side-panel-types.js";
@@ -23,9 +24,9 @@
 	// =========================
 	const TONE = {
 		default: "",
-		muted: "text-muted-foreground",
-		good: "text-success",
-		bad: "text-destructive",
+		muted: TONE_TEXT.neutral,
+		good: TONE_TEXT.success,
+		bad: TONE_TEXT.destructive,
 	} as const;
 </script>
 

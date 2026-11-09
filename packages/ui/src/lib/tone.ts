@@ -15,6 +15,21 @@ export const TONE_CLASS: Record<Tone, string> = {
   destructive: "border-destructive/30 bg-destructive/10 text-destructive-ink",
 };
 
+/**
+ * The scale as a quiet tint with no border: the icon and the text carry the tone, the fill only
+ * groups them. Neutral reads off the foreground, not `bg-muted`, because muted sits 0.005 L from
+ * the canvas and vanishes there (tokens board, "what fights the new scale").
+ */
+export const TONE_TINT: Record<Tone, string> = {
+  neutral: "bg-foreground/6 text-muted-foreground",
+  accent:
+    "bg-[color-mix(in_oklab,var(--tone-accent,var(--color-primary))_12%,transparent)] text-[color:var(--tone-accent,var(--color-primary))]",
+  info: "bg-info/12 text-info-800 dark:text-info-400",
+  success: "bg-success/12 text-success-800 dark:text-success-400",
+  warning: "bg-warning/14 text-warning-800 dark:text-warning-400",
+  destructive: "bg-destructive/10 text-destructive-ink",
+};
+
 /** The same scale as text, for a verdict inside a line of muted facts. */
 export const TONE_TEXT: Record<Tone, string> = {
   neutral: "text-muted-foreground",
