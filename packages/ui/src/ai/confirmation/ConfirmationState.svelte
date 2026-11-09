@@ -1,7 +1,10 @@
 <script lang="ts" module>
 	import type { Snippet } from "svelte";
+	import type { ConfirmationState } from "#src/ai/confirmation/confirmation-context.svelte.js";
 
-	export interface ConfirmationRequestProps {
+	export interface ConfirmationStateProps {
+		/** The state whose content this shows. */
+		when: Exclude<ConfirmationState, "idle">;
 		children?: Snippet;
 	}
 </script>
@@ -9,12 +12,12 @@
 <script lang="ts">
 	import { getConfirmationContext } from "#src/ai/confirmation/confirmation-context.svelte.js";
 
-	let { children }: ConfirmationRequestProps = $props();
+	let { when, children }: ConfirmationStateProps = $props();
 
 	const ctx = getConfirmationContext();
 </script>
 
-{#if ctx.kind === "requested"}
+{#if ctx.kind === when}
 	<!-- WHY: the wrapper mirrors the parent section's stack so the state swap can
        animate as one block without changing the children's layout. -->
 	<div
