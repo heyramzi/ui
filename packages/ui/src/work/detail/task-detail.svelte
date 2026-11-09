@@ -4,12 +4,12 @@
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { Textarea } from "#src/shadcn/textarea/index.js";
+	import Thread from "#src/thread/thread.svelte";
+	import type { ThreadComment, ThreadLabels, ThreadPost } from "#src/thread/types.js";
 	import {
 		DEFAULT_TASK_DETAIL_LABELS,
-		type TaskComment,
 		type TaskDetailLabels,
 	} from "#src/work/detail/detail-types.js";
-	import TaskThread from "#src/work/detail/task-thread.svelte";
 
 	interface Props {
 		title: string;
@@ -21,22 +21,24 @@
 		onToggleDone?: () => void;
 		/** One 12px line under the title: origin, dates. */
 		meta?: Snippet;
-		/** The rail. A row of `TaskProperty` with a `TaskChip` or any picker trigger in each. */
+		/** The rail. A `PropertyRow layout="responsive"` with a `TaskChip` or any picker trigger in each. */
 		properties?: Snippet;
 		/** Under the rail's rows: ids, shortcuts, anything quiet. */
 		railFooter?: Snippet;
 		description?: string | null;
 		onDescriptionChange?: (next: string | null) => void | Promise<void>;
-		comments?: TaskComment[];
+		comments?: ThreadComment[];
 		loadingComments?: boolean;
-		agentAvatar?: Snippet<[TaskComment]>;
-		avatar?: Snippet<[TaskComment]>;
-		when?: (comment: TaskComment) => string;
-		onSend?: (body: string) => void | boolean | Promise<void | boolean>;
-		onEditComment?: (comment: TaskComment, body: string) => void | Promise<void>;
-		onDeleteComment?: (comment: TaskComment) => void | Promise<void>;
-		canEditComment?: (comment: TaskComment) => boolean;
+		/** Replaces the default avatar for a person or an agent, drawn in a 24px slot. */
+		avatar?: Snippet<[ThreadComment]>;
+		when?: (comment: ThreadComment) => string;
+		/** Returns false to keep the draft. Without it no composer shows. */
+		onPostComment?: (post: ThreadPost) => void | boolean | Promise<void | boolean>;
+		onEditComment?: (comment: ThreadComment, body: string) => void | Promise<void>;
+		onDeleteComment?: (comment: ThreadComment) => void | Promise<void>;
+		canEditComment?: (comment: ThreadComment) => boolean;
 		labels?: Partial<TaskDetailLabels>;
+		threadLabels?: Partial<ThreadLabels>;
 		class?: string;
 	}
 
@@ -53,14 +55,14 @@
 		onDescriptionChange,
 		comments = [],
 		loadingComments = false,
-		agentAvatar,
 		avatar,
 		when,
-		onSend,
+		onPostComment,
 		onEditComment,
 		onDeleteComment,
 		canEditComment,
 		labels: labelOverrides,
+		threadLabels,
 		class: className,
 	}: Props = $props();
 
@@ -260,14 +262,13 @@
 					{/if}
 				</div>
 
-				<TaskThread
+				<Thread
 					{comments}
 					loading={loadingComments}
-					labels={labelOverrides}
-					{agentAvatar}
+					labels={threadLabels}
 					{avatar}
 					{when}
-					{onSend}
+					onPost={onPostComment}
 					onEdit={onEditComment}
 					onDelete={onDeleteComment}
 					canEdit={canEditComment}

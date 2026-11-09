@@ -23,11 +23,9 @@ export type {
   TaskListRowContext,
 } from "#src/work/task-types.js";
 export { default as TaskDetail } from "#src/work/detail/task-detail.svelte";
-export { default as TaskThread } from "#src/work/detail/task-thread.svelte";
-export { default as TaskProperty } from "#src/work/detail/task-property.svelte";
 export { default as TaskChip } from "#src/work/detail/task-chip.svelte";
 export { DEFAULT_TASK_DETAIL_LABELS } from "#src/work/detail/detail-types.js";
-export type { TaskComment, TaskDetailLabels } from "#src/work/detail/detail-types.js";
+export type { TaskDetailLabels } from "#src/work/detail/detail-types.js";
 export { default as TimeTracker } from "#src/work/time/time-tracker.svelte";
 export { default as TimeChip } from "#src/work/time/time-chip.svelte";
 export { default as TimeRing } from "#src/work/time/time-ring.svelte";

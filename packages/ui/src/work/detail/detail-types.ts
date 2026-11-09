@@ -1,16 +1,4 @@
-/** One entry in a task's thread. The host resolves the author's name. */
-export type TaskComment = {
-  id: string;
-  author: string;
-  body: string;
-  /** ISO timestamp. */
-  createdAt: string;
-  /** An agent wrote it: the thread draws the agent avatar and an "AI" label. */
-  agent?: boolean;
-  /** Set when the body changed after posting. */
-  edited?: boolean;
-};
-
+/** The task page's own words. The comment thread's come through `threadLabels`. */
 export type TaskDetailLabels = {
   markComplete: string;
   markIncomplete: string;
@@ -21,14 +9,6 @@ export type TaskDetailLabels = {
   save: string;
   saving: string;
   cancel: string;
-  comments: string;
-  commentPlaceholder: string;
-  commentSend: string;
-  commentEdit: string;
-  commentDelete: string;
-  commentEdited: string;
-  commentsEmpty: string;
-  ai: string;
   properties: string;
 };
 
@@ -42,13 +22,5 @@ export const DEFAULT_TASK_DETAIL_LABELS: TaskDetailLabels = {
   save: "Save",
   saving: "Saving",
   cancel: "Cancel",
-  comments: "Activity",
-  commentPlaceholder: "Leave a comment",
-  commentSend: "Comment",
-  commentEdit: "Edit comment",
-  commentDelete: "Delete comment",
-  commentEdited: "edited",
-  commentsEmpty: "No comments yet",
-  ai: "AI",
   properties: "Properties",
 };
