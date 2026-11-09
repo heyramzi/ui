@@ -70,6 +70,18 @@
   background: var(--cv-surface);
 }
 
+/* On a phone the rail runs along the bottom edge and the credit would sit under
+   it, in the frame's rounded corner. It moves to the top right, inset off the
+   corner's curve. */
+@media (max-width: 639px) {
+  .svelte-flow .svelte-flow__panel.svelte-flow__attribution {
+    top: 0;
+    bottom: auto;
+    margin: 6px 8px;
+    border-radius: var(--radius-sm, 4px);
+  }
+}
+
 .svelte-flow .svelte-flow__attribution a {
   color: var(--cv-ink-muted);
 }

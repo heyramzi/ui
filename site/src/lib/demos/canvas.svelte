@@ -17,7 +17,11 @@
 
 	// A board that opens with something on it, so the preview isn't an empty grid.
 	let nodes = $state.raw<Node[]>([
-		buildTextNode({ x: 40, y: 0 }, { id: "title", text: "Draw on me", fontSize: 28 }),
+		// The builder's 120px box is for an empty text; these words need about 150 at 28px, or they wrap onto the card below.
+		{
+			...buildTextNode({ x: 40, y: 0 }, { id: "title", text: "Draw on me", fontSize: 28 }),
+			width: 180,
+		},
 		buildShapeNode(
 			"rectangle",
 			{ x: 0, y: 70, width: 160, height: 90 },
@@ -30,6 +34,12 @@
 		),
 	] as Node[]);
 	let edges = $state.raw<Edge[]>([{ id: "idea-ship", source: "idea", target: "ship" }]);
+	// From 640px the tool rail stands on the left edge, so the fit leaves it a lane instead of
+	// putting the Idea card under it. A phone docks the rail along the bottom and keeps the default.
+	const fitViewOptions =
+		typeof matchMedia === "function" && matchMedia("(min-width: 640px)").matches
+			? ({ padding: { left: "72px", right: "32px", top: "32px", bottom: "32px" } } as const)
+			: undefined;
 	let tool = $state<CanvasTool>("select");
 	let color = $state<PenColor>("ink");
 	let level = $state(DEFAULT_BRUSH_LEVEL);
@@ -77,7 +87,7 @@
 </script>
 
 <div class="h-[440px] w-full overflow-hidden rounded-xl border border-border">
-	<SvelteFlow bind:nodes bind:edges nodeTypes={registry.nodeTypes()} fitView>
+	<SvelteFlow bind:nodes bind:edges nodeTypes={registry.nodeTypes()} fitView {fitViewOptions}>
 		<Background />
 		{#if isDrawingTool(tool)}
 			<PenLayer
