@@ -40,6 +40,14 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div class={cn("flex h-full items-center justify-center rounded-xl bg-card", className)}>
-	<EmptyState {icon} {iconWeight} {title} {description} {actionLabel} {actionHref} {onAction} />
-</div>
+<EmptyState
+	surface="card"
+	class={cn("h-full", className)}
+	{icon}
+	{iconWeight}
+	{title}
+	{description}
+	{actionLabel}
+	{actionHref}
+	{onAction}
+/>
