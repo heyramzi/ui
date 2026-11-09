@@ -146,7 +146,7 @@
 }
 
 .cv-btn:active:not(:disabled) {
-  scale: 0.94;
+  scale: 0.96;
 }
 
 /* One active style for a tool, a size, a brush and an open popover. */
