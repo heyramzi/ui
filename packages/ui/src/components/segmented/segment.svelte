@@ -30,7 +30,6 @@
 	// IMPORTS
 	// =========================
 	import { cn } from "#src/lib/utils.js";
-	import { Icon } from "#src/components/icon/index.js";
 	import { Mark } from "#src/components/mark/index.js";
 	import CountChip from "#src/components/chip/count-chip.svelte";
 
@@ -48,7 +47,7 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { label, count, icon, image, done = false, badge, active = false }: Props = $props();
+	let { label, count, icon: Icon, image, done = false, badge, active = false }: Props = $props();
 
 	// =========================
 	// DERIVED
@@ -70,8 +69,8 @@
 			auto && "group-data-[state=active]/segment:opacity-100",
 		)}
 	/>
-{:else if icon}
-	<Icon {icon} size={16} class="shrink-0" />
+{:else if Icon}
+	<Icon size={16} class="shrink-0" />
 {/if}
 
 {label}

@@ -64,7 +64,6 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `copy` — CopyButton, copyText, copyRichText, htmlToPlainText, Copied
 - `data-table` — SortableHead, Pagination, InfiniteScroll, RowContextMenu, TableSkeleton, and the sort, page and filter helpers
 - `hold-to-confirm` — HoldToConfirm, press and hold to confirm
-- `icon` — Icon, a Phosphor component at a size
 - `language-flag` — LanguageFlag
 - `list-page` — ListPageShell, MasterDetail, GroupedList, RailRow and the rest of the master-detail page kit, NoticeBar, EmptyState, FilterPopover, setSectionHost
 - `toolbar` — Toolbar: one row at any width; search, tabs and the view switch fold into menus in a narrow pane

@@ -149,10 +149,7 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/lib/panel.svelte",
     "packages/ui/src/components/toolbar/toolbar-search.svelte",
   ],
-  icon: [
-    "packages/ui/src/components/icon/icon.svelte",
-    "packages/ui/src/components/svg/svg.svelte",
-  ],
+  icon: ["packages/ui/src/components/svg/svg.svelte"],
   "side-panel": ["packages/ui/src/panel/side-panel.svelte"],
   "rich-editor": ["packages/ui/src/editor/editor.svelte"],
   "in-view": ["packages/ui/src/effects/reveal/InView.svelte"],

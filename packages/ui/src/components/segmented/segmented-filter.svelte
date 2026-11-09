@@ -13,7 +13,6 @@
 		splitSegments,
 	} from "#src/components/segmented/collapse.js";
 	import { segmentedTriggerClass } from "#src/components/segmented/segmented.js";
-	import { Icon } from "#src/components/icon/index.js";
 	import { Mark } from "#src/components/mark/index.js";
 	import { CaretDown } from "phosphor-svelte";
 	import { Picker } from "#src/components/picker/index.js";
@@ -162,7 +161,7 @@
 							)}
 						/>
 					{:else if markOnly && option.icon}
-						<Icon icon={option.icon} size={16} class="shrink-0" />
+						<option.icon size={16} class="shrink-0" />
 					{:else}
 						<Segment
 							label={option.label}

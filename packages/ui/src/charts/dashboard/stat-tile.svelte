@@ -14,7 +14,6 @@
 	import Sparkline from "#src/charts/sparkline.svelte";
 	import type { Snippet } from "svelte";
 	import { cn } from "#src/lib/utils.js";
-	import { Icon } from "#src/components/icon/index.js";
 	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
 	// =========================
@@ -87,7 +86,7 @@
 		shareLabel,
 		color,
 		series,
-		icon,
+		icon: Icon,
 		href,
 		hrefLabel,
 		target = "_blank",
@@ -124,7 +123,7 @@
 	)}
 >
 	{#snippet tileIcon()}
-		{#if icon}<Icon {icon} size={14} class="shrink-0" />{/if}
+		{#if Icon}<Icon size={14} class="shrink-0" />{/if}
 	{/snippet}
 
 	<NumberChart
@@ -135,7 +134,7 @@
 		{share}
 		{shareLabel}
 		{color}
-		icon={icon ? tileIcon : undefined}
+		icon={Icon ? tileIcon : undefined}
 		size={lead ? "lg" : "md"}
 		caption={hint}
 		class={cn(

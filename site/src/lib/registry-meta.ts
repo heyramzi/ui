@@ -19,7 +19,7 @@ export const meta: Record<string, Meta> = {
   icon: {
     title: "Icon",
     icon: "sparkles",
-    description: "A Phosphor icon at any size and weight, and a raw SVG file drawn inline.",
+    description: "A Phosphor icon rendered as its own component, and a raw SVG file drawn inline.",
     height: 260,
   },
   "sf-symbols": {
