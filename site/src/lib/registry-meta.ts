@@ -374,6 +374,13 @@ export const meta: Record<string, Meta> = {
       "One thread per task, project or doc, with filters, j and k to move, u to read, h to snooze and the agent's ask pinned on top.",
     height: 640,
   },
+  "triage-queue": {
+    title: "Triage queue",
+    icon: "inbox",
+    description:
+      "Plan, Task and Queue: an email with the plan the model proposes, the task a settled email became, and the list around them.",
+    height: 640,
+  },
   "agent-avatar": {
     title: "Agent avatar",
     icon: "avatar",

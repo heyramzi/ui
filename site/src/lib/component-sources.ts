@@ -96,6 +96,12 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/inbox/logic.ts",
     "packages/ui/src/inbox/types.ts",
   ],
+  "triage-queue": [
+    "packages/ui/src/triage/triage-queue.svelte",
+    "packages/ui/src/triage/triage-plan.svelte",
+    "packages/ui/src/triage/triage-task.svelte",
+    "packages/ui/src/triage/types.ts",
+  ],
   "agent-avatar": ["packages/ui/src/agents/agent-avatar.svelte"],
   "agent-cast": ["packages/ui/src/agents/agent-cast.svelte"],
   canvas: [

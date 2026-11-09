@@ -225,6 +225,12 @@
       "node": "./dist/inbox/index.js",
       "default": "./src/inbox/index.ts"
     },
+    "./triage": {
+      "svelte": "./src/triage/index.ts",
+      "types": "./src/triage/index.ts",
+      "node": "./dist/triage/index.js",
+      "default": "./src/triage/index.ts"
+    },
     "./work": {
       "svelte": "./src/work/index.ts",
       "types": "./src/work/index.ts",

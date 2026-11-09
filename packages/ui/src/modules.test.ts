@@ -5,6 +5,7 @@ import { describe, expect, it } from "vite-plus/test";
 import * as record from "#src/record/index.js";
 import * as inbox from "#src/inbox/index.js";
 import * as thread from "#src/thread/index.js";
+import * as triage from "#src/triage/index.js";
 
 const pkg = JSON.parse(
   readFileSync(join(dirname(fileURLToPath(import.meta.url)), "..", "package.json"), "utf8"),
@@ -23,6 +24,9 @@ describe("module split", () => {
     expect(inbox.ThreadInbox).toBeDefined();
     expect(inbox.InboxCard).toBeDefined();
     expect(inbox.threadsOf).toBeTypeOf("function");
+    expect(triage.TriagePlan).toBeDefined();
+    expect(triage.TriageTask).toBeDefined();
+    expect(triage.TriageQueue).toBeDefined();
   });
 
   it("resolves every export path to a file", () => {
@@ -37,7 +41,15 @@ describe("module split", () => {
   });
 
   it("exports each module once, under its own name", () => {
-    for (const name of ["./work", "./status", "./panel", "./record", "./thread", "./inbox"]) {
+    for (const name of [
+      "./work",
+      "./status",
+      "./panel",
+      "./record",
+      "./thread",
+      "./inbox",
+      "./triage",
+    ]) {
       expect(pkg.exports[name], name).toBeDefined();
     }
     expect(Object.keys(pkg.exports).filter((name) => name.startsWith("./tasks"))).toEqual([]);

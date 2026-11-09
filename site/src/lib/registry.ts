@@ -217,6 +217,7 @@ export const sections: Section[] = [
           "side-panel",
           "thread",
           "threaded-inbox",
+          "triage-queue",
           { title: "Task app", href: "/work" },
         ],
       },
