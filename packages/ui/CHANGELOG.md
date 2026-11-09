@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.24.0](https://github.com/heyramzi/ui/compare/ui-v2.23.0...ui-v2.24.0) (2026-11-09)
+
+### Bug Fixes
+
+* fix(effects): gate the marquee hover pause to fine pointers, shorter comments (TSK-2181)
+* fix(effects): gallery previews for marquee, spotlight, animated beam and progressive blur (TSK-2181)
+* fix(ui): numeric sortable heads sit on the same line as the rest (TSK-2171)
+* fix(ui): doc anchors copy through copyText, ConfirmationFailed joins the ai barrel (TSK-2171)
+* fix(canvas): demo text fits one line and the credit clears the rail on a phone (TSK-2143)
+* fix(charts): time series comparison line draws from the series palette (TSK-2143)
+
+
 ## [2.23.0](https://github.com/heyramzi/ui/compare/ui-v2.22.1...ui-v2.23.0) (2026-11-09)
 
 ### Features
