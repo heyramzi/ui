@@ -16,6 +16,9 @@
 		color?: string;
 	}
 
+	/** x, y, width, height in device pixels. */
+	type Rect = [number, number, number, number];
+
 	// =========================
 	// CONSTANTS
 	// =========================
@@ -58,6 +61,16 @@
 	// Pan redraws every frame, so a tile is built once per size and colour.
 	// eslint-disable-next-line svelte/prefer-svelte-reactivity -- render cache written inside the draw effect, never rendered
 	const tiles = new Map<string, HTMLCanvasElement>();
+	// What the canvas holds now, its origin in device pixels. Plain: only the draw effect reads it.
+	let painted: {
+		zoom: number;
+		ratio: number;
+		fill: string;
+		w: number;
+		h: number;
+		x: number;
+		y: number;
+	} | null = null;
 
 	function dotTile(step: number, radius: number, fill: string) {
 		const key = `${step}:${radius.toFixed(2)}:${fill}`;
@@ -77,21 +90,20 @@
 		return tile;
 	}
 
+	/** Fills the given device-pixel rects with the dots, the grid's origin at `originX`, `originY`. */
 	// fallow-ignore-next-line complexity
-	function draw(
-		element: HTMLCanvasElement,
-		view: { x: number; y: number; zoom: number },
+	function paint(
+		context: CanvasRenderingContext2D,
+		zoom: number,
 		fill: string,
+		originX: number,
+		originY: number,
+		rects: Rect[],
 	) {
-		const context = element.getContext("2d");
-		if (!context) return;
-		context.setTransform(1, 0, 0, 1, 0, 0);
-		context.clearRect(0, 0, element.width, element.height);
-
 		for (let level = 0; level < LEVELS; level++) {
-			const spacing = gap * 2 ** level * view.zoom;
+			const spacing = gap * 2 ** level * zoom;
 			// A coarser level draws bigger dots, so zooming out reads as moving away.
-			const screenRadius = (size / 2) * 2 ** level * view.zoom;
+			const screenRadius = (size / 2) * 2 ** level * zoom;
 			const radius = Math.min(MAX_RADIUS, Math.max(MIN_RADIUS, screenRadius)) * ratio;
 			const last = level === LEVELS - 1;
 			const alpha = last ? 1 : smoothstep(FADE_START, FADE_END, spacing);
@@ -102,14 +114,62 @@
 			const pattern = context.createPattern(dotTile(tileSize, radius / scale, fill), "repeat");
 			if (!pattern) return;
 			pattern.setTransform(
-				new DOMMatrix([scale, 0, 0, scale, view.x * ratio - step / 2, view.y * ratio - step / 2]),
+				new DOMMatrix([scale, 0, 0, scale, originX - step / 2, originY - step / 2]),
 			);
 			context.globalAlpha = alpha;
 			context.fillStyle = pattern;
-			context.fillRect(0, 0, element.width, element.height);
+			for (const [x, y, w, h] of rects) context.fillRect(x, y, w, h);
 			if (alpha >= 0.999) break;
 		}
 		context.globalAlpha = 1;
+	}
+
+	/** The strips a shift of `dx`, `dy` uncovers: a column on one side and a row on the other. */
+	function uncovered(dx: number, dy: number, w: number, h: number): Rect[] {
+		const rects: Rect[] = [];
+		if (dx > 0) rects.push([0, 0, dx, h]);
+		if (dx < 0) rects.push([w + dx, 0, -dx, h]);
+		if (dy > 0) rects.push([0, 0, w, dy]);
+		if (dy < 0) rects.push([0, h + dy, w, -dy]);
+		return rects;
+	}
+
+	// A pan moves the pixels already drawn and paints only the strip it uncovered; anything else repaints it all.
+	// fallow-ignore-next-line complexity
+	function draw(
+		element: HTMLCanvasElement,
+		view: { x: number; y: number; zoom: number },
+		fill: string,
+	) {
+		const context = element.getContext("2d");
+		if (!context) return;
+		const { width: w, height: h } = element;
+		const x = view.x * ratio;
+		const y = view.y * ratio;
+		const last = painted;
+		const same =
+			last &&
+			last.zoom === view.zoom &&
+			last.ratio === ratio &&
+			last.fill === fill &&
+			last.w === w &&
+			last.h === h;
+		// Whole pixels only, so the shifted dots stay sharp; the rest waits for the next pan or zoom, never past half a pixel.
+		const dx = same ? Math.round(x - last.x) : 0;
+		const dy = same ? Math.round(y - last.y) : 0;
+		if (same && Math.abs(dx) < w && Math.abs(dy) < h) {
+			if (!dx && !dy) return;
+			context.globalCompositeOperation = "copy";
+			context.drawImage(element, dx, dy);
+			context.globalCompositeOperation = "source-over";
+			painted = { ...last, x: last.x + dx, y: last.y + dy };
+			paint(context, view.zoom, fill, painted.x, painted.y, uncovered(dx, dy, w, h));
+			return;
+		}
+		context.setTransform(1, 0, 0, 1, 0, 0);
+		context.clearRect(0, 0, w, h);
+		painted = { zoom: view.zoom, ratio, fill, w, h, x, y };
+		paint(context, view.zoom, fill, x, y, [[0, 0, w, h]]);
 	}
 
 	// =========================
