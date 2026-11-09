@@ -1,3 +1,5 @@
+import { safeImageUrl, safeUrl } from "#src/editor/safe-url.js";
+
 // WHY our own slugify: the website's uses NFKD, which strips accents from French
 // headings. The vibe-kit utils one doesn't, so accented anchors would differ.
 function slugify(input: string, maxLength = 60): string {
@@ -158,7 +160,7 @@ function numString(attrs: Record<string, unknown> | undefined, key: string): str
 }
 
 function renderImage(node: Node): string {
-  const src = strAttr(node.attrs, "src");
+  const src = safeImageUrl(strAttr(node.attrs, "src"));
   if (!src) return "";
   const attrs = renderAttributes({
     alt: strAttr(node.attrs, "alt") ?? "",
@@ -321,11 +323,12 @@ const MARK_TAGS: Record<string, string> = {
 
 function wrapMark(content: string, mark: Mark): string {
   if (mark.type === "link") {
-    const attrs = renderAttributes({
-      href: strAttr(mark.attrs, "href") ?? "",
-      target: strAttr(mark.attrs, "target"),
-      rel: strAttr(mark.attrs, "rel"),
-    });
+    // WHY: stored docs come from teammates, clients and CLIs that skip the editor's link filter.
+    const href = safeUrl(strAttr(mark.attrs, "href"));
+    if (!href) return content;
+    const target = strAttr(mark.attrs, "target");
+    const rel = strAttr(mark.attrs, "rel") || (target ? "noopener noreferrer" : undefined);
+    const attrs = renderAttributes({ href, target, rel });
     return `<a${attrs}>${content}</a>`;
   }
   const tag = pick(MARK_TAGS, mark.type);

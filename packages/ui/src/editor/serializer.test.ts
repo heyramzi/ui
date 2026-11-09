@@ -87,6 +87,64 @@ describe("renderTiptapContent", () => {
   });
 });
 
+function linkDoc(href: string) {
+  return {
+    type: "doc",
+    content: [
+      {
+        type: "paragraph",
+        content: [{ type: "text", text: "click", marks: [{ type: "link", attrs: { href } }] }],
+      },
+    ],
+  };
+}
+
+function imageDoc(src: string) {
+  return { type: "doc", content: [{ type: "image", attrs: { src } }] };
+}
+
+describe("unsafe URLs", () => {
+  it("keeps the text and drops a javascript: href", () => {
+    const html = renderTiptapContent(linkDoc("javascript:alert(1)"));
+    expect(html).toContain("click");
+    expect(html).not.toContain("javascript:");
+    expect(html).not.toContain("href=");
+  });
+
+  it("drops a javascript: href hidden by a tab inside the scheme", () => {
+    const html = renderTiptapContent(linkDoc("java\tscript:alert(1)"));
+    expect(html).toContain("click");
+    expect(html).not.toContain("javascript:");
+    expect(html).not.toContain("href=");
+  });
+
+  it.each(["data:text/html,x", "vbscript:x"])("drops the %s href", (href) => {
+    expect(renderTiptapContent(linkDoc(href))).not.toContain("href=");
+  });
+
+  it.each(["https://example.com/a?b=1", "/docs", "#top", "mailto:a@example.com"])(
+    "keeps the %s href",
+    (href) => {
+      expect(renderTiptapContent(linkDoc(href))).toContain(`href="${href}"`);
+    },
+  );
+
+  it("drops an image with a javascript: src", () => {
+    expect(renderTiptapContent(imageDoc("javascript:alert(1)"))).not.toContain("<img");
+  });
+
+  it.each(["https://example.com/a.png", "data:image/png;base64,AAAA"])(
+    "keeps an image with the %s src",
+    (src) => {
+      expect(renderTiptapContent(imageDoc(src))).toContain("<img");
+    },
+  );
+
+  it("drops an image with an SVG data: src", () => {
+    expect(renderTiptapContent(imageDoc("data:image/svg+xml;base64,AAAA"))).not.toContain("<img");
+  });
+});
+
 describe("youtube node", () => {
   function youtubeDoc(attrs: Record<string, unknown>) {
     return { type: "doc", content: [{ type: "youtube", attrs }] };
