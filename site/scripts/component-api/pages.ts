@@ -48,13 +48,8 @@ export function exportsOf(dir: string): Map<string, string[]> {
  *  after the slug, since a primitive's parts (Dialog.Trigger) are all one page. */
 export function filesOf(slug: string): string[] {
   const listed = (componentSources[slug] ?? []).map((p) => join(ROOT, p));
-  const dirs = new Set(listed.map((p) => dirname(p)).filter((d) => basename(d) === slug));
-  for (const group of ["shadcn", "components"]) {
-    const dir = join(UI_SRC, group, slug);
-    if (!listed.length && existsSync(dir)) dirs.add(dir);
-  }
   const files = listed.filter((f) => f.endsWith(".svelte"));
-  for (const dir of [...dirs].sort()) {
+  for (const dir of dirsOf(slug)) {
     const exported = [...exportsOf(dir).keys()];
     const own = exported.length
       ? exported
@@ -67,12 +62,28 @@ export function filesOf(slug: string): string[] {
   return files;
 }
 
+/** The folders named after the slug, or the slug's own shadcn or components folder. */
+export function dirsOf(slug: string): string[] {
+  const listed = (componentSources[slug] ?? []).map((p) => join(ROOT, p));
+  const dirs = new Set(listed.map((p) => dirname(p)).filter((d) => basename(d) === slug));
+  for (const group of ["shadcn", "components"]) {
+    const dir = join(UI_SRC, group, slug);
+    if (!listed.length && existsSync(dir)) dirs.add(dir);
+  }
+  return [...dirs].sort();
+}
+
 /** The name a part goes by in code: `Dialog.Trigger` for a namespaced primitive, else its
- *  export. `tags` are every spelling the demo might use, for ordering. */
-export function namesOf(files: string[]): { label: string; tags: string[] }[] {
+ *  export. `tags` are every spelling the demo might use, for ordering. A file shared by two
+ *  pages (`lib/panel.svelte`) takes the name the page's own folder exports it as. */
+export function namesOf(
+  files: string[],
+  pageDirs: string[] = [],
+): { label: string; tags: string[] }[] {
   return files.map((file) => {
     const dirExports = exportsOf(dirname(file));
-    const exported = dirExports.get(file) ?? [];
+    const exported =
+      dirExports.get(file) ?? pageDirs.map((dir) => exportsOf(dir).get(file)).find(Boolean) ?? [];
     const rootNames = [...dirExports.values()].find((n) => n.includes("Root"));
     const ns = rootNames?.find((n) => n !== "Root");
     if (ns && exported.length) {
@@ -117,7 +128,7 @@ export function build(): Record<string, Part[]> {
   for (const slug of slugs) {
     const files = filesOf(slug);
     if (!files.length) continue;
-    const names = namesOf(files);
+    const names = namesOf(files, dirsOf(slug));
     const parts = files.map((file, i) => ({
       name: names[i].label,
       tags: names[i].tags,

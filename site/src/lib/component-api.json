@@ -4999,27 +4999,21 @@
     },
     {
       "name": "DataPanel",
-      "file": "packages/ui/src/charts/dashboard/data-panel.svelte",
+      "file": "packages/ui/src/lib/panel.svelte",
       "props": [
         {
           "name": "label",
           "type": "string",
-          "required": true,
-          "description": "What this section of the dashboard is. Drawn as the app's one panel label."
+          "description": "What this panel is, drawn as the app's one panel label. No label, no actions: no header."
         },
         {
           "name": "labelIcon",
           "type": "PhosphorIcon"
         },
         {
-          "name": "hint",
-          "type": "string",
-          "description": "A row count, total or freshness stamp. It's a prop, not an action, because hand-placed hints ended up at three type sizes on one screen."
-        },
-        {
-          "name": "actions",
+          "name": "labelLead",
           "type": "Snippet",
-          "description": "Controls that act on this panel. Pinned right, after the hint."
+          "description": "A mark the icon set lacks (a platform logo), drawn ahead of the label at the same size."
         },
         {
           "name": "sublabel",
@@ -5027,16 +5021,32 @@
           "description": "A line under the label, for the scope a number was measured over."
         },
         {
+          "name": "hint",
+          "type": "string",
+          "description": "A row count, total or freshness stamp. A prop, not an action, because hand-placed hints ended up at three type sizes on one screen."
+        },
+        {
+          "name": "actions",
+          "type": "Snippet",
+          "description": "Controls that act on this panel. Pinned right, after the hint."
+        },
+        {
           "name": "pad",
           "type": "boolean",
           "default": "true",
-          "description": "Off for a body that supplies its own padding: a table, a full-bleed list."
+          "description": "Off for a body that supplies its own padding: a table, a media grid, a full-bleed list."
         },
         {
           "name": "scroll",
           "type": "boolean",
           "default": "false",
-          "description": "The body scrolls sideways rather than squeezing. For a wide table, which is every table on a dashboard once the window is narrower than its columns."
+          "description": "The body scrolls sideways rather than squeezing, for a table wider than the window."
+        },
+        {
+          "name": "grow",
+          "type": "boolean",
+          "default": "false",
+          "description": "Takes the height the panels above it left, inside a `fill` stack. One per stack."
         },
         {
           "name": "children",
@@ -5050,51 +5060,6 @@
         {
           "name": "bodyClass",
           "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "DataSortHead",
-      "file": "packages/ui/src/charts/dashboard/data-sort-head.svelte",
-      "props": [
-        {
-          "name": "active",
-          "type": "boolean",
-          "required": true,
-          "description": "True when the table is currently ranked by this column."
-        },
-        {
-          "name": "descending",
-          "type": "boolean",
-          "required": true,
-          "description": "Which way the active column runs. Ignored while inactive."
-        },
-        {
-          "name": "onSort",
-          "type": "() => void",
-          "required": true,
-          "description": "Called on click and on Enter/Space. Toggling direction is the caller's."
-        },
-        {
-          "name": "numeric",
-          "type": "boolean",
-          "default": "false",
-          "description": "Numbers right-align to their digits, so their caret leads the label."
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "description": "The long form of an abbreviated head, as the browser tooltip."
-        },
-        {
-          "name": "class",
-          "type": "string"
-        },
-        {
-          "name": "children",
-          "type": "Snippet",
-          "required": true
         }
       ],
       "bases": []
@@ -5261,10 +5226,26 @@
         {
           "name": "onSort",
           "type": "(key: keyof T & string) => void",
-          "required": true
+          "required": true,
+          "description": "Called on click and on Enter/Space. Choosing the next direction is the caller's."
+        },
+        {
+          "name": "numeric",
+          "type": "boolean",
+          "default": "false",
+          "description": "Numbers right-align to their digits, so their caret leads the label."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "The long form of an abbreviated head, as the browser tooltip."
         },
         {
           "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "style",
           "type": "string"
         },
         {
@@ -8404,11 +8385,12 @@
     },
     {
       "name": "DetailPanel",
-      "file": "packages/ui/src/components/list-page/detail-panel.svelte",
+      "file": "packages/ui/src/lib/panel.svelte",
       "props": [
         {
           "name": "label",
-          "type": "string"
+          "type": "string",
+          "description": "What this panel is, drawn as the app's one panel label. No label, no actions: no header."
         },
         {
           "name": "labelIcon",
@@ -8416,21 +8398,41 @@
         },
         {
           "name": "labelLead",
-          "type": "Snippet"
+          "type": "Snippet",
+          "description": "A mark the icon set lacks (a platform logo), drawn ahead of the label at the same size."
+        },
+        {
+          "name": "sublabel",
+          "type": "string",
+          "description": "A line under the label, for the scope a number was measured over."
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "A row count, total or freshness stamp. A prop, not an action, because hand-placed hints ended up at three type sizes on one screen."
         },
         {
           "name": "actions",
-          "type": "Snippet"
+          "type": "Snippet",
+          "description": "Controls that act on this panel. Pinned right, after the hint."
         },
         {
           "name": "pad",
           "type": "boolean",
-          "default": "true"
+          "default": "true",
+          "description": "Off for a body that supplies its own padding: a table, a media grid, a full-bleed list."
+        },
+        {
+          "name": "scroll",
+          "type": "boolean",
+          "default": "false",
+          "description": "The body scrolls sideways rather than squeezing, for a table wider than the window."
         },
         {
           "name": "grow",
           "type": "boolean",
-          "default": "false"
+          "default": "false",
+          "description": "Takes the height the panels above it left, inside a `fill` stack. One per stack."
         },
         {
           "name": "children",
@@ -8461,6 +8463,69 @@
           "name": "children",
           "type": "Snippet",
           "required": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": []
+    },
+    {
+      "name": "EmptyState",
+      "file": "packages/ui/src/components/list-page/empty-state.svelte",
+      "props": [
+        {
+          "name": "icon",
+          "type": "PhosphorIcon"
+        },
+        {
+          "name": "iconWeight",
+          "type": "IconWeight",
+          "values": ["\"bold\"", "\"duotone\"", "\"fill\"", "\"light\"", "\"thin\"", "\"regular\""]
+        },
+        {
+          "name": "iconClass",
+          "type": "string",
+          "description": "Replaces the muted colour of a bare icon. Ignored by the tile, which stays foreground."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "actionLabel",
+          "type": "string"
+        },
+        {
+          "name": "actionHref",
+          "type": "string"
+        },
+        {
+          "name": "onAction",
+          "type": "() => void"
+        },
+        {
+          "name": "actions",
+          "type": "Snippet",
+          "description": "Several ways out, drawn in one row after the single action."
+        },
+        {
+          "name": "surface",
+          "type": "\"plain\" | \"card\" | \"dashed\"",
+          "default": "\"plain\"",
+          "description": "`card` fills the white panel; `dashed` frames a whole dashboard section."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\"",
+          "default": "\"default\"",
+          "description": "`sm` fits a 280px rail: a bare icon and one line of small type."
         },
         {
           "name": "class",
@@ -8506,43 +8571,6 @@
         {
           "name": "class",
           "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "EmptyState",
-      "file": "packages/ui/src/components/list-page/empty-state.svelte",
-      "props": [
-        {
-          "name": "icon",
-          "type": "PhosphorIcon"
-        },
-        {
-          "name": "iconWeight",
-          "type": "IconWeight",
-          "values": ["\"bold\"", "\"duotone\"", "\"fill\"", "\"light\"", "\"thin\"", "\"regular\""]
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "description",
-          "type": "string"
-        },
-        {
-          "name": "actionLabel",
-          "type": "string"
-        },
-        {
-          "name": "actionHref",
-          "type": "string"
-        },
-        {
-          "name": "onAction",
-          "type": "() => void"
         }
       ],
       "bases": []
