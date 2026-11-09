@@ -2,6 +2,25 @@
 
 ## [2.24.0](https://github.com/heyramzi/ui/compare/ui-v2.23.0...ui-v2.24.0) (2026-11-09)
 
+### Breaking changes
+
+`node ~/Studio/vibe-kit/scripts/ui-upgrade-codemod.mjs <dir>` rewrites the mechanical cases and lists the rest.
+
+* `Icon` is gone from `./components/icon` (`Svg` stays). Render the Phosphor component itself: `<Icon icon={Bell} />` becomes `<Bell size={24} />`. Icon defaulted to 24.
+* `LocaleSwitch` is gone. Use `SegmentedFilter` with `image: LANGUAGE_FLAGS.en`, from `./components/language-flag`, `onValueChange` for `onchange`, and `block={false}`.
+* `ThinkingDots` is gone. Use `<TypingDots label="Thinking" />`; with no label it draws bare dots and no `role="status"`.
+* `DetailEmpty`, `RailEmpty` and `DashboardEmpty` are gone. Use `EmptyState` from `./components/list-page`: `surface="card" class="h-full"`, `size="sm" class="h-full"` with `hint` renamed `description`, and `surface="dashed"`.
+* `ConfirmationRequest`, `Accepted`, `Rejected` and `Failed` are one `ConfirmationState` with `when="requested" | "accepted" | "rejected" | "failed"`. The type that had that name is now `ConfirmationKind`.
+* The dashboard `DataTable` binds one `sort: SortState` (`{ key, direction }`) in place of `sortKey` and `descending`.
+* `TradeIcon`, `./icons/trades` and the `@tabler/icons-svelte-runes` peer are gone. No app used them.
+* `TaskThread`, `TaskProperty` and `TaskComment` left `./work`: `TaskDetail` renders `Thread`, with `onPostComment` for `onSend` and a `threadLabels` prop.
+* `DataSortHead` left `./charts/dashboard`, and `./work/presets/sales` is no longer exported.
+
+### Changes
+
+* One `lib/dates.ts`, one tone tint table in `lib/tone.ts`, one chart `valueTick`, one `CountChip` (a pill everywhere), one `SortableHead`, and `DataPanel` and `DetailPanel` share one panel.
+* Rating chips and "good" stat text take the shared tone colours.
+
 ### Bug Fixes
 
 * fix(effects): gate the marquee hover pause to fine pointers, shorter comments (TSK-2181)
