@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Entry } from "#lib/registry.js";
-	import EntryIcon from "#lib/EntryIcon.svelte";
 	import { copyAiContext } from "#lib/ai-context.js";
 	import { Check, Copy } from "phosphor-svelte";
 
@@ -8,16 +7,23 @@
 	let width = $state(0);
 	let height = $state(0);
 	let stage: HTMLDivElement;
-	// Lay the demo out near the tile's width, so a full-row one isn't drawn at 760px and
-	// shrunk to a third.
-	const stageWidth = $derived(width ? Math.min(760, Math.max(400, width - 48)) : 760);
+	// Breathing room the demo keeps from the preview's edges, px.
+	const inset = { x: 48, y: 48 };
+	// Lay the demo out at a working width, never narrower than 480px, so a row of six chips stays
+	// one row and shrinks as a whole instead of wrapping inside a narrow tile.
+	const stageWidth = $derived(width ? Math.min(760, Math.max(480, width - inset.x)) : 760);
 	// The demo's own footprint, unscaled: offset sizes ignore the CSS scale.
 	let content = $state({ w: 760, h: 0 });
 	let copied = $state(false);
 	// Shrink a demo only as far as it needs to fit. A small one stays at full size.
 	const scale = $derived(
-		width && content.h ? Math.min(1, (width - 48) / content.w, (height - 40) / content.h) : 0.46,
+		width && content.h
+			? Math.min(1, (width - inset.x) / content.w, (height - inset.y) / content.h)
+			: 0.46,
 	);
+	// The first sentence, whole. A clamp would cut it mid-word; a full paragraph makes the grid
+	// ragged.
+	const blurb = $derived(entry.description.match(/^.+?[.!?](?=\s|$)/)?.[0] ?? entry.description);
 
 	$effect(() => {
 		const measure = () => {
@@ -45,12 +51,13 @@
 </script>
 
 <!-- A div, not a link: a demo can hold its own links, and a link inside a link breaks
-     hydration. -->
+     hydration. One surface, one border: the preview and the caption share it, split by a
+     hairline. -->
 <div
-	class="group relative flex min-w-0 flex-col rounded-[26px] border border-border bg-card/60 p-1.5 transition-[translate,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-xl"
+	class="group relative flex min-w-0 flex-col overflow-hidden rounded-(--radius-xl) border border-border bg-card transition-[border-color] duration-(--duration-quick) hover:border-foreground/20"
 >
 	<div
-		class="canvas-dots relative h-60 overflow-hidden rounded-[20px] border border-border bg-background"
+		class="relative h-56 overflow-hidden border-b border-border bg-background"
 		bind:clientWidth={width}
 		bind:clientHeight={height}
 	>
@@ -65,7 +72,7 @@
 		</div>
 		<button
 			type="button"
-			class="absolute right-2 top-2 z-10 grid size-8 place-items-center rounded-lg border border-border bg-card/80 text-muted-foreground opacity-0 shadow-sm backdrop-blur transition-[opacity,color] hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100"
+			class="absolute right-2 top-2 z-10 grid size-8 place-items-center rounded-(--radius-lg) text-muted-foreground opacity-0 transition-[opacity,color,background-color] duration-(--duration-quick) hover:bg-muted hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100 pointer-coarse:opacity-100"
 			aria-label="Copy"
 			title="Copy"
 			onclick={copy}
@@ -73,18 +80,11 @@
 			{#if copied}<Check class="size-4 text-emerald-500" />{:else}<Copy class="size-4" />{/if}
 		</button>
 	</div>
-	<div class="flex items-center gap-3 p-2.5 pt-3">
-		<span
-			class="grid size-10 shrink-0 place-items-center rounded-xl border border-border bg-muted text-muted-foreground transition-colors group-hover:text-foreground"
-			><EntryIcon icon={entry.icon} /></span
+	<div class="flex flex-1 flex-col gap-1 px-4 py-3.5">
+		<a
+			href="/components/{entry.slug}"
+			class="text-sm font-medium leading-5 after:absolute after:inset-0">{entry.title}</a
 		>
-		<div class="min-w-0">
-			<a
-				href="/components/{entry.slug}"
-				class="block text-[14px] font-medium leading-tight after:absolute after:inset-0 after:rounded-[26px]"
-				>{entry.title}</a
-			>
-			<p class="truncate text-[13px] text-muted-foreground">{entry.description}</p>
-		</div>
+		<p class="text-pretty text-[13px] leading-5 text-muted-foreground">{blurb}</p>
 	</div>
 </div>

@@ -15,9 +15,9 @@
 	let { title, note, importPath, onaction, actionLabel = "Replay", children }: Props = $props();
 </script>
 
-<article class="rounded-xl border border-border bg-card/50">
+<article class="rounded-(--radius-xl) border border-border">
 	<header
-		class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 border-b border-dashed border-border px-4 py-3"
+		class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 border-b border-border bg-muted/40 px-4 py-3"
 	>
 		<div class="min-w-0">
 			<h3 class="text-sm font-medium">{title}</h3>
@@ -27,7 +27,7 @@
 			{#if onaction}
 				<button
 					type="button"
-					class="rounded-lg border border-border bg-card px-2.5 py-1 text-xs"
+					class="t-press h-7 rounded-(--radius-lg) border border-border bg-card px-2.5 text-xs font-medium"
 					onclick={onaction}>{actionLabel}</button
 				>
 			{/if}

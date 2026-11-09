@@ -31,24 +31,29 @@
 	}
 </script>
 
-<section id={entry.slug} class="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-	<header class="flex items-center gap-3 border-b border-border px-4 py-2.5">
+<!-- One border, no shadow, no pattern: the demo is the only thing on the stage. The toolbar is
+     a strip of the same surface, split from it by a hairline. -->
+<section id={entry.slug} class="overflow-hidden rounded-(--radius-xl) border border-border">
+	<header class="flex h-11 items-center gap-2 border-b border-border bg-muted/40 pl-1.5 pr-1.5">
 		<SegmentedFilter options={views} bind:value={tab} ariaLabel="View" block={false} />
 		{#if link}
 			<a href="/components/{entry.slug}" class="ml-1 text-sm font-medium hover:underline"
 				>{entry.title}</a
 			>
 		{/if}
-		<div class="ml-auto flex items-center gap-1">
+		<div class="ml-auto flex items-center gap-0.5">
 			<button
-				class="grid size-8 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+				type="button"
+				class="grid size-8 place-items-center rounded-(--radius-lg) text-muted-foreground transition-colors duration-(--duration-quick) hover:bg-muted hover:text-foreground"
 				aria-label="Replay"
+				title="Replay"
 				onclick={() => run++}
 			>
 				<ArrowCounterClockwise class="size-4" />
 			</button>
 			<button
-				class="flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+				type="button"
+				class="flex h-8 items-center gap-1.5 rounded-(--radius-lg) px-2.5 text-[13px] font-medium text-muted-foreground transition-colors duration-(--duration-quick) hover:bg-muted hover:text-foreground"
 				onclick={copy}
 			>
 				{#if copied}<Check class="size-4 text-emerald-500" /> Copied{:else}<Copy class="size-4" /> Copy{/if}
@@ -58,8 +63,8 @@
 
 	{#if tab === "preview"}
 		<div
-			class="canvas-dots grid place-items-center overflow-x-auto p-6 sm:p-10"
-			style="min-height:{entry.height ?? 280}px"
+			class="grid place-items-center overflow-x-auto bg-background px-4 py-10 sm:px-10 sm:py-12"
+			style="min-height:{entry.height ?? 240}px"
 		>
 			{#key run}
 				<div class="w-full">
@@ -73,7 +78,7 @@
 		<CodeBlock.Root class="rounded-none border-0">
 			<CodeBlock.Content
 				class="max-h-[560px]"
-				style="min-height:{Math.min(entry.height ?? 280, 320)}px"
+				style="min-height:{Math.min(entry.height ?? 240, 320)}px"
 			>
 				{#each lines.current as line, index (index)}
 					<CodeBlock.Line code={line} />

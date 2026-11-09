@@ -11,7 +11,9 @@
 	] as const;
 </script>
 
-<div class="flex flex-wrap items-center justify-center gap-4">
+<!-- Three across or six across, never four and two: an even split keeps the last row from
+     orphaning one glyph. -->
+<div class="grid grid-cols-3 justify-items-center gap-x-4 gap-y-5 sm:grid-cols-6">
 	{#each trades as trade (trade)}
 		<div class="flex w-16 flex-col items-center gap-1.5">
 			<span

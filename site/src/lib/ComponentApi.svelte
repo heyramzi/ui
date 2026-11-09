@@ -31,14 +31,14 @@
 	const typeOf = (prop: ApiProp) => prop.values?.join(" | ") ?? prop.type;
 </script>
 
-<section aria-labelledby="api" class="mt-12">
-	<h2 id="api" class="text-2xl font-semibold tracking-tight">API</h2>
+<section aria-labelledby="api" class="mt-14">
+	<h2 id="api" class="scroll-mt-24 text-xl font-semibold tracking-tight">API</h2>
 	{#each parts as part (part.file)}
 		<div class="mt-6">
 			{#if parts.length > 1}
 				<h3 id={anchor(part.name)} class="mb-3 font-mono text-sm font-medium">{part.name}</h3>
 			{/if}
-			<div class="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+			<div class="overflow-hidden rounded-(--radius-xl) border border-border">
 				<Table.Root class="min-w-[40rem]">
 					<Table.Header class="border-b border-border bg-muted/40">
 						<Table.Row class="hover:bg-transparent">

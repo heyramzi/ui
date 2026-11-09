@@ -21,22 +21,33 @@
 	/></svelte:head
 >
 
-<div class="py-12">
-	<p class="flex items-center gap-1.5 text-sm text-muted-foreground">
-		<a href="/{section.id}" class="hover:text-foreground">{section.title}</a>
-		<span aria-hidden="true">/</span>
-		<a href="/{section.id}#{categoryId(entry.category)}" class="hover:text-foreground"
-			>{entry.category}</a
-		>
+<!-- A column at least one viewport tall (less the 5rem nav band), so on a short page the pager
+     sits at the bottom of the screen instead of right under the demo. A long page grows past
+     it and the pager follows the content as usual. -->
+<div class="flex min-h-[calc(100dvh-5rem)] max-w-4xl flex-col pb-10 pt-10">
+	<nav aria-label="Breadcrumb">
+		<ol class="flex items-center gap-1.5 text-[13px] text-muted-foreground">
+			<li>
+				<a href="/{section.id}" class="transition-colors hover:text-foreground">{section.title}</a>
+			</li>
+			<li aria-hidden="true" class="text-muted-foreground/50">/</li>
+			<li>
+				<a
+					href="/{section.id}#{categoryId(entry.category)}"
+					class="transition-colors hover:text-foreground">{entry.category}</a
+				>
+			</li>
+		</ol>
+	</nav>
+	<h1 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{entry.title}</h1>
+	<p class="mt-3 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+		{entry.description}
 	</p>
-	<h1 class="mt-3 text-4xl font-semibold tracking-tight">{entry.title}</h1>
-	<p class="mt-2 max-w-2xl text-muted-foreground">{entry.description}</p>
 	{#if from}
-		<p
-			class="mt-4 inline-flex rounded-lg border border-border bg-muted/50 px-2.5 py-1 font-mono text-xs text-muted-foreground"
+		<code
+			class="mt-5 self-start rounded-(--radius-md) bg-muted px-2 py-1 font-mono text-xs text-muted-foreground [overflow-wrap:anywhere]"
+			>{from}</code
 		>
-			{from}
-		</p>
 	{/if}
 	<div class="mt-8">
 		{#key entry.slug}<Viewer {entry} />{/key}
@@ -45,28 +56,37 @@
 		<ComponentApi parts={data.api} />
 	{/if}
 
-	<nav aria-label="Pager" class="mt-12 grid grid-cols-2 gap-4">
-		{#if prev}
-			<a
-				href="/components/{prev.slug}"
-				class="group flex flex-col gap-1 rounded-2xl border border-border p-4 transition-colors hover:border-foreground/30"
-			>
-				<span class="flex items-center gap-1 text-xs text-muted-foreground"
-					><ArrowLeft class="size-3.5" aria-hidden="true" /> Previous</span
+	<!-- mt-auto takes the slack on a short page, pt-12 is the floor on a long one. -->
+	<div class="mt-auto pt-12">
+		<nav aria-label="Pager" class="grid grid-cols-2 gap-3 border-t border-border pt-6">
+			{#if prev}
+				<a
+					href="/components/{prev.slug}"
+					class="group flex min-w-0 flex-col gap-0.5 rounded-(--radius-xl) border border-border px-4 py-3 transition-[border-color] duration-(--duration-quick) hover:border-foreground/20"
 				>
-				<span class="text-sm font-medium">{prev.title}</span>
-			</a>
-		{:else}<span></span>{/if}
-		{#if next}
-			<a
-				href="/components/{next.slug}"
-				class="group flex flex-col items-end gap-1 rounded-2xl border border-border p-4 text-right transition-colors hover:border-foreground/30"
-			>
-				<span class="flex items-center gap-1 text-xs text-muted-foreground"
-					>Next <ArrowRight class="size-3.5" aria-hidden="true" /></span
+					<span class="flex items-center gap-1 text-xs text-muted-foreground"
+						><ArrowLeft
+							class="size-3.5 transition-transform duration-(--duration-quick) group-hover:-translate-x-0.5 motion-reduce:transition-none"
+							aria-hidden="true"
+						/> Previous</span
+					>
+					<span class="truncate text-sm font-medium">{prev.title}</span>
+				</a>
+			{:else}<span></span>{/if}
+			{#if next}
+				<a
+					href="/components/{next.slug}"
+					class="group flex min-w-0 flex-col items-end gap-0.5 rounded-(--radius-xl) border border-border px-4 py-3 text-right transition-[border-color] duration-(--duration-quick) hover:border-foreground/20"
 				>
-				<span class="text-sm font-medium">{next.title}</span>
-			</a>
-		{/if}
-	</nav>
+					<span class="flex items-center gap-1 text-xs text-muted-foreground"
+						>Next <ArrowRight
+							class="size-3.5 transition-transform duration-(--duration-quick) group-hover:translate-x-0.5 motion-reduce:transition-none"
+							aria-hidden="true"
+						/></span
+					>
+					<span class="max-w-full truncate text-sm font-medium">{next.title}</span>
+				</a>
+			{/if}
+		</nav>
+	</div>
 </div>

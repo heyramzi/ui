@@ -10,30 +10,30 @@
 
 <svelte:head><title>{section.title} | heyramzi/ui</title></svelte:head>
 
-<div class="py-12">
-	<h1 class="text-4xl font-semibold tracking-tight">{section.title}</h1>
-	<p class="mt-2 text-sm text-muted-foreground">{count} parts</p>
+<div class="pb-16 pt-10">
+	<h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">{section.title}</h1>
+	<p class="mt-2 text-sm text-muted-foreground tabular-nums">{count} parts</p>
 
 	{#each section.categories as category (category.title)}
-		<section class="mt-14" aria-labelledby={categoryId(category.title)}>
+		<section class="mt-12" aria-labelledby={categoryId(category.title)}>
 			<h2
 				id={categoryId(category.title)}
-				class="mb-5 scroll-mt-24 text-lg font-semibold tracking-tight"
+				class="mb-4 scroll-mt-24 text-base font-semibold tracking-tight"
 			>
 				{category.title}
 			</h2>
-			<div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+			<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
 				{#each category.items as item (typeof item === "string" ? item : item.href)}
 					{#if typeof item === "string"}
 						<Tile entry={data.demos[item]} />
 					{:else}
 						<a
 							href={item.href}
-							class="group flex min-h-24 items-center justify-between rounded-[26px] border border-dashed border-border p-5 text-[14px] font-medium transition-colors hover:border-foreground/30"
+							class="group flex min-h-24 items-center justify-between rounded-(--radius-xl) border border-dashed border-border px-4 py-3.5 text-sm font-medium transition-[border-color] duration-(--duration-quick) hover:border-foreground/20"
 						>
 							{item.title}
 							<ArrowRight
-								class="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+								class="size-4 text-muted-foreground transition-transform duration-(--duration-quick) group-hover:translate-x-0.5 motion-reduce:transition-none"
 								aria-hidden="true"
 							/>
 						</a>
