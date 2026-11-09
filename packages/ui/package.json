@@ -253,12 +253,6 @@
       "node": "./dist/work/inbox/index.js",
       "default": "./src/work/inbox/index.ts"
     },
-    "./work/presets/sales": {
-      "svelte": "./src/work/presets/sales.ts",
-      "types": "./src/work/presets/sales.ts",
-      "node": "./dist/work/presets/sales.js",
-      "default": "./src/work/presets/sales.ts"
-    },
     "./work/detail": {
       "svelte": "./src/work/detail/task-detail.svelte",
       "types": "./src/work/detail/task-detail.svelte",

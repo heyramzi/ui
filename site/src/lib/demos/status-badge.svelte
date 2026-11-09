@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { StatusBadge } from "@heyramzi/ui/status";
-	import { salesStatuses } from "@heyramzi/ui/work/presets/sales";
+	import { salesStatuses } from "#lib/fixtures/sales.js";
 </script>
 
 <div class="flex max-w-md flex-wrap items-center justify-center gap-2">

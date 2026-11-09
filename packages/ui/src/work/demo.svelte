@@ -20,7 +20,6 @@
 	import StatusDot from "#src/status/status-dot.svelte";
 	import { defineStatuses } from "#src/status/define-statuses.js";
 	import { addDays, dayNumber, todayIso } from "#src/work/dates.js";
-	import { salesStatuses } from "#src/work/presets/sales.js";
 	import type { KanbanMove } from "#src/work/kanban-types.js";
 	import type { GanttChange } from "#src/work/task-types.js";
 	import TimeTracker from "#src/work/time/time-tracker.svelte";
@@ -46,6 +45,15 @@
 		doing: { label: "In progress", tone: "info", variant: "progress", progress: 0.5 },
 		review: { label: "Review", tone: "warning", variant: "progress", progress: 0.75 },
 		done: { label: "Done", tone: "success", variant: "completed" },
+	});
+
+	const salesStatuses = defineStatuses({
+		new: { label: "New", tone: "accent", variant: "open" },
+		contacted: { label: "Contacted", tone: "info", variant: "open" },
+		proposal: { label: "Proposal", tone: "accent", variant: "progress", progress: 0.25 },
+		negotiation: { label: "Negotiation", tone: "warning", variant: "progress", progress: 0.75 },
+		won: { label: "Won", tone: "success", variant: "completed" },
+		lost: { label: "Lost", tone: "destructive", variant: "lost" },
 	});
 
 	const columns = [

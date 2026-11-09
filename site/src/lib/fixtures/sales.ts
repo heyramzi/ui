@@ -1,9 +1,6 @@
-import { defineStatuses } from "#src/status/define-statuses.js";
+import { defineStatuses } from "@heyramzi/ui/status";
 
-/**
- * An example status map for a sales pipeline. Names are neutral on purpose:
- * swap the keys and labels for your own domain.
- */
+/** A sales pipeline's status map, for the status demos. */
 export const salesStatuses = defineStatuses({
   new: { label: "New", tone: "accent", variant: "open" },
   contacted: { label: "Contacted", tone: "info", variant: "open" },
@@ -12,5 +9,3 @@ export const salesStatuses = defineStatuses({
   won: { label: "Won", tone: "success", variant: "completed" },
   lost: { label: "Lost", tone: "destructive", variant: "lost" },
 });
-
-export type SalesStatus = (typeof salesStatuses.ids)[number];

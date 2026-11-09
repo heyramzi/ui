@@ -286,7 +286,6 @@ exported helpers.
   A badge also takes its text as children, for a caller that already has the word.
 - `defineStatuses`: builds a status registry from a plain map.
 - `SidePanel`: a sheet for one record, above.
-- `salesStatuses`: an example pipeline map.
 
 ## Styling
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { StatusDot } from "@heyramzi/ui/status";
-	import { salesStatuses } from "@heyramzi/ui/work/presets/sales";
+	import { salesStatuses } from "#lib/fixtures/sales.js";
 </script>
 
 <ul class="flex w-64 flex-col gap-2">
