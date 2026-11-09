@@ -8,6 +8,7 @@
 	import "#src/editor/doc-page.css";
 	import { buildExtensions } from "#src/editor/extensions.js";
 	import { buildSlashItems, type SlashItem } from "#src/editor/slash-items.js";
+	import { SLASH_WINDOW, slashQueryAt } from "#src/editor/slash-query.js";
 	import { parseYoutubeUrl } from "#src/editor/youtube-url.js";
 	import EditorToolbar from "#src/editor/editor-toolbar.svelte";
 	import SlashMenu from "#src/editor/slash-menu.svelte";
@@ -238,7 +239,8 @@
 			content: content ?? { type: "doc", content: [{ type: "paragraph" }] },
 			editorProps: {
 				handleKeyDown: (_view, event) => {
-					if (showSlashMenu) {
+					// No items means no menu on screen, so Enter and the arrows stay the editor's.
+					if (showSlashMenu && slashItems.length > 0) {
 						if (event.key === "ArrowDown") {
 							event.preventDefault();
 							slashSelectedIndex = (slashSelectedIndex + 1) % slashItems.length;
@@ -294,11 +296,11 @@
 				onchange?.(e.getJSON());
 
 				const { from } = e.state.selection;
-				const textBefore = e.state.doc.textBetween(Math.max(0, from - 20), from, "\n");
-				const slashMatch = textBefore.match(/\/([a-zA-Z0-9 ]*)$/);
+				const textBefore = e.state.doc.textBetween(Math.max(0, from - SLASH_WINDOW), from, "\n");
+				const query = slashQueryAt(textBefore);
 
-				if (slashMatch) {
-					slashQuery = slashMatch[1];
+				if (query !== null) {
+					slashQuery = query;
 					slashMenuPos = getCaretCoords();
 					showSlashMenu = true;
 				} else if (showSlashMenu) {
