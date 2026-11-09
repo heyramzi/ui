@@ -1,5 +1,7 @@
 /** The "Edited Oct 23" chip: how a stamp reads, and what to show when it can't be read. */
 
+import { shortDate as monthDay } from "#src/lib/dates.js";
+
 export type DateInput = Date | string | number | null | undefined;
 
 export type StampOptions = {
@@ -24,13 +26,8 @@ export function shortDate(value: DateInput, options: StampOptions = {}): string 
   const date = parseStamp(value);
   if (!date) return "";
   const { locale = "en-US", timeZone, now = new Date() } = options;
-  const sameYear = yearOf(date, options) === yearOf(now, options);
-  return new Intl.DateTimeFormat(locale, {
-    month: "short",
-    day: "numeric",
-    year: sameYear ? undefined : "numeric",
-    timeZone,
-  }).format(date);
+  const year = yearOf(date, options) !== yearOf(now, options);
+  return monthDay(date, { locale, timeZone, year });
 }
 
 /** "Oct 23, 14:44" for the last-edit row. Empty when the date can't be read. */

@@ -1,4 +1,5 @@
 // The record's pure logic: grouping, merging, picking. No DOM, no clock of its own.
+import { localDay as dayOf } from "#src/lib/dates.js";
 import type {
   RecordEvent,
   RecordFilterDef,
@@ -16,12 +17,7 @@ import type {
 
 /** The calendar day of a timestamp as `YYYY-MM-DD`, in the given zone or the viewer's own. */
 export function localDay(iso: string, timeZone?: string): string {
-  return new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone,
-  }).format(new Date(iso));
+  return dayOf(iso, timeZone);
 }
 
 export type DayGroup = { day: string; events: RecordEvent[] };

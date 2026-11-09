@@ -1,3 +1,4 @@
+import { relativeTime, shortDate } from "#src/lib/dates.js";
 import type { InboxDraft, InboxItem } from "#src/work/inbox/inbox-types.js";
 
 /** The draft to open on: the agent's pick, else the first. */
@@ -64,12 +65,6 @@ export function freshReasoning(item: InboxItem, facts: CardFacts): string {
 }
 
 const ISO = /^\d{4}-\d{2}-\d{2}T/;
-const UNITS: [number, Intl.RelativeTimeFormatUnit][] = [
-  [604_800, "week"],
-  [86_400, "day"],
-  [3_600, "hour"],
-  [60, "minute"],
-];
 
 /**
  * A time as a person says it: "3 hr. ago", "Oct 12". A host-formatted string stays as written,
@@ -79,16 +74,9 @@ export function whenOf(at: string, now: number = Date.now(), locale = "en-GB"): 
   if (!ISO.test(at)) return at;
   const time = Date.parse(at);
   if (Number.isNaN(time)) return "";
-  const seconds = Math.round((time - now) / 1000);
-  const age = Math.abs(seconds);
-  if (age >= 4 * 604_800) {
-    return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(time);
-  }
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "short" });
-  for (const [size, unit] of UNITS) {
-    if (age >= size) return rtf.format(Math.round(seconds / size), unit);
-  }
-  return rtf.format(0, "second");
+  const age = Math.abs(Math.round((time - now) / 1000));
+  if (age >= 4 * 604_800) return shortDate(time, { locale });
+  return relativeTime(time, now, { locale, style: "short" });
 }
 
 /** True when a key press belongs to a text field and so isn't a shortcut. */

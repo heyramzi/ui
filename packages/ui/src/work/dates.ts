@@ -1,5 +1,7 @@
 // Dates are plain "YYYY-MM-DD" strings, counted as whole UTC days. A timeline
 // only needs days, and day numbers dodge every timezone and DST edge.
+import { localDay } from "#src/lib/dates.js";
+
 const DAY_MS = 86_400_000;
 
 /** Days since 1970-01-01 for an ISO date. Anything after the date part is ignored. */
@@ -20,9 +22,7 @@ export function addDays(iso: string, days: number): string {
 
 /** Today in the viewer's own timezone, as an ISO date. */
 export function todayIso(): string {
-  const now = new Date();
-  const local = new Date(now.getTime() - now.getTimezoneOffset() * 60_000);
-  return local.toISOString().slice(0, 10);
+  return localDay();
 }
 
 /** 0 is Sunday, as in `Date.getUTCDay`. */

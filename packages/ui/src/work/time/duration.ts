@@ -1,3 +1,4 @@
+import { localDay as dayOf } from "#src/lib/dates.js";
 import type { Tone } from "#src/lib/tone.js";
 
 /** "90", "45m", "1h", "1.5h", "1h30", "1h 30m" and "1:30" to whole minutes. Null when it isn't a duration. */
@@ -35,9 +36,7 @@ export function formatClock(ms: number): { hours: string; minutes: string; secon
 
 /** The reader's own calendar day as `YYYY-MM-DD`. */
 export function localDay(date: Date = new Date()): string {
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${date.getFullYear()}-${month}-${day}`;
+  return dayOf(date);
 }
 
 /** "Today", "Yesterday", then "Mon, Oct 12", in the given locale. */

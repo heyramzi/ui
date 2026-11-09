@@ -1,6 +1,8 @@
 // Display formatting through Intl, so a locale string is all a host passes.
 // A date-only value ("2026-10-26") is a calendar day, read in UTC so no zone shifts it.
 
+import { relativeTime } from "#src/lib/dates.js";
+
 const DAY_ONLY = /^\d{4}-\d{2}-\d{2}$/;
 
 function parse(iso: string): { date: Date; timeZone?: string } {
@@ -61,21 +63,7 @@ export function formatTime(iso: string, locale = "en-GB", timeZone?: string): st
 
 /** "3 days ago", "in 2 weeks", "now". */
 export function formatAge(iso: string, now: Date | number = Date.now(), locale = "en-GB"): string {
-  const seconds = Math.round((new Date(iso).getTime() - new Date(now).getTime()) / 1000);
-  const abs = Math.abs(seconds);
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto", style: "long" });
-  const units: [number, Intl.RelativeTimeFormatUnit][] = [
-    [31_536_000, "year"],
-    [2_592_000, "month"],
-    [604_800, "week"],
-    [86_400, "day"],
-    [3_600, "hour"],
-    [60, "minute"],
-  ];
-  for (const [size, unit] of units) {
-    if (abs >= size) return rtf.format(Math.round(seconds / size), unit);
-  }
-  return rtf.format(0, "second");
+  return relativeTime(iso, now, { locale });
 }
 
 /** "€12,000". `compact` gives "€12K". */

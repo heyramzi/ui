@@ -2,6 +2,7 @@
 	import type { Snippet } from "svelte";
 	import { ArrowBendDownRight, Check, MapPin, PencilSimple, Trash } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import { shortDate } from "#src/lib/dates.js";
 	import { initial } from "#src/lib/initials.js";
 	import { AgentAvatar } from "#src/agents/index.js";
 	import RichRenderer from "#src/editor/renderer.svelte";
@@ -64,8 +65,8 @@
 		avatar,
 		attachments,
 		anchorChip,
-		when = (comment) => shortDate(comment.createdAt),
-		whenEvent = (event) => shortDate(event.at),
+		when = (comment) => shortDate(comment.createdAt, { locale }),
+		whenEvent = (event) => shortDate(event.at, { locale }),
 		onPost,
 		onEdit,
 		onDelete,
@@ -83,10 +84,6 @@
 	let showResolved = $state(false);
 	let shown = $derived(showResolved ? nodes : nodes.filter((node) => !node.comment.resolved));
 	let items = $derived(interleave(shown, events));
-
-	function shortDate(at: string): string {
-		return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric" }).format(new Date(at));
-	}
 
 	let draft = $state("");
 	let replyTo = $state<string | null>(null);
