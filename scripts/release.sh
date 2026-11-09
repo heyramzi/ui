@@ -129,8 +129,15 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
   fi
   feats=$(git log "$log_range" --format='* %s' -- "$dir" | grep -E '^\* feat' || true)
   fixes=$(git log "$log_range" --format='* %s' -- "$dir" | grep -E '^\* fix' || true)
-  if [ -z "$feats" ] && [ -z "$fixes" ]; then
-    feats="* initial publish from this repo"
+  perfs=$(git log "$log_range" --format='* %s' -- "$dir" | grep -E '^\* perf' || true)
+  others=""
+  # A patch of only perf, refactor or chore commits isn't a first publish: 2.22.1 nearly said so.
+  if [ -z "$feats" ] && [ -z "$fixes" ] && [ -z "$perfs" ]; then
+    if [ "$first_release" = "1" ]; then
+      feats="* initial publish from this repo"
+    else
+      others=$(git log "$log_range" --format='* %s' -- "$dir")
+    fi
   fi
   {
     echo "## [$next](https://github.com/heyramzi/ui/compare/$component-v$version...$component-v$next) ($TODAY)"
@@ -145,6 +152,18 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
       echo "### Bug Fixes"
       echo ""
       printf '%s\n' "$fixes"
+      echo ""
+    fi
+    if [ -n "$perfs" ]; then
+      echo "### Performance"
+      echo ""
+      printf '%s\n' "$perfs"
+      echo ""
+    fi
+    if [ -n "$others" ]; then
+      echo "### Changes"
+      echo ""
+      printf '%s\n' "$others"
       echo ""
     fi
   } > "$NOTES_DIR/$component.md"
