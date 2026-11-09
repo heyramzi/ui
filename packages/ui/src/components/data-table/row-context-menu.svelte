@@ -5,6 +5,7 @@
 	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
 	import { HoldToConfirm } from "#src/components/hold-to-confirm/index.js";
 	import { ArrowUpRight, Copy, LinkSimple, Trash } from "phosphor-svelte";
+	import { copyText } from "#src/components/copy/clipboard.js";
 	import type { Snippet } from "svelte";
 
 	// =========================
@@ -47,14 +48,12 @@
 	// message, a doc or an agent prompt, none of which can resolve "/clients/42".
 	async function handleCopyLink() {
 		if (!href) return;
-		await navigator.clipboard.writeText(new URL(href, window.location.origin).href);
-		onCopied?.();
+		if (await copyText(new URL(href, window.location.origin).href)) onCopied?.();
 	}
 
 	async function handleCopyId() {
 		if (!id) return;
-		await navigator.clipboard.writeText(id);
-		onCopied?.();
+		if (await copyText(id)) onCopied?.();
 	}
 </script>
 

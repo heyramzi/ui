@@ -29,6 +29,7 @@
 	import { TagChip } from "#src/components/chip/index.js";
 	import { workLooks } from "#src/components/work-parts/looks.js";
 	import { FolderSimple } from "phosphor-svelte";
+	import { Copied } from "#src/components/copy/copied.svelte.js";
 	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
 
 	interface Props {
@@ -78,7 +79,7 @@
 	let steering = $state(false);
 	let note = $state("");
 	let noteEl = $state<HTMLTextAreaElement | null>(null);
-	let copied = $state(false);
+	const copied = new Copied();
 
 	// WHY the selection is derived from the pick: a revised proposal brings new
 	// drafts, and the old pick may not exist in them. The agent's choice wins then.
@@ -158,13 +159,7 @@
 	async function copy() {
 		const draft = current();
 		if (!draft) return;
-		try {
-			await navigator.clipboard.writeText(`${draft.subject}\n\n${draft.body}`);
-			copied = true;
-			setTimeout(() => (copied = false), 1600);
-		} catch {
-			copied = false;
-		}
+		if (!(await copied.copy(`${draft.subject}\n\n${draft.body}`, "", 1600))) copied.reset();
 	}
 
 	let sendLabel = $derived(
@@ -364,7 +359,7 @@
 			<Button size="sm" variant="ghost" onclick={steer} aria-keyshortcuts="s">Steer</Button>
 			{#if drafts.length}
 				<Button size="sm" variant="ghost" onclick={copy} class="ml-auto" aria-live="polite">
-					{copied ? "Copied" : "Copy"}
+					{copied.is() ? "Copied" : "Copy"}
 				</Button>
 			{/if}
 		</div>

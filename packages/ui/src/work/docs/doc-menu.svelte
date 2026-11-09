@@ -29,6 +29,7 @@
 		AlertDialogTitle,
 	} from "#src/shadcn/alert-dialog/index.js";
 	import { buttonVariants } from "#src/shadcn/button/index.js";
+	import { copyText } from "#src/components/copy/clipboard.js";
 	import {
 		Command,
 		CommandEmpty,
@@ -193,7 +194,7 @@
 	async function copy(kind: CopyKind, text: string) {
 		open = false;
 		// A blocked clipboard still reports, so the host can say the copy didn't land.
-		await navigator.clipboard.writeText(text).catch(() => {});
+		await copyText(text);
 		oncopy?.(kind, text);
 	}
 
