@@ -27,13 +27,13 @@
 	];
 </script>
 
-<div class="flex w-full max-w-3xl flex-col gap-6">
+<div class="@container flex w-full max-w-3xl flex-col gap-6">
 	{#each groups as group (group.title)}
 		<div>
 			<p class="mb-2 text-xs font-medium text-muted-foreground">
 				{group.title}
 			</p>
-			<div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+			<div class="grid grid-cols-2 gap-2 @md:grid-cols-4">
 				{#each group.tokens as token (token)}
 					<div class="flex items-center gap-2.5 rounded-xl border border-border bg-card p-2">
 						<span

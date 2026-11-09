@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CopyButton } from "@heyramzi/ui/components/copy";
 	import { ArrowRight } from "phosphor-svelte";
-	import { homeSections } from "#lib/home/picks.js";
+	import { cropped, homeSections } from "#lib/home/picks.js";
 	import Tile from "#lib/Tile.svelte";
 
 	let { data } = $props();
@@ -66,7 +66,10 @@
 					</a>
 				</div>
 				<div class="grid gap-4 md:grid-cols-3">
-					{#each section.slugs as slug (slug)}<Tile entry={data.demos[slug]} />{/each}
+					{#each section.slugs as slug (slug)}<Tile
+							entry={data.demos[slug]}
+							crop={cropped.has(slug)}
+						/>{/each}
 				</div>
 			</section>
 		{/each}

@@ -8,10 +8,13 @@ import { sections, type Section } from "#lib/nav.js";
 const picks: Record<string, string[]> = {
   foundations: ["theming", "colors", "icon"],
   components: ["calendar", "tabs", "hold-to-confirm"],
-  effects: ["text-effect", "border-beam", "magic-card"],
-  charts: ["area-chart", "donut-chart", "stat-card"],
-  blocks: ["work-parts", "ai-prompt", "agent-cast"],
+  effects: ["text-effect", "magnetic", "magic-card"],
+  charts: ["area-chart", "donut-chart", "gauge-chart"],
+  blocks: ["work-parts", "ai-prompt", "agent-avatar"],
 };
+
+/** Picks that are a long column: shown at full size from the top, cropped, never shrunk. */
+export const cropped = new Set(["colors"]);
 
 const slugsOf = (section: Section) =>
   section.categories.flatMap((c) => c.items.filter((i): i is string => typeof i === "string"));
