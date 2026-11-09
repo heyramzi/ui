@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { categoryId, entries, importOf } from "#lib/registry.js";
+	import ComponentApi from "#lib/ComponentApi.svelte";
 	import Viewer from "#lib/Viewer.svelte";
 	import { ArrowLeft, ArrowRight } from "phosphor-svelte";
 
@@ -39,6 +40,9 @@
 	<div class="mt-8">
 		{#key entry.slug}<Viewer {entry} />{/key}
 	</div>
+	{#if data.api.length}
+		<ComponentApi parts={data.api} />
+	{/if}
 
 	<nav aria-label="Pager" class="mt-12 grid grid-cols-2 gap-4">
 		{#if prev}

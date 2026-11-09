@@ -7,10 +7,10 @@ export function entries() {
   return all.map((e) => ({ slug: e.slug }));
 }
 
-export function load({ params }) {
+export function load({ params, data }) {
   const entry = bySlug(params.slug);
   if (!entry) error(404, "No such component");
   const section = sectionById(entry.section);
   if (!section) error(500, `No section "${entry.section}"`);
-  return { entry, section };
+  return { ...data, entry, section };
 }
