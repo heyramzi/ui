@@ -164,8 +164,14 @@ function patchEdgeOps(before: DocEdge, edge: DocEdge): CanvasOp[] {
 function edgeOps(base: DiagramDoc, current: DiagramDoc): CanvasOp[] {
   const baseEdges = new Map(base.edges.map((e) => [e.id, e]));
   const currentIds = new Set(current.edges.map((e) => e.id));
+  const currentNodeIds = new Set(current.nodes.map((n) => n.id));
+  const removedNodeIds = new Set(
+    base.nodes.filter((n) => !currentNodeIds.has(n.id)).map((n) => n.id),
+  );
+  // WHY: removeNode already takes the node's edges, and removeEdge throws on a missing id.
   const removed: CanvasOp[] = base.edges
     .filter((e) => !currentIds.has(e.id))
+    .filter((e) => !removedNodeIds.has(String(e.source)) && !removedNodeIds.has(String(e.target)))
     .map((e) => ({ kind: "removeEdge", edgeId: e.id }));
   const upserted = current.edges.flatMap((edge) => {
     const before = baseEdges.get(edge.id);
@@ -256,6 +262,32 @@ function parentsFirst(nodes: Record<string, unknown>[]): Record<string, unknown>
 }
 
 /**
+ * Drops removals the server already made, so a delete on both sides merges. Only
+ * removeNode and removeEdge: an edit to a node the server deleted must still throw.
+ */
+function withoutServerRemovals(serverDoc: DiagramDoc, ops: CanvasOp[]): CanvasOp[] {
+  const serverNodeIds = new Set(serverDoc.nodes.map((n) => n.id));
+  const serverEdges = new Map(serverDoc.edges.map((e) => [e.id, e]));
+  const removedNodeIds = new Set<string>();
+  return ops.filter((op) => {
+    if (op.kind === "removeNode") {
+      if (!serverNodeIds.has(op.nodeId)) return false;
+      removedNodeIds.add(op.nodeId);
+      return true;
+    }
+    if (op.kind === "removeEdge") {
+      const edge = serverEdges.get(op.edgeId);
+      return (
+        edge !== undefined &&
+        !removedNodeIds.has(String(edge.source)) &&
+        !removedNodeIds.has(String(edge.target))
+      );
+    }
+    return true;
+  });
+}
+
+/**
  * Replay local changes (lastSaved -> local) on the server document. Returns
  * null when impossible, like a patched node deleted, so the save error shows.
  */
@@ -264,7 +296,7 @@ export function rebaseDiagram(
   lastSaved: DiagramDoc,
   local: DiagramDoc,
 ): RawCanvasData | null {
-  const ops = diffToOps(lastSaved, local);
+  const ops = withoutServerRemovals(serverDoc, diffToOps(lastSaved, local));
   const res = tryCatch(() => applyOps({ nodes: serverDoc.nodes, edges: serverDoc.edges }, ops));
   if (!res.ok) return null;
   const nodes = applyNodeFieldPatches(res.value.nodes, nodeFieldPatches(lastSaved, local));

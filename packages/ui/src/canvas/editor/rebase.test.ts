@@ -62,6 +62,15 @@ describe("diffToOps", () => {
     const replayed = applyOps({ nodes: [], edges: [] }, diffToOps(base, current));
     expect(replayed.nodes).toHaveLength(2);
   });
+
+  it("replays the delete of a connected node", () => {
+    const base = doc([n("a"), n("b")], [{ id: "e1", source: "a", target: "b" }]);
+    const current = doc([n("a")]);
+
+    const replayed = applyOps({ nodes: base.nodes, edges: base.edges }, diffToOps(base, current));
+    expect(replayed.nodes).toHaveLength(1);
+    expect(replayed.edges).toHaveLength(0);
+  });
 });
 
 describe("rebaseDiagram", () => {
@@ -185,6 +194,34 @@ describe("rebaseDiagram", () => {
     const serverDoc = doc([n("a")]);
     const local = doc([n("a"), n("b", { data: { label: "edited" } })]);
     expect(rebaseDiagram(serverDoc, lastSaved, local)).toBeNull();
+  });
+
+  describe("deletes", () => {
+    const connected = doc([n("a"), n("b")], [{ id: "e1", source: "a", target: "b" }]);
+
+    it("merges a local delete of a connected node", () => {
+      const server = doc([n("a"), n("b"), n("c")], [{ id: "e1", source: "a", target: "b" }]);
+      const local = doc([n("a")]);
+
+      const rebased = expectDefined(rebaseDiagram(server, connected, local), "rebased doc");
+      expect(rebased.nodes.map((node) => node.id)).toEqual(["a", "c"]);
+      expect(rebased.edges).toEqual([]);
+    });
+
+    it("merges when both sides deleted the same node", () => {
+      const server = doc([n("a"), n("c")]);
+      const local = doc([n("a")]);
+
+      const rebased = expectDefined(rebaseDiagram(server, connected, local), "rebased doc");
+      expect(rebased.nodes.map((node) => node.id)).toEqual(["a", "c"]);
+    });
+
+    it("merges when both sides deleted the same edge", () => {
+      const both = doc([n("a"), n("b")]);
+
+      const rebased = expectDefined(rebaseDiagram(both, connected, both), "rebased doc");
+      expect(rebased.edges).toHaveLength(0);
+    });
   });
 });
 
