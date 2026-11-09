@@ -1,4 +1,4 @@
-export { default as DataPanel } from "#src/charts/dashboard/data-panel.svelte";
+export { default as DataPanel } from "#src/lib/panel.svelte";
 export { default as DataSortHead } from "#src/charts/dashboard/data-sort-head.svelte";
 export {
   default as DataTable,

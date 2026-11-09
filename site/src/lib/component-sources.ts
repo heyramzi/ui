@@ -16,7 +16,7 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/charts/dashboard/stat-band.svelte",
     "packages/ui/src/charts/dashboard/stat-tile.svelte",
     "packages/ui/src/charts/dashboard/panel-grid.svelte",
-    "packages/ui/src/charts/dashboard/data-panel.svelte",
+    "packages/ui/src/lib/panel.svelte",
     "packages/ui/src/charts/dashboard/period-filter.svelte",
   ],
   button: ["packages/ui/src/shadcn/button/button.svelte"],
@@ -146,7 +146,7 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/components/list-page/master-detail.svelte",
     "packages/ui/src/components/list-page/rail-row.svelte",
     "packages/ui/src/components/list-page/detail-header.svelte",
-    "packages/ui/src/components/list-page/detail-panel.svelte",
+    "packages/ui/src/lib/panel.svelte",
     "packages/ui/src/components/toolbar/toolbar-search.svelte",
   ],
   icon: [

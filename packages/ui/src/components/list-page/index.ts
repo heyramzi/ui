@@ -1,6 +1,6 @@
 export { default as DetailEmpty } from "#src/components/list-page/detail-empty.svelte";
 export { default as DetailHeader } from "#src/components/list-page/detail-header.svelte";
-export { default as DetailPanel } from "#src/components/list-page/detail-panel.svelte";
+export { default as DetailPanel } from "#src/lib/panel.svelte";
 export { default as DetailRow } from "#src/components/list-page/detail-row.svelte";
 export { default as DetailStack } from "#src/components/list-page/detail-stack.svelte";
 export { default as EmptyState } from "#src/components/list-page/empty-state.svelte";

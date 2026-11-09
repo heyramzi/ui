@@ -1,7 +1,7 @@
 /** The one panel shell: a titled box holding a table, a chart or a stack. */
 
-// WHY tokens, not markup: `DetailPanel` and `DataPanel` draw the same box with
-// different props, and their edges drifted because the classes were typed twice.
+// Tokens beside `panel.svelte`, because skeletons and hand-built cards draw this
+// same edge without the panel's header.
 
 // Dashboards used `Card`, so /ads had a ring and a shadow where /social had a
 // hairline. Flat, one hairline, `rounded-xl`.

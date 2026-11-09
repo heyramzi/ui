@@ -15,7 +15,7 @@
 		UserPlus,
 	} from "phosphor-svelte";
 	import DetailHeader from "#src/components/list-page/detail-header.svelte";
-	import DetailPanel from "#src/components/list-page/detail-panel.svelte";
+	import DetailPanel from "#src/lib/panel.svelte";
 	import FilterItem from "#src/components/list-page/filter-item.svelte";
 	import FilterPopover from "#src/components/list-page/filter-popover.svelte";
 	import MasterDetail from "#src/components/list-page/master-detail.svelte";
