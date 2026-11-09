@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.23.0](https://github.com/heyramzi/ui/compare/ui-v2.22.1...ui-v2.23.0) (2026-11-09)
+
+### Features
+
+* feat(triage): the triage module (plan, task, queue) with its demo and export (TSK-2143)
+
+### Bug Fixes
+
+* fix(canvas): toolbar buttons press to 0.96, inside the press-scale floor (TSK-2143)
+* fix(command): the palette surface is opaque, page text no longer shows through (TSK-2143)
+* fix(editor): open the slash menu only after a space or at line start, let Enter through with no match (TSK-2143)
+* fix(canvas): a rebase merges deleting a card that has an arrow, and a delete both sides made (TSK-2143)
+* fix(editor): drop unsafe link and image URLs before the renderer's {@html} (TSK-2143)
+* fix(ui): chart series palette, lighter scrim, control height, canvas and board fixes (TSK-2143)
+
+### Performance
+
+* perf(site): navigation reads a small section list, each page loads its own demo (TSK-2143)
+
+
 ## [2.22.1](https://github.com/heyramzi/ui/compare/ui-v2.22.0...ui-v2.22.1) (2026-11-09)
 
 ### Performance

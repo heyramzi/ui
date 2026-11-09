@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/heyramzi/ui/compare/review-v1.1.1...review-v1.1.2) (2026-11-09)
+
+### Bug Fixes
+
+* fix(review): act refuses a cross-site write and a dropped upload no longer crashes the server (TSK-2143)
+* fix(review): gate Stage and transcript hovers to fine pointers, press scale 0.96 (TSK-1802)
+
+
 ## Unreleased
 
 ### Bug Fixes
