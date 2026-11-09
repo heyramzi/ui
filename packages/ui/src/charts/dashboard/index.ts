@@ -5,7 +5,6 @@ export {
   type DataColumnBreakpoint,
 } from "#src/charts/dashboard/data-table.svelte";
 export { default as RatingChip } from "#src/charts/dashboard/rating-chip.svelte";
-export { default as DashboardEmpty } from "#src/charts/dashboard/dashboard-empty.svelte";
 export { default as DashboardSection } from "#src/charts/dashboard/dashboard-section.svelte";
 export { default as PanelGrid } from "#src/charts/dashboard/panel-grid.svelte";
 export { default as PeriodFilter } from "#src/charts/dashboard/period-filter.svelte";

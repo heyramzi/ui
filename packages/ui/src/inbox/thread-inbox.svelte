@@ -20,7 +20,7 @@
 	import FilterPopover from "#src/components/list-page/filter-popover.svelte";
 	import MasterDetail from "#src/components/list-page/master-detail.svelte";
 	import RailBody from "#src/components/list-page/rail-body.svelte";
-	import RailEmpty from "#src/components/list-page/rail-empty.svelte";
+	import EmptyState from "#src/components/list-page/empty-state.svelte";
 	import RailHead from "#src/components/list-page/rail-head.svelte";
 	import RailRow from "#src/components/list-page/rail-row.svelte";
 	import { filterSectionClass } from "#src/components/list-page/filter-section.js";
@@ -427,7 +427,9 @@
 						</li>
 					{:else}
 						<li class="flex h-full flex-col items-center">
-							<RailEmpty
+							<EmptyState
+								size="sm"
+								class="h-full"
 								title={filtered
 									? filter.needsYou
 										? labels.emptyNeedsYou
@@ -531,7 +533,7 @@
 					</DetailPanel>
 				{/if}
 			{:else}
-				<RailEmpty title={labels.selectThread} />
+				<EmptyState size="sm" class="h-full" title={labels.selectThread} />
 			{/if}
 		{/snippet}
 	</MasterDetail>

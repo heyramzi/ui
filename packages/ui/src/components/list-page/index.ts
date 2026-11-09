@@ -1,4 +1,3 @@
-export { default as DetailEmpty } from "#src/components/list-page/detail-empty.svelte";
 export { default as DetailHeader } from "#src/components/list-page/detail-header.svelte";
 export { default as DetailPanel } from "#src/lib/panel.svelte";
 export { default as DetailRow } from "#src/components/list-page/detail-row.svelte";
@@ -9,7 +8,6 @@ export { default as PrevNext } from "#src/components/list-page/prev-next.svelte"
 export { stepTo } from "#src/components/list-page/step.js";
 export { default as NoticeBar } from "#src/components/list-page/notice-bar.svelte";
 export { default as RailBody } from "#src/components/list-page/rail-body.svelte";
-export { default as RailEmpty } from "#src/components/list-page/rail-empty.svelte";
 export { default as RailHead } from "#src/components/list-page/rail-head.svelte";
 export { default as RailRow } from "#src/components/list-page/rail-row.svelte";
 export { default as SectionLabel } from "#src/components/section-header/section-label.svelte";
