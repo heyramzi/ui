@@ -74,8 +74,8 @@
 		minWidth?: string;
 		/** Omit for every row on one page. */
 		pageSize?: number;
-		sortKey?: string | null;
-		descending?: boolean;
+		/** The ranked column and its direction. Bind it; a column with `sort` sets it. */
+		sort?: SortState;
 		page?: number;
 		/** The row opens a page. The lead becomes the link. */
 		rowHref?: (row: T) => string;
@@ -97,8 +97,7 @@
 		leadWidth,
 		minWidth = "min-w-[48rem]",
 		pageSize,
-		sortKey = $bindable(null),
-		descending = $bindable(true),
+		sort = $bindable(null),
 		page = $bindable(1),
 		rowHref,
 		onRowClick,
@@ -121,16 +120,11 @@
 		"text-left outline-none after:absolute after:inset-0 after:content-[''] focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-ring";
 
 	const sorted = $derived.by(() => {
-		const by = columns.find((column) => column.key === sortKey)?.sort;
-		if (!by) return rows;
-		const direction = descending ? -1 : 1;
+		const by = columns.find((column) => column.key === sort?.key)?.sort;
+		if (!by || !sort) return rows;
+		const direction = sort.direction === "desc" ? -1 : 1;
 		return [...rows].sort((left, right) => (by(left) - by(right)) * direction);
 	});
-
-	// The public `sortKey` + `descending` pair, in the shape `SortableHead` reads.
-	const sort = $derived<SortState<Record<string, unknown>>>(
-		sortKey ? { key: sortKey, direction: descending ? "desc" : "asc" } : null,
-	);
 
 	const visible = $derived(pageSize ? paginateRows(sorted, page, pageSize) : sorted);
 	const opens = $derived(Boolean(rowHref || onRowClick));
@@ -144,12 +138,8 @@
 
 	function rankBy(key: string) {
 		page = 1;
-		if (sortKey === key) {
-			descending = !descending;
-			return;
-		}
-		sortKey = key;
-		descending = true;
+		const flip = sort?.key === key && sort.direction === "desc";
+		sort = { key, direction: flip ? "asc" : "desc" };
 	}
 
 	function isMuted(column: DataColumn<T>, row: T) {

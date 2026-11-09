@@ -26,7 +26,7 @@ export function anyContainsQuery(values: Array<string | null | undefined>, query
 // ========================= TYPES
 export type SortDirection = "asc" | "desc";
 
-export type SortState<T> = {
+export type SortState<T = Record<string, unknown>> = {
   key: keyof T & string;
   direction: SortDirection;
 } | null;
