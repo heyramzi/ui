@@ -1,78 +1,156 @@
 <script lang="ts">
-	import { entries, entryOf, sections } from "#lib/registry.js";
-	import Tile from "#lib/Tile.svelte";
 	import { ArrowRight } from "phosphor-svelte";
+	import LazyDemo from "#lib/home/LazyDemo.svelte";
+	import Piece from "#lib/home/Piece.svelte";
+	import WorkStage from "#lib/home/WorkStage.svelte";
 
-	// Each section leads with one part per category, picking ones that fit, since a demo taller
-	// than a tile shrinks to mush.
-	const fits = (slug: string | { href: string }): slug is string =>
-		typeof slug === "string" && (entryOf(slug).height ?? 280) <= 400;
-	const leads = (section: (typeof sections)[number]) => {
-		const spread = section.categories
-			.map((c) => c.items.find(fits))
-			.filter((slug): slug is string => slug !== undefined);
-		const rest = section.categories
-			.flatMap((c) => c.items.filter(fits))
-			.filter((slug) => !spread.includes(slug));
-		return [...spread, ...rest].slice(0, 3).map(entryOf);
-	};
-	const countOf = (id: string) => entries.filter((e) => e.section === id).length;
+	// Every demo here loads on its own chunk as it nears the viewport, so the canvas, the
+	// charts and the editor cost nothing until someone scrolls to them. The page never imports
+	// the registry, which pulls every demo in the site.
+	const rest = [
+		{ href: "/foundations", title: "Foundations" },
+		{ href: "/components", title: "Components" },
+		{ href: "/effects", title: "Effects" },
+		{ href: "/charts", title: "Charts" },
+		{ href: "/blocks", title: "Blocks" },
+	];
 </script>
 
 <svelte:head><title>heyramzi/ui</title></svelte:head>
 
-<section class="mx-auto max-w-4xl px-6 pb-10 pt-24 text-center">
-	<p
-		class="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground"
+<div class="mx-auto max-w-6xl px-4 sm:px-6">
+	<header
+		class="flex flex-col gap-6 pb-8 pt-14 sm:pt-20 lg:flex-row lg:items-end lg:justify-between"
 	>
-		<span class="size-1.5 rounded-full bg-emerald-500"></span> Svelte 5 · Tailwind v4 · {entries.length}
-		parts
-	</p>
-	<h1 class="text-balance text-5xl font-semibold tracking-tight sm:text-6xl">
-		Components for our product teams.
-	</h1>
-	<p class="mx-auto mt-5 max-w-xl text-pretty text-lg text-muted-foreground">
-		From the tokens up to whole screens, in one Svelte 5 package.
-	</p>
-	<div class="mt-8 flex justify-center gap-2">
-		<a
-			href="/docs"
-			class="rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
-			>Get started</a
-		>
-		<a
-			href="/components"
-			class="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:border-foreground/30"
-			>Browse components</a
-		>
-	</div>
-</section>
-
-{#each sections as section, i (section.id)}
-	<section class="mx-auto mt-16 max-w-6xl px-6" aria-labelledby={section.id}>
-		<div class="mb-6 flex items-end justify-between gap-4">
-			<div>
-				<p class="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</p>
-				<h2 id={section.id} class="mt-1 scroll-mt-24 text-2xl font-semibold tracking-tight">
-					{section.title}
-				</h2>
-				<p class="mt-1 text-sm text-muted-foreground">
-					{section.categories.map((c) => c.title).join(" · ")}
-				</p>
-			</div>
+		<div class="max-w-2xl">
+			<h1 class="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+				Svelte 5 parts for real product screens.
+			</h1>
+			<p class="mt-4 max-w-xl text-pretty text-lg text-muted-foreground">
+				Task boards, timelines, a drawing canvas, charts, an editor and AI chat, in one package.
+				Everything on this page runs, so try it.
+			</p>
+		</div>
+		<div class="flex shrink-0 gap-2">
 			<a
-				href="/{section.id}"
-				class="group flex shrink-0 items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+				href="/docs"
+				class="t-press inline-flex h-10 items-center rounded-(--radius-lg) bg-foreground px-4 text-sm font-medium text-background transition-opacity duration-(--duration-quick) hover:opacity-85"
+				>Read the docs</a
 			>
-				All {countOf(section.id)}
-				<ArrowRight
-					class="size-3.5 transition-transform group-hover:translate-x-0.5"
-					aria-hidden="true"
+			<a
+				href="/components"
+				class="t-press inline-flex h-10 items-center rounded-(--radius-lg) bg-card px-4 text-sm font-medium shadow-(--elev-card) transition-shadow duration-(--duration-quick) hover:shadow-(--elev-card-hover)"
+				>Browse all parts</a
+			>
+		</div>
+	</header>
+
+	<WorkStage />
+
+	<div class="mt-16 grid gap-x-6 gap-y-12 lg:grid-cols-12">
+		<Piece
+			title="Canvas"
+			href="/components/canvas"
+			importPath="@heyramzi/ui/canvas"
+			plain
+			class="lg:col-span-8"
+		>
+			<LazyDemo load={() => import("#lib/demos/canvas.svelte")} height={440} label="Canvas" />
+		</Piece>
+
+		<div class="flex flex-col gap-12 lg:col-span-4">
+			<Piece title="Prompt input" href="/components/ai-prompt" importPath="@heyramzi/ui/ai">
+				<LazyDemo
+					load={() => import("#lib/demos/ai-prompt.svelte")}
+					height={150}
+					label="Prompt input"
 				/>
-			</a>
+			</Piece>
+			<Piece
+				title="Reasoning"
+				href="/components/reasoning"
+				importPath="@heyramzi/ui/ai"
+				class="flex-1"
+			>
+				<LazyDemo
+					load={() => import("#lib/demos/reasoning.svelte")}
+					height={120}
+					label="Reasoning"
+				/>
+			</Piece>
 		</div>
-		<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-			{#each leads(section) as entry (entry.slug)}<Tile {entry} />{/each}
-		</div>
-	</section>
-{/each}
+
+		<Piece
+			title="Area chart"
+			href="/components/area-chart"
+			importPath="@heyramzi/ui/charts"
+			class="lg:col-span-5"
+		>
+			<LazyDemo
+				load={() => import("#lib/demos/area-chart.svelte")}
+				height={300}
+				label="Area chart"
+			/>
+		</Piece>
+
+		<Piece
+			title="Rich editor"
+			href="/components/rich-editor"
+			importPath="@heyramzi/ui/editor"
+			plain
+			class="lg:col-span-7"
+		>
+			<LazyDemo
+				load={() => import("#lib/demos/rich-editor.svelte")}
+				height={300}
+				label="Rich editor"
+			/>
+		</Piece>
+
+		<Piece title="Motion" href="/effects" importPath="@heyramzi/ui/effects" class="lg:col-span-12">
+			<div
+				class="grid w-full items-center gap-10 py-4 md:grid-cols-[1fr_auto] lg:grid-cols-[1.2fr_1fr_auto]"
+			>
+				<LazyDemo
+					load={() => import("#lib/demos/text-effect.svelte")}
+					height={180}
+					label="Text effect"
+				/>
+				<LazyDemo
+					load={() => import("#lib/demos/hold-to-confirm.svelte")}
+					height={80}
+					label="Hold to confirm"
+				/>
+				<LazyDemo
+					load={() => import("#lib/demos/border-beam.svelte")}
+					height={300}
+					label="Border beam"
+					class="md:col-span-2 lg:col-span-1"
+				/>
+			</div>
+		</Piece>
+	</div>
+
+	<nav
+		aria-labelledby="rest"
+		class="mt-20 flex flex-col gap-4 sm:flex-row sm:items-baseline sm:gap-10"
+	>
+		<h2 id="rest" class="shrink-0 text-sm font-medium">The rest of the kit</h2>
+		<ul class="flex flex-wrap gap-x-6 gap-y-2">
+			{#each rest as link (link.href)}
+				<li>
+					<a
+						href={link.href}
+						class="group inline-flex min-h-6 items-center gap-1 text-sm text-muted-foreground transition-colors duration-(--duration-quick) hover:text-foreground"
+					>
+						{link.title}
+						<ArrowRight
+							class="size-3.5 transition-transform duration-(--duration-quick) group-hover:translate-x-0.5 motion-reduce:transition-none"
+							aria-hidden="true"
+						/>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</nav>
+</div>
