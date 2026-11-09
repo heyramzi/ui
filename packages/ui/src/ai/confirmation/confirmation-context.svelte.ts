@@ -2,10 +2,10 @@ import { getContext, setContext } from "svelte";
 
 const CONFIRMATION_CONTEXT_KEY = Symbol("confirmation-context");
 
-export type ConfirmationState = "idle" | "requested" | "accepted" | "rejected" | "failed";
+export type ConfirmationKind = "idle" | "requested" | "accepted" | "rejected" | "failed";
 
 export interface ConfirmationContextValue {
-  readonly kind: ConfirmationState;
+  readonly kind: ConfirmationKind;
   readonly executing: boolean;
 }
 

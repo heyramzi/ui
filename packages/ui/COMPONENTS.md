@@ -120,7 +120,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 ## AI and chat (`src/ai`)
 
 - `ai-button` — AiButton
-- `confirmation` — Confirmation, ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected, ConfirmationActions, ConfirmationAction
+- `confirmation` — Confirmation, ConfirmationTitle, ConfirmationState (`when` names the kind it shows), ConfirmationActions, ConfirmationAction, type ConfirmationKind
 - `generation-progress` — GenerationProgress
 - `loading-state` — PixelLoader
 - `prompt-input` — PromptInput, PromptInputBody, PromptInputToolbar, PromptInputTextarea, PromptInputSubmit

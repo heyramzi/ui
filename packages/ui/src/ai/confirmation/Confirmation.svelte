@@ -1,10 +1,10 @@
 <script lang="ts" module>
 	import type { Snippet } from "svelte";
 	import type { HTMLAttributes } from "svelte/elements";
-	import type { ConfirmationState } from "#src/ai/confirmation/confirmation-context.svelte.js";
+	import type { ConfirmationKind } from "#src/ai/confirmation/confirmation-context.svelte.js";
 
 	export interface ConfirmationProps extends HTMLAttributes<HTMLElement> {
-		kind: ConfirmationState;
+		kind: ConfirmationKind;
 		executing?: boolean;
 		class?: string;
 		children?: Snippet;

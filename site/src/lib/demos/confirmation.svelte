@@ -2,21 +2,19 @@
 	import {
 		Confirmation,
 		ConfirmationTitle,
-		ConfirmationRequest,
-		ConfirmationAccepted,
-		ConfirmationRejected,
+		ConfirmationState,
 		ConfirmationActions,
 		ConfirmationAction,
-		type ConfirmationState,
+		type ConfirmationKind,
 	} from "@heyramzi/ui/ai";
 
-	let kind = $state<ConfirmationState>("requested");
+	let kind = $state<ConfirmationKind>("requested");
 </script>
 
 <div class="stack">
 	<Confirmation {kind}>
 		<ConfirmationTitle>Delete 3 stale views?</ConfirmationTitle>
-		<ConfirmationRequest>
+		<ConfirmationState when="requested">
 			<p class="body">Removes the views from the workspace. This can't be undone.</p>
 			<ConfirmationActions>
 				<ConfirmationAction variant="outline" onclick={() => (kind = "rejected")}>
@@ -24,9 +22,9 @@
 				</ConfirmationAction>
 				<ConfirmationAction onclick={() => (kind = "accepted")}>Delete</ConfirmationAction>
 			</ConfirmationActions>
-		</ConfirmationRequest>
-		<ConfirmationAccepted>Deleted 3 views.</ConfirmationAccepted>
-		<ConfirmationRejected>Kept the views.</ConfirmationRejected>
+		</ConfirmationState>
+		<ConfirmationState when="accepted">Deleted 3 views.</ConfirmationState>
+		<ConfirmationState when="rejected">Kept the views.</ConfirmationState>
 	</Confirmation>
 
 	{#if kind !== "requested"}

@@ -46,22 +46,16 @@ export {
 export {
   Confirmation,
   ConfirmationTitle,
-  ConfirmationRequest,
-  ConfirmationAccepted,
-  ConfirmationRejected,
-  ConfirmationFailed,
+  ConfirmationState,
   ConfirmationActions,
   ConfirmationAction,
   type ConfirmationProps,
   type ConfirmationTitleProps,
-  type ConfirmationRequestProps,
-  type ConfirmationAcceptedProps,
-  type ConfirmationRejectedProps,
-  type ConfirmationFailedProps,
+  type ConfirmationStateProps,
   type ConfirmationActionsProps,
   type ConfirmationActionProps,
   type ConfirmationContextValue,
-  type ConfirmationState,
+  type ConfirmationKind,
 } from "#src/ai/confirmation/index.js";
 
 // =========================
