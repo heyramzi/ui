@@ -77,17 +77,11 @@
 						<SortableHead key="city" {sort} onSort={(k) => (sort = toggleSort(sort, k))}
 							>City</SortableHead
 						>
-						<SortableHead
-							key="projects"
-							{sort}
-							onSort={(k) => (sort = toggleSort(sort, k))}
-							class="text-right">Projects</SortableHead
+						<SortableHead key="projects" {sort} onSort={(k) => (sort = toggleSort(sort, k))} numeric
+							>Projects</SortableHead
 						>
-						<SortableHead
-							key="revenue"
-							{sort}
-							onSort={(k) => (sort = toggleSort(sort, k))}
-							class="text-right">Revenue</SortableHead
+						<SortableHead key="revenue" {sort} onSort={(k) => (sort = toggleSort(sort, k))} numeric
+							>Revenue</SortableHead
 						>
 						<Table.Head class="w-8"></Table.Head>
 					</Table.Row>

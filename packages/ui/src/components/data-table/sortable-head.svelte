@@ -69,7 +69,9 @@
 	onclick={() => onSort(key)}
 	onkeydown={handleKeydown}
 >
-	<span class="inline-flex items-center gap-1">
+	<!-- Pinned to the line's top, not its baseline: a leading caret gave the span the icon's foot
+	     as its baseline and lifted a numeric label 1.5px above the plain heads beside it. -->
+	<span class="inline-flex items-center gap-1 align-top">
 		{#if numeric}
 			{@render caret()}{@render children()}
 		{:else}
