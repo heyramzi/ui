@@ -4161,6 +4161,17 @@
       ]
     },
     {
+      "name": "Confirmation.Request",
+      "file": "packages/ui/src/ai/confirmation/ConfirmationRequest.svelte",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": []
+    },
+    {
       "name": "Confirmation.Actions",
       "file": "packages/ui/src/ai/confirmation/ConfirmationActions.svelte",
       "props": [
@@ -4246,6 +4257,39 @@
           "from": "svelte/elements"
         }
       ]
+    },
+    {
+      "name": "Confirmation.Accepted",
+      "file": "packages/ui/src/ai/confirmation/ConfirmationAccepted.svelte",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": []
+    },
+    {
+      "name": "Confirmation.Rejected",
+      "file": "packages/ui/src/ai/confirmation/ConfirmationRejected.svelte",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": []
+    },
+    {
+      "name": "Confirmation.Failed",
+      "file": "packages/ui/src/ai/confirmation/ConfirmationFailed.svelte",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": []
     }
   ],
   "context-menu": [
@@ -14799,7 +14843,7 @@
     },
     {
       "name": "CountChip",
-      "file": "packages/ui/src/components/work-parts/count-chip.svelte",
+      "file": "packages/ui/src/components/chip/count-chip.svelte",
       "props": [
         {
           "name": "count",
@@ -14807,11 +14851,30 @@
           "required": true
         },
         {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "default": "\"md\"",
+          "description": "`sm` is 16px, for a count inside a control or on a button; `md` is 20px, beside a heading."
+        },
+        {
+          "name": "tone",
+          "type": "\"neutral\" | \"brand\"",
+          "default": "\"neutral\"",
+          "description": "`brand` marks a count that is on: an applied filter, the selected segment."
+        },
+        {
           "name": "class",
           "type": "string"
         }
       ],
-      "bases": []
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLSpanElement>",
+          "from": "svelte/elements",
+          "omit": ["children", "class"]
+        }
+      ]
     }
   ]
 }

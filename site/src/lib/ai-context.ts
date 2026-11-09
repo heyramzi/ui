@@ -36,7 +36,7 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/components/work-parts/work-well.svelte",
     "../../../packages/ui/src/components/work-parts/work-card.svelte",
     "../../../packages/ui/src/components/work-parts/group-head.svelte",
-    "../../../packages/ui/src/components/work-parts/count-chip.svelte",
+    "../../../packages/ui/src/components/chip/count-chip.svelte",
     "../../../packages/ui/src/components/work-parts/property-row.svelte",
     "../../../packages/ui/src/components/work-parts/looks.ts",
     "../../../packages/ui/src/components/toolbar/toolbar.svelte",
