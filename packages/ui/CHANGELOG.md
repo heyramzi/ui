@@ -1,10 +1,353 @@
 # Changelog
 
-## Unreleased
+## [2.22.1](https://github.com/heyramzi/ui/compare/ui-v2.22.0...ui-v2.22.1) (2026-11-09)
+
+### Performance
+
+* perf(canvas): the dot grid paints only the strip a pan uncovers (TSK-1131)
+
+
+## [2.22.0](https://github.com/heyramzi/ui/compare/ui-v2.21.1...ui-v2.22.0) (2026-11-09)
+
+### Features
+
+* feat(ui): list-page toolbar folds its tabs into a dropdown instead of wrapping (TSK-2121)
+
+
+## [2.21.1](https://github.com/heyramzi/ui/compare/ui-v2.21.0...ui-v2.21.1) (2026-11-04)
+
+### Bug Fixes
+
+* fix(ui): named values re-exported from .svelte move to .ts modules (TSK-1839)
+
+
+## [2.21.0](https://github.com/heyramzi/ui/compare/ui-v2.20.0...ui-v2.21.0) (2026-11-04)
+
+### Features
+
+* feat(ui): craft refresh, the shared look on one token layer (TSK-1794)
+
+
+## [2.20.0](https://github.com/heyramzi/ui/compare/ui-v2.19.3...ui-v2.20.0) (2026-11-04)
+
+### Features
+
+* feat(ui): row-action and hover-row show a row's actions on hover, keyboard focus and touch (TSK-1764)
+
+
+## [2.19.3](https://github.com/heyramzi/ui/compare/ui-v2.19.2...ui-v2.19.3) (2026-11-04)
+
+### Bug Fixes
+
+* fix(ui): a lone tone badge in an InfoList row keeps its own width (TSK-1764)
+
+
+## [2.19.2](https://github.com/heyramzi/ui/compare/ui-v2.19.1...ui-v2.19.2) (2026-11-04)
+
+### Bug Fixes
+
+* fix(ui): InfoList list rows put the label beside its value again (TSK-1764)
+
+
+## [2.19.1](https://github.com/heyramzi/ui/compare/ui-v2.19.0...ui-v2.19.1) (2026-11-03)
+
+### Bug Fixes
+
+* fix(charts): each chart loads its own tokens, so a stat tile keeps its card edge (TSK-1665)
+
+
+## [2.19.0](https://github.com/heyramzi/ui/compare/ui-v2.18.0...ui-v2.19.0) (2026-11-03)
+
+### Features
+
+* feat(segmented): iconOnly draws an option's mark alone, its label on hover (TSK-1679)
+* feat(ui): opt-in interaction sounds from cuelume (TSK-1650)
+
+
+## [2.18.0](https://github.com/heyramzi/ui/compare/ui-v2.17.0...ui-v2.18.0) (2026-11-02)
+
+### Features
+
+* initial publish from this repo
+
+
+## [2.17.0](https://github.com/heyramzi/ui/compare/ui-v2.16.1...ui-v2.17.0) (2026-11-02)
+
+### Features
+
+* feat(thread): host-drawn entries in the timeline and a footer above the composer
+
+
+## [2.16.1](https://github.com/heyramzi/ui/compare/ui-v2.16.0...ui-v2.16.1) (2026-11-02)
+
+### Bug Fixes
+
+* fix(thread): a heading prop for a tab-named thread, and long words wrap
+
+
+## [2.16.0](https://github.com/heyramzi/ui/compare/ui-v2.15.1...ui-v2.16.0) (2026-11-02)
+
+### Features
+
+* feat(record): RecordRail, a record's side rail split into tabs
+
+### Bug Fixes
+
+* fix(work): a shut kanban fold contains its cards sr-only labels
+
+
+## [2.15.1](https://github.com/heyramzi/ui/compare/ui-v2.15.0...ui-v2.15.1) (2026-11-02)
+
+### Bug Fixes
+
+* fix(ui): commit lib/motion.ts, which kanban-board-state, task-list and charts/motion import
+
+
+## [2.15.0](https://github.com/heyramzi/ui/compare/ui-v2.14.0...ui-v2.15.0) (2026-11-02)
+
+### Features
+
+* feat(work): kanban columns share the board's width, 280 to 420px (TSK-1563)
+
+### Bug Fixes
+
+* fix(ui): smoothed charts draw a missing day as a gap, and a year as a 28-day average (TSK-1562)
+* fix(work): the column fold caret shows only while the column is hovered
+
+
+## [2.14.0](https://github.com/heyramzi/ui/compare/ui-v2.13.0...ui-v2.14.0) (2026-11-02)
+
+### Features
+
+* feat(work): kanban columns fold to 5 cards, open one lane or the whole column (TSK-1563)
+
+### Bug Fixes
+
+* fix(ui): a smoothed point names itself in the hover readout (TSK-1562)
+
+
+## [2.13.0](https://github.com/heyramzi/ui/compare/ui-v2.12.0...ui-v2.13.0) (2026-11-02)
+
+### Features
+
+* feat(ui): charts smooth the drawn line by the window shown (TSK-1562)
+* feat(ui): TagChip and the work parts, with their site demos
+
+
+## [2.12.0](https://github.com/heyramzi/ui/compare/ui-v2.11.2...ui-v2.12.0) (2026-10-30)
+
+### Features
+
+* feat(ui): TableView draws no frame by default, and craft.css ships --text-2xs
+
+### Bug Fixes
+
+* fix(charts): a chip beside a tile label no longer pushes its value down
+
+
+## [2.11.2](https://github.com/heyramzi/ui/compare/ui-v2.11.1...ui-v2.11.2) (2026-10-28)
+
+### Bug Fixes
+
+* fix(ui): editor markdown reads every token safely, so a consumer with noUncheckedIndexedAccess typechecks
+* fix(ui): text-swap resolves to source under Svelte, like the effects subpaths
+* fix(ui): rail titles get the width the hover actions held back
+* fix(ui): the master-detail pane no longer clips the top edge of a card
+
+
+## [2.11.1](https://github.com/heyramzi/ui/compare/ui-v2.11.0...ui-v2.11.1) (2026-10-28)
+
+### Bug Fixes
+
+* fix(tags-input): clicking the field opens it in Chrome
+
+
+## [2.11.0](https://github.com/heyramzi/ui/compare/ui-v2.10.1...ui-v2.11.0) (2026-10-28)
+
+### Features
+
+* feat(tags-input): a free mode adds what's typed, with no options menu
+
+
+## [2.10.1](https://github.com/heyramzi/ui/compare/ui-v2.10.0...ui-v2.10.1) (2026-10-26)
+
+### Bug Fixes
+
+* fix(ui): StatusDot's progress pie starts at 12 o'clock
+
+
+## [2.10.0](https://github.com/heyramzi/ui/compare/ui-v2.9.0...ui-v2.10.0) (2026-10-26)
+
+### Features
+
+* feat(ui): ship a built dist so plain Node can load the TypeScript entries
+
+### Bug Fixes
+
+* fix(ui): toolbar triggers get the outline button's edge and a card fill
+* fix(ui): point the record demo data's links at the page
+* fix(ui): point the record demo's breadcrumbs at the page
+
+
+## [2.9.0](https://github.com/heyramzi/ui/compare/ui-v2.8.0...ui-v2.9.0) (2026-10-23)
 
 ### Breaking changes
 
 * feat(ui)!: `./tasks` is now `./work`, since the module holds docs as well as tasks, and no `./tasks` subpath resolves. Swap `@heyramzi/ui/tasks` for `@heyramzi/ui/work` (`/kanban`, `/list`, `/gantt`, `/time`, `/inbox`, `/detail`, `/presets/sales` keep their tails). The moved names leave it: `StatusBadge`, `StatusDot`, `StatusIcon`, `defineStatuses` and their types come from `@heyramzi/ui/status`, `SidePanel` and `PanelStat` from `@heyramzi/ui/panel`, the record shell from `@heyramzi/ui/record`. `tasks/status` → `import { StatusBadge } from "@heyramzi/ui/status"`, `tasks/status-dot` → `{ StatusDot }`, `tasks/statuses` → `{ defineStatuses }`, `tasks/side-panel` → `import { SidePanel } from "@heyramzi/ui/panel"`, `tasks/record-demo.svelte` → `record/demo.svelte`. The site page moved from `/tasks` to `/work`, and `/tasks` redirects
+
+### Features
+
+* feat(thread): events between comments, long bodies fold, and the inbox draws its thread through it
+* feat(ui): rename the tasks subpaths to work
+
+### Bug Fixes
+
+* fix(ui): hover styles only on hover devices, unitless line heights, and default dates take a locale
+
+
+## [2.8.0](https://github.com/heyramzi/ui/compare/ui-v2.7.0...ui-v2.8.0) (2026-10-23)
+
+### Features
+
+* feat(ui)!: keep UI motion under 300ms; very-slow splits into overlay and loop
+
+
+## [2.7.0](https://github.com/heyramzi/ui/compare/ui-v2.6.0...ui-v2.7.0) (2026-10-23)
+
+### Features
+
+* feat(ui): brand settings take primary colors for the key button, light and dark
+
+
+## [2.6.0](https://github.com/heyramzi/ui/compare/ui-v2.5.0...ui-v2.6.0) (2026-10-23)
+
+### Features
+
+* feat(ui): InfoList takes layout="row", a read-only band of items with term, content and action snippets
+
+
+## [2.5.0](https://github.com/heyramzi/ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-10-23)
+
+### Features
+
+* feat(ui): AreaChart takes a resting headline, like a period total, shown until a point is hovered
+
+
+## [2.4.0](https://github.com/heyramzi/ui/compare/ui-v2.3.0...ui-v2.4.0) (2026-10-23)
+
+### Features
+
+* feat(ui): TableView takes onRowLink for in-place row links, and a null group key draws no header
+
+
+## [2.3.0](https://github.com/heyramzi/ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-10-22)
+
+### Features
+
+* feat(ui): TableView takes sortable heads, row links, selection, row menus, groups, sub-rows and loading rows
+
+
+## [2.2.0](https://github.com/heyramzi/ui/compare/ui-v2.1.0...ui-v2.2.0) (2026-10-22)
+
+### Features
+
+* feat(ui): one inbox, built on the list-page kit
+
+### Bug Fixes
+
+* fix(ui): gate raw hover styles behind the hover media query
+
+
+## [2.1.0](https://github.com/heyramzi/ui/compare/ui-v2.0.1...ui-v2.1.0) (2026-10-22)
+
+### Features
+
+* feat(ui): status, panel, record, thread and threaded inbox subpaths
+
+
+## [2.0.1](https://github.com/heyramzi/ui/compare/ui-v2.0.0...ui-v2.0.1) (2026-10-22)
+
+### Bug Fixes
+
+* fix(ui): stop the rich editor rebuilding in a loop when an app feeds its output back as content
+
+
+## [2.0.0](https://github.com/heyramzi/ui/compare/ui-v1.54.2...ui-v2.0.0) (2026-10-21)
+
+### Features
+
+* feat(ui): tasks, charts, slides, editor, onboarding and canvas become subpaths of ui
+
+### Bug Fixes
+
+* fix(ui): raw :hover in canvas, gantt and Segmented only fires where a pointer hovers
+
+
+## [1.54.2](https://github.com/heyramzi/ui/compare/ui-v1.54.1...ui-v1.54.2) (2026-10-21)
+
+### Bug Fixes
+
+* fix(ui): ThemeToggle names the properties it animates and grows its icon from 90%
+* fix(ui): install without the private @heyramzi/utils
+
+
+## [1.54.1](https://github.com/heyramzi/ui/compare/ui-v1.54.0...ui-v1.54.1) (2026-10-21)
+
+### Bug Fixes
+
+* fix(ui): FieldRow matches a touch-sized Button with a 44px input on a coarse pointer
+
+
+## [1.54.0](https://github.com/heyramzi/ui/compare/ui-v1.53.1...ui-v1.54.0) (2026-10-21)
+
+### Features
+
+* feat(ui): field-row, section-card, section-header, table-view, docs and theme components; contrast fixes; Progress tone; Button text variant
+* feat(ui): `shadcn/progress` takes `tone`, the fill's colour on the severity scale; `shadcn/button` has a `text` variant for quiet text that opens an editor, which wraps to its lines and keeps a 44px touch height; `SegmentedFilter` takes `max="none"` to never fold a tail into a menu
+
+### Touch and contrast
+
+* feat(ui): on a coarse pointer every control a list page's toolbar draws is 44px: `Input`, `ToolbarSearch`, `toolbarTriggerClass` (the Filters and Display triggers), `Picker` triggers and the pill and underline tracks of `components/segmented`. The pill track keeps its look: the border becomes a ring drawn over a 44px well, and the sliding pill keeps its gap inside it
+* feat(ui): `Checkbox` hit box is 44px on a coarse pointer (it was 38px)
+* feat(ui): a link inside a `TableCell` gets a 44px hit area on a coarse pointer, unless the link positions itself
+* feat(ui): `TableCell` sets `tabular-nums`, so a date or price column lines up in every table
+* feat(ui): tokens `--color-cat-cyan-ink`, `-teal-ink`, `-purple-ink`, `-amber-ink`, `--color-success-ink` and `--color-destructive-ink` (text and icon colours that clear AA on their own tint in both themes), so `text-destructive-ink` is a utility
+* fix(ui): the destructive `Badge` variant and the destructive tone chip use `text-destructive-ink` (3.6:1 became 4.5:1 or better)
+* fix(ui): the sidebar group label is `text-sidebar-foreground/90` (3.3:1 at 70%)
+* fix(ui): `SortableHead`'s unsorted caret is `text-muted-foreground/75` (2.3:1 at 50%, an icon needs 3:1)
+
+### New components
+
+* feat(ui): `components/theme` (`ThemeProvider`, and `mode`, `userPrefersMode`, `setMode`, `toggleMode`, `resetMode` from mode-watcher), the one light and dark system: mount the provider once, no cookie or boot script; `initial` seeds a browser with nothing stored and `onChange` fires on a person's choice so an app can save it on its server
+* fix(ui): `shadcn/dropdown-menu` and `shadcn/context-menu` separators hide when they lead, trail or follow another separator, so a conditional group that draws nothing no longer leaves a double line
+* feat(ui): `components/section-card` (`SectionCard`), `components/section-header` (`SectionHeader`), `components/field-row` (`FieldRow`) and `components/table-view` (`TableView`), the settings and read-only table pieces apps kept rewriting
+* feat(ui): `components/docs` (`DocPage`, `OnThisPage`, `ScrollSpy`), one page anatomy for documentation
+
+### Bug Fixes
+
+* fix(ui): raw :hover in the token primitives only fires where a pointer hovers
+
+
+## [1.53.0](https://github.com/heyramzi/ui/compare/ui-v1.52.0...ui-v1.53.0) (2026-10-19)
+
+_Released as 8.1.0 before the 19 Oct 2026 renumbering._
+
+### Features
+
+* feat(ui): AgentCast wakes the card under the pointer and names each agent once
+
+### Bug Fixes
+
+* fix(ui): AgentCast's hover border is gated to a fine pointer, so it doesn't stick after a tap
+* fix(ui): agent avatars fade in once measured, pick their own ink, and repaint after the gate
+
+
+## [1.52.0](https://github.com/heyramzi/ui/compare/ui-v1.51.0...ui-v1.52.0) (2026-10-16)
+
+_Released as 8.0.0 before the 19 Oct 2026 renumbering._
+
+### Breaking changes
+
 * feat(ui)!: `./lib/*` resolves real files with types, and takes `.js` or no extension: `@heyramzi/ui/lib/layout.js`
 * feat(ui)!: remove `lib/utils.ts`; import `cn`, `WithElementRef`, `WithoutChildren`, `Result` and `tryCatch` from `@heyramzi/utils`, and drop `clsx` and `tailwind-merge` as direct dependencies
 * feat(ui)!: remove `Composer` and the `./ai` export `ComposerProps`; `PromptInput` takes its `error` and `accent`, and puts a leading control or a header inside `PromptInputBody`
@@ -19,7 +362,7 @@
 
 ### Features
 
-* feat(ui): `shadcn/progress` takes `tone`, the fill's colour on the severity scale; `shadcn/button` has a `text` variant for quiet text that opens an editor, which wraps to its lines and keeps a 44px touch height; `SegmentedFilter` takes `max="none"` to never fold a tail into a menu
+* feat(ui): a components folder with picker, segmented, mark and icon, computeCommandScore export and lib subpath exports
 * feat(ui): `CopyButton` takes `variant="inline"` for a chip that sits in running text (the font and colour are the surrounding text's, the icon trails), and `announce="name"` to swap the button's own name to `copiedLabel` instead of a live region
 * feat(ui): `shadcn/accordion` `AccordionTrigger` takes an `indicator` snippet that replaces the caret
 * feat(ui): `lib/panel` exports `insetWellClass`, the inset well for a control block inside a panel
@@ -43,23 +386,120 @@
 * feat(ui): every busy state renders `shadcn/spinner`: the toast loader, the prompt submit and infinite scroll
 * feat(rich-editor): new package `@heyramzi/rich-editor` 0.1.0, the Tiptap editor, renderer and Markdown bridge that were inside an app; a comparison table's winner cell carries `data-winner` as the first word of the cell, and a host colours its own products
 
-### Touch and contrast
+### Bug Fixes
 
-* feat(ui): on a coarse pointer every control a list page's toolbar draws is 44px: `Input`, `ToolbarSearch`, `toolbarTriggerClass` (the Filters and Display triggers), `Picker` triggers and the pill and underline tracks of `components/segmented`. The pill track keeps its look: the border becomes a ring drawn over a 44px well, and the sliding pill keeps its gap inside it
-* feat(ui): `Checkbox` hit box is 44px on a coarse pointer (it was 38px)
-* feat(ui): a link inside a `TableCell` gets a 44px hit area on a coarse pointer, unless the link positions itself
-* feat(ui): `TableCell` sets `tabular-nums`, so a date or price column lines up in every table
-* feat(ui): tokens `--color-cat-cyan-ink`, `-teal-ink`, `-purple-ink`, `-amber-ink`, `--color-success-ink` and `--color-destructive-ink` (text and icon colours that clear AA on their own tint in both themes), so `text-destructive-ink` is a utility
-* fix(ui): the destructive `Badge` variant and the destructive tone chip use `text-destructive-ink` (3.6:1 became 4.5:1 or better)
-* fix(ui): the sidebar group label is `text-sidebar-foreground/90` (3.3:1 at 70%)
-* fix(ui): `SortableHead`'s unsorted caret is `text-muted-foreground/75` (2.3:1 at 50%, an icon needs 3:1)
+* fix(ui): Reasoning and ToggleGroup pass live props to their context, so svelte-check stops warning in linking apps
+* fix(ui): svelte-check in a linking app reads the sources without the vite config
 
-### New components
 
-* feat(ui): `components/theme` (`ThemeProvider`, and `mode`, `userPrefersMode`, `setMode`, `toggleMode`, `resetMode` from mode-watcher), the one light and dark system: mount the provider once, no cookie or boot script; `initial` seeds a browser with nothing stored and `onChange` fires on a person's choice so an app can save it on its server
-* fix(ui): `shadcn/dropdown-menu` and `shadcn/context-menu` separators hide when they lead, trail or follow another separator, so a conditional group that draws nothing no longer leaves a double line
-* feat(ui): `components/section-card` (`SectionCard`), `components/section-header` (`SectionHeader`), `components/field-row` (`FieldRow`) and `components/table-view` (`TableView`), the settings and read-only table pieces apps kept rewriting
-* feat(ui): `components/docs` (`DocPage`, `OnThisPage`, `ScrollSpy`), one page anatomy for documentation
+## [1.51.0](https://github.com/heyramzi/ui/compare/ui-v1.50.0...ui-v1.51.0) (2026-10-16)
+
+_Released as 7.0.0 before the 19 Oct 2026 renumbering._
+
+### Features
+
+* feat(ui)!: shadcn CodeBlock, Trace and MessageScroller, and MessageScroller replaces ai/conversation
+* feat(ui): a shadcn Kbd and KbdGroup, and revealTheme takes an easing
+* feat(ui): tabs slide one shared pill, and the unused 1024px is-mobile copy goes
+* feat(charts)!: the charts move out of @heyramzi/ui into @heyramzi/charts
+
+
+## [1.50.0](https://github.com/heyramzi/ui/compare/ui-v1.49.1...ui-v1.50.0) (2026-10-16)
+
+_Released as 6.1.0 before the 19 Oct 2026 renumbering._
+
+### Features
+
+* feat(ui): agents move into @heyramzi/ui/agents, draw is retired, marketing gets a site page
+
+
+## [1.49.1](https://github.com/heyramzi/ui/releases/tag/ui-v1.49.1) (2026-10-14)
+
+_Released as 6.0.1 before the 19 Oct 2026 renumbering._
+
+### Bug Fixes
+
+* fix(ui): the last overshoot curves settle on --ease-smooth-out
+
+
+## 1.49.0 (2026-10-14)
+
+_Released as 6.0.0 before the 19 Oct 2026 renumbering._
+
+### Features
+
+* feat(ui)!: retire --ease-bounce and --ease-bounce-strong
+
+
+## 1.48.2 (2026-10-14)
+
+_Released as 5.0.2 before the 19 Oct 2026 renumbering._
+
+### Bug Fixes
+
+* fix(ui): small controls keep a 32px hit area (44px on touch) without growing
+* fix(ui): type errors in reasoning, conversation, charts and image-reveal; site check skips build/
+
+
+## 1.48.1 (2026-10-09)
+
+_Released as 5.0.1 before the 19 Oct 2026 renumbering._
+
+### Bug Fixes
+
+* fix(ui,marketing): accept any @heyramzi/utils 1.x from 1.3.3
+
+
+## 1.48.0 (2026-10-09)
+
+_Released as 5.0.0 before the 19 Oct 2026 renumbering._
+
+### Breaking Changes
+
+* `src/components`, 16 shadcn modules and 17 ai modules no product imported are deleted, along with forms and ports (upsys owns those now).
+* `chat` is merged into `ai`: import Composer and the chat parts from `@heyramzi/ui/ai`.
+* Only singletons stay peers; dep and peer ranges are realigned.
+
+### Features
+
+* feat(ui): one revealTheme helper, a 3-mode ThemeToggle and a bottom Sheet
+
+### Bug Fixes
+
+* fix(ui): strip control bytes before the Response link check and render images as links
+
+
+## 1.47.1 (2026-10-07)
+
+_Released as 4.7.1 before the 19 Oct 2026 renumbering._
+
+### Bug Fixes
+
+* fix(ui): keep server form helpers out of the client forms barrel
+
+
+## 1.47.0 (2026-10-07)
+
+_Released as 4.7.0 before the 19 Oct 2026 renumbering._
+
+### Features
+
+* feat(review): agent dock, layout library, pace pill and a pill radius token
+
+### Bug Fixes
+
+* fix(ui): stat card header overlap and the showcase nav trapping the wheel
+
+
+## [1.46.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.45.0...ui-v1.46.0) (2026-10-06)
+
+_Released as 4.6.0 before the 19 Oct 2026 renumbering._
+
+### Features
+
+* feat: move vibe-kit UI packages here, hub home page, private repo with password
+* feat: initial Svelte 5 library: ui, kanban, status, agents, slides
+
 
 ## [1.45.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.44.1...ui-v1.45.0) (2026-10-01)
 
@@ -71,6 +511,7 @@ _Released as 4.5.0 before the 19 Oct 2026 renumbering._
 * **claude:** add claude skills and references ([29137b5](https://github.com/heyramzi/vibe-kit/commit/29137b591a75e24fb2204740b793f063764fe2f3))
 * **packages:** devtools, review ui, and studio library ([c0beedf](https://github.com/heyramzi/vibe-kit/commit/c0beedffd09b1e482e565e61fe498a15542ece7c))
 
+
 ## [1.44.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.44.0...ui-v1.44.1) (2026-09-29)
 
 _Released as 4.4.1 before the 19 Oct 2026 renumbering._
@@ -79,6 +520,7 @@ _Released as 4.4.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** chart hover band centers on the dot and reaches a little less far ([0355693](https://github.com/heyramzi/vibe-kit/commit/03556939d411eff5c4538c622aac78affbc6d74d))
+
 
 ## [1.44.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.43.0...ui-v1.44.0) (2026-09-26)
 
@@ -94,6 +536,7 @@ _Released as 4.4.0 before the 19 Oct 2026 renumbering._
 
 * **lint:** clear the errors that blocked every push ([e1f2ef7](https://github.com/heyramzi/vibe-kit/commit/e1f2ef7f8124a43d070f4d49178074c1a21887cf))
 
+
 ## [1.43.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.42.1...ui-v1.43.0) (2026-09-22)
 
 _Released as 4.3.0 before the 19 Oct 2026 renumbering._
@@ -102,6 +545,7 @@ _Released as 4.3.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** chart hover matches bklit-ui, and the line stops jittering ([8dc4354](https://github.com/heyramzi/vibe-kit/commit/8dc43549dc2c6b60688f48d5a87eabced1ad5627))
+
 
 ## [1.42.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.42.0...ui-v1.42.1) (2026-09-22)
 
@@ -112,6 +556,7 @@ _Released as 4.2.1 before the 19 Oct 2026 renumbering._
 
 * **ui:** publish with relative imports, so Vite consumers resolve the package ([838678c](https://github.com/heyramzi/vibe-kit/commit/838678c999fb15f7f11656ed4a6f2b17add9791d))
 
+
 ## [1.42.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.41.0...ui-v1.42.0) (2026-09-22)
 
 _Released as 4.2.0 before the 19 Oct 2026 renumbering._
@@ -120,6 +565,7 @@ _Released as 4.2.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** charts enter on one reveal, a faded crosshair and a springier tooltip ([989da69](https://github.com/heyramzi/vibe-kit/commit/989da693e639cef2e0513664b88f3b36eae88b08))
+
 
 ## [1.41.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.40.0...ui-v1.41.0) (2026-09-22)
 
@@ -135,6 +581,7 @@ _Released as 4.1.0 before the 19 Oct 2026 renumbering._
 
 * gate after path aliases ([f76b88a](https://github.com/heyramzi/vibe-kit/commit/f76b88ab65462d36083b0c92d1dbf5769e7b670d))
 
+
 ## [1.40.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.39.0...ui-v1.40.0) (2026-09-16)
 
 _Released as 4.0.0 before the 19 Oct 2026 renumbering._
@@ -147,6 +594,7 @@ _Released as 4.0.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** every LineChart and Sparkline draws its gradient fill ([d69ea5c](https://github.com/heyramzi/vibe-kit/commit/d69ea5c6af7b7cc8c0b649f306de42ca4ab0447f))
+
 
 ## [1.39.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.38.0...ui-v1.39.0) (2026-09-16)
 
@@ -162,6 +610,7 @@ _Released as 3.1.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** oxfmt ne compte plus comme une retouche dans le sync ([51ebecc](https://github.com/heyramzi/vibe-kit/commit/51ebecc1815a26b71b15813c6b542ff2b9faa045))
 
+
 ## [1.38.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.37.0...ui-v1.38.0) (2026-09-14)
 
 _Released as 3.0.0 before the 19 Oct 2026 renumbering._
@@ -175,6 +624,7 @@ _Released as 3.0.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** le kit shadcn d'upsys monte ici, et upsys le réexporte ([f4d71e0](https://github.com/heyramzi/vibe-kit/commit/f4d71e03c7d651c94566af196e956d33cb441fef))
 
+
 ## [1.37.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.36.0...ui-v1.37.0) (2026-09-14)
 
 _Released as 2.1.0 before the 19 Oct 2026 renumbering._
@@ -184,6 +634,7 @@ _Released as 2.1.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** les trente-deux transitions gratuites et les scripts de synchronisation ([34ea17b](https://github.com/heyramzi/vibe-kit/commit/34ea17b7f9a8fffbbd2f882040fddc76298839ca))
 * **ui:** the showcase holds the whole package, and the shadcn demos arrive by script ([3f5d300](https://github.com/heyramzi/vibe-kit/commit/3f5d300d163eab7c2d6f11d6304aa2197e043b23))
+
 
 ## [1.36.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.35.1...ui-v1.36.0) (2026-09-11)
 
@@ -207,6 +658,7 @@ _Released as 2.0.0 before the 19 Oct 2026 renumbering._
 * **descript:** layout cards prints where a card stands, not where its paragraph starts ([97b85fd](https://github.com/heyramzi/vibe-kit/commit/97b85fdf3a50e5d919acedf5cf82799cc53bbcd5))
 * **ui:** a static-colour beam keeps its brightness and saturation ([f85b5e6](https://github.com/heyramzi/vibe-kit/commit/f85b5e63847330f8b42a4c1cdaf4de2f6e58f9f0))
 
+
 ## [1.35.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.35.0...ui-v1.35.1) (2026-09-06)
 
 _Released as 1.0.1 before the 19 Oct 2026 renumbering._
@@ -215,6 +667,7 @@ _Released as 1.0.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** a static-colour beam keeps its brightness and saturation ([f85b5e6](https://github.com/heyramzi/vibe-kit/commit/f85b5e63847330f8b42a4c1cdaf4de2f6e58f9f0))
+
 
 ## [1.35.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.34.0...ui-v1.35.0) (2026-09-05)
 
@@ -235,6 +688,7 @@ _Released as 1.0.0 before the 19 Oct 2026 renumbering._
 
 * **descript:** layout cards prints where a card stands, not where its paragraph starts ([97b85fd](https://github.com/heyramzi/vibe-kit/commit/97b85fdf3a50e5d919acedf5cf82799cc53bbcd5))
 
+
 ## [1.34.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.33.0...ui-v1.34.0) (2026-08-30)
 
 _Released as 0.42.0 before the 19 Oct 2026 renumbering._
@@ -243,6 +697,7 @@ _Released as 0.42.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** the chart a single figure gets ([91192ea](https://github.com/heyramzi/vibe-kit/commit/91192ea4ed7f9d386e417f067ceba00dcf1eff6b))
+
 
 ## [1.33.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.32.1...ui-v1.33.0) (2026-08-28)
 
@@ -253,6 +708,7 @@ _Released as 0.41.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** the AI kit is one item per row, and ten more of them ([d1c6628](https://github.com/heyramzi/vibe-kit/commit/d1c66287e953ec9a36ec606316c87dc5d0389d6c))
 
+
 ## [1.32.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.32.0...ui-v1.32.1) (2026-08-27)
 
 _Released as 0.40.1 before the 19 Oct 2026 renumbering._
@@ -261,6 +717,7 @@ _Released as 0.40.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** the showcase rail drops its rule, and search results number from one ([6f48f1f](https://github.com/heyramzi/vibe-kit/commit/6f48f1f9b9bc86316a865f17e2551fcfd5a24636))
+
 
 ## [1.32.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.31.0...ui-v1.32.0) (2026-08-26)
 
@@ -271,6 +728,7 @@ _Released as 0.40.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** the AI showcase is one grid, and coloured text clears AA ([3d47638](https://github.com/heyramzi/vibe-kit/commit/3d476388f1b5f396445aedeb3675e4539da5e608))
 
+
 ## [1.31.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.30.0...ui-v1.31.0) (2026-08-26)
 
 _Released as 0.39.0 before the 19 Oct 2026 renumbering._
@@ -279,6 +737,7 @@ _Released as 0.39.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** the craft layer ships in the package, and the showcase gets its shell ([31d1036](https://github.com/heyramzi/vibe-kit/commit/31d1036ca301953ca3ac2e9a2efcf7cc4cf357c8))
+
 
 ## [1.30.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.29.2...ui-v1.30.0) (2026-08-25)
 
@@ -295,6 +754,7 @@ _Released as 0.38.0 before the 19 Oct 2026 renumbering._
 * **ui:** deep-import phosphor icons instead of the barrel ([882f19b](https://github.com/heyramzi/vibe-kit/commit/882f19be2a89373a979ca9355a4449d381f92b37))
 * **ui:** the shader field frames itself with a long lens, and the skill learns the fifth artifact ([e2a8a6e](https://github.com/heyramzi/vibe-kit/commit/e2a8a6e1cb1a47db643d6ee01a5811c24093b305))
 
+
 ## [1.29.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.29.1...ui-v1.29.2) (2026-08-19)
 
 _Released as 0.37.2 before the 19 Oct 2026 renumbering._
@@ -303,6 +763,7 @@ _Released as 0.37.2 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** shadcn/chart points at the maintained primitives instead of rotting ([#113](https://github.com/heyramzi/vibe-kit/issues/113)) ([6f0eba5](https://github.com/heyramzi/vibe-kit/commit/6f0eba54b1e8269709f835a523eb71ae2e261174))
+
 
 ## [1.29.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.29.0...ui-v1.29.1) (2026-08-19)
 
@@ -313,6 +774,7 @@ _Released as 0.37.1 before the 19 Oct 2026 renumbering._
 
 * **ui:** form fields bind again, because the snippet gave a value where a store was expected ([e3b5e49](https://github.com/heyramzi/vibe-kit/commit/e3b5e49ced2823827dd1c2d719cab24d215cb858))
 
+
 ## [1.29.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.28.0...ui-v1.29.0) (2026-08-19)
 
 _Released as 0.37.0 before the 19 Oct 2026 renumbering._
@@ -321,6 +783,7 @@ _Released as 0.37.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** area fills dissolve at the plot edges instead of stopping flat ([#110](https://github.com/heyramzi/vibe-kit/issues/110)) ([0bab0c1](https://github.com/heyramzi/vibe-kit/commit/0bab0c13f330ef43ed7eb232401539c1989ff9f2))
+
 
 ## [1.28.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.3...ui-v1.28.0) (2026-08-17)
 
@@ -332,6 +795,7 @@ _Released as 0.36.0 before the 19 Oct 2026 renumbering._
 * **ui:** export the ports board and the showcase components ([7e9f219](https://github.com/heyramzi/vibe-kit/commit/7e9f219be131c86f0ddc8e9ea43e3065907c559a))
 * **ui:** recover the animation, effects, AI and chart showcase ([369287b](https://github.com/heyramzi/vibe-kit/commit/369287be1f903534697923be391f0dbac10611dd))
 
+
 ## [1.27.3](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.2...ui-v1.27.3) (2026-08-16)
 
 _Released as 0.35.3 before the 19 Oct 2026 renumbering._
@@ -340,6 +804,7 @@ _Released as 0.35.3 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** a lost WebGL context drops the field instead of painting it black ([b606568](https://github.com/heyramzi/vibe-kit/commit/b606568f8d3dbde2f615d4583776118793991767))
+
 
 ## [1.27.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.1...ui-v1.27.2) (2026-08-16)
 
@@ -350,6 +815,7 @@ _Released as 0.35.2 before the 19 Oct 2026 renumbering._
 
 * **ui:** the shader gradient stops drawing hard lines across itself ([36c0c08](https://github.com/heyramzi/vibe-kit/commit/36c0c0870c89592ce18a84b827582722682b468f))
 
+
 ## [1.27.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.27.0...ui-v1.27.1) (2026-08-16)
 
 _Released as 0.35.1 before the 19 Oct 2026 renumbering._
@@ -358,6 +824,7 @@ _Released as 0.35.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** the shader gradient covers a wide frame ([38fe85c](https://github.com/heyramzi/vibe-kit/commit/38fe85c6f7a68e340c1cf4472aa5ce3146fac237))
+
 
 ## [1.27.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.26.0...ui-v1.27.0) (2026-08-16)
 
@@ -368,6 +835,7 @@ _Released as 0.35.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** a shader gradient that carries no three.js ([b2bee9e](https://github.com/heyramzi/vibe-kit/commit/b2bee9e18f9c23bf7d0f98090818282ac10c6762))
 
+
 ## [1.26.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.25.0...ui-v1.26.0) (2026-08-10)
 
 _Released as 0.34.0 before the 19 Oct 2026 renumbering._
@@ -377,6 +845,7 @@ _Released as 0.34.0 before the 19 Oct 2026 renumbering._
 
 * **ui:** note.text and record.circle, the two symbols the Notes panes wear ([#95](https://github.com/heyramzi/vibe-kit/issues/95)) ([636b150](https://github.com/heyramzi/vibe-kit/commit/636b150dede632d3c2a68bd58697d0ab57437329))
 
+
 ## [1.25.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.24.0...ui-v1.25.0) (2026-08-10)
 
 _Released as 0.33.0 before the 19 Oct 2026 renumbering._
@@ -385,6 +854,7 @@ _Released as 0.33.0 before the 19 Oct 2026 renumbering._
 ### Features
 
 * **ui:** macwindow and character.bubble.fill, read off the Mac ([a107de9](https://github.com/heyramzi/vibe-kit/commit/a107de923f6a1ffe7d8f684e24fe91e33d45b070))
+
 
 ## [1.24.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.3...ui-v1.24.0) (2026-08-10)
 
@@ -397,6 +867,7 @@ _Released as 0.32.0 before the 19 Oct 2026 renumbering._
 * **ui:** the icons are Apple's own, and the note says why that changed ([73ced3e](https://github.com/heyramzi/vibe-kit/commit/73ced3e0941db91010161a6ffa08cbf76bcc46eb))
 * **ui:** the symbol table is importable on its own ([e2e7a67](https://github.com/heyramzi/vibe-kit/commit/e2e7a675ee0414a76f88f391d86d6411d3d2762d))
 
+
 ## [1.23.3](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.2...ui-v1.23.3) (2026-06-17)
 
 _Released as 0.31.3 before the 19 Oct 2026 renumbering._
@@ -405,6 +876,7 @@ _Released as 0.31.3 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** ship chat/ai/effects styles as plain CSS instead of &lt;style&gt; blocks ([#67](https://github.com/heyramzi/vibe-kit/issues/67)) ([1261471](https://github.com/heyramzi/vibe-kit/commit/126147103cc21654d8b7008729ad5da61faf3638))
+
 
 ## [1.23.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.1...ui-v1.23.2) (2026-06-17)
 
@@ -415,6 +887,7 @@ _Released as 0.31.2 before the 19 Oct 2026 renumbering._
 
 * **ui:** ship chart styles as plain CSS instead of &lt;style&gt; blocks ([#64](https://github.com/heyramzi/vibe-kit/issues/64)) ([237a155](https://github.com/heyramzi/vibe-kit/commit/237a155a64b8278c0ac677f4bf6cd301327900e7))
 
+
 ## [1.23.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.23.0...ui-v1.23.1) (2026-06-17)
 
 _Released as 0.31.1 before the 19 Oct 2026 renumbering._
@@ -423,6 +896,7 @@ _Released as 0.31.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** show period in chart tooltips + fix hover tracking ([a73d560](https://github.com/heyramzi/vibe-kit/commit/a73d56007d3f0d4f12f359e06e92c3c37fab1cc1))
+
 
 ## [1.23.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.22.1...ui-v1.23.0) (2026-06-16)
 
@@ -477,6 +951,7 @@ _Released as 0.31.0 before the 19 Oct 2026 renumbering._
 * **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
 * **ui:** wrap form-field Label inside Control for formsnap v2 compat ([4444d7c](https://github.com/heyramzi/vibe-kit/commit/4444d7cdf7dfb7069f54632a68b491a65187249a))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
+
 
 ## 1.21.0 (2026-06-14)
 
@@ -599,6 +1074,7 @@ _Released as 0.23.0 before the 19 Oct 2026 renumbering._
 * **ui:** wrap form-field Label inside Control for formsnap v2 compat ([4444d7c](https://github.com/heyramzi/vibe-kit/commit/4444d7cdf7dfb7069f54632a68b491a65187249a))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
+
 ## [1.8.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.8.0...ui-v1.8.1) (2026-05-09)
 
 _Released as 0.15.1 before the 19 Oct 2026 renumbering._
@@ -607,6 +1083,7 @@ _Released as 0.15.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** register BorderBeam [@property](https://github.com/property) values via CSS.registerProperty (0.14.2) ([95212c6](https://github.com/heyramzi/vibe-kit/commit/95212c6c762a51b09200105df80e7a3d1d090b0a))
+
 
 ## [1.8.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.6.2...ui-v1.8.0) (2026-05-09)
 
@@ -638,6 +1115,7 @@ _Released as 0.15.0 before the 19 Oct 2026 renumbering._
 * **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
+
 ## [1.6.2](https://github.com/heyramzi/vibe-kit/compare/ui-v1.6.1...ui-v1.6.2) (2026-05-09)
 
 _Released as 0.13.2 before the 19 Oct 2026 renumbering._
@@ -647,6 +1125,7 @@ _Released as 0.13.2 before the 19 Oct 2026 renumbering._
 
 * **ui:** drop unused colors arg from BorderBeam gradient helpers ([b89318f](https://github.com/heyramzi/vibe-kit/commit/b89318f0606f287602ffb4c9117cd4dd385f2ab7))
 
+
 ## [1.6.1](https://github.com/heyramzi/vibe-kit/compare/ui-v1.6.0...ui-v1.6.1) (2026-05-09)
 
 _Released as 0.13.1 before the 19 Oct 2026 renumbering._
@@ -655,6 +1134,7 @@ _Released as 0.13.1 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** widen vaul-svelte peer to allow 1.0.0-next.7 ([776396d](https://github.com/heyramzi/vibe-kit/commit/776396dbdb1037b1ca406c29886ceee552f59212))
+
 
 ## [1.6.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.1.0...ui-v1.6.0) (2026-05-08)
 
@@ -682,6 +1162,7 @@ _Released as 0.13.0 before the 19 Oct 2026 renumbering._
 * **ui:** set form context synchronously, not in $effect ([ba6ccb3](https://github.com/heyramzi/vibe-kit/commit/ba6ccb313b9276216fccd8bfa493d33cdbedaaf3))
 * **workspace:** use workspace: protocol for cross-package peer deps ([cba21a1](https://github.com/heyramzi/vibe-kit/commit/cba21a1673444b3c0f7e3bf8d9cfebe6c0a11564))
 
+
 ## [1.1.0](https://github.com/heyramzi/vibe-kit/releases/tag/ui-v1.1.0) (2026-05-03)
 
 _Released as 0.5.0 before the 19 Oct 2026 renumbering._
@@ -696,445 +1177,3 @@ _Released as 0.5.0 before the 19 Oct 2026 renumbering._
 ### Bug Fixes
 
 * **ui:** add style condition to ./animations export for rolldown CSS resolution ([b759478](https://github.com/heyramzi/vibe-kit/commit/b75947847bdf07c3c87b7298cdabc6aabe3d3097))
-
-## [1.46.0](https://github.com/heyramzi/vibe-kit/compare/ui-v1.45.0...ui-v1.46.0) (2026-10-06)
-
-_Released as 4.6.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat: move vibe-kit UI packages here, hub home page, private repo with password
-* feat: initial Svelte 5 library: ui, kanban, status, agents, slides
-
-
-## 1.47.0 (2026-10-07)
-
-_Released as 4.7.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat(review): agent dock, layout library, pace pill and a pill radius token
-
-### Bug Fixes
-
-* fix(ui): stat card header overlap and the showcase nav trapping the wheel
-
-
-## 1.47.1 (2026-10-07)
-
-_Released as 4.7.1 before the 19 Oct 2026 renumbering._
-
-### Bug Fixes
-
-* fix(ui): keep server form helpers out of the client forms barrel
-
-
-## 1.48.0 (2026-10-09)
-
-_Released as 5.0.0 before the 19 Oct 2026 renumbering._
-
-### Breaking Changes
-
-* `src/components`, 16 shadcn modules and 17 ai modules no product imported are deleted, along with forms and ports (upsys owns those now).
-* `chat` is merged into `ai`: import Composer and the chat parts from `@heyramzi/ui/ai`.
-* Only singletons stay peers; dep and peer ranges are realigned.
-
-### Features
-
-* feat(ui): one revealTheme helper, a 3-mode ThemeToggle and a bottom Sheet
-
-### Bug Fixes
-
-* fix(ui): strip control bytes before the Response link check and render images as links
-
-
-## 1.48.1 (2026-10-09)
-
-_Released as 5.0.1 before the 19 Oct 2026 renumbering._
-
-### Bug Fixes
-
-* fix(ui,marketing): accept any @heyramzi/utils 1.x from 1.3.3
-
-
-## 1.48.2 (2026-10-14)
-
-_Released as 5.0.2 before the 19 Oct 2026 renumbering._
-
-### Bug Fixes
-
-* fix(ui): small controls keep a 32px hit area (44px on touch) without growing
-* fix(ui): type errors in reasoning, conversation, charts and image-reveal; site check skips build/
-
-
-## 1.49.0 (2026-10-14)
-
-_Released as 6.0.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat(ui)!: retire --ease-bounce and --ease-bounce-strong
-
-
-## [1.49.1](https://github.com/heyramzi/ui/releases/tag/ui-v1.49.1) (2026-10-14)
-
-_Released as 6.0.1 before the 19 Oct 2026 renumbering._
-
-### Bug Fixes
-
-* fix(ui): the last overshoot curves settle on --ease-smooth-out
-
-
-## [1.50.0](https://github.com/heyramzi/ui/compare/ui-v1.49.1...ui-v1.50.0) (2026-10-16)
-
-_Released as 6.1.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat(ui): agents move into @heyramzi/ui/agents, draw is retired, marketing gets a site page
-
-
-## [1.51.0](https://github.com/heyramzi/ui/compare/ui-v1.50.0...ui-v1.51.0) (2026-10-16)
-
-_Released as 7.0.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat(ui)!: shadcn CodeBlock, Trace and MessageScroller, and MessageScroller replaces ai/conversation
-* feat(ui): a shadcn Kbd and KbdGroup, and revealTheme takes an easing
-* feat(ui): tabs slide one shared pill, and the unused 1024px is-mobile copy goes
-* feat(charts)!: the charts move out of @heyramzi/ui into @heyramzi/charts
-
-
-## [1.52.0](https://github.com/heyramzi/ui/compare/ui-v1.51.0...ui-v1.52.0) (2026-10-16)
-
-_Released as 8.0.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat(ui): a components folder with picker, segmented, mark and icon, computeCommandScore export and lib subpath exports
-
-### Bug Fixes
-
-* fix(ui): Reasoning and ToggleGroup pass live props to their context, so svelte-check stops warning in linking apps
-* fix(ui): svelte-check in a linking app reads the sources without the vite config
-
-
-## [1.53.0](https://github.com/heyramzi/ui/compare/ui-v1.52.0...ui-v1.53.0) (2026-10-19)
-
-_Released as 8.1.0 before the 19 Oct 2026 renumbering._
-
-### Features
-
-* feat(ui): AgentCast wakes the card under the pointer and names each agent once
-
-### Bug Fixes
-
-* fix(ui): AgentCast's hover border is gated to a fine pointer, so it doesn't stick after a tap
-* fix(ui): agent avatars fade in once measured, pick their own ink, and repaint after the gate
-
-
-## [1.54.0](https://github.com/heyramzi/ui/compare/ui-v1.53.1...ui-v1.54.0) (2026-10-21)
-
-### Features
-
-* feat(ui): field-row, section-card, section-header, table-view, docs and theme components; contrast fixes; Progress tone; Button text variant
-
-### Bug Fixes
-
-* fix(ui): raw :hover in the token primitives only fires where a pointer hovers
-
-
-## [1.54.1](https://github.com/heyramzi/ui/compare/ui-v1.54.0...ui-v1.54.1) (2026-10-21)
-
-### Bug Fixes
-
-* fix(ui): FieldRow matches a touch-sized Button with a 44px input on a coarse pointer
-
-
-## [1.54.2](https://github.com/heyramzi/ui/compare/ui-v1.54.1...ui-v1.54.2) (2026-10-21)
-
-### Bug Fixes
-
-* fix(ui): ThemeToggle names the properties it animates and grows its icon from 90%
-* fix(ui): install without the private @heyramzi/utils
-
-
-## [2.0.0](https://github.com/heyramzi/ui/compare/ui-v1.54.2...ui-v2.0.0) (2026-10-21)
-
-### Features
-
-* feat(ui): tasks, charts, slides, editor, onboarding and canvas become subpaths of ui
-
-### Bug Fixes
-
-* fix(ui): raw :hover in canvas, gantt and Segmented only fires where a pointer hovers
-
-
-## [2.0.1](https://github.com/heyramzi/ui/compare/ui-v2.0.0...ui-v2.0.1) (2026-10-22)
-
-### Bug Fixes
-
-* fix(ui): stop the rich editor rebuilding in a loop when an app feeds its output back as content
-
-
-## [2.1.0](https://github.com/heyramzi/ui/compare/ui-v2.0.1...ui-v2.1.0) (2026-10-22)
-
-### Features
-
-* feat(ui): status, panel, record, thread and threaded inbox subpaths
-
-
-## [2.2.0](https://github.com/heyramzi/ui/compare/ui-v2.1.0...ui-v2.2.0) (2026-10-22)
-
-### Features
-
-* feat(ui): one inbox, built on the list-page kit
-
-### Bug Fixes
-
-* fix(ui): gate raw hover styles behind the hover media query
-
-
-## [2.3.0](https://github.com/heyramzi/ui/compare/ui-v2.2.0...ui-v2.3.0) (2026-10-22)
-
-### Features
-
-* feat(ui): TableView takes sortable heads, row links, selection, row menus, groups, sub-rows and loading rows
-
-
-## [2.4.0](https://github.com/heyramzi/ui/compare/ui-v2.3.0...ui-v2.4.0) (2026-10-23)
-
-### Features
-
-* feat(ui): TableView takes onRowLink for in-place row links, and a null group key draws no header
-
-
-## [2.5.0](https://github.com/heyramzi/ui/compare/ui-v2.4.0...ui-v2.5.0) (2026-10-23)
-
-### Features
-
-* feat(ui): AreaChart takes a resting headline, like a period total, shown until a point is hovered
-
-
-## [2.6.0](https://github.com/heyramzi/ui/compare/ui-v2.5.0...ui-v2.6.0) (2026-10-23)
-
-### Features
-
-* feat(ui): InfoList takes layout="row", a read-only band of items with term, content and action snippets
-
-
-## [2.7.0](https://github.com/heyramzi/ui/compare/ui-v2.6.0...ui-v2.7.0) (2026-10-23)
-
-### Features
-
-* feat(ui): brand settings take primary colors for the key button, light and dark
-
-
-## [2.8.0](https://github.com/heyramzi/ui/compare/ui-v2.7.0...ui-v2.8.0) (2026-10-23)
-
-### Features
-
-* feat(ui)!: keep UI motion under 300ms; very-slow splits into overlay and loop
-
-
-## [2.9.0](https://github.com/heyramzi/ui/compare/ui-v2.8.0...ui-v2.9.0) (2026-10-23)
-
-### Features
-
-* feat(thread): events between comments, long bodies fold, and the inbox draws its thread through it
-* feat(ui): rename the tasks subpaths to work
-
-### Bug Fixes
-
-* fix(ui): hover styles only on hover devices, unitless line heights, and default dates take a locale
-
-
-## [2.10.0](https://github.com/heyramzi/ui/compare/ui-v2.9.0...ui-v2.10.0) (2026-10-26)
-
-### Features
-
-* feat(ui): ship a built dist so plain Node can load the TypeScript entries
-
-### Bug Fixes
-
-* fix(ui): toolbar triggers get the outline button's edge and a card fill
-* fix(ui): point the record demo data's links at the page
-* fix(ui): point the record demo's breadcrumbs at the page
-
-
-## [2.10.1](https://github.com/heyramzi/ui/compare/ui-v2.10.0...ui-v2.10.1) (2026-10-26)
-
-### Bug Fixes
-
-* fix(ui): StatusDot's progress pie starts at 12 o'clock
-
-
-## [2.11.0](https://github.com/heyramzi/ui/compare/ui-v2.10.1...ui-v2.11.0) (2026-10-28)
-
-### Features
-
-* feat(tags-input): a free mode adds what's typed, with no options menu
-
-
-## [2.11.1](https://github.com/heyramzi/ui/compare/ui-v2.11.0...ui-v2.11.1) (2026-10-28)
-
-### Bug Fixes
-
-* fix(tags-input): clicking the field opens it in Chrome
-
-
-## [2.11.2](https://github.com/heyramzi/ui/compare/ui-v2.11.1...ui-v2.11.2) (2026-10-28)
-
-### Bug Fixes
-
-* fix(ui): editor markdown reads every token safely, so a consumer with noUncheckedIndexedAccess typechecks
-* fix(ui): text-swap resolves to source under Svelte, like the effects subpaths
-* fix(ui): rail titles get the width the hover actions held back
-* fix(ui): the master-detail pane no longer clips the top edge of a card
-
-
-## [2.12.0](https://github.com/heyramzi/ui/compare/ui-v2.11.2...ui-v2.12.0) (2026-10-30)
-
-### Features
-
-* feat(ui): TableView draws no frame by default, and craft.css ships --text-2xs
-
-### Bug Fixes
-
-* fix(charts): a chip beside a tile label no longer pushes its value down
-
-
-## [2.13.0](https://github.com/heyramzi/ui/compare/ui-v2.12.0...ui-v2.13.0) (2026-11-02)
-
-### Features
-
-* feat(ui): charts smooth the drawn line by the window shown (TSK-1562)
-* feat(ui): TagChip and the work parts, with their site demos
-
-
-## [2.14.0](https://github.com/heyramzi/ui/compare/ui-v2.13.0...ui-v2.14.0) (2026-11-02)
-
-### Features
-
-* feat(work): kanban columns fold to 5 cards, open one lane or the whole column (TSK-1563)
-
-### Bug Fixes
-
-* fix(ui): a smoothed point names itself in the hover readout (TSK-1562)
-
-
-## [2.15.0](https://github.com/heyramzi/ui/compare/ui-v2.14.0...ui-v2.15.0) (2026-11-02)
-
-### Features
-
-* feat(work): kanban columns share the board's width, 280 to 420px (TSK-1563)
-
-### Bug Fixes
-
-* fix(ui): smoothed charts draw a missing day as a gap, and a year as a 28-day average (TSK-1562)
-* fix(work): the column fold caret shows only while the column is hovered
-
-
-## [2.15.1](https://github.com/heyramzi/ui/compare/ui-v2.15.0...ui-v2.15.1) (2026-11-02)
-
-### Bug Fixes
-
-* fix(ui): commit lib/motion.ts, which kanban-board-state, task-list and charts/motion import
-
-
-## [2.16.0](https://github.com/heyramzi/ui/compare/ui-v2.15.1...ui-v2.16.0) (2026-11-02)
-
-### Features
-
-* feat(record): RecordRail, a record's side rail split into tabs
-
-### Bug Fixes
-
-* fix(work): a shut kanban fold contains its cards sr-only labels
-
-
-## [2.16.1](https://github.com/heyramzi/ui/compare/ui-v2.16.0...ui-v2.16.1) (2026-11-02)
-
-### Bug Fixes
-
-* fix(thread): a heading prop for a tab-named thread, and long words wrap
-
-
-## [2.17.0](https://github.com/heyramzi/ui/compare/ui-v2.16.1...ui-v2.17.0) (2026-11-02)
-
-### Features
-
-* feat(thread): host-drawn entries in the timeline and a footer above the composer
-
-
-## [2.18.0](https://github.com/heyramzi/ui/compare/ui-v2.17.0...ui-v2.18.0) (2026-11-02)
-
-### Features
-
-* initial publish from this repo
-
-
-## [2.19.0](https://github.com/heyramzi/ui/compare/ui-v2.18.0...ui-v2.19.0) (2026-11-03)
-
-### Features
-
-* feat(segmented): iconOnly draws an option's mark alone, its label on hover (TSK-1679)
-* feat(ui): opt-in interaction sounds from cuelume (TSK-1650)
-
-
-## [2.19.1](https://github.com/heyramzi/ui/compare/ui-v2.19.0...ui-v2.19.1) (2026-11-03)
-
-### Bug Fixes
-
-* fix(charts): each chart loads its own tokens, so a stat tile keeps its card edge (TSK-1665)
-
-
-## [2.19.2](https://github.com/heyramzi/ui/compare/ui-v2.19.1...ui-v2.19.2) (2026-11-04)
-
-### Bug Fixes
-
-* fix(ui): InfoList list rows put the label beside its value again (TSK-1764)
-
-
-## [2.19.3](https://github.com/heyramzi/ui/compare/ui-v2.19.2...ui-v2.19.3) (2026-11-04)
-
-### Bug Fixes
-
-* fix(ui): a lone tone badge in an InfoList row keeps its own width (TSK-1764)
-
-
-## [2.20.0](https://github.com/heyramzi/ui/compare/ui-v2.19.3...ui-v2.20.0) (2026-11-04)
-
-### Features
-
-* feat(ui): row-action and hover-row show a row's actions on hover, keyboard focus and touch (TSK-1764)
-
-
-## [2.21.0](https://github.com/heyramzi/ui/compare/ui-v2.20.0...ui-v2.21.0) (2026-11-04)
-
-### Features
-
-* feat(ui): craft refresh, the shared look on one token layer (TSK-1794)
-
-
-## [2.21.1](https://github.com/heyramzi/ui/compare/ui-v2.21.0...ui-v2.21.1) (2026-11-04)
-
-### Bug Fixes
-
-* fix(ui): named values re-exported from .svelte move to .ts modules (TSK-1839)
-
-
-## [2.22.0](https://github.com/heyramzi/ui/compare/ui-v2.21.1...ui-v2.22.0) (2026-11-09)
-
-### Features
-
-* feat(ui): list-page toolbar folds its tabs into a dropdown instead of wrapping (TSK-2121)
-
-
-## [2.22.1](https://github.com/heyramzi/ui/compare/ui-v2.22.0...ui-v2.22.1) (2026-11-09)
-
-### Performance
-
-* perf(canvas): the dot grid paints only the strip a pan uncovers (TSK-1131)
-
