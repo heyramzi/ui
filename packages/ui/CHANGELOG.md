@@ -1124,3 +1124,10 @@ _Released as 8.1.0 before the 19 Oct 2026 renumbering._
 
 * fix(ui): named values re-exported from .svelte move to .ts modules (TSK-1839)
 
+
+## [2.22.0](https://github.com/heyramzi/ui/compare/ui-v2.21.1...ui-v2.22.0) (2026-11-09)
+
+### Features
+
+* feat(ui): list-page toolbar folds its tabs into a dropdown instead of wrapping (TSK-2121)
+
