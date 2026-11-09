@@ -38,7 +38,53 @@
 			{#if parts.length > 1}
 				<h3 id={anchor(part.name)} class="mb-3 font-mono text-sm font-medium">{part.name}</h3>
 			{/if}
-			<div class="overflow-hidden rounded-(--radius-xl) border border-border">
+			<!-- A phone gets one row per prop, stacked: three columns in 390px put Default off-screen. -->
+			<dl class="divide-y divide-border rounded-(--radius-xl) border border-border sm:hidden">
+				{#each part.props as prop (prop.name)}
+					<div class="px-4 py-3">
+						<dt class="flex flex-wrap items-center gap-x-3 gap-y-1">
+							<span class="flex items-center gap-1.5">
+								<code class="font-mono text-[13px] font-medium">{prop.name}</code>
+								{#if prop.required}
+									<span class="text-xs text-destructive">required</span>
+								{/if}
+								{#if prop.bindable}
+									<span
+										class="rounded-md border border-border bg-muted/50 px-1.5 py-px font-mono text-[11px] text-muted-foreground"
+										>bindable</span
+									>
+								{/if}
+							</span>
+							{#if typeOf(prop)}
+								<code class="font-mono text-xs leading-5 text-foreground/80">{typeOf(prop)}</code>
+							{:else if part.bases[0]}
+								<code class="font-mono text-xs leading-5 text-muted-foreground"
+									>{part.bases[0].label}</code
+								>
+							{/if}
+						</dt>
+						{#if prop.default !== undefined}
+							<dd class="mt-1 text-xs text-muted-foreground">
+								Default <code class="font-mono text-foreground/80">{prop.default}</code>
+							</dd>
+						{/if}
+						{#if prop.description}
+							<dd class="mt-1 text-xs leading-relaxed text-muted-foreground">{prop.description}</dd>
+						{/if}
+					</div>
+				{/each}
+				{#each part.bases as base (base.label)}
+					<div class="px-4 py-3">
+						<dt><code class="font-mono text-[13px] text-muted-foreground">...rest</code></dt>
+						<dd class="mt-1 text-xs text-muted-foreground">
+							Every prop of <code class="font-mono text-foreground/80">{base.label}</code>
+							{#if base.from}from <code class="font-mono">{base.from}</code>{/if}
+							{#if base.omit}except <code class="font-mono">{base.omit.join(", ")}</code>{/if}
+						</dd>
+					</div>
+				{/each}
+			</dl>
+			<div class="overflow-hidden rounded-(--radius-xl) border border-border max-sm:hidden">
 				<Table.Root class="min-w-[40rem]">
 					<Table.Header class="border-b border-border bg-muted/40">
 						<Table.Row class="hover:bg-transparent">
