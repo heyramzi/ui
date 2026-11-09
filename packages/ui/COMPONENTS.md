@@ -64,10 +64,9 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `copy` — CopyButton, copyText, copyRichText, htmlToPlainText, Copied
 - `data-table` — SortableHead, Pagination, InfiniteScroll, RowContextMenu, TableSkeleton, and the sort, page and filter helpers
 - `hold-to-confirm` — HoldToConfirm, press and hold to confirm
-- `language-flag` — LanguageFlag
+- `language-flag` — LanguageFlag, LANGUAGE_FLAGS (code to `/flags/*.svg`, also a SegmentedFilter option's `image`)
 - `list-page` — ListPageShell, MasterDetail, GroupedList, RailRow and the rest of the master-detail page kit, NoticeBar, EmptyState, FilterPopover, setSectionHost
 - `toolbar` — Toolbar: one row at any width; search, tabs and the view switch fold into menus in a narrow pane
-- `locale-switch` — LocaleSwitch, a language switch on SegmentedFilter
 - `mark` — Mark, a logo or photo glyph with an initial fallback
 - `open-in` — OpenIn, a link out to a tool that takes the tool's name, label and mark as a prop
 - `picker` — Picker, MarkPicker, pickerTriggerClass, a command palette at popover scale

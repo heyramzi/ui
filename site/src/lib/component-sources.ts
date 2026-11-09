@@ -129,7 +129,6 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/components/data-table/row-arrow.svelte",
   ],
   "star-rating-input": ["packages/ui/src/components/star-rating-input/star-rating-input.svelte"],
-  "locale-switch": ["packages/ui/src/components/locale-switch/locale-switch.svelte"],
   "shader-gradient": ["packages/ui/src/effects/shader-gradient/ShaderGradient.svelte"],
   "interactive-hover-button": [
     "packages/ui/src/effects/interactive-hover-button/InteractiveHoverButton.svelte",

@@ -53,12 +53,6 @@ export const meta: Record<string, Meta> = {
     description: "A star rating you set, read back or lock, in two sizes.",
     height: 260,
   },
-  "locale-switch": {
-    title: "Locale switch",
-    icon: "tabs",
-    description: "A segmented language picker with a flag beside each code.",
-    height: 160,
-  },
   "shader-gradient": {
     title: "Shader gradient",
     icon: "sparkles",

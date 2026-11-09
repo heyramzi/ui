@@ -141,7 +141,7 @@ export const sections: Section[] = [
       },
       {
         title: "Navigation",
-        items: ["tabs", "segmented", "locale-switch", "breadcrumb", "toolbar"],
+        items: ["tabs", "segmented", "breadcrumb", "toolbar"],
       },
     ],
   },

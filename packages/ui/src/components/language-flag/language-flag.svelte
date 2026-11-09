@@ -3,22 +3,14 @@
 	// IMPORTS
 	// =========================
 	import { cn } from "#src/lib/utils.js";
-
-	// =========================
-	// CONSTANTS
-	// =========================
-	// The host serves these files from /flags. Pass `flags` for another set or path.
-	const DEFAULT_FLAGS: Record<string, string> = {
-		en: "/flags/US.svg",
-		fr: "/flags/FR.svg",
-	};
+	import { LANGUAGE_FLAGS } from "#src/components/language-flag/flags.js";
 
 	// =========================
 	// PROPS
 	// =========================
 	interface Props {
 		language: string;
-		/** Language code to image URL. */
+		/** Language code to image URL, for another set or path. */
 		flags?: Record<string, string>;
 		size?: "sm" | "md";
 		showLabel?: boolean;
@@ -27,7 +19,7 @@
 
 	let {
 		language,
-		flags = DEFAULT_FLAGS,
+		flags = LANGUAGE_FLAGS,
 		size = "sm",
 		showLabel = false,
 		class: className,
