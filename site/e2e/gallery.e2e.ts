@@ -59,6 +59,8 @@ for (const path of galleryPages()) {
     if (shouldShoot(info.project.name, info.config.updateSnapshots)) {
       await expect.soft(page).toHaveScreenshot(`${pageSlug(path)}.png`, {
         fullPage: true,
+        // A stable shot is two full-page captures that match; /blocks and /changelog need more than 5 s on CI (run 42828560082).
+        timeout: 30_000,
         // WebGL and video frames never land on the same pixel twice.
         mask: [page.locator("canvas, video")],
       });

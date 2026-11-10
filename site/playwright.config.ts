@@ -47,9 +47,6 @@ export default defineConfig({
       caret: "hide",
       scale: "css",
       maxDiffPixelRatio: 0.002,
-      // A stable shot is two full-page captures that match. /blocks and /changelog are tall
-      // enough that two don't fit in the default 5 s on the CI runner (run 42828560082).
-      timeout: 30_000,
     },
   },
   use: {
