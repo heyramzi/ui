@@ -279,33 +279,37 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* ---- PERSISTENT TOOLBAR ---- */
-	.editor-toolbar {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 1px;
-		padding: 6px 8px;
-		border-bottom: 1px solid var(--color-border);
-		background: oklch(from var(--color-muted) l c h / 0.35);
-		border-top-left-radius: var(--radius-xl);
-		border-top-right-radius: var(--radius-xl);
-		min-height: 2.375rem;
-	}
+	@layer theme, base, components, utilities;
 
-	.toolbar-divider {
-		width: 1px;
-		height: 1rem;
-		background: var(--color-border);
-		margin: 0 4px;
-		opacity: 0.6;
-	}
+	@layer components {
+		/* ---- PERSISTENT TOOLBAR ---- */
+		.editor-toolbar {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 1px;
+			padding: 6px 8px;
+			border-bottom: 1px solid var(--color-border);
+			background: oklch(from var(--color-muted) l c h / 0.35);
+			border-top-left-radius: var(--radius-xl);
+			border-top-right-radius: var(--radius-xl);
+			min-height: 2.375rem;
+		}
 
-	/* ---- LINK POPOVER ---- */
-	.link-popover {
-		display: flex;
-		align-items: center;
-		gap: 4px;
-		padding: 1px;
+		.toolbar-divider {
+			width: 1px;
+			height: 1rem;
+			background: var(--color-border);
+			margin: 0 4px;
+			opacity: 0.6;
+		}
+
+		/* ---- LINK POPOVER ---- */
+		.link-popover {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			padding: 1px;
+		}
 	}
 </style>

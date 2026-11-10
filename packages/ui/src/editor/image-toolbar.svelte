@@ -62,60 +62,76 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* ---- IMAGE TOOLBAR ---- */
-	.image-toolbar {
-		position: absolute;
-		z-index: 40;
-		display: flex;
-		align-items: center;
-		gap: 1px;
-		padding: 3px;
-		background: var(--color-popover);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-lg);
-		box-shadow: var(--elev-raised);
-		animation: slash-enter var(--duration-fast) var(--ease-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.image-toolbar-btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.75rem;
-		height: 1.75rem;
-		border: none;
-		border-radius: var(--radius-sm);
-		background: transparent;
-		color: var(--color-muted-foreground);
-		cursor: pointer;
-		transition:
-			opacity var(--duration-quick) var(--ease-smooth-out),
-			transform var(--duration-quick) var(--ease-smooth-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.image-toolbar-btn:hover {
-			background: var(--color-accent);
-			color: var(--color-foreground);
-		}
-
-		.image-toolbar-btn.destructive:hover {
-			background: oklch(from var(--color-error) l c h / 0.1);
-			color: var(--color-error);
-		}
-	}
-
-	.image-toolbar-divider {
-		width: 1px;
-		height: 1rem;
-		background: var(--color-border);
-		margin: 0 2px;
-		opacity: 0.6;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
+	@layer components {
+		/* ---- IMAGE TOOLBAR ---- */
 		.image-toolbar {
-			animation: none;
+			position: absolute;
+			z-index: 40;
+			display: flex;
+			align-items: center;
+			gap: 1px;
+			padding: 3px;
+			background: var(--color-popover);
+			border: 1px solid var(--color-border);
+			border-radius: var(--radius-lg);
+			box-shadow: var(--elev-raised);
+			animation: slash-enter var(--duration-fast) var(--ease-out);
+		}
+
+		.image-toolbar-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 1.75rem;
+			height: 1.75rem;
+			border: none;
+			border-radius: var(--radius-sm);
+			background: transparent;
+			color: var(--color-muted-foreground);
+			cursor: pointer;
+			transition:
+				opacity var(--duration-quick) var(--ease-smooth-out),
+				transform var(--duration-quick) var(--ease-smooth-out);
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.image-toolbar-btn:hover {
+				background: var(--color-accent);
+				color: var(--color-foreground);
+			}
+
+			.image-toolbar-btn.destructive:hover {
+				background: oklch(from var(--color-error) l c h / 0.1);
+				color: var(--color-error);
+			}
+		}
+
+		.image-toolbar-divider {
+			width: 1px;
+			height: 1rem;
+			background: var(--color-border);
+			margin: 0 2px;
+			opacity: 0.6;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.image-toolbar {
+				animation: none;
+			}
+		}
+	}
+
+	/* Svelte scopes keyframes per component, so slash-menu's copy never reached this toolbar. */
+	@keyframes slash-enter {
+		from {
+			opacity: 0;
+			transform: translateY(-3px) scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
 		}
 	}
 </style>
