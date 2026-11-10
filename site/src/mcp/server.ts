@@ -4,9 +4,9 @@ import type { Registry, RegistryComponent } from "#lib/component-registry.js";
 // follows 2025-11-25 and earlier, which Claude Code still speaks.
 
 export const MODERN = "2026-07-28";
-const LEGACY = new Set(["2025-11-25", "2025-06-18", "2025-03-26"]);
-const LATEST_LEGACY = "2025-11-25";
-export const SUPPORTED = [MODERN, ...LEGACY];
+const HANDSHAKE = new Set(["2025-11-25", "2025-06-18", "2025-03-26"]);
+const LATEST_HANDSHAKE = "2025-11-25";
+export const SUPPORTED = [MODERN, ...HANDSHAKE];
 
 const META_VERSION = "io.modelcontextprotocol/protocolVersion";
 const META_CAPABILITIES = "io.modelcontextprotocol/clientCapabilities";
@@ -105,7 +105,7 @@ export async function handleMcp(request: Request, docs: Docs): Promise<Response>
       errorBody(undefined, INVALID_REQUEST, "Invalid request: send one JSON-RPC 2.0 message"),
       400,
     );
-  // A notification (`notifications/initialized` from a legacy client) needs nothing back.
+  // A notification (`notifications/initialized` from a handshake client) needs nothing back.
   if (!("id" in message)) return new Response(null, { status: 202 });
   const msg = message as Message;
   if (typeof msg.id !== "string" && typeof msg.id !== "number")
@@ -130,7 +130,7 @@ function dispatch(request: Request, msg: Message, docs: Docs) {
   const metaVersion = msg.params?._meta?.[META_VERSION];
   if (msg.method !== "initialize" && (metaVersion !== undefined || header === MODERN))
     return modern(request, msg, docs);
-  return legacy(header, msg, docs);
+  return handshake(header, msg, docs);
 }
 
 const unsupported = (requested: unknown) =>
@@ -184,20 +184,20 @@ async function modern(request: Request, msg: Message, docs: Docs) {
 }
 
 /** 2025-11-25 and earlier: `initialize` negotiates a version, and no session id is minted. */
-async function legacy(header: string | null, msg: Message, docs: Docs) {
+async function handshake(header: string | null, msg: Message, docs: Docs) {
   if (msg.method === "initialize") {
     const requested = msg.params?.protocolVersion;
     const registry = await docs.registry();
     return {
       protocolVersion:
-        typeof requested === "string" && LEGACY.has(requested) ? requested : LATEST_LEGACY,
+        typeof requested === "string" && HANDSHAKE.has(requested) ? requested : LATEST_HANDSHAKE,
       capabilities: { tools: { listChanged: false } },
       serverInfo: serverInfo(registry),
       instructions,
     };
   }
   // A missing header is a 2025-03-26 client, which predates it.
-  if (header !== null && !LEGACY.has(header)) throw unsupported(header);
+  if (header !== null && !HANDSHAKE.has(header)) throw unsupported(header);
   switch (msg.method) {
     case "ping":
       return {};

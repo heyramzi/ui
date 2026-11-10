@@ -81,7 +81,7 @@ function modern(method: string, params: Record<string, unknown> = {}, extra = {}
   return post({ jsonrpc: "2.0", id: 1, method, params: { ...params, _meta: meta } }, headers);
 }
 
-describe("legacy clients (initialize handshake)", () => {
+describe("clients that open with initialize", () => {
   it("negotiates the client's version and mints no session id", async () => {
     const res = await post({
       jsonrpc: "2.0",
@@ -97,7 +97,7 @@ describe("legacy clients (initialize handshake)", () => {
     expect(result.serverInfo.version).toBe("9.9.9");
   });
 
-  it("answers a version it doesn't know with its latest legacy one", async () => {
+  it("answers a version it doesn't know with its latest handshake one", async () => {
     const res = await post({
       jsonrpc: "2.0",
       id: 0,
