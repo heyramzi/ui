@@ -76,7 +76,6 @@
 
 	// Image toolbar
 	let showImageToolbar = $state(false);
-	let imageToolbarPos = $state({ top: 0, left: 0 });
 	let activeImageElement: HTMLImageElement | null = $state(null);
 
 	// =========================
@@ -121,22 +120,11 @@
 		}
 	});
 
-	// Close menus on outside click
+	// Close the slash menu on outside click. The image toolbar's Popover closes itself.
 	$effect(() => {
-		if (!showSlashMenu && !showImageToolbar) return;
-		function handleClick(e: MouseEvent) {
-			const target = e.target as Node;
-			if (slashMenuEl && !slashMenuEl.contains(target)) {
-				closeSlashMenu();
-			}
-			// Close image toolbar when clicking outside editor or on non-image
-			if (showImageToolbar && editorElement && !editorElement.contains(target)) {
-				showImageToolbar = false;
-				activeImageElement = null;
-			}
-		}
-		document.addEventListener("mousedown", handleClick);
-		return () => document.removeEventListener("mousedown", handleClick);
+		if (!showSlashMenu) return;
+		document.addEventListener("mousedown", closeSlashMenuOutside);
+		return () => document.removeEventListener("mousedown", closeSlashMenuOutside);
 	});
 
 	// =========================
@@ -173,6 +161,10 @@
 		slashQuery = "";
 	}
 
+	function closeSlashMenuOutside(e: MouseEvent) {
+		if (slashMenuEl && !slashMenuEl.contains(e.target as Node)) closeSlashMenu();
+	}
+
 	function executeSlashCommand(item: SlashItem) {
 		if (!editor) return;
 		const { from } = editor.state.selection;
@@ -196,14 +188,7 @@
 	}
 
 	function openImageToolbar(img: HTMLImageElement) {
-		const rect = img.getBoundingClientRect();
-		const wrapperRect = editorElement?.getBoundingClientRect();
-		if (!wrapperRect) return;
 		activeImageElement = img;
-		imageToolbarPos = {
-			top: rect.top - wrapperRect.top - 40,
-			left: rect.left - wrapperRect.left + rect.width / 2 - 60,
-		};
 		showImageToolbar = true;
 	}
 
@@ -419,8 +404,13 @@
 	{/if}
 
 	<!-- Image toolbar (full preset only) -->
-	{#if preset === "full" && showImageToolbar}
-		<ImageToolbar pos={imageToolbarPos} onAlign={setImageAlignment} onDelete={deleteActiveImage} />
+	{#if preset === "full"}
+		<ImageToolbar
+			anchor={activeImageElement}
+			bind:open={showImageToolbar}
+			onAlign={setImageAlignment}
+			onDelete={deleteActiveImage}
+		/>
 	{/if}
 
 	<!-- Status bar -->

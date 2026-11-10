@@ -153,6 +153,60 @@ test("the toolbar is one Tab stop and the arrows move along it", async ({ page }
   ).toBeVisible();
 });
 
+test("arrowing onto an image opens its toolbar, one Tab stop away from the text", async ({
+  page,
+}) => {
+  const { text } = await openEditor(page);
+  // An image, then an empty line under it holding the caret.
+  await text.evaluate((el) => {
+    type Chain = { insertContent: (c: unknown) => Chain; run: () => boolean };
+    (el as Element & { editor: { chain: () => Chain } }).editor
+      .chain()
+      .insertContent([
+        { type: "image", attrs: { src: "/avatars/02.png", alt: "Avatar" } },
+        { type: "paragraph" },
+      ])
+      .run();
+  });
+  const image = text.getByRole("img", { name: "Avatar" });
+  await expect(image).toBeVisible();
+  const toolbar = page.getByRole("toolbar", { name: "Image" });
+  await expect(toolbar).toBeHidden();
+
+  await page.keyboard.press("ArrowUp");
+  await expect(toolbar).toBeVisible();
+  await expect(text).toBeFocused();
+  // It floats over the image, not on it.
+  const bar = await toolbar.boundingBox();
+  const img = await image.boundingBox();
+  expect(bar && img && bar.y + bar.height <= img.y).toBe(true);
+
+  // One Tab stop: Tab lands on the first button, the arrows walk the rest.
+  await page.keyboard.press("Tab");
+  const left = toolbar.getByRole("button", { name: "Align left" });
+  await expect(left).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(toolbar.getByRole("button", { name: "Align center" })).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(toolbar.getByRole("button", { name: "Delete image" })).toBeFocused();
+
+  // Esc closes it and puts focus back in the text, image still selected.
+  await page.keyboard.press("Escape");
+  await expect(toolbar).toBeHidden();
+  await expect(text).toBeFocused();
+
+  // Back onto the image and pick an alignment: it applies and focus returns to the text.
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowUp");
+  await expect(toolbar).toBeVisible();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("Enter");
+  await expect(image).toHaveAttribute("data-align", "center");
+  await expect(toolbar).toBeHidden();
+  await expect(text).toBeFocused();
+});
+
 test("Cmd+K opens the link field, Enter applies and Esc returns to the text", async ({ page }) => {
   const { text } = await openEditor(page);
   await page.keyboard.type("docs");

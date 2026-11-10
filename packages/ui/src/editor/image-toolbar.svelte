@@ -2,61 +2,124 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { Toolbar } from "bits-ui";
+	import * as Popover from "#src/shadcn/popover/index.js";
+	import * as Tooltip from "#src/shadcn/tooltip/index.js";
 	import { Trash, TextAlignLeft, TextAlignCenter, TextAlignRight } from "phosphor-svelte";
 
 	// =========================
 	// TYPES
 	// =========================
 	interface Props {
-		pos: { top: number; left: number };
+		/** The image the toolbar floats over. */
+		anchor: HTMLElement | null;
+		open: boolean;
 		onAlign: (align: "left" | "center" | "right") => void;
 		onDelete: () => void;
 	}
 
+	type Tool = {
+		label: string;
+		icon: typeof Trash;
+		destructive?: boolean;
+		run: () => void;
+	};
+
 	// =========================
 	// PROPS
 	// =========================
-	let { pos, onAlign, onDelete }: Props = $props();
+	let { anchor, open = $bindable(), onAlign, onDelete }: Props = $props();
+
+	// =========================
+	// CONSTANTS
+	// =========================
+	const ALIGN: Tool[] = [
+		{ label: "Align left", icon: TextAlignLeft, run: () => onAlign("left") },
+		{ label: "Align center", icon: TextAlignCenter, run: () => onAlign("center") },
+		{ label: "Align right", icon: TextAlignRight, run: () => onAlign("right") },
+	];
+
+	// =========================
+	// STATE
+	// =========================
+	let content = $state<HTMLElement | null>(null);
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	/** Esc from inside the toolbar goes back to the text, which still holds the image selected. */
+	function returnToText(e: Event) {
+		e.preventDefault();
+		const active = document.activeElement;
+		if (!active || active === document.body || content?.contains(active)) {
+			anchor?.closest<HTMLElement>("[contenteditable='true']")?.focus();
+		}
+	}
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div class="image-toolbar" style="top: {pos.top}px; left: {pos.left}px;" role="toolbar">
-	<button
-		type="button"
-		class="image-toolbar-btn"
-		title="Align left"
-		onclick={() => onAlign("left")}
+{#snippet tool(t: Tool)}
+	<Tooltip.Root>
+		<Tooltip.Trigger aria-label={t.label} onclick={t.run}>
+			{#snippet child({ props: trigger })}
+				<Toolbar.Button {...trigger}>
+					{#snippet child({ props })}
+						<button {...props} class="image-toolbar-btn" class:destructive={t.destructive}>
+							<t.icon aria-hidden="true" size={14} />
+						</button>
+					{/snippet}
+				</Toolbar.Button>
+			{/snippet}
+		</Tooltip.Trigger>
+		<Tooltip.Content>{t.label}</Tooltip.Content>
+	</Tooltip.Root>
+{/snippet}
+
+<!-- Not portaled, so Tab from the text reaches it next. Focus stays in the text when it opens. -->
+<Popover.Root bind:open>
+	<Popover.Content
+		bind:ref={content}
+		customAnchor={anchor}
+		side="top"
+		sideOffset={4}
+		trapFocus={false}
+		portalProps={{ disabled: true }}
+		onOpenAutoFocus={(e) => e.preventDefault()}
+		onCloseAutoFocus={returnToText}
 	>
-		<TextAlignLeft aria-hidden="true" size={14} />
-	</button>
-	<button
-		type="button"
-		class="image-toolbar-btn"
-		title="Align center"
-		onclick={() => onAlign("center")}
-	>
-		<TextAlignCenter aria-hidden="true" size={14} />
-	</button>
-	<button
-		type="button"
-		class="image-toolbar-btn"
-		title="Align right"
-		onclick={() => onAlign("right")}
-	>
-		<TextAlignRight aria-hidden="true" size={14} />
-	</button>
-	<div class="image-toolbar-divider"></div>
-	<button
-		type="button"
-		class="image-toolbar-btn destructive"
-		title="Delete image"
-		onclick={onDelete}
-	>
-		<Trash aria-hidden="true" size={14} />
-	</button>
-</div>
+		{#snippet child({ props, wrapperProps })}
+			<div {...wrapperProps}>
+				<!-- Esc closes the toolbar itself here; left to Bits, the first one only shuts the tooltip. -->
+				<Toolbar.Root
+					{...props}
+					aria-label="Image"
+					onkeydown={(e: KeyboardEvent) => {
+						if (e.key === "Escape") open = false;
+					}}
+				>
+					{#snippet child({ props: root })}
+						<Tooltip.Provider>
+							<div {...root} class="image-toolbar">
+								{#each ALIGN as t (t.label)}
+									{@render tool(t)}
+								{/each}
+								<div class="image-toolbar-divider"></div>
+								{@render tool({
+									label: "Delete image",
+									icon: Trash,
+									destructive: true,
+									run: onDelete,
+								})}
+							</div>
+						</Tooltip.Provider>
+					{/snippet}
+				</Toolbar.Root>
+			</div>
+		{/snippet}
+	</Popover.Content>
+</Popover.Root>
 
 <!-- =========================== -->
 <!-- STYLE -->
@@ -67,7 +130,6 @@
 	@layer components {
 		/* ---- IMAGE TOOLBAR ---- */
 		.image-toolbar {
-			position: absolute;
 			z-index: 40;
 			display: flex;
 			align-items: center;
