@@ -62,6 +62,23 @@ test("arrows, page keys, Space, Home and End move through the deck", async ({ pa
   await expect(deck).toBeFocused();
 });
 
+test("the controls are one Tab stop that arrows move along", async ({ page }) => {
+  const { deck, progress } = await openDeck(page);
+  const controls = deck.getByRole("toolbar");
+  const overview = controls.getByRole("button", { name: "Slide overview" });
+
+  // Previous is disabled on the first slide, so Next is the toolbar's stop.
+  await controls.getByRole("button", { name: "Next slide" }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(overview).toBeFocused();
+  // The arrow moved focus along the toolbar, not the deck to the next slide.
+  await expect(progress).toHaveAttribute("aria-valuenow", "1");
+  await expect(overview).toHaveAttribute("aria-pressed", "false");
+
+  await page.keyboard.press("Enter");
+  await expect(overview).toHaveAttribute("aria-pressed", "true");
+});
+
 test("O opens the overview, arrows walk the tiles, Enter opens one", async ({ page }) => {
   const { deck, progress, of } = await openDeck(page);
   await deck.focus();

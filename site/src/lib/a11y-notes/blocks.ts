@@ -160,6 +160,7 @@ export const blockNotes: Record<string, A11yNote> = {
       "The keys work while focus is inside the deck, or while it's fullscreen. Elsewhere Space and PageDown scroll the page as usual. Click the deck or Tab to it first.",
       "The presenter window puts focus on its deck when it opens.",
       "Space and Enter on a focused button or link stay with that control.",
+      "The controls are a toolbar and one Tab stop. While one has focus, ArrowLeft, ArrowRight, Home and End move along the toolbar instead of the deck.",
       "With reduced motion on, the morph between slides is skipped.",
     ],
   },

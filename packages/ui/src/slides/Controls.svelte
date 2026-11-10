@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Toolbar } from "bits-ui";
 	import type { DeckController } from "#src/slides/deck-controller.svelte.js";
 
 	interface Props {
@@ -26,44 +27,46 @@
 	disabled = false,
 	pressed?: boolean,
 )}
-	<button
-		type="button"
-		class="deck__button"
-		{onclick}
-		{disabled}
-		aria-label={label}
-		aria-pressed={pressed}
-	>
-		<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-			<path
-				d={icons[icon]}
-				fill="none"
-				stroke="currentColor"
-				stroke-width="1.75"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			/>
-		</svg>
-	</button>
+	<Toolbar.Button {onclick} {disabled} aria-label={label} aria-pressed={pressed}>
+		{#snippet child({ props })}
+			<button {...props} class="deck__button">
+				<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+					<path
+						d={icons[icon]}
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.75"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+			</button>
+		{/snippet}
+	</Toolbar.Button>
 {/snippet}
 
-<div class="deck__controls deck__chrome">
-	{@render button("prev", deck.labels.previous, () => deck.prev(), deck.atStart)}
-	<span class="deck__counter" aria-hidden="true">{deck.ordinal.n} / {deck.ordinal.of}</span>
-	{@render button("next", deck.labels.next, () => deck.next(), deck.atEnd)}
-	<span class="deck__divider" aria-hidden="true"></span>
-	{@render button(
-		"overview",
-		deck.labels.overview,
-		() => deck.toggleOverview(),
-		false,
-		deck.overview,
-	)}
-	{#if onPresenter}
-		{@render button("presenter", deck.labels.presenter, onPresenter)}
-	{/if}
-	{@render button("fullscreen", deck.labels.fullscreen, onFullscreen)}
-</div>
+<!-- The arrows are the toolbar's while a control has focus, so they move along it, not the deck. -->
+<Toolbar.Root>
+	{#snippet child({ props })}
+		<div {...props} class="deck__controls deck__chrome">
+			{@render button("prev", deck.labels.previous, () => deck.prev(), deck.atStart)}
+			<span class="deck__counter" aria-hidden="true">{deck.ordinal.n} / {deck.ordinal.of}</span>
+			{@render button("next", deck.labels.next, () => deck.next(), deck.atEnd)}
+			<span class="deck__divider" aria-hidden="true"></span>
+			{@render button(
+				"overview",
+				deck.labels.overview,
+				() => deck.toggleOverview(),
+				false,
+				deck.overview,
+			)}
+			{#if onPresenter}
+				{@render button("presenter", deck.labels.presenter, onPresenter)}
+			{/if}
+			{@render button("fullscreen", deck.labels.fullscreen, onFullscreen)}
+		</div>
+	{/snippet}
+</Toolbar.Root>
 
 <style>
 	@layer theme, base, components, utilities;
