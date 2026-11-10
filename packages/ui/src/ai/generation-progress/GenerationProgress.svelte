@@ -41,6 +41,14 @@
 	// DERIVED
 	// =========================
 	let heading = $derived(label || "Generating");
+	// What the live region says: the step as it changes, and a failure. The count and timer stay quiet.
+	let spoken = $derived(
+		status === "failed"
+			? "Generation failed"
+			: status === "generating"
+				? [heading, progress?.currentStep].filter(Boolean).join(": ")
+				: "",
+	);
 	let percent = $derived(
 		progress && progress.total > 0 ? (progress.completed / progress.total) * 100 : 0,
 	);
@@ -96,7 +104,16 @@
 			</span>
 		</div>
 
-		<div class="gen-track" data-indeterminate={progress ? undefined : true}>
+		<div
+			class="gen-track"
+			data-indeterminate={progress ? undefined : true}
+			role="progressbar"
+			aria-label={heading}
+			aria-valuemin={progress ? 0 : undefined}
+			aria-valuemax={progress?.total}
+			aria-valuenow={progress?.completed}
+			aria-valuetext={progress ? `${progress.completed} of ${progress.total}` : undefined}
+		>
 			<div
 				class="gen-fill"
 				style:transform={progress ? `scaleX(${percent / 100})` : undefined}
@@ -110,6 +127,8 @@
 		{/if}
 	</div>
 {/if}
+<!-- Always drawn, even idle, so a screen reader is already listening when generation starts. -->
+<span class="sr-only" role="status">{spoken}</span>
 
 <!-- ===========================
      STYLE
@@ -284,6 +303,8 @@
 	}
 	.t-shimmer::before {
 		content: attr(data-text);
+		/* Empty alt text, so the copy drawn for the shimmer isn't read a second time. */
+		content: attr(data-text) / "";
 		position: absolute;
 		inset: 0;
 		pointer-events: none;

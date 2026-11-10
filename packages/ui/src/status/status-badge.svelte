@@ -21,6 +21,8 @@
 		dot?: boolean;
 		/** Shows a spinner: a background job is still working on the record. */
 		busy?: boolean;
+		/** What a screen reader hears after the label while `busy`, since the spinner is hidden. */
+		busyLabel?: string;
 		/** Capitalizes the first letter of each word. Turn off for a name or a number. */
 		capitalize?: boolean;
 		/** The chip's text, for a caller that already has the word. Wins over `label` and the registry. */
@@ -35,6 +37,7 @@
 		tone,
 		dot = false,
 		busy = false,
+		busyLabel = "working",
 		capitalize = true,
 		children,
 		class: className,
@@ -71,9 +74,8 @@
 	class={cn(capitalize && "capitalize", className)}
 	{...restProps}
 >
-	{#if children}
-		{@render children()}
-	{:else}
-		{resolvedLabel}
-	{/if}
+	<!-- One line: a break before the busy note would read as a space before its comma. -->
+	{#if children}{@render children()}{:else}{resolvedLabel}{/if}{#if busy}<span class="sr-only"
+			>, {busyLabel}</span
+		>{/if}
 </StatusPill>

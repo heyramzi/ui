@@ -10,10 +10,12 @@
 		status: string;
 		size?: number;
 		animate?: boolean;
+		/** Names the icon for a screen reader, like the status word. Leave it out when the word is printed beside it. */
+		label?: string;
 		class?: string;
 	}
 
-	let { statuses, status, size = 14, animate = true, class: className }: Props = $props();
+	let { statuses, status, size = 14, animate = true, label, class: className }: Props = $props();
 
 	// An icon in the map wins; otherwise the status falls back to its dot.
 	let icon = $derived(
@@ -24,9 +26,18 @@
 	let tone = $derived(statuses.tone(status));
 </script>
 
-{#if icon}
-	{@const Icon = icon}
-	<Icon aria-hidden="true" {size} class={cn("shrink-0", TONE_ICON[tone], className)} />
+{#snippet mark()}
+	{#if icon}
+		{@const Icon = icon}
+		<Icon aria-hidden="true" {size} class={cn("shrink-0", TONE_ICON[tone], className)} />
+	{:else}
+		<StatusDot {statuses} {status} {size} {animate} class={className} />
+	{/if}
+{/snippet}
+
+<!-- Decorative by default: the status word usually sits beside it. Alone, `label` names it. -->
+{#if label}
+	<span role="img" aria-label={label} class="inline-flex shrink-0">{@render mark()}</span>
 {:else}
-	<StatusDot {statuses} {status} {size} {animate} class={className} />
+	{@render mark()}
 {/if}
