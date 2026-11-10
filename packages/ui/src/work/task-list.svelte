@@ -324,8 +324,10 @@
 				<!-- inert: a folded group's rows leave the Tab order and the accessibility tree. -->
 				<Collapsible.Content forceMount>
 					{#snippet child({ props })}
-						<div {...props} class="tl-fold" class:tl-fold-open={open} inert={!open}>
-							<div class="tl-fold-inner">
+						<div {...props} class="tl-fold" class:tl-fold-open={open}>
+							<!-- On the inner box: beside the spread Svelte writes inert as an attribute, and
+							     clearing it leaves the rows inert in the unit tests' DOM. -->
+							<div class="tl-fold-inner" inert={!open}>
 								<div role="list" aria-label={group.label} class="flex flex-col pb-1.5">
 									{#each rows as item, index (getId(item))}
 										{@const id = getId(item)}

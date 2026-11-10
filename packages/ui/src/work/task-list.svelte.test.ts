@@ -54,9 +54,12 @@ async function settle() {
   flushSync();
 }
 
-// Svelte sets inert as a property, and jsdom doesn't reflect it to the attribute.
+// jsdom doesn't reflect inert between property and attribute, and Svelte sets the attribute
+// when the element also takes a spread (the Collapsible's props), so read both.
 function insideInert(el: HTMLElement | null): boolean {
-  for (let node = el; node; node = node.parentElement) if (node.inert) return true;
+  for (let node = el; node; node = node.parentElement) {
+    if (node.inert || node.hasAttribute("inert")) return true;
+  }
   return false;
 }
 

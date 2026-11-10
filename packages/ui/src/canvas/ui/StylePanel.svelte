@@ -127,7 +127,7 @@
 
 	// A single-select group sends "" when its pressed item is pressed again. A style stays set.
 	// Each group's values are the item values written below, so a value maps back to its own type.
-	function pick(key: keyof StyleValues, value: string) {
+	function pick(key: keyof StyleValues, value: string | undefined) {
 		if (!value) return;
 		if (key === "fill") change({ fill: value as FillValue });
 		else if (key === "stroke") change({ stroke: value as PenColor });

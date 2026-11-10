@@ -160,7 +160,7 @@ test("arrowing onto an image opens its toolbar, one Tab stop away from the text"
   // An image, then an empty line under it holding the caret.
   await text.evaluate((el) => {
     type Chain = { insertContent: (c: unknown) => Chain; run: () => boolean };
-    (el as Element & { editor: { chain: () => Chain } }).editor
+    (el as unknown as { editor: { chain: () => Chain } }).editor
       .chain()
       .insertContent([
         { type: "image", attrs: { src: "/avatars/02.png", alt: "Avatar" } },
