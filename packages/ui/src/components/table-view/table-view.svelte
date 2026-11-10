@@ -17,6 +17,7 @@
 	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
 	import { Checkbox } from "#src/shadcn/checkbox/index.js";
 	import { SortableHead, TableSkeleton } from "#src/components/data-table/index.js";
+	import GroupHead from "#src/components/work-parts/group-head.svelte";
 	import { toggleSort, type SortState } from "#src/components/data-table/data-table.js";
 	import { MENU_KEYS, openMenuFromKey } from "#src/components/data-table/menu-key.js";
 
@@ -232,6 +233,15 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
+{#snippet groupTitle(tableGroup: TableGroup<Row>, className?: string)}
+	<!-- The th sets the type: GroupHead takes the name as markup, so no size of its own lands on it. -->
+	<GroupHead class={className}>
+		{#snippet title()}
+			{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
+		{/snippet}
+	</GroupHead>
+{/snippet}
+
 {#snippet body(row: Row)}
 	{#each columns as column (column.key)}
 		<Table.Cell
@@ -431,12 +441,13 @@
 												)}
 												aria-hidden="true"
 											/>
-											{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
+											{@render groupTitle(tableGroup)}
 										</button>
 									{:else}
-										<span class="flex h-8 items-center px-2">
-											{#if groupHeader}{@render groupHeader(tableGroup)}{:else}{tableGroup.key}{/if}
-										</span>
+										<!-- No gap: unlike the toggle, a fixed head never spaced its parts. -->
+										<div class="flex h-8 items-center px-2">
+											{@render groupTitle(tableGroup, "gap-0")}
+										</div>
 									{/if}
 								</Table.Head>
 							</Table.Row>

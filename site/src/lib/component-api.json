@@ -1271,8 +1271,8 @@
         },
         {
           "name": "resting",
-          "type": "{ value: number; label: string }",
-          "description": "The headline while no point is hovered, like a period total. Defaults to the last point."
+          "type": "{ value?: number; values?: Partial<Record<keyof TData & string, number>>; label: string; }",
+          "description": "The headline while no point is hovered, like a period total. Defaults to the last point. `values`, keyed by series, shows one figure per series side by side in its colour, so it also reads as the legend."
         },
         {
           "name": "smoothing",
@@ -9546,8 +9546,9 @@
         },
         {
           "name": "value",
-          "type": "V | null",
-          "required": true
+          "type": "V | V[] | null",
+          "required": true,
+          "description": "An array checks each row in it, and a pick leaves the menu open for the next one."
         },
         {
           "name": "onSelect",
@@ -15432,8 +15433,12 @@
       "props": [
         {
           "name": "label",
-          "type": "string",
-          "required": true
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "Snippet",
+          "description": "Drawn in place of `label`, in the caller's own type, for a head whose name is markup."
         },
         {
           "name": "hue",
@@ -15443,7 +15448,7 @@
         {
           "name": "count",
           "type": "number",
-          "required": true
+          "description": "Leave out for no count chip."
         },
         {
           "name": "onAdd",

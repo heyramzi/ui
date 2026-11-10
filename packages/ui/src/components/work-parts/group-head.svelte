@@ -6,10 +6,13 @@
 	import CountChip from "#src/components/chip/count-chip.svelte";
 
 	interface Props {
-		label: string;
+		label?: string;
+		/** Drawn in place of `label`, in the caller's own type, for a head whose name is markup. */
+		title?: Snippet;
 		/** The status colour of the dot. Leave out for no dot. */
 		hue?: string;
-		count: number;
+		/** Leave out for no count chip. */
+		count?: number;
 		/** Shows a plus at the end that adds an item to this group. */
 		onAdd?: () => void;
 		addLabel?: string;
@@ -18,16 +21,32 @@
 		class?: string;
 	}
 
-	let { label, hue, count, onAdd, addLabel = "Add", children, class: className }: Props = $props();
+	let {
+		label,
+		title,
+		hue,
+		count,
+		onAdd,
+		addLabel = "Add",
+		children,
+		class: className,
+	}: Props = $props();
 </script>
 
-<!-- A group's head, the same in a kanban column and a list group: dot, name, count, plus. -->
+<!-- A group's head, the same in a kanban column, a list group, a grouped list and a table group:
+     dot, name, count, plus. -->
 <div class={cn("flex h-8 min-w-0 flex-1 items-center gap-2", className)}>
 	{#if hue}
 		<span class="size-2 shrink-0 rounded-full" style:background={hue} aria-hidden="true"></span>
 	{/if}
-	<span class="truncate text-sm font-medium text-foreground">{label}</span>
-	<CountChip {count} />
+	{#if title}
+		{@render title()}
+	{:else}
+		<span class="truncate text-sm font-medium text-foreground">{label}</span>
+	{/if}
+	{#if count !== undefined}
+		<CountChip {count} />
+	{/if}
 	{#if children || onAdd}
 		<span class="ms-auto flex shrink-0 items-center gap-0.5">
 			{@render children?.()}
@@ -36,7 +55,7 @@
 					variant="ghost"
 					size="sm"
 					icon
-					aria-label="{addLabel}: {label}"
+					aria-label={label ? `${addLabel}: ${label}` : addLabel}
 					class="text-muted-foreground"
 					onclick={onAdd}
 				>

@@ -7,7 +7,7 @@
 	import { Accordion } from "bits-ui";
 	import { CaretDown, Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
-	import CountChip from "#src/components/chip/count-chip.svelte";
+	import GroupHead from "#src/components/work-parts/group-head.svelte";
 
 	// =========================
 	// TYPES
@@ -124,10 +124,12 @@
 						)}
 						weight="bold"
 					/>
-					{@render header(group, { collapsed: isCollapsed })}
-					{#if getCount}
-						<CountChip count={getCount(group)} />
-					{/if}
+					<!-- h-auto: the band sets the height, so a tall header still grows it. -->
+					<GroupHead count={getCount?.(group)} class="h-auto">
+						{#snippet title()}
+							{@render header(group, { collapsed: isCollapsed })}
+						{/snippet}
+					</GroupHead>
 				</Accordion.Trigger>
 				{#if actions}
 					<div class="row-action flex shrink-0 items-center gap-1 pe-1">
