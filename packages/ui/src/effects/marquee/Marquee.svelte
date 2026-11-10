@@ -155,6 +155,7 @@
 		<div
 			class={cn("marquee__track", reverse && "marquee__track--reverse")}
 			aria-hidden={i > 0 ? "true" : undefined}
+			inert={i > 0}
 		>
 			{@render children?.()}
 		</div>

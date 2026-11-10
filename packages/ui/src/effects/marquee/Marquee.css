@@ -55,7 +55,9 @@
     animation-play-state: paused;
   }
 }
-.marquee[data-paused] .marquee__track {
+/* A focused link must hold still to be read and clicked, whatever pauseOnHover says. */
+.marquee[data-paused] .marquee__track,
+.marquee:focus-within .marquee__track {
   animation-play-state: paused;
 }
 @keyframes marquee-x {
