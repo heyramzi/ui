@@ -124,13 +124,15 @@ export const blockNotes: Record<string, A11yNote> = {
     keys: [
       {
         keys: ["Tab"],
-        does: "Moves through the period filter, linked tiles, column sort buttons and row links.",
+        does: "Moves through the period filter, linked tiles, column sort buttons, row links, and any head, cell or grade that has a hint.",
       },
       { keys: ["Space", "Enter"], does: "On a column's sort button, sorts by it." },
+      { keys: ["Esc"], does: "On a head, cell or grade with a hint, hides its tooltip." },
     ],
     notes: [
       "The period filter is a named group of buttons that report pressed, or links when href is set.",
       "The table has real column headers. A sortable head holds a button and reports its sort order.",
+      "A head's hint, a cell's title and a grade's hint show as a tooltip on hover or focus, and the focused one describes itself with it.",
       'A tile\'s change reads with its direction, like "up 8%".',
       "The charts here are named and summarised, hold a hidden table of their values, and the arrow keys step the tooltip.",
       "With reduced motion on, the numbers show their final value with no count.",

@@ -43,6 +43,7 @@
 	 */
 	import { cn } from "#src/lib/utils.js";
 	import RatingChip from "#src/charts/dashboard/rating-chip.svelte";
+	import Hint from "#src/charts/dashboard/hint.svelte";
 	import {
 		Pagination,
 		SortableHead,
@@ -182,9 +183,8 @@
 					<th
 						scope="col"
 						class={cn(column.align === "start" ? dataThClass : dataThNumClass, columnClass(column))}
-						title={column.hint}
 					>
-						{column.label}
+						<Hint text={column.hint}>{column.label}</Hint>
 					</th>
 				{/if}
 			{/each}
@@ -237,35 +237,36 @@
 								isMuted(column, row) && "text-muted-foreground",
 								column.negative?.(row) && "text-destructive-ink",
 							)}
-							title={column.title?.(row)}
 						>
-							{#if column.cell}
-								{@render column.cell(row)}
-							{:else if column.rating}
-								{@const rating = column.rating(row)}
-								{#if rating}
-									<RatingChip grade={rating.grade} hint={rating.hint} />
+							<Hint text={column.title?.(row)} class="block">
+								{#if column.cell}
+									{@render column.cell(row)}
+								{:else if column.rating}
+									{@const rating = column.rating(row)}
+									{#if rating}
+										<RatingChip grade={rating.grade} hint={rating.hint} />
+									{:else}
+										<span class="text-muted-foreground">{emptyLabel}</span>
+									{/if}
 								{:else}
-									<span class="text-muted-foreground">{emptyLabel}</span>
-								{/if}
-							{:else}
-								{@const value = column.value?.(row) ?? null}
-								{#if value === null}
-									<span class="text-muted-foreground">{emptyLabel}</span>
-								{:else if column.bar}
-									<span class="flex items-center justify-end gap-3">
-										<span class="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-muted">
-											<span
-												class="block h-full origin-left rounded-full bg-primary/70"
-												style:transform="scaleX({Math.min(1, Math.max(0, column.bar(row)))})"
-											></span>
+									{@const value = column.value?.(row) ?? null}
+									{#if value === null}
+										<span class="text-muted-foreground">{emptyLabel}</span>
+									{:else if column.bar}
+										<span class="flex items-center justify-end gap-3">
+											<span class="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-muted">
+												<span
+													class="block h-full origin-left rounded-full bg-primary/70"
+													style:transform="scaleX({Math.min(1, Math.max(0, column.bar(row)))})"
+												></span>
+											</span>
+											<span>{value}</span>
 										</span>
-										<span>{value}</span>
-									</span>
-								{:else}
-									{value}
+									{:else}
+										{value}
+									{/if}
 								{/if}
-							{/if}
+							</Hint>
 						</td>
 					{/each}
 				</tr>
