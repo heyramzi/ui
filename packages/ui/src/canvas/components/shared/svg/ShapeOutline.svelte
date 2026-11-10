@@ -91,9 +91,13 @@
 </svg>
 
 <style>
-	.pen-shape {
-		display: block;
-		overflow: visible;
-		pointer-events: none;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.pen-shape {
+			display: block;
+			overflow: visible;
+			pointer-events: none;
+		}
 	}
 </style>

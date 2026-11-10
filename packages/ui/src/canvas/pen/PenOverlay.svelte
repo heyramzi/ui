@@ -162,11 +162,15 @@
 </div>
 
 <style>
-	.pen-overlay {
-		position: absolute;
-		inset: 0;
-		z-index: 5;
-		touch-action: none;
-		user-select: none;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.pen-overlay {
+			position: absolute;
+			inset: 0;
+			z-index: 5;
+			touch-action: none;
+			user-select: none;
+		}
 	}
 </style>

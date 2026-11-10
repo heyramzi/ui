@@ -44,12 +44,22 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* One screen pixel is the right weight for a guide and too little to catch
-	   the eye on an ink canvas, so the line carries its own halo. */
-	.snap-guide {
-		background: var(--cv-chrome-ring, #4a4ad8);
-		box-shadow: 0 0 6px 1px color-mix(in oklch, var(--cv-chrome-ring, #4a4ad8) 55%, transparent);
-		animation: snap-guide-in var(--duration-micro, 100ms) var(--ease-smooth-out, ease-out) both;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		/* One screen pixel is the right weight for a guide and too little to catch
+		   the eye on an ink canvas, so the line carries its own halo. */
+		.snap-guide {
+			background: var(--cv-chrome-ring, #4a4ad8);
+			box-shadow: 0 0 6px 1px color-mix(in oklch, var(--cv-chrome-ring, #4a4ad8) 55%, transparent);
+			animation: snap-guide-in var(--duration-micro, 100ms) var(--ease-smooth-out, ease-out) both;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.snap-guide {
+				animation-duration: 1ms;
+			}
+		}
 	}
 
 	@keyframes snap-guide-in {
@@ -58,12 +68,6 @@
 		}
 		to {
 			opacity: 1;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.snap-guide {
-			animation-duration: 1ms;
 		}
 	}
 </style>

@@ -58,10 +58,14 @@
 </svg>
 
 <style>
-	.preview {
-		width: 100%;
-		height: 100%;
-		overflow: visible;
-		pointer-events: none;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.preview {
+			width: 100%;
+			height: 100%;
+			overflow: visible;
+			pointer-events: none;
+		}
 	}
 </style>

@@ -55,15 +55,19 @@
 </svg>
 
 <style>
-	.pen-stroke {
-		display: block;
-		overflow: visible;
-		pointer-events: none;
-	}
-	.hit {
-		pointer-events: stroke;
-	}
-	.ink {
-		pointer-events: visiblePainted;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.pen-stroke {
+			display: block;
+			overflow: visible;
+			pointer-events: none;
+		}
+		.hit {
+			pointer-events: stroke;
+		}
+		.ink {
+			pointer-events: visiblePainted;
+		}
 	}
 </style>

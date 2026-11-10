@@ -98,7 +98,11 @@
 <Handle type="source" position={Position.Bottom} class="pen-handle" />
 
 <style>
-	.pen-text-box.column {
-		width: 100%;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.pen-text-box.column {
+			width: 100%;
+		}
 	}
 </style>

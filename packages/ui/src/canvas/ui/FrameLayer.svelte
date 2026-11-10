@@ -97,20 +97,24 @@
 </div>
 
 <style>
-	.cv-frame-layer {
-		position: absolute;
-		inset: 0;
-		z-index: 5;
-		cursor: crosshair;
-		touch-action: none;
-		user-select: none;
-	}
+	@layer theme, base, components, utilities;
 
-	.cv-frame-preview {
-		position: absolute;
-		border: 1.5px solid var(--cv-selection);
-		border-radius: var(--cv-radius-btn);
-		background: var(--cv-selection-fill);
-		pointer-events: none;
+	@layer components {
+		.cv-frame-layer {
+			position: absolute;
+			inset: 0;
+			z-index: 5;
+			cursor: crosshair;
+			touch-action: none;
+			user-select: none;
+		}
+
+		.cv-frame-preview {
+			position: absolute;
+			border: 1.5px solid var(--cv-selection);
+			border-radius: var(--cv-radius-btn);
+			background: var(--cv-selection-fill);
+			pointer-events: none;
+		}
 	}
 </style>

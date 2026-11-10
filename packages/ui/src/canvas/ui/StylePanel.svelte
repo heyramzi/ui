@@ -238,48 +238,52 @@
 {/if}
 
 <style>
-	.cv-style {
-		flex-direction: column;
-		align-items: stretch;
-		gap: 8px;
-		padding: 8px;
-	}
+	@layer theme, base, components, utilities;
 
-	.cv-section {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-	}
+	@layer components {
+		.cv-style {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 8px;
+			padding: 8px;
+		}
 
-	.cv-label {
-		padding-inline: 4px;
-		color: var(--cv-ink-muted);
-		font-size: 12px;
-		line-height: 16px;
-	}
+		.cv-section {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+		}
 
-	.cv-swatches {
-		display: grid;
-		grid-template-columns: repeat(3, var(--cv-btn));
-		gap: 0;
-	}
+		.cv-label {
+			padding-inline: 4px;
+			color: var(--cv-ink-muted);
+			font-size: 12px;
+			line-height: 16px;
+		}
 
-	.cv-line {
-		width: 18px;
-		height: var(--line);
-		border-radius: 999px;
-		background: currentColor;
-	}
+		.cv-swatches {
+			display: grid;
+			grid-template-columns: repeat(3, var(--cv-btn));
+			gap: 0;
+		}
 
-	.cv-figure {
-		font-size: 12px;
-		font-variant-numeric: tabular-nums;
-	}
+		.cv-line {
+			width: 18px;
+			height: var(--line);
+			border-radius: 999px;
+			background: currentColor;
+		}
 
-	/* No fill is an empty disc struck through, since a swatch can't show the absence of a colour. */
-	.cv-swatch-none::before {
-		background:
-			linear-gradient(135deg, transparent 46%, var(--cv-ink-muted) 46% 54%, transparent 54%),
-			var(--cv-surface);
+		.cv-figure {
+			font-size: 12px;
+			font-variant-numeric: tabular-nums;
+		}
+
+		/* No fill is an empty disc struck through, since a swatch can't show the absence of a colour. */
+		.cv-swatch-none::before {
+			background:
+				linear-gradient(135deg, transparent 46%, var(--cv-ink-muted) 46% 54%, transparent 54%),
+				var(--cv-surface);
+		}
 	}
 </style>

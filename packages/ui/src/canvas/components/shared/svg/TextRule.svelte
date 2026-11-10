@@ -37,9 +37,13 @@
 </svg>
 
 <style>
-	.pen-rule {
-		display: block;
-		overflow: visible;
-		pointer-events: none;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.pen-rule {
+			display: block;
+			overflow: visible;
+			pointer-events: none;
+		}
 	}
 </style>

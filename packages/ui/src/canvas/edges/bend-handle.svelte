@@ -57,20 +57,24 @@
 <!-- STYLES -->
 <!-- =========================== -->
 <style>
-	.cv-bend-handle {
-		display: block;
-		box-sizing: border-box;
-		width: 12px;
-		height: 12px;
-		padding: 0;
-		border: 2px solid var(--cv-chrome-surface, var(--background, #fff));
-		border-radius: 9999px;
-		background: var(--cv-chrome-ring, var(--ring, #4a4ad8));
-		cursor: row-resize;
-		touch-action: none;
-	}
+	@layer theme, base, components, utilities;
 
-	.cv-bend-x {
-		cursor: col-resize;
+	@layer components {
+		.cv-bend-handle {
+			display: block;
+			box-sizing: border-box;
+			width: 12px;
+			height: 12px;
+			padding: 0;
+			border: 2px solid var(--cv-chrome-surface, var(--background, #fff));
+			border-radius: 9999px;
+			background: var(--cv-chrome-ring, var(--ring, #4a4ad8));
+			cursor: row-resize;
+			touch-action: none;
+		}
+
+		.cv-bend-x {
+			cursor: col-resize;
+		}
 	}
 </style>

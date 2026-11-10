@@ -101,45 +101,50 @@
 <!-- STYLES -->
 <!-- =========================== -->
 <style>
+	@layer theme, base, components, utilities;
+
+	/* Unlayered: it switches off a host app's card fade-in on xyflow nodes, which the app writes unlayered. */
 	:global([data-cv-every-card] .svelte-flow__node) {
 		animation: none;
 	}
 
-	/* A dot on a zoomed-out box is too small to link from; unpainted, it keeps its place for the links. */
-	:global(.cv-lod-handle) {
-		visibility: hidden;
-	}
+	@layer components {
+		/* A dot on a zoomed-out box is too small to link from; unpainted, it keeps its place for the links. */
+		:global(.cv-lod-handle) {
+			visibility: hidden;
+		}
 
-	/* The architecture card's own frame and layout (architecture-node.svelte), so selecting a card doesn't change how it looks. */
-	.cv-lod-box {
-		position: relative;
-		box-sizing: border-box;
-		display: flex;
-		align-items: flex-start;
-		gap: 10px;
-		overflow: hidden;
-		padding: var(--card-pad, 12px);
-		border: 1px solid color-mix(in oklab, var(--cv-lod-tone) 20%, transparent);
-		border-radius: var(--card-radius, 12px);
-		background: var(--card, var(--cv-chrome-surface, #fff));
-		color: var(--cv-ink, var(--foreground, #1a1a1f));
-		contain: strict;
-	}
+		/* The architecture card's own frame and layout (architecture-node.svelte), so selecting a card doesn't change how it looks. */
+		.cv-lod-box {
+			position: relative;
+			box-sizing: border-box;
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			overflow: hidden;
+			padding: var(--card-pad, 12px);
+			border: 1px solid color-mix(in oklab, var(--cv-lod-tone) 20%, transparent);
+			border-radius: var(--card-radius, 12px);
+			background: var(--card, var(--cv-chrome-surface, #fff));
+			color: var(--cv-ink, var(--foreground, #1a1a1f));
+			contain: strict;
+		}
 
-	/* The icon well, without the icon. */
-	.cv-lod-well {
-		flex: none;
-		width: 32px;
-		height: 32px;
-		border-radius: 9999px;
-		background: color-mix(in oklab, var(--cv-lod-tone) 10%, transparent);
-	}
+		/* The icon well, without the icon. */
+		.cv-lod-well {
+			flex: none;
+			width: 32px;
+			height: 32px;
+			border-radius: 9999px;
+			background: color-mix(in oklab, var(--cv-lod-tone) 10%, transparent);
+		}
 
-	.cv-lod-title {
-		overflow: hidden;
-		font-size: 14px;
-		font-weight: 500;
-		line-height: 1.25;
-		overflow-wrap: anywhere;
+		.cv-lod-title {
+			overflow: hidden;
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 1.25;
+			overflow-wrap: anywhere;
+		}
 	}
 </style>
