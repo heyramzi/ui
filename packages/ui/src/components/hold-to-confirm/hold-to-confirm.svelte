@@ -19,7 +19,12 @@
 		class?: string;
 		idle: Snippet;
 		holding: Snippet;
+		/** Read out when a screen reader's activate arms the button. Translate at the call site. */
+		confirmPrompt?: string;
 	}
+
+	// A screen reader's activate can't hold, so its first click arms and a second one inside this window confirms.
+	const ARM_MS = 5000;
 
 	// ========================= PROPS
 	let {
@@ -32,6 +37,7 @@
 		class: className = "",
 		idle,
 		holding,
+		confirmPrompt = "Press again to confirm",
 		...restProps
 	}: Props = $props();
 
@@ -40,6 +46,12 @@
 	let isHolding = $state(false);
 	let rafId: number | null = $state(null);
 	let startTime: number | null = $state(null);
+	let armed = $state(false);
+	let armTimer: ReturnType<typeof setTimeout> | null = null;
+
+	$effect(() => () => {
+		if (armTimer !== null) clearTimeout(armTimer);
+	});
 
 	// ========================= FUNCTIONS
 	function startHold() {
@@ -97,8 +109,29 @@
 
 	function handleKeyup(e: KeyboardEvent) {
 		if (e.key === " " || e.key === "Enter") {
+			// Space clicks on keyup, and that click would arm the button behind a real hold.
+			e.preventDefault();
 			cancelHold();
 		}
+	}
+
+	function disarm() {
+		armed = false;
+		if (armTimer !== null) clearTimeout(armTimer);
+		armTimer = null;
+	}
+
+	// A pointer or a held key sends detail 1 or more. Assistive tech's activate sends a bare click, detail 0.
+	function handleClick(e: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
+		restProps.onclick?.(e);
+		if (disabled || e.detail !== 0) return;
+		if (armed) {
+			disarm();
+			onConfirm();
+			return;
+		}
+		armed = true;
+		armTimer = setTimeout(disarm, ARM_MS);
 	}
 </script>
 
@@ -117,6 +150,8 @@
 	)}
 	style="--progress: {progress}"
 	data-holding={isHolding}
+	data-armed={armed}
+	onclick={handleClick}
 	onpointerdown={startHold}
 	onpointerup={cancelHold}
 	onpointerleave={cancelHold}
@@ -125,6 +160,7 @@
 	onkeyup={handleKeyup}
 	onblur={(e) => {
 		cancelHold();
+		disarm();
 		restProps.onblur?.(e);
 	}}
 	{disabled}
@@ -154,6 +190,8 @@
 		{/if}
 	</span>
 </button>
+<!-- Outside the button so it isn't part of its name, and mounted empty so the prompt is read when it lands. -->
+<span role="status" class="sr-only">{armed ? confirmPrompt : ""}</span>
 
 <!-- ========================= STYLE -->
 <style>

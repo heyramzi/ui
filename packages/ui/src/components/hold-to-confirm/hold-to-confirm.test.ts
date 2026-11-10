@@ -67,6 +67,32 @@ describe("HoldToConfirm keyboard", () => {
     done();
   });
 
+  // 10 Nov 2026: a screen reader's activate presses and lets go at once, so the hold never completed.
+  it("arms on an assistive-tech click and confirms on a second one", async () => {
+    const { button, onConfirm, done } = render();
+    const status = button.parentElement?.querySelector('[role="status"]');
+    expect(status?.textContent).toBe("");
+    button.dispatchEvent(new MouseEvent("click", { detail: 0, bubbles: true }));
+    flushSync();
+    expect(onConfirm).not.toHaveBeenCalled();
+    expect(status?.textContent).toBe("Press again to confirm");
+    button.dispatchEvent(new MouseEvent("click", { detail: 0, bubbles: true }));
+    flushSync();
+    expect(onConfirm).toHaveBeenCalledTimes(1);
+    done();
+  });
+
+  it("lets the armed state lapse and ignores pointer clicks", async () => {
+    const { button, onConfirm, done } = render();
+    button.dispatchEvent(new MouseEvent("click", { detail: 0, bubbles: true }));
+    await vi.advanceTimersByTimeAsync(6000);
+    button.dispatchEvent(new MouseEvent("click", { detail: 0, bubbles: true }));
+    button.dispatchEvent(new MouseEvent("click", { detail: 1, bubbles: true }));
+    flushSync();
+    expect(onConfirm).not.toHaveBeenCalled();
+    done();
+  });
+
   it("cancels when focus leaves mid-hold", async () => {
     const { button, onConfirm, key, done } = render();
     await holdWithRepeat(key, "Enter", 300);
