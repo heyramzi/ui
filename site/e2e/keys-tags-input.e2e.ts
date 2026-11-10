@@ -12,7 +12,9 @@ const PAGE = "/components/tags-input";
 const field = (page: Page) => page.getByRole("button", { name: /^Tools/ });
 const box = (page: Page) => page.getByRole("combobox", { name: "Tools" });
 const chip = (page: Page, tag: string) => page.getByRole("button", { name: `Remove ${tag}` });
-const highlighted = (page: Page) => page.getByRole("option", { selected: true });
+// The list is multi-select, where aria-selected means chosen. The highlight is the option the box points at.
+const highlighted = (page: Page) =>
+  page.getByRole("option").and(page.locator("[data-highlighted]"));
 
 async function startEditing(page: Page, key = "Enter") {
   await page.goto(PAGE, { waitUntil: "networkidle" });
@@ -35,12 +37,25 @@ test("arrows move through the suggestions and loop", async ({ page }) => {
   const count = await options.count();
   expect(count).toBeGreaterThan(1);
   const first = (await highlighted(page).textContent())?.trim();
+  await expect(box(page)).toHaveAttribute(
+    "aria-activedescendant",
+    (await highlighted(page).getAttribute("id")) ?? "",
+  );
   await page.keyboard.press("ArrowDown");
   await expect(highlighted(page)).not.toHaveText(first ?? "");
   await page.keyboard.press("ArrowUp");
   await expect(highlighted(page)).toHaveText(first ?? "");
   await page.keyboard.press("ArrowUp");
   await expect(highlighted(page)).toHaveText((await options.last().textContent()) ?? "");
+});
+
+// An overflow:hidden parent cut the list off while it sat inside the field.
+test("the suggestions open in a portal, outside the field", async ({ page }) => {
+  await startEditing(page);
+  await page.keyboard.type("a");
+  await expect(page.getByRole("listbox", { name: "Tools" })).toBeVisible();
+  const fieldRoot = box(page).locator("xpath=ancestor::*[@role='presentation'][1]");
+  await expect(fieldRoot.getByRole("listbox")).toHaveCount(0);
 });
 
 test("Enter adds the highlighted suggestion, then on an empty box stops editing", async ({

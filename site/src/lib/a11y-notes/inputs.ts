@@ -111,7 +111,7 @@ export const inputNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "The box is a combobox, and the suggestions are a listbox it points at.",
-      "With free set there are no suggestions: Enter, comma, Space or Tab adds what's typed.",
+      "With free set the box is a plain text field with no suggestions: Enter, comma, Space or Tab adds what's typed.",
       "Pasting a comma-separated list adds each known label at once.",
       'A tag\'s remove button is named "Remove" plus the tag. It stays out of the Tab order; the arrows reach it.',
       'A polite status says "Added Make" or "Removed Make" once the change saves. labels.added and labels.removed change the words.',

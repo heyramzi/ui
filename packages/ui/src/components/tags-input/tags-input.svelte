@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { tick } from "svelte";
+	import { Combobox } from "bits-ui";
 	import { Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import TagChip from "#src/components/chip/tag-chip.svelte";
@@ -79,11 +80,11 @@
 	// =========================
 	let editing = $state(false);
 	let query = $state("");
-	let active = $state(0);
 	// What the list shows while a save is in flight, so a tag doesn't blink out and back.
 	let pending = $state<string[] | null>(null);
 	let input = $state<HTMLInputElement | null>(null);
 	let root = $state<HTMLElement | null>(null);
+	let menu = $state<HTMLElement | null>(null);
 	/** What the live region last said: the tags a save added or removed. */
 	let announcement = $state("");
 	const listId = $props.id();
@@ -177,30 +178,35 @@
 
 	function add(name: string) {
 		query = "";
-		active = 0;
 		void commit(addTag(tags, name, options, max));
 	}
 
+	// Bits adds the picked row's value to the list (Enter or a click). The name goes through add for its spelling and the max.
+	function pick(next: string[]) {
+		const name = next.find((entry) => !tags.includes(entry));
+		if (name !== undefined) add(name);
+	}
+
+	// The row Bits highlights: a close option when there is one, else the visible Create row.
+	function highlighted() {
+		const lit = menu?.querySelector("[data-highlighted]")?.getAttribute("data-value");
+		return rows.find((row) => row.name === lit) ?? rows[0];
+	}
+
+	// Bits owns the arrows and Enter on a typed query. These keys sit on top of it, and run first.
 	function onKey(event: KeyboardEvent) {
-		const last = rows.length - 1;
-		const separator = event.key === "," || (free && event.key === " ");
-		if (free && (separator || event.key === "Enter" || (event.key === "Tab" && query.trim()))) {
+		const typed = query.trim() !== "";
+		const separator = event.key === "," || (event.key === "Tab" && typed);
+		if (free && (separator || event.key === " " || (event.key === "Enter" && typed))) {
 			event.preventDefault();
-			if (query.trim()) add(query);
-			else if (event.key === "Enter") finish();
-		} else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-			if (rows.length === 0) return;
+			if (typed) add(query);
+		} else if (!free && separator) {
 			event.preventDefault();
-			const step = event.key === "ArrowDown" ? 1 : -1;
-			active = (active + step + rows.length) % rows.length;
-		} else if (event.key === "Enter") {
+			const row = highlighted();
+			if (typed && row) add(row.name);
+		} else if (event.key === "Enter" && !typed) {
 			event.preventDefault();
-			// The highlighted row: a close option when there is one, else the visible Create row.
-			if (!query.trim()) finish();
-			else if (rows.length > 0) add(rows[Math.min(active, last)].name);
-		} else if (event.key === "," || (event.key === "Tab" && query.trim())) {
-			event.preventDefault();
-			if (query.trim() && rows.length > 0) add(rows[Math.min(active, last)].name);
+			finish();
 		} else if (
 			event.key === "ArrowLeft" &&
 			tags.length > 0 &&
@@ -257,12 +263,6 @@
 		const next = event.relatedTarget as Node | null;
 		if (editing && !(next && root?.contains(next))) stop();
 	}
-
-	// A new query starts from its best match.
-	$effect(() => {
-		void query;
-		active = 0;
-	});
 </script>
 
 <!-- =========================== -->
@@ -283,6 +283,23 @@
 	</TagChip>
 {/snippet}
 
+<!-- The free box is a plain text field. With suggestions, Bits adds the combobox role, state and keys. -->
+{#snippet box(attrs: Record<string, unknown>)}
+	<input
+		{...attrs}
+		bind:this={input}
+		bind:value={query}
+		type="text"
+		aria-label={label}
+		autocomplete="off"
+		autocapitalize="off"
+		spellcheck="false"
+		enterkeyhint="done"
+		placeholder={tags.length === 0 ? text.add : ""}
+		class="h-5 min-w-16 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground sm:text-xs"
+	/>
+{/snippet}
+
 <div
 	bind:this={root}
 	class={cn("relative min-w-0", className)}
@@ -298,62 +315,62 @@
 			{/each}
 			{#if full}
 				<span class="px-1 text-xs text-muted-foreground">{text.max}</span>
+			{:else if free}
+				{@render box({ onkeydown: onKey, onpaste: onPaste })}
 			{:else}
-				<input
-					bind:this={input}
-					bind:value={query}
-					type="text"
-					role="combobox"
-					aria-label={label}
-					aria-expanded={open}
-					aria-controls={listId}
-					aria-autocomplete="list"
-					aria-activedescendant={open ? `${listId}-${active}` : undefined}
-					autocomplete="off"
-					autocapitalize="off"
-					spellcheck="false"
-					enterkeyhint="done"
-					placeholder={tags.length === 0 ? text.add : ""}
-					class="h-5 min-w-16 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground sm:text-xs"
-					onkeydown={onKey}
-					onpaste={onPaste}
-				/>
+				<!-- The list's open state follows the query, so Bits' own open and close requests are dropped. -->
+				<Combobox.Root
+					type="multiple"
+					loop
+					bind:value={() => tags, pick}
+					bind:open={() => open, () => {}}
+				>
+					<Combobox.Input onkeydown={onKey} onpaste={onPaste}>
+						{#snippet child({ props })}
+							<!-- The box shows the query, not the text Bits writes after a pick. -->
+							{@const { value: _shown, ...bits } = props}
+							{@render box({ ...bits, "aria-controls": open ? listId : undefined })}
+						{/snippet}
+					</Combobox.Input>
+					<Combobox.Portal>
+						<!-- WHY customAnchor: the list sits under the whole field, not under the box at the end of the tags. -->
+						<Combobox.Content
+							bind:ref={menu}
+							id={listId}
+							aria-label={label}
+							customAnchor={root}
+							side="bottom"
+							align="start"
+							sideOffset={4}
+							collisionPadding={8}
+							class="z-50 max-h-60 w-(--bits-combobox-anchor-width) min-w-48 rounded-xl bg-popover text-popover-foreground shadow-edge-raised"
+						>
+							<Combobox.Viewport class="p-1">
+								{#each rows as row (row.kind + row.name)}
+									<Combobox.Item
+										value={row.name}
+										label={row.name}
+										class="flex min-h-8 cursor-default items-center gap-2 rounded-lg px-2 text-sm any-pointer-coarse:min-h-11 data-highlighted:bg-foreground/6 data-highlighted:text-foreground"
+									>
+										{#if row.kind === "create"}
+											<Plus class="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+											<span class="truncate">{text.create(row.name)}</span>
+										{:else}
+											<span class="truncate">{row.name}</span>
+										{/if}
+									</Combobox.Item>
+								{/each}
+								{#if nothing}
+									<div class="flex min-h-8 items-center px-2 text-sm text-muted-foreground">
+										{text.none}
+									</div>
+								{/if}
+							</Combobox.Viewport>
+						</Combobox.Content>
+					</Combobox.Portal>
+				</Combobox.Root>
 			{/if}
 		</div>
-		{#if open}
-			<ul
-				id={listId}
-				role="listbox"
-				aria-label={label}
-				class="absolute top-full left-0 z-50 mt-1 max-h-60 w-full min-w-48 overflow-y-auto rounded-xl bg-popover p-1 text-popover-foreground shadow-edge-raised"
-			>
-				{#each rows as row, index (row.kind + row.name)}
-					<!-- svelte-ignore a11y_click_events_have_key_events -->
-					<li
-						id="{listId}-{index}"
-						role="option"
-						aria-selected={index === active}
-						class={cn(
-							"flex min-h-8 cursor-default items-center gap-2 rounded-lg px-2 text-sm any-pointer-coarse:min-h-11",
-							index === active && "bg-foreground/6 text-foreground",
-						)}
-						onmousedown={(e) => e.preventDefault()}
-						onmousemove={() => (active = index)}
-						onclick={() => add(row.name)}
-					>
-						{#if row.kind === "create"}
-							<Plus class="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
-							<span class="truncate">{text.create(row.name)}</span>
-						{:else}
-							<span class="truncate">{row.name}</span>
-						{/if}
-					</li>
-				{/each}
-				{#if nothing}
-					<li class="flex min-h-8 items-center px-2 text-sm text-muted-foreground">{text.none}</li>
-				{/if}
-			</ul>
-		{/if}
 	{:else}
 		<button
 			type="button"
