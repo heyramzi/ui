@@ -114,7 +114,7 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
   {
     name: "dropdown-menu",
     title: "Dropdown Menu",
-    note: "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
+    note: "Displays a menu to the user, such as a set of actions or functions, triggered by a button.",
     path: 'import * as DropdownMenu from "@heyramzi/ui/shadcn/dropdown-menu";\nimport { Button } from "@heyramzi/ui/shadcn/button";',
   },
   {
@@ -186,7 +186,7 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
   {
     name: "radio-group",
     title: "Radio Group",
-    note: "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
+    note: "A set of checkable buttons, known as radio buttons, where no more than one of the buttons can be checked at a time.",
     path: 'import * as RadioGroup from "@heyramzi/ui/shadcn/radio-group";\nimport { Label } from "@heyramzi/ui/shadcn/label";',
   },
   {
@@ -198,7 +198,7 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
   {
     name: "select",
     title: "Select",
-    note: "Displays a list of options for the user to pick from—triggered by a button.",
+    note: "Displays a list of options for the user to pick from, triggered by a button.",
     path: 'import * as Select from "@heyramzi/ui/shadcn/select";',
   },
   {
@@ -252,7 +252,7 @@ export const SHADCN_DEMOS: ShadcnDemo[] = [
   {
     name: "tabs",
     title: "Tabs",
-    note: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    note: "A set of layered sections of content, known as tab panels, that are displayed one at a time.",
     path: 'import * as Card from "@heyramzi/ui/shadcn/card";\nimport * as Tabs from "@heyramzi/ui/shadcn/tabs";\nimport { Button } from "@heyramzi/ui/shadcn/button";\nimport { Input } from "@heyramzi/ui/shadcn/input";\nimport { Label } from "@heyramzi/ui/shadcn/label";',
   },
   {

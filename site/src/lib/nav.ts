@@ -63,9 +63,8 @@ export const sections: Section[] = [
     id: "foundations",
     title: "Foundations",
     categories: [
-      { title: "Theming", items: ["colors", "theming"] },
+      { title: "Tokens", items: ["colors", "theming", "motion"] },
       { title: "Icons", items: ["icon", "sf-symbols"] },
-      { title: "Motion", items: ["motion"] },
     ],
   },
   {
@@ -94,16 +93,15 @@ export const sections: Section[] = [
           "language-flag",
           "mark",
           "tag-chip",
-          "separator",
-          "card",
-          "accordion",
-          "collapsible",
-          "scroll-area",
           "code-block",
           "table",
           "table-view",
           "data-table",
         ],
+      },
+      {
+        title: "Layout",
+        items: ["card", "separator", "accordion", "collapsible", "scroll-area"],
       },
       {
         title: "Inputs",

@@ -131,7 +131,9 @@ const meta = (doc, name) => {
       .match(new RegExp(`^${key}:\\s*(.+)$`, "m"))?.[1]
       .trim()
       .replace(/^["']|["']$/g, "");
-  return { title: field("title") ?? pascal(name), note: field("description") ?? "" };
+  // Upstream sets clauses off with em dashes; the site's copy uses commas.
+  const note = (field("description") ?? "").replace(/\s*—\s*/g, ", ");
+  return { title: field("title") ?? pascal(name), note };
 };
 
 /** The demo's own shadcn imports, as it spells them for a consumer. */
