@@ -75,6 +75,7 @@ export const sections: Section[] = [
         title: "Actions",
         items: [
           "button",
+          "button-group",
           "copy-button",
           "hold-to-confirm",
           "toggle",
@@ -92,6 +93,7 @@ export const sections: Section[] = [
           "avatar",
           "language-flag",
           "mark",
+          "item",
           "tag-chip",
           "kbd",
           "code-block",
@@ -111,6 +113,7 @@ export const sections: Section[] = [
           "field",
           "simple-field",
           "input",
+          "input-group",
           "textarea",
           "input-otp",
           "checkbox",
@@ -120,7 +123,10 @@ export const sections: Section[] = [
           "star-rating-input",
           "tags-input",
           "select",
+          "native-select",
+          "combobox",
           "calendar",
+          "date-picker",
         ],
       },
       {
@@ -140,7 +146,7 @@ export const sections: Section[] = [
       },
       {
         title: "Navigation",
-        items: ["tabs", "segmented", "breadcrumb", "toolbar", "sidebar"],
+        items: ["tabs", "segmented", "breadcrumb", "pagination", "toolbar", "sidebar"],
       },
     ],
   },

@@ -76,19 +76,14 @@ const DEMO_ALIASES = [
 /* Registry primitives this package does not ship: no product imports them. Skipped, so a sync does not bring them back. */
 const NOT_SHIPPED = new Set([
   "aspect-ratio",
-  "button-group",
   "carousel",
   "chart",
   "data-table",
   "drawer",
   "form",
-  "input-group",
-  "item",
   "kbd",
   "menubar",
-  "native-select",
   "navigation-menu",
-  "pagination",
   "range-calendar",
   "resizable",
   // Its `pascalToKebab` has no importer, in the registry or here.

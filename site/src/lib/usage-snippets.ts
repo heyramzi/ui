@@ -206,8 +206,49 @@ const written: Record<string, string> = {
   </Select.Content>
 </Select.Root>`,
 
+  "native-select": `
+<NativeSelect.Root bind:value={status} aria-label="Status">
+  <NativeSelect.Option value="todo">To do</NativeSelect.Option>
+  <NativeSelect.Option value="done">Done</NativeSelect.Option>
+</NativeSelect.Root>`,
+
   calendar: `
 <Calendar type="single" bind:value captionLayout="dropdown" />`,
+
+  "input-group": `
+<InputGroup.Root>
+  <InputGroup.Addon>
+    <InputGroup.Text>https://</InputGroup.Text>
+  </InputGroup.Addon>
+  <InputGroup.Input placeholder="example.com" />
+</InputGroup.Root>`,
+
+  item: `
+<Item.Root variant="outline">
+  <Item.Content>
+    <Item.Title>Two-factor sign-in</Item.Title>
+    <Item.Description>A code from your phone at each new sign-in.</Item.Description>
+  </Item.Content>
+</Item.Root>`,
+
+  pagination: `
+<Pagination.Root count={100} perPage={10}>
+  {#snippet children({ pages, currentPage })}
+    <Pagination.Content>
+      <Pagination.Item><Pagination.Previous /></Pagination.Item>
+      {#each pages as page (page.key)}
+        <Pagination.Item>
+          {#if page.type === "ellipsis"}
+            <Pagination.Ellipsis />
+          {:else}
+            <Pagination.Link {page} isActive={currentPage === page.value}>{page.value}</Pagination.Link>
+          {/if}
+        </Pagination.Item>
+      {/each}
+      <Pagination.Item><Pagination.Next /></Pagination.Item>
+    </Pagination.Content>
+  {/snippet}
+</Pagination.Root>`,
 
   tooltip: `
 <Tooltip.Provider>

@@ -46,6 +46,7 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/shadcn/dialog/dialog.svelte",
     "../../../packages/ui/src/shadcn/dialog/dialog-content.svelte",
     "../../../packages/ui/src/shadcn/select/select.svelte",
+    "../../../packages/ui/src/shadcn/native-select/native-select.svelte",
     "../../../packages/ui/src/shadcn/accordion/accordion.svelte",
     "../../../packages/ui/src/shadcn/avatar/avatar.svelte",
     "../../../packages/ui/src/effects/marquee/Marquee.svelte",

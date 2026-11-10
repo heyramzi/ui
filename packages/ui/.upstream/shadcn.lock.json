@@ -2,7 +2,7 @@
 	"source": "https://github.com/huntabyte/shadcn-svelte",
 	"registry": "https://shadcn-svelte.com/registry/styles/vega/index.json",
 	"fetchedAt": "2026-10-16",
-	"components": 50,
+	"components": 55,
 	"localOnly": [
 		"hooks"
 	],
@@ -120,6 +120,11 @@
 				"button/button.svelte",
 				"button/index.ts"
 			]
+		},
+		"button-group": {
+			"type": "registry:ui",
+			"files": 4,
+			"sha256": "f48c94b5abf10866"
 		},
 		"calendar": {
 			"type": "registry:ui",
@@ -277,6 +282,11 @@
 				"field/index.ts"
 			]
 		},
+		"highlighter": {
+			"type": "registry:lib",
+			"files": 1,
+			"sha256": "7dc14baaefec97fd"
+		},
 		"hover-card": {
 			"type": "registry:ui",
 			"files": 5,
@@ -295,6 +305,11 @@
 				"input/input.svelte"
 			]
 		},
+		"input-group": {
+			"type": "registry:ui",
+			"files": 7,
+			"sha256": "84cbc16768e8790b"
+		},
 		"input-otp": {
 			"type": "registry:ui",
 			"files": 5,
@@ -306,6 +321,16 @@
 				"input-otp/input-otp-slot.svelte",
 				"input-otp/input-otp.svelte"
 			]
+		},
+		"is-mobile": {
+			"type": "registry:hook",
+			"files": 1,
+			"sha256": "d1531dab938681b4"
+		},
+		"item": {
+			"type": "registry:ui",
+			"files": 11,
+			"sha256": "d070c7d2acc164e9"
 		},
 		"label": {
 			"type": "registry:ui",
@@ -347,6 +372,20 @@
 			"adapted": [
 				"message-scroller/message-scroller-button.svelte"
 			]
+		},
+		"native-select": {
+			"type": "registry:ui",
+			"files": 4,
+			"sha256": "e7a9d58e9f61cea2",
+			"adapted": [
+				"native-select/index.ts",
+				"native-select/native-select.svelte"
+			]
+		},
+		"pagination": {
+			"type": "registry:ui",
+			"files": 10,
+			"sha256": "004d3f3083594150"
 		},
 		"popover": {
 			"type": "registry:ui",
@@ -570,20 +609,10 @@
 				"trace/trace-collapsible-trigger.svelte"
 			]
 		},
-		"is-mobile": {
-			"type": "registry:hook",
-			"files": 1,
-			"sha256": "d1531dab938681b4"
-		},
 		"use-highlighted-code": {
 			"type": "registry:hook",
 			"files": 1,
 			"sha256": "4182b361007c05fb"
-		},
-		"highlighter": {
-			"type": "registry:lib",
-			"files": 1,
-			"sha256": "7dc14baaefec97fd"
 		}
 	}
 }

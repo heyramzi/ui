@@ -2436,6 +2436,94 @@
       ]
     }
   ],
+  "button-group": [
+    {
+      "name": "ButtonGroup.Root",
+      "file": "packages/ui/src/shadcn/button-group/button-group.svelte",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "ButtonGroupOrientation",
+          "values": ["\"horizontal\"", "\"vertical\""],
+          "default": "\"horizontal\""
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "ButtonGroup.Text",
+      "file": "packages/ui/src/shadcn/button-group/button-group-text.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "ButtonGroup.Separator",
+      "file": "packages/ui/src/shadcn/button-group/button-group-separator.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "orientation",
+          "type": "string",
+          "default": "\"vertical\""
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Separator"
+        }
+      ]
+    }
+  ],
   "calendar": [
     {
       "name": "Day",
@@ -3768,6 +3856,85 @@
         {
           "kind": "package",
           "label": "Collapsible.Content",
+          "from": "bits-ui"
+        }
+      ]
+    }
+  ],
+  "combobox": [
+    {
+      "name": "Popover",
+      "file": "packages/ui/src/shadcn/popover/popover-content.svelte",
+      "props": [
+        {
+          "name": "portalProps",
+          "type": "WithoutChildrenOrChild<ComponentProps<typeof PopoverPortal>>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "4"
+        },
+        {
+          "name": "align",
+          "type": "string",
+          "default": "\"center\""
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number",
+          "default": "8"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Popover.Content",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Command",
+      "file": "packages/ui/src/shadcn/command/command.svelte",
+      "props": [
+        {
+          "name": "api",
+          "type": "CommandRootApi | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Command.Root",
           "from": "bits-ui"
         }
       ]
@@ -5395,6 +5562,146 @@
         }
       ],
       "bases": []
+    }
+  ],
+  "date-picker": [
+    {
+      "name": "Popover",
+      "file": "packages/ui/src/shadcn/popover/popover-content.svelte",
+      "props": [
+        {
+          "name": "portalProps",
+          "type": "WithoutChildrenOrChild<ComponentProps<typeof PopoverPortal>>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "default": "4"
+        },
+        {
+          "name": "align",
+          "type": "string",
+          "default": "\"center\""
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number",
+          "default": "8"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Popover.Content",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Calendar",
+      "file": "packages/ui/src/shadcn/calendar/calendar.svelte",
+      "props": [
+        {
+          "name": "buttonVariant",
+          "type": "ButtonVariant",
+          "values": [
+            "\"default\"",
+            "\"outline\"",
+            "\"ghost\"",
+            "\"destructive\"",
+            "\"text\"",
+            "\"dashed\""
+          ],
+          "default": "\"ghost\""
+        },
+        {
+          "name": "captionLayout",
+          "type": "\"dropdown\" | \"dropdown-months\" | \"dropdown-years\" | \"label\"",
+          "default": "\"label\""
+        },
+        {
+          "name": "months",
+          "type": "CalendarPrimitive.MonthSelectProps[\"months\"]"
+        },
+        {
+          "name": "years",
+          "type": "CalendarPrimitive.YearSelectProps[\"years\"]"
+        },
+        {
+          "name": "monthFormat",
+          "type": "CalendarPrimitive.MonthSelectProps[\"monthFormat\"]"
+        },
+        {
+          "name": "yearFormat",
+          "type": "CalendarPrimitive.YearSelectProps[\"yearFormat\"]",
+          "default": "\"numeric\""
+        },
+        {
+          "name": "day",
+          "type": "Snippet<[{ day: DateValue; outsideMonth: boolean }]>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "value",
+          "bindable": true
+        },
+        {
+          "name": "placeholder",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "weekdayFormat",
+          "type": "string",
+          "default": "\"short\""
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "\"en-US\""
+        },
+        {
+          "name": "disableDaysOutsideMonth",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "number",
+          "default": "1"
+        },
+        {
+          "name": "fixedWeeks",
+          "type": "boolean",
+          "default": "true"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Calendar.Root",
+          "from": "bits-ui",
+          "omit": ["child", "children"]
+        }
+      ]
     }
   ],
   "dialog": [
@@ -7533,6 +7840,187 @@
       ]
     }
   ],
+  "input-group": [
+    {
+      "name": "InputGroup.Root",
+      "file": "packages/ui/src/shadcn/input-group/input-group.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "InputGroup.Input",
+      "file": "packages/ui/src/shadcn/input-group/input-group-input.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "value",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Input"
+        }
+      ]
+    },
+    {
+      "name": "InputGroup.Addon",
+      "file": "packages/ui/src/shadcn/input-group/input-group-addon.svelte",
+      "props": [
+        {
+          "name": "align",
+          "type": "InputGroupAddonAlign",
+          "values": ["\"inline-start\"", "\"inline-end\"", "\"block-start\"", "\"block-end\""],
+          "default": "\"inline-start\""
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "InputGroup.Button",
+      "file": "packages/ui/src/shadcn/input-group/input-group-button.svelte",
+      "props": [
+        {
+          "name": "size",
+          "type": "InputGroupButtonSize",
+          "values": ["\"xs\"", "\"sm\"", "\"icon-xs\"", "\"icon-sm\""],
+          "default": "\"xs\""
+        },
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        },
+        {
+          "name": "type",
+          "type": "\"button\" | \"submit\" | \"reset\"",
+          "default": "\"button\""
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "\"ghost\""
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Button",
+          "omit": ["href", "size"]
+        }
+      ]
+    },
+    {
+      "name": "InputGroup.Text",
+      "file": "packages/ui/src/shadcn/input-group/input-group-text.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLSpanElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLSpanElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "InputGroup.Textarea",
+      "file": "packages/ui/src/shadcn/input-group/input-group-textarea.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "value",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Textarea"
+        }
+      ]
+    }
+  ],
   "input-otp": [
     {
       "name": "InputOTP.Root",
@@ -7695,6 +8183,288 @@
         }
       ],
       "bases": []
+    }
+  ],
+  "item": [
+    {
+      "name": "Item.Root",
+      "file": "packages/ui/src/shadcn/item/item.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "variant",
+          "type": "ItemVariant",
+          "values": ["\"default\"", "\"outline\"", "\"muted\""]
+        },
+        {
+          "name": "size",
+          "type": "ItemSize",
+          "values": ["\"default\"", "\"sm\"", "\"xs\""]
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Content",
+      "file": "packages/ui/src/shadcn/item/item-content.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Title",
+      "file": "packages/ui/src/shadcn/item/item-title.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Description",
+      "file": "packages/ui/src/shadcn/item/item-description.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLParagraphElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLParagraphElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Actions",
+      "file": "packages/ui/src/shadcn/item/item-actions.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Media",
+      "file": "packages/ui/src/shadcn/item/item-media.svelte",
+      "props": [
+        {
+          "name": "variant",
+          "type": "ItemMediaVariant",
+          "values": ["\"default\"", "\"icon\"", "\"image\""],
+          "default": "\"default\""
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Group",
+      "file": "packages/ui/src/shadcn/item/item-group.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Separator",
+      "file": "packages/ui/src/shadcn/item/item-separator.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Separator"
+        }
+      ]
+    },
+    {
+      "name": "Item.Header",
+      "file": "packages/ui/src/shadcn/item/item-header.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Item.Footer",
+      "file": "packages/ui/src/shadcn/item/item-footer.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
     }
   ],
   "kanban-board": [
@@ -9421,6 +10191,99 @@
       ]
     }
   ],
+  "native-select": [
+    {
+      "name": "NativeSelect.Root",
+      "file": "packages/ui/src/shadcn/native-select/native-select.svelte",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"default\"",
+          "default": "\"default\""
+        },
+        {
+          "name": "ref",
+          "type": "HTMLSelectElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "value",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLSelectAttributes",
+          "from": "svelte/elements",
+          "omit": ["size"]
+        }
+      ]
+    },
+    {
+      "name": "NativeSelect.Option",
+      "file": "packages/ui/src/shadcn/native-select/native-select-option.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLOptionElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLOptionAttributes",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "NativeSelect.OptGroup",
+      "file": "packages/ui/src/shadcn/native-select/native-select-opt-group.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLOptgroupElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLOptgroupAttributes",
+          "from": "svelte/elements"
+        }
+      ]
+    }
+  ],
   "number-chart": [
     {
       "name": "NumberChart",
@@ -9527,6 +10390,267 @@
         }
       ],
       "bases": []
+    }
+  ],
+  "pagination": [
+    {
+      "name": "Pagination.Root",
+      "file": "packages/ui/src/shadcn/pagination/pagination.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "default": "0"
+        },
+        {
+          "name": "perPage",
+          "type": "number",
+          "default": "10"
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "default": "1",
+          "bindable": true
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "default": "1"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Pagination.Root",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.Content",
+      "file": "packages/ui/src/shadcn/pagination/pagination-content.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLUListElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLUListElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.Item",
+      "file": "packages/ui/src/shadcn/pagination/pagination-item.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLLiElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLLiAttributes",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.Previous",
+      "file": "packages/ui/src/shadcn/pagination/pagination-previous.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Pagination.PrevButton",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.Ellipsis",
+      "file": "packages/ui/src/shadcn/pagination/pagination-ellipsis.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLSpanElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLSpanElement>",
+          "from": "svelte/elements",
+          "omit": ["children"]
+        }
+      ]
+    },
+    {
+      "name": "Pagination.Link",
+      "file": "packages/ui/src/shadcn/pagination/pagination-link.svelte",
+      "props": [
+        {
+          "name": "size",
+          "type": "ButtonSize",
+          "values": ["\"sm\"", "\"default\"", "\"lg\""],
+          "default": "\"icon\""
+        },
+        {
+          "name": "isActive",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "page"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Pagination.Page",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.Next",
+      "file": "packages/ui/src/shadcn/pagination/pagination-next.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Pagination.NextButton",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.PrevButton",
+      "file": "packages/ui/src/shadcn/pagination/pagination-prev-button.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Pagination.PrevButton",
+          "from": "bits-ui"
+        }
+      ]
+    },
+    {
+      "name": "Pagination.NextButton",
+      "file": "packages/ui/src/shadcn/pagination/pagination-next-button.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Pagination.NextButton",
+          "from": "bits-ui"
+        }
+      ]
     }
   ],
   "picker": [

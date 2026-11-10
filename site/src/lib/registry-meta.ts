@@ -252,6 +252,26 @@ export const meta: Record<string, Meta> = {
     description: "A themed menu with grouped options.",
     height: 240,
   },
+  "native-select": {
+    title: "Native Select",
+    icon: "select",
+    description:
+      "The browser's own select, styled like the kit's fields. Phones open their own picker.",
+    height: 200,
+  },
+  combobox: {
+    title: "Combobox",
+    icon: "select",
+    description:
+      "A searchable list of choices: a Popover holding a Command. Type to filter, Enter to pick.",
+    height: 320,
+  },
+  "date-picker": {
+    title: "Date Picker",
+    icon: "select",
+    description: "A button that opens a Calendar in a Popover and shows the picked date in words.",
+    height: 420,
+  },
   accordion: {
     title: "Accordion",
     icon: "accordion",
