@@ -9,6 +9,7 @@
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
+	import { getToolbarDensity } from "#src/components/list-page/toolbar-density.js";
 	import CountChip from "#src/components/chip/count-chip.svelte";
 	import type { PhosphorIcon } from "#src/lib/icon-types.js";
 
@@ -59,6 +60,10 @@
 	// =========================
 	let hasCount = $derived(count > 0);
 	let isActive = $derived(active ?? hasCount);
+	// In a list-page toolbar that ran out of room even with its tabs folded,
+	// the trigger keeps its icon and count and drops the word. See `ListPageShell`.
+	const density = getToolbarDensity();
+	let iconOnly = $derived(density?.tight === true);
 
 	// =========================
 	// STATE
@@ -80,9 +85,19 @@
 <!-- MARKUP -->
 <!-- =========================== -->
 <DropdownMenu.Root bind:open>
-	<DropdownMenu.Trigger class={toolbarTriggerClass({ active: isActive, className: triggerClass })}>
+	<DropdownMenu.Trigger
+		class={toolbarTriggerClass({
+			active: isActive,
+			className: cn(
+				iconOnly && !hasCount && !trailing && "aspect-square justify-center px-0",
+				triggerClass,
+			),
+		})}
+		title={iconOnly ? label : undefined}
+	>
 		<IconComponent aria-hidden="true" class="size-3.5" />
-		<span>{label}</span>
+		<!-- Hidden, not dropped: the label stays the trigger's accessible name. -->
+		<span class={cn(iconOnly && "sr-only")}>{label}</span>
 		{#if trailing}
 			{@render trailing()}
 		{/if}

@@ -5,7 +5,11 @@ import { getContext, setContext } from "svelte";
  * its row and sets this; a control inside it reads it and draws a smaller self.
  */
 export interface ToolbarDensity {
+  /** The tabs fold into one dropdown. */
   readonly compact: boolean;
+  /** Folded and still short: a filter or display trigger drops its label and
+   *  keeps the icon, so the row never wraps (TSK-2121, 420px). Implies compact. */
+  readonly tight: boolean;
 }
 
 // WHY context: the shell owns the measurement and 26 pages render their tabs
@@ -27,12 +31,16 @@ export function getToolbarDensity(): ToolbarDensity | undefined {
  */
 // WHY `max-content` on a probe, not the row's own width: the row is sized by
 // its container, so reading it back always says "it fits" (see collapse.ts).
+// WHY `flex: none` too: a row that is itself a flex item takes its width from
+// flex-basis, so `max-content` alone read back the container (10 Nov 2026).
 export function naturalRowWidth(row: HTMLElement): number {
-  const { width, flexWrap } = row.style;
+  const { width, flexWrap, flex } = row.style;
   row.style.width = "max-content";
   row.style.flexWrap = "nowrap";
+  row.style.flex = "none";
   const needed = row.getBoundingClientRect().width;
   row.style.width = width;
   row.style.flexWrap = flexWrap;
+  row.style.flex = flex;
   return needed;
 }

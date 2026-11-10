@@ -5,6 +5,9 @@
 		DetailRow,
 		DetailStack,
 		EmptyState,
+		FilterItem,
+		FilterPopover,
+		filterSectionClass,
 		ListPageShell,
 		MasterDetail,
 		RailBody,
@@ -14,7 +17,7 @@
 	} from "@heyramzi/ui/components/list-page";
 	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
 	import { Button } from "@heyramzi/ui/shadcn/button";
-	import { MagnifyingGlass, Plus, Tray } from "phosphor-svelte";
+	import { Funnel, MagnifyingGlass, Plus, SlidersHorizontal, Tray } from "phosphor-svelte";
 
 	type Quote = {
 		id: string;
@@ -81,14 +84,20 @@
 
 	let query = $state("");
 	let status = $state("all");
+	let owner = $state("all");
+	let order = $state<"newest" | "total">("newest");
 	let selectedId = $state(quotes[0].id);
 
+	const amount = (q: Quote) => Number(q.total.replace(/\D/g, ""));
 	let visible = $derived(
-		quotes.filter(
-			(q) =>
-				(status === "all" || q.status === status) &&
-				`${q.client} ${q.title}`.toLowerCase().includes(query.trim().toLowerCase()),
-		),
+		quotes
+			.filter(
+				(q) =>
+					(status === "all" || q.status === status) &&
+					(owner === "all" || q.owner === owner) &&
+					`${q.client} ${q.title}`.toLowerCase().includes(query.trim().toLowerCase()),
+			)
+			.sort((a, b) => (order === "total" ? amount(b) - amount(a) : 0)),
 	);
 	let selected = $derived(visible.find((q) => q.id === selectedId) ?? visible[0]);
 </script>
@@ -105,11 +114,28 @@
 				onAction: () => {
 					query = "";
 					status = "all";
+					owner = "all";
 				},
 			}}
 		>
 			{#snippet search()}
-				<ToolbarSearch bind:value={query} placeholder="Search quotes" class="w-56" />
+				<ToolbarSearch bind:value={query} placeholder="Search quotes" class="w-56 max-w-full" />
+			{/snippet}
+			{#snippet filters()}
+				<FilterPopover
+					label="Filter"
+					icon={Funnel}
+					count={owner === "all" ? 0 : 1}
+					onClear={() => (owner = "all")}
+					clearLabel="Clear all"
+				>
+					<p class={filterSectionClass()}>Owner</p>
+					{#each ["all", "Ramzi", "Camille"] as value (value)}
+						<FilterItem variant="radio" checked={owner === value} onclick={() => (owner = value)}>
+							{value === "all" ? "Anyone" : value}
+						</FilterItem>
+					{/each}
+				</FilterPopover>
 			{/snippet}
 			{#snippet tabs()}
 				<SegmentedFilter
@@ -125,7 +151,21 @@
 				/>
 			{/snippet}
 			{#snippet rightActions()}
-				<Button size="sm"><Plus aria-hidden="true" class="size-4" weight="bold" />New quote</Button>
+				<FilterPopover label="Display" icon={SlidersHorizontal} align="end">
+					<p class={filterSectionClass()}>Order</p>
+					{#each ["newest", "total"] as const as value (value)}
+						<FilterItem variant="radio" checked={order === value} onclick={() => (order = value)}>
+							{value === "newest" ? "Newest first" : "Largest total"}
+						</FilterItem>
+					{/each}
+				</FilterPopover>
+				<Button
+					size="sm"
+					class="group-data-[fold=3]/toolbar:aspect-square group-data-[fold=3]/toolbar:px-0"
+				>
+					<Plus aria-hidden="true" class="size-4" weight="bold" />
+					<span class="group-data-[fold=3]/toolbar:sr-only">New quote</span>
+				</Button>
 			{/snippet}
 			{#snippet content()}
 				<div class="h-[26rem]">
