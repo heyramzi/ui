@@ -1,0 +1,91 @@
+name: CI
+
+# Typecheck, unit tests and lint, then the gallery suite: every site page at 390 and 1280 wide,
+# light and dark, failing on console errors, new axe violations and screenshot diffs.
+#
+# Dispatch only, on the VPS runners (vibe-kit ai-doc/references/github-actions-cost.md). Run it with
+# `gh workflow run ci.yml -R heyramzi/ui`, and tick update_baselines to rewrite the screenshots,
+# which this job then commits back to the branch. Baselines come from this runner image only.
+#
+# No package build: packages/ui builds with vibe-kit's build-dist.mjs, and the site reads
+# @heyramzi/ui from source through the "svelte" export condition.
+on:
+  workflow_dispatch:
+    inputs:
+      update_baselines:
+        description: Rewrite the gallery screenshot baselines and commit them
+        type: boolean
+        default: false
+      record_axe:
+        description: Rewrite site/e2e/axe-allowlist.json from this run and commit it
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    if: ${{ !inputs.update_baselines && !inputs.record_axe }}
+    runs-on: [self-hosted, Linux, X64, studio-linux]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.1.1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify
+
+  # Heavy: the site build and Chromium together pass a light runner's 2560 MB.
+  gallery:
+    runs-on: [self-hosted, Linux, X64, studio-linux-heavy]
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.1.1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - run: pnpm install --frozen-lockfile
+
+      # The image carries Chromium's libraries; the browser itself sits in the shared cache.
+      - name: Playwright browser
+        run: pnpm --filter site exec playwright install chromium
+
+      - name: Build the site
+        run: pnpm --filter site build
+
+      - name: Gallery suite
+        env:
+          GALLERY_AXE: ${{ inputs.record_axe && 'record' || '' }}
+          UPDATE: ${{ inputs.update_baselines && '--update-snapshots=all' || '' }}
+        run: pnpm --filter site exec playwright test $UPDATE
+
+      # results/ and report/ are ignored, so this stages only baselines and the allowlist.
+      - name: Commit what the run rewrote
+        if: ${{ always() && (inputs.update_baselines || inputs.record_axe) }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A -- site/e2e
+          if git diff --cached --quiet; then echo "nothing changed"; exit 0; fi
+          git commit -m "test(gallery): rewrite baselines or the axe allowlist from CI" -m "Run ${{ github.run_id }}."
+          git push origin "HEAD:${{ github.ref_name }}"
+
+      - name: Upload the Playwright report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: gallery-report
+          path: |
+            site/e2e/report
+            site/e2e/results
+          retention-days: 14

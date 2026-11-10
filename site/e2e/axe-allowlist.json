@@ -1,0 +1,563 @@
+{
+  "/": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/blocks": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/changelog": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/charts": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/accordion": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/agent-avatar": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "scrollable-region-focusable": ["390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/agent-cast": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/ai-button": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/ai-prompt": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/alert": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/alert-dialog": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/animated-beam": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/animated-group": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/area-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/attachment": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/avatar": {
+    "color-contrast": ["1280-light", "390-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/badge": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/bar-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/border-beam": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/breadcrumb": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/bubble": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/button": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/calendar": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/canvas": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/card": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/chart-variants": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/chat-typing": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/checkbox": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/code-block": {
+    "color-contrast": ["1280-light", "390-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/collapsible": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/colors": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/command": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/confirmation": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/context-menu": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/copy-button": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/dashboard": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/data-table": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/dialog": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/doc-page": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/donut-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/dropdown-menu": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/empty": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/field": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/gauge-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/generation-progress": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/hold-to-confirm": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/hover-card": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/icon": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/image-comparison": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/image-reveal": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/in-view": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "scrollable-region-focusable": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/inline-editor": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/input": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/input-otp": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/interactive-hover-button": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/kanban-board": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/kbd": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/label": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/language-flag": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/line-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/list-page": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/loading-state": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/magic-card": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/magnetic": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/mark": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/marker": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/marquee": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "scrollable-region-focusable": ["390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/message": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/message-scroller": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/motion": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/number-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/picker": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/popover": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/progress": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/progressive-blur": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/radio-group": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/reasoning": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/rich-editor": {
+    "color-contrast": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/ring-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/scroll-area": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "scrollable-region-focusable": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/section-card": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/segmented": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/select": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/separator": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/sf-symbols": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/shader-gradient": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/sheet": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/side-panel": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/sidebar": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/simple-field": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/skeleton": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/slide-deck": {
+    "color-contrast": ["1280-dark", "1280-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/slider": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/sonner": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/sparkline": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/spinner": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/spotlight": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/star-rating-input": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "target-size": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/stat-card": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/status-badge": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/status-dot": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/status-icon": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/suggestion": {
+    "color-contrast": ["1280-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/switch": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/table": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "scrollable-region-focusable": ["390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/table-view": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "scrollable-region-focusable": ["390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/tabs": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/tag-chip": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/tags-input": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/task-gantt": {
+    "color-contrast": ["1280-dark", "1280-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/task-list": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/text-effect": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/textarea": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/theme-toggle": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/theming": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/thread": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/threaded-inbox": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/time-series-chart": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/toggle": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/toggle-group": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/toolbar": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/tooltip": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/trace": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/triage-queue": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/voice-waveform": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/components/work-parts": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/docs": {
+    "color-contrast": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/effects": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/foundations": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/onboarding": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/slides": {
+    "color-contrast": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/slides/presenter": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/work": {
+    "color-contrast": ["1280-dark", "1280-light", "390-light"],
+    "label-content-name-mismatch": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  },
+  "/work/docs": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"],
+    "target-size": ["1280-dark", "1280-light"]
+  },
+  "/work/record": {
+    "label-content-name-mismatch": ["1280-dark", "1280-light"],
+    "svg-img-alt": ["1280-dark", "1280-light", "390-dark", "390-light"]
+  }
+}

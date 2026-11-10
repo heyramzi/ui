@@ -8,6 +8,7 @@
     "prepare": "vp config",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
+    "test:gallery": "pnpm --filter site test:gallery",
     "verify": "pnpm check && pnpm test && pnpm lint",
     "lint": "vp fmt --check . && vp lint -c .oxlintrc.json . && pnpm lint:comment-length",
     "lint:fix": "vp fmt . && vp lint -c .oxlintrc.json --fix .",

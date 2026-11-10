@@ -111,9 +111,11 @@ fi
 # Gate before the bump: a failure after it leaves a local release commit, and a rerun then reads
 # the new version as never tagged. SKIP_VERIFY=1 is for a rerun that already passed.
 if [ "${SKIP_VERIFY:-0}" = "1" ]; then
-  echo "release: SKIP_VERIFY=1, not running pnpm verify." >&2
+  echo "release: SKIP_VERIFY=1, not running pnpm verify or the gallery suite." >&2
 else
   FULL_CHECK=1 pnpm verify
+  # Every site page in both widths and themes: console errors and axe. Pixels compare in CI only.
+  FULL_CHECK=1 pnpm test:gallery
 fi
 
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
