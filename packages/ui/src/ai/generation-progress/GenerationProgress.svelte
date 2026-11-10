@@ -19,6 +19,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { Progress as ProgressPrimitive } from "bits-ui";
 	import { cn } from "#src/lib/utils.js";
 
 	// =========================
@@ -104,21 +105,22 @@
 			</span>
 		</div>
 
-		<div
-			class="gen-track"
-			data-indeterminate={progress ? undefined : true}
-			role="progressbar"
+		<!-- Bits' root, not the shadcn bar: that one has no indeterminate look and fills with primary. -->
+		<ProgressPrimitive.Root
+			value={progress ? progress.completed : null}
+			max={progress?.total}
 			aria-label={heading}
-			aria-valuemin={progress ? 0 : undefined}
-			aria-valuemax={progress?.total}
-			aria-valuenow={progress?.completed}
 			aria-valuetext={progress ? `${progress.completed} of ${progress.total}` : undefined}
 		>
-			<div
-				class="gen-fill"
-				style:transform={progress ? `scaleX(${percent / 100})` : undefined}
-			></div>
-		</div>
+			{#snippet child({ props })}
+				<div {...props} class="gen-track">
+					<div
+						class="gen-fill"
+						style:transform={progress ? `scaleX(${percent / 100})` : undefined}
+					></div>
+				</div>
+			{/snippet}
+		</ProgressPrimitive.Root>
 
 		{#if progress?.currentStep}
 			{#key progress.currentStep}
