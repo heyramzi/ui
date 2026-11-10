@@ -43,5 +43,14 @@ export async function loadEntry(slug: string): Promise<Entry> {
   };
 }
 
-/** The import a demo leads with, for the line under its title. */
-export const importOf = (entry: Entry) => entry.source.match(/from "(@heyramzi\/[^"]+)"/)?.[1];
+/**
+ * The path under a page's title: the import named after the part, else the demo's first. A demo
+ * often leads with a helper, which put Button's path on the Card page. A synced primitive's path
+ * is its folder even when the demo never imports it: Sonner's demo only calls `toast`.
+ */
+export const importOf = (entry: Entry) => {
+  const paths = [...entry.source.matchAll(/from "(@heyramzi\/[^"]+)"/g)].map((m) => m[1]);
+  const own = paths.find((path) => path.endsWith(`/${entry.slug}`));
+  if (own) return own;
+  return entry.demo.startsWith("./shadcn-demos/") ? `@heyramzi/ui/shadcn/${entry.slug}` : paths[0];
+};
