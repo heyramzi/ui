@@ -40,6 +40,9 @@ jobs:
         with:
           node-version: "24"
       - run: pnpm install --frozen-lockfile
+      # review's build.test.ts builds dist when it's missing. Inside `pnpm test` that build ran
+      # beside the other packages' suites and the light runner killed it (137, run 42860821936).
+      - run: pnpm --filter @heyramzi/review build
       - run: pnpm verify
 
   # Heavy: the site build and Chromium together pass a light runner's 2560 MB.

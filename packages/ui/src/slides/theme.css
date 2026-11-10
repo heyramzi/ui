@@ -14,10 +14,27 @@
     --deck-bg: light-dark(#f2f1ec, #0e1014);
     --deck-fg: light-dark(#15171b, #f3f1ea);
     /* Without a `--primary` the accent is the deck's own ink, so nothing ships a colour the app never chose. */
-    --deck-accent: color-mix(in srgb, var(--primary, light-dark(#15171b, #f3f1ea)) 100%, #000);
+    /*
+     * `--primary` follows the page's theme and the deck sets its own scheme: a dark deck on a
+     * light page got the page's dark primary on a dark slide (2.7:1). The brand pair is picked
+     * by the deck's scheme; `--primary` is the fallback for an app without the kit palette.
+     */
+    --deck-accent: color-mix(
+      in srgb,
+      light-dark(
+          var(--brand-primary, var(--primary, #15171b)),
+          var(--brand-primary-on-dark, var(--primary, #f3f1ea))
+        )
+        100%,
+      #000
+    );
     --deck-on-accent: color-mix(
       in srgb,
-      var(--primary-foreground, light-dark(#f6f6f0, #0e1014)) 100%,
+      light-dark(
+          var(--brand-primary-foreground, var(--primary-foreground, #f6f6f0)),
+          var(--brand-primary-foreground-on-dark, var(--primary-foreground, #0e1014))
+        )
+        100%,
       #000
     );
     --deck-muted: color-mix(in srgb, var(--deck-fg) 66%, transparent);
