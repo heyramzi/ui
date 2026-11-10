@@ -1,5 +1,6 @@
 <script lang="ts" generics="V extends string">
 	import type { Snippet } from "svelte";
+	import type { Command as CommandPrimitive } from "bits-ui";
 	import * as Command from "#src/shadcn/command/index.js";
 	import * as Popover from "#src/shadcn/popover/index.js";
 	import { cn } from "#src/lib/utils.js";
@@ -88,6 +89,36 @@
 	function keywordsFor(option: PickerOption<V>): string[] {
 		return [option.label, option.hint, option.keywords].filter(Boolean) as string[];
 	}
+
+	let commandRef = $state<HTMLElement | null>(null);
+	let commandApi = $state<CommandPrimitive.Root | null>(null);
+
+	// Command's keys live on its root. With no search field, Popover focused its own content outside that root, so arrows and Enter were dead.
+	function focusList(event: Event) {
+		if (showSearch) return;
+		event.preventDefault();
+		commandRef?.focus();
+	}
+
+	let labels = $derived(new Map(resolved.flatMap((g) => g.options.map((o) => [o.value, o.label]))));
+
+	// Typeahead without a search field: a letter moves to the next row whose label starts with it.
+	function typeahead(event: KeyboardEvent) {
+		if (showSearch || event.key.length !== 1 || event.metaKey || event.ctrlKey || event.altKey)
+			return;
+		const items = commandApi?.getValidItems() ?? [];
+		const from = items.findIndex((el) => el.getAttribute("aria-selected") === "true");
+		const letter = event.key.toLowerCase();
+		for (let step = 1; step <= items.length; step++) {
+			const index = (from + step) % items.length;
+			const label = labels.get(items[index].getAttribute("data-value") as V) ?? "";
+			if (label.toLowerCase().startsWith(letter)) {
+				event.preventDefault();
+				commandApi?.updateSelectedToIndex(index);
+				return;
+			}
+		}
+	}
 </script>
 
 <Popover.Root bind:open>
@@ -96,8 +127,21 @@
 	</Popover.Trigger>
 	<!-- A picker opens below its trigger. `side` was a prop taking four edges and
 	 no caller in any repo had ever passed one. Deleted 4 Sep 2026. -->
-	<Popover.Content {align} side="bottom" class={cn("p-0", WIDTH[width])}>
-		<Command.Root {filter} loop>
+	<Popover.Content
+		{align}
+		side="bottom"
+		class={cn("p-0", WIDTH[width])}
+		onOpenAutoFocus={focusList}
+	>
+		<Command.Root
+			{filter}
+			loop
+			bind:ref={commandRef}
+			bind:api={commandApi}
+			onkeydown={typeahead}
+			label={triggerLabel}
+			class="focus-visible:outline-hidden"
+		>
 			{#if showSearch}
 				<Command.Input placeholder={searchPlaceholder} />
 			{/if}
