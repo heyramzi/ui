@@ -8,6 +8,7 @@
 	import type { PenOp } from "#src/canvas/pen/ops.js";
 	import { createPenSession, type PenPreview } from "#src/canvas/pen/pen-session.js";
 	import type { PenColor, PenTool } from "#src/canvas/pen/types.js";
+	import { forwardWheel } from "#src/canvas/ui/forward-wheel.js";
 
 	// =========================
 	// TYPES
@@ -104,36 +105,6 @@
 
 	function onkeydown(event: KeyboardEvent) {
 		if (event.key === "Escape") session.cancel();
-	}
-
-	// The overlay sits above xyflow's zoom pane, so a wheel or a trackpad pinch would
-	// never reach it. Hand those to the pane so you can zoom and pan mid-drawing.
-	function forwardWheel(node: HTMLElement) {
-		const handler = (event: WheelEvent) => {
-			const zoomPane = node.closest(".svelte-flow")?.querySelector(".svelte-flow__zoom");
-			if (!zoomPane) return;
-			event.preventDefault();
-			zoomPane.dispatchEvent(
-				new WheelEvent("wheel", {
-					deltaX: event.deltaX,
-					deltaY: event.deltaY,
-					deltaZ: event.deltaZ,
-					deltaMode: event.deltaMode,
-					clientX: event.clientX,
-					clientY: event.clientY,
-					screenX: event.screenX,
-					screenY: event.screenY,
-					ctrlKey: event.ctrlKey,
-					shiftKey: event.shiftKey,
-					altKey: event.altKey,
-					metaKey: event.metaKey,
-					bubbles: true,
-					cancelable: true,
-				}),
-			);
-		};
-		node.addEventListener("wheel", handler, { passive: false });
-		return () => node.removeEventListener("wheel", handler);
 	}
 
 	function cursorFor(current: PenTool): string {
