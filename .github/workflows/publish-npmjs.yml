@@ -53,6 +53,11 @@ jobs:
               echo "$id already on npmjs"
               continue
             fi
-            npm publish "./$tgz" --access public --registry="$NPMJS"
+            # ENEEDAUTH here means npmjs has no valid trusted publisher for this package: review's had expired (10 Nov 2026).
+            if ! npm publish "./$tgz" --access public --registry="$NPMJS"; then
+              name=${id%@*}
+              echo "::error::$id: npmjs refused the OIDC publish. Open https://www.npmjs.com/package/$name/access, delete an Expired trusted publisher, add GitHub Actions heyramzi/ui publish-npmjs.yml, tick Allow npm publish (unticked by default), then rerun this run."
+              exit 1
+            fi
             echo "published $id to npmjs"
           done
