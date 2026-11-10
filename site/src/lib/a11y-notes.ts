@@ -106,13 +106,13 @@ export const a11yNotes: Record<string, A11yNote> = {
   "language-flag": {
     notes: [
       'The flag\'s alt is the language code in capitals, like "FR".',
-      "With showLabel on, a screen reader hears the code twice: once from the flag and once from the label.",
+      "With showLabel on, the flag's alt is empty, so the code is read once, from the label.",
     ],
   },
   mark: {
     notes: [
       "The logo is decorative, with an empty alt. Put the name in text beside it, or name the control it sits in.",
-      "When the image is missing or broken, the fallback initial is read out as a stray letter.",
+      "When the image is missing or broken, the fallback initial is hidden from screen readers too.",
     ],
   },
   "tag-chip": {
@@ -128,42 +128,52 @@ export const a11yNotes: Record<string, A11yNote> = {
       },
     ],
     notes: [
-      "The code area takes focus so a keyboard can scroll it, but it shows no focus ring.",
+      "The code area takes focus so a keyboard can scroll it. Its focus ring is drawn inside the frame, so a clipping wrapper can't hide it.",
       'The copy button is the kit\'s copy button, named "Copy" and announcing "Copied".',
     ],
   },
   "table-view": {
     keys: [
-      { keys: ["Tab"], does: "Moves focus to the next row link, checkbox or control in a cell." },
+      {
+        keys: ["Tab"],
+        does: "Moves focus to the next sort button, row link, row button, checkbox or control in a cell.",
+      },
       { keys: ["Enter"], does: "On a row link, opens the row." },
       {
         keys: ["Space", "Enter"],
-        does: "On a clickable row, opens it. On a group header, folds or unfolds the group.",
+        does: "On a row button, opens the row. On a sort button, sorts. On a group header, folds or unfolds the group.",
       },
       { keys: ["Space"], does: "On a row's checkbox, selects the row." },
+      {
+        keys: ["Shift+F10", "ContextMenu"],
+        does: "On a row with a menu, or anything focused inside it, opens the row menu.",
+      },
     ],
     notes: [
       "With rowHref, each row has one link named by its first column, or by rowLabel.",
-      "With onRowClick and no rowHref, the row itself takes focus. It doesn't say it's a control, so prefer rowHref.",
+      "With onRowClick and no rowHref, each row has one button with the same name, laid over the row.",
       'Row checkboxes are named "Select" plus the row\'s name. The header checkbox selects every row.',
-      "A sortable column head takes focus. Space or Enter sorts by it, and it reports ascending or descending.",
+      "A sortable column head holds a button, and the head reports ascending or descending.",
       "The table is named by label and reports busy while loading.",
-      "A row menu opens on right-click or a long press only. Most Mac keyboards have no key for it, so keep those actions reachable another way.",
+      "A row menu also opens on right-click or a long press. A row with no link or button of its own takes focus itself, so the keys reach it.",
     ],
   },
   "data-table": {
     keys: [
-      { keys: ["Tab"], does: "Moves focus to the next sortable column head, then into the rows." },
+      { keys: ["Tab"], does: "Moves focus to the next column's sort button, then into the rows." },
       {
         keys: ["Space", "Enter"],
-        does: "On a column head, sorts by it. Pressing again flips the order.",
+        does: "On a sort button, sorts by that column. Pressing again flips the order.",
+      },
+      {
+        keys: ["Shift+F10", "ContextMenu"],
+        does: "On a row in a RowContextMenu, or anything focused inside it, opens the row menu.",
       },
     ],
     notes: [
-      "A sorted head reports ascending or descending to a screen reader.",
-      "The head takes focus itself, with no button inside it, so a screen reader doesn't call it a control.",
+      "A sortable head holds a real button, and the head reports ascending or descending to a screen reader.",
       "The pager's previous and next buttons are named by previousLabel and nextLabel.",
-      "The row menu opens on right-click or a long press only. Most Mac keyboards have no key for it, so keep those actions reachable another way.",
+      "The row menu also opens on right-click or a long press. Give the row a link or button so the keyboard can reach it.",
     ],
   },
 
@@ -258,14 +268,18 @@ export const a11yNotes: Record<string, A11yNote> = {
   },
   "star-rating-input": {
     keys: [
-      { keys: ["Tab"], does: "Moves focus to the next star. The stars are separate stops." },
-      { keys: ["Space", "Enter"], does: "Sets the rating to the focused star." },
+      { keys: ["Tab"], does: "Moves focus to the stars. They are one stop." },
+      { keys: ["ArrowRight", "ArrowUp"], does: "Adds a star." },
+      { keys: ["ArrowLeft", "ArrowDown"], does: "Takes a star off, down to zero." },
+      { keys: ["Home"], does: "Clears the rating to zero." },
+      { keys: ["End"], does: "Sets the top rating." },
+      { keys: ["1", "2", "3", "4", "5"], does: "Sets that many stars." },
     ],
     notes: [
-      'The stars are a radio group named "Rating, 5 stars" unless you pass ariaLabel. A star reads "3 of 5", plus its label when labels is set.',
-      "The arrow keys don't move between stars, the way a radio group usually works.",
-      "There's no star for zero, so a rating can't be cleared from the keyboard.",
-      'Read-only stars are an image whose name doesn\'t include the value. Pass an ariaLabel that does, like "Rated 4 of 5".',
+      "The stars are Bits UI's RatingGroup: a slider from 0 to max, the WAI-ARIA rating pattern.",
+      'It\'s named by ariaLabel, or "Rating". Its value reads "3 of 5 stars", plus the step\'s label when labels is set, or "No rating".',
+      "Clicking the first star again when it's the only one lit clears the rating.",
+      'Read-only stars are an image named with the value, like "Rating, 3 of 5 stars".',
       "With reduced motion on, the pop on a pick doesn't play.",
     ],
   },
@@ -284,16 +298,26 @@ export const a11yNotes: Record<string, A11yNote> = {
       },
       { keys: ["Backspace"], does: "With the box empty, removes the last tag." },
       {
+        keys: ["ArrowLeft"],
+        does: "At the start of the box, moves onto the last tag. On a tag, moves to the one before.",
+      },
+      { keys: ["ArrowRight"], does: "On a tag, moves to the next one, then back to the box." },
+      {
+        keys: ["Backspace", "Delete", "Enter", "Space"],
+        does: "On a tag, removes it. Focus moves to the next tag or the box.",
+      },
+      {
         keys: ["Esc"],
-        does: "Clears what's typed. Pressed again, stops editing and returns focus to the field.",
+        does: "On a tag, goes back to the box. In the box, clears what's typed, then stops editing and returns focus to the field.",
       },
     ],
     notes: [
       "The box is a combobox, and the suggestions are a listbox it points at.",
       "With free set there are no suggestions: Enter, comma, Space or Tab adds what's typed.",
       "Pasting a comma-separated list adds each known label at once.",
-      "The remove buttons on the chips skip the Tab order, so only the last tag can be removed from the keyboard.",
-      "At rest the field is named by label alone, so a screen reader doesn't hear the tags it holds.",
+      'Each tag\'s remove button is named "Remove" plus the tag. It stays out of the Tab order; the arrows reach it.',
+      'A polite status says "Added Make" or "Removed Make" once the change saves. labels.added and labels.removed change the words.',
+      'At rest the field is named by label and its tags, like "Tools: Docusign, SharePoint".',
     ],
   },
   select: {
@@ -511,7 +535,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "In a narrow pane, the tab and view strips fold into dropdown menus named by tabsLabel and viewLabel, and the search folds into a button named by searchLabel.",
-      "In a wide pane, the search box has only its placeholder for a name.",
+      'In a wide pane, the search box is named by searchLabel too, "Search" by default. ToolbarSearch on its own takes a label.',
       "It has no toolbar role, so the arrow keys don't move between its controls.",
     ],
   },
@@ -688,8 +712,8 @@ export const a11yNotes: Record<string, A11yNote> = {
       { keys: ["Space", "Enter"], does: "Runs the focused trigger or action." },
     ],
     notes: [
-      "Attachment.Trigger is a button stretched over the whole card. It has no text, so give it an aria-label.",
-      'Attachment.Action is an icon button with no name. Pass an aria-label like "Remove report.pdf".',
+      "Attachment.Trigger is a button stretched over the whole card. With no aria-label, it's named by the card's Attachment.Title.",
+      'An icon-only Attachment.Action with no aria-label reads "Remove", with the title as its description. Pass an aria-label for any other action.',
       "The card shows a ring while anything inside it has focus.",
       "Upload and error states are colour and shimmer only. Say the state in Attachment.Description so a screen reader hears it.",
     ],
@@ -737,7 +761,9 @@ export const a11yNotes: Record<string, A11yNote> = {
       { keys: ["Tab"], does: "Moves focus to the next suggestion." },
       { keys: ["Space", "Enter"], does: "Picks the focused suggestion." },
     ],
-    notes: ['The row is a group with no name. Pass an aria-label like "Suggested prompts".'],
+    notes: [
+      'The row is a group named "Suggestions". Pass label to say more, like "Suggested prompts".',
+    ],
   },
   "ai-prompt": {
     keys: [
@@ -802,8 +828,9 @@ export const a11yNotes: Record<string, A11yNote> = {
   },
   "generation-progress": {
     notes: [
-      "The bar isn't a progressbar and nothing here is live, so a screen reader hears no step change and no failure.",
-      "The label is drawn twice for the shimmer, so some screen readers read it twice.",
+      'The bar is a progressbar named by the label, with a value like "2 of 5" when steps are known.',
+      'A polite status says each new step, like "Writing the proposal: Outlining three sections", and says "Generation failed".',
+      "The copy of the label drawn for the shimmer is hidden from screen readers.",
       "With reduced motion on, the shimmer, the pulse and the sweep stop.",
     ],
   },
@@ -847,14 +874,15 @@ export const a11yNotes: Record<string, A11yNote> = {
   "status-badge": {
     notes: [
       "The badge is plain text, so a screen reader reads its label.",
-      "A status icon before the label is read as an image with no name.",
-      "With busy set, the spinner is hidden from screen readers, so the busy state isn't announced.",
+      "A status icon before the label is hidden from screen readers, since the label says the same.",
+      'With busy set, the spinner is hidden and the label reads with ", working" after it. busyLabel changes the word.',
     ],
   },
   "status-icon": {
     notes: [
-      "A status with an icon draws it as an image with no name. Print the status word beside it.",
-      "A status without an icon falls back to the dot, which is hidden from screen readers.",
+      "The icon is hidden from screen readers, so print the status word beside it.",
+      'Alone, with no word beside it, pass label, like label="Passed", and it reads as an image with that name.',
+      "A status without an icon falls back to the dot, named the same way.",
     ],
   },
   "work-parts": {
@@ -1119,13 +1147,13 @@ export const a11yNotes: Record<string, A11yNote> = {
     keys: [
       {
         keys: ["Tab"],
-        does: "Moves through the period filter, linked tiles, sortable column heads and row links.",
+        does: "Moves through the period filter, linked tiles, column sort buttons and row links.",
       },
-      { keys: ["Space", "Enter"], does: "On a sortable column head, sorts by it." },
+      { keys: ["Space", "Enter"], does: "On a column's sort button, sorts by it." },
     ],
     notes: [
       "The period filter is a named group of buttons that report pressed, or links when href is set.",
-      "The table has real column headers. A sortable head takes focus and reports its sort order.",
+      "The table has real column headers. A sortable head holds a button and reports its sort order.",
       "A tile's change reads as a bare percent: the up or down arrow is hidden from screen readers.",
       "The charts are images with a fixed name and no data, and their values show on hover only.",
       "With reduced motion on, the numbers show their final value with no count.",
