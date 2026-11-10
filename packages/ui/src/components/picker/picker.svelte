@@ -18,7 +18,8 @@
 		options?: PickerOption<V>[];
 		/** Titled runs, when the menu has a shape worth naming. */
 		groups?: PickerGroup<V>[];
-		value: V | null;
+		/** An array checks each row in it, and a pick leaves the menu open for the next one. */
+		value: V | V[] | null;
 		onSelect: (value: V) => void;
 		/** The control that opens the menu. Rendered inside `Popover.Trigger`. */
 		trigger: Snippet;
@@ -74,8 +75,12 @@
 	const WIDTH = { sm: "w-44", default: "w-52", lg: "w-60" } as const;
 
 	function pick(next: V) {
-		open = false;
+		if (!Array.isArray(value)) open = false;
 		onSelect(next);
+	}
+
+	function isChecked(option: PickerOption<V>): boolean {
+		return Array.isArray(value) ? value.includes(option.value) : option.value === value;
 	}
 
 	/**
@@ -152,7 +157,7 @@
 				{#each resolved as group, i (group.heading ?? i)}
 					<Command.Group heading={group.heading}>
 						{#each group.options as option (option.value)}
-							{@const active = option.value === value}
+							{@const active = isChecked(option)}
 							<Command.Item
 								value={option.value}
 								keywords={keywordsFor(option)}

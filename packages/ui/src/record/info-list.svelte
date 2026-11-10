@@ -3,15 +3,14 @@
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { Check, CaretUpDown } from "phosphor-svelte";
+	import { CaretUpDown } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
-	import { Button } from "#src/shadcn/button/index.js";
+	import { Button, buttonVariants } from "#src/shadcn/button/index.js";
 	import { Input } from "#src/shadcn/input/index.js";
 	import { Textarea } from "#src/shadcn/textarea/index.js";
 	import { Spinner } from "#src/shadcn/spinner/index.js";
 	import * as Select from "#src/shadcn/select/index.js";
-	import * as Popover from "#src/shadcn/popover/index.js";
-	import * as Command from "#src/shadcn/command/index.js";
+	import { Picker } from "#src/components/picker/index.js";
 	import { TagsInput } from "#src/components/tags-input/index.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import { resolveLabels, type InfoRow, type RecordLabels } from "#src/record/types.js";
@@ -58,7 +57,6 @@
 	let draft = $state("");
 	let saving = $state<string | null>(null);
 	let failed = $state<{ key: string; text: string } | null>(null);
-	let pickerOpen = $state<string | null>(null);
 
 	// =========================
 	// DERIVED
@@ -130,7 +128,6 @@
 	}
 
 	function pick(row: InfoRow, value: string) {
-		pickerOpen = null;
 		const current = typeof row.editValue === "string" ? row.editValue : null;
 		if (value !== current) void commit(row, value, false);
 	}
@@ -197,53 +194,34 @@
 {/snippet}
 
 {#snippet list(row: InfoRow, key: string, multi: boolean)}
-	{@const options = row.options ?? []}
-	{@const current = multi
-		? Array.isArray(row.editValue)
-			? row.editValue
-			: []
-		: [typeof row.editValue === "string" ? row.editValue : ""]}
-	<Popover.Root open={pickerOpen === key} onOpenChange={(open) => (pickerOpen = open ? key : null)}>
-		<Popover.Trigger>
-			{#snippet child({ props })}
-				<Button {...props} variant="text" size="sm" class={OPENER} disabled={saving === key}>
-					<!-- Named by its text: the field, then the value it shows (WCAG 2.5.3, label in name). -->
-					<span class="sr-only">{t.edit(row.label)}</span>
-					{@render display(row)}
-					{#if saving === key}
-						<Spinner class="size-3.5 text-muted-foreground" />
-					{:else if !multi}
-						<CaretUpDown aria-hidden="true" class="size-3.5 shrink-0 opacity-60" />
-					{/if}
-				</Button>
-			{/snippet}
-		</Popover.Trigger>
-		<Popover.Content class="w-64 p-0" align="start">
-			<Command.Root>
-				<Command.Input placeholder={t.search} />
-				<Command.List class="max-h-72 overflow-y-auto">
-					<Command.Empty>{t.noMatch}</Command.Empty>
-					<Command.Group>
-						{#each options as option (option.value)}
-							<Command.Item
-								value={option.label}
-								onSelect={() => (multi ? toggle(row, option.value) : pick(row, option.value))}
-							>
-								<Check
-									aria-hidden="true"
-									class={cn(
-										"size-3.5",
-										current.includes(option.value) ? "opacity-100" : "opacity-0",
-									)}
-								/>
-								{option.label}
-							</Command.Item>
-						{/each}
-					</Command.Group>
-				</Command.List>
-			</Command.Root>
-		</Popover.Content>
-	</Popover.Root>
+	<Picker
+		options={row.options ?? []}
+		value={multi
+			? Array.isArray(row.editValue)
+				? row.editValue
+				: []
+			: typeof row.editValue === "string"
+				? row.editValue
+				: null}
+		onSelect={(value) => (multi ? toggle(row, value) : pick(row, value))}
+		triggerClass={cn(buttonVariants({ variant: "text", size: "sm" }), OPENER)}
+		searchable
+		searchPlaceholder={t.search}
+		emptyLabel={t.noMatch}
+		width="lg"
+		disabled={saving === key}
+	>
+		{#snippet trigger()}
+			<!-- Named by its text: the field, then the value it shows (WCAG 2.5.3, label in name). -->
+			<span class="sr-only">{t.edit(row.label)}</span>
+			{@render display(row)}
+			{#if saving === key}
+				<Spinner class="size-3.5 text-muted-foreground" />
+			{:else if !multi}
+				<CaretUpDown aria-hidden="true" class="size-3.5 shrink-0 opacity-60" />
+			{/if}
+		{/snippet}
+	</Picker>
 {/snippet}
 
 {#if layout === "row" && (shown.length > 0 || trailing)}

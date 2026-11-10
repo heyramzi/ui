@@ -123,6 +123,7 @@ export const overlayNotes: Record<string, A11yNote> = {
     notes: [
       "The search box shows from 7 options up, and typing filters on the label, the hint and the keywords.",
       "Under 7 options there's no search box. Focus goes to the list, and typing a letter jumps to the next option that starts with it.",
+      "With an array for value, Enter ticks or clears the highlighted option and the menu stays open.",
       'triggerLabel names the trigger. Make it say the field and its value, like "Priority: High".',
     ],
   },
