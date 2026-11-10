@@ -1,6 +1,6 @@
 /**
- * The smallest markup that works, by page slug, shown under the import line in Usage. Each is cut
- * from the page's demo, and `usage-snippets.test.ts` fails a tag the import doesn't export.
+ * The smallest markup that works, by page slug, shown under the import line in Usage. Cut from
+ * each page's demo; `usage-snippets.test.ts` fails a tag the import doesn't export.
  */
 const written: Record<string, string> = {
   "toggle-group": `
