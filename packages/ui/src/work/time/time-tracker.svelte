@@ -1,5 +1,6 @@
 <script lang="ts" generics="T">
 	import type { Snippet } from "svelte";
+	import { Meter } from "bits-ui";
 	import { cn } from "#src/lib/utils.js";
 	import { initial } from "#src/lib/initials.js";
 	import { TONE_COLOR, TONE_TEXT } from "#src/lib/tone.js";
@@ -84,6 +85,10 @@
 
 	let labels = $derived({ ...DEFAULT_TIME_LABELS, ...labelOverrides });
 
+	const uid = $props.id();
+	const invalidId = `${uid}-invalid`;
+	const loggedId = `${uid}-logged`;
+
 	// ---- timer
 	let now = $state(Date.now());
 	let open = $state(false);
@@ -143,7 +148,7 @@
 	let note = $state("");
 	let saving = $state(false);
 	let invalid = $state(false);
-	let durationInput = $state<HTMLInputElement>();
+	let durationInput = $state<HTMLInputElement | null>(null);
 	let parsed = $derived(parseMinutes(duration));
 	let preview = $derived(
 		parsed !== null && parsed >= 1 && parsed <= 1440 ? formatMinutes(parsed) : "",
@@ -286,7 +291,7 @@
 						placeholder={labels.durationPlaceholder}
 						aria-label={labels.duration}
 						aria-invalid={invalid}
-						aria-describedby={invalid ? "time-invalid" : undefined}
+						aria-describedby={invalid ? invalidId : undefined}
 						autocomplete="off"
 						inputmode="text"
 						class={cn(
@@ -321,20 +326,33 @@
 				</Button>
 			</form>
 			{#if invalid}
-				<p id="time-invalid" class="text-xs text-destructive-ink" role="alert">{labels.invalid}</p>
+				<p id={invalidId} class="text-xs text-destructive-ink" role="alert">{labels.invalid}</p>
 			{/if}
 
 			{#if entries.length > 0 || estimate}
 				<div class="flex flex-col gap-2 border-t border-border/60 pt-3">
 					<div class="flex items-baseline justify-between gap-2">
-						<span class="text-xs font-medium text-muted-foreground">{labels.logged}</span>
+						<span id={loggedId} class="text-xs font-medium text-muted-foreground"
+							>{labels.logged}</span
+						>
 						{#key total}
 							<span class="time-pop font-medium tabular-nums">{formatMinutes(total)}</span>
 						{/key}
 					</div>
 					{#if estimate}
+						{@const budget =
+							liveTotal > estimate
+								? labels.over(formatMinutes(liveTotal - estimate), formatMinutes(estimate))
+								: labels.remaining(formatMinutes(estimate - liveTotal), formatMinutes(estimate))}
 						<div class="flex flex-col gap-1">
-							<div class={cn("h-1 overflow-hidden bg-muted", ganttLooks.track)} aria-hidden="true">
+							<!-- The meter speaks the budget line, so the line below stays out of the reading order. -->
+							<Meter.Root
+								value={Math.min(liveTotal, estimate)}
+								max={estimate}
+								aria-labelledby={loggedId}
+								aria-valuetext={budget}
+								class={cn("h-1 overflow-hidden bg-muted", ganttLooks.track)}
+							>
 								<div
 									class={cn("time-segment h-full", ganttLooks.track)}
 									style:background={tone === "neutral"
@@ -342,16 +360,15 @@
 										: TONE_COLOR[tone]}
 									style:width="{Math.min(100, percent)}%"
 								></div>
-							</div>
+							</Meter.Root>
 							<p
 								class={cn(
 									"text-xs tabular-nums",
 									tone === "neutral" ? "text-muted-foreground" : TONE_TEXT[tone],
 								)}
+								aria-hidden="true"
 							>
-								{liveTotal > estimate
-									? labels.over(formatMinutes(liveTotal - estimate), formatMinutes(estimate))
-									: labels.remaining(formatMinutes(estimate - liveTotal), formatMinutes(estimate))}
+								{budget}
 							</p>
 						</div>
 					{/if}
