@@ -11,6 +11,8 @@
 	} from "phosphor-svelte";
 	import { Button } from "@heyramzi/ui/shadcn/button";
 	import { Card } from "@heyramzi/ui/shadcn/card";
+	import { Toggle } from "@heyramzi/ui/shadcn/toggle";
+	import * as ToggleGroup from "@heyramzi/ui/shadcn/toggle-group";
 	import * as Avatar from "@heyramzi/ui/shadcn/avatar";
 	import {
 		TaskChip,
@@ -158,27 +160,43 @@
 </script>
 
 <div class="flex flex-col gap-3">
-	<div class="flex flex-wrap items-center gap-1.5" role="group" aria-label="Scenario">
-		{#each scenarios as item (item.id)}
-			<Button
-				size="sm"
-				variant={scenario === item.id ? "default" : "outline"}
-				aria-pressed={scenario === item.id}
-				onclick={() => (scenario = item.id)}
-			>
-				{item.label}
-			</Button>
-		{/each}
-		<Button
-			size="sm"
-			variant={narrow ? "default" : "outline"}
-			class="ms-auto"
-			aria-pressed={narrow}
-			onclick={() => (narrow = !narrow)}
-		>
-			390 wide
-		</Button>
-	</div>
+	<!-- The buttons keep their own look: each part's class is the Button's, not the toggle's. -->
+	<ToggleGroup.Root
+		type="single"
+		aria-label="Scenario"
+		bind:value={
+			() => scenario,
+			(next) => {
+				if (next) scenario = next as Scenario;
+			}
+		}
+	>
+		{#snippet child({ props })}
+			<div {...props} class="flex flex-wrap items-center gap-1.5">
+				{#each scenarios as item (item.id)}
+					<ToggleGroup.Item value={item.id}>
+						{#snippet child({ props: part })}
+							<Button
+								{...part}
+								class=""
+								size="sm"
+								variant={scenario === item.id ? "default" : "outline"}
+							>
+								{item.label}
+							</Button>
+						{/snippet}
+					</ToggleGroup.Item>
+				{/each}
+				<Toggle bind:pressed={narrow}>
+					{#snippet child({ props: part })}
+						<Button {...part} class="ms-auto" size="sm" variant={narrow ? "default" : "outline"}>
+							390 wide
+						</Button>
+					{/snippet}
+				</Toggle>
+			</div>
+		{/snippet}
+	</ToggleGroup.Root>
 
 	<Card class="mx-auto w-full gap-0 py-0" style="max-width: {narrow ? '390px' : 'none'}">
 		<TaskDetail

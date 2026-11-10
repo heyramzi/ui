@@ -5,6 +5,8 @@
 	import { docLooks } from "@heyramzi/ui/components/work-parts";
 	import { Bell, FileText, LinkSimple, Star } from "phosphor-svelte";
 	import { DocEditorPage, DocMenu, EditedChip, type CopyKind } from "@heyramzi/ui/work/docs";
+	import * as Breadcrumb from "@heyramzi/ui/shadcn/breadcrumb";
+	import { Toggle } from "@heyramzi/ui/shadcn/toggle";
 
 	// =========================
 	// TYPES
@@ -146,32 +148,44 @@
 			onCopyLink={() => said("Copied link to section")}
 		>
 			{#snippet breadcrumb()}
-				<span class="flex min-w-0 items-center gap-1.5 text-muted-foreground @max-xl/doc:hidden">
-					<FileText size={14} aria-hidden="true" />
-					<span class="truncate">Reporting</span>
-				</span>
-				<span class="px-0.5 text-muted-foreground/60 @max-xl/doc:hidden" aria-hidden="true">›</span>
-				<span class="flex min-w-0 items-center gap-1.5 font-medium">
-					<FileText size={14} class="shrink-0 text-muted-foreground" aria-hidden="true" />
-					<span class="truncate">{title.trim() || "New document"}</span>
-				</span>
+				<Breadcrumb.Root class="min-w-0">
+					<Breadcrumb.List class="min-w-0 flex-nowrap gap-1 text-(length:--text-control) sm:gap-1">
+						<Breadcrumb.Item class="flex min-w-0 gap-1.5 @max-xl/doc:hidden">
+							<FileText size={14} aria-hidden="true" />
+							<span class="truncate">Reporting</span>
+						</Breadcrumb.Item>
+						<Breadcrumb.Separator class="px-0.5 text-muted-foreground/60 @max-xl/doc:hidden"
+							>›</Breadcrumb.Separator
+						>
+						<Breadcrumb.Item class="min-w-0">
+							<Breadcrumb.Page class="flex min-w-0 items-center gap-1.5 font-medium">
+								<FileText size={14} class="shrink-0 text-muted-foreground" aria-hidden="true" />
+								<span class="truncate">{title.trim() || "New document"}</span>
+							</Breadcrumb.Page>
+						</Breadcrumb.Item>
+					</Breadcrumb.List>
+				</Breadcrumb.Root>
 			{/snippet}
 
 			{#snippet menu()}
-				<button
-					type="button"
+				<Toggle
+					bind:pressed={favorited}
 					aria-label={favorited ? "Remove from favorites" : "Favorite"}
-					aria-pressed={favorited}
-					onclick={() => (favorited = !favorited)}
-					class="t-press inline-flex size-7 items-center justify-center {docLooks.control} text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:shadow-(--ring-focus) any-pointer-coarse:size-10"
 				>
-					<Star
-						aria-hidden="true"
-						size={15}
-						weight={favorited ? "fill" : "regular"}
-						class={favorited ? "text-brand" : ""}
-					/>
-				</button>
+					{#snippet child({ props })}
+						<button
+							{...props}
+							class="t-press inline-flex size-7 items-center justify-center {docLooks.control} text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:shadow-(--ring-focus) any-pointer-coarse:size-10"
+						>
+							<Star
+								aria-hidden="true"
+								size={15}
+								weight={favorited ? "fill" : "regular"}
+								class={favorited ? "text-brand" : ""}
+							/>
+						</button>
+					{/snippet}
+				</Toggle>
 				<DocMenu
 					{title}
 					url="https://ui.heyramzi.com/work/docs"

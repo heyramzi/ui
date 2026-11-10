@@ -5,6 +5,7 @@
 		type DeckTheme,
 		type DeckTransition,
 	} from "@heyramzi/ui/slides";
+	import * as ToggleGroup from "@heyramzi/ui/shadcn/toggle-group";
 	import DemoSlides, { demoStyle } from "#lib/demos/pages/slides-deck.svelte";
 
 	interface Props {
@@ -24,17 +25,29 @@
 
 <div class="demo">
 	<div class="demo__bar">
-		<div class="demo__group" role="radiogroup" aria-label="Theme">
-			{#each themes as option (option)}
-				<button
-					type="button"
-					role="radio"
-					aria-checked={theme === option}
-					class="demo__option"
-					onclick={() => (theme = option)}>{option}</button
-				>
-			{/each}
-		</div>
+		<!-- A single-select group sends "" when the picked theme is pressed again. A theme stays picked. -->
+		<ToggleGroup.Root
+			type="single"
+			aria-label="Theme"
+			bind:value={
+				() => theme,
+				(next) => {
+					if (next) theme = next as DeckTheme;
+				}
+			}
+		>
+			{#snippet child({ props })}
+				<div {...props} class="demo__group">
+					{#each themes as option (option)}
+						<ToggleGroup.Item value={option}>
+							{#snippet child({ props: item })}
+								<button {...item} class="demo__option">{option}</button>
+							{/snippet}
+						</ToggleGroup.Item>
+					{/each}
+				</div>
+			{/snippet}
+		</ToggleGroup.Root>
 		<label class="demo__field">
 			<span>Transition</span>
 			<select bind:value={transition}>
