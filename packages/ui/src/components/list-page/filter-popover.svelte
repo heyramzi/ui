@@ -2,8 +2,9 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import type { Snippet } from "svelte";
-	import * as Popover from "#src/shadcn/popover/index.js";
+	import { tick, type Snippet } from "svelte";
+	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+	import * as DropdownMenu from "#src/shadcn/dropdown-menu/index.js";
 	import { Funnel as FunnelIcon } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
@@ -58,13 +59,28 @@
 	// =========================
 	let hasCount = $derived(count > 0);
 	let isActive = $derived(active ?? hasCount);
+
+	// =========================
+	// STATE
+	// =========================
+	let content = $state<HTMLElement | null>(null);
+
+	// =========================
+	// HANDLERS
+	// =========================
+	// Clear unmounts itself, so focus goes back to the menu and the arrows keep working.
+	async function clear() {
+		onClear?.();
+		await tick();
+		content?.focus();
+	}
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<Popover.Root bind:open>
-	<Popover.Trigger class={toolbarTriggerClass({ active: isActive, className: triggerClass })}>
+<DropdownMenu.Root bind:open>
+	<DropdownMenu.Trigger class={toolbarTriggerClass({ active: isActive, className: triggerClass })}>
 		<IconComponent aria-hidden="true" class="size-3.5" />
 		<span>{label}</span>
 		{#if trailing}
@@ -73,18 +89,27 @@
 		{#if hasCount}
 			<CountChip {count} size="sm" tone="brand" class="ml-0.5" />
 		{/if}
-	</Popover.Trigger>
-	<Popover.Content class={cn("p-2", width, contentClass)} {align}>
+	</DropdownMenu.Trigger>
+	<!-- The popover's surface: rounder, text-sm, sized by `width` and not by the trigger. -->
+	<DropdownMenu.Content
+		bind:ref={content}
+		class={cn("min-w-0 rounded-2xl p-2 text-sm", width, contentClass)}
+		{align}
+	>
 		{@render children()}
 		{#if onClear && hasCount}
-			<Button
-				variant="ghost"
-				size="sm"
-				class="mt-2 w-full text-xs text-muted-foreground"
-				onclick={onClear}
-			>
-				{clearLabel}
-			</Button>
+			<DropdownMenuPrimitive.Item closeOnSelect={false} onSelect={clear}>
+				{#snippet child({ props })}
+					<Button
+						{...props}
+						variant="ghost"
+						size="sm"
+						class="mt-2 w-full text-xs text-muted-foreground"
+					>
+						{clearLabel}
+					</Button>
+				{/snippet}
+			</DropdownMenuPrimitive.Item>
 		{/if}
-	</Popover.Content>
-</Popover.Root>
+	</DropdownMenu.Content>
+</DropdownMenu.Root>

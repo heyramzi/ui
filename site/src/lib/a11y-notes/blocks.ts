@@ -122,9 +122,15 @@ export const blockNotes: Record<string, A11yNote> = {
     keys: [
       { keys: ["Tab"], does: "Moves through the toolbar, the rows, then the open record." },
       { keys: ["Space", "Enter"], does: "On a row, opens its record." },
+      {
+        keys: ["ArrowDown", "ArrowUp"],
+        does: "In a filter menu, moves through its options. Space or Enter checks one and the menu stays open.",
+      },
+      { keys: ["Esc"], does: "Closes a filter menu and returns focus to its button." },
     ],
     notes: [
       "Rows are buttons, and the open one reports itself as current.",
+      "A filter button opens a menu, and each option reports checked.",
       "The filter tabs are a named group of buttons that report pressed.",
       "The search field has only its placeholder for a name.",
       "Under 1024px wide, the list and the record take turns. Picking a row moves focus into the record, and the back button returns it to that row.",
