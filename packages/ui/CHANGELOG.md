@@ -1,5 +1,75 @@
 # Changelog
 
+## [3.0.0](https://github.com/heyramzi/ui/compare/ui-v2.24.0...ui-v3.0.0) (2026-11-10)
+
+### Breaking changes
+
+`node ~/Studio/vibe-kit/scripts/ui-upgrade-codemod.mjs <dir>` rewrites the mechanical cases and lists the rest.
+
+* Kit CSS sits in Tailwind's `components` layer. A class you pass to a kit part now beats the part's own styles, so a stale `bg-*`, `rounded-*` or `p-*` left on a kit part will show. Screenshot your main pages after the bump.
+* Change callbacks are `on<Prop>Change`: `onValueChange` on `StarRatingInput` and `TagsInput`, `onContentChange` on `RichEditor` and `DocEditorPage`, `onDocChange` on `InlineEditor`, `onTitleChange` for `ontitle`, `onIndexChange` on `Deck`, `onModeChange` on `ThemeProvider`, `onDatesChange` on `TaskGantt`, `onHoveredIndexChange` on `Legend` and `RingChart`, `onShowAuthorNamesChange` on `EditedChip`.
+* `SidePanel` takes `onOpenChange(open)` in place of `onClose()`.
+* Every other callback is camelCase: `onSelect`, `onRemove`, `onCopyLink`, `onExit`, `onReady`, `onVerdict` and the `DocMenu` actions (`onMove`, `onDelete` and the rest).
+* The package root is gone. Import effects from `./effects/<name>`, all as named exports: `import { Marquee } from "@heyramzi/ui/effects/marquee"`. `./border-beam` and `./theme-toggle` are gone too.
+* The flat `./ai` barrel is gone. Each part comes from its folder: `./ai/prompt-input`, `./ai/confirmation`, `./ai/typing-dots` and the rest.
+* One path per name: `DataPanel` is `DetailPanel` from `./components/list-page`, `SectionLabel` comes from `./components/section-header`, `CountChip` from `./components/chip`, `ToolbarSearch` from `./components/list-page`, `revealTheme` from `./lib/theme-transition.js`, `PILL_TINT` is `TONE_TINT` from `./lib/tone.js`, `tryCatch` comes from `./lib/result.js`, and the `Inbox*` types, `InboxItem` and `InboxVerdict` come from `./work/inbox`.
+* `./work/kanban`, `./work/list`, `./work/gantt`, `./work/time`, `./work/detail`, `./editor/serializer`, `./onboarding/stores` and `./lib/*` without `.js` are gone. Use `./work`, `./editor`, `./onboarding` and `./lib/<name>.js`.
+* The demos left the package: `./work/demo`, `./work/docs-demo.svelte`, `./work/detail-demo.svelte`, `./record/demo.svelte`, `./slides/demo`, `./slides/demo-slides`, `./onboarding/demo` and `./agents/demo.svelte`. They live on the docs site.
+* `./design` now loads the same craft and primitives CSS as `./tokens.css`, without the palette. Radii step 6, 10, 14, 18 and 22px, so controls, cards and overlays round a little more.
+* The Sidebar shortcut moved from Cmd/Ctrl+S to Cmd/Ctrl+B, and it no longer fires while you type in a field.
+* `StarRatingInput` is one slider on Bits UI's `RatingGroup`: arrow keys change the value and report each step, so don't move to the next screen on the first change.
+* `.shadow-soft*` are Tailwind utilities, so `hover:shadow-soft-md` works.
+
+### Accessibility
+
+* Hold to confirm completes with Space or Enter held, and a screen reader's activate arms it, then confirms on a second press.
+* Kanban, task list, gantt, thread, triage and the list page keep focus after a move, save, delete or close, and announce the result.
+* Charts are named and summarised, hold a hidden data table and step their tooltip with the arrow keys.
+* The picker's keys work without its search box, every tag in the tags input is removable from the keyboard, sortable headers hold a real button, and row menus open with Shift+F10.
+* Every decorative icon is hidden from screen readers, and code blocks use the `light-plus` and `dark-plus` themes with a 4.5:1 contrast floor.
+
+### Features
+
+* feat(ui): the tarball ships a .svelte.d.ts beside every component (TSK-2283)
+* feat(ui): every export has one public path and one name (TSK-2205)
+* feat(ui): ./design loads the tokens craft and primitives CSS (TSK-2205)
+* feat(ui): kit CSS sits in the components layer (TSK-2205)
+* feat(site): home opens on live parts, dashboard demo reads as a real screen (TSK-2205)
+
+### Bug Fixes
+
+* fix(ui): the tour card fades in with a transition, not a keyframe (TSK-2205)
+* fix(ui): clear the push gate hits in the layered canvas and kanban blocks (TSK-2205)
+* fix(ui): clear the ui-rules hits in the stylesheets the layer change touched (TSK-2205)
+* fix(a11y): canvas nodes are named, tool letters and Delete work (TSK-2205)
+* fix(a11y): an agent avatar with onclick is a button (TSK-2205)
+* fix(a11y): editor Cmd+K, slash menu active option, image align by keyboard (TSK-2205)
+* fix(a11y): generation progress is a progressbar with a live step, the busy badge says so, and a lone status icon can be named (TSK-2205)
+* fix(a11y): names for the attachment trigger and action and the Suggestions group, and no doubled or stray readings in Mark and LanguageFlag (TSK-2205)
+* fix(a11y): the code block's focus ring is inset, and the toolbar search box is named (TSK-2205)
+* fix(a11y): thread moves focus into the editor, back to what opened it, and to the next comment after a delete (TSK-2205)
+* fix(a11y): stacked list page and the doc page's narrow menu move focus in and back to their trigger (TSK-2205)
+* fix(a11y): every tag in the tags input is removable from the keyboard, and adds and removes are announced (TSK-2205)
+* fix(a11y): a deck hears keys only from focus inside it or in fullscreen (TSK-2205)
+* fix(a11y): sortable heads hold a real button, a clickable row gets a named button, and Shift+F10 opens a row menu (TSK-2205)
+* fix(a11y): triage keeps focus through pick, cancel, a busy run and a card leaving the queue (TSK-2205)
+* fix(a11y): marquee copies are inert and focus inside pauses it (TSK-2205)
+* fix(a11y): charts are named, summarised and keyboard steppable (TSK-2205)
+* fix(a11y): task list and gantt keep focus and announce keyboard moves, cards and rows are named by their text (TSK-2205)
+* fix(a11y): the star rating is Bits UI's RatingGroup slider, so arrows, Home and End work and zero is reachable (TSK-2205)
+* fix(a11y): focus stays put after the AI button, the scroll button and Confirmation act, and Confirmation is live before its result (TSK-2205)
+* fix(trace): split the glued class so pending lines dim, and a test fails any glued data or aria variant (TSK-2205)
+* fix(hold-to-confirm): a screen reader's activate arms it and a second press confirms (TSK-2205)
+* fix(sidebar): the shortcut is Cmd/Ctrl+B like shadcn and skips fields, the trigger reports aria-expanded and aria-controls (TSK-2205)
+* fix(prompt-input): Enter mid-reply no longer throws on the Stop button, and the textarea gets a label prop (TSK-2205)
+* fix(picker): focus goes to the list without a search box, so Command's own arrows, Home, End and Enter work, plus letter typeahead (TSK-2205)
+* fix(a11y): decorative Phosphor icons are aria-hidden, and a test keeps them that way (TSK-2205)
+* fix(a11y): 24px targets on the small star rating and timeline link, scroll regions take focus (TSK-2205)
+* fix(a11y): destructive, muted and code text clears 4.5:1 in the kit (TSK-2205)
+* fix(a11y): destructive and muted text in kit parts clears AA (TSK-2205)
+* fix(a11y): hold-to-confirm survives key repeat, kanban keeps focus on a moved card, names for every control axe flagged (TSK-2205)
+
+
 ## [2.24.0](https://github.com/heyramzi/ui/compare/ui-v2.23.0...ui-v2.24.0) (2026-11-09)
 
 ### Breaking changes
