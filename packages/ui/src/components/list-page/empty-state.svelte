@@ -147,10 +147,21 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* Never `:nth-child` here: one such rule makes every DOM insert on the page restyle its later siblings. */
-	:global(.t-empty) > :global(*) {
-		animation: t-empty-in var(--duration-slow) var(--ease-smooth-out) both;
-		animation-delay: calc((sibling-index() - 1) * var(--duration-stagger));
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		/* Never `:nth-child` here: one such rule makes every DOM insert on the page restyle its later siblings. */
+		:global(.t-empty) > :global(*) {
+			animation: t-empty-in var(--duration-slow) var(--ease-smooth-out) both;
+			animation-delay: calc((sibling-index() - 1) * var(--duration-stagger));
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			:global(.t-empty) > :global(*) {
+				animation-name: t-empty-fade;
+				animation-delay: 0s;
+			}
+		}
 	}
 
 	@keyframes -global-t-empty-in {
@@ -167,13 +178,6 @@
 	@keyframes -global-t-empty-fade {
 		from {
 			opacity: 0;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		:global(.t-empty) > :global(*) {
-			animation-name: t-empty-fade;
-			animation-delay: 0s;
 		}
 	}
 </style>

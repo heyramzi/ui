@@ -179,25 +179,36 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* The stacked list-to-record swap. The incoming pane moves: forward from the
-	   right, back from the left. It runs when `data-pane` flips. */
-	@media (max-width: 1023px) {
-		.md-cols[data-stack="lg"][data-pane="detail"] > .md-detail {
-			animation: md-in-forward var(--duration-fast) var(--ease-smooth-out) both;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		/* The stacked list-to-record swap. The incoming pane moves: forward from the
+		   right, back from the left. It runs when `data-pane` flips. */
+		@media (max-width: 1023px) {
+			.md-cols[data-stack="lg"][data-pane="detail"] > .md-detail {
+				animation: md-in-forward var(--duration-fast) var(--ease-smooth-out) both;
+			}
+
+			.md-cols[data-stack="lg"][data-pane="rail"] > .md-rail {
+				animation: md-in-back var(--duration-fast) var(--ease-smooth-out) both;
+			}
 		}
 
-		.md-cols[data-stack="lg"][data-pane="rail"] > .md-rail {
-			animation: md-in-back var(--duration-fast) var(--ease-smooth-out) both;
-		}
-	}
+		@media (max-width: 1279px) {
+			.md-cols[data-stack="xl"][data-pane="detail"] > .md-detail {
+				animation: md-in-forward var(--duration-fast) var(--ease-smooth-out) both;
+			}
 
-	@media (max-width: 1279px) {
-		.md-cols[data-stack="xl"][data-pane="detail"] > .md-detail {
-			animation: md-in-forward var(--duration-fast) var(--ease-smooth-out) both;
+			.md-cols[data-stack="xl"][data-pane="rail"] > .md-rail {
+				animation: md-in-back var(--duration-fast) var(--ease-smooth-out) both;
+			}
 		}
 
-		.md-cols[data-stack="xl"][data-pane="rail"] > .md-rail {
-			animation: md-in-back var(--duration-fast) var(--ease-smooth-out) both;
+		@media (prefers-reduced-motion: reduce) {
+			.md-cols > .md-rail,
+			.md-cols > .md-detail {
+				animation: none;
+			}
 		}
 	}
 
@@ -220,13 +231,6 @@
 		to {
 			opacity: 1;
 			transform: none;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.md-cols > .md-rail,
-		.md-cols > .md-detail {
-			animation: none;
 		}
 	}
 </style>

@@ -195,55 +195,81 @@
 
 <!-- ========================= STYLE -->
 <style>
-	.hold-to-confirm {
-		touch-action: none;
-	}
+	@layer theme, base, components, utilities;
 
-	.hold-to-confirm:active:not(:disabled) {
-		transform: scale(0.97);
-	}
+	@layer components {
+		.hold-to-confirm {
+			touch-action: none;
+		}
 
-	/* Fill: GPU-friendly scaleX. A vertical sheen survives the horizontal
-	   scale because it runs top-to-bottom, so the wipe keeps a crisp surface. */
-	.hold-to-confirm-fill {
-		transform: scaleX(var(--progress, 0));
-		background-image: linear-gradient(
-			to bottom,
-			color-mix(in oklch, var(--color-destructive-foreground) 14%, transparent),
-			transparent 55%
-		);
-		transition: transform var(--duration-quick) var(--ease-smooth-out);
-	}
+		.hold-to-confirm:active:not(:disabled) {
+			transform: scale(0.97);
+		}
 
-	.hold-to-confirm-fill.is-holding {
-		transition: none;
-	}
+		/* Fill: GPU-friendly scaleX. A vertical sheen survives the horizontal
+		   scale because it runs top-to-bottom, so the wipe keeps a crisp surface. */
+		.hold-to-confirm-fill {
+			transform: scaleX(var(--progress, 0));
+			background-image: linear-gradient(
+				to bottom,
+				color-mix(in oklch, var(--color-destructive-foreground) 14%, transparent),
+				transparent 55%
+			);
+			transition: transform var(--duration-quick) var(--ease-smooth-out);
+		}
 
-	/* Leading edge: positioned (not scaled) so its glow stays crisp at any
-	   width. Sits exactly at the head of the fill and fades in while held. */
-	.hold-to-confirm-edge {
-		left: calc(var(--progress, 0) * 100%);
-		width: 2px;
-		margin-left: -2px;
-		opacity: 0;
-		background: color-mix(
-			in oklch,
-			var(--color-destructive-foreground) 65%,
-			var(--color-destructive)
-		);
-		box-shadow: 0 0 4px 0 color-mix(in oklch, var(--color-destructive) 92%, transparent);
-		transition:
-			left var(--duration-quick) var(--ease-smooth-out),
-			opacity var(--duration-quick) var(--ease-out);
-	}
+		.hold-to-confirm-fill.is-holding {
+			transition: none;
+		}
 
-	.hold-to-confirm-edge.is-holding {
-		opacity: 1;
-		transition: opacity var(--duration-quick) var(--ease-out);
-	}
+		/* Leading edge: positioned (not scaled) so its glow stays crisp at any
+		   width. Sits exactly at the head of the fill and fades in while held. */
+		.hold-to-confirm-edge {
+			left: calc(var(--progress, 0) * 100%);
+			width: 2px;
+			margin-left: -2px;
+			opacity: 0;
+			background: color-mix(
+				in oklch,
+				var(--color-destructive-foreground) 65%,
+				var(--color-destructive)
+			);
+			box-shadow: 0 0 4px 0 color-mix(in oklch, var(--color-destructive) 92%, transparent);
+			transition:
+				left var(--duration-quick) var(--ease-smooth-out),
+				opacity var(--duration-quick) var(--ease-out);
+		}
 
-	.hold-to-confirm-text {
-		animation: holdTextFadeIn var(--duration-quick) var(--ease-out);
+		.hold-to-confirm-edge.is-holding {
+			opacity: 1;
+			transition: opacity var(--duration-quick) var(--ease-out);
+		}
+
+		.hold-to-confirm-text {
+			animation: holdTextFadeIn var(--duration-quick) var(--ease-out);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.hold-to-confirm:active:not(:disabled) {
+				transform: none;
+			}
+
+			.hold-to-confirm-fill {
+				transition: none;
+				transform: scaleX(var(--progress, 0));
+				background-image: none;
+				opacity: 0.5;
+			}
+
+			.hold-to-confirm-edge {
+				transition: none;
+				box-shadow: none;
+			}
+
+			.hold-to-confirm-text {
+				animation: none;
+			}
+		}
 	}
 
 	@keyframes holdTextFadeIn {
@@ -252,28 +278,6 @@
 		}
 		to {
 			opacity: 1;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.hold-to-confirm:active:not(:disabled) {
-			transform: none;
-		}
-
-		.hold-to-confirm-fill {
-			transition: none;
-			transform: scaleX(var(--progress, 0));
-			background-image: none;
-			opacity: 0.5;
-		}
-
-		.hold-to-confirm-edge {
-			transition: none;
-			box-shadow: none;
-		}
-
-		.hold-to-confirm-text {
-			animation: none;
 		}
 	}
 </style>
