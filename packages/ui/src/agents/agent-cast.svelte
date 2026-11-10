@@ -106,88 +106,93 @@
 </div>
 
 <style>
-	.agent-cast {
-		width: 100%;
-		color: var(--color-foreground, #18181b);
-	}
-	.agent-cast__section + .agent-cast__section {
-		margin-top: 2rem;
-	}
-	.agent-cast__heading {
-		margin: 0 0 0.75rem;
-		font-size: 0.9375rem;
-		font-weight: 600;
-		letter-spacing: -0.015em;
-	}
-	.agent-cast__grid {
-		display: grid;
-		gap: 0.75rem;
-		grid-template-columns: repeat(auto-fill, minmax(var(--agent-cast-min, 8.5rem), 1fr));
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-	.agent-cast__card {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		padding: 0;
-		text-align: left;
-		background: var(--color-card, #fff);
-		border: 1px solid var(--color-border, #e4e4e7);
-		border-radius: 0.75rem;
-		cursor: pointer;
-		transition:
-			border-color var(--duration-quick, 150ms)
-				var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
-			transform var(--duration-quick, 150ms) var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-	}
-	@media (prefers-reduced-motion: reduce) {
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.agent-cast {
+			width: 100%;
+			color: var(--color-foreground, #18181b);
+		}
+		.agent-cast__section + .agent-cast__section {
+			margin-top: 2rem;
+		}
+		.agent-cast__heading {
+			margin: 0 0 0.75rem;
+			font-size: 0.9375rem;
+			font-weight: 600;
+			letter-spacing: -0.015em;
+		}
+		.agent-cast__grid {
+			display: grid;
+			gap: 0.75rem;
+			grid-template-columns: repeat(auto-fill, minmax(var(--agent-cast-min, 8.5rem), 1fr));
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
 		.agent-cast__card {
-			transition: border-color var(--duration-quick, 150ms) linear;
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			padding: 0;
+			text-align: left;
+			background: var(--color-card, #fff);
+			border: 1px solid var(--color-border, #e4e4e7);
+			border-radius: 0.75rem;
+			cursor: pointer;
+			transition:
+				border-color var(--duration-quick, 150ms)
+					var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1)),
+				transform var(--duration-quick, 150ms)
+					var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.agent-cast__card {
+				transition: border-color var(--duration-quick, 150ms) linear;
+			}
+			.agent-cast__card:active {
+				transform: none;
+			}
+		}
+		@media (hover: hover) and (pointer: fine) {
+			.agent-cast__card:hover {
+				border-color: color-mix(in oklab, var(--color-foreground, #18181b) 25%, transparent);
+			}
 		}
 		.agent-cast__card:active {
-			transform: none;
+			transform: scale(0.985);
 		}
-	}
-	@media (hover: hover) and (pointer: fine) {
-		.agent-cast__card:hover {
-			border-color: color-mix(in oklab, var(--color-foreground, #18181b) 25%, transparent);
+		.agent-cast__card:focus-visible {
+			outline: 2px solid var(--color-ring, #6366f1);
+			outline-offset: 2px;
 		}
-	}
-	.agent-cast__card:active {
-		transform: scale(0.985);
-	}
-	.agent-cast__card:focus-visible {
-		outline: 2px solid var(--color-ring, #6366f1);
-		outline-offset: 2px;
-	}
-	.agent-cast__card[aria-pressed="true"] {
-		border-color: var(--color-accent, #6366f1);
-		box-shadow: 0 0 0 1px var(--color-accent, #6366f1);
-	}
-	/* Room above the head, so a hop or a hat never meets the card's edge. */
-	.agent-cast__slot {
-		display: block;
-		width: 100%;
-		padding: 0.5rem 0.5rem 0;
-	}
-	.agent-cast__meta {
-		display: flex;
-		flex-direction: column;
-		gap: 0.125rem;
-		padding: 0.625rem;
-	}
-	.agent-cast__name {
-		font-size: 0.8125rem;
-		font-weight: 500;
-		line-height: 1.2;
-	}
-	.agent-cast__role {
-		font-size: 0.75rem;
-		line-height: 1.3;
-		color: var(--color-muted-foreground, #71717a);
+		.agent-cast__card[aria-pressed="true"] {
+			border-color: var(--color-accent, #6366f1);
+			box-shadow: 0 0 0 1px var(--color-accent, #6366f1);
+		}
+		/* Room above the head, so a hop or a hat never meets the card's edge. */
+		.agent-cast__slot {
+			display: block;
+			width: 100%;
+			padding: 0.5rem 0.5rem 0;
+		}
+		.agent-cast__meta {
+			display: flex;
+			flex-direction: column;
+			gap: 0.125rem;
+			padding: 0.625rem;
+		}
+		.agent-cast__name {
+			font-size: 0.8125rem;
+			font-weight: 500;
+			line-height: 1.2;
+		}
+		.agent-cast__role {
+			font-size: 0.75rem;
+			line-height: 1.3;
+			color: var(--color-muted-foreground, #71717a);
+		}
 	}
 </style>
