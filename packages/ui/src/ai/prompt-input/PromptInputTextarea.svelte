@@ -11,6 +11,8 @@
 		/** WHY: opt-out of "Enter submits, Shift+Enter newline" if the consumer
 		 *  prefers explicit Cmd/Ctrl+Enter only. */
 		enterSubmits?: boolean;
+		/** Accessible name. A placeholder isn't one. Translate at the call site. */
+		label?: string;
 	}
 </script>
 
@@ -23,6 +25,7 @@
 		name = "message",
 		placeholder = "Ask anything",
 		enterSubmits = true,
+		label = "Message",
 		...rest
 	}: PromptInputTextareaProps = $props();
 
@@ -50,7 +53,8 @@
 		const submit =
 			form.querySelector<HTMLButtonElement>("[data-prompt-input-submit]") ??
 			form.querySelector<HTMLButtonElement>('button[type="submit"]');
-		if (submit?.disabled) return;
+		// While a reply generates the button turns into type="button" (Stop), and requestSubmit throws on a non-submit button.
+		if (submit && (submit.disabled || submit.type !== "submit")) return;
 		if (submit) {
 			form.requestSubmit(submit);
 		} else {
@@ -70,4 +74,5 @@
 	bind:value
 	onkeydown={handleKeyDown}
 	{placeholder}
+	aria-label={label}
 	{...rest}></textarea>
