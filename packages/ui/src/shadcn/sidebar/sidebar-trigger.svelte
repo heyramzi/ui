@@ -26,6 +26,8 @@
 	icon
 	class={cn("cn-sidebar-trigger", className)}
 	type="button"
+	aria-expanded={sidebar.expanded}
+	aria-controls={sidebar.id}
 	onclick={(e) => {
 		onclick?.(e);
 		sidebar.toggle();

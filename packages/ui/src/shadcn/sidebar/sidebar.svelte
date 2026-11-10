@@ -24,6 +24,7 @@
 
 {#if collapsible === "none"}
 	<div
+		id={sidebar.id}
 		class={cn(
 			"bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
 			className,
@@ -37,6 +38,7 @@
 	<Sheet.Root bind:open={() => sidebar.openMobile, (v) => sidebar.setOpenMobile(v)} {...restProps}>
 		<Sheet.Content
 			bind:ref
+			id={sidebar.id}
 			data-sidebar="sidebar"
 			data-slot="sidebar"
 			data-mobile="true"
@@ -63,6 +65,7 @@
 {:else}
 	<div
 		bind:this={ref}
+		id={sidebar.id}
 		class="text-sidebar-foreground group peer hidden lg:block"
 		data-state={sidebar.state}
 		data-collapsible={sidebar.state === "collapsed" ? collapsible : ""}

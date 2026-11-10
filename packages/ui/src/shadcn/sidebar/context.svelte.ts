@@ -20,7 +20,15 @@ type SidebarStateProps = {
    * To support `bind:open`, we need a source of truth for changing the open state to ensure it will be synced throughout the sub-components and any `bind:` references.
    */
   setOpen: (open: boolean) => void;
+  /** The sidebar element's id, so the trigger can point at it with `aria-controls`. */
+  id: string;
 };
+
+// Cmd+B in a field means bold, so the shortcut leaves typing alone.
+function isEditable(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  return target.closest('input, textarea, [contenteditable]:not([contenteditable="false"])') !== null;
+}
 
 class SidebarState {
   readonly props: SidebarStateProps;
@@ -29,9 +37,11 @@ class SidebarState {
   setOpen: SidebarStateProps["setOpen"];
   #isMobile: IsMobile;
   state = $derived.by(() => (this.open ? "expanded" : "collapsed"));
+  readonly id: string;
 
   constructor(props: SidebarStateProps) {
     this.setOpen = props.setOpen;
+    this.id = props.id;
     this.#isMobile = new IsMobile();
     this.props = props;
   }
@@ -42,9 +52,14 @@ class SidebarState {
     return this.#isMobile.current;
   }
 
+  /** Whether the sidebar a trigger controls is showing: the sheet on a phone, the panel otherwise. */
+  get expanded() {
+    return this.#isMobile.current ? this.openMobile : this.open;
+  }
+
   // Event handler to apply to the `<svelte:window>`
   handleShortcutKeydown = (e: KeyboardEvent) => {
-    if (e.key === SIDEBAR_KEYBOARD_SHORTCUT && (e.metaKey || e.ctrlKey)) {
+    if (e.key === SIDEBAR_KEYBOARD_SHORTCUT && (e.metaKey || e.ctrlKey) && !isEditable(e.target)) {
       e.preventDefault();
       this.toggle();
     }

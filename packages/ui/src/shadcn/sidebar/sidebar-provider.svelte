@@ -29,7 +29,10 @@
 		openState = open;
 	});
 
+	const uid = $props.id();
+
 	const sidebar = setSidebar({
+		id: `sidebar-${uid}`,
 		open: () => openState,
 		setOpen: (value: boolean) => {
 			openState = value;
