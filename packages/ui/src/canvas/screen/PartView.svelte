@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { tick } from "svelte";
+	import { Toggle } from "#src/shadcn/toggle/index.js";
 	import GlyphIcon from "#src/canvas/screen/GlyphIcon.svelte";
 	import { addItem, removeItem, setItem } from "#src/canvas/screen/parts.js";
 	import type { ScreenLabels } from "#src/canvas/screen/labels.js";
@@ -206,15 +207,19 @@
 	{#if !readonly}
 		<div class="cv-tools nodrag">
 			{#if part.kind === "button"}
-				<button
-					type="button"
-					class="cv-tool is-text"
-					aria-pressed={part.variant !== "secondary"}
-					onclick={() =>
-						onCommit({ variant: part.variant === "secondary" ? "primary" : "secondary" }, false)}
+				<!-- The button is drawn here, so the card's own classes replace the toggle's utilities. -->
+				<Toggle
+					bind:pressed={
+						() => part.variant !== "secondary",
+						(primary) => onCommit({ variant: primary ? "primary" : "secondary" }, false)
+					}
 				>
-					{part.variant === "secondary" ? labels.secondary : labels.primary}
-				</button>
+					{#snippet child({ props })}
+						<button {...props} class="cv-tool is-text">
+							{part.variant === "secondary" ? labels.secondary : labels.primary}
+						</button>
+					{/snippet}
+				</Toggle>
 			{/if}
 			<button
 				type="button"
