@@ -10,6 +10,19 @@ class ResizeObserverStub {
 
 globalThis.ResizeObserver ??= ResizeObserverStub;
 Element.prototype.scrollIntoView ??= () => {};
+// WHY: jsdom has no Web Animations, and animate:flip calls both when a keyed row moves.
+Element.prototype.getAnimations ??= () => [];
+Element.prototype.animate ??= function () {
+  const animation = {
+    onfinish: null as (() => void) | null,
+    playState: "finished",
+    effect: null,
+    cancel() {},
+    finish() {},
+  };
+  queueMicrotask(() => animation.onfinish?.());
+  return animation as unknown as Animation;
+};
 // WHY: jsdom has no SVG geometry, and the check-mark stroke animation reads the path length.
 SVGElement.prototype.getTotalLength ??= () => 0;
 
