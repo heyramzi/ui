@@ -35,6 +35,7 @@
 				variant="outline"
 				class="w-52 justify-between font-normal"
 				role="combobox"
+				aria-label={picked ? `Time zone: ${picked}` : "Time zone"}
 				aria-expanded={open}
 			>
 				<span class={[!picked && "text-muted-foreground"]}>{picked ?? "Pick a time zone"}</span>
