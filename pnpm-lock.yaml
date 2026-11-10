@@ -179,7 +179,7 @@ overrides:
 
 packageExtensionsChecksum: sha256-YIL9WQJmJwxGgFz4W+xc2b5xnTEp+r7yoWgGU2B+FbU=
 
-pnpmfileChecksum: sha256-iQqI/6hrphgwLGlxEdibLygfWTEW+eHy8yP9kI8rLVw=
+pnpmfileChecksum: sha256-oll8Lcf9QdEG/P8Xf3dDyF64/lOibbWXhZAmVQoGorQ=
 
 importers:
 
@@ -376,6 +376,9 @@ importers:
       svelte-sonner:
         specifier: ^1.2.3
         version: 1.2.3(svelte@5.57.3)
+      svelte2tsx:
+        specifier: ^0.7.63
+        version: 0.7.63(svelte@5.57.3)
       typescript:
         specifier: ~7.0.2
         version: 7.0.2
@@ -1662,6 +1665,7 @@ packages:
 
   '@tiptap/y-tiptap@3.0.12':
     resolution: {integrity: sha512-MlmBpmm4xiRDZmk4hiwnjScOrUtiEBYwqeJBvrDil30Eq1GqrZEox1mciBpOnnpfN731fH07OPeGS7uHryPX0g==}
+    deprecated: Persistent position migrations can cause excessive collaborative document growth. Upgrade all collaborating clients to 3.1.0 or later.
     peerDependencies:
       prosemirror-model: ^1.7.1
       prosemirror-state: ^1.2.3
@@ -2436,6 +2440,9 @@ packages:
   decimal.js@10.6.0:
     resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
 
+  dedent-js@1.0.1:
+    resolution: {integrity: sha512-OUepMozQULMLUmhxS95Vudo0jb0UchLimi3+pQ2plj61Fcy8axbP9hbiD4Sz6DPqn6XG3kfmziVfQ1rSys5AJQ==}
+
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
@@ -3045,6 +3052,9 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
+  scule@1.3.0:
+    resolution: {integrity: sha512-6FtHJEvt+pVMIB9IBY+IcCJ6Z5f1iQnytgyfKMhDKgmzYG+TeH/wx1y3l27rshSbLiSanrR9ffZDrEsmjlQF2g==}
+
   semver@7.8.6:
     resolution: {integrity: sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==}
     engines: {node: '>=10'}
@@ -3113,6 +3123,11 @@ packages:
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.0.0
+
+  svelte2tsx@0.7.63:
+    resolution: {integrity: sha512-gRgz/V6wOx0NDZhm6OMD2VIh+/HrgZc3k6ibX93rkNPEkWNn/P3Uhb1fYCqOrimEUpQd8r65dhiHZIJXSQBeow==}
+    peerDependencies:
+      svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
 
   svelte@5.57.3:
     resolution: {integrity: sha512-5mAftM3SoDV9X0zdF386F9p2pv8iKOwi/KfBS1XnBAkVCKFzVOLHUoa8iGWAt4buoicLmyWVRpuuD5wplXOQsg==}
@@ -5211,6 +5226,8 @@ snapshots:
 
   decimal.js@10.6.0: {}
 
+  dedent-js@1.0.1: {}
+
   deepmerge@4.3.1: {}
 
   delaunator@5.1.0:
@@ -5993,6 +6010,8 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
+  scule@1.3.0: {}
+
   semver@7.8.6: {}
 
   sharp@0.35.5(@types/node@26.6.6):
@@ -6096,6 +6115,13 @@ snapshots:
       runed: 0.23.4(svelte@5.57.3)
       style-to-object: 1.0.14
       svelte: 5.57.3
+
+  svelte2tsx@0.7.63(svelte@5.57.3):
+    dependencies:
+      dedent-js: 1.0.1
+      scule: 1.3.0
+      svelte: 5.57.3
+      typescript: 6.0.3
 
   svelte@5.57.3:
     dependencies:

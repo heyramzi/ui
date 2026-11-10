@@ -1,1 +1,3 @@
 .vitest/
+# Written by scripts/svelte-dts.mjs at pack time, for the tarball only.
+src/**/*.svelte.d.ts

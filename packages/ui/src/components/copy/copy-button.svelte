@@ -1,22 +1,11 @@
-<script lang="ts">
-	/**
-	 * The one copy control. No `text` prop draws the icon button; `text` draws the
-	 * chip. `agent` marks a payload written for a model.
-	 */
-
-	// =========================
-	// IMPORTS
-	// =========================
-	import { Check, Copy, StarFour } from "phosphor-svelte";
-	import { cn } from "#src/lib/utils.js";
-	import { buttonVariants } from "#src/shadcn/button/index.js";
+<script lang="ts" module>
 	import type { HTMLButtonAttributes } from "svelte/elements";
-	import { copyText } from "#src/components/copy/clipboard.js";
 
-	// =========================
-	// TYPES
-	// =========================
-	interface Props extends Omit<HTMLButtonAttributes, "value" | "onclick" | "children"> {
+	// Exported so a wrapper's published declaration can name it (scripts/svelte-dts.mjs).
+	export interface CopyButtonProps extends Omit<
+		HTMLButtonAttributes,
+		"value" | "onclick" | "children"
+	> {
 		/**
 		 * What lands on the clipboard. A function runs on the click, so a long list
 		 * doesn't build every prompt up front. It may return a promise.
@@ -49,6 +38,21 @@
 		onCopied?: () => void;
 		class?: string;
 	}
+</script>
+
+<script lang="ts">
+	/**
+	 * The one copy control. No `text` prop draws the icon button; `text` draws the
+	 * chip. `agent` marks a payload written for a model.
+	 */
+
+	// =========================
+	// IMPORTS
+	// =========================
+	import { Check, Copy, StarFour } from "phosphor-svelte";
+	import { cn } from "#src/lib/utils.js";
+	import { buttonVariants } from "#src/shadcn/button/index.js";
+	import { copyText } from "#src/components/copy/clipboard.js";
 
 	// =========================
 	// PROPS
@@ -65,7 +69,7 @@
 		onCopied,
 		class: className,
 		...restProps
-	}: Props = $props();
+	}: CopyButtonProps = $props();
 
 	// =========================
 	// STATE
