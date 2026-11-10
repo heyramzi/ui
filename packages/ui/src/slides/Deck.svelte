@@ -1,5 +1,6 @@
 <script lang="ts">
 	import "#src/slides/theme.css";
+	import { Progress } from "bits-ui";
 	import { flushSync, onMount, setContext, untrack } from "svelte";
 	import { attachBridge, attachChannel, attachUrlSync } from "#src/slides/bridges.js";
 	import Controls from "#src/slides/Controls.svelte";
@@ -205,17 +206,19 @@
 	</div>
 
 	{#if progress}
-		<div
-			class="deck__progress deck__chrome"
-			role="progressbar"
+		<Progress.Root
+			min={1}
+			max={deck.ordinal.of}
+			value={deck.ordinal.n}
 			aria-label={deck.labels.progress}
-			aria-valuemin="1"
-			aria-valuemax={deck.ordinal.of}
-			aria-valuenow={deck.ordinal.n}
 			aria-valuetext={deck.labels.slide(deck.ordinal.n, deck.ordinal.of)}
 		>
-			<div class="deck__progress-fill" style:transform="scaleX({deck.progress})"></div>
-		</div>
+			{#snippet child({ props })}
+				<div {...props} class="deck__progress deck__chrome">
+					<div class="deck__progress-fill" style:transform="scaleX({deck.progress})"></div>
+				</div>
+			{/snippet}
+		</Progress.Root>
 	{/if}
 
 	{#if controls}
