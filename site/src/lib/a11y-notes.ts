@@ -324,7 +324,7 @@ export const a11yNotes: Record<string, A11yNote> = {
       "The box is a combobox, and the suggestions are a listbox it points at.",
       "With free set there are no suggestions: Enter, comma, Space or Tab adds what's typed.",
       "Pasting a comma-separated list adds each known label at once.",
-      'Each tag\'s remove button is named "Remove" plus the tag. It stays out of the Tab order; the arrows reach it.',
+      'A tag\'s remove button is named "Remove" plus the tag. It stays out of the Tab order; the arrows reach it.',
       'A polite status says "Added Make" or "Removed Make" once the change saves. labels.added and labels.removed change the words.',
       'At rest the field is named by label and its tags, like "Tools: Docusign, SharePoint".',
     ],
@@ -1232,7 +1232,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     notes: [
       "A live region announces every arrow move.",
       "Tool buttons are named and report pressed. resolveToolKey turns a key press into the tool, so a host binds the letters in one line.",
-      'Each node is named by its words: "Draw on me", "Rectangle: Idea", or "Pen stroke" for a drawing. The name follows edits.',
+      'A node is named by its words: "Draw on me", "Rectangle: Idea", or "Pen stroke" for a drawing. The name follows edits.',
       "Drawing, placing a shape or text, connecting nodes and resizing a shape are still pointer only.",
       "Enter doesn't open a node's text yet. The host owns that key and calls requestStartEdit.",
       "A node's text field keeps the keys you type in it, and Esc leaves it.",
