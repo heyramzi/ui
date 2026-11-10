@@ -17,6 +17,8 @@
 		href?: string;
 		/** The link's wording. Translated at the call site. */
 		openLabel?: string;
+		/** Controls that scope the whole area, like a period filter. Pinned right, after the note. */
+		actions?: Snippet;
 		children: Snippet;
 		class?: string;
 	}
@@ -24,7 +26,15 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { title, note, href, openLabel = "Open", children, class: className }: Props = $props();
+	let {
+		title,
+		note,
+		href,
+		openLabel = "Open",
+		actions,
+		children,
+		class: className,
+	}: Props = $props();
 </script>
 
 <!-- =========================== -->
@@ -33,9 +43,11 @@
 <!-- An area of a dashboard, named, then its numbers. No box of its own: its
      cards are the containers, and a card in a card is never right. -->
 <section class={cn("flex flex-col gap-4", className)}>
-	<div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+	<!-- Centred, not baseline: a filter control is taller than the title, and a baseline row
+	     hangs the title off its bottom edge. -->
+	<div class="flex min-h-8 flex-wrap items-center justify-between gap-x-4 gap-y-2">
 		<h2 class="text-base font-semibold tracking-tight">{title}</h2>
-		<div class="flex items-baseline gap-3">
+		<div class="flex items-center gap-3">
 			{#if note}
 				<p class="text-xs text-muted-foreground">{note}</p>
 			{/if}
@@ -50,6 +62,9 @@
 						class="shrink-0 transition-transform duration-[var(--duration-quick)] ease-out group-hover:translate-x-0.5"
 					/>
 				</a>
+			{/if}
+			{#if actions}
+				{@render actions()}
 			{/if}
 		</div>
 	</div>

@@ -1,33 +1,65 @@
-import { sections, type Section } from "#lib/nav.js";
+import type { Component } from "svelte";
+import { cardOf, sections } from "#lib/nav.js";
 
-/**
- * The 3 parts each home section leads with, picked by hand: a tile is 224px tall, so a part that
- * reads at a glance beats a whole screen scaled to a smudge. A section with no picks here falls
- * back to its first 3 demos.
- */
-const picks: Record<string, string[]> = {
-  foundations: ["theming", "colors", "icon"],
-  components: ["calendar", "tabs", "hold-to-confirm"],
-  effects: ["text-effect", "magnetic", "magic-card"],
-  charts: ["area-chart", "donut-chart", "gauge-chart"],
-  blocks: ["work-parts", "ai-prompt", "agent-avatar"],
+type Pick = {
+  slug: string;
+  load: () => Promise<{ default: Component }>;
+  /** The tile's height, px: the lazy box holds it from the first paint so nothing below moves. */
+  height: number;
+  /** Grid classes. Each row splits the width its own way: 4 and 2, 2 and 4, then halves. */
+  span: string;
 };
 
-/** Picks that are a long column: shown at full size from the top, cropped, never shrunk. */
-export const cropped = new Set(["colors"]);
+/**
+ * The live parts under the hero, picked by hand to run at full size in their tile. Each one
+ * loads only as it nears the viewport: the area chart and the avatars alone outweigh the rest
+ * of the page.
+ */
+const chosen: Pick[] = [
+  {
+    slug: "area-chart",
+    load: () => import("#lib/demos/area-chart.svelte"),
+    height: 360,
+    span: "sm:col-span-2 lg:col-span-4",
+  },
+  {
+    slug: "calendar",
+    load: () => import("#lib/shadcn-demos/calendar.svelte"),
+    height: 360,
+    span: "lg:col-span-2",
+  },
+  {
+    slug: "magnetic",
+    load: () => import("#lib/demos/magnetic.svelte"),
+    height: 240,
+    span: "lg:col-span-2",
+  },
+  {
+    slug: "ai-prompt",
+    load: () => import("#lib/demos/ai-prompt.svelte"),
+    height: 240,
+    span: "sm:col-span-2 lg:col-span-4",
+  },
+  {
+    slug: "agent-avatar",
+    load: () => import("#lib/demos/agent-avatar.svelte"),
+    height: 260,
+    span: "sm:col-span-2 lg:col-span-3",
+  },
+  {
+    slug: "gauge-chart",
+    load: () => import("#lib/demos/gauge-chart.svelte"),
+    height: 260,
+    span: "sm:col-span-2 lg:col-span-3",
+  },
+];
 
-const slugsOf = (section: Section) =>
-  section.categories.flatMap((c) => c.items.filter((i): i is string => typeof i === "string"));
+export const picks = chosen.map((pick) => ({ ...pick, title: cardOf(pick.slug).title }));
 
-/** Each section with its count and the slugs it shows, in nav order. */
-export const homeSections = sections.map((section) => {
-  const placed = slugsOf(section);
-  const chosen = (picks[section.id] ?? []).filter((slug) => placed.includes(slug));
-  return {
-    id: section.id,
-    title: section.title,
-    categories: section.categories.map((c) => c.title),
-    count: section.categories.reduce((n, c) => n + c.items.length, 0),
-    slugs: (chosen.length === 3 ? chosen : placed).slice(0, 3),
-  };
-});
+/** Every section with its categories and part count, in nav order. */
+export const sectionIndex = sections.map((section) => ({
+  id: section.id,
+  title: section.title,
+  categories: section.categories.map((c) => c.title).join(", "),
+  count: section.categories.reduce((n, c) => n + c.items.length, 0),
+}));
