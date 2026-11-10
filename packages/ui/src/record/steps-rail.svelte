@@ -17,7 +17,8 @@
 	import CountChip from "#src/components/chip/count-chip.svelte";
 	import { Input } from "#src/shadcn/input/index.js";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
-	import * as Popover from "#src/shadcn/popover/index.js";
+	import { DropdownMenu as MenuPrimitive } from "bits-ui";
+	import * as DropdownMenu from "#src/shadcn/dropdown-menu/index.js";
 	import * as ContextMenu from "#src/shadcn/context-menu/index.js";
 	import { todayIso } from "#src/work/dates.js";
 	import { formatRange } from "#src/record/format.js";
@@ -267,8 +268,8 @@
 			</span>
 		{/if}
 		{#if onToggle && !loading && ordered.length > 0}
-			<Popover.Root bind:open={menuOpen}>
-				<Popover.Trigger>
+			<DropdownMenu.Root bind:open={menuOpen}>
+				<DropdownMenu.Trigger>
 					{#snippet child({ props })}
 						<Button
 							{...props}
@@ -289,44 +290,57 @@
 							{/if}
 						</Button>
 					{/snippet}
-				</Popover.Trigger>
-				<Popover.Content align="end" class="w-64 p-1">
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content align="end" class="w-64 rounded-2xl">
 					{#each menuBuckets as bucket (bucket.key)}
-						{#if bucket.label}
-							<p class="px-2 pt-2 pb-1 text-xs font-medium text-muted-foreground">
-								{bucket.label}
-							</p>
-						{/if}
-						{#each bucket.steps as step (step.id)}
-							<Button
-								variant="ghost"
-								class="w-full justify-start gap-2.5 px-2 text-left"
-								aria-pressed={!step.hidden}
-								onclick={() => onToggle(step.id, Boolean(step.hidden))}
-							>
-								<span class="flex size-4 shrink-0 items-center justify-center">
-									{#if step.hidden}
-										<EyeSlash aria-hidden="true" class="size-3.5 text-muted-foreground" />
-									{:else}
-										<Eye aria-hidden="true" class="size-3.5" />
-									{/if}
-								</span>
-								<span
-									class={cn(
-										"min-w-0 flex-1 truncate",
-										step.hidden && "text-muted-foreground line-through",
-									)}>{step.label}</span
+						<DropdownMenu.Group>
+							{#if bucket.label}
+								<DropdownMenu.GroupHeading
+									class="px-2 pt-2 pb-1 text-xs font-medium text-muted-foreground"
 								>
-							</Button>
-						{/each}
+									{bucket.label}
+								</DropdownMenu.GroupHeading>
+							{/if}
+							{#each bucket.steps as step (step.id)}
+								<!-- Bits' item around the kit's ghost Button, not the shadcn row: the eye is
+								     the checkmark here, so the row keeps its own look. -->
+								<MenuPrimitive.CheckboxItem
+									checked={!step.hidden}
+									closeOnSelect={false}
+									onCheckedChange={(shown) => onToggle(step.id, shown)}
+								>
+									{#snippet child({ props })}
+										<Button
+											{...props}
+											variant="ghost"
+											class="w-full justify-start gap-2.5 px-2 text-left"
+										>
+											<span class="flex size-4 shrink-0 items-center justify-center">
+												{#if step.hidden}
+													<EyeSlash aria-hidden="true" class="size-3.5 text-muted-foreground" />
+												{:else}
+													<Eye aria-hidden="true" class="size-3.5" />
+												{/if}
+											</span>
+											<span
+												class={cn(
+													"min-w-0 flex-1 truncate",
+													step.hidden && "text-muted-foreground line-through",
+												)}>{step.label}</span
+											>
+										</Button>
+									{/snippet}
+								</MenuPrimitive.CheckboxItem>
+							{/each}
+						</DropdownMenu.Group>
 					{/each}
-					<p
+					<div
 						class="mt-1 border-t border-border px-2 pt-2 pb-1 text-xs tabular-nums text-muted-foreground"
 					>
 						{t.shownCount(visible.length, ordered.length)}
-					</p>
-				</Popover.Content>
-			</Popover.Root>
+					</div>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
 		{/if}
 	</div>
 
