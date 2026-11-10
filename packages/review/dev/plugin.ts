@@ -7,7 +7,7 @@ import { createDevAdapter, FIXTURE_IDS } from "#dev/adapter.js";
 // A sibling vibe-kit checkout, if there is one. Without it the dev page falls back to system fonts.
 const STUDIO_CSS =
   process.env.STUDIO_CSS ??
-  new URL("../../../../vibe-kit/packages/studio/src/studio.css", import.meta.url).pathname;
+  new URL("../../../../upsys/packages/studio/src/studio.css", import.meta.url).pathname;
 export const BASE = "/review";
 
 /** The brand fonts sit in the studio stylesheet as data URIs. The dev page borrows only its @font-face blocks. */
