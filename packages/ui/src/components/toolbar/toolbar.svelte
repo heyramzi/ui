@@ -72,7 +72,7 @@
 	<div class="flex flex-nowrap items-center gap-2">
 		{#if search !== undefined}
 			<div class="w-56 shrink-0 @max-2xl/toolbar:hidden">
-				<ToolbarSearch bind:value={search} placeholder={searchPlaceholder} />
+				<ToolbarSearch bind:value={search} placeholder={searchPlaceholder} label={searchLabel} />
 			</div>
 			<Popover.Root>
 				<Popover.Trigger

@@ -156,10 +156,9 @@
 		else if (event.key === "ArrowRight") next?.focus();
 		else if (event.key === "Escape") (input ?? next)?.focus();
 		else if (["Backspace", "Delete", "Enter", " "].includes(event.key)) {
-			// Focus moves on before the chip goes, so focus never drops to the page.
+			// Focus moves on first, so it never drops to the page. A full list's last chip waits for the box.
 			(next ?? buttons[index - 1])?.focus();
 			void commit(removeTag(tags, tag));
-			// The last chip of a full list had nowhere to go: the box only comes back after it.
 			void tick().then(() => {
 				if (!root?.contains(document.activeElement)) input?.focus();
 			});

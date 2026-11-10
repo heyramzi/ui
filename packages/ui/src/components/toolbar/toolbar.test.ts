@@ -72,4 +72,11 @@ describe("Toolbar", () => {
     expect(root.querySelector('button[aria-label="View"]')).toBeNull();
     expect(root.querySelector('button[aria-label="Show"]')).not.toBeNull();
   });
+
+  // The 10 Nov audit: the wide search box had only its placeholder for a name.
+  it("names the wide search box with searchLabel", () => {
+    const root = render({ search: "", searchLabel: "Search clients" });
+    const box = root.querySelector(".\\@max-2xl\\/toolbar\\:hidden input");
+    expect(box?.getAttribute("aria-label")).toBe("Search clients");
+  });
 });

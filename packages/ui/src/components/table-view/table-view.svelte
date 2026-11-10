@@ -68,7 +68,7 @@
 		collapsed?: Set<string>;
 		/** Draws a column head its own way, an icon or a colour. Print `column.label` for the plain case. */
 		head?: Snippet<[TableColumn<Row>]>;
-		/** The row opens in place, through a button over the row named like the row link. A click on a link, button or input inside the row stays its own. */
+		/** The row opens in place, from a button over the row named like the row link. */
 		onRowClick?: (row: Row) => void;
 		/** Whether a row shows its `subRow`. */
 		expanded?: (row: Row) => boolean;
@@ -122,7 +122,7 @@
 	// =========================
 	// DERIVED
 	// =========================
-	// A row that opens gets a last cell for its link or button, so the spans count it.
+	// A row that opens has a last cell for its link or button.
 	let opens = $derived(Boolean(rowHref || onRowClick));
 	let span = $derived(columns.length + (selectable ? 1 : 0) + (opens ? 1 : 0));
 	// WHY a floor from the columns: with none, a 390px panel squeezed a text column until it broke

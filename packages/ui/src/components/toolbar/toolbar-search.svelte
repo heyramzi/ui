@@ -12,6 +12,8 @@
 	interface Props {
 		value: string;
 		placeholder?: string;
+		/** The box's accessible name. A placeholder isn't one, and it goes away once you type. */
+		label?: string;
 		size?: "sm" | "default";
 		class?: string;
 	}
@@ -22,6 +24,7 @@
 	let {
 		value = $bindable(""),
 		placeholder = "Search...",
+		label = "Search",
 		size = "default",
 		class: extraClass,
 	}: Props = $props();
@@ -54,6 +57,7 @@
 	<Input
 		bind:value
 		{placeholder}
+		aria-label={label}
 		class={cn(
 			"w-full",
 			size === "sm" ? "h-7 pl-7 pr-2.5 text-xs" : "h-7 pl-7 pr-2.5 text-xs",

@@ -45,8 +45,8 @@
 	);
 </script>
 
-<!-- A real button inside the head, so a screen reader calls it a control; aria-sort stays on the th.
-     The button's ::after covers the cell, so the whole head still takes the click. -->
+<!-- A real button, so a screen reader calls the head a control; aria-sort stays on the th.
+     Its ::after covers the cell, so the whole head takes the click. -->
 <Table.Head
 	scope="col"
 	{title}
