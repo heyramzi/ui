@@ -259,6 +259,13 @@ export const meta: Record<string, Meta> = {
       "The browser's own select, styled like the kit's fields. Phones open their own picker.",
     height: 200,
   },
+  drawer: {
+    title: "Drawer",
+    icon: "sidepanel",
+    description:
+      "A panel that slides in and can be dragged shut, on vaul-svelte. From the bottom on a phone, from the side on a desk.",
+    height: 280,
+  },
   combobox: {
     title: "Combobox",
     icon: "select",

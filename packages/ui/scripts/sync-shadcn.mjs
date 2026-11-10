@@ -79,7 +79,6 @@ const NOT_SHIPPED = new Set([
   "carousel",
   "chart",
   "data-table",
-  "drawer",
   "form",
   "kbd",
   "menubar",

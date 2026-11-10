@@ -215,6 +215,20 @@ const written: Record<string, string> = {
   calendar: `
 <Calendar type="single" bind:value captionLayout="dropdown" />`,
 
+  drawer: `
+<Drawer.Root direction="bottom">
+  <Drawer.Trigger>Snooze</Drawer.Trigger>
+  <Drawer.Content>
+    <Drawer.Header>
+      <Drawer.Title>Snooze until</Drawer.Title>
+      <Drawer.Description>The thread comes back then.</Drawer.Description>
+    </Drawer.Header>
+    <Drawer.Footer>
+      <Drawer.Close>Cancel</Drawer.Close>
+    </Drawer.Footer>
+  </Drawer.Content>
+</Drawer.Root>`,
+
   "input-group": `
 <InputGroup.Root>
   <InputGroup.Addon>

@@ -73,6 +73,7 @@ export const componentSources: Record<string, string[]> = {
   ],
   select: ["packages/ui/src/shadcn/select/select.svelte"],
   "native-select": ["packages/ui/src/shadcn/native-select/native-select.svelte"],
+  drawer: ["packages/ui/src/shadcn/drawer/drawer-content.svelte"],
   combobox: [
     "packages/ui/src/shadcn/popover/popover-content.svelte",
     "packages/ui/src/shadcn/command/command.svelte",

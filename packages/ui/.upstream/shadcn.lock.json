@@ -2,7 +2,7 @@
 	"source": "https://github.com/huntabyte/shadcn-svelte",
 	"registry": "https://shadcn-svelte.com/registry/styles/vega/index.json",
 	"fetchedAt": "2026-10-16",
-	"components": 55,
+	"components": 56,
 	"localOnly": [
 		"hooks"
 	],
@@ -233,6 +233,11 @@
 				"dialog/dialog-title.svelte",
 				"dialog/index.ts"
 			]
+		},
+		"drawer": {
+			"type": "registry:ui",
+			"files": 12,
+			"sha256": "c7918bfa9fca7c47"
 		},
 		"dropdown-menu": {
 			"type": "registry:ui",

@@ -6160,6 +6160,270 @@
       "bases": []
     }
   ],
+  "drawer": [
+    {
+      "name": "Drawer.Content",
+      "file": "packages/ui/src/shadcn/drawer/drawer-content.svelte",
+      "props": [
+        {
+          "name": "portalProps",
+          "type": "WithoutChildrenOrChild<ComponentProps<typeof DrawerPortal>>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Content",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Root",
+      "file": "packages/ui/src/shadcn/drawer/drawer.svelte",
+      "props": [
+        {
+          "name": "shouldScaleBackground",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "bindable": true
+        },
+        {
+          "name": "activeSnapPoint",
+          "default": "null",
+          "bindable": true
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Root",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Trigger",
+      "file": "packages/ui/src/shadcn/drawer/drawer-trigger.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Trigger",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Header",
+      "file": "packages/ui/src/shadcn/drawer/drawer-header.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Title",
+      "file": "packages/ui/src/shadcn/drawer/drawer-title.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Title",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Description",
+      "file": "packages/ui/src/shadcn/drawer/drawer-description.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Description",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Footer",
+      "file": "packages/ui/src/shadcn/drawer/drawer-footer.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Close",
+      "file": "packages/ui/src/shadcn/drawer/drawer-close.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Close",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.NestedRoot",
+      "file": "packages/ui/src/shadcn/drawer/drawer-nested.svelte",
+      "props": [
+        {
+          "name": "shouldScaleBackground",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "bindable": true
+        },
+        {
+          "name": "activeSnapPoint",
+          "default": "null",
+          "bindable": true
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Root",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Overlay",
+      "file": "packages/ui/src/shadcn/drawer/drawer-overlay.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Overlay",
+          "from": "vaul-svelte"
+        }
+      ]
+    },
+    {
+      "name": "Drawer.Portal",
+      "file": "packages/ui/src/shadcn/drawer/drawer-portal.svelte",
+      "props": [],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "Drawer.Portal",
+          "from": "vaul-svelte"
+        }
+      ]
+    }
+  ],
   "dropdown-menu": [
     {
       "name": "DropdownMenu.CheckboxGroup",
@@ -10542,7 +10806,7 @@
           "name": "size",
           "type": "ButtonSize",
           "values": ["\"sm\"", "\"default\"", "\"lg\""],
-          "default": "\"icon\""
+          "default": "\"default\""
         },
         {
           "name": "isActive",

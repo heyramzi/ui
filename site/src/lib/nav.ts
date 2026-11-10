@@ -140,6 +140,7 @@ export const sections: Section[] = [
           "dialog",
           "alert-dialog",
           "sheet",
+          "drawer",
           "command",
           "picker",
         ],
