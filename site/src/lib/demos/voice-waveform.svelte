@@ -4,7 +4,13 @@
 	let active = $state(true);
 </script>
 
-<button type="button" class="c" onclick={() => (active = !active)}>
+<button
+	type="button"
+	class="c"
+	aria-label="Listening"
+	aria-pressed={active}
+	onclick={() => (active = !active)}
+>
 	<VoiceWaveform {active} />
 </button>
 

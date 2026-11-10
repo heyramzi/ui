@@ -20,9 +20,7 @@
 			<Button variant="outline">Import Project</Button>
 		</div>
 	</Empty.Content>
-	<Button variant="ghost" class="text-muted-foreground" size="sm">
-		<a href="#/">
-			Learn More <ArrowUpRight class="inline" />
-		</a>
+	<Button variant="ghost" class="text-muted-foreground" size="sm" href="#/">
+		Learn More <ArrowUpRight class="inline" aria-hidden="true" />
 	</Button>
 </Empty.Root>

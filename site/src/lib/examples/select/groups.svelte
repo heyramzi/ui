@@ -25,7 +25,7 @@
 </script>
 
 <Select.Root type="single" {items} bind:value>
-	<Select.Trigger class="w-[200px]">
+	<Select.Trigger class="w-[200px]" aria-label="Time zone">
 		{items.find((item) => item.value === value)?.label ?? "Pick a time zone"}
 	</Select.Trigger>
 	<Select.Content>

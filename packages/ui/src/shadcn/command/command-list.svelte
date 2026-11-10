@@ -5,6 +5,7 @@
 	let {
 		ref = $bindable(null),
 		class: className,
+		children,
 		...restProps
 	}: CommandPrimitive.ListProps = $props();
 </script>
@@ -17,4 +18,9 @@
 		className,
 	)}
 	{...restProps}
-/>
+>
+	<!-- Bits points the input's required aria-controls at the viewport, so without one the combobox has none. -->
+	<CommandPrimitive.Viewport>
+		{@render children?.()}
+	</CommandPrimitive.Viewport>
+</CommandPrimitive.List>

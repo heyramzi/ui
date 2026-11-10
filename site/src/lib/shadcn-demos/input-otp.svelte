@@ -2,7 +2,7 @@
 	import * as InputOTP from "@heyramzi/ui/shadcn/input-otp";
 </script>
 
-<InputOTP.Root maxlength={6}>
+<InputOTP.Root maxlength={6} aria-label="Verification code">
 	{#snippet children({ cells })}
 		<InputOTP.Group>
 			{#each cells.slice(0, 3) as cell (cell)}

@@ -12,7 +12,7 @@
 </script>
 
 <Select.Root type="single" name="theme" bind:value>
-	<Select.Trigger class="w-45">
+	<Select.Trigger class="w-45" aria-label="Theme">
 		{label}
 	</Select.Trigger>
 	<Select.Content>

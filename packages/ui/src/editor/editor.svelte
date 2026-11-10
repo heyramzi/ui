@@ -35,6 +35,8 @@
 		oncopylink?: (url: string, id: string) => void;
 		/** The live editor, for a host that needs focus or the document. */
 		instance?: Editor | null;
+		/** The editable region's accessible name. */
+		label?: string;
 	}
 
 	// =========================
@@ -51,6 +53,7 @@
 		copyLinkLabel = "Copy link",
 		oncopylink,
 		instance = $bindable(null),
+		label = "Text editor",
 	}: Props = $props();
 
 	// =========================
@@ -238,6 +241,8 @@
 			extensions,
 			content: content ?? { type: "doc", content: [{ type: "paragraph" }] },
 			editorProps: {
+				// A function, so ProseMirror reads the current label on every update.
+				attributes: () => ({ "aria-label": label }),
 				handleKeyDown: (_view, event) => {
 					// No items means no menu on screen, so Enter and the arrows stay the editor's.
 					if (showSlashMenu && slashItems.length > 0) {

@@ -12,10 +12,10 @@
 
 <div class="flex flex-wrap items-center justify-center gap-3">
 	<Select.Root type="single" items={plans} value="pro" disabled>
-		<Select.Trigger class="w-[160px]">Pro</Select.Trigger>
+		<Select.Trigger class="w-[160px]" aria-label="Plan">Pro</Select.Trigger>
 	</Select.Root>
 	<Select.Root type="single" items={plans} bind:value>
-		<Select.Trigger class="w-[160px]">
+		<Select.Trigger class="w-[160px]" aria-label="Plan">
 			{plans.find((plan) => plan.value === value)?.label}
 		</Select.Trigger>
 		<Select.Content>

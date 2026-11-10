@@ -18,7 +18,7 @@
 		"[scrollbar-width:none]",
 		className,
 	)}
-	role="list"
+	role="group"
 	{...rest}
 >
 	{@render children?.()}

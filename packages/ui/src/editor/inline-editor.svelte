@@ -60,6 +60,8 @@
 		onlink?: () => void;
 		onstate?: () => void;
 		onready?: (api: InlineEditorApi) => void;
+		/** The editable region's accessible name. */
+		label?: string;
 	}
 
 	// =========================
@@ -78,6 +80,7 @@
 		onlink,
 		onstate,
 		onready,
+		label = "Text editor",
 	}: Props = $props();
 
 	// =========================
@@ -236,7 +239,12 @@
 				keys,
 			],
 			editorProps: {
-				attributes: { class: `rich-text ${klass}`, role: "textbox", "aria-multiline": "true" },
+				attributes: () => ({
+					class: `rich-text ${klass}`,
+					role: "textbox",
+					"aria-multiline": "true",
+					"aria-label": label,
+				}),
 				handleKeyDown: (_view, event) => {
 					// Every key typed here is the field's. Only save leaves, so no canvas shortcut fires while typing.
 					if (!((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "s"))

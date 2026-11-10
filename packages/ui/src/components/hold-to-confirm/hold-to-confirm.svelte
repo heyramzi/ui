@@ -43,14 +43,15 @@
 
 	// ========================= FUNCTIONS
 	function startHold() {
-		if (disabled) return;
+		// A held key repeats keydown, and restarting the clock on each one stalled the fill at 6%.
+		if (disabled || isHolding) return;
 		isHolding = true;
 		startTime = performance.now();
 		tick();
 	}
 
 	function tick() {
-		if (!isHolding || !startTime) return;
+		if (!isHolding || startTime === null) return;
 
 		const elapsed = performance.now() - startTime;
 		progress = Math.min(elapsed / duration, 1);
@@ -122,6 +123,10 @@
 	onpointercancel={cancelHold}
 	onkeydown={handleKeydown}
 	onkeyup={handleKeyup}
+	onblur={(e) => {
+		cancelHold();
+		restProps.onblur?.(e);
+	}}
 	{disabled}
 >
 	<!-- Fill sweep: scales from the left across the whole control -->

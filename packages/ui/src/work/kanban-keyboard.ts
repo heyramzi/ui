@@ -11,6 +11,9 @@ export type KanbanKeyboardConfig<T, C extends KanbanColumnDef> = {
   moveAndPin: (id: string, move: KanbanMove) => void | Promise<void>;
 };
 
+/** A keyboard move: the column the card went to, and the caller's `onMove` result. */
+export type KanbanKeyboardMove<C> = { column: C; done: void | Promise<void> };
+
 /** The card's keydown handler: Enter or Space selects, Alt + arrow moves. */
 export function createCardKeyDown<T, C extends KanbanColumnDef>(
   config: KanbanKeyboardConfig<T, C>,
@@ -19,9 +22,9 @@ export function createCardKeyDown<T, C extends KanbanColumnDef>(
 
   /**
    * Alt + ArrowLeft/Right moves the focused card to the next droppable column, so
-   * keyboard and screen-reader users get drag's onMove contract.
+   * keyboard and screen-reader users get drag's onMove contract. Returns the move, if one ran.
    */
-  return function onCardKeyDown(e: KeyboardEvent, id: string): void {
+  return function onCardKeyDown(e: KeyboardEvent, id: string): KanbanKeyboardMove<C> | undefined {
     const { onSelect, items, getId, getColumn, columns, sortKey, dropAtTop, boardOrder } = input();
     if (onSelect && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
       e.preventDefault();
@@ -45,7 +48,7 @@ export function createCardKeyDown<T, C extends KanbanColumnDef>(
         const index = atTop ? 0 : column.length;
         const before = column[index - 1];
         const after = column[index];
-        void moveAndPin(id, {
+        const done = moveAndPin(id, {
           columnId: target.id,
           ...(boardOrder
             ? { boardOrder: boardOrderAt(column, index, (entry) => boardOrder(entry)) }
@@ -53,10 +56,9 @@ export function createCardKeyDown<T, C extends KanbanColumnDef>(
           beforeId: before === undefined ? null : getId(before),
           afterId: after === undefined ? null : getId(after),
         });
-      } else {
-        void moveAndPin(id, { columnId: target.id });
+        return { column: target, done };
       }
-      return;
+      return { column: target, done: moveAndPin(id, { columnId: target.id }) };
     }
   };
 }

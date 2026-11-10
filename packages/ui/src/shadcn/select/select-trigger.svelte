@@ -28,6 +28,7 @@
 	<!-- Turns over while the list is open, so the trigger says which way it goes. -->
 	<CaretDown
 		size={16}
+		aria-hidden="true"
 		class="text-muted-foreground pointer-events-none transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] in-data-[state=open]:rotate-180 motion-reduce:transition-none"
 	/>
 </SelectPrimitive.Trigger>

@@ -1,5 +1,5 @@
 <script lang="ts" generics="T, C extends KanbanColumnDef = KanbanColumnDef">
-	import type { Snippet } from "svelte";
+	import { tick, type Snippet } from "svelte";
 	import { slide } from "svelte/transition";
 	import KanbanColumn from "#src/work/kanban-column.svelte";
 	import KanbanColumnHead from "#src/work/kanban-column-head.svelte";
@@ -93,6 +93,8 @@
 		 * preventDefault, so it is not a drop target.
 		 */
 		isDroppable?: (columnId: string) => boolean;
+		/** What a screen reader hears after a card moves with the keyboard. */
+		movedLabel?: (column: C) => string;
 		class?: string;
 	}
 
@@ -129,6 +131,7 @@
 		hiddenItem,
 		dropAtTop,
 		isDroppable,
+		movedLabel = (column) => `Moved to ${column.label}`,
 		class: className,
 	}: Props<T, C> = $props();
 
@@ -155,6 +158,20 @@
 	const rail = board.rail;
 
 	type ColumnView = KanbanColumnView<T, C>;
+
+	let boardEl: HTMLDivElement | undefined = $state();
+	let announcement = $state("");
+
+	// A moved card renders anew in its new column, so focus would fall to <body> without this.
+	async function onCardKeyDown(e: KeyboardEvent, id: string) {
+		const moved = board.onCardKeyDown(e, id);
+		if (!moved) return;
+		await moved.done;
+		announcement = "";
+		await tick();
+		announcement = movedLabel(moved.column);
+		boardEl?.querySelector<HTMLElement>(`[data-kanban-card="${CSS.escape(id)}"]`)?.focus();
+	}
 </script>
 
 <!-- The slot keeps the drag state where it is, or hovering it would bubble to the column and jump it to the end. -->
@@ -186,6 +203,7 @@
 	<div
 		role="listitem"
 		tabindex="0"
+		data-kanban-card={id}
 		aria-label={getLabel?.(item) ??
 			"Card. Press Alt plus Left or Right arrow to move between columns."}
 		aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight"
@@ -200,7 +218,7 @@
 			rail.dragOverHidden = null;
 		}}
 		ondragover={(e) => dnd.onItemDragOver(e, column.id, id, nextId)}
-		onkeydown={(e) => board.onCardKeyDown(e, id)}
+		onkeydown={(e) => void onCardKeyDown(e, id)}
 		class={cn(
 			"kanban-card cursor-grab outline-none focus-visible:shadow-(--ring-focus) active:cursor-grabbing",
 			workLooks.card,
@@ -244,14 +262,19 @@
 			/>
 		{/snippet}
 
-		{#each head as item, index (getId(item))}
-			{@render card(column, item, index, list)}
-		{/each}
+		<!-- contents: the list owns the cards for screen readers and leaves the column's flex gap alone. -->
+		{#if head.length > 0}
+			<div role="list" class="contents">
+				{#each head as item, index (getId(item))}
+					{@render card(column, item, index, list)}
+				{/each}
+			</div>
+		{/if}
 
 		{#if showTail}
 			<!-- The tail sits shut in a 0fr row, so opening and closing animate its height. -->
 			<div class="kanban-fold" data-open={open} inert={!open}>
-				<div class="kanban-fold-inner">
+				<div class="kanban-fold-inner" role="list">
 					{#each tail as item, index (getId(item))}
 						{@render card(column, item, head.length + index, list)}
 					{/each}
@@ -289,6 +312,7 @@
 {/snippet}
 
 <div
+	bind:this={boardEl}
 	class={cn(
 		"kanban-board @container/kanban-board flex min-h-0 flex-1 items-stretch gap-4 overflow-x-auto pb-2",
 		"max-sm:-mx-4 max-sm:snap-x max-sm:snap-proximity max-sm:scroll-px-4 max-sm:px-4",
@@ -319,6 +343,8 @@
 			{hiddenItem}
 		/>
 	{/if}
+
+	<div class="sr-only" role="status" aria-live="polite">{announcement}</div>
 </div>
 
 <style>

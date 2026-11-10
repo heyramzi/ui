@@ -50,13 +50,14 @@
 		size="sm"
 		icon
 		disabled={disabled || status === "processing"}
+		aria-label={status === "processing" ? processingLabel : label}
 		{onclick}
 		class={cn("relative", status === "processing" && "pointer-events-none", className)}
 	>
 		{#if status === "processing"}
 			<Spinner class="size-4" />
 		{:else}
-			<Sparkle class="size-4" weight="fill" />
+			<Sparkle class="size-4" weight="fill" aria-hidden="true" />
 		{/if}
 	</Button>
 {:else}
@@ -71,7 +72,7 @@
 			<Spinner class="size-3.5" />
 			<span>{processingLabel}</span>
 		{:else}
-			<Sparkle class="size-3.5" weight="fill" />
+			<Sparkle class="size-3.5" weight="fill" aria-hidden="true" />
 			<span>{label}</span>
 		{/if}
 	</Button>

@@ -78,6 +78,7 @@
 			]}
 			style="width:{stageWidth}px; scale:{scale}"
 			aria-hidden="true"
+			inert
 		>
 			<div class="flex w-full justify-center" bind:this={stage}>
 				<entry.component />
