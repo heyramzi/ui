@@ -71,10 +71,10 @@
 			<Mark src={selected.image} label={selected.label} {shape} />
 		{:else if selected?.icon}
 			{@const Icon = selected.icon}
-			<Icon class="text-muted-foreground size-4" />
+			<Icon aria-hidden="true" class="text-muted-foreground size-4" />
 		{/if}
 		<span class="truncate">{selected?.label ?? placeholder}</span>
-		<CaretDown class="text-muted-foreground size-3" />
+		<CaretDown aria-hidden="true" class="text-muted-foreground size-3" />
 	{/snippet}
 	<!-- A row with an icon of its own is drawn by `Picker`; this is every other
 	     row, the ones that carry a mark. -->

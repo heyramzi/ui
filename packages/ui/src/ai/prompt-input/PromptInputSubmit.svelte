@@ -70,10 +70,10 @@
 	{:else if status === "submitted"}
 		<Spinner />
 	{:else if status === "streaming"}
-		<SquareIcon class="size-4" />
+		<SquareIcon aria-hidden="true" class="size-4" />
 	{:else if status === "error"}
-		<XIcon class="size-4" />
+		<XIcon aria-hidden="true" class="size-4" />
 	{:else}
-		<SendIcon class="size-4" />
+		<SendIcon aria-hidden="true" class="size-4" />
 	{/if}
 </Button>

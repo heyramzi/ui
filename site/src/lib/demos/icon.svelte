@@ -8,14 +8,14 @@
 
 <div class="flex flex-col items-center gap-6">
 	<div class="flex items-end gap-4 text-foreground">
-		{#each [16, 20, 24, 32] as size (size)}<Calendar {size} />{/each}
+		{#each [16, 20, 24, 32] as size (size)}<Calendar aria-hidden="true" {size} />{/each}
 	</div>
 	<div class="flex gap-4 text-muted-foreground">
-		{#each weights as weight (weight)}<Bell size={28} {weight} />{/each}
+		{#each weights as weight (weight)}<Bell aria-hidden="true" size={28} {weight} />{/each}
 	</div>
 	<div class="flex items-center gap-4">
-		<ChatCircle size={24} weight="duotone" class="text-brand" />
-		<Gear size={24} class="text-muted-foreground" />
+		<ChatCircle aria-hidden="true" size={24} weight="duotone" class="text-brand" />
+		<Gear aria-hidden="true" size={24} class="text-muted-foreground" />
 		<Svg src={mark} class="size-7 text-brand" />
 	</div>
 </div>

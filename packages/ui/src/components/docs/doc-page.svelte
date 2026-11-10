@@ -17,7 +17,11 @@
 		title: string;
 		/** One line under the title. Optional: a page with nothing to add leaves it out. */
 		summary?: string;
-		icon?: Component<{ class?: string; weight?: "bold" }>;
+		icon?: Component<{
+			class?: string;
+			weight?: "bold";
+			"aria-hidden"?: boolean | "true" | "false";
+		}>;
 		/** Where the page lives, as a reader would say it: "Marketing / Reports". */
 		section?: string;
 		/** Already worded and localised: "Updated 30 Jul 2026". */
@@ -112,7 +116,7 @@
 						<span
 							class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-brand dark:bg-brand-800/30 dark:text-brand-light"
 						>
-							<Icon class="size-5" weight="bold" />
+							<Icon aria-hidden="true" class="size-5" weight="bold" />
 						</span>
 					{/if}
 					<div class="min-w-0 flex-1">

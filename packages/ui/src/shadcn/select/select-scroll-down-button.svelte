@@ -19,5 +19,5 @@
 	)}
 	{...restProps}
 >
-	<CaretDown size={16} />
+	<CaretDown aria-hidden="true" size={16} />
 </SelectPrimitive.ScrollDownButton>

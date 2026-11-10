@@ -13,7 +13,7 @@
 
 <span
 	class={cn("kanban-fold-chevron [&>svg]:size-full", open && "kanban-fold-chevron-open", className)}
-	aria-hidden="true"><CaretDown weight="bold" /></span
+	aria-hidden="true"><CaretDown aria-hidden="true" weight="bold" /></span
 >
 
 <style>

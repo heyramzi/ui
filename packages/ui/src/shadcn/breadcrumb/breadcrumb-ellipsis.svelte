@@ -18,6 +18,6 @@
 	class={cn("flex size-9 items-center justify-center", className)}
 	{...restProps}
 >
-	<DotsThree class="size-4" />
+	<DotsThree aria-hidden="true" class="size-4" />
 	<span class="sr-only">More</span>
 </span>

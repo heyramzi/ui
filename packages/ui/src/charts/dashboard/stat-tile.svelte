@@ -123,7 +123,7 @@
 	)}
 >
 	{#snippet tileIcon()}
-		{#if Icon}<Icon size={14} class="shrink-0" />{/if}
+		{#if Icon}<Icon aria-hidden="true" size={14} class="shrink-0" />{/if}
 	{/snippet}
 
 	<NumberChart

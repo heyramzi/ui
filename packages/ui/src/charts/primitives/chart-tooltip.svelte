@@ -121,7 +121,7 @@
 						})}
 					{:else}
 						{#if itemConfig?.icon}
-							<itemConfig.icon />
+							<itemConfig.icon aria-hidden="true" />
 						{:else if !hideIndicator}
 							<div
 								style="--color-bg: {indicatorColor}; --color-border: {indicatorColor};"

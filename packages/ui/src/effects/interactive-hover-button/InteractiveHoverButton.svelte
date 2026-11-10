@@ -63,12 +63,16 @@
 		<span class="cta-hover__resting">
 			{#if dot}<span class="cta-hover__dot"></span>{/if}
 			<span class="cta-hover__label">{@render children()}</span>
-			{#if !dot}<ArrowRight class="cta-hover__arrow cta-hover__arrow--inline" weight="bold" />{/if}
+			{#if !dot}<ArrowRight
+					aria-hidden="true"
+					class="cta-hover__arrow cta-hover__arrow--inline"
+					weight="bold"
+				/>{/if}
 		</span>
 		{#if dot}
 			<span class="cta-hover__reveal" aria-hidden="true">
 				<span class="cta-hover__label">{@render children()}</span>
-				<ArrowRight class="cta-hover__arrow" weight="bold" />
+				<ArrowRight aria-hidden="true" class="cta-hover__arrow" weight="bold" />
 			</span>
 		{/if}
 	</a>
@@ -77,12 +81,16 @@
 		<span class="cta-hover__resting">
 			{#if dot}<span class="cta-hover__dot"></span>{/if}
 			<span class="cta-hover__label">{@render children()}</span>
-			{#if !dot}<ArrowRight class="cta-hover__arrow cta-hover__arrow--inline" weight="bold" />{/if}
+			{#if !dot}<ArrowRight
+					aria-hidden="true"
+					class="cta-hover__arrow cta-hover__arrow--inline"
+					weight="bold"
+				/>{/if}
 		</span>
 		{#if dot}
 			<span class="cta-hover__reveal" aria-hidden="true">
 				<span class="cta-hover__label">{@render children()}</span>
-				<ArrowRight class="cta-hover__arrow" weight="bold" />
+				<ArrowRight aria-hidden="true" class="cta-hover__arrow" weight="bold" />
 			</span>
 		{/if}
 	</button>

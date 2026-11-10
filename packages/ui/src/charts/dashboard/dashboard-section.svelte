@@ -58,6 +58,7 @@
 				>
 					{openLabel}
 					<ArrowRight
+						aria-hidden="true"
 						size={12}
 						class="shrink-0 transition-transform duration-[var(--duration-quick)] ease-out group-hover:translate-x-0.5"
 					/>

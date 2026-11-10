@@ -169,7 +169,7 @@
 		</div>
 		<div bind:this={clearGlow} class="t-clear-glow" aria-hidden="true"></div>
 		<button type="button" class="t-clear-btn clear-x" onclick={triggerClear} aria-label="Clear">
-			<X class="size-3.5" />
+			<X aria-hidden="true" class="size-3.5" />
 		</button>
 	</div>
 </DemoStage>

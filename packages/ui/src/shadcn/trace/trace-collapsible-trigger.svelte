@@ -24,6 +24,6 @@
 >
 	{@render children?.()}
 	<TraceIcon class="transition-transform group-aria-expanded/trace-collapsible-trigger:rotate-90">
-		<CaretRight />
+		<CaretRight aria-hidden="true" />
 	</TraceIcon>
 </Collapsible.Trigger>

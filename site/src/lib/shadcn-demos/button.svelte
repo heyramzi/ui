@@ -6,6 +6,6 @@
 <div class="flex flex-wrap items-center gap-2 md:flex-row">
 	<Button variant="outline">Button</Button>
 	<Button variant="outline" icon aria-label="Submit">
-		<ArrowUp />
+		<ArrowUp aria-hidden="true" />
 	</Button>
 </div>

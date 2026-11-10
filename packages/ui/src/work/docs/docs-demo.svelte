@@ -169,6 +169,7 @@
 					class="t-press inline-flex size-7 items-center justify-center {docLooks.control} text-muted-foreground transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/6 hover:text-foreground focus-visible:shadow-(--ring-focus) any-pointer-coarse:size-10"
 				>
 					<Star
+						aria-hidden="true"
 						size={15}
 						weight={favorited ? "fill" : "regular"}
 						class={favorited ? "text-brand" : ""}
@@ -210,7 +211,7 @@
 					class="{button} @max-xl/doc:hidden"
 					onclick={() => said("Copied URL")}
 				>
-					<LinkSimple size={15} />
+					<LinkSimple aria-hidden="true" size={15} />
 				</button>
 				<button
 					type="button"
@@ -218,7 +219,7 @@
 					class={button}
 					onclick={() => said("Subscribed")}
 				>
-					<Bell size={15} />
+					<Bell aria-hidden="true" size={15} />
 				</button>
 			{/snippet}
 		</DocEditorPage>

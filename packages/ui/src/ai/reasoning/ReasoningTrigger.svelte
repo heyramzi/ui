@@ -36,13 +36,14 @@
 	)}
 	{...rest}
 >
-	<BrainIcon class={cn("size-4 shrink-0", ctx.isStreaming && "animate-pulse")} />
+	<BrainIcon aria-hidden="true" class={cn("size-4 shrink-0", ctx.isStreaming && "animate-pulse")} />
 	{#if children}
 		{@render children()}
 	{:else}
 		<span>{label}</span>
 	{/if}
 	<ChevronDownIcon
+		aria-hidden="true"
 		class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180"
 	/>
 </CollapsibleTrigger>

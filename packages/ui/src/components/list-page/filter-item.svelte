@@ -39,7 +39,7 @@
 			)}
 		>
 			{#if checked}
-				<Check class="size-2.5" weight="bold" />
+				<Check aria-hidden="true" class="size-2.5" weight="bold" />
 			{/if}
 		</span>
 	{:else}

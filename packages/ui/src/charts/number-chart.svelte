@@ -151,15 +151,15 @@
 		{#if move != null}
 			<span class="hr-number-delta" data-tone={tone}>
 				{#if move > 0}
-					<TrendUp class="hr-number-arrow" weight="bold" />
+					<TrendUp aria-hidden="true" class="hr-number-arrow" weight="bold" />
 				{:else}
-					<TrendDown class="hr-number-arrow" weight="bold" />
+					<TrendDown aria-hidden="true" class="hr-number-arrow" weight="bold" />
 				{/if}
 				<span class="hr-number-delta-text">{Math.abs(move).toFixed(0)}%</span>
 			</span>
 		{:else}
 			<span class="hr-number-delta" data-tone="none" aria-hidden="true">
-				<Minus class="hr-number-arrow" />
+				<Minus aria-hidden="true" class="hr-number-arrow" />
 			</span>
 		{/if}
 	</div>

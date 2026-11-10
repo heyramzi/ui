@@ -17,14 +17,16 @@
 
 	// An icon in the map wins; otherwise the status falls back to its dot.
 	let icon = $derived(
-		statuses.icon(status) as Component<{ size?: number; class?: string }> | undefined,
+		statuses.icon(status) as
+			| Component<{ size?: number; class?: string; "aria-hidden"?: boolean | "true" | "false" }>
+			| undefined,
 	);
 	let tone = $derived(statuses.tone(status));
 </script>
 
 {#if icon}
 	{@const Icon = icon}
-	<Icon {size} class={cn("shrink-0", TONE_ICON[tone], className)} />
+	<Icon aria-hidden="true" {size} class={cn("shrink-0", TONE_ICON[tone], className)} />
 {:else}
 	<StatusDot {statuses} {status} {size} {animate} class={className} />
 {/if}

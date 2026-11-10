@@ -106,7 +106,7 @@
 					}}
 				/>
 				<Button size="sm" icon onclick={applyLink} aria-label="Apply link">
-					<LinkSimple size={14} />
+					<LinkSimple aria-hidden="true" size={14} />
 				</Button>
 				<Button
 					variant="ghost"
@@ -165,7 +165,7 @@
 				onclick={() => editor?.chain().focus().toggleBold().run()}
 				title="Bold (Cmd+B)"
 			>
-				<TextB size={15} weight="bold" />
+				<TextB aria-hidden="true" size={15} weight="bold" />
 			</Button>
 			<Button
 				variant="ghost"
@@ -176,7 +176,7 @@
 				onclick={() => editor?.chain().focus().toggleItalic().run()}
 				title="Italic (Cmd+I)"
 			>
-				<TextItalic size={15} />
+				<TextItalic aria-hidden="true" size={15} />
 			</Button>
 			<Button
 				variant="ghost"
@@ -187,7 +187,7 @@
 				onclick={() => editor?.chain().focus().toggleStrike().run()}
 				title="Strikethrough"
 			>
-				<TextStrikethrough size={15} />
+				<TextStrikethrough aria-hidden="true" size={15} />
 			</Button>
 
 			<div class="toolbar-divider"></div>
@@ -202,7 +202,7 @@
 					onclick={() => editor?.chain().focus().unsetLink().run()}
 					title="Remove link"
 				>
-					<LinkBreak size={15} />
+					<LinkBreak aria-hidden="true" size={15} />
 				</Button>
 			{:else}
 				<Button
@@ -213,7 +213,7 @@
 					onclick={toggleLink}
 					title="Add link (Cmd+K)"
 				>
-					<LinkSimple size={15} />
+					<LinkSimple aria-hidden="true" size={15} />
 				</Button>
 			{/if}
 
@@ -228,7 +228,7 @@
 				onclick={() => editor?.chain().focus().toggleBulletList().run()}
 				title="Bullet list"
 			>
-				<ListBullets size={15} />
+				<ListBullets aria-hidden="true" size={15} />
 			</Button>
 			<Button
 				variant="ghost"
@@ -239,7 +239,7 @@
 				onclick={() => editor?.chain().focus().toggleOrderedList().run()}
 				title="Ordered list"
 			>
-				<ListNumbers size={15} />
+				<ListNumbers aria-hidden="true" size={15} />
 			</Button>
 			<Button
 				variant="ghost"
@@ -250,7 +250,7 @@
 				onclick={() => editor?.chain().focus().toggleBlockquote().run()}
 				title="Quote"
 			>
-				<Quotes size={15} />
+				<Quotes aria-hidden="true" size={15} />
 			</Button>
 
 			{#if preset === "full"}
@@ -265,7 +265,7 @@
 					onclick={onInsertYoutube}
 					title="Insert YouTube video"
 				>
-					<VideoCamera size={15} />
+					<VideoCamera aria-hidden="true" size={15} />
 				</Button>
 			{/if}
 		{/if}

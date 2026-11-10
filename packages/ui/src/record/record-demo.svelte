@@ -145,7 +145,7 @@
 			class="flex-1"
 		/>
 		<Button type="submit" variant="outline" disabled={!draftNote.trim()}>
-			<NotePencil data-icon="inline-start" />
+			<NotePencil aria-hidden="true" data-icon="inline-start" />
 			Add
 		</Button>
 	</form>
@@ -207,7 +207,7 @@
 						>
 							{#snippet actions()}
 								<Button variant="ghost" size="sm" icon aria-label="More actions"
-									><DotsThree weight="bold" /></Button
+									><DotsThree aria-hidden="true" weight="bold" /></Button
 								>
 							{/snippet}
 						</RecordHeader>

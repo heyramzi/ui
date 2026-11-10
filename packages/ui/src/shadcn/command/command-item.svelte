@@ -30,7 +30,7 @@
 	{@render children?.()}
 	<!-- WHY hidden rather than transparent: rendered at zero opacity it still took 16px and the row's `ml-auto` on every list that never sets `data-checked`, -->
 	<!-- which is what pulled the palette's right-hand column out of alignment. -->
-	<Check
+	<Check aria-hidden="true"
 		size={16}
 		class="cn-command-item-indicator group-data-[checked=true]/command-item:block ml-auto hidden"
 	/>

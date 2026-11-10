@@ -25,5 +25,5 @@
 	{...restProps}
 >
 	{@render children?.()}
-	<CaretRight size={16} class="ml-auto" />
+	<CaretRight aria-hidden="true" size={16} class="ml-auto" />
 </DropdownMenuPrimitive.SubTrigger>

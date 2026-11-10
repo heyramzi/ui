@@ -62,7 +62,7 @@
 			class="-mt-1 -mr-1.5 text-muted-foreground"
 			aria-label={strings.skip}
 		>
-			<X weight="bold" />
+			<X aria-hidden="true" weight="bold" />
 		</Button>
 	</div>
 	<p {...bodyAttrs} class="text-muted-foreground text-sm text-pretty">{body}</p>

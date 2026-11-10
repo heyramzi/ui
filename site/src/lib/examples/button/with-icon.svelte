@@ -5,11 +5,11 @@
 
 <div class="flex flex-wrap items-center justify-center gap-2">
 	<Button variant="outline">
-		<DownloadSimple data-icon="inline-start" />
+		<DownloadSimple aria-hidden="true" data-icon="inline-start" />
 		Download
 	</Button>
 	<Button>
 		Continue
-		<ArrowRight data-icon="inline-end" />
+		<ArrowRight aria-hidden="true" data-icon="inline-end" />
 	</Button>
 </div>

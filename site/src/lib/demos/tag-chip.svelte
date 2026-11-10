@@ -8,7 +8,7 @@
 <div class="flex w-full max-w-sm flex-wrap items-center gap-1.5">
 	<TagChip>Read only</TagChip>
 	<TagChip>
-		{#snippet icon()}<Tag />{/snippet}
+		{#snippet icon()}<Tag aria-hidden="true" />{/snippet}
 		With an icon
 	</TagChip>
 	{#each tags as tag (tag)}

@@ -254,7 +254,7 @@
 						class:tl-chevron-open={open}
 						aria-hidden="true"
 					>
-						<CaretRight weight="bold" />
+						<CaretRight aria-hidden="true" weight="bold" />
 					</span>
 				</Button>
 			{/if}

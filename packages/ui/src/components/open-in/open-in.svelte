@@ -10,7 +10,7 @@
 		name: string;
 		/** The default accessible sentence, when the caller passes no translated one. */
 		action: string;
-		icon: Component<{ size?: number; class?: string }>;
+		icon: Component<{ size?: number; class?: string; "aria-hidden"?: boolean | "true" | "false" }>;
 	}
 
 	/** `chip` is the bordered inline tag, `button` sits in a header beside other
@@ -96,12 +96,12 @@
 			className,
 		)}
 	>
-		<Icon size={iconSize} />
+		<Icon aria-hidden="true" size={iconSize} />
 		{#if variant !== "icon"}
 			{text}
 			<!-- The one thing the mark can't say: this leaves the app. It stays muted
 				     so the eye lands on the tool name first. -->
-			<ArrowSquareOut size={iconSize} class="text-muted-foreground" />
+			<ArrowSquareOut aria-hidden="true" size={iconSize} class="text-muted-foreground" />
 		{/if}
 	</a>
 </div>

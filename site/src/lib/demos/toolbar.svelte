@@ -25,7 +25,7 @@
 		<div class="w-[720px] max-w-full rounded-lg border border-border bg-card p-3">
 			<Toolbar bind:search bind:tab bind:view {tabs} {views}>
 				{#snippet actions()}
-					<Button size="sm"><Plus /> New</Button>
+					<Button size="sm"><Plus aria-hidden="true" /> New</Button>
 				{/snippet}
 			</Toolbar>
 		</div>
@@ -37,7 +37,7 @@
 		<div class="w-[340px] max-w-full rounded-lg border border-border bg-card p-3">
 			<Toolbar bind:search bind:tab bind:view {tabs} {views}>
 				{#snippet actions()}
-					<Button size="sm" icon aria-label="New"><Plus /></Button>
+					<Button size="sm" icon aria-label="New"><Plus aria-hidden="true" /></Button>
 				{/snippet}
 			</Toolbar>
 		</div>

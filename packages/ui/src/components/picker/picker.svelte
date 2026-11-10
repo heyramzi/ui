@@ -118,7 +118,7 @@
 							>
 								{#if option.icon}
 									{@const Icon = option.icon}
-									<Icon class={cn("size-4", option.tone)} weight="bold" />
+									<Icon aria-hidden="true" class={cn("size-4", option.tone)} weight="bold" />
 								{:else if lead}
 									{@render lead(option)}
 								{/if}

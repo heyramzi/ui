@@ -84,15 +84,21 @@
 	>
 		<span class="theme-toggle-slide__glow" aria-hidden="true"></span>
 		<span class="theme-toggle-slide__icon theme-toggle-slide__icon--sun" aria-hidden="true">
-			<Sun size={14} weight="fill" />
+			<Sun aria-hidden="true" size={14} weight="fill" />
 		</span>
 		<span class="theme-toggle-slide__icon theme-toggle-slide__icon--moon" aria-hidden="true">
-			<Moon size={14} weight="fill" />
+			<Moon aria-hidden="true" size={14} weight="fill" />
 		</span>
 		<span class="theme-toggle-slide__thumb" aria-hidden="true">
 			<span class="theme-toggle-slide__ring"></span>
-			<Sun size={14} weight="fill" class="theme-toggle-slide__mark theme-toggle-slide__mark--sun" />
+			<Sun
+				aria-hidden="true"
+				size={14}
+				weight="fill"
+				class="theme-toggle-slide__mark theme-toggle-slide__mark--sun"
+			/>
 			<Moon
+				aria-hidden="true"
 				size={14}
 				weight="fill"
 				class="theme-toggle-slide__mark theme-toggle-slide__mark--moon"
@@ -115,10 +121,10 @@
 			className,
 		)}
 	>
-		<Sun class={iconClass(active === "light", "rotate-90")} />
-		<Moon class={iconClass(active === "dark", "-rotate-90")} />
+		<Sun aria-hidden="true" class={iconClass(active === "light", "rotate-90")} />
+		<Moon aria-hidden="true" class={iconClass(active === "dark", "-rotate-90")} />
 		{#if mode}
-			<Monitor class={iconClass(active === "system", "rotate-90")} />
+			<Monitor aria-hidden="true" class={iconClass(active === "system", "rotate-90")} />
 		{/if}
 		<span class="sr-only">{text}</span>
 	</button>

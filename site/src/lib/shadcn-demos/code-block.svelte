@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 	<CodeBlock.Root>
 		<CodeBlock.Header>
 			<CodeBlock.Title>
-				<FileCode />
+				<FileCode aria-hidden="true" />
 				app/api/chat/route.ts
 			</CodeBlock.Title>
 			<CodeBlock.Actions>
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 					class="aria-pressed:text-foreground"
 					onclick={() => (wrap = !wrap)}
 				>
-					<ArrowBendDownLeft />
+					<ArrowBendDownLeft aria-hidden="true" />
 				</Button>
 				<Button
 					variant="ghost"
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
 					aria-label="Download"
 					onclick={() => download(code, "route.ts")}
 				>
-					<DownloadSimple />
+					<DownloadSimple aria-hidden="true" />
 				</Button>
 				<CodeBlock.CopyButton value={code} />
 			</CodeBlock.Actions>

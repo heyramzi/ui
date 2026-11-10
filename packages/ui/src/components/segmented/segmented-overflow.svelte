@@ -79,6 +79,7 @@
 	{#snippet trigger()}
 		{label}
 		<CaretDown
+			aria-hidden="true"
 			class={cn(
 				"shrink-0 transition-transform duration-150 group-data-[state=open]/segment:rotate-180",
 				"size-3.5",

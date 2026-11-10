@@ -128,7 +128,7 @@
 					class={cn("-mx-1 mb-2 self-start px-1 text-muted-foreground", stackedOnly)}
 					onclick={() => (pane = "rail")}
 				>
-					<CaretLeft size={16} weight="bold" />
+					<CaretLeft aria-hidden="true" size={16} weight="bold" />
 					{backLabel}
 				</Button>
 			{/if}

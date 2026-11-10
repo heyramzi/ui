@@ -19,5 +19,5 @@
 	)}
 	{...restProps}
 >
-	<CaretUp size={16} />
+	<CaretUp aria-hidden="true" size={16} />
 </SelectPrimitive.ScrollUpButton>

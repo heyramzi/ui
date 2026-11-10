@@ -16,6 +16,6 @@
 <Picker {options} {value} onSelect={(next) => (value = next)} triggerClass={pickerTriggerClass()}>
 	{#snippet trigger()}
 		<span>{selected?.label ?? "Priority"}</span>
-		<CaretDown class="size-3 text-muted-foreground" />
+		<CaretDown aria-hidden="true" class="size-3 text-muted-foreground" />
 	{/snippet}
 </Picker>

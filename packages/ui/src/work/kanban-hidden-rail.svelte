@@ -34,7 +34,7 @@
 				"size-2.5 transition-transform duration-fast ease-smooth-out motion-reduce:transition-none [&>svg]:size-full",
 				!rail.railOpen && "-rotate-90",
 			)}
-			aria-hidden="true"><CaretDown weight="bold" /></span
+			aria-hidden="true"><CaretDown aria-hidden="true" weight="bold" /></span
 		>
 		{hiddenLabel}
 	</Button>

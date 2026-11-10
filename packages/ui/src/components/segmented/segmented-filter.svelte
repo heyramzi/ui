@@ -47,9 +47,8 @@
 		max?: number | "none";
 		/** What the menu segment says. Translate at the call site. */
 		moreLabel?: string;
-		/** An option with an `image` or `icon` draws the mark alone, and its label
-		 *  moves to `aria-label` and the hover title. For a toolbar with no room
-		 *  for words, where every mark is a brand people know. */
+		/** An option with an `image` or `icon` draws the mark alone; its label moves to
+		 *  `aria-label` and the title. For a cramped toolbar of well-known brand marks. */
 		iconOnly?: boolean;
 		class?: string;
 	}
@@ -127,6 +126,7 @@
 		{#snippet trigger()}
 			<Segment label={current.label} count={current.count} icon={current.icon} active />
 			<CaretDown
+				aria-hidden="true"
 				class="size-3 shrink-0 opacity-60 transition-transform duration-150 group-data-[state=open]/segment:rotate-180"
 			/>
 		{/snippet}
@@ -161,7 +161,7 @@
 							)}
 						/>
 					{:else if markOnly && option.icon}
-						<option.icon size={16} class="shrink-0" />
+						<option.icon aria-hidden="true" size={16} class="shrink-0" />
 					{:else}
 						<Segment
 							label={option.label}

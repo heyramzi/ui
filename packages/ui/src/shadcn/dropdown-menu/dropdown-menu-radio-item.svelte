@@ -26,7 +26,7 @@
 			data-slot="dropdown-menu-radio-item-indicator"
 		>
 			{#if checked}
-				<Check size={16} />
+				<Check aria-hidden="true" size={16} />
 			{/if}
 		</span>
 		{@render childrenProp?.({ checked })}

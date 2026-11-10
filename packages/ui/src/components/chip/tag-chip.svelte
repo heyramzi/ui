@@ -57,7 +57,7 @@
 			}}
 			onclick={onremove}
 		>
-			<X class="size-3" weight="bold" />
+			<X aria-hidden="true" class="size-3" weight="bold" />
 		</button>
 	{/if}
 </span>

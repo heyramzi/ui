@@ -17,15 +17,15 @@
 		<Spinner />
 	{/snippet}
 	{#snippet successIcon()}
-		<CheckCircle class="size-4" />
+		<CheckCircle aria-hidden="true" class="size-4" />
 	{/snippet}
 	{#snippet errorIcon()}
-		<XCircle class="size-4" />
+		<XCircle aria-hidden="true" class="size-4" />
 	{/snippet}
 	{#snippet infoIcon()}
-		<Info class="size-4" />
+		<Info aria-hidden="true" class="size-4" />
 	{/snippet}
 	{#snippet warningIcon()}
-		<Warning class="size-4" />
+		<Warning aria-hidden="true" class="size-4" />
 	{/snippet}
 </Sonner>

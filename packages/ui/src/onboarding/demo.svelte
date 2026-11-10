@@ -81,7 +81,9 @@
 	<div class="bg-card ring-foreground/10 flex flex-col gap-4 rounded-xl p-4 ring-1">
 		<div class="flex items-center justify-between gap-3">
 			<h2 class="text-sm font-semibold">Projects</h2>
-			<Button size="sm" data-tour="demo-new"><Plus weight="bold" />New project</Button>
+			<Button size="sm" data-tour="demo-new"
+				><Plus aria-hidden="true" weight="bold" />New project</Button
+			>
 		</div>
 		<div class="flex gap-1.5" data-tour="demo-filter">
 			<Badge variant="outline">All</Badge>

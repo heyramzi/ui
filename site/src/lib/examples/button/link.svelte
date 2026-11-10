@@ -5,5 +5,5 @@
 
 <Button variant="outline" href="/components/badge">
 	Read the Badge docs
-	<ArrowUpRight data-icon="inline-end" />
+	<ArrowUpRight aria-hidden="true" data-icon="inline-end" />
 </Button>

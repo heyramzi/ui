@@ -7,7 +7,7 @@
 <div class="flex w-full max-w-sm flex-col gap-8 py-12">
 	<Marker.Root>
 		<Marker.Icon>
-			<GitBranch />
+			<GitBranch aria-hidden="true" />
 		</Marker.Icon>
 		<Marker.Content>Switched to a new branch</Marker.Content>
 	</Marker.Root>
@@ -22,7 +22,7 @@
 	</Marker.Root>
 	<Marker.Root>
 		<Marker.Icon>
-			<MagnifyingGlass />
+			<MagnifyingGlass aria-hidden="true" />
 		</Marker.Icon>
 		<Marker.Content>Explored 4 files</Marker.Content>
 	</Marker.Root>

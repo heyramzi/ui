@@ -9,6 +9,6 @@
 	variant="outline"
 	class="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-blue-500 data-[state=on]:*:[svg]:stroke-blue-500"
 >
-	<BookmarkSimple />
+	<BookmarkSimple aria-hidden="true" />
 	Bookmark
 </Toggle>

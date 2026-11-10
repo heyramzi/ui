@@ -65,7 +65,7 @@
 <!-- =========================== -->
 <Popover.Root bind:open>
 	<Popover.Trigger class={toolbarTriggerClass({ active: isActive, className: triggerClass })}>
-		<IconComponent class="size-3.5" />
+		<IconComponent aria-hidden="true" class="size-3.5" />
 		<span>{label}</span>
 		{#if trailing}
 			{@render trailing()}

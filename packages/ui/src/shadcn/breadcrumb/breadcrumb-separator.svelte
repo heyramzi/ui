@@ -22,6 +22,6 @@
 	{#if children}
 		{@render children?.()}
 	{:else}
-		<CaretRight />
+		<CaretRight aria-hidden="true" />
 	{/if}
 </li>

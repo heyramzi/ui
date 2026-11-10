@@ -32,6 +32,6 @@
 	}}
 	{...restProps}
 >
-	<SidebarSimple size={16} />
+	<SidebarSimple aria-hidden="true" size={16} />
 	<span class="sr-only">Toggle Sidebar</span>
 </Button>

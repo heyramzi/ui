@@ -102,7 +102,7 @@
 
 	{#if tab === "review"}
 		<TriageQueue {items} key={(mail) => mail.id} empty="Nothing waiting for you.">
-			{#snippet icon()}<Tray class="size-6" />{/snippet}
+			{#snippet icon()}<Tray aria-hidden="true" class="size-6" />{/snippet}
 			{#snippet row(mail)}
 				<TriagePlan
 					sender={mail.from}
@@ -133,7 +133,7 @@
 			key={(row) => row.id}
 			empty="Nothing settled yet."
 		>
-			{#snippet icon()}<Tray class="size-6" />{/snippet}
+			{#snippet icon()}<Tray aria-hidden="true" class="size-6" />{/snippet}
 			{#snippet row(entry)}
 				<TriageTask
 					sender={entry.from}

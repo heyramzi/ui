@@ -16,7 +16,7 @@
 </script>
 
 {#snippet Fallback()}
-	<CaretLeft class="size-4" />
+	<CaretLeft aria-hidden="true" class="size-4" />
 {/snippet}
 
 <CalendarPrimitive.PrevButton

@@ -243,7 +243,7 @@
 {#snippet marker(kind: StepMarker)}
 	{#if kind === "complete"}
 		<span class="flex size-4 items-center justify-center rounded-full bg-success text-white">
-			<Check class="size-2.5" weight="bold" />
+			<Check aria-hidden="true" class="size-2.5" weight="bold" />
 		</span>
 	{:else if kind === "current"}
 		<span class="rounded-full bg-card p-0.75">
@@ -278,7 +278,7 @@
 							class="relative ml-auto text-muted-foreground"
 							aria-label={t.editSteps}
 						>
-							<DotsThreeVertical class="size-4" weight="bold" />
+							<DotsThreeVertical aria-hidden="true" class="size-4" weight="bold" />
 							{#if hiddenCount > 0}
 								<!-- Opaque, since it sits over the icon's corner. -->
 								<CountChip
@@ -306,9 +306,9 @@
 							>
 								<span class="flex size-4 shrink-0 items-center justify-center">
 									{#if step.hidden}
-										<EyeSlash class="size-3.5 text-muted-foreground" />
+										<EyeSlash aria-hidden="true" class="size-3.5 text-muted-foreground" />
 									{:else}
-										<Eye class="size-3.5" />
+										<Eye aria-hidden="true" class="size-3.5" />
 									{/if}
 								</span>
 								<span
@@ -445,29 +445,29 @@
 								<ContextMenu.Content class="w-48">
 									{#if onRename}
 										<ContextMenu.Item onclick={() => startRename(step)}>
-											<PencilSimple class="mr-2 size-3.5" />
+											<PencilSimple aria-hidden="true" class="mr-2 size-3.5" />
 											{t.rename}
 										</ContextMenu.Item>
 										{#if step.renamed}
 											<ContextMenu.Item onclick={() => onRename(step.id, "")}>
-												<ArrowCounterClockwise class="mr-2 size-3.5" />
+												<ArrowCounterClockwise aria-hidden="true" class="mr-2 size-3.5" />
 												{t.resetName}
 											</ContextMenu.Item>
 										{/if}
 									{/if}
 									{#if onReorder}
 										<ContextMenu.Item onclick={() => applyOrder(nudgeStep(ordered, step.id, -1))}>
-											<ArrowUp class="mr-2 size-3.5" />
+											<ArrowUp aria-hidden="true" class="mr-2 size-3.5" />
 											{t.moveUp}
 										</ContextMenu.Item>
 										<ContextMenu.Item onclick={() => applyOrder(nudgeStep(ordered, step.id, 1))}>
-											<ArrowDown class="mr-2 size-3.5" />
+											<ArrowDown aria-hidden="true" class="mr-2 size-3.5" />
 											{t.moveDown}
 										</ContextMenu.Item>
 									{/if}
 									{#if onToggle}
 										<ContextMenu.Item onclick={() => onToggle(step.id, false)}>
-											<EyeSlash class="mr-2 size-3.5" />
+											<EyeSlash aria-hidden="true" class="mr-2 size-3.5" />
 											{t.hide}
 										</ContextMenu.Item>
 									{/if}

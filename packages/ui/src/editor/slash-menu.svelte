@@ -37,7 +37,7 @@
 			aria-selected={i === selectedIndex}
 		>
 			<span class="slash-icon">
-				<item.icon size={18} />
+				<item.icon aria-hidden="true" size={18} />
 			</span>
 			<span class="slash-text">
 				<span class="slash-label">{item.label}</span>

@@ -85,7 +85,7 @@
 			aria-label={previousLabel}
 			title={`${previousLabel} (K)`}
 		>
-			<CaretLeft size={15} />
+			<CaretLeft aria-hidden="true" size={15} />
 		</Button>
 		<span class="min-w-9 text-center text-xs tabular-nums">{index + 1}/{ids.length}</span>
 		<Button
@@ -98,7 +98,7 @@
 			aria-label={nextLabel}
 			title={`${nextLabel} (J)`}
 		>
-			<CaretRight size={15} />
+			<CaretRight aria-hidden="true" size={15} />
 		</Button>
 	</div>
 {/if}

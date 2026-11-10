@@ -31,7 +31,7 @@
 									isActive={active === row.title}
 									onclick={() => (active = row.title)}
 								>
-									<row.icon />
+									<row.icon aria-hidden="true" />
 									<span>{row.title}</span>
 								</Sidebar.MenuButton>
 								{#if row.badge}<Sidebar.MenuBadge>{row.badge}</Sidebar.MenuBadge>{/if}
@@ -48,7 +48,7 @@
 						isActive={active === "Settings"}
 						onclick={() => (active = "Settings")}
 					>
-						<Gear />
+						<Gear aria-hidden="true" />
 						<span>Settings</span>
 					</Sidebar.MenuButton>
 				</Sidebar.MenuItem>

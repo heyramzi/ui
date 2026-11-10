@@ -29,7 +29,7 @@
 		title="Align left"
 		onclick={() => onalign("left")}
 	>
-		<TextAlignLeft size={14} />
+		<TextAlignLeft aria-hidden="true" size={14} />
 	</button>
 	<button
 		type="button"
@@ -37,7 +37,7 @@
 		title="Align center"
 		onclick={() => onalign("center")}
 	>
-		<TextAlignCenter size={14} />
+		<TextAlignCenter aria-hidden="true" size={14} />
 	</button>
 	<button
 		type="button"
@@ -45,7 +45,7 @@
 		title="Align right"
 		onclick={() => onalign("right")}
 	>
-		<TextAlignRight size={14} />
+		<TextAlignRight aria-hidden="true" size={14} />
 	</button>
 	<div class="image-toolbar-divider"></div>
 	<button
@@ -54,7 +54,7 @@
 		title="Delete image"
 		onclick={ondelete}
 	>
-		<Trash size={14} />
+		<Trash aria-hidden="true" size={14} />
 	</button>
 </div>
 

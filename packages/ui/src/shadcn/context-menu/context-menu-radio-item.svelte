@@ -27,7 +27,7 @@
 	{#snippet children({ checked })}
 		<span class="absolute right-2 pointer-events-none">
 			{#if checked}
-				<CheckIcon />
+				<CheckIcon aria-hidden="true" />
 			{/if}
 		</span>
 		{@render childrenProp?.({ checked })}

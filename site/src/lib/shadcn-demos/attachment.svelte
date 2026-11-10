@@ -49,13 +49,13 @@
 		</Attachment.Content>
 		<Attachment.Actions>
 			<Attachment.Action aria-label="Cancel upload">
-				<X />
+				<X aria-hidden="true" />
 			</Attachment.Action>
 		</Attachment.Actions>
 	</Attachment.Root>
 	<Attachment.Root class="w-full">
 		<Attachment.Media>
-			<FileCode />
+			<FileCode aria-hidden="true" />
 		</Attachment.Media>
 		<Attachment.Content>
 			<Attachment.Title>message-renderer.tsx</Attachment.Title>
@@ -63,7 +63,7 @@
 		</Attachment.Content>
 		<Attachment.Actions>
 			<Attachment.Action aria-label="Remove message-renderer.tsx">
-				<X />
+				<X aria-hidden="true" />
 			</Attachment.Action>
 		</Attachment.Actions>
 	</Attachment.Root>

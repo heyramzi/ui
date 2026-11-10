@@ -35,7 +35,7 @@
 		{:else}
 			<!-- One caret that turns over, not two that swap. A transform and not a
 			     `d:` path morph, which is Chromium-only. -->
-			<CaretDown
+			<CaretDown aria-hidden="true"
 				data-slot="accordion-trigger-icon"
 				class="cn-accordion-trigger-icon pointer-events-none shrink-0 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-aria-expanded/accordion-trigger:rotate-180 motion-reduce:transition-none"
 			/>

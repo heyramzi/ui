@@ -103,6 +103,7 @@
 					<!-- The accordion chevron: it turns on the fast step and holds still under
 					     reduced motion, where the open state is aria-expanded and the rows. -->
 					<CaretDown
+						aria-hidden="true"
 						class={cn(
 							"size-3 shrink-0 text-muted-foreground transition-transform duration-fast ease-smooth-out motion-reduce:transition-none",
 							isCollapsed && "-rotate-90",

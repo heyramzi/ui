@@ -36,7 +36,7 @@
 				aria-hidden="true"
 			>
 				{yearItems.find((item) => item.value === value)?.label || selectedYearItem.label}
-				<CaretDown class="size-4" />
+				<CaretDown aria-hidden="true" class="size-4" />
 			</span>
 		{/snippet}
 	</CalendarPrimitive.YearSelect>

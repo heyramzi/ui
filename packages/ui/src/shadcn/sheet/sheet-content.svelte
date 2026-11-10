@@ -28,9 +28,8 @@
 		side?: Side;
 		showCloseButton?: boolean;
 		/**
-		 * From `sm` up the sheet floats 8px off the viewport edge at the overlay radius, like
-		 * SidePanel. On by default for left and right sheets; `floating={false}` keeps one flush.
-		 * Under `sm` it stays full bleed, since a phone needs the width.
+		 * From `sm` up a left or right sheet floats 8px off the edge, like SidePanel;
+		 * `floating={false}` keeps it flush. A phone stays full bleed for the width.
 		 */
 		floating?: boolean;
 		children: Snippet;
@@ -42,9 +41,8 @@
 	// Plain side utilities, not `data-[side=x]:` variants, because the variant outranks a
 	// caller's `sm:max-w-xl` and tailwind-merge can't dedupe across modifier sets.
 	const SIDE_CLASS: Record<Side, string> = {
-		// h-dvh, not h-full: on iOS Safari a fixed panel sizes against the layout
-		// viewport, which is taller than the visible area, so h-full hides the footer.
-		// No side border: `shadow-edge-overlay` draws the hairline and the depth.
+		// h-dvh: on iOS Safari h-full sizes a fixed panel to the taller layout viewport and
+		// hides the footer. `shadow-edge-overlay` draws the hairline, so no side border.
 		right: "inset-y-0 right-0 h-dvh w-3/4 sm:max-w-sm",
 		left: "inset-y-0 left-0 h-dvh w-3/4 sm:max-w-sm",
 		// Full width, capped at 80vh so the overlay stays visible. The safe-area
@@ -83,7 +81,7 @@
 			<SheetPrimitive.Close data-slot="sheet-close">
 				{#snippet child({ props })}
 					<Button variant="ghost" class="absolute top-3 right-2" size="sm" icon {...props}>
-						<X size={16} />
+						<X aria-hidden="true" size={16} />
 						<span class="sr-only">Close</span>
 					</Button>
 				{/snippet}

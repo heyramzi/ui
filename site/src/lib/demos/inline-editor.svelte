@@ -43,17 +43,18 @@
 <div class="w-full max-w-md rounded-xl border border-border bg-card">
 	<div class="flex items-center gap-1 border-b border-border p-1.5">
 		<Button variant="ghost" size="sm" icon aria-label="Bold" onclick={() => api?.toggle("bold")}
-			><TextB class="size-4" /></Button
+			><TextB aria-hidden="true" class="size-4" /></Button
 		>
 		<Button variant="ghost" size="sm" icon aria-label="Italic" onclick={() => api?.toggle("italic")}
-			><TextItalic class="size-4" /></Button
+			><TextItalic aria-hidden="true" class="size-4" /></Button
 		>
 		<Button
 			variant="ghost"
 			size="sm"
 			icon
 			aria-label="Bullet list"
-			onclick={() => api?.toggle("bulletList")}><ListBullets class="size-4" /></Button
+			onclick={() => api?.toggle("bulletList")}
+			><ListBullets aria-hidden="true" class="size-4" /></Button
 		>
 	</div>
 	<InlineEditor

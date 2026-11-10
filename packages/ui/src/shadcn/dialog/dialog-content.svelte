@@ -40,9 +40,8 @@
 
 			// Below sm the dialog docks to the bottom edge instead, scrolls inside itself, and clears the home indicator.
 			"right-0 bottom-0 left-0 max-h-[88svh] overflow-y-auto overscroll-contain rounded-t-2xl rounded-b-none",
-			// One padding for every part, held in `--dialog-pad` so the header, the close button and a
-			// banded footer all read the same number. A single `p-` class, not `p-4 sm:p-6`: a caller's
-			// `p-0` used to cancel only the phone padding and leave 24px on desktop.
+			// One `--dialog-pad` for header, close button and footer. A single `p-` class, since a
+			// caller's `p-0` once cancelled only the phone padding of `p-4 sm:p-6`.
 			"[--dialog-pad:1rem] sm:[--dialog-pad:1.5rem] p-(--dialog-pad) pb-[max(var(--dialog-pad),env(safe-area-inset-bottom))]",
 			"sm:top-1/2 sm:right-auto sm:bottom-auto sm:left-1/2 sm:max-h-[calc(100svh-4rem)] sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl",
 			className,
@@ -62,7 +61,7 @@
 						icon
 						{...props}
 					>
-						<X size={16} />
+						<X aria-hidden="true" size={16} />
 						<span class="sr-only">Close</span>
 					</Button>
 				{/snippet}

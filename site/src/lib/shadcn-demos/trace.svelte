@@ -20,7 +20,7 @@
 <div class="w-full max-w-md">
 	<Trace.Root>
 		<Trace.Line>
-			<Trace.Icon><CheckCircle /></Trace.Icon>
+			<Trace.Icon><CheckCircle aria-hidden="true" /></Trace.Icon>
 			<Trace.Title>Thought for 5s</Trace.Title>
 		</Trace.Line>
 		{#each steps as step (step.command)}
@@ -28,7 +28,7 @@
 				<Trace.CollapsibleTrigger>
 					<Trace.Line status={step.error ? "error" : undefined}>
 						<Trace.Icon>
-							{#if step.error}<WarningCircle />{:else}<CheckCircle />{/if}
+							{#if step.error}<WarningCircle aria-hidden="true" />{:else}<CheckCircle aria-hidden="true" />{/if}
 						</Trace.Icon>
 						<Trace.Title>{step.error ? "Failed to run" : "Ran"} {step.command}</Trace.Title>
 					</Trace.Line>
@@ -41,7 +41,7 @@
 			</Trace.Collapsible>
 		{/each}
 		<Trace.Line status="running">
-			<Trace.Icon><CircleNotch class="animate-spin" /></Trace.Icon>
+			<Trace.Icon><CircleNotch aria-hidden="true" class="animate-spin" /></Trace.Icon>
 			<Trace.Title>Writing the fix</Trace.Title>
 			<Trace.Description>2 sources</Trace.Description>
 		</Trace.Line>

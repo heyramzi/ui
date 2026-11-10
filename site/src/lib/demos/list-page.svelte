@@ -125,7 +125,7 @@
 				/>
 			{/snippet}
 			{#snippet rightActions()}
-				<Button size="sm"><Plus class="size-4" weight="bold" />New quote</Button>
+				<Button size="sm"><Plus aria-hidden="true" class="size-4" weight="bold" />New quote</Button>
 			{/snippet}
 			{#snippet content()}
 				<div class="h-[26rem]">
@@ -194,7 +194,7 @@
 		</div>
 		<EmptyState surface="dashed" icon={Tray} title="No quotes yet">
 			{#snippet actions()}
-				<Button size="sm"><Plus class="size-4" weight="bold" />New quote</Button>
+				<Button size="sm"><Plus aria-hidden="true" class="size-4" weight="bold" />New quote</Button>
 				<Button size="sm" variant="outline">Import</Button>
 			{/snippet}
 		</EmptyState>

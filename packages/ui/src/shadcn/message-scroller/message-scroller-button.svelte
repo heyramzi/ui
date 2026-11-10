@@ -41,7 +41,7 @@
 				{#if children}
 					{@render children()}
 				{:else}
-					<ArrowDown />
+					<ArrowDown aria-hidden="true" />
 					<span class="sr-only">
 						{direction === "end" ? "Scroll to end" : "Scroll to start"}
 					</span>

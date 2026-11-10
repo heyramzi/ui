@@ -25,5 +25,5 @@
 	{...restProps}
 >
 	{@render children?.()}
-	<CaretRightIcon class="ml-auto" />
+	<CaretRightIcon aria-hidden="true" class="ml-auto" />
 </ContextMenuPrimitive.SubTrigger>

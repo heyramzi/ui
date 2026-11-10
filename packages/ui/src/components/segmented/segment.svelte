@@ -70,7 +70,7 @@
 		)}
 	/>
 {:else if Icon}
-	<Icon size={16} class="shrink-0" />
+	<Icon aria-hidden="true" size={16} class="shrink-0" />
 {/if}
 
 {label}

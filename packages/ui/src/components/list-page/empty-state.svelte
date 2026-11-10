@@ -119,7 +119,7 @@
 	<Empty.Header class={look.header}>
 		{#if Icon && !look.icon}
 			<Empty.Media class="mb-3 size-12 rounded-xl bg-card text-foreground shadow-card">
-				<Icon weight={iconWeight} class="size-6" />
+				<Icon aria-hidden="true" weight={iconWeight} class="size-6" />
 			</Empty.Media>
 		{/if}
 		<Empty.Title

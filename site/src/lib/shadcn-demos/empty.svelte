@@ -7,7 +7,7 @@
 <Empty.Root>
 	<Empty.Header>
 		<Empty.Media variant="icon">
-			<FolderOpen />
+			<FolderOpen aria-hidden="true" />
 		</Empty.Media>
 		<Empty.Title>No Projects Yet</Empty.Title>
 		<Empty.Description>

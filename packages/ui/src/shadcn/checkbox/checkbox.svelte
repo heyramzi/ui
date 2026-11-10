@@ -29,9 +29,9 @@
 			class="[&>svg]:size-3.5 grid place-content-center text-current"
 		>
 			{#if checked}
-				<Check size={14} />
+				<Check aria-hidden="true" size={14} />
 			{:else if indeterminate}
-				<Minus size={14} />
+				<Minus aria-hidden="true" size={14} />
 			{/if}
 		</div>
 	{/snippet}

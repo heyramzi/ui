@@ -218,7 +218,7 @@
 					{#if assignee}
 						<TaskChip>
 							<Avatar.Root class="size-4" aria-hidden="true">
-								<Avatar.Fallback><User class="size-3" /></Avatar.Fallback>
+								<Avatar.Fallback><User aria-hidden="true" class="size-3" /></Avatar.Fallback>
 							</Avatar.Root>
 							{assignee}
 						</TaskChip>

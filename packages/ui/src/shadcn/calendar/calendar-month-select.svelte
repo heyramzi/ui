@@ -37,7 +37,7 @@
 				aria-hidden="true"
 			>
 				{monthItems.find((item) => item.value === value)?.label || selectedMonthItem.label}
-				<CaretDown class="size-4" />
+				<CaretDown aria-hidden="true" class="size-4" />
 			</span>
 		{/snippet}
 	</CalendarPrimitive.MonthSelect>

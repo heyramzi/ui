@@ -10,8 +10,8 @@
 		<Button variant="outline" size="lg">Large</Button>
 	</div>
 	<div class="flex flex-wrap items-center justify-center gap-2">
-		<Button variant="outline" size="sm" icon aria-label="Add"><Plus /></Button>
-		<Button variant="outline" icon aria-label="Add"><Plus /></Button>
-		<Button variant="outline" size="lg" icon aria-label="Add"><Plus /></Button>
+		<Button variant="outline" size="sm" icon aria-label="Add"><Plus aria-hidden="true" /></Button>
+		<Button variant="outline" icon aria-label="Add"><Plus aria-hidden="true" /></Button>
+		<Button variant="outline" size="lg" icon aria-label="Add"><Plus aria-hidden="true" /></Button>
 	</div>
 </div>

@@ -33,9 +33,9 @@
 			data-slot="dropdown-menu-checkbox-item-indicator"
 		>
 			{#if indeterminate}
-				<Minus size={16} />
+				<Minus aria-hidden="true" size={16} />
 			{:else if checked}
-				<Check size={16} />
+				<Check aria-hidden="true" size={16} />
 			{/if}
 		</span>
 		{@render childrenProp?.()}

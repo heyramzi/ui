@@ -9,32 +9,32 @@
 		<Command.Empty>No results found.</Command.Empty>
 		<Command.Group heading="Suggestions">
 			<Command.Item>
-				<CalendarBlank />
+				<CalendarBlank aria-hidden="true" />
 				<span>Calendar</span>
 			</Command.Item>
 			<Command.Item>
-				<Smiley />
+				<Smiley aria-hidden="true" />
 				<span>Search Emoji</span>
 			</Command.Item>
 			<Command.Item disabled>
-				<Calculator />
+				<Calculator aria-hidden="true" />
 				<span>Calculator</span>
 			</Command.Item>
 		</Command.Group>
 		<Command.Separator />
 		<Command.Group heading="Settings">
 			<Command.Item>
-				<User />
+				<User aria-hidden="true" />
 				<span>Profile</span>
 				<Command.Shortcut>⌘P</Command.Shortcut>
 			</Command.Item>
 			<Command.Item>
-				<CreditCard />
+				<CreditCard aria-hidden="true" />
 				<span>Billing</span>
 				<Command.Shortcut>⌘B</Command.Shortcut>
 			</Command.Item>
 			<Command.Item>
-				<Gear />
+				<Gear aria-hidden="true" />
 				<span>Settings</span>
 				<Command.Shortcut>⌘S</Command.Shortcut>
 			</Command.Item>

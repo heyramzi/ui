@@ -215,6 +215,7 @@
 			<span class="shrink-0 text-xs font-medium text-muted-foreground">{label}</span>
 			<span class="min-w-0 flex-1 truncate text-sm font-medium text-foreground">{activeLabel}</span>
 			<CaretDown
+				aria-hidden="true"
 				size={14}
 				class="shrink-0 text-muted-foreground transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {open
 					? 'rotate-180'

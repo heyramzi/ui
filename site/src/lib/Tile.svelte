@@ -4,8 +4,8 @@
 	import { Check, Copy } from "phosphor-svelte";
 
 	/**
-	 * `crop` lays a tall demo out at the tile's own width and full size, pinned to the top, and lets
-	 * the bottom fall off under a fade. Scaling a long column to fit leaves a speck.
+	 * `crop` lays a tall demo out full size at the tile's width, pinned to the top, its bottom
+	 * fading out. Scaling a long column to fit leaves a speck.
 	 */
 	let { entry, crop = false }: { entry: Entry; crop?: boolean } = $props();
 	let width = $state(0);
@@ -13,8 +13,8 @@
 	let stage: HTMLDivElement;
 	// Breathing room the demo keeps from the preview's edges, px.
 	const inset = { x: 48, y: 48 };
-	// Lay the demo out at a working width, never narrower than 480px, so a row of six chips stays
-	// one row and shrinks as a whole instead of wrapping inside a narrow tile.
+	// Lay the demo out at least 480px wide, so a row of six chips shrinks as one row
+	// instead of wrapping inside a narrow tile.
 	const stageWidth = $derived(
 		crop && width ? width - inset.x : width ? Math.min(760, Math.max(480, width - inset.x)) : 760,
 	);
@@ -58,9 +58,8 @@
 	}
 </script>
 
-<!-- A div, not a link: a demo can hold its own links, and a link inside a link breaks
-     hydration. One surface, one border: the preview and the caption share it, split by a
-     hairline. -->
+<!-- A div, not a link: a demo holds its own links, and nested links break hydration.
+     Preview and caption share one bordered surface, split by a hairline. -->
 <div
 	class="group relative flex min-w-0 flex-col overflow-hidden rounded-(--radius-xl) border border-border bg-card transition-[border-color] duration-(--duration-quick) hover:border-foreground/20"
 >
@@ -91,7 +90,10 @@
 			title="Copy"
 			onclick={copy}
 		>
-			{#if copied}<Check class="size-4 text-emerald-500" />{:else}<Copy class="size-4" />{/if}
+			{#if copied}<Check aria-hidden="true" class="size-4 text-emerald-500" />{:else}<Copy
+					aria-hidden="true"
+					class="size-4"
+				/>{/if}
 		</button>
 	</div>
 	<div class="flex flex-1 flex-col gap-1 px-4 py-3.5">

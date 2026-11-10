@@ -48,7 +48,7 @@
 		)}
 		aria-label="Encrypted value"
 	>
-		<LockKey class="text-muted-foreground/70 size-3.5 shrink-0" />
+		<LockKey aria-hidden="true" class="text-muted-foreground/70 size-3.5 shrink-0" />
 		<span class="truncate">{masked || "••••••••"}</span>
 	</div>
 {:else}
@@ -66,9 +66,9 @@
 			onclick={() => (revealed = !revealed)}
 		>
 			{#if revealed}
-				<LockKeyOpen class="size-4" />
+				<LockKeyOpen aria-hidden="true" class="size-4" />
 			{:else}
-				<LockKey class="size-4" />
+				<LockKey aria-hidden="true" class="size-4" />
 			{/if}
 		</button>
 	</div>
