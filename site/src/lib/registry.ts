@@ -43,12 +43,15 @@ export async function loadEntry(slug: string): Promise<Entry> {
   };
 }
 
+/** What the import helpers read: a card and its demo's text, so a test needn't load the component. */
+export type DemoText = Pick<Entry, "slug" | "demo" | "source">;
+
 /**
  * The path under a page's title: the import named after the part, else the demo's first. A demo
  * often leads with a helper, which put Button's path on the Card page. A synced primitive's path
  * is its folder even when the demo never imports it: Sonner's demo only calls `toast`.
  */
-export const importOf = (entry: Entry) => {
+export const importOf = (entry: DemoText) => {
   const paths = [...entry.source.matchAll(/from "(@heyramzi\/[^"]+)"/g)].map((m) => m[1]);
   const own = paths.find((path) => path.endsWith(`/${entry.slug}`));
   if (own) return own;
@@ -56,7 +59,7 @@ export const importOf = (entry: Entry) => {
 };
 
 /** The demo's import of the part's own path, for the Usage block. Helpers the demo leans on stay out. */
-export const importLinesOf = (entry: Entry) => {
+export const importLinesOf = (entry: DemoText) => {
   const path = importOf(entry);
   const statements = [...entry.source.matchAll(/import\s[^"]*?from\s+"(@heyramzi\/[^"]+)";?/g)];
   const own = statements.find((m) => m[1] === path)?.[0];

@@ -9,7 +9,8 @@
 		lang,
 		label,
 		header,
-	}: { code: string; lang?: string; label: string; header?: Snippet } = $props();
+		wrap = true,
+	}: { code: string; lang?: string; label: string; header?: Snippet; wrap?: boolean } = $props();
 
 	let box = $state<HTMLElement | null>(null);
 	let Lines = $state<Component<{ code: string; lang: string }> | null>(null);
@@ -34,7 +35,7 @@
 	{/if}
 	<div class="relative">
 		<CodeBlock.Root class="rounded-none border-0 bg-transparent dark:bg-transparent">
-			<CodeBlock.Content wrap class="max-h-80 py-3.5 pr-14 text-[13px]">
+			<CodeBlock.Content {wrap} class="max-h-80 py-3.5 pr-14 text-[13px]">
 				{#if Lines && lang}<Lines {code} {lang} />{:else}{code}{/if}
 			</CodeBlock.Content>
 		</CodeBlock.Root>

@@ -2,6 +2,7 @@
 	import { cards, categoryId } from "#lib/nav.js";
 	import { importLinesOf } from "#lib/registry.js";
 	import { a11yNotes } from "#lib/a11y-notes.js";
+	import { usageSnippets } from "#lib/usage-snippets.js";
 	import ComponentApi, { apiAnchor } from "#lib/ComponentApi.svelte";
 	import CodeSnippet from "#lib/CodeSnippet.svelte";
 	import DocHeading from "#lib/DocHeading.svelte";
@@ -20,6 +21,7 @@
 	const prev = $derived(cards[index - 1]);
 	const next = $derived(cards[index + 1]);
 	const usage = $derived(importLinesOf(entry));
+	const markup = $derived(usageSnippets[entry.slug]);
 	const a11y = $derived(a11yNotes[entry.slug]);
 
 	const sourceDir = $derived(entry.sourceFiles[0]?.split("/").slice(0, -1).join("/"));
@@ -148,9 +150,16 @@
 		{#if usage}
 			<section aria-labelledby="usage" class="mt-14">
 				<DocHeading id="usage">Usage</DocHeading>
-				<div class="mt-4">
-					{#key entry.slug}<CodeSnippet code={usage} lang="svelte" label="Copy import" />{/key}
-				</div>
+				{#key entry.slug}
+					<div class="mt-4">
+						<CodeSnippet code={usage} lang="svelte" label="Copy import" />
+					</div>
+					{#if markup}
+						<div class="mt-3">
+							<CodeSnippet code={markup} lang="svelte" label="Copy usage" wrap={false} />
+						</div>
+					{/if}
+				{/key}
 			</section>
 		{/if}
 

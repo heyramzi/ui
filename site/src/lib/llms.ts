@@ -11,6 +11,7 @@ import {
 } from "#lib/docs-content.js";
 import { cards, sectionById, sections } from "#lib/nav.js";
 import { importOf, loadEntry, type Entry } from "#lib/registry.js";
+import { usageSnippets } from "#lib/usage-snippets.js";
 
 export { SITE };
 
@@ -36,6 +37,8 @@ export function componentMarkdown(entry: Entry): string {
   ];
   if (from) parts.push(`Import path: \`${from}\``);
   if (imports.length) parts.push("", "## Import", "", fence("ts", imports.join("\n")));
+  const usage = usageSnippets[entry.slug];
+  if (usage) parts.push("", "## Usage", "", fence("svelte", usage));
   parts.push("", "## Demo", "", fence("svelte", entry.source));
   const api = apiOf(entry.slug);
   if (api.length) parts.push("", "## API", ...api.flatMap((part) => apiMarkdown(part, api.length)));
