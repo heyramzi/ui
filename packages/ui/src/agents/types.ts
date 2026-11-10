@@ -67,6 +67,7 @@ export type AgentAvatarProps = Omit<
   size?: number;
   class?: string;
   style?: string;
+  /** Set, the avatar is a button named like the image, so the action takes focus and Enter. */
   onclick?: (event: MouseEvent) => void;
   "aria-label"?: string;
   /** Hide the canvas from assistive tech when a parent already names the agent. */

@@ -568,6 +568,17 @@
 
 	/* No box: the slot carries no border, background or padding. Without an
      explicit size it stays square, and the avatar fills three quarters of it. */
+	const label = $derived(
+		ariaLabel ??
+			(name
+				? `${name}${role ? `, ${role}` : ""}`
+				: `${preset.label} agent, ${stateLabels[stateKey]}`),
+	);
+	// A hidden avatar sits inside a parent control that names it, so only a visible one becomes the button.
+	const asButton = $derived(userClick !== undefined && !ariaHidden);
+	const BUTTON_RESET =
+		"appearance:none;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;cursor:pointer;";
+
 	const hostStyle = $derived.by(() => {
 		const base =
 			size === undefined
@@ -592,10 +603,16 @@
 	}
 </script>
 
-<span
+<!-- WHY the host turns button: onclick is the caller's action, so it needs focus and Enter. The jump alone is decoration. -->
+<!-- svelte-ignore a11y_no_static_element_interactions (the handler is set only when it's a button) -->
+<svelte:element
+	this={asButton ? "button" : "span"}
 	bind:this={hostEl}
+	type={asButton ? "button" : undefined}
+	aria-label={asButton ? label : undefined}
 	class={className ? `agent-avatar ${className}` : "agent-avatar"}
-	style={hostStyle}
+	style={asButton ? `${hostStyle}${BUTTON_RESET}` : hostStyle}
+	onclick={asButton ? handleClick : undefined}
 	data-agent-shape={type}
 >
 	{#if drawnSize > 0}
@@ -604,17 +621,12 @@
 			data-bot-avatar={type}
 			data-face={faceKind}
 			data-state={stateKey}
-			role={ariaHidden ? undefined : "img"}
-			aria-hidden={ariaHidden ? "true" : undefined}
-			aria-label={ariaHidden
-				? undefined
-				: (ariaLabel ??
-					(name
-						? `${name}${role ? `, ${role}` : ""}`
-						: `${preset.label} agent, ${stateLabels[stateKey]}`))}
+			role={ariaHidden || asButton ? undefined : "img"}
+			aria-hidden={ariaHidden || asButton ? "true" : undefined}
+			aria-label={ariaHidden || asButton ? undefined : label}
 			style={canvasStyle}
-			onclick={handleClick}
+			onclick={asButton ? undefined : handleClick}
 			{...rest}
 		></canvas>
 	{/if}
-</span>
+</svelte:element>
