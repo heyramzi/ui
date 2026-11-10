@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InteractiveHoverButton from "@heyramzi/ui/effects/interactive-hover-button";
+	import { InteractiveHoverButton } from "@heyramzi/ui/effects/interactive-hover-button";
 </script>
 
 <div class="flex flex-wrap items-center gap-4">

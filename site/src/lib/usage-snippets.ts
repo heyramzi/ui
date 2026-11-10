@@ -832,11 +832,11 @@ const written: Record<string, string> = {
     <StatTile label="Orders" value="1,284" deltaPct={-3.1} direction="up-good" />
   </StatBand>
   <PanelGrid columns={2}>
-    <DataPanel label="Top products" pad={false}>
+    <DetailPanel label="Top products" pad={false}>
       <DataTable rows={top} {columns} rowKey={(row) => row.id} leadLabel="Product" emptyLabel="No sales">
         {#snippet lead(row)}{row.name}{/snippet}
       </DataTable>
-    </DataPanel>
+    </DetailPanel>
   </PanelGrid>
 </DashboardSection>`,
 

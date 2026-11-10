@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TypingDots } from "@heyramzi/ui/ai";
+	import { TypingDots } from "@heyramzi/ui/ai/typing-dots";
 	import { TrendPill } from "@heyramzi/ui/charts";
 	import { TimeDot } from "@heyramzi/ui/work";
 </script>

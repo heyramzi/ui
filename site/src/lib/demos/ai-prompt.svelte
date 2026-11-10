@@ -5,10 +5,9 @@
 		PromptInputTextarea,
 		PromptInputToolbar,
 		PromptInputSubmit,
-		Suggestions,
-		Suggestion,
 		type PromptInputStatus,
-	} from "@heyramzi/ui/ai";
+	} from "@heyramzi/ui/ai/prompt-input";
+	import { Suggestions, Suggestion } from "@heyramzi/ui/ai/suggestion";
 
 	let status = $state<PromptInputStatus>("ready");
 	let value = $state("");

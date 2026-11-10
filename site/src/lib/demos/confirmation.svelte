@@ -6,7 +6,7 @@
 		ConfirmationActions,
 		ConfirmationAction,
 		type ConfirmationKind,
-	} from "@heyramzi/ui/ai";
+	} from "@heyramzi/ui/ai/confirmation";
 
 	let kind = $state<ConfirmationKind>("requested");
 </script>

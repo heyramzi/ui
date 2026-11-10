@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from "@heyramzi/ui/shadcn/button";
-	import BorderBeam from "@heyramzi/ui/effects/border-beam";
+	import { BorderBeam } from "@heyramzi/ui/effects/border-beam";
 
 	// The other presets, each a prop or two away from the default.
 	const presets = [

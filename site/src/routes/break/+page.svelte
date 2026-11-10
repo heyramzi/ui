@@ -14,7 +14,7 @@
 	import { Input } from "@heyramzi/ui/shadcn/input";
 	import { Button } from "@heyramzi/ui/shadcn/button";
 	import * as Avatar from "@heyramzi/ui/shadcn/avatar";
-	import { initials } from "@heyramzi/ui/lib/initials";
+	import { initials } from "@heyramzi/ui/lib/initials.js";
 	import { Tray } from "phosphor-svelte";
 	import { BAD_URL, MODES, people, type Mode, type Person } from "#lib/fixtures/break-fixtures.js";
 

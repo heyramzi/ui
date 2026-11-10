@@ -3,7 +3,6 @@
  * layout, or the no-flash script never runs.
  */
 export { default as ThemeProvider } from "#src/components/theme/theme-provider.svelte";
-export { revealTheme } from "#src/lib/theme-transition.js";
 export {
   mode,
   resetMode,

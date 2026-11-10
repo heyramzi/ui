@@ -1,6 +1,5 @@
 <script lang="ts">
-	import KanbanBoard from "@heyramzi/ui/work/kanban";
-	import type { KanbanMove } from "@heyramzi/ui/work";
+	import { KanbanBoard, type KanbanMove } from "@heyramzi/ui/work";
 
 	type Task = { id: string; columnId: string; title: string; owner: string; boardOrder: string };
 

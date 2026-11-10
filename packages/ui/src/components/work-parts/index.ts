@@ -1,4 +1,3 @@
-export { default as CountChip } from "#src/components/chip/count-chip.svelte";
 export { default as GroupHead } from "#src/components/work-parts/group-head.svelte";
 export { default as PropertyRow } from "#src/components/work-parts/property-row.svelte";
 export { default as WorkCard } from "#src/components/work-parts/work-card.svelte";

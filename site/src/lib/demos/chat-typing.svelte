@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TypingDots } from "@heyramzi/ui/ai";
+	import { TypingDots } from "@heyramzi/ui/ai/typing-dots";
 </script>
 
 <div class="flex min-h-20 w-full flex-col items-center justify-center gap-4">

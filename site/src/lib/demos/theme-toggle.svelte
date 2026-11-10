@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ThemeToggle from "@heyramzi/ui/effects/theme-toggle";
+	import { ThemeToggle } from "@heyramzi/ui/effects/theme-toggle";
 
 	const MODES = ["light", "dark", "system"] as const;
 	let mode = $state<(typeof MODES)[number]>("light");

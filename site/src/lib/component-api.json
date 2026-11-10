@@ -511,7 +511,8 @@
         },
         {
           "name": "onclick",
-          "type": "(event: MouseEvent) => void"
+          "type": "(event: MouseEvent) => void",
+          "description": "Set, the avatar is a button named like the image, so the action takes focus and Enter."
         },
         {
           "name": "aria-label",
@@ -1279,6 +1280,12 @@
           "description": "Smooths the drawn line by the window shown; the resting figure stays the caller's total."
         },
         {
+          "name": "label",
+          "type": "string",
+          "default": "\"Area chart\"",
+          "description": "The chart's accessible name. Its data range and values are read after it."
+        },
+        {
           "name": "class",
           "type": "string"
         }
@@ -1434,6 +1441,11 @@
           "type": "string"
         },
         {
+          "name": "id",
+          "type": "string",
+          "default": "getAttachmentTitleId()"
+        },
+        {
           "name": "children",
           "type": "Snippet"
         }
@@ -1469,6 +1481,38 @@
         {
           "kind": "package",
           "label": "HTMLAttributes<HTMLSpanElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Attachment.Trigger",
+      "file": "packages/ui/src/shadcn/attachment/attachment-trigger.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLButtonElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "type": "\"button\" | \"submit\" | \"reset\"",
+          "default": "\"button\""
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLButtonAttributes",
           "from": "svelte/elements"
         }
       ]
@@ -1537,6 +1581,9 @@
         {
           "name": "class",
           "type": "string"
+        },
+        {
+          "name": "aria-label"
         }
       ],
       "bases": [
@@ -1548,38 +1595,6 @@
         {
           "kind": "package",
           "label": "HTMLAnchorAttributes",
-          "from": "svelte/elements"
-        }
-      ]
-    },
-    {
-      "name": "Attachment.Trigger",
-      "file": "packages/ui/src/shadcn/attachment/attachment-trigger.svelte",
-      "props": [
-        {
-          "name": "child",
-          "type": "Snippet<[{ props: Record<string, unknown> }]>"
-        },
-        {
-          "name": "ref",
-          "type": "HTMLButtonElement | null",
-          "default": "null",
-          "bindable": true
-        },
-        {
-          "name": "class",
-          "type": "string"
-        },
-        {
-          "name": "type",
-          "type": "\"button\" | \"submit\" | \"reset\"",
-          "default": "\"button\""
-        }
-      ],
-      "bases": [
-        {
-          "kind": "package",
-          "label": "HTMLButtonAttributes",
           "from": "svelte/elements"
         }
       ]
@@ -1870,12 +1885,12 @@
         {
           "name": "label",
           "type": "string",
-          "description": "Screen-reader summary; also renders an sr-only data table when set."
+          "description": "The chart's accessible name and the hidden data table's caption."
         },
         {
           "name": "xLabel",
           "type": "string",
-          "description": "Column header for the x values in the sr-only table."
+          "description": "Column header for the x values in the hidden table. Defaults to xKey."
         },
         {
           "name": "yLabel",
@@ -3853,6 +3868,10 @@
         {
           "name": "class",
           "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
         }
       ],
       "bases": [
@@ -4781,6 +4800,11 @@
           "description": "The link's wording. Translated at the call site."
         },
         {
+          "name": "actions",
+          "type": "Snippet",
+          "description": "Controls that scope the whole area, like a period filter. Pinned right, after the note."
+        },
+        {
           "name": "children",
           "type": "Snippet",
           "required": true
@@ -4948,30 +4972,7 @@
       "bases": []
     },
     {
-      "name": "PanelGrid",
-      "file": "packages/ui/src/charts/dashboard/panel-grid.svelte",
-      "props": [
-        {
-          "name": "children",
-          "type": "Snippet",
-          "required": true,
-          "description": "`<DataPanel>` children, or tiles standing beside one."
-        },
-        {
-          "name": "columns",
-          "type": "2 | 3 | \"main\"",
-          "default": "2",
-          "description": "Panels per row: two charts, three breakdowns, or `main`, where the first child takes two thirds and the rates beside it one third."
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "DataPanel",
+      "name": "DetailPanel",
       "file": "packages/ui/src/lib/panel.svelte",
       "props": [
         {
@@ -5032,6 +5033,29 @@
         },
         {
           "name": "bodyClass",
+          "type": "string"
+        }
+      ],
+      "bases": []
+    },
+    {
+      "name": "PanelGrid",
+      "file": "packages/ui/src/charts/dashboard/panel-grid.svelte",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": true,
+          "description": "`<DetailPanel>` children, or tiles standing beside one."
+        },
+        {
+          "name": "columns",
+          "type": "2 | 3 | \"main\"",
+          "default": "2",
+          "description": "Panels per row: two charts, three breakdowns, or `main`, where the first child takes two thirds and the rates beside it one third."
+        },
+        {
+          "name": "class",
           "type": "string"
         }
       ],
@@ -5261,6 +5285,17 @@
           "name": "buildHref",
           "type": "(page: number) => string",
           "description": "If provided, renders <a> tags instead of buttons (for server-side pagination)"
+        },
+        {
+          "name": "previousLabel",
+          "type": "string",
+          "default": "\"Previous page\"",
+          "description": "The accessible name of the icon-only previous and next buttons."
+        },
+        {
+          "name": "nextLabel",
+          "type": "string",
+          "default": "\"Next page\""
         }
       ],
       "bases": []
@@ -5659,7 +5694,7 @@
         },
         {
           "name": "icon",
-          "type": "Component<{ class?: string; weight?: \"bold\" }>"
+          "type": "Component<{ class?: string; weight?: \"bold\"; \"aria-hidden\"?: boolean | \"true\" | \"false\"; }>"
         },
         {
           "name": "section",
@@ -7002,6 +7037,12 @@
           "name": "holding",
           "type": "Snippet",
           "required": true
+        },
+        {
+          "name": "confirmPrompt",
+          "type": "string",
+          "default": "\"Press again to confirm\"",
+          "description": "Read out when a screen reader's activate arms the button. Translate at the call site."
         }
       ],
       "bases": [
@@ -7403,6 +7444,12 @@
         {
           "name": "onready",
           "type": "(api: InlineEditorApi) => void"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Text editor\"",
+          "description": "The editable region's accessible name."
         }
       ],
       "bases": []
@@ -7729,7 +7776,13 @@
         {
           "name": "getLabel",
           "type": "(item: T) => string",
-          "description": "The screen-reader name of a card. Defaults to a hint about the keyboard move."
+          "description": "The screen-reader name of a card. Defaults to the card's own text."
+        },
+        {
+          "name": "moveHint",
+          "type": "string",
+          "default": "\"Press Alt plus Left or Right arrow to move between columns.\"",
+          "description": "Read after a card's name, as its description."
         },
         {
           "name": "emptyLabel",
@@ -7820,6 +7873,12 @@
           "name": "isDroppable",
           "type": "(columnId: string) => boolean",
           "description": "Override per-column drop targets. Defaults to each column's `droppable` flag (true when unset). A column it returns false for never calls preventDefault, so it is not a drop target."
+        },
+        {
+          "name": "movedLabel",
+          "type": "(column: C) => string",
+          "default": "(column) => `Moved to ${column.label}`",
+          "description": "What a screen reader hears after a card moves with the keyboard."
         },
         {
           "name": "class",
@@ -8016,6 +8075,12 @@
           "default": "(v) => String(v)"
         },
         {
+          "name": "label",
+          "type": "string",
+          "default": "\"Line chart\"",
+          "description": "The chart's accessible name. Its data range and values are read after it."
+        },
+        {
           "name": "class",
           "type": "string"
         }
@@ -8109,6 +8174,12 @@
           "name": "placeholder",
           "type": "string",
           "default": "\"Search...\""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Search\"",
+          "description": "The box's accessible name. A placeholder isn't one, and it goes away once you type."
         },
         {
           "name": "size",
@@ -8588,26 +8659,6 @@
         {
           "name": "actions",
           "type": "Snippet"
-        },
-        {
-          "name": "children",
-          "type": "Snippet",
-          "required": true
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "SectionLabel",
-      "file": "packages/ui/src/components/section-header/section-label.svelte",
-      "props": [
-        {
-          "name": "icon",
-          "type": "PhosphorIcon"
         },
         {
           "name": "children",
@@ -9351,6 +9402,9 @@
         {
           "name": "child",
           "type": "Snippet"
+        },
+        {
+          "name": "onclick"
         }
       ],
       "bases": [
@@ -10085,6 +10139,12 @@
           "default": "null",
           "bindable": true,
           "description": "The live editor, for a host that needs focus or the document."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Text editor\"",
+          "description": "The editable region's accessible name."
         }
       ],
       "bases": []
@@ -10522,7 +10582,7 @@
           "name": "iconOnly",
           "type": "boolean",
           "default": "false",
-          "description": "An option with an `image` or `icon` draws the mark alone, and its label moves to `aria-label` and the hover title. For a toolbar with no room for words, where every mark is a brand people know."
+          "description": "An option with an `image` or `icon` draws the mark alone; its label moves to `aria-label` and the title. For a cramped toolbar of well-known brand marks."
         },
         {
           "name": "class",
@@ -11152,7 +11212,7 @@
         {
           "name": "floating",
           "type": "boolean",
-          "description": "From `sm` up the sheet floats 8px off the viewport edge at the overlay radius, like SidePanel. On by default for left and right sheets; `floating={false}` keeps one flush. Under `sm` it stays full bleed, since a phone needs the width."
+          "description": "From `sm` up a left or right sheet floats 8px off the edge, like SidePanel; `floating={false}` keeps it flush. A phone stays full bleed for the width."
         },
         {
           "name": "children",
@@ -12617,6 +12677,12 @@
           "description": "Smooths the drawn line by the window shown, so a year doesn't draw as a barcode."
         },
         {
+          "name": "label",
+          "type": "string",
+          "default": "\"Sparkline\"",
+          "description": "The accessible name. Its range and values are read after it. Unused when bare."
+        },
+        {
           "name": "class",
           "type": "string"
         }
@@ -12725,7 +12791,7 @@
         {
           "name": "ariaLabel",
           "type": "string",
-          "description": "ARIA label for the radiogroup."
+          "description": "What is rated, like \"Rate the delivery\". The value is added for a screen reader."
         },
         {
           "name": "labels",
@@ -12911,6 +12977,12 @@
           "description": "Shows a spinner: a background job is still working on the record."
         },
         {
+          "name": "busyLabel",
+          "type": "string",
+          "default": "\"working\"",
+          "description": "What a screen reader hears after the label while `busy`, since the spinner is hidden."
+        },
+        {
           "name": "capitalize",
           "type": "boolean",
           "default": "true",
@@ -13015,6 +13087,11 @@
           "default": "true"
         },
         {
+          "name": "label",
+          "type": "string",
+          "description": "Names the icon for a screen reader, like the status word. Leave it out when the word is printed beside it."
+        },
+        {
           "name": "class",
           "type": "string"
         }
@@ -13094,6 +13171,12 @@
         {
           "name": "children",
           "type": "Snippet"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Suggestions\"",
+          "description": "The group's name for a screen reader."
         },
         {
           "name": "class",
@@ -13467,7 +13550,7 @@
         {
           "name": "rowMenu",
           "type": "Snippet<[Row]>",
-          "description": "The items of a right-click menu for one row: `ContextMenu.Item`s."
+          "description": "The items of a row menu: `ContextMenu.Item`s. Right-click, a long press, Shift+F10 or the ContextMenu key opens it."
         },
         {
           "name": "group",
@@ -13500,7 +13583,7 @@
         {
           "name": "onRowClick",
           "type": "(row: Row) => void",
-          "description": "The row opens in place. Click or Enter on the row, unless the target is a link, button or input inside it."
+          "description": "The row opens in place, from a button over the row named like the row link."
         },
         {
           "name": "expanded",
@@ -13845,6 +13928,12 @@
           "description": "Called on a click or Enter that did not move the bar."
         },
         {
+          "name": "movedLabel",
+          "type": "(dates: string) => string",
+          "default": "(dates) => `Now ${dates}`",
+          "description": "What a screen reader hears after an arrow key moves a bar, given its new dates."
+        },
+        {
           "name": "renderLabel",
           "type": "Snippet<[T, GanttLabelContext]>",
           "description": "The left column for a row. Defaults to the title."
@@ -13984,7 +14073,19 @@
         {
           "name": "getLabel",
           "type": "(item: T) => string",
-          "description": "The screen-reader name of a row. Defaults to a hint about the keyboard move."
+          "description": "The screen-reader name of a row. Defaults to the row's own text."
+        },
+        {
+          "name": "moveHint",
+          "type": "string",
+          "default": "\"Press Alt plus Up or Down arrow to move between groups.\"",
+          "description": "Read after a draggable row's name, as its description."
+        },
+        {
+          "name": "movedLabel",
+          "type": "(group: C) => string",
+          "default": "(group) => `Moved to ${group.label}`",
+          "description": "What a screen reader hears after a row moves with the keyboard."
         },
         {
           "name": "onCollapsedChange",
@@ -14518,6 +14619,12 @@
           "type": "boolean | number",
           "default": "true",
           "description": "Softens the left and right ends of the filled area instead of cutting them off at the plot edge."
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "default": "label",
+          "description": "The chart's accessible name. Its date range and values are read after it."
         }
       ],
       "bases": []
@@ -14712,33 +14819,6 @@
           "name": "actions",
           "type": "Snippet",
           "description": "The primary action and its neighbours, pinned to the right edge."
-        },
-        {
-          "name": "class",
-          "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "ToolbarSearch",
-      "file": "packages/ui/src/components/toolbar/toolbar-search.svelte",
-      "props": [
-        {
-          "name": "value",
-          "type": "string",
-          "default": "\"\"",
-          "bindable": true
-        },
-        {
-          "name": "placeholder",
-          "type": "string",
-          "default": "\"Search...\""
-        },
-        {
-          "name": "size",
-          "type": "\"sm\" | \"default\"",
-          "default": "\"default\""
         },
         {
           "name": "class",
@@ -15195,7 +15275,7 @@
           "name": "onApprove",
           "type": "() => void | Promise<void>",
           "required": true,
-          "description": "Run the plan. The buttons stay disabled until it settles."
+          "description": "Run the plan. The buttons stay unavailable until it settles."
         },
         {
           "name": "onPick",

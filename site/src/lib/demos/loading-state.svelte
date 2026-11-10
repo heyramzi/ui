@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PixelLoader } from "@heyramzi/ui/ai";
+	import { PixelLoader } from "@heyramzi/ui/ai/loading-state";
 </script>
 
 <div class="stack">

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ImageComparison from "@heyramzi/ui/effects/image-comparison";
+	import { ImageComparison } from "@heyramzi/ui/effects/image-comparison";
 
 	const plate = (bg: string, fg: string, text: string) =>
 		"data:image/svg+xml;utf8," +

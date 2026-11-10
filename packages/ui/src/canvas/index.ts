@@ -3,7 +3,6 @@
 
 export * from "#src/canvas/types.js";
 export * from "#src/canvas/plugin.js";
-export { tryCatch, tryCatchAsync, type Result } from "#src/lib/result.js";
 
 export * from "#src/canvas/ops/ops.js";
 

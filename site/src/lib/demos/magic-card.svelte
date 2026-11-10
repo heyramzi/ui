@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MagicCard from "@heyramzi/ui/effects/magic-card";
+	import { MagicCard } from "@heyramzi/ui/effects/magic-card";
 </script>
 
 <div class="grid w-full gap-4 sm:grid-cols-2">

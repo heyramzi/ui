@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import ThemeToggle from "@heyramzi/ui/effects/theme-toggle";
+	import { ThemeToggle } from "@heyramzi/ui/effects/theme-toggle";
 	import * as Sheet from "@heyramzi/ui/shadcn/sheet";
 	import { GithubLogo, List } from "phosphor-svelte";
 	import { sections } from "#lib/nav.js";

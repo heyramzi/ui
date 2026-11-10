@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ProgressiveBlur from "@heyramzi/ui/effects/progressive-blur";
+	import { ProgressiveBlur } from "@heyramzi/ui/effects/progressive-blur";
 </script>
 
 <div class="frame">

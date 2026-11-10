@@ -3,7 +3,7 @@
 	import * as Bubble from "@heyramzi/ui/shadcn/bubble";
 	import * as Message from "@heyramzi/ui/shadcn/message";
 	import * as MessageScroller from "@heyramzi/ui/shadcn/message-scroller";
-	import { Response } from "@heyramzi/ui/ai";
+	import { Response } from "@heyramzi/ui/ai/response";
 
 	const turns = [
 		{ id: "q1", role: "user", text: "How should I clean up our beam effects?" },

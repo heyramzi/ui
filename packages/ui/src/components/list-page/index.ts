@@ -10,7 +10,6 @@ export { default as NoticeBar } from "#src/components/list-page/notice-bar.svelt
 export { default as RailBody } from "#src/components/list-page/rail-body.svelte";
 export { default as RailHead } from "#src/components/list-page/rail-head.svelte";
 export { default as RailRow } from "#src/components/list-page/rail-row.svelte";
-export { default as SectionLabel } from "#src/components/section-header/section-label.svelte";
 export { queueRailClass, queueRailWidth } from "#src/components/list-page/queue-rail.js";
 export { default as FilterPopover } from "#src/components/list-page/filter-popover.svelte";
 export { filterSectionClass } from "#src/components/list-page/filter-section.js";

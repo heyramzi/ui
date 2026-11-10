@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Marquee from "@heyramzi/ui/effects/marquee";
+	import { Marquee } from "@heyramzi/ui/effects/marquee";
 	const title = "A line longer than its box scrolls, and a short one stays put";
 	const items = [
 		"Copy source in",

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Spotlight from "@heyramzi/ui/effects/spotlight";
+	import { Spotlight } from "@heyramzi/ui/effects/spotlight";
 </script>
 
 <div

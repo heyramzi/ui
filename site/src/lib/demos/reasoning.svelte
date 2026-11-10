@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Reasoning, ReasoningTrigger, ReasoningContent } from "@heyramzi/ui/ai";
+	import { Reasoning, ReasoningTrigger, ReasoningContent } from "@heyramzi/ui/ai/reasoning";
 </script>
 
 <div class="w">

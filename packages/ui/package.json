@@ -18,18 +18,11 @@
     "dist"
   ],
   "type": "module",
-  "svelte": "./src/index.ts",
   "imports": {
     "#scripts/*": "./scripts/*",
     "#src/*": "./src/*"
   },
   "exports": {
-    ".": {
-      "svelte": "./src/index.ts",
-      "types": "./src/index.ts",
-      "node": "./dist/index.js",
-      "default": "./src/index.ts"
-    },
     "./package.json": "./package.json",
     "./tokens.css": "./src/tokens/index.css",
     "./brand": {
@@ -44,27 +37,17 @@
       "node": "./dist/lib/*.js",
       "default": "./src/lib/*.ts"
     },
-    "./lib/*": {
-      "svelte": "./src/lib/*.ts",
-      "types": "./src/lib/*.ts",
-      "node": "./dist/lib/*.js",
-      "default": "./src/lib/*.ts"
-    },
-    "./border-beam": {
-      "svelte": "./src/effects/border-beam/BorderBeam.svelte",
-      "default": "./src/effects/border-beam/BorderBeam.svelte"
-    },
     "./effects/border-beam": {
-      "svelte": "./src/effects/border-beam/BorderBeam.svelte",
-      "default": "./src/effects/border-beam/BorderBeam.svelte"
-    },
-    "./theme-toggle": {
-      "svelte": "./src/effects/theme-toggle/ThemeToggle.svelte",
-      "default": "./src/effects/theme-toggle/ThemeToggle.svelte"
+      "svelte": "./src/effects/border-beam/index.ts",
+      "types": "./src/effects/border-beam/index.ts",
+      "node": "./dist/effects/border-beam/index.js",
+      "default": "./src/effects/border-beam/index.ts"
     },
     "./effects/theme-toggle": {
-      "svelte": "./src/effects/theme-toggle/ThemeToggle.svelte",
-      "default": "./src/effects/theme-toggle/ThemeToggle.svelte"
+      "svelte": "./src/effects/theme-toggle/index.ts",
+      "types": "./src/effects/theme-toggle/index.ts",
+      "node": "./dist/effects/theme-toggle/index.js",
+      "default": "./src/effects/theme-toggle/index.ts"
     },
     "./effects/animated-beam": {
       "svelte": "./src/effects/animated-beam/index.ts",
@@ -73,16 +56,22 @@
       "default": "./src/effects/animated-beam/index.ts"
     },
     "./effects/spotlight": {
-      "svelte": "./src/effects/spotlight/Spotlight.svelte",
-      "default": "./src/effects/spotlight/Spotlight.svelte"
+      "svelte": "./src/effects/spotlight/index.ts",
+      "types": "./src/effects/spotlight/index.ts",
+      "node": "./dist/effects/spotlight/index.js",
+      "default": "./src/effects/spotlight/index.ts"
     },
     "./effects/magic-card": {
-      "svelte": "./src/effects/magic-card/MagicCard.svelte",
-      "default": "./src/effects/magic-card/MagicCard.svelte"
+      "svelte": "./src/effects/magic-card/index.ts",
+      "types": "./src/effects/magic-card/index.ts",
+      "node": "./dist/effects/magic-card/index.js",
+      "default": "./src/effects/magic-card/index.ts"
     },
     "./effects/marquee": {
-      "svelte": "./src/effects/marquee/Marquee.svelte",
-      "default": "./src/effects/marquee/Marquee.svelte"
+      "svelte": "./src/effects/marquee/index.ts",
+      "types": "./src/effects/marquee/index.ts",
+      "node": "./dist/effects/marquee/index.js",
+      "default": "./src/effects/marquee/index.ts"
     },
     "./effects/image-reveal": {
       "svelte": "./src/effects/image-reveal/index.ts",
@@ -103,16 +92,22 @@
       "default": "./src/effects/reveal/index.ts"
     },
     "./effects/progressive-blur": {
-      "svelte": "./src/effects/progressive-blur/ProgressiveBlur.svelte",
-      "default": "./src/effects/progressive-blur/ProgressiveBlur.svelte"
+      "svelte": "./src/effects/progressive-blur/index.ts",
+      "types": "./src/effects/progressive-blur/index.ts",
+      "node": "./dist/effects/progressive-blur/index.js",
+      "default": "./src/effects/progressive-blur/index.ts"
     },
     "./effects/interactive-hover-button": {
-      "svelte": "./src/effects/interactive-hover-button/InteractiveHoverButton.svelte",
-      "default": "./src/effects/interactive-hover-button/InteractiveHoverButton.svelte"
+      "svelte": "./src/effects/interactive-hover-button/index.ts",
+      "types": "./src/effects/interactive-hover-button/index.ts",
+      "node": "./dist/effects/interactive-hover-button/index.js",
+      "default": "./src/effects/interactive-hover-button/index.ts"
     },
     "./effects/image-comparison": {
-      "svelte": "./src/effects/image-comparison/ImageComparison.svelte",
-      "default": "./src/effects/image-comparison/ImageComparison.svelte"
+      "svelte": "./src/effects/image-comparison/index.ts",
+      "types": "./src/effects/image-comparison/index.ts",
+      "node": "./dist/effects/image-comparison/index.js",
+      "default": "./src/effects/image-comparison/index.ts"
     },
     "./effects/magnetic": {
       "svelte": "./src/effects/magnetic/magnetic.ts",
@@ -164,12 +159,6 @@
     "./shadcn/utilities.css": {
       "style": "./src/shadcn/utilities.css",
       "default": "./src/shadcn/utilities.css"
-    },
-    "./ai": {
-      "svelte": "./src/ai/index.ts",
-      "types": "./src/ai/index.ts",
-      "node": "./dist/ai/index.js",
-      "default": "./src/ai/index.ts"
     },
     "./ai/*": {
       "svelte": "./src/ai/*/index.ts",
@@ -225,36 +214,11 @@
       "node": "./dist/work/index.js",
       "default": "./src/work/index.ts"
     },
-    "./work/kanban": {
-      "svelte": "./src/work/kanban-board.svelte",
-      "types": "./src/work/kanban-board.svelte",
-      "default": "./src/work/kanban-board.svelte"
-    },
-    "./work/list": {
-      "svelte": "./src/work/task-list.svelte",
-      "types": "./src/work/task-list.svelte",
-      "default": "./src/work/task-list.svelte"
-    },
-    "./work/gantt": {
-      "svelte": "./src/work/task-gantt.svelte",
-      "types": "./src/work/task-gantt.svelte",
-      "default": "./src/work/task-gantt.svelte"
-    },
-    "./work/time": {
-      "svelte": "./src/work/time/time-tracker.svelte",
-      "types": "./src/work/time/time-tracker.svelte",
-      "default": "./src/work/time/time-tracker.svelte"
-    },
     "./work/inbox": {
       "svelte": "./src/work/inbox/index.ts",
       "types": "./src/work/inbox/index.ts",
       "node": "./dist/work/inbox/index.js",
       "default": "./src/work/inbox/index.ts"
-    },
-    "./work/detail": {
-      "svelte": "./src/work/detail/task-detail.svelte",
-      "types": "./src/work/detail/task-detail.svelte",
-      "default": "./src/work/detail/task-detail.svelte"
     },
     "./work/docs": {
       "svelte": "./src/work/docs/index.ts",
@@ -296,11 +260,6 @@
       "node": "./dist/editor/index.js",
       "default": "./src/editor/index.ts"
     },
-    "./editor/serializer": {
-      "types": "./src/editor/serializer.ts",
-      "node": "./dist/editor/serializer.js",
-      "default": "./src/editor/serializer.ts"
-    },
     "./editor/markdown": {
       "types": "./src/editor/markdown.ts",
       "node": "./dist/editor/markdown.js",
@@ -324,12 +283,6 @@
       "types": "./src/onboarding/index.ts",
       "node": "./dist/onboarding/index.js",
       "default": "./src/onboarding/index.ts"
-    },
-    "./onboarding/stores": {
-      "svelte": "./src/onboarding/stores.ts",
-      "types": "./src/onboarding/stores.ts",
-      "node": "./dist/onboarding/stores.js",
-      "default": "./src/onboarding/stores.ts"
     },
     "./canvas": {
       "types": "./src/canvas/index.ts",

@@ -73,17 +73,28 @@ export function dirsOf(slug: string): string[] {
   return [...dirs].sort();
 }
 
-/** The name a part goes by in code: `Dialog.Trigger` for a namespaced primitive, else its
- *  export. `tags` are every spelling the demo might use, for ordering. A file shared by two
- *  pages (`lib/panel.svelte`) takes the name the page's own folder exports it as. */
-export function namesOf(
-  files: string[],
-  pageDirs: string[] = [],
-): { label: string; tags: string[] }[] {
+let barrelNames: Map<string, string[]> | undefined;
+
+/** Every kit barrel's names for each component file. A file has one public path, so one entry. */
+function publicNamesOf(file: string): string[] | undefined {
+  if (!barrelNames) {
+    barrelNames = new Map();
+    const walk = (dir: string): void => {
+      for (const [f, names] of exportsOf(dir)) barrelNames!.set(f, names);
+      for (const e of readdirSync(dir, { withFileTypes: true }))
+        if (e.isDirectory()) walk(join(dir, e.name));
+    };
+    walk(UI_SRC);
+  }
+  return barrelNames.get(file);
+}
+
+/** A part's name in code: `Dialog.Trigger` when namespaced, else its export, found in any
+ *  barrel for `lib/panel.svelte`. `tags` are the spellings a demo might use, for ordering. */
+export function namesOf(files: string[]): { label: string; tags: string[] }[] {
   return files.map((file) => {
     const dirExports = exportsOf(dirname(file));
-    const exported =
-      dirExports.get(file) ?? pageDirs.map((dir) => exportsOf(dir).get(file)).find(Boolean) ?? [];
+    const exported = dirExports.get(file) ?? publicNamesOf(file) ?? [];
     const rootNames = [...dirExports.values()].find((n) => n.includes("Root"));
     const ns = rootNames?.find((n) => n !== "Root");
     if (ns && exported.length) {
@@ -128,7 +139,7 @@ export function build(): Record<string, Part[]> {
   for (const slug of slugs) {
     const files = filesOf(slug);
     if (!files.length) continue;
-    const names = namesOf(files, dirsOf(slug));
+    const names = namesOf(files);
     const parts = files.map((file, i) => ({
       name: names[i].label,
       tags: names[i].tags,

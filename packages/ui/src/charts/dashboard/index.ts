@@ -1,4 +1,3 @@
-export { default as DataPanel } from "#src/lib/panel.svelte";
 export {
   default as DataTable,
   type DataColumn,

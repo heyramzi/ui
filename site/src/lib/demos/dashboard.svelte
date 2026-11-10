@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { AreaChart, BarChart } from "@heyramzi/ui/charts";
+	import { DetailPanel } from "@heyramzi/ui/components/list-page";
 	import {
-		DataPanel,
 		DataTable,
 		DashboardSection,
 		PanelGrid,
@@ -177,7 +177,7 @@
 			/>
 		</StatBand>
 
-		<DataPanel label="Revenue per day">
+		<DetailPanel label="Revenue per day">
 			<AreaChart
 				data={daily}
 				xKey="date"
@@ -187,10 +187,10 @@
 				formatX={(v) => day.format(Number(v))}
 				resting={{ value: average, label: "Daily average" }}
 			/>
-		</DataPanel>
+		</DetailPanel>
 
 		<PanelGrid columns={2}>
-			<DataPanel label="Top products" pad={false}>
+			<DetailPanel label="Top products" pad={false}>
 				<DataTable
 					rows={top}
 					{columns}
@@ -201,8 +201,8 @@
 				>
 					{#snippet lead(row)}<span class="truncate">{row.name}</span>{/snippet}
 				</DataTable>
-			</DataPanel>
-			<DataPanel label="Orders by weekday">
+			</DetailPanel>
+			<DetailPanel label="Orders by weekday">
 				<BarChart
 					data={byWeekday}
 					xKey="label"
@@ -212,7 +212,7 @@
 					label="Orders by weekday"
 					yLabel="Orders"
 				/>
-			</DataPanel>
+			</DetailPanel>
 		</PanelGrid>
 	</DashboardSection>
 </div>

@@ -39,30 +39,6 @@ export {
   parseMinutes,
   personColor,
 } from "#src/work/time/duration.js";
-export {
-  confidenceLevel,
-  inboxConfidence,
-  inboxKinds,
-  inboxStates,
-} from "#src/work/inbox/index.js";
-export type {
-  InboxAgent,
-  InboxConfidence,
-  InboxDraft,
-  InboxDraftEdit,
-  InboxDraftEdits,
-  InboxEvidence,
-  InboxItem,
-  InboxKind,
-  InboxOutcome,
-  InboxProject,
-  InboxProposal,
-  InboxSourceType,
-  InboxState,
-  InboxTier,
-  InboxTrace,
-  InboxVerdict,
-} from "#src/work/inbox/index.js";
 export { DEFAULT_TIME_LABELS } from "#src/work/time/time-types.js";
 export type {
   TimeLabels,

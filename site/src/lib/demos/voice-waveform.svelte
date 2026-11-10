@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { VoiceWaveform } from "@heyramzi/ui/ai";
+	import { VoiceWaveform } from "@heyramzi/ui/ai/voice-waveform";
 
 	let active = $state(true);
 </script>
