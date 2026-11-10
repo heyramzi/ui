@@ -403,7 +403,7 @@
 			opacity: 1;
 		}
 
-		/* clip, not hidden, lets a lifted card's shadow out. relative keeps the cards' absolute
+		/* clip, not hidden, lets a lifted card's shadow out. relative keeps cards' absolute
 		   sr-only labels clipped, or they hang below a shut fold and scroll the page (TSK-1617). */
 		.kanban-fold-inner {
 			position: relative;
