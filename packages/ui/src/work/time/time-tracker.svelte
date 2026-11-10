@@ -92,14 +92,6 @@
 	let elapsedMs = $derived(startedMs === null ? 0 : Math.max(0, now - startedMs));
 	let clock = $derived(formatClock(elapsedMs));
 	let elapsedMinutes = $derived(Math.floor(elapsedMs / 60_000));
-	// What the trigger shows, so its name holds it (WCAG 2.5.3, label in name).
-	let shown = $derived(
-		running
-			? `${clock.hours}:${clock.minutes}:${clock.seconds}`
-			: total > 0
-				? `${formatMinutes(total)}${estimate ? ` / ${formatMinutes(estimate)}` : ""}`
-				: labels.timer,
-	);
 
 	// The tick runs only while a timer does, and re-reads the clock so a sleeping tab catches up.
 	$effect(() => {
@@ -178,6 +170,14 @@
 
 	// ---- summary
 	let total = $derived(entries.reduce((sum, entry) => sum + getMinutes(entry), 0));
+	// What the trigger shows, so its name holds it (WCAG 2.5.3, label in name).
+	let shown = $derived(
+		running
+			? `${clock.hours}:${clock.minutes}:${clock.seconds}`
+			: total > 0
+				? `${formatMinutes(total)}${estimate ? ` / ${formatMinutes(estimate)}` : ""}`
+				: labels.timer,
+	);
 	let liveTotal = $derived(total + elapsedMinutes);
 	let tone = $derived(budgetTone(liveTotal, estimate));
 	let percent = $derived(estimate ? Math.round((liveTotal / estimate) * 100) : 0);

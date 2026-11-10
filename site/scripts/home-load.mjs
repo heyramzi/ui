@@ -36,6 +36,7 @@ if (json) {
 // `--static`: index.html's preloads, stylesheets and boot imports, then their static imports.
 function staticGraph() {
   const html = readFileSync(indexPath, "utf8");
+  /** @type {Set<string>} */
   const seeds = new Set();
   for (const tag of html.match(/<link\b[^>]*>/g) ?? []) {
     const rel = /\brel="([^"]+)"/.exec(tag)?.[1];
@@ -43,24 +44,31 @@ function staticGraph() {
     if (href && (rel === "modulepreload" || rel === "stylesheet")) seeds.add(href);
   }
   for (const script of html.match(/<script\b[^>]*>[\s\S]*?<\/script>/g) ?? []) {
-    for (const m of script.matchAll(/import\(\s*["']([^"']+\.js)["']\s*\)/g)) seeds.add(m[1]);
+    for (const m of script.matchAll(/import\(\s*["']([^"']+\.js)["']\s*\)/g)) {
+      if (m[1]) seeds.add(m[1]);
+    }
   }
   // Minified chunks write `import{a as b}from"./x.js"` and `import"./x.js"`; `import()` is lazy.
   const staticImport = /(?:\bfrom\s*|\bimport\s*)["'](\.{1,2}\/[^"']+\.(?:js|css))["']/g;
+  /** @type {Set<string>} */
   const found = new Set();
   const queue = [...seeds].map((href) => toFile(href));
   while (queue.length) {
     const file = queue.pop();
-    if (found.has(file) || !existsSync(file)) continue;
+    if (!file || found.has(file) || !existsSync(file)) continue;
     found.add(file);
     if (!file.endsWith(".js")) continue;
     for (const m of readFileSync(file, "utf8").matchAll(staticImport)) {
-      queue.push(toFile(m[1], file));
+      if (m[1]) queue.push(toFile(m[1], file));
     }
   }
   return found;
 }
 
+/**
+ * @param {string} href
+ * @param {string} [from]
+ */
 function toFile(href, from) {
   return href.startsWith("/")
     ? join(buildDir, href)
@@ -71,9 +79,10 @@ function toFile(href, from) {
 // already on screen count too, and a static walk misses them.
 async function browserLoad() {
   const { chromium } = await import("@playwright/test");
+  /** @type {Record<string, string>} */
   const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css" };
   const server = createServer((req, res) => {
-    const path = decodeURIComponent(new URL(req.url, "http://x").pathname);
+    const path = decodeURIComponent(new URL(req.url ?? "/", "http://x").pathname);
     let file = join(buildDir, path);
     if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
     else if (!existsSync(file) && existsSync(`${file}.html`)) file = `${file}.html`;
@@ -81,9 +90,12 @@ async function browserLoad() {
     res.writeHead(200, { "content-type": types[extname(file)] ?? "application/octet-stream" });
     createReadStream(file).pipe(res);
   });
-  await new Promise((done) => server.listen(0, "127.0.0.1", done));
-  const origin = `http://127.0.0.1:${server.address().port}`;
+  await new Promise((done) => server.listen(0, "127.0.0.1", () => done(undefined)));
+  const address = server.address();
+  const port = typeof address === "object" && address ? address.port : 0;
+  const origin = `http://127.0.0.1:${port}`;
   const browser = await chromium.launch();
+  /** @type {Set<string>} */
   const found = new Set();
   const visit = async () => {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
