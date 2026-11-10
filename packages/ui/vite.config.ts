@@ -7,5 +7,11 @@ export default defineConfig({
   plugins: [svelte()] as PluginOption[],
   // WHY: Svelte resolves to its server build under node, and mount() needs the browser one.
   resolve: { conditions: ["browser"] },
-  test: { environment: "jsdom", include: ["src/**/*.test.ts"], setupFiles: ["./test-setup.ts"] },
+  test: {
+    environment: "jsdom",
+    include: ["src/**/*.test.ts"],
+    setupFiles: ["./test-setup.ts"],
+    // WHY: 12 jsdom workers peak near 4 GB, and the Mac's memory brake stopped the run twice mid-release.
+    maxWorkers: 4,
+  },
 });
