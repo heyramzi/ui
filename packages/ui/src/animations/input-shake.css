@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 /* Transitions.dev — Error state shake */
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
@@ -7,51 +9,63 @@
   reflow, then re-adding it.
 */
 
-:root {
-  --shake-distance: var(--distance-small, 6px);
-  --shake-overshoot: 4px;
-  --shake-dur-a: var(--duration-micro, 80ms);
-  --shake-dur-b: 60ms;
-  --shake-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-  --revert-hold: 3000ms;
-  --revert-dur: 280ms;
+@layer components {
+  :root {
+    --shake-distance: var(--distance-small, 6px);
+    --shake-overshoot: 4px;
+    --shake-dur-a: var(--duration-micro, 80ms);
+    --shake-dur-b: 60ms;
+    --shake-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+    --revert-hold: 3000ms;
+    --revert-dur: 280ms;
+  }
+
+  /* This rule owns only the border-color tween, so keep the
+     border-width constant across states or the content shifts. */
+  .t-input {
+    transition: border-color 150ms ease-out;
+    will-change: transform;
+  }
+
+  .t-input.is-error {
+    /* Error border auto-reverts on the hold timer, so the
+  	   fade-out uses the slower revert duration (matches the
+  	   message fade). */
+    transition: border-color var(--revert-dur, 280ms) ease-out;
+  }
+
+  /* Hiding delays visibility by --revert-dur so the message stays
+     painted through its fade; .is-error drops the delay to 0. */
+  .t-error-msg {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--revert-dur, 280ms) ease-out,
+      visibility 0s linear var(--revert-dur, 280ms);
+  }
+
+  .t-input-wrap.is-error .t-error-msg {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity var(--revert-dur, 280ms) ease-out,
+      visibility 0s linear 0s;
+  }
+
+  /* The %-stops are cumulative fractions of 280ms (80, 60, 80,
+     60), so recompute them if any segment's duration changes. */
+  .t-input.is-shaking {
+    animation: t-input-shake calc(var(--shake-dur-a) * 2 + var(--shake-dur-b) * 2) linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-input {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
 }
 
-/* This rule owns only the border-color tween, so keep the
-   border-width constant across states or the content shifts. */
-.t-input {
-  transition: border-color 150ms ease-out;
-  will-change: transform;
-}
-.t-input.is-error {
-  /* Error border auto-reverts on the hold timer, so the
-	   fade-out uses the slower revert duration (matches the
-	   message fade). */
-  transition: border-color var(--revert-dur, 280ms) ease-out;
-}
-
-/* Hiding delays visibility by --revert-dur so the message stays
-   painted through its fade; .is-error drops the delay to 0. */
-.t-error-msg {
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity var(--revert-dur, 280ms) ease-out,
-    visibility 0s linear var(--revert-dur, 280ms);
-}
-.t-input-wrap.is-error .t-error-msg {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity var(--revert-dur, 280ms) ease-out,
-    visibility 0s linear 0s;
-}
-
-/* The %-stops are cumulative fractions of 280ms (80, 60, 80,
-   60), so recompute them if any segment's duration changes. */
-.t-input.is-shaking {
-  animation: t-input-shake calc(var(--shake-dur-a) * 2 + var(--shake-dur-b) * 2) linear;
-}
 @keyframes t-input-shake {
   0% {
     transform: translateX(0);
@@ -71,12 +85,5 @@
   }
   100% {
     transform: translateX(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .t-input {
-    animation: none !important;
-    transform: none !important;
   }
 }

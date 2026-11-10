@@ -1,25 +1,26 @@
+@layer theme, base, components, utilities;
+
 /* The shadow family, now valued by @heyramzi/ui/design. Names stay because
    170-odd call sites use them. Shadow only, since these elements draw their own border. */
 
-/* New work: use `shadow-btn`, `shadow-card`, `shadow-raised` and `shadow-overlay`. */
-@layer utilities {
-  .shadow-soft-sm {
-    box-shadow: var(--elev-btn);
-  }
+/* New work: use `shadow-btn`, `shadow-card`, `shadow-raised` and `shadow-overlay`.
+   `@utility`, so `hover:shadow-soft-md` and the other variants work. */
+@utility shadow-soft-sm {
+  box-shadow: var(--elev-btn);
+}
 
-  .shadow-soft {
-    box-shadow: var(--elev-card);
-  }
+@utility shadow-soft {
+  box-shadow: var(--elev-card);
+}
 
-  .shadow-soft-md {
-    box-shadow: var(--elev-raised);
-  }
+@utility shadow-soft-md {
+  box-shadow: var(--elev-raised);
+}
 
-  /* The one step that answers a pointer rather than describing a resting
-     height, so it borrows the step above whatever it was at rest. */
-  .shadow-soft-hover {
-    box-shadow: var(--elev-raised);
-  }
+/* The one step that answers a pointer rather than describing a resting
+   height, so it borrows the step above whatever it was at rest. */
+@utility shadow-soft-hover {
+  box-shadow: var(--elev-raised);
 }
 
 /* The nine bits-ui state variants moved into `@heyramzi/ui/design` on 14 Sep
@@ -54,35 +55,37 @@
   }
 }
 
-/* WHY: below sm the dialog docks as a bottom sheet. The .t-modal scale would lift
-   it off the edge. A sheet enters from the edge it rests on. */
-@media (max-width: 639px) {
-  [data-slot="dialog-content"]:not([data-command-dialog]).t-modal {
-    transform: translateY(100%);
-    transition:
-      transform var(--modal-open-dur) var(--modal-ease),
-      opacity var(--modal-open-dur) var(--modal-ease);
+@layer components {
+  /* WHY: below sm the dialog docks as a bottom sheet. The .t-modal scale would lift
+     it off the edge. A sheet enters from the edge it rests on. */
+  @media (max-width: 639px) {
+    [data-slot="dialog-content"]:not([data-command-dialog]).t-modal {
+      transform: translateY(100%);
+      transition:
+        transform var(--modal-open-dur) var(--modal-ease),
+        opacity var(--modal-open-dur) var(--modal-ease);
+    }
+    [data-slot="dialog-content"]:not([data-command-dialog]).t-modal[data-state="open"] {
+      transform: translateY(0);
+    }
+    [data-slot="dialog-content"]:not([data-command-dialog]).t-modal[data-state="closed"] {
+      transform: translateY(100%);
+      transition:
+        transform var(--modal-close-dur) var(--modal-ease),
+        opacity var(--modal-close-dur) var(--modal-ease);
+    }
   }
-  [data-slot="dialog-content"]:not([data-command-dialog]).t-modal[data-state="open"] {
-    transform: translateY(0);
-  }
-  [data-slot="dialog-content"]:not([data-command-dialog]).t-modal[data-state="closed"] {
-    transform: translateY(100%);
-    transition:
-      transform var(--modal-close-dur) var(--modal-ease),
-      opacity var(--modal-close-dur) var(--modal-ease);
-  }
-}
 
-/* ── The palette does not animate ──────────────────────
-   WHY: it's opened by shortcut dozens of times a day, so an entrance feels like
-   lag. Raycast and Spotlight don't animate either. */
+  /* ── The palette does not animate ──────────────────────
+     WHY: it's opened by shortcut dozens of times a day, so an entrance feels like
+     lag. Raycast and Spotlight don't animate either. */
 
-/* The backdrop is a sibling in the portal, so it's named via `overlayClass`.
-   Reaching across the portal would also hit a dialog open underneath. */
-[data-slot="dialog-content"][data-command-dialog].t-modal,
-[data-slot="dialog-overlay"].t-modal-backdrop.t-instant {
-  transition: none;
+  /* The backdrop is a sibling in the portal, so it's named via `overlayClass`.
+     Reaching across the portal would also hit a dialog open underneath. */
+  [data-slot="dialog-content"][data-command-dialog].t-modal,
+  [data-slot="dialog-overlay"].t-modal-backdrop.t-instant {
+    transition: none;
+  }
 }
 
 @layer base {

@@ -1,7 +1,11 @@
+@layer theme, base, components, utilities;
+
 /* Styles for AnimatedValue. Plain stylesheet (see area-chart.css for why).
    `.hr-animated-value` is the component's own namespaced fallback for tabular
    figures (it also carries the `tabular-nums` utility class). */
 
-.hr-animated-value {
-  font-variant-numeric: tabular-nums;
+@layer components {
+  .hr-animated-value {
+    font-variant-numeric: tabular-nums;
+  }
 }

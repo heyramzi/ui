@@ -1,117 +1,136 @@
+@layer theme, base, components, utilities;
+
 /* Transitions.dev — Menu dropdown */
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
-:root {
-  --dropdown-open-dur: var(--duration-fast, 250ms);
-  --dropdown-close-dur: var(--duration-quick, 150ms);
-  --dropdown-pre-scale: var(--scale-medium, 0.97);
-  --dropdown-closing-scale: var(--scale-tiny, 0.99);
-  --dropdown-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-}
-
-/* === Upstream: class-based toggle === */
-.t-dropdown {
-  transform-origin: top left;
-  transform: scale(var(--dropdown-pre-scale));
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--dropdown-open-dur) var(--dropdown-ease),
-    opacity var(--dropdown-open-dur) var(--dropdown-ease);
-  will-change: transform, opacity;
-}
-.t-dropdown[data-origin="top-right"] {
-  transform-origin: top right;
-}
-.t-dropdown[data-origin="top-center"] {
-  transform-origin: top center;
-}
-.t-dropdown[data-origin="bottom-left"] {
-  transform-origin: bottom left;
-}
-.t-dropdown[data-origin="bottom-center"] {
-  transform-origin: bottom center;
-}
-.t-dropdown[data-origin="bottom-right"] {
-  transform-origin: bottom right;
-}
-
-.t-dropdown.is-open {
-  transform: scale(1);
-  opacity: 1;
-  pointer-events: auto;
-}
-.t-dropdown.is-closing {
-  transform: scale(var(--dropdown-closing-scale));
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--dropdown-close-dur) var(--dropdown-ease),
-    opacity var(--dropdown-close-dur) var(--dropdown-ease);
-}
-
-/* === Extension: bits-ui data-state integration === */
-/* WHY: a tooltip has three open states, and without "instant-open" every tooltip
-   with delayDuration 0 sat at opacity 0, never on screen (upsys, 11 Sep 2026). */
-.t-dropdown[data-state="open"],
-.t-dropdown[data-state="delayed-open"],
-.t-dropdown[data-state="instant-open"] {
-  transform: scale(1);
-  opacity: 1;
-  pointer-events: auto;
-}
-.t-dropdown[data-state="closed"] {
-  transform: scale(var(--dropdown-closing-scale));
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--dropdown-close-dur) var(--dropdown-ease),
-    opacity var(--dropdown-close-dur) var(--dropdown-ease);
-}
-/* WHY the floating var first: bits-ui computes the exact point on the trigger after
-   a flip or a shift, so a menu nudged off the viewport edge still grows from its
-   trigger. The side and align corners stay as the fallback for a non-bits surface. */
-.t-dropdown[data-side="bottom"][data-align="start"] {
-  transform-origin: var(--bits-floating-transform-origin, top left);
-}
-.t-dropdown[data-side="bottom"][data-align="center"] {
-  transform-origin: var(--bits-floating-transform-origin, top center);
-}
-.t-dropdown[data-side="bottom"][data-align="end"] {
-  transform-origin: var(--bits-floating-transform-origin, top right);
-}
-.t-dropdown[data-side="top"][data-align="start"] {
-  transform-origin: var(--bits-floating-transform-origin, bottom left);
-}
-.t-dropdown[data-side="top"][data-align="center"] {
-  transform-origin: var(--bits-floating-transform-origin, bottom center);
-}
-.t-dropdown[data-side="top"][data-align="end"] {
-  transform-origin: var(--bits-floating-transform-origin, bottom right);
-}
-.t-dropdown[data-side="left"],
-.t-dropdown[data-side="inline-end"] {
-  transform-origin: var(--bits-floating-transform-origin, right center);
-}
-.t-dropdown[data-side="right"],
-.t-dropdown[data-side="inline-start"] {
-  transform-origin: var(--bits-floating-transform-origin, left center);
-}
-
-/* Reduced motion keeps the fade and drops the scale (DESIGN.md rule 13). Same
-   specificity as the state rules above and later, so it wins without !important. */
-@media (prefers-reduced-motion: reduce) {
-  .t-dropdown,
-  .t-dropdown.is-open,
-  .t-dropdown.is-closing,
-  .t-dropdown[data-state] {
-    transform: none;
-    transition-property: opacity;
+@layer components {
+  :root {
+    --dropdown-open-dur: var(--duration-fast, 250ms);
+    --dropdown-close-dur: var(--duration-quick, 150ms);
+    --dropdown-pre-scale: var(--scale-medium, 0.97);
+    --dropdown-closing-scale: var(--scale-tiny, 0.99);
+    --dropdown-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
   }
-}
 
-/* A tooltip that skipped its delay skips its entrance too, since a neighbour opened
-   inside the skip window is already there when the eye arrives. */
-[data-slot="tooltip-content"].t-dropdown[data-state="instant-open"] {
-  transition: none;
+  /* === Upstream: class-based toggle === */
+  .t-dropdown {
+    transform-origin: top left;
+    transform: scale(var(--dropdown-pre-scale));
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform var(--dropdown-open-dur) var(--dropdown-ease),
+      opacity var(--dropdown-open-dur) var(--dropdown-ease);
+    will-change: transform, opacity;
+  }
+
+  .t-dropdown[data-origin="top-right"] {
+    transform-origin: top right;
+  }
+
+  .t-dropdown[data-origin="top-center"] {
+    transform-origin: top center;
+  }
+
+  .t-dropdown[data-origin="bottom-left"] {
+    transform-origin: bottom left;
+  }
+
+  .t-dropdown[data-origin="bottom-center"] {
+    transform-origin: bottom center;
+  }
+
+  .t-dropdown[data-origin="bottom-right"] {
+    transform-origin: bottom right;
+  }
+
+  .t-dropdown.is-open {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .t-dropdown.is-closing {
+    transform: scale(var(--dropdown-closing-scale));
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform var(--dropdown-close-dur) var(--dropdown-ease),
+      opacity var(--dropdown-close-dur) var(--dropdown-ease);
+  }
+
+  /* === Extension: bits-ui data-state integration === */
+  /* WHY: a tooltip has three open states, and without "instant-open" every tooltip
+     with delayDuration 0 sat at opacity 0, never on screen (upsys, 11 Sep 2026). */
+  .t-dropdown[data-state="open"],
+  .t-dropdown[data-state="delayed-open"],
+  .t-dropdown[data-state="instant-open"] {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .t-dropdown[data-state="closed"] {
+    transform: scale(var(--dropdown-closing-scale));
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform var(--dropdown-close-dur) var(--dropdown-ease),
+      opacity var(--dropdown-close-dur) var(--dropdown-ease);
+  }
+
+  /* WHY the floating var first: bits-ui computes the exact point on the trigger after
+     a flip or a shift, so a menu nudged off the viewport edge still grows from its
+     trigger. The side and align corners stay as the fallback for a non-bits surface. */
+  .t-dropdown[data-side="bottom"][data-align="start"] {
+    transform-origin: var(--bits-floating-transform-origin, top left);
+  }
+
+  .t-dropdown[data-side="bottom"][data-align="center"] {
+    transform-origin: var(--bits-floating-transform-origin, top center);
+  }
+
+  .t-dropdown[data-side="bottom"][data-align="end"] {
+    transform-origin: var(--bits-floating-transform-origin, top right);
+  }
+
+  .t-dropdown[data-side="top"][data-align="start"] {
+    transform-origin: var(--bits-floating-transform-origin, bottom left);
+  }
+
+  .t-dropdown[data-side="top"][data-align="center"] {
+    transform-origin: var(--bits-floating-transform-origin, bottom center);
+  }
+
+  .t-dropdown[data-side="top"][data-align="end"] {
+    transform-origin: var(--bits-floating-transform-origin, bottom right);
+  }
+
+  .t-dropdown[data-side="left"],
+  .t-dropdown[data-side="inline-end"] {
+    transform-origin: var(--bits-floating-transform-origin, right center);
+  }
+
+  .t-dropdown[data-side="right"],
+  .t-dropdown[data-side="inline-start"] {
+    transform-origin: var(--bits-floating-transform-origin, left center);
+  }
+
+  /* Reduced motion keeps the fade and drops the scale (DESIGN.md rule 13). Same
+     specificity as the state rules above and later, so it wins without !important. */
+  @media (prefers-reduced-motion: reduce) {
+    .t-dropdown,
+    .t-dropdown.is-open,
+    .t-dropdown.is-closing,
+    .t-dropdown[data-state] {
+      transform: none;
+      transition-property: opacity;
+    }
+  }
+
+  /* A tooltip that skipped its delay skips its entrance too, since a neighbour opened
+     inside the skip window is already there when the eye arrives. */
+  [data-slot="tooltip-content"].t-dropdown[data-state="instant-open"] {
+    transition: none;
+  }
 }

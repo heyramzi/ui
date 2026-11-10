@@ -1,7 +1,17 @@
-/* Shared by the bar, the derived bar and the group summary: they all slide in the same way. */
-.g-enter {
-  animation: g-bar-in var(--duration-slow) var(--ease-smooth-out) backwards;
-  animation-delay: calc(var(--g-i, 0) * var(--duration-stagger));
+@layer theme, base, components, utilities;
+
+@layer components {
+  /* Shared by the bar, the derived bar and the group summary: they all slide in the same way. */
+  .g-enter {
+    animation: g-bar-in var(--duration-slow) var(--ease-smooth-out) backwards;
+    animation-delay: calc(var(--g-i, 0) * var(--duration-stagger));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .g-enter {
+      animation: none;
+    }
+  }
 }
 
 @keyframes g-bar-in {
@@ -12,11 +22,5 @@
   to {
     opacity: 1;
     clip-path: inset(0 0 0 0 round var(--radius-lg));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .g-enter {
-    animation: none;
   }
 }

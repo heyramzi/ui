@@ -1,31 +1,307 @@
+@layer theme, base, components, utilities;
+
 /* Canvas chrome: tool rail, pill, selection bar. Each colour reads a host token with a plain fallback. */
 
-:root {
-  --cv-surface: var(--card, #fff);
-  --cv-surface-hover: var(--accent, #f1f1f4);
-  --cv-line: var(--border, #e4e4e9);
-  --cv-ink: var(--foreground, #1c1c24);
-  --cv-ink-muted: var(--muted-foreground, #6b6b78);
-  --cv-selection: var(--ring, #4a4ad8);
-  --cv-selection-fill: color-mix(in oklch, var(--cv-selection) 12%, transparent);
-  --cv-elevation: var(--elev-raised, 0 4px 12px rgb(0 0 0 / 0.08), 0 1px 3px rgb(0 0 0 / 0.06));
-  --cv-elevation-pop: var(
-    --elev-overlay,
-    0 8px 24px rgb(0 0 0 / 0.12),
-    0 1px 3px rgb(0 0 0 / 0.08)
-  );
-  --cv-radius-btn: var(--radius-lg, 8px);
-  /* Concentric: the bar's corner is the button's plus the 4px padding, so the two curves stay parallel. */
-  --cv-radius-bar: calc(var(--cv-radius-btn) + 4px);
-  --cv-btn: 32px;
-  --cv-edge: 12px;
-}
-
-@media (pointer: coarse) {
+@layer components {
   :root {
-    --cv-btn: 40px;
+    --cv-surface: var(--card, #fff);
+    --cv-surface-hover: var(--accent, #f1f1f4);
+    --cv-line: var(--border, #e4e4e9);
+    --cv-ink: var(--foreground, #1c1c24);
+    --cv-ink-muted: var(--muted-foreground, #6b6b78);
+    --cv-selection: var(--ring, #4a4ad8);
+    --cv-selection-fill: color-mix(in oklch, var(--cv-selection) 12%, transparent);
+    --cv-elevation: var(--elev-raised, 0 4px 12px rgb(0 0 0 / 0.08), 0 1px 3px rgb(0 0 0 / 0.06));
+    --cv-elevation-pop: var(
+      --elev-overlay,
+      0 8px 24px rgb(0 0 0 / 0.12),
+      0 1px 3px rgb(0 0 0 / 0.08)
+    );
+    --cv-radius-btn: var(--radius-lg, 8px);
+    /* Concentric: the bar's corner is the button's plus the 4px padding, so the two curves stay parallel. */
+    --cv-radius-bar: calc(var(--cv-radius-btn) + 4px);
+    --cv-btn: 32px;
+    --cv-edge: 12px;
+  }
+
+  @media (pointer: coarse) {
+    :root {
+      --cv-btn: 40px;
+    }
+  }
+
+  /* A phone lays the rail flat along the bottom edge, its style bar stacked above it. */
+  @media (max-width: 639px) {
+    .cv-dock > .cv-row {
+      flex-direction: column-reverse;
+    }
+
+    .cv-dock .cv-rail {
+      flex-direction: row;
+    }
+  }
+
+  /* One surface for every bar, the rail, the pill, the selection bar and the style bar. */
+  .cv-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border: 1px solid var(--cv-line);
+    border-radius: var(--cv-radius-bar);
+    background: var(--cv-surface);
+    box-shadow: var(--cv-elevation);
+    pointer-events: auto;
+  }
+
+  .cv-rail {
+    flex-direction: column;
+  }
+
+  /* The rail and its style bar side by side, the style bar centred on the rail. */
+  .cv-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  /* Groups are set apart by space, never by a rule. */
+  .cv-gap {
+    flex: none;
+    width: 6px;
+    height: 6px;
+  }
+
+  .cv-btn {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--cv-btn);
+    height: var(--cv-btn);
+    border: 0;
+    border-radius: var(--cv-radius-btn);
+    background: transparent;
+    color: var(--cv-ink-muted);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
+      color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
+      scale var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cv-btn:hover:not(:disabled) {
+      background: var(--cv-surface-hover);
+      color: var(--cv-ink);
+    }
+  }
+
+  .cv-btn:active:not(:disabled) {
+    scale: 0.96;
+  }
+
+  /* One active style for a tool, a size, a brush and an open popover. */
+  .cv-btn[aria-pressed="true"],
+  .cv-btn[aria-expanded="true"],
+  .cv-btn[data-state="open"] {
+    background: var(--cv-surface-hover);
+    color: var(--cv-ink);
+  }
+
+  .cv-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .cv-btn:focus-visible,
+  .cv-swatch:focus-visible {
+    outline: 2px solid var(--cv-selection);
+    outline-offset: 1px;
+  }
+
+  /* A readout between two buttons, like the zoom percentage. */
+  .cv-readout {
+    width: auto;
+    min-width: 44px;
+    padding: 0 4px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cv-swatch {
+    position: relative;
+    flex: none;
+    width: var(--cv-btn);
+    height: var(--cv-btn);
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* The ink disc is 16px inside a 32px hit area. */
+  .cv-swatch::before {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 16px;
+    height: 16px;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: var(--swatch);
+    outline: 1px solid oklch(0 0 0 / 0.14);
+    outline-offset: -1px;
+    transition: scale var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+  }
+
+  :root.dark .cv-swatch::before {
+    outline-color: oklch(1 0 0 / 0.16);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cv-swatch:hover::before {
+      scale: 1.1;
+    }
+  }
+
+  .cv-swatch[aria-pressed="true"]::before {
+    box-shadow:
+      0 0 0 2px var(--cv-surface),
+      0 0 0 4px var(--cv-ink);
+  }
+
+  .cv-dot {
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* A label on hover, for a pointer that can hover. Touch gets the aria-label alone. */
+  @media (hover: hover) {
+    .cv-btn[data-tip]::after,
+    .cv-swatch[data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      translate: -50% 4px;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm, 6px);
+      background: var(--foreground, #1c1c24);
+      color: var(--background, #fff);
+      font-size: 12px;
+      line-height: 1.2;
+      white-space: pre;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 5;
+      transition:
+        opacity var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
+        translate var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
+    }
+
+    .cv-btn[data-tip]:hover::after,
+    .cv-btn[data-tip]:focus-visible::after,
+    .cv-swatch[data-tip]:hover::after,
+    .cv-swatch[data-tip]:focus-visible::after {
+      opacity: 1;
+      translate: -50% 0;
+      transition-delay: 350ms;
+    }
+
+    /* On the rail the label opens to the right. */
+    .cv-rail .cv-btn[data-tip]::after {
+      top: 50%;
+      bottom: auto;
+      left: calc(100% + 10px);
+      translate: -4px -50%;
+    }
+
+    .cv-rail .cv-btn[data-tip]:hover::after,
+    .cv-rail .cv-btn[data-tip]:focus-visible::after {
+      translate: 0 -50%;
+    }
+
+    .cv-btn:active::after,
+    .cv-btn:disabled::after,
+    .cv-btn[aria-expanded="true"]::after,
+    .cv-btn[data-state="open"]::after {
+      opacity: 0 !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cv-btn,
+    .cv-swatch::before,
+    .cv-btn[data-tip]::after {
+      transition: none;
+    }
+
+    .cv-btn:active:not(:disabled) {
+      scale: 1;
+    }
+  }
+
+  /* On a bar docked to the right edge the label opens to the left. */
+  @media (hover: hover) {
+    .cv-side .cv-btn[data-tip]::after,
+    .cv-side .cv-swatch[data-tip]::after {
+      top: 50%;
+      bottom: auto;
+      left: auto;
+      right: calc(100% + 10px);
+      translate: 4px -50%;
+    }
+
+    .cv-side .cv-btn[data-tip]:hover::after,
+    .cv-side .cv-btn[data-tip]:focus-visible::after,
+    .cv-side .cv-swatch[data-tip]:hover::after,
+    .cv-side .cv-swatch[data-tip]:focus-visible::after {
+      translate: 0 -50%;
+    }
   }
 }
+
+@property --cv-fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --cv-fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* The scroll position moves each fade, so only the side that still scrolls is faded. */
+@keyframes cv-fade-start {
+  0% {
+    --cv-fade-start: 0px;
+  }
+  4%,
+  100% {
+    --cv-fade-start: 28px;
+  }
+}
+
+@keyframes cv-fade-end {
+  0%,
+  96% {
+    --cv-fade-end: 28px;
+  }
+  100% {
+    --cv-fade-end: 0px;
+  }
+}
+
+/* xyflow's stylesheet is unlayered and beats every layer, so rules on its parts stay unlayered below. */
 
 .svelte-flow .svelte-flow__panel.cv-dock {
   margin: var(--cv-edge);
@@ -43,23 +319,14 @@
   transform: translateX(-50%);
 }
 
-/* A phone has no room for a side rail: at 390px a rail on the left covers the
-   board xyflow just fitted. The rail lies flat along the bottom edge instead,
-   with its style bar stacked above it. */
+/* A phone has no room for a side rail: at 390px it covers the board xyflow just
+   fitted, so the dock moves to the bottom edge. */
 @media (max-width: 639px) {
   .svelte-flow .svelte-flow__panel.cv-dock.left.center {
     top: auto;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-  }
-
-  .cv-dock > .cv-row {
-    flex-direction: column-reverse;
-  }
-
-  .cv-dock .cv-rail {
-    flex-direction: row;
   }
 }
 
@@ -70,9 +337,8 @@
   background: var(--cv-surface);
 }
 
-/* On a phone the rail runs along the bottom edge and the credit would sit under
-   it, in the frame's rounded corner. It moves to the top right, inset off the
-   corner's curve. */
+/* On a phone the rail runs along the bottom edge, so the credit moves to the top
+   right, inset off the frame's rounded corner. */
 @media (max-width: 639px) {
   .svelte-flow .svelte-flow__panel.svelte-flow__attribution {
     top: 0;
@@ -94,263 +360,6 @@
     top: var(--cv-style-y);
     margin: 0;
     transform: none;
-  }
-}
-
-/* One surface for every bar, the rail, the pill, the selection bar and the style bar. */
-.cv-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 4px;
-  border: 1px solid var(--cv-line);
-  border-radius: var(--cv-radius-bar);
-  background: var(--cv-surface);
-  box-shadow: var(--cv-elevation);
-  pointer-events: auto;
-}
-
-.cv-rail {
-  flex-direction: column;
-}
-
-/* The rail and its style bar side by side, the style bar centred on the rail. */
-.cv-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  pointer-events: none;
-}
-
-/* Groups are set apart by space, never by a rule. */
-.cv-gap {
-  flex: none;
-  width: 6px;
-  height: 6px;
-}
-
-.cv-btn {
-  position: relative;
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: var(--cv-btn);
-  height: var(--cv-btn);
-  border: 0;
-  border-radius: var(--cv-radius-btn);
-  background: transparent;
-  color: var(--cv-ink-muted);
-  cursor: pointer;
-  transition:
-    background-color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
-    color var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
-    scale var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cv-btn:hover:not(:disabled) {
-    background: var(--cv-surface-hover);
-    color: var(--cv-ink);
-  }
-}
-
-.cv-btn:active:not(:disabled) {
-  scale: 0.96;
-}
-
-/* One active style for a tool, a size, a brush and an open popover. */
-.cv-btn[aria-pressed="true"],
-.cv-btn[aria-expanded="true"],
-.cv-btn[data-state="open"] {
-  background: var(--cv-surface-hover);
-  color: var(--cv-ink);
-}
-
-.cv-btn:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-.cv-btn:focus-visible,
-.cv-swatch:focus-visible {
-  outline: 2px solid var(--cv-selection);
-  outline-offset: 1px;
-}
-
-/* A readout between two buttons, like the zoom percentage. */
-.cv-readout {
-  width: auto;
-  min-width: 44px;
-  padding: 0 4px;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-}
-
-.cv-swatch {
-  position: relative;
-  flex: none;
-  width: var(--cv-btn);
-  height: var(--cv-btn);
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* The ink disc is 16px inside a 32px hit area. */
-.cv-swatch::before {
-  content: "";
-  position: absolute;
-  inset: 50% auto auto 50%;
-  width: 16px;
-  height: 16px;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: var(--swatch);
-  outline: 1px solid oklch(0 0 0 / 0.14);
-  outline-offset: -1px;
-  transition: scale var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
-}
-
-:root.dark .cv-swatch::before {
-  outline-color: oklch(1 0 0 / 0.16);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cv-swatch:hover::before {
-    scale: 1.1;
-  }
-}
-
-.cv-swatch[aria-pressed="true"]::before {
-  box-shadow:
-    0 0 0 2px var(--cv-surface),
-    0 0 0 4px var(--cv-ink);
-}
-
-.cv-dot {
-  width: var(--dot);
-  height: var(--dot);
-  border-radius: 50%;
-  background: currentColor;
-}
-
-/* A label on hover, for a pointer that can hover. Touch gets the aria-label alone. */
-@media (hover: hover) {
-  .cv-btn[data-tip]::after,
-  .cv-swatch[data-tip]::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 10px);
-    left: 50%;
-    translate: -50% 4px;
-    padding: 4px 8px;
-    border-radius: var(--radius-sm, 6px);
-    background: var(--foreground, #1c1c24);
-    color: var(--background, #fff);
-    font-size: 12px;
-    line-height: 1.2;
-    white-space: pre;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 5;
-    transition:
-      opacity var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
-      translate var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
-  }
-
-  .cv-btn[data-tip]:hover::after,
-  .cv-btn[data-tip]:focus-visible::after,
-  .cv-swatch[data-tip]:hover::after,
-  .cv-swatch[data-tip]:focus-visible::after {
-    opacity: 1;
-    translate: -50% 0;
-    transition-delay: 350ms;
-  }
-
-  /* On the rail the label opens to the right. */
-  .cv-rail .cv-btn[data-tip]::after {
-    top: 50%;
-    bottom: auto;
-    left: calc(100% + 10px);
-    translate: -4px -50%;
-  }
-
-  .cv-rail .cv-btn[data-tip]:hover::after,
-  .cv-rail .cv-btn[data-tip]:focus-visible::after {
-    translate: 0 -50%;
-  }
-
-  .cv-btn:active::after,
-  .cv-btn:disabled::after,
-  .cv-btn[aria-expanded="true"]::after,
-  .cv-btn[data-state="open"]::after {
-    opacity: 0 !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cv-btn,
-  .cv-swatch::before,
-  .cv-btn[data-tip]::after {
-    transition: none;
-  }
-
-  .cv-btn:active:not(:disabled) {
-    scale: 1;
-  }
-}
-
-/* On a bar docked to the right edge the label opens to the left. */
-@media (hover: hover) {
-  .cv-side .cv-btn[data-tip]::after,
-  .cv-side .cv-swatch[data-tip]::after {
-    top: 50%;
-    bottom: auto;
-    left: auto;
-    right: calc(100% + 10px);
-    translate: 4px -50%;
-  }
-
-  .cv-side .cv-btn[data-tip]:hover::after,
-  .cv-side .cv-btn[data-tip]:focus-visible::after,
-  .cv-side .cv-swatch[data-tip]:hover::after,
-  .cv-side .cv-swatch[data-tip]:focus-visible::after {
-    translate: 0 -50%;
-  }
-}
-
-@property --cv-fade-start {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-@property --cv-fade-end {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
-/* The scroll position moves each fade, so only the side that still scrolls is faded. */
-@keyframes cv-fade-start {
-  0% {
-    --cv-fade-start: 0px;
-  }
-  4%,
-  100% {
-    --cv-fade-start: 28px;
-  }
-}
-@keyframes cv-fade-end {
-  0%,
-  96% {
-    --cv-fade-end: 28px;
-  }
-  100% {
-    --cv-fade-end: 0px;
   }
 }
 

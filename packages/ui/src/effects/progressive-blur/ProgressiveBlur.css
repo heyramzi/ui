@@ -1,9 +1,14 @@
-.hr-progressive-blur {
-  position: relative;
-  pointer-events: none;
-}
-.hr-progressive-blur__layer {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
+@layer theme, base, components, utilities;
+
+@layer components {
+  .hr-progressive-blur {
+    position: relative;
+    pointer-events: none;
+  }
+
+  .hr-progressive-blur__layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
 }

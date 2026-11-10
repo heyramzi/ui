@@ -1,48 +1,55 @@
-/* Spinning counter, transitions.dev 26: the streak is an SVG feGaussianBlur with
-   stdDeviation="0 Y" because a CSS blur() is isotropic and would smear digits sideways. */
-:root {
-  --reel-dur: 1400ms;
-  --reel-cell: 30px;
-  --reel-spin-blur: var(--blur-medium, 3px);
-  --reel-stagger: 90ms;
-  --reel-ease: cubic-bezier(0.16, 1, 0.3, 1);
-}
+@layer theme, base, components, utilities;
 
-.t-reel {
-  display: inline-flex;
-  align-items: center;
-  height: var(--reel-cell);
-  font-variant-numeric: tabular-nums;
-}
-/* Soft-fade the window edges rather than hard-cropping the strip. */
-.t-reel-col {
-  position: relative;
-  height: var(--reel-cell);
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #000 22%,
-    #000 78%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
-}
-.t-reel-strip {
-  display: flex;
-  flex-direction: column;
-  will-change: transform, filter;
-}
-.t-reel-digit {
-  height: var(--reel-cell);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@layer components {
+  /* Spinning counter, transitions.dev 26: the streak is an SVG feGaussianBlur with
+     stdDeviation="0 Y" because a CSS blur() is isotropic and would smear digits sideways. */
+  :root {
+    --reel-dur: 1400ms;
+    --reel-cell: 30px;
+    --reel-spin-blur: var(--blur-medium, 3px);
+    --reel-stagger: 90ms;
+    --reel-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-@media (prefers-reduced-motion: reduce) {
+  .t-reel {
+    display: inline-flex;
+    align-items: center;
+    height: var(--reel-cell);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Soft-fade the window edges rather than hard-cropping the strip. */
+  .t-reel-col {
+    position: relative;
+    height: var(--reel-cell);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 22%,
+      #000 78%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  }
+
   .t-reel-strip {
-    transition: none !important;
-    filter: none !important;
+    display: flex;
+    flex-direction: column;
+    will-change: transform, filter;
+  }
+
+  .t-reel-digit {
+    height: var(--reel-cell);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-reel-strip {
+      transition: none !important;
+      filter: none !important;
+    }
   }
 }

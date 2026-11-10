@@ -1,17 +1,23 @@
+@layer theme, base, components, utilities;
+
 /* The card frame and its resize hit areas. Handle looks come from chrome.css. */
 
-/* A one-row grid: at least the saved height, growing with the content.
-   `min-height: 100%` shows a live drag at once. No position, so grips still anchor to the node. */
-.cv-card-frame {
-  display: grid;
-  grid-template-rows: minmax(var(--cv-card-h, 0px), auto);
-  min-height: 100%;
+@layer components {
+  /* A one-row grid: at least the saved height, growing with the content.
+     `min-height: 100%` shows a live drag at once. No position, so grips still anchor to the node. */
+  .cv-card-frame {
+    display: grid;
+    grid-template-rows: minmax(var(--cv-card-h, 0px), auto);
+    min-height: 100%;
+  }
+
+  /* A drag drops the saved floor, so the card can shrink as well as grow. */
+  .cv-card-frame[data-resizing] {
+    grid-template-rows: auto;
+  }
 }
 
-/* A drag drops the saved floor, so the card can shrink as well as grow. */
-.cv-card-frame[data-resizing] {
-  grid-template-rows: auto;
-}
+/* xyflow's stylesheet is unlayered and beats every layer, so rules on its parts stay unlayered below. */
 
 /* The edges are hit areas only, a finger wide at every zoom. */
 .svelte-flow .svelte-flow__resize-control.line.cv-edge {

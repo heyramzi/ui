@@ -1,20 +1,24 @@
+@layer theme, base, components, utilities;
+
 /* Transitions.dev — Card resize */
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
-:root {
-  --resize-dur: 300ms;
-  --resize-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-}
+@layer components {
+  :root {
+    --resize-dur: 300ms;
+    --resize-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
 
-.t-resize {
-  transition:
-    width var(--resize-dur) var(--resize-ease),
-    height var(--resize-dur) var(--resize-ease);
-  will-change: width, height;
-}
-
-@media (prefers-reduced-motion: reduce) {
   .t-resize {
-    transition: none !important;
+    transition:
+      width var(--resize-dur) var(--resize-ease),
+      height var(--resize-dur) var(--resize-ease);
+    will-change: width, height;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-resize {
+      transition: none !important;
+    }
   }
 }

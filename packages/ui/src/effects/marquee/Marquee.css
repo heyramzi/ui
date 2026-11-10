@@ -1,65 +1,86 @@
-.marquee {
-  display: flex;
-  flex-direction: row;
-  gap: var(--gap, 1rem);
-  overflow: hidden;
-  padding: 0.5rem;
-}
-.marquee--vertical {
-  flex-direction: column;
-}
-.marquee__track {
-  display: flex;
-  flex-direction: row;
-  flex-shrink: 0;
-  justify-content: space-around;
-  gap: var(--gap, 1rem);
-  animation: marquee-x var(--duration, 40s) linear var(--marquee-delay, 0s) infinite;
-}
-.marquee--vertical .marquee__track {
-  flex-direction: column;
-  animation-name: marquee-y;
-}
-.marquee__track--reverse {
-  animation-direction: reverse;
-}
-/* fit-content already stops at the parent's width. No max-width here: this sheet is unlayered, so
-   it would beat a caller's max-w-* utility and the line would never overflow its box. */
-.marquee[data-overflow-only] {
-  width: fit-content;
-  padding: 0;
-}
-.marquee[data-still] .marquee__track {
-  animation: none;
-}
-.marquee[data-fade] {
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black var(--marquee-fade),
-    black calc(100% - var(--marquee-fade)),
-    transparent
-  );
-}
-.marquee--vertical[data-fade] {
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black var(--marquee-fade),
-    black calc(100% - var(--marquee-fade)),
-    transparent
-  );
-}
-@media (hover: hover) and (pointer: fine) {
-  .marquee[data-pause-hover]:hover .marquee__track {
+@layer theme, base, components, utilities;
+
+@layer components {
+  .marquee {
+    display: flex;
+    flex-direction: row;
+    gap: var(--gap, 1rem);
+    overflow: hidden;
+    padding: 0.5rem;
+  }
+
+  .marquee--vertical {
+    flex-direction: column;
+  }
+
+  .marquee__track {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    justify-content: space-around;
+    gap: var(--gap, 1rem);
+    animation: marquee-x var(--duration, 40s) linear var(--marquee-delay, 0s) infinite;
+  }
+
+  .marquee--vertical .marquee__track {
+    flex-direction: column;
+    animation-name: marquee-y;
+  }
+
+  .marquee__track--reverse {
+    animation-direction: reverse;
+  }
+
+  /* fit-content already stops at the parent's width. No max-width here: this sheet is unlayered, so
+     it would beat a caller's max-w-* utility and the line would never overflow its box. */
+  .marquee[data-overflow-only] {
+    width: fit-content;
+    padding: 0;
+  }
+
+  .marquee[data-still] .marquee__track {
+    animation: none;
+  }
+
+  .marquee[data-fade] {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black var(--marquee-fade),
+      black calc(100% - var(--marquee-fade)),
+      transparent
+    );
+  }
+
+  .marquee--vertical[data-fade] {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black var(--marquee-fade),
+      black calc(100% - var(--marquee-fade)),
+      transparent
+    );
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .marquee[data-pause-hover]:hover .marquee__track {
+      animation-play-state: paused;
+    }
+  }
+
+  /* A focused link must hold still to be read and clicked, whatever pauseOnHover says. */
+  .marquee[data-paused] .marquee__track,
+  .marquee:focus-within .marquee__track {
     animation-play-state: paused;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+  }
 }
-/* A focused link must hold still to be read and clicked, whatever pauseOnHover says. */
-.marquee[data-paused] .marquee__track,
-.marquee:focus-within .marquee__track {
-  animation-play-state: paused;
-}
+
 @keyframes marquee-x {
   from {
     transform: translateX(0);
@@ -68,16 +89,12 @@
     transform: translateX(calc(-100% - var(--gap, 1rem)));
   }
 }
+
 @keyframes marquee-y {
   from {
     transform: translateY(0);
   }
   to {
     transform: translateY(calc(-100% - var(--gap, 1rem)));
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track {
-    animation: none;
   }
 }

@@ -1,54 +1,58 @@
+@layer theme, base, components, utilities;
+
 /* The sheet slide: transitions.dev panel reveal, owned by the sheet. */
 
-/* The same 300ms open and 250ms close as before, named. DESIGN.md hasn't decided
-   whether the sheet takes Vaul's 500ms drawer timing, so the values hold. */
-:root {
-  --sheet-open-dur: var(--duration-slow);
-  --sheet-close-dur: var(--duration-fast);
-  --sheet-translate: 100%;
-  --sheet-ease: var(--ease-smooth-out);
-}
+@layer components {
+  /* The same 300ms open and 250ms close as before, named. DESIGN.md hasn't decided
+     whether the sheet takes Vaul's 500ms drawer timing, so the values hold. */
+  :root {
+    --sheet-open-dur: var(--duration-slow);
+    --sheet-close-dur: var(--duration-fast);
+    --sheet-translate: 100%;
+    --sheet-ease: var(--ease-smooth-out);
+  }
 
-.t-sheet {
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--sheet-close-dur) var(--sheet-ease),
-    opacity var(--sheet-close-dur) var(--sheet-ease);
-  will-change: transform, opacity;
-}
+  .t-sheet {
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform var(--sheet-close-dur) var(--sheet-ease),
+      opacity var(--sheet-close-dur) var(--sheet-ease);
+    will-change: transform, opacity;
+  }
 
-.t-sheet[data-side="right"] {
-  transform: translateX(var(--sheet-translate));
-}
+  .t-sheet[data-side="right"] {
+    transform: translateX(var(--sheet-translate));
+  }
 
-.t-sheet[data-side="left"] {
-  transform: translateX(calc(-1 * var(--sheet-translate)));
-}
+  .t-sheet[data-side="left"] {
+    transform: translateX(calc(-1 * var(--sheet-translate)));
+  }
 
-.t-sheet[data-side="top"] {
-  transform: translateY(calc(-1 * var(--sheet-translate)));
-}
+  .t-sheet[data-side="top"] {
+    transform: translateY(calc(-1 * var(--sheet-translate)));
+  }
 
-.t-sheet[data-side="bottom"] {
-  transform: translateY(var(--sheet-translate));
-}
+  .t-sheet[data-side="bottom"] {
+    transform: translateY(var(--sheet-translate));
+  }
 
-.t-sheet[data-state="open"] {
-  transform: translate(0, 0);
-  opacity: 1;
-  pointer-events: auto;
-  transition:
-    transform var(--sheet-open-dur) var(--sheet-ease),
-    opacity var(--sheet-open-dur) var(--sheet-ease);
-}
+  .t-sheet[data-state="open"] {
+    transform: translate(0, 0);
+    opacity: 1;
+    pointer-events: auto;
+    transition:
+      transform var(--sheet-open-dur) var(--sheet-ease),
+      opacity var(--sheet-open-dur) var(--sheet-ease);
+  }
 
-/* Reduced motion keeps the fade and drops the slide (DESIGN.md rule 13). */
-@media (prefers-reduced-motion: reduce) {
-  .t-sheet,
-  .t-sheet[data-side],
-  .t-sheet[data-state] {
-    transform: none;
-    transition-property: opacity;
+  /* Reduced motion keeps the fade and drops the slide (DESIGN.md rule 13). */
+  @media (prefers-reduced-motion: reduce) {
+    .t-sheet,
+    .t-sheet[data-side],
+    .t-sheet[data-state] {
+      transform: none;
+      transition-property: opacity;
+    }
   }
 }

@@ -1,15 +1,26 @@
-/* WHY: Svelte never scopes marked's {@html} output, so the caret reaches its last child
-   with :global() while the parent class stays scoped. */
-.ai-response.is-streaming > :last-child::after {
-  content: "";
-  display: inline-block;
-  width: 0.5ch;
-  height: 1em;
-  margin-left: 0.1ch;
-  vertical-align: text-bottom;
-  border-radius: 1px;
-  background: currentColor;
-  animation: ai-response-caret 1s steps(1, end) infinite;
+@layer theme, base, components, utilities;
+
+@layer components {
+  /* WHY: Svelte never scopes marked's {@html} output, so the caret reaches its last child
+     with :global() while the parent class stays scoped. */
+  .ai-response.is-streaming > :last-child::after {
+    content: "";
+    display: inline-block;
+    width: 0.5ch;
+    height: 1em;
+    margin-left: 0.1ch;
+    vertical-align: text-bottom;
+    border-radius: 1px;
+    background: currentColor;
+    animation: ai-response-caret 1s steps(1, end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai-response.is-streaming > :last-child::after {
+      animation: none;
+      opacity: 0.7;
+    }
+  }
 }
 
 @keyframes ai-response-caret {
@@ -20,12 +31,5 @@
   50.01%,
   100% {
     opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-response.is-streaming > :last-child::after {
-    animation: none;
-    opacity: 0.7;
   }
 }

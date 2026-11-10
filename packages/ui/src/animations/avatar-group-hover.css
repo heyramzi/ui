@@ -1,3 +1,5 @@
+@layer theme, base, components, utilities;
+
 /* Transitions.dev — Avatar group hover */
 /* Source: https://github.com/Jakubantalik/transitions.dev */
 
@@ -6,28 +8,30 @@
   transition-timing-function inline before those writes, or the ease is wrong.
 */
 
-:root {
-  --avatar-lift: -4px;
-  --avatar-dur: 320ms;
-  --avatar-scale: 1.05;
-  --avatar-falloff: 0.45;
-  --avatar-ease-in: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-  --avatar-ease-out: var(--ease-smooth-out);
-}
+@layer components {
+  :root {
+    --avatar-lift: -4px;
+    --avatar-dur: 320ms;
+    --avatar-scale: 1.05;
+    --avatar-falloff: 0.45;
+    --avatar-ease-in: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+    --avatar-ease-out: var(--ease-smooth-out);
+  }
 
-/* Hover-spring transition only — bring your own avatar/chip
-   styling (size, shape, border, stacking, background). */
-.t-avatar {
-  transform-origin: center;
-  /* translateY before scale so scale doesn't amplify the lift offset. */
-  transform: translateY(var(--shift, 0px)) scale(var(--scale-active, 1));
-  transition: transform var(--avatar-dur) var(--avatar-ease-in);
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
+  /* Hover-spring transition only — bring your own avatar/chip
+     styling (size, shape, border, stacking, background). */
   .t-avatar {
-    transition: none !important;
-    transform: none !important;
+    transform-origin: center;
+    /* translateY before scale so scale doesn't amplify the lift offset. */
+    transform: translateY(var(--shift, 0px)) scale(var(--scale-active, 1));
+    transition: transform var(--avatar-dur) var(--avatar-ease-in);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-avatar {
+      transition: none !important;
+      transform: none !important;
+    }
   }
 }

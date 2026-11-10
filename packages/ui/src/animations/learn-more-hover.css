@@ -1,56 +1,66 @@
-/* Learn more hover, transitions.dev 24: `transform-box: view-box` makes the arm origin
-   resolve against the viewBox, not each path's own bounding box. */
-:root {
-  --learn-shift: 2px;
-  --learn-spread: 8deg;
-  --learn-in: var(--duration-medium, 280ms);
-  --learn-out: var(--duration-medium, 280ms);
-  --learn-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
-}
+@layer theme, base, components, utilities;
 
-.t-learn-chevron {
-  display: inline-flex;
-  transform: translateX(0);
-  transition: transform var(--learn-out) var(--learn-ease);
-}
-.t-learn-arm {
-  transform-box: view-box;
-  transform-origin: 10px 8px;
-  vector-effect: non-scaling-stroke;
-  transition: transform var(--learn-out) var(--learn-ease);
-}
-.t-learn:focus-visible .t-learn-chevron {
-  transform: translateX(var(--learn-shift));
-  transition-duration: var(--learn-in);
-}
-.t-learn:focus-visible .t-learn-arm {
-  transition-duration: var(--learn-in);
-}
-.t-learn:focus-visible .t-learn-arm-top {
-  transform: rotate(var(--learn-spread));
-}
-.t-learn:focus-visible .t-learn-arm-bot {
-  transform: rotate(calc(var(--learn-spread) * -1));
-}
-@media (hover: hover) and (pointer: fine) {
-  .t-learn:hover .t-learn-chevron {
+@layer components {
+  /* Learn more hover, transitions.dev 24: `transform-box: view-box` makes the arm origin
+     resolve against the viewBox, not each path's own bounding box. */
+  :root {
+    --learn-shift: 2px;
+    --learn-spread: 8deg;
+    --learn-in: var(--duration-medium, 280ms);
+    --learn-out: var(--duration-medium, 280ms);
+    --learn-ease: var(--ease-smooth-out, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .t-learn-chevron {
+    display: inline-flex;
+    transform: translateX(0);
+    transition: transform var(--learn-out) var(--learn-ease);
+  }
+
+  .t-learn-arm {
+    transform-box: view-box;
+    transform-origin: 10px 8px;
+    vector-effect: non-scaling-stroke;
+    transition: transform var(--learn-out) var(--learn-ease);
+  }
+
+  .t-learn:focus-visible .t-learn-chevron {
     transform: translateX(var(--learn-shift));
     transition-duration: var(--learn-in);
   }
-  .t-learn:hover .t-learn-arm {
+
+  .t-learn:focus-visible .t-learn-arm {
     transition-duration: var(--learn-in);
   }
-  .t-learn:hover .t-learn-arm-top {
+
+  .t-learn:focus-visible .t-learn-arm-top {
     transform: rotate(var(--learn-spread));
   }
-  .t-learn:hover .t-learn-arm-bot {
+
+  .t-learn:focus-visible .t-learn-arm-bot {
     transform: rotate(calc(var(--learn-spread) * -1));
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .t-learn-chevron,
-  .t-learn-arm {
-    transition: none !important;
+  @media (hover: hover) and (pointer: fine) {
+    .t-learn:hover .t-learn-chevron {
+      transform: translateX(var(--learn-shift));
+      transition-duration: var(--learn-in);
+    }
+    .t-learn:hover .t-learn-arm {
+      transition-duration: var(--learn-in);
+    }
+    .t-learn:hover .t-learn-arm-top {
+      transform: rotate(var(--learn-spread));
+    }
+    .t-learn:hover .t-learn-arm-bot {
+      transform: rotate(calc(var(--learn-spread) * -1));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .t-learn-chevron,
+    .t-learn-arm {
+      transition: none !important;
+    }
   }
 }
