@@ -47,6 +47,7 @@
 	import {
 		Pagination,
 		SortableHead,
+		TableSkeleton,
 		paginateRows,
 		totalPages,
 		type SortState,
@@ -128,6 +129,18 @@
 	});
 
 	const visible = $derived(pageSize ? paginateRows(sorted, page, pageSize) : sorted);
+
+	// Placeholder rows hold the 40px of a lead cell's padding, touch or not, and the rule sits
+	// outside it as before. Each cell keeps its column's padding, rule and breakpoint.
+	const loadingCell = "box-content h-10 any-pointer-coarse:h-10";
+	const loadingColumns = $derived([
+		{ width: "w-2/3", class: cn("px-4", loadingCell) },
+		...columns.map((column) => ({
+			width: "w-3/4",
+			align: column.align === "start" ? ("left" as const) : ("right" as const),
+			class: cn(columnClass(column), loadingCell),
+		})),
+	]);
 	const opens = $derived(Boolean(rowHref || onRowClick));
 
 	// Fewer rows than the page you stand on would draw an empty table.
@@ -190,89 +203,75 @@
 			{/each}
 		</tr>
 	</thead>
-	<tbody>
-		{#if loading}
-			{#each { length: LOADING_ROWS }, index (index)}
-				<tr class={dataTrClass} aria-hidden="true">
-					<td class={cn(dataTdClass, "py-3")}>
-						<span class="block h-4 w-2/3 animate-pulse rounded bg-muted"></span>
-					</td>
-					{#each columns as column (column.key)}
-						<td class={cn(dataTdNumClass, columnClass(column), "align-middle")}>
-							<span
-								class={cn(
-									"block h-4 w-3/4 animate-pulse rounded bg-muted",
-									column.align !== "start" && "ml-auto",
-								)}
-							></span>
-						</td>
-					{/each}
+	{#if loading}
+		<TableSkeleton rows={LOADING_ROWS} columns={loadingColumns} rowClass={dataTrClass} />
+	{:else}
+		<tbody>
+			{#if visible.length === 0 && empty}
+				<tr>
+					<td colspan={columns.length + 1}>{@render empty()}</td>
 				</tr>
-			{/each}
-		{:else if visible.length === 0 && empty}
-			<tr>
-				<td colspan={columns.length + 1}>{@render empty()}</td>
-			</tr>
-		{:else}
-			{#each visible as row (rowKey(row))}
-				<tr class={cn(dataTrClass, "group", opens && "relative cursor-pointer")}>
-					<td class={cn(dataTdClass, "py-3")}>
-						{#if rowHref}
-							<a href={rowHref(row)} class={stretch}>{@render lead(row)}</a>
-						{:else if onRowClick}
-							<button type="button" class={stretch} onclick={() => onRowClick(row)}>
+			{:else}
+				{#each visible as row (rowKey(row))}
+					<tr class={cn(dataTrClass, "group", opens && "relative cursor-pointer")}>
+						<td class={cn(dataTdClass, "py-3")}>
+							{#if rowHref}
+								<a href={rowHref(row)} class={stretch}>{@render lead(row)}</a>
+							{:else if onRowClick}
+								<button type="button" class={stretch} onclick={() => onRowClick(row)}>
+									{@render lead(row)}
+								</button>
+							{:else}
 								{@render lead(row)}
-							</button>
-						{:else}
-							{@render lead(row)}
-						{/if}
-					</td>
-					{#each columns as column (column.key)}
-						<td
-							class={cn(
-								dataTdNumClass,
-								columnClass(column),
-								"align-middle whitespace-nowrap",
-								column.strong && "font-medium",
-								isMuted(column, row) && "text-muted-foreground",
-								column.negative?.(row) && "text-destructive-ink",
-							)}
-						>
-							<Hint text={column.title?.(row)} class="block">
-								{#if column.cell}
-									{@render column.cell(row)}
-								{:else if column.rating}
-									{@const rating = column.rating(row)}
-									{#if rating}
-										<RatingChip grade={rating.grade} hint={rating.hint} />
-									{:else}
-										<span class="text-muted-foreground">{emptyLabel}</span>
-									{/if}
-								{:else}
-									{@const value = column.value?.(row) ?? null}
-									{#if value === null}
-										<span class="text-muted-foreground">{emptyLabel}</span>
-									{:else if column.bar}
-										<span class="flex items-center justify-end gap-3">
-											<span class="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-muted">
-												<span
-													class="block h-full origin-left rounded-full bg-primary/70"
-													style:transform="scaleX({Math.min(1, Math.max(0, column.bar(row)))})"
-												></span>
-											</span>
-											<span>{value}</span>
-										</span>
-									{:else}
-										{value}
-									{/if}
-								{/if}
-							</Hint>
+							{/if}
 						</td>
-					{/each}
-				</tr>
-			{/each}
-		{/if}
-	</tbody>
+						{#each columns as column (column.key)}
+							<td
+								class={cn(
+									dataTdNumClass,
+									columnClass(column),
+									"align-middle whitespace-nowrap",
+									column.strong && "font-medium",
+									isMuted(column, row) && "text-muted-foreground",
+									column.negative?.(row) && "text-destructive-ink",
+								)}
+							>
+								<Hint text={column.title?.(row)} class="block">
+									{#if column.cell}
+										{@render column.cell(row)}
+									{:else if column.rating}
+										{@const rating = column.rating(row)}
+										{#if rating}
+											<RatingChip grade={rating.grade} hint={rating.hint} />
+										{:else}
+											<span class="text-muted-foreground">{emptyLabel}</span>
+										{/if}
+									{:else}
+										{@const value = column.value?.(row) ?? null}
+										{#if value === null}
+											<span class="text-muted-foreground">{emptyLabel}</span>
+										{:else if column.bar}
+											<span class="flex items-center justify-end gap-3">
+												<span class="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-muted">
+													<span
+														class="block h-full origin-left rounded-full bg-primary/70"
+														style:transform="scaleX({Math.min(1, Math.max(0, column.bar(row)))})"
+													></span>
+												</span>
+												<span>{value}</span>
+											</span>
+										{:else}
+											{value}
+										{/if}
+									{/if}
+								</Hint>
+							</td>
+						{/each}
+					</tr>
+				{/each}
+			{/if}
+		</tbody>
+	{/if}
 </table>
 {#if pageSize && !loading}
 	<Pagination {page} {pageSize} total={sorted.length} onPageChange={(next) => (page = next)} />

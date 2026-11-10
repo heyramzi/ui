@@ -5241,6 +5241,11 @@
           "description": "Simple mode: just specify column count"
         },
         {
+          "name": "rowClass",
+          "type": "string",
+          "description": "Merged onto each row, for a table whose own rows draw a different line."
+        },
+        {
           "name": "class",
           "type": "string"
         }

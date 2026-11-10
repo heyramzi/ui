@@ -1,5 +1,6 @@
 <script lang="ts">
 	// ========================= IMPORTS
+	import { cn } from "#src/lib/utils.js";
 	import { Skeleton } from "#src/shadcn/skeleton/index.js";
 
 	// ========================= TYPES
@@ -8,6 +9,8 @@
 		align?: "left" | "center" | "right";
 		/** Show a small circle before the skeleton bar (e.g. logo/avatar column) */
 		circle?: boolean;
+		/** Merged onto the cell, for a table whose own cells pad, hide or rule differently. */
+		class?: string;
 	};
 
 	interface Props {
@@ -17,11 +20,13 @@
 		columns?: ColumnDef[];
 		/** Simple mode: just specify column count */
 		columnCount?: number;
+		/** Merged onto each row, for a table whose own rows draw a different line. */
+		rowClass?: string;
 		class?: string;
 	}
 
 	// ========================= PROPS
-	let { rows = 5, columns, columnCount = 6, class: className }: Props = $props();
+	let { rows = 5, columns, columnCount = 6, rowClass, class: className }: Props = $props();
 
 	// ========================= DERIVED
 	let cols = $derived(
@@ -40,19 +45,22 @@
 <!-- =========================== -->
 <tbody class={className}>
 	{#each { length: rows } as _, rowIdx (rowIdx)}
+		<!-- Placeholders, so a screen reader skips them rather than reading empty rows. -->
 		<tr
 			data-slot="table-row"
-			class="border-b border-border/70 transition-opacity"
+			class={cn("border-b border-border/70 transition-opacity", rowClass)}
+			aria-hidden="true"
 			style="animation: skeleton-fade-in var(--duration-slow) var(--ease-smooth-out) calc(var(--duration-stagger) * {rowIdx}) both"
 		>
 			{#each cols as col, colIdx (colIdx)}
 				<td
 					data-slot="table-cell"
-					class="h-8 px-2 any-pointer-coarse:h-11 {col.align === 'center'
-						? 'text-center'
-						: col.align === 'right'
-							? 'text-right'
-							: ''}"
+					class={cn(
+						"h-8 px-2 any-pointer-coarse:h-11",
+						col.align === "center" && "text-center",
+						col.align === "right" && "text-right",
+						col.class,
+					)}
 				>
 					<div
 						class="flex items-center gap-2 {col.align === 'center'
