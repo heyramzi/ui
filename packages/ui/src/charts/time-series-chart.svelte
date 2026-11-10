@@ -16,7 +16,10 @@
 		Spline,
 		Svg,
 		Tooltip,
+		type ChartState,
 	} from "layerchart";
+	import { chartTable } from "#src/charts/chart-a11y.js";
+	import ChartPlot from "#src/charts/chart-plot.svelte";
 	import Crosshair from "#src/charts/crosshair.svelte";
 	import EdgeFade from "#src/charts/edge-fade.svelte";
 	import { resolveEdgeFade } from "#src/charts/edge-fade.js";
@@ -53,6 +56,8 @@
 		 * `true` fades 8% of the width per side, a number sets the fraction (0-0.45), `false` keeps the hard edges.
 		 */
 		edgeFade?: boolean | number;
+		/** The chart's accessible name. Its date range and values are read after it. */
+		ariaLabel?: string;
 	}
 
 	// =========================
@@ -70,7 +75,25 @@
 		softMax = false,
 		yMin = 0,
 		edgeFade = true,
+		ariaLabel = label,
 	}: Props = $props();
+
+	// =========================
+	// STATE
+	// =========================
+	let context = $state<ChartState<(typeof chartData)[number]>>();
+
+	// =========================
+	// FUNCTIONS
+	// =========================
+	function day(d: Date): string {
+		return d.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" });
+	}
+
+	function step(i: number | null) {
+		if (i === null) context?.tooltip.hide();
+		else context?.tooltip.show({ data: chartData[i] });
+	}
 
 	// =========================
 	// DERIVED
@@ -86,6 +109,21 @@
 			...d,
 			dateObj: new Date(d.date),
 		})),
+	);
+
+	const table = $derived(
+		chartTable(
+			chartData,
+			(d) => day(d.dateObj),
+			[
+				{ label, value: (d: DataPoint) => d.value },
+				...(label2
+					? [{ label: label2, value: (d: DataPoint) => d.value2, format: formatValue2 }]
+					: []),
+			],
+			formatValue,
+			{ xLabel: "Date" },
+		),
 	);
 
 	let yMax = $derived.by(() => {
@@ -110,7 +148,7 @@
 <!-- =========================== -->
 <!-- TIME SERIES CHART -->
 <!-- =========================== -->
-<div class="hr-ts-chart" style="height: {height}px">
+<ChartPlot class="hr-ts-chart" height="{height}px" label={ariaLabel} {table} onstep={step}>
 	{#if chartData.length === 0}
 		<div class="empty"><p>No historical data yet</p></div>
 	{:else}
@@ -124,8 +162,9 @@
 			padding={{ left: 56, bottom: 36, top: 12, right: 16 }}
 			tooltipContext={{ mode: "bisect-x" }}
 			motion={DOMAIN_MOTION}
+			bind:context
 		>
-			<Svg>
+			<Svg aria-hidden="true">
 				<Axis placement="left" format={(v) => formatValue(v)} ticks={6} />
 				<Axis
 					placement="bottom"
@@ -160,13 +199,7 @@
 			</Svg>
 			<Tooltip.Root>
 				{#snippet children({ data: d })}
-					<Tooltip.Header
-						value={d.dateObj.toLocaleDateString("en", {
-							month: "short",
-							day: "numeric",
-							year: "numeric",
-						})}
-					/>
+					<Tooltip.Header value={day(d.dateObj)} />
 					<Tooltip.List>
 						<Tooltip.Item {label} {color} value={formatValue(d.value)} />
 						{#if label2 && d.value2 !== undefined}
@@ -181,4 +214,4 @@
 			</Tooltip.Root>
 		</Chart>
 	{/if}
-</div>
+</ChartPlot>

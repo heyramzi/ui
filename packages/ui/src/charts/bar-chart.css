@@ -1,19 +1,6 @@
 /* Styles for BarChart. Plain stylesheet (see area-chart.css for why). Selectors
    are namespaced under `.hr-bar-chart`. */
 
-/* WHY: self-contained visually-hidden styling so the data table reaches
-   screen readers without depending on the consumer's CSS framework. */
-.hr-sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
 .hr-bar-chart {
   width: 100%;
   display: flex;

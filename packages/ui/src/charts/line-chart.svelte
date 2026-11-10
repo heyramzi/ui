@@ -14,7 +14,10 @@
 		Spline,
 		Svg,
 		Tooltip,
+		type ChartState,
 	} from "layerchart";
+	import { chartTable } from "#src/charts/chart-a11y.js";
+	import ChartPlot from "#src/charts/chart-plot.svelte";
 	import { curveMonotoneX } from "d3-shape";
 	import Crosshair from "#src/charts/crosshair.svelte";
 	import EdgeFade from "#src/charts/edge-fade.svelte";
@@ -58,6 +61,8 @@
 		dashArray?: string;
 		formatValue?: (v: number) => string;
 		formatX?: (v: unknown) => string;
+		/** The chart's accessible name. Its data range and values are read after it. */
+		label?: string;
 		class?: string;
 	}
 
@@ -78,6 +83,7 @@
 		dashArray = "5 4",
 		formatValue = (v) => v.toLocaleString(),
 		formatX = (v) => String(v),
+		label = "Line chart",
 		class: className,
 	}: Props = $props();
 
@@ -85,6 +91,7 @@
 	// STATE
 	// =========================
 	let active = $state<TData | null>(null);
+	let context = $state<ChartState<TData>>();
 
 	// ========================= FUNCTIONS ========================= WHY: called from the tooltip header's value expression so it re-runs on every active-point change; an unread {@const} side effect only evaluates once.
 
@@ -94,6 +101,15 @@
 			active = d;
 		});
 		return formatX(d[xKey]);
+	}
+
+	function step(i: number | null) {
+		if (i === null) {
+			context?.tooltip.hide();
+			active = null;
+			return;
+		}
+		context?.tooltip.show({ data: data[i] });
 	}
 
 	// =========================
@@ -133,52 +149,59 @@
 			? series.map((s) => ({ value: Number(display[s.key]), label: s.label, color: s.color }))
 			: null,
 	);
+	const table = $derived(
+		chartTable(
+			data,
+			(d) => formatX(d[xKey]),
+			series.map((s) => ({ label: s.label, value: (d: TData) => d[s.key] })),
+			formatValue,
+			{ xLabel: xKey },
+		),
+	);
 </script>
 
 <!-- =========================== -->
 <!-- LINE CHART -->
 <!-- =========================== -->
-<div
-	class="hr-line-chart {className ?? ''}"
-	role="img"
-	aria-label="Line chart"
-	onpointerleave={() => (active = null)}
->
+<!-- WHY: leaving only resets the hover readout; the keyboard path is ChartPlot's. -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="hr-line-chart {className ?? ''}" onpointerleave={() => (active = null)}>
 	{#if figureRows && display}
 		<Figure series={figureRows} eyebrow={formatX(display[xKey])} format={formatValue} size="md" />
 	{:else}
 		<Figure value="—" eyebrow="Latest" size="md" />
 	{/if}
 
-	<div class="hr-chart-body" style:height="{height}px">
-		{#snippet strokes(s: (typeof series)[number])}
-			{#if hasTail}
-				<Spline
-					data={solidData}
-					y={s.key}
-					{curve}
-					style="stroke: {s.color}; fill: none"
-					stroke-width="2"
-					stroke-linecap="round"
-				/>
-				<Spline
-					data={tailData}
-					y={s.key}
-					{curve}
-					style="stroke: {s.color}; fill: none"
-					stroke-width="2"
-					stroke-dasharray={dashArray}
-				/>
-			{:else}
-				<Spline
-					y={s.key}
-					{curve}
-					style="stroke: {s.color}; fill: none"
-					stroke-width="2"
-					stroke-linecap="round"
-				/>
-			{/if}
-		{/snippet}
+	{#snippet strokes(s: (typeof series)[number])}
+		{#if hasTail}
+			<Spline
+				data={solidData}
+				y={s.key}
+				{curve}
+				style="stroke: {s.color}; fill: none"
+				stroke-width="2"
+				stroke-linecap="round"
+			/>
+			<Spline
+				data={tailData}
+				y={s.key}
+				{curve}
+				style="stroke: {s.color}; fill: none"
+				stroke-width="2"
+				stroke-dasharray={dashArray}
+			/>
+		{:else}
+			<Spline
+				y={s.key}
+				{curve}
+				style="stroke: {s.color}; fill: none"
+				stroke-width="2"
+				stroke-linecap="round"
+			/>
+		{/if}
+	{/snippet}
+
+	<ChartPlot class="hr-chart-body" height="{height}px" {label} {table} onstep={step}>
 		{#if data.length === 0}
 			<div class="empty"><p>No data</p></div>
 		{:else}
@@ -191,8 +214,9 @@
 				padding={{ left: 48, bottom: 28, top: 8, right: 12 }}
 				tooltipContext={{ mode: "bisect-x" }}
 				motion={DOMAIN_MOTION}
+				bind:context
 			>
-				<Svg>
+				<Svg aria-hidden="true">
 					<Axis placement="left" format={(v) => tick(Number(v))} ticks={4} />
 					<Axis placement="bottom" format={(v) => formatX(v)} />
 					<g class="hr-line-grid">
@@ -256,5 +280,5 @@
 				</Tooltip.Root>
 			</Chart>
 		{/if}
-	</div>
+	</ChartPlot>
 </div>

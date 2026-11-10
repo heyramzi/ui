@@ -4,7 +4,19 @@
 	// =========================
 	import "#src/charts/chart-tokens.css";
 	import "#src/charts/sparkline.css";
-	import { Area, Chart, Highlight, LinearGradient, Points, Spline, Svg, Tooltip } from "layerchart";
+	import {
+		Area,
+		Chart,
+		Highlight,
+		LinearGradient,
+		Points,
+		Spline,
+		Svg,
+		Tooltip,
+		type ChartState,
+	} from "layerchart";
+	import { chartTable } from "#src/charts/chart-a11y.js";
+	import ChartPlot from "#src/charts/chart-plot.svelte";
 	import { curveMonotoneX } from "d3-shape";
 	import Reveal from "#src/charts/reveal.svelte";
 	import {
@@ -44,6 +56,8 @@
 		formatX?: (v: unknown) => string;
 		/** Smooths the drawn line by the window shown, so a year doesn't draw as a barcode. */
 		smoothing?: Smoothing;
+		/** The accessible name. Its range and values are read after it. Unused when bare. */
+		label?: string;
 		class?: string;
 	}
 
@@ -63,6 +77,7 @@
 		formatValue = (v) => v.toLocaleString(),
 		formatX = (v) => String(v),
 		smoothing,
+		label = "Sparkline",
 		class: className,
 	}: Props = $props();
 
@@ -70,6 +85,7 @@
 	// STATE
 	// =========================
 	let active = $state<TData | null>(null);
+	let context = $state<ChartState<TData>>();
 
 	// ========================= FUNCTIONS ========================= WHY: called from the tooltip header's value expression so it re-runs on every active-point change; an unread {@const} side effect only evaluates once.
 
@@ -78,8 +94,21 @@
 		queueMicrotask(() => {
 			active = d;
 		});
+		return pointLabel(d);
+	}
+
+	function pointLabel(d: TData): string {
 		const x = formatX(d[xKey]);
 		return mode === "weekly" ? weekOf(x) : mode === "rolling" ? averageTo(x, smoothed.window) : x;
+	}
+
+	function step(i: number | null) {
+		if (i === null) {
+			context?.tooltip.hide();
+			active = null;
+			return;
+		}
+		context?.tooltip.show({ data: data[i] });
 	}
 
 	// =========================
@@ -94,6 +123,18 @@
 	const data = $derived(smoothed.points);
 	const mode = $derived(smoothed.mode);
 	const valueLabel = $derived(mode === "rolling" ? averageLabel(smoothed.window) : String(yKey));
+	const table = $derived(
+		chartTable(
+			data,
+			pointLabel,
+			[{ label: valueLabel, value: (d: TData) => d[yKey] }],
+			formatValue,
+			{
+				xLabel: xKey,
+				empty: NO_DATA,
+			},
+		),
+	);
 	const curve = $derived(smooth ? curveMonotoneX : undefined);
 	// The newest measured point: a gap at the end has no height for the dot to sit at.
 	const last = $derived(data.findLast((d) => d[yKey] != null) ?? null);
@@ -112,21 +153,24 @@
 <!-- =========================== -->
 <!-- SPARKLINE -->
 <!-- =========================== -->
+<!-- WHY: leaving only resets the hover readout; the keyboard path is ChartPlot's. -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class="hr-sparkline {className ?? ''}"
-	role={bare ? undefined : "img"}
-	aria-label={bare ? undefined : "Sparkline"}
 	aria-hidden={bare ? "true" : undefined}
 	data-bare={bare ? "" : undefined}
 	onpointerleave={() => (active = null)}
 >
 	{#if data.length > 0}
-		<div
+		<ChartPlot
 			class="hr-sparkline-chart"
-			style:height={typeof height === "number" ? `${height}px` : height}
+			height={typeof height === "number" ? `${height}px` : height}
+			{label}
+			{table}
+			onstep={bare ? undefined : step}
 		>
-			<Chart {data} x={xKey} y={yKey} {padding} tooltipContext={{ mode: "bisect-x" }}>
-				<Svg>
+			<Chart {data} x={xKey} y={yKey} {padding} tooltipContext={{ mode: "bisect-x" }} bind:context>
+				<Svg aria-hidden="true">
 					<LinearGradient id={uid} vertical>
 						{#snippet stopsContent()}
 							<stop offset="0%" stop-color={color} stop-opacity="0.38" />
@@ -162,7 +206,7 @@
 					</Tooltip.Root>
 				{/if}
 			</Chart>
-		</div>
+		</ChartPlot>
 		{#if showLast && display}
 			<span class="hr-sparkline-value" style:color>
 				{formatValue(Number(display[yKey]))}

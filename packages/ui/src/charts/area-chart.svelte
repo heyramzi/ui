@@ -4,8 +4,20 @@
 	// =========================
 	import "#src/charts/chart-tokens.css";
 	import "#src/charts/area-chart.css";
-	import { Area, Axis, Chart, Highlight, LinearGradient, Spline, Svg, Tooltip } from "layerchart";
+	import {
+		Area,
+		Axis,
+		Chart,
+		Highlight,
+		LinearGradient,
+		Spline,
+		Svg,
+		Tooltip,
+		type ChartState,
+	} from "layerchart";
 	import { curveMonotoneX } from "d3-shape";
+	import { chartTable } from "#src/charts/chart-a11y.js";
+	import ChartPlot from "#src/charts/chart-plot.svelte";
 	import Crosshair from "#src/charts/crosshair.svelte";
 	import EdgeFade from "#src/charts/edge-fade.svelte";
 	import { resolveEdgeFade } from "#src/charts/edge-fade.js";
@@ -60,6 +72,8 @@
 		resting?: { value: number; label: string };
 		/** Smooths the drawn line by the window shown; the resting figure stays the caller's total. */
 		smoothing?: Smoothing;
+		/** The chart's accessible name. Its data range and values are read after it. */
+		label?: string;
 		class?: string;
 	}
 
@@ -82,6 +96,7 @@
 		reference,
 		resting,
 		smoothing,
+		label = "Area chart",
 		class: className,
 	}: Props = $props();
 
@@ -89,6 +104,7 @@
 	// STATE
 	// =========================
 	let active = $state<TData | null>(null);
+	let context = $state<ChartState<TData>>();
 
 	// ========================= FUNCTIONS ========================= WHY: called from the tooltip header's value expression so it re-runs on every active-point change; an unread {@const} side effect only evaluates once.
 
@@ -109,6 +125,15 @@
 	/** A missing point reads "No data", never the 0 Number(null) would claim. */
 	function shown(value: unknown): string {
 		return value == null ? NO_DATA : formatValue(Number(value));
+	}
+
+	function step(i: number | null) {
+		if (i === null) {
+			context?.tooltip.hide();
+			active = null;
+			return;
+		}
+		context?.tooltip.show({ data: data[i] });
 	}
 
 	// =========================
@@ -164,17 +189,23 @@
 				}))
 			: null,
 	);
+	const table = $derived(
+		chartTable(
+			data,
+			pointLabel,
+			series.map((s) => ({ label: averageLabel ?? s.label, value: (d: TData) => d[s.key] })),
+			formatValue,
+			{ xLabel: xKey, empty: NO_DATA },
+		),
+	);
 </script>
 
 <!-- =========================== -->
 <!-- AREA CHART -->
 <!-- =========================== -->
-<div
-	class="hr-area-chart {className ?? ''}"
-	role="img"
-	aria-label="Area chart"
-	onpointerleave={() => (active = null)}
->
+<!-- WHY: leaving only resets the hover readout; the keyboard path is ChartPlot's. -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="hr-area-chart {className ?? ''}" onpointerleave={() => (active = null)}>
 	{#if resting && !active && series[0]}
 		<Figure
 			series={[{ value: resting.value, label: series[0].label, color: series[0].color }]}
@@ -190,7 +221,7 @@
 		<Figure value="—" eyebrow="Latest" size="md" />
 	{/if}
 
-	<div class="hr-chart-body" style:height="{height}px">
+	<ChartPlot class="hr-chart-body" height="{height}px" {label} {table} onstep={step}>
 		{#if data.length === 0}
 			<div class="empty"><p>No data</p></div>
 		{:else}
@@ -203,8 +234,9 @@
 				padding={{ left: 48, bottom: 28, top: 8, right: 12 }}
 				tooltipContext={{ mode: "quadtree-x" }}
 				motion={DOMAIN_MOTION}
+				bind:context
 			>
-				<Svg>
+				<Svg aria-hidden="true">
 					<Axis placement="left" format={(v) => tick(Number(v))} ticks={4} />
 					<Axis placement="bottom" format={(v) => formatX(v)} ticks={ticksForWidth(xTicks)} />
 					<g class="hr-area-grid">
@@ -257,5 +289,5 @@
 				</Tooltip.Root>
 			</Chart>
 		{/if}
-	</div>
+	</ChartPlot>
 </div>

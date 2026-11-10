@@ -15,6 +15,7 @@
 	// =========================
 	import "#src/charts/chart-tokens.css";
 	import "#src/charts/number-chart.css";
+	import "#src/charts/chart-a11y.css";
 	import { Minus, TrendDown, TrendUp } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import type { Snippet } from "svelte";
@@ -155,7 +156,10 @@
 				{:else}
 					<TrendDown aria-hidden="true" class="hr-number-arrow" weight="bold" />
 				{/if}
-				<span class="hr-number-delta-text">{Math.abs(move).toFixed(0)}%</span>
+				<span class="hr-number-delta-text">
+					<span class="hr-sr-only">{move > 0 ? "up" : "down"}</span>
+					{Math.abs(move).toFixed(0)}%
+				</span>
 			</span>
 		{:else}
 			<span class="hr-number-delta" data-tone="none" aria-hidden="true">

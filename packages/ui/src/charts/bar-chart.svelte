@@ -4,8 +4,10 @@
 	// =========================
 	import "#src/charts/chart-tokens.css";
 	import "#src/charts/bar-chart.css";
-	import { Axis, Bars, Chart, Highlight, Svg, Tooltip } from "layerchart";
-	import { scaleBand } from "d3-scale";
+	import { Axis, Bars, Chart, Highlight, Svg, Tooltip, type ChartState } from "layerchart";
+	import { chartTable } from "#src/charts/chart-a11y.js";
+	import ChartPlot from "#src/charts/chart-plot.svelte";
+	import { scaleBand, type ScaleBand } from "d3-scale";
 	import Figure from "#src/charts/figure.svelte";
 	import { TOOLTIP_GAP, TOOLTIP_TOP } from "#src/charts/motion.js";
 	import { valueTick } from "#src/charts/primitives/chart-utils.js";
@@ -35,9 +37,9 @@
 		formatX?: (v: unknown) => string;
 		/** Axis tick label. Return "" to skip a tick. Defaults to formatX. */
 		formatTick?: (v: unknown) => string;
-		/** Screen-reader summary; also renders an sr-only data table when set. */
+		/** The chart's accessible name and the hidden data table's caption. */
 		label?: string;
-		/** Column header for the x values in the sr-only table. */
+		/** Column header for the x values in the hidden table. Defaults to xKey. */
 		xLabel?: string;
 		/** Column header for the y values in the sr-only table, and the tooltip's label. */
 		yLabel?: string;
@@ -76,6 +78,7 @@
 	// STATE
 	// =========================
 	let active = $state<TData | null>(null);
+	let context = $state<ChartState<TData, ScaleBand<string>, ScaleBand<string>>>();
 
 	// =========================
 	// FUNCTIONS
@@ -89,6 +92,15 @@
 			active = d;
 		});
 		return formatX(d[xKey]);
+	}
+
+	function step(i: number | null) {
+		if (i === null) {
+			context?.tooltip.hide();
+			active = null;
+			return;
+		}
+		context?.tooltip.show({ data: data[i] });
 	}
 
 	function valueOf(d: TData): number {
@@ -136,18 +148,29 @@
 	const activeColor = $derived(active && colorOf ? colorOf(active) : color);
 
 	const tick = $derived(valueTick(formatValue));
+	const table = $derived(
+		chartTable(
+			data,
+			(d) => formatX(d[xKey]),
+			series
+				? series.map((s) => ({ label: s.label, value: (d: TData) => d[s.key] ?? 0 }))
+				: [{ label: valueLabel, value: valueOf }],
+			formatValue,
+			{ xLabel: xLabel ?? xKey },
+		),
+	);
 </script>
 
 <!-- =========================== -->
 <!-- BAR CHART -->
 <!-- =========================== -->
+<!-- WHY: leaving only resets the hover readout; the keyboard path is ChartPlot's. -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class="hr-bar-chart {className ?? ''}"
 	class:hr-bar-horizontal={horizontal}
 	class:hr-bar-fill={fill}
 	class:hr-bar-has-active={active !== null && !series}
-	role="img"
-	aria-label={label ?? "Bar chart"}
 	onpointerleave={() => (active = null)}
 >
 	{#if showFigure}
@@ -160,7 +183,13 @@
 		/>
 	{/if}
 
-	<div class="hr-chart-body" style:height={fill ? null : `${height}px`}>
+	<ChartPlot
+		class="hr-chart-body"
+		height={fill ? null : `${height}px`}
+		label={label ?? "Bar chart"}
+		{table}
+		onstep={step}
+	>
 		{#if data.length === 0}
 			<div class="empty"><p>No data</p></div>
 		{:else}
@@ -176,8 +205,9 @@
 				yNice={!horizontal}
 				padding={{ left: horizontal ? leftPadding : 48, bottom: 28, top: 8, right: 12 }}
 				tooltipContext={{ mode: "band" }}
+				bind:context
 			>
-				<Svg>
+				<Svg aria-hidden="true">
 					{#if horizontal}
 						<Axis placement="left" format={(v) => (formatTick ?? formatX)(v)} />
 						<Axis placement="bottom" format={(v) => tick(Number(v))} ticks={4} />
@@ -247,37 +277,5 @@
 				</Tooltip.Root>
 			</Chart>
 		{/if}
-	</div>
-
-	{#if label && data.length > 0}
-		<table class="hr-sr-only">
-			<caption>{label}</caption>
-			<thead>
-				<tr>
-					<th scope="col">{xLabel}</th>
-					{#if series}
-						{#each series as s (s.key)}
-							<th scope="col">{s.label}</th>
-						{/each}
-					{:else}
-						<th scope="col">{yLabel}</th>
-					{/if}
-				</tr>
-			</thead>
-			<tbody>
-				{#each data as d, i (i)}
-					<tr>
-						<th scope="row">{formatX(d[xKey])}</th>
-						{#if series}
-							{#each series as s (s.key)}
-								<td>{formatValue(Number(d[s.key] ?? 0))}</td>
-							{/each}
-						{:else}
-							<td>{formatValue(valueOf(d))}</td>
-						{/if}
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	{/if}
+	</ChartPlot>
 </div>

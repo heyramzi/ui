@@ -1,6 +1,6 @@
 # @heyramzi/ui/charts
 
-Svelte 5 charts on [LayerChart](https://layerchart.com): area, line, bar, donut, ring, gauge, sparkline, time series and stat cards. One set of tokens, a crosshair tooltip, a screen reader data table on the bar chart, and an entrance sweep that respects `prefers-reduced-motion`.
+Svelte 5 charts on [LayerChart](https://layerchart.com): area, line, bar, donut, ring, gauge, sparkline, time series and stat cards. One set of tokens, a crosshair tooltip the arrow keys can step through, a named plot with a spoken summary and a hidden data table on every cartesian chart, and an entrance sweep that respects `prefers-reduced-motion`.
 
 Live demos: [ui.heyramzi.com/charts](https://ui.heyramzi.com/charts).
 
