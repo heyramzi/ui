@@ -10,6 +10,6 @@
 <div class="flex flex-col items-start gap-6">
 	<StarRatingInput bind:value={rating} size="lg" {labels} showLabel ariaLabel="Rate the delivery" />
 	<StarRatingInput bind:value={small} />
-	<StarRatingInput value={3} readonly ariaLabel="Rated 3 of 5" />
+	<StarRatingInput value={3} readonly ariaLabel="Last delivery" />
 	<StarRatingInput value={2} disabled />
 </div>

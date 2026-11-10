@@ -23,6 +23,7 @@
 </script>
 
 <script lang="ts">
+	import { RatingGroup } from "bits-ui";
 	import { Star } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 
@@ -39,7 +40,7 @@
 		disabled?: boolean;
 		/** Form field name for native submission. When set, a hidden input is rendered. */
 		name?: string;
-		/** ARIA label for the radiogroup. */
+		/** What is rated, like "Rate the delivery". The value is added for a screen reader. */
 		ariaLabel?: string;
 		/** Per-step descriptive labels (length must equal max). */
 		labels?: readonly string[];
@@ -63,28 +64,21 @@
 		onchange,
 	}: Props = $props();
 
-	let hover = $state(0);
 	/** Held for the length of the pop, then dropped so the next pick can replay it. */
 	let popping = $state(false);
 	let popTimer: ReturnType<typeof setTimeout> | undefined;
-	let displayed = $derived(hover || value);
 	let starSize = $derived(STAR_SIZE[size]);
 	let hitSize = $derived(HIT_SIZE[size]);
-	let groupAriaLabel = $derived(ariaLabel ?? `Rating, ${max} stars`);
-	let labelText = $derived(
-		displayed > 0 && labels && labels.length >= displayed ? labels[displayed - 1] : "",
-	);
+	let subject = $derived(ariaLabel ?? "Rating");
 
-	function buttonAriaLabel(step: number): string {
-		const stepLabel = labels?.[step - 1];
-		const base = `${step} of ${max}`;
-		return stepLabel ? `${base} (${stepLabel})` : base;
+	function valueText(rating: number): string {
+		if (rating <= 0) return "No rating";
+		const label = labels?.[rating - 1];
+		return `${rating} of ${max} stars${label ? `, ${label}` : ""}`;
 	}
 
-	function setRating(step: number) {
-		if (readonly || disabled) return;
-		value = step;
-		onchange?.(step);
+	function picked(next: number) {
+		onchange?.(next);
 
 		// Drop the class before re-adding it, or a second pick inside the animation
 		// window finds it already set and nothing replays.
@@ -95,66 +89,61 @@
 			popTimer = setTimeout(() => (popping = false), POP_WINDOW_MS);
 		});
 	}
-
-	function handleEnter(step: number) {
-		if (readonly || disabled) return;
-		hover = step;
-	}
-
-	function handleLeave() {
-		if (readonly || disabled) return;
-		hover = 0;
-	}
 </script>
 
 <!-- One star, drawn once. It used to be written twice, once per branch, and the
      two copies had already drifted apart on the glow. -->
-{#snippet star(step: number)}
+{#snippet star(filled: boolean)}
 	<Star
 		aria-hidden="true"
-		class={cn("star", starSize, step <= displayed && "is-filled")}
-		weight={step <= displayed ? "fill" : "regular"}
+		class={cn("star", starSize, filled && "is-filled")}
+		weight={filled ? "fill" : "regular"}
 	/>
 {/snippet}
 
-<div class={cn("rating", `rating-${size}`, className)}>
-	<div
-		class={cn("stars", popping && "is-popping")}
-		role={readonly ? "img" : "radiogroup"}
-		aria-label={groupAriaLabel}
-		onmouseleave={handleLeave}
-	>
-		{#each Array(max) as _, i (i)}
-			{@const step = i + 1}
-			{#if readonly}
-				<span class={cn("hit", hitSize)}>{@render star(step)}</span>
-			{:else}
-				<button
-					type="button"
-					role="radio"
-					aria-checked={value === step}
-					aria-label={buttonAriaLabel(step)}
-					{disabled}
-					data-on={step <= value}
-					onclick={() => setRating(step)}
-					onmouseenter={() => handleEnter(step)}
-					onfocus={() => handleEnter(step)}
-					onblur={handleLeave}
-					style:--pop-delay="{i * 40}ms"
-					class={cn("hit hit-button", hitSize, disabled && "is-disabled")}
-				>
-					{@render star(step)}
-				</button>
-			{/if}
-		{/each}
-	</div>
-
-	{#if showLabel && labelText}
-		<span class="rating-caption">{labelText}</span>
+{#snippet caption(shown: number)}
+	{#if showLabel && shown > 0 && labels?.[shown - 1]}
+		<span class="rating-caption">{labels[shown - 1]}</span>
 	{/if}
+{/snippet}
 
-	{#if name}
-		<input type="hidden" {name} {value} />
+<!-- Bits UI's RatingGroup is the WAI-ARIA rating slider: one Tab stop, arrows, Home to clear, End, digits. -->
+<div class={cn("rating", `rating-${size}`, className)}>
+	{#if readonly}
+		<div class="stars" role="img" aria-label="{subject}, {valueText(value)}">
+			{#each Array(max) as _, i (i)}
+				<span class={cn("hit", hitSize)}>{@render star(i < value)}</span>
+			{/each}
+		</div>
+		{@render caption(value)}
+		{#if name}
+			<input type="hidden" {name} {value} />
+		{/if}
+	{:else}
+		<RatingGroup.Root
+			bind:value
+			{max}
+			{disabled}
+			{name}
+			aria-label={subject}
+			aria-valuetext={valueText}
+			onValueChange={picked}
+			class={cn("stars stars-input", popping && "is-popping", disabled && "is-disabled")}
+		>
+			{#snippet children({ items })}
+				{#each items as item (item.index)}
+					<RatingGroup.Item
+						index={item.index}
+						data-on={item.index < value}
+						style="--pop-delay: {item.index * 40}ms"
+						class={cn("hit hit-button", hitSize)}
+					>
+						{@render star(item.state === "active")}
+					</RatingGroup.Item>
+				{/each}
+				{@render caption(items.filter((item) => item.state === "active").length)}
+			{/snippet}
+		</RatingGroup.Root>
 	{/if}
 </div>
 
@@ -170,36 +159,40 @@
 		gap: 0.25rem;
 	}
 
-	.stars {
+	.rating :global(.stars) {
 		display: flex;
 		align-items: center;
 	}
 
-	.hit {
+	.rating :global(.hit) {
 		display: inline-flex;
 		border-radius: var(--radius-sm);
 	}
 
-	.hit-button {
+	.rating :global(.hit-button) {
 		transition: transform var(--duration-quick, 150ms) var(--ease-smooth-out, ease);
 	}
 
-	.hit-button:focus-visible {
+	.rating :global(.stars-input) {
+		border-radius: var(--radius-sm);
+	}
+
+	.rating :global(.stars-input:focus-visible) {
 		outline: none;
 		box-shadow: 0 0 0 2px var(--color-ring);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
-		.hit-button:not(.is-disabled):hover {
+		.rating :global(.stars-input:not(.is-disabled) .hit-button:hover) {
 			transform: scale(1.1);
 		}
 	}
 
-	.hit-button:not(.is-disabled):active {
+	.rating :global(.stars-input:not(.is-disabled) .hit-button:active) {
 		transform: scale(0.95);
 	}
 
-	.is-disabled {
+	.rating :global(.is-disabled) {
 		cursor: not-allowed;
 		opacity: 0.6;
 	}
@@ -222,7 +215,7 @@
 	/* transitions.dev like-button pop. Every selected star pops, left to right,
 	   as one gesture. A class on the group drives it, since rebuilding the row
 	   would drop keyboard focus. */
-	.is-popping .hit-button[data-on="true"] {
+	.rating :global(.is-popping .hit-button[data-on="true"]) {
 		animation: t-like-pop var(--like-pop) var(--like-pop-ease) var(--pop-delay, 0ms);
 	}
 
@@ -238,6 +231,11 @@
 		}
 	}
 
+	/* Inside the slider the caption sits in the stars' row, so it keeps the outer gap itself. */
+	.rating :global(.stars-input .rating-caption) {
+		margin-inline-start: 0.25rem;
+	}
+
 	.rating-caption {
 		font-size: 0.75rem;
 		font-weight: 500;
@@ -246,18 +244,18 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.hit-button,
-		.is-popping .hit-button[data-on="true"] {
+		.rating :global(.hit-button),
+		.rating :global(.is-popping .hit-button[data-on="true"]) {
 			animation: none;
 			transition: none;
 		}
 
-		.hit-button:not(.is-disabled):active {
+		.rating :global(.stars-input:not(.is-disabled) .hit-button:active) {
 			transform: none;
 		}
 
 		@media (hover: hover) and (pointer: fine) {
-			.hit-button:not(.is-disabled):hover {
+			.rating :global(.stars-input:not(.is-disabled) .hit-button:hover) {
 				transform: none;
 			}
 		}
