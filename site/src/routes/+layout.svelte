@@ -54,7 +54,7 @@
 <footer
 	class="mx-auto mt-24 flex max-w-6xl flex-wrap items-center justify-between gap-3 border-t border-border px-6 py-8 text-sm text-muted-foreground print:hidden"
 >
-	<span>MIT licensed. Built on Bits UI and Tailwind.</span>
+	<span>An MIT library on Bits UI and Tailwind.</span>
 	<nav aria-label="Footer" class="flex items-center gap-5">
 		<a class="transition-colors hover:text-foreground" href="/docs">Docs</a>
 		<a class="transition-colors hover:text-foreground" href="/changelog">Changelog</a>
