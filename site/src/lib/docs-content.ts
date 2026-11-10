@@ -52,6 +52,13 @@ const mode = `<script lang="ts">
 <ThemeProvider />
 {@render children()}`;
 
+/** The one line that adds the docs MCP server to Claude Code, shared with `/llms.txt`. */
+export const mcpInstall = "claude mcp add --transport http heyramzi-ui https://ui.heyramzi.com/mcp";
+
+const agentFiles = `curl https://ui.heyramzi.com/llms.txt
+curl https://ui.heyramzi.com/components/tabs.md
+curl https://ui.heyramzi.com/registry.json`;
+
 export const docBlocks: DocBlock[] = [
   {
     id: "install",
@@ -68,6 +75,14 @@ export const docBlocks: DocBlock[] = [
     steps: [
       { label: "Name your brand once", lang: "typescript", code: brand },
       { label: "Mount light and dark once, in the root layout", lang: "svelte", code: mode },
+    ],
+  },
+  {
+    id: "agents",
+    title: "Coding agents",
+    steps: [
+      { label: "Add the MCP server to Claude Code", lang: "bash", code: mcpInstall },
+      { label: "Or read the docs as text", lang: "bash", code: agentFiles },
     ],
   },
 ];

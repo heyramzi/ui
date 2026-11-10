@@ -22,4 +22,6 @@ export default defineConfig({
   // SSR bundles every dependency, because they ship raw .ts and .svelte through @heyramzi/ui,
   // and a partial list loads a second copy of Svelte.
   ssr: { noExternal: true },
+  // Unit tests live beside their code; `e2e/*.spec.ts` belongs to Playwright.
+  test: { include: ["src/**/*.test.ts"] },
 });

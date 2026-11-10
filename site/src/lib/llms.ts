@@ -1,19 +1,18 @@
 import { packageImports } from "#lib/ai-context.js";
+import { apiOf, PACKAGE as NAME, SITE, type ApiPart } from "#lib/component-registry.js";
 import {
   docBlocks,
   docsDescription,
   docsIntro,
   docsTitle,
+  mcpInstall,
   peers,
   peersTitle,
 } from "#lib/docs-content.js";
 import { cards, sectionById, sections } from "#lib/nav.js";
 import { importOf, loadEntry, type Entry } from "#lib/registry.js";
 
-/** The production origin every absolute link in the machine-readable files points at. */
-export const SITE = "https://ui.heyramzi.com";
-
-const NAME = "@heyramzi/ui";
+export { SITE };
 
 /** A fenced block whose fence outlasts any backtick run inside the code. */
 function fence(lang: string, code: string): string {
@@ -38,7 +37,38 @@ export function componentMarkdown(entry: Entry): string {
   if (from) parts.push(`Import path: \`${from}\``);
   if (imports.length) parts.push("", "## Import", "", fence("ts", imports.join("\n")));
   parts.push("", "## Demo", "", fence("svelte", entry.source));
+  const api = apiOf(entry.slug);
+  if (api.length) parts.push("", "## API", ...api.flatMap((part) => apiMarkdown(part, api.length)));
   return parts.join("\n") + "\n";
+}
+
+/** A table cell: one line, with its pipes escaped. */
+const cell = (text: string) => text.replaceAll("|", "\\|").replace(/\s*\n\s*/g, " ");
+
+/** One part's props as a Markdown table, under its own heading when the page has several. */
+function apiMarkdown(part: ApiPart, count: number): string[] {
+  const lines = count > 1 ? ["", `### ${part.name}`] : [];
+  if (part.props.length) {
+    lines.push("", "| Prop | Type | Default | Notes |", "| --- | --- | --- | --- |");
+    for (const prop of part.props) {
+      const type = prop.values
+        ? prop.values.map((v) => cell(`\`${v}\``)).join(" \\| ")
+        : prop.type
+          ? cell(`\`${prop.type}\``)
+          : "";
+      const def = prop.default ? cell(`\`${prop.default}\``) : "";
+      const notes = [prop.required && "required", prop.bindable && "bindable", prop.description]
+        .filter(Boolean)
+        .join(". ");
+      lines.push(`| \`${prop.name}\` | ${type} | ${def} | ${cell(notes)} |`);
+    }
+  }
+  for (const base of part.bases) {
+    const from = base.from ? ` from \`${base.from}\`` : "";
+    const omit = base.omit?.length ? `, except \`${base.omit.join(", ")}\`` : "";
+    lines.push("", `Every prop of \`${base.label}\`${from}${omit}.`);
+  }
+  return lines;
 }
 
 /** The Markdown twin of `/docs`. */
@@ -82,6 +112,11 @@ export function llmsIndex(): string {
     `> ${summary}`,
     "",
     `Every page below in one file: ${SITE}/llms-full.txt`,
+    "",
+    "## For coding agents",
+    "",
+    `- MCP server (Streamable HTTP, no auth): ${SITE}/mcp. Add it to Claude Code with \`${mcpInstall}\`. Tools: \`list_components\`, \`search_components\`, \`get_component\`.`,
+    `- Registry: ${SITE}/registry.json lists every component with its section, import path, docs and Markdown links, and props.`,
     "",
     "## Docs",
     "",
