@@ -80,7 +80,8 @@
 		border: 1px solid var(--deck-line);
 		border-radius: 12px;
 		backdrop-filter: blur(var(--blur-large, 8px));
-		opacity: 0.55;
+		/* At rest the counter still reads 4.5:1 on a light or dark deck; 0.55 was 3.1:1. */
+		opacity: 0.7;
 		transition: opacity var(--deck-t-quick) var(--deck-ease);
 	}
 	.deck__controls:focus-within {
@@ -131,7 +132,6 @@
 		font: 500 12px/1 var(--deck-font);
 		font-variant-numeric: tabular-nums;
 		text-align: center;
-		color: var(--deck-muted);
 	}
 	.deck__divider {
 		width: 1px;

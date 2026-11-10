@@ -371,7 +371,9 @@
 								{task.title}
 								{#snippet meta()}
 									<span
-										class="flex items-center gap-1 {d.late ? 'font-medium text-destructive' : ''}"
+										class="flex items-center gap-1 {d.late
+											? 'font-medium text-destructive-ink'
+											: ''}"
 									>
 										<CalendarBlank class="size-3.5" aria-hidden="true" />
 										{d.label}
@@ -439,7 +441,7 @@
 								<span class="max-sm:hidden">{@render priority(task.priority)}</span>
 								<span
 									class="text-right text-xs tabular-nums {d.late
-										? 'font-medium text-destructive'
+										? 'font-medium text-destructive-ink'
 										: 'text-muted-foreground'}"
 								>
 									{d.label}
@@ -473,7 +475,7 @@
 			</div>
 		{/key}
 
-		<p class="text-xs text-muted-foreground/70">
+		<p class="text-xs text-muted-foreground">
 			{#if view === "board"}
 				Drag a card between columns, or focus one and press Alt plus Left or Right.
 			{:else if view === "list"}

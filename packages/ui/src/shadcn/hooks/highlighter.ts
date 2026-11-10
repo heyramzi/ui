@@ -3,6 +3,7 @@ import {
   type GrammarState,
   type HighlighterCore,
   type ThemedToken,
+  type ThemeRegistrationRaw,
 } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 
@@ -36,11 +37,59 @@ const aliases: Record<string, keyof typeof languages> = {
   zsh: "bash",
 };
 
+// VS Code's pair colours an imported name too. No bundled light theme clears 4.5:1 on bg-muted.
+const THEMES = { light: "light-plus", dark: "dark-plus" } as const;
+
+type Mode = keyof typeof THEMES;
+type Rgb = [number, number, number];
+
+// The faintest code surface in each mode: a highlighted line (bg-muted), the input tint in dark.
+const SURFACES: Record<Mode, Rgb> = { light: [232, 232, 232], dark: [52, 52, 52] };
+
+function luminance(rgb: Rgb) {
+  const [r, g, b] = rgb.map((v) => {
+    const s = v / 255;
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrast(a: Rgb, b: Rgb) {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+// Steps an opaque hex colour toward black (light) or white (dark), keeping its hue, until it reads 4.5:1.
+function readable(hex: string, mode: Mode) {
+  if (!/^#[\da-f]{6}(ff)?$/i.test(hex)) return hex;
+  const base = [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16)) as Rgb;
+  let rgb = base;
+  for (let step = 0.01; contrast(rgb, SURFACES[mode]) < 4.5 && step <= 1; step += 0.01) {
+    rgb = base.map((v) => Math.round(mode === "light" ? v * (1 - step) : v + (255 - v) * step)) as Rgb;
+  }
+  return `#${rgb.map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+}
+
+async function readableTheme(theme: Promise<{ default: ThemeRegistrationRaw }>, mode: Mode) {
+  const { default: raw } = await theme;
+  return {
+    ...raw,
+    tokenColors: raw.tokenColors?.map((rule) =>
+      rule.settings.foreground
+        ? { ...rule, settings: { ...rule.settings, foreground: readable(rule.settings.foreground, mode) } }
+        : rule,
+    ),
+  };
+}
+
 let highlighter: Promise<HighlighterCore> | undefined;
 
 function getHighlighter() {
   highlighter ??= createHighlighterCore({
-    themes: [import("shiki/themes/github-light.mjs"), import("shiki/themes/github-dark.mjs")],
+    themes: [
+      readableTheme(import("shiki/themes/light-plus.mjs"), "light"),
+      readableTheme(import("shiki/themes/dark-plus.mjs"), "dark"),
+    ],
     langs: [],
     engine: createJavaScriptRegexEngine({ forgiving: true }),
   });
@@ -106,7 +155,7 @@ export async function loadHighlighter(language: string) {
       const tokenize = (text: string) =>
         shiki.codeToTokens(text, {
           lang,
-          themes: { light: "github-light", dark: "github-dark" },
+          themes: THEMES,
           defaultColor: false,
           grammarState: state,
         }).tokens;

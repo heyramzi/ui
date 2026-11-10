@@ -235,7 +235,7 @@
 								"align-middle whitespace-nowrap",
 								column.strong && "font-medium",
 								isMuted(column, row) && "text-muted-foreground",
-								column.negative?.(row) && "text-destructive",
+								column.negative?.(row) && "text-destructive-ink",
 							)}
 							title={column.title?.(row)}
 						>

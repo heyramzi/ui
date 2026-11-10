@@ -7,7 +7,7 @@
 			variant: {
 				default: "",
 				added: "bg-muted after:content-['+']",
-				removed: "bg-destructive/10 after:text-destructive after:content-['−']",
+				removed: "bg-destructive/10 after:text-destructive-ink after:content-['−']",
 				highlighted: "bg-muted",
 			},
 		},

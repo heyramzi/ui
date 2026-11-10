@@ -519,7 +519,6 @@
 	.status-hint {
 		font-size: 0.6875rem;
 		color: var(--color-muted-foreground);
-		opacity: 0.5;
 	}
 
 	.status-hint kbd {

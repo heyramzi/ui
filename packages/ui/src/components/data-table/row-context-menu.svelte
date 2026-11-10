@@ -69,19 +69,19 @@
 	<ContextMenu.Content class="w-48">
 		{#if href}
 			<ContextMenu.Item onclick={handleOpen}>
-				<ArrowUpRight size={14} />
+				<ArrowUpRight aria-hidden="true" size={14} />
 				Open
 			</ContextMenu.Item>
 		{/if}
 		{#if href}
 			<ContextMenu.Item onclick={handleCopyLink}>
-				<LinkSimple size={14} />
+				<LinkSimple aria-hidden="true" size={14} />
 				{copyLinkLabel}
 			</ContextMenu.Item>
 		{/if}
 		{#if id}
 			<ContextMenu.Item onclick={handleCopyId}>
-				<Copy size={14} />
+				<Copy aria-hidden="true" size={14} />
 				{copyIdLabel}
 			</ContextMenu.Item>
 		{/if}
@@ -91,10 +91,10 @@
 		<HoldToConfirm
 			duration={800}
 			onConfirm={onDelete}
-			class="relative flex w-full cursor-default items-center justify-start gap-2 rounded-lg px-1.5 py-1 text-sm text-destructive outline-hidden"
+			class="relative flex w-full cursor-default items-center justify-start gap-2 rounded-lg px-1.5 py-1 text-sm text-destructive-ink outline-hidden"
 		>
 			{#snippet idle()}
-				<Trash size={14} />
+				<Trash aria-hidden="true" size={14} />
 				{deleteLabel}
 			{/snippet}
 			{#snippet holding()}

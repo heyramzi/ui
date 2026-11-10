@@ -83,7 +83,7 @@
 			<p class="text-muted-foreground text-xs [overflow-wrap:anywhere]">{detail}</p>
 		{/if}
 		{#if error}
-			<p class="text-destructive text-xs [overflow-wrap:anywhere]" role="alert">{error}</p>
+			<p class="text-destructive-ink text-xs [overflow-wrap:anywhere]" role="alert">{error}</p>
 		{/if}
 	</div>
 

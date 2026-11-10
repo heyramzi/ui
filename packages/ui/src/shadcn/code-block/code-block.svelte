@@ -6,7 +6,7 @@
 		variants: {
 			variant: {
 				default: "border border-input text-foreground dark:bg-input/30 has-[>[data-slot=code-block-content]:focus-visible]:border-ring",
-				destructive: "border border-destructive/30 text-destructive dark:border-destructive/40",
+				destructive: "border border-destructive/30 text-destructive-ink dark:border-destructive/40",
 			},
 		},
 		defaultVariants: {

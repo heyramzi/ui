@@ -151,7 +151,10 @@
 	);
 	let confirmName = $derived(deleteName(title, t));
 
-	const ICONS: Record<MenuId, Component<{ class?: string }>> = {
+	const ICONS: Record<
+		MenuId,
+		Component<{ class?: string; "aria-hidden"?: boolean | "true" | "false" }>
+	> = {
 		move: ArrowsOutCardinal,
 		duplicate: CopySimple,
 		rename: PencilSimple,
@@ -264,9 +267,12 @@
 								<CommandItem
 									value={item.id}
 									onSelect={() => fire(item.id)}
-									class={item.danger ? "text-destructive data-selected:text-destructive" : ""}
+									class={item.danger
+										? "text-destructive-ink data-selected:text-destructive-ink"
+										: ""}
 								>
 									<Icon
+										aria-hidden="true"
 										class={item.id === "favorite" && favorited
 											? "text-brand"
 											: item.danger

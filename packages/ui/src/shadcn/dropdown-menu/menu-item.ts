@@ -30,7 +30,7 @@ export const menuItemClass = tv({
       default:
         "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground",
       destructive:
-        "text-destructive *:[svg]:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 focus:text-destructive dark:hover:bg-destructive/20 dark:focus:bg-destructive/20",
+        "text-destructive-ink *:[svg]:text-destructive hover:bg-destructive/10 focus:bg-destructive/10 focus:text-destructive-ink dark:hover:bg-destructive/20 dark:focus:bg-destructive/20",
     },
     /** A row in a set where a sibling carries a leading mark. */
     inset: { true: "pl-7", false: "" },

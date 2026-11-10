@@ -96,7 +96,7 @@
 						class:g-chevron-open={row.open}
 						aria-hidden="true"
 					>
-						<CaretRight weight="bold" />
+						<CaretRight aria-hidden="true" weight="bold" />
 					</span>
 				</Button>
 			{:else}
@@ -112,7 +112,7 @@
 	<div class="relative shrink-0" style:width="{layout.timelineWidth}px">
 		{#if !span}
 			<span
-				class="pointer-events-none absolute top-1/2 -translate-y-1/2 text-xs whitespace-nowrap text-muted-foreground/70"
+				class="pointer-events-none absolute top-1/2 -translate-y-1/2 text-xs whitespace-nowrap text-muted-foreground"
 				style:left="{Math.max(dayX(layout, layout.todayDay) - 40, 0) + 8}px"
 			>
 				{noDatesLabel}
@@ -133,7 +133,7 @@
 				onpointerleave={() => onhover(row.id, false)}
 			>
 				<span class="size-5 [&>svg]:size-full" aria-hidden="true"
-					><FlagPennant weight="fill" /></span
+					><FlagPennant aria-hidden="true" weight="fill" /></span
 				>
 			</button>
 		{:else if !row.own}

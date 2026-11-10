@@ -32,7 +32,7 @@
 		wrapperClass,
 	)}
 >
-	<MagnifyingGlass size={size === "lg" ? 18 : 16} class="text-muted-foreground shrink-0" />
+	<MagnifyingGlass aria-hidden="true" size={size === "lg" ? 18 : 16} class="text-muted-foreground shrink-0" />
 	<CommandPrimitive.Input
 		data-slot="command-input"
 		class={cn(
@@ -46,7 +46,7 @@
 
 			// The caret carries focus instead, which is why it is brand indigo two lines down.
 			"focus-visible:shadow-none",
-			"caret-brand placeholder:text-muted-foreground/70 w-full bg-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
+			"caret-brand placeholder:text-muted-foreground w-full bg-transparent outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
 			// A combobox popover's search line is 36px, measured; `lg` is the
 			// standalone palette header and keeps its own larger rhythm.
 			size === "lg" ? "py-3.5 text-[15px]" : "py-2 text-(length:--text-control)",

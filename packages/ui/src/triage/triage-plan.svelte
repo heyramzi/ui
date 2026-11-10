@@ -92,7 +92,7 @@
 
 	{#if error}
 		<p
-			class="bg-destructive/10 text-destructive mt-3 rounded-lg px-3 py-2 text-sm [overflow-wrap:anywhere]"
+			class="bg-destructive/10 text-destructive-ink mt-3 rounded-lg px-3 py-2 text-sm [overflow-wrap:anywhere]"
 			role="alert"
 		>
 			{error}

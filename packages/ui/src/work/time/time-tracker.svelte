@@ -313,7 +313,7 @@
 				</Button>
 			</form>
 			{#if invalid}
-				<p id="time-invalid" class="text-xs text-destructive" role="alert">{labels.invalid}</p>
+				<p id="time-invalid" class="text-xs text-destructive-ink" role="alert">{labels.invalid}</p>
 			{/if}
 
 			{#if entries.length > 0 || estimate}

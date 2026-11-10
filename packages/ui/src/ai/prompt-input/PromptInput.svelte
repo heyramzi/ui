@@ -49,7 +49,7 @@
 >
 	{@render children?.()}
 	{#if error}
-		<p role="alert" class="text-destructive px-3 pb-2 text-xs" in:fade={{ duration: 150 }}>
+		<p role="alert" class="text-destructive-ink px-3 pb-2 text-xs" in:fade={{ duration: 150 }}>
 			{error}
 		</p>
 	{/if}

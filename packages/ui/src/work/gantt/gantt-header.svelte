@@ -50,15 +50,13 @@
 				<div
 					class={cn(
 						"relative flex shrink-0 flex-col items-center justify-center text-[10px] leading-none tabular-nums",
-						d.weekend ? "text-muted-foreground/50" : "text-muted-foreground",
+						d.weekend ? "text-muted-foreground/85" : "text-muted-foreground",
 						layout.dayWidth < 18 && d.wd === 1 && "border-l border-border/60",
 					)}
 					style:width="{layout.dayWidth}px"
 				>
 					{#if layout.dayWidth >= 26}
-						<span class="mb-0.5 opacity-70"
-							>{weekdayFormat.format(new Date(d.day * 86_400_000))}</span
-						>
+						<span class="mb-0.5">{weekdayFormat.format(new Date(d.day * 86_400_000))}</span>
 					{/if}
 					{#if showNumber}
 						<span

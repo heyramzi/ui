@@ -218,7 +218,7 @@
 					{#if saving === key}
 						<Spinner class="size-3.5 text-muted-foreground" />
 					{:else if !multi}
-						<CaretUpDown class="size-3.5 shrink-0 opacity-60" />
+						<CaretUpDown aria-hidden="true" class="size-3.5 shrink-0 opacity-60" />
 					{/if}
 				</Button>
 			{/snippet}
@@ -235,6 +235,7 @@
 								onSelect={() => (multi ? toggle(row, option.value) : pick(row, option.value))}
 							>
 								<Check
+									aria-hidden="true"
 									class={cn(
 										"size-3.5",
 										current.includes(option.value) ? "opacity-100" : "opacity-0",
@@ -418,7 +419,7 @@
 							</Button>
 						{/if}
 						{#if failed?.key === key}
-							<p class="text-xs text-destructive" role="alert">{failed.text}</p>
+							<p class="text-xs text-destructive-ink" role="alert">{failed.text}</p>
 						{/if}
 					</dd>
 				{/if}

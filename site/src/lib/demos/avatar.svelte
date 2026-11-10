@@ -3,8 +3,8 @@
 
 	const team = [
 		{ initials: "AM", tone: "bg-indigo-500/15 text-indigo-600 dark:text-indigo-400" },
-		{ initials: "BO", tone: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" },
-		{ initials: "CY", tone: "bg-amber-500/15 text-amber-600 dark:text-amber-400" },
+		{ initials: "BO", tone: "bg-emerald-500/15 text-emerald-800 dark:text-emerald-400" },
+		{ initials: "CY", tone: "bg-amber-500/15 text-amber-800 dark:text-amber-400" },
 	];
 </script>
 
