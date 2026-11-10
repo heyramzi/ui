@@ -32,7 +32,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     notes: [
       "Letting go early, or focus leaving the button, cancels and empties the fill.",
       'Nothing announces the fill, so write the label as the instruction, like "Hold to delete".',
-      "A screen reader's own activate command presses and lets go at once, so it can't complete the hold. Its user has to hold Space with the button focused.",
+      "A screen reader's activate can't hold. Its first press arms the button and reads out \"Press again to confirm\". A second press within 5 seconds confirms.",
       "With reduced motion on, the fill tracks the hold with no easing or sheen.",
     ],
   },
@@ -344,7 +344,7 @@ export const a11yNotes: Record<string, A11yNote> = {
   "hover-card": {
     notes: [
       "It opens when the trigger gets keyboard focus and closes when focus leaves.",
-      "Tab leaves the trigger and closes the card, so links inside it can't be reached from the keyboard. Keep anything a keyboard user needs out of the card.",
+      "The card is a preview for sighted pointer users. Bits UI takes everything inside it out of the Tab order, so the trigger link is the keyboard path. Keep anything a keyboard user needs out of the card.",
     ],
   },
   popover: {
@@ -446,13 +446,14 @@ export const a11yNotes: Record<string, A11yNote> = {
   picker: {
     keys: [
       { keys: ["Space", "Enter"], does: "On the trigger, opens the menu." },
-      { keys: ["ArrowDown", "ArrowUp"], does: "In the search box, moves the highlight. It loops." },
+      { keys: ["ArrowDown", "ArrowUp"], does: "Moves the highlight. It loops." },
+      { keys: ["Home", "End"], does: "Moves the highlight to the first or last option." },
       { keys: ["Enter"], does: "Picks the highlighted option and closes the menu." },
       { keys: ["Esc"], does: "Closes the menu and returns focus to the trigger." },
     ],
     notes: [
       "The search box shows from 7 options up, and typing filters on the label, the hint and the keywords.",
-      "Under 7 options there's no search box, and focus lands outside the list. The arrow keys and Enter do nothing there, so a short picker can't be used from the keyboard yet.",
+      "Under 7 options there's no search box. Focus goes to the list, and typing a letter jumps to the next option that starts with it.",
       'triggerLabel names the trigger. Make it say the field and its value, like "Priority: High".',
     ],
   },
@@ -491,7 +492,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "AnimatedTabs is a tablist with panels. SegmentedFilter is a group of buttons that report pressed. SegmentedNav is a nav of links, and the current one reports the page.",
-      "Past the max, the extra segments fold into a More menu. It's a separate Tab stop after the strip.",
+      "Past the max, the extra segments fold into a More menu. It's a separate Tab stop after the strip, and it takes the picker's keys: arrows, Home, End, Enter and a letter to jump.",
       "A segment that shows only a mark or icon is named by its label.",
       "With reduced motion on, the pill fades to the new segment. It doesn't slide.",
     ],
@@ -516,11 +517,11 @@ export const a11yNotes: Record<string, A11yNote> = {
   },
   sidebar: {
     keys: [
-      { keys: ["Cmd+S", "Ctrl+S"], does: "Opens or closes the sidebar, anywhere on the page." },
+      { keys: ["Cmd+B", "Ctrl+B"], does: "Opens or closes the sidebar, anywhere on the page." },
     ],
     notes: [
-      "That shortcut takes over the browser's save, even while typing in a field.",
-      'The trigger is named "Toggle Sidebar" but doesn\'t report whether the sidebar is open.',
+      "The shortcut leaves typing alone: in a field it's still bold.",
+      'The trigger is named "Toggle Sidebar" and reports whether the sidebar is open.',
       "The rail on the sidebar's edge is for the pointer only. It skips the Tab order.",
       "On a phone the sidebar opens as a sheet, so focus is trapped in it and Esc closes it.",
     ],
@@ -716,7 +717,7 @@ export const a11yNotes: Record<string, A11yNote> = {
       'The thread is a region named "Messages" that takes focus.',
       "The message list is a log, so new messages are read out as they arrive.",
       'The scroll button is named "Scroll to end" or "Scroll to start".',
-      "After the jump the button hides and focus drops to the page, so Tab starts over from the top.",
+      "After the jump the button hides and focus moves to the thread.",
     ],
   },
   trace: {
@@ -751,8 +752,8 @@ export const a11yNotes: Record<string, A11yNote> = {
     notes: [
       "Enter does nothing while an input method is still composing, or while the submit button is disabled.",
       'The submit button is named "Submit", then "Stop" while a reply runs. submitLabel and stopLabel change them.',
-      "Enter in the box while a reply runs throws an error and does nothing. Use the Stop button.",
-      "The box has only a placeholder for a name. Give it an aria-label or a visible label.",
+      "Enter in the box while a reply runs does nothing, and the text stays. Use the Stop button.",
+      'The box is named "Message" by default. label changes it.',
       "A send error shows as an alert, so it's read out right away.",
     ],
   },
@@ -760,7 +761,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     keys: [{ keys: ["Space", "Enter"], does: "Runs the action." }],
     notes: [
       "The icon button is named by label, then by processingLabel while it works.",
-      "It's disabled while it works, so focus drops to the page.",
+      "While it works it reports disabled and ignores presses, and focus stays on it.",
       "Nothing is read out when the work finishes. Change the label, as the demo does, or announce it yourself.",
     ],
   },
@@ -780,8 +781,8 @@ export const a11yNotes: Record<string, A11yNote> = {
     ],
     notes: [
       'The box is a region named "Confirmation". It reports busy while the action runs.',
-      "Once it's resolved it becomes a status. It turns live in the same moment its text changes, and some screen readers miss the result.",
-      "The action buttons go away once it's resolved, and focus drops to the page.",
+      "It's a polite live region from the moment it shows, so the result is read out.",
+      "While the action runs the buttons report disabled and focus stays put. Once it resolves the buttons go away and focus moves to the box.",
       "With reduced motion on, the state swap doesn't animate.",
     ],
   },
