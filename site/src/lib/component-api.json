@@ -11453,6 +11453,716 @@
       "bases": []
     }
   ],
+  "sidebar": [
+    {
+      "name": "Sidebar.Provider",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-provider.svelte",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "true",
+          "bindable": true
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "default": "() => {}"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "style",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Root",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar.svelte",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"left\" | \"right\"",
+          "default": "\"left\""
+        },
+        {
+          "name": "variant",
+          "type": "\"sidebar\" | \"floating\" | \"inset\"",
+          "default": "\"sidebar\""
+        },
+        {
+          "name": "collapsible",
+          "type": "\"offcanvas\" | \"icon\" | \"none\"",
+          "default": "\"offcanvas\""
+        },
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Header",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-header.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Content",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-content.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Group",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-group.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.GroupLabel",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-group-label.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.GroupContent",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-group-content.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLDivElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLDivElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Menu",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLUListElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLUListElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuItem",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-item.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLLIElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLLIElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuButton",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-button.svelte",
+      "props": [
+        {
+          "name": "isActive",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "variant",
+          "type": "SidebarMenuButtonVariant",
+          "values": ["\"default\"", "\"outline\""],
+          "default": "\"default\""
+        },
+        {
+          "name": "size",
+          "type": "SidebarMenuButtonSize",
+          "values": ["\"default\"", "\"sm\"", "\"lg\""],
+          "default": "\"default\""
+        },
+        {
+          "name": "tooltipContent",
+          "type": "Snippet | string"
+        },
+        {
+          "name": "tooltipContentProps",
+          "type": "WithoutChildrenOrChild<ComponentProps<typeof Tooltip.Content>>"
+        },
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLButtonElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLButtonElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuBadge",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-badge.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Footer",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-footer.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Inset",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-inset.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.GroupAction",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-group-action.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLButtonElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLButtonAttributes",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Input",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-input.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "\"\"",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Input"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuAction",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-action.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "showOnHover",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLButtonElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLButtonAttributes",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuSkeleton",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-skeleton.svelte",
+      "props": [
+        {
+          "name": "showIcon",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuSub",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-sub.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLUListElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLUListElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuSubButton",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-sub-button.svelte",
+      "props": [
+        {
+          "name": "child",
+          "type": "Snippet<[{ props: Record<string, unknown> }]>"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "default": "\"md\""
+        },
+        {
+          "name": "isActive",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "ref",
+          "type": "HTMLAnchorElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAnchorAttributes",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.MenuSubItem",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-menu-sub-item.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLLIElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLLIElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Rail",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-rail.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLButtonElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLButtonElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Separator",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-separator.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Separator"
+        }
+      ]
+    },
+    {
+      "name": "Sidebar.Trigger",
+      "file": "packages/ui/src/shadcn/sidebar/sidebar-trigger.svelte",
+      "props": [
+        {
+          "name": "onclick",
+          "type": "(e: MouseEvent) => void"
+        },
+        {
+          "name": "ref",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "component",
+          "label": "Button"
+        }
+      ]
+    }
+  ],
   "simple-field": [
     {
       "name": "Simple",

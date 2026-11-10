@@ -188,6 +188,12 @@ export const meta: Record<string, Meta> = {
     description: "A key cap for a shortcut, alone or as a group of keys.",
     height: 200,
   },
+  sidebar: {
+    title: "Sidebar",
+    icon: "sidepanel",
+    description: "An app's side rail: header, grouped menu, badges and a footer, beside the page.",
+    height: 440,
+  },
   card: {
     title: "Card",
     icon: "square",

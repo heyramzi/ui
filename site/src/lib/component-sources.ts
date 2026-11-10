@@ -22,6 +22,12 @@ export const componentSources: Record<string, string[]> = {
   button: ["packages/ui/src/shadcn/button/button.svelte"],
   badge: ["packages/ui/src/shadcn/badge/badge.svelte"],
   kbd: ["packages/ui/src/shadcn/kbd/kbd.svelte", "packages/ui/src/shadcn/kbd/kbd-group.svelte"],
+  sidebar: [
+    "packages/ui/src/shadcn/sidebar/sidebar-provider.svelte",
+    "packages/ui/src/shadcn/sidebar/sidebar.svelte",
+    "packages/ui/src/shadcn/sidebar/sidebar-menu-button.svelte",
+    "packages/ui/src/shadcn/sidebar/sidebar-inset.svelte",
+  ],
   card: ["packages/ui/src/shadcn/card/card.svelte"],
   tabs: ["packages/ui/src/shadcn/tabs/tabs-list.svelte", "packages/ui/src/lib/sliding-pill.ts"],
   segmented: [
