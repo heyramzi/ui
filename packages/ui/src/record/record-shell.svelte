@@ -66,33 +66,45 @@
 	{@render header()}
 	{@render banner?.()}
 
+	<!-- The rail is drawn twice, once docked and once in the sheet. Only one is ever on
+	     screen, and the sheet mounts its copy on open. -->
 	{#if rail}
-		<button
-			type="button"
-			class={cn(
-				"t-press flex min-h-11 w-full items-center gap-3 border-b border-border py-2 text-left @3xl:hidden",
-				gutterClass,
-			)}
-			aria-haspopup="dialog"
-			aria-expanded={railOpen}
-			onclick={() => (railOpen = true)}
-		>
-			<span class="text-sm font-medium">{railTitle ?? t.steps}</span>
-			{#if railProgress}
-				<span class="text-xs tabular-nums text-muted-foreground">
-					{t.stepsCount(railProgress.done, railProgress.total)}
-				</span>
-				<Progress
-					value={percent}
-					max={100}
-					class="h-1 flex-1"
-					aria-label={t.stepsCount(railProgress.done, railProgress.total)}
-				/>
-			{:else}
-				<span class="flex-1"></span>
-			{/if}
-			<CaretRight class="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-		</button>
+		<Sheet.Root bind:open={railOpen}>
+			<Sheet.Trigger>
+				{#snippet child({ props })}
+					<button
+						type="button"
+						{...props}
+						class={cn(
+							"t-press flex min-h-11 w-full items-center gap-3 border-b border-border py-2 text-left @3xl:hidden",
+							gutterClass,
+						)}
+					>
+						<span class="text-sm font-medium">{railTitle ?? t.steps}</span>
+						{#if railProgress}
+							<span class="text-xs tabular-nums text-muted-foreground">
+								{t.stepsCount(railProgress.done, railProgress.total)}
+							</span>
+							<Progress
+								value={percent}
+								max={100}
+								class="h-1 flex-1"
+								aria-label={t.stepsCount(railProgress.done, railProgress.total)}
+							/>
+						{:else}
+							<span class="flex-1"></span>
+						{/if}
+						<CaretRight class="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+					</button>
+				{/snippet}
+			</Sheet.Trigger>
+			<Sheet.Content side="bottom" class="gap-0 p-0">
+				<Sheet.Header class="sr-only">
+					<Sheet.Title>{railTitle ?? t.steps}</Sheet.Title>
+				</Sheet.Header>
+				<div class="overflow-y-auto p-4 pt-6">{@render rail()}</div>
+			</Sheet.Content>
+		</Sheet.Root>
 	{/if}
 
 	<div class="flex min-w-0 flex-col @3xl:flex-row">
@@ -123,16 +135,3 @@
 		{/if}
 	</div>
 </div>
-
-<!-- The rail is drawn twice, once docked and once here. Only one is ever on screen,
-     and the sheet mounts its copy on open. -->
-{#if rail}
-	<Sheet.Root bind:open={railOpen}>
-		<Sheet.Content side="bottom" class="gap-0 p-0">
-			<Sheet.Header class="sr-only">
-				<Sheet.Title>{railTitle ?? t.steps}</Sheet.Title>
-			</Sheet.Header>
-			<div class="overflow-y-auto p-4 pt-6">{@render rail()}</div>
-		</Sheet.Content>
-	</Sheet.Root>
-{/if}
