@@ -159,7 +159,7 @@
 								variant="text"
 								onclick={startTitle}
 								disabled={!onTitleChange}
-								aria-label={labels.editTitle}
+								aria-label="{labels.editTitle}: {title}"
 								class={cn(
 									"group -mx-2 -my-1 px-2 py-1 text-2xl leading-tight font-semibold tracking-tight disabled:opacity-100",
 									!onTitleChange && "hover:bg-transparent",

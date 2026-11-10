@@ -101,8 +101,9 @@
 				class="@max-2xl/toolbar:hidden"
 			/>
 			<DropdownMenu.Root>
+				<!-- The name carries the tab it shows (WCAG 2.5.3), so "click Open" reaches it. -->
 				<DropdownMenu.Trigger
-					aria-label={tabsLabel}
+					aria-label={currentTab ? `${tabsLabel}: ${currentTab.label}` : tabsLabel}
 					class={cn(toolbarTriggerClass(), "min-w-0 @2xl/toolbar:hidden")}
 				>
 					<span class="truncate">{currentTab?.label}</span>

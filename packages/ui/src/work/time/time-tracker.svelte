@@ -92,6 +92,14 @@
 	let elapsedMs = $derived(startedMs === null ? 0 : Math.max(0, now - startedMs));
 	let clock = $derived(formatClock(elapsedMs));
 	let elapsedMinutes = $derived(Math.floor(elapsedMs / 60_000));
+	// What the trigger shows, so its name holds it (WCAG 2.5.3, label in name).
+	let shown = $derived(
+		running
+			? `${clock.hours}:${clock.minutes}:${clock.seconds}`
+			: total > 0
+				? `${formatMinutes(total)}${estimate ? ` / ${formatMinutes(estimate)}` : ""}`
+				: labels.timer,
+	);
 
 	// The tick runs only while a timer does, and re-reads the clock so a sleeping tab catches up.
 	$effect(() => {
@@ -245,7 +253,7 @@
 					buttonVariants({ variant: "ghost", size: "sm" }),
 					"time-open gap-1.5 ps-1 pe-2 text-(length:--text-control) tabular-nums data-[state=open]:bg-muted",
 				)}
-				aria-label={labels.title}
+				aria-label="{labels.title}: {shown}"
 			>
 				{#if running}
 					<TimeDot running size={6} />

@@ -81,6 +81,13 @@
 	// DERIVED
 	// =========================
 	const inline = $derived(text !== undefined && variant === "inline");
+	// A chip's name holds the text it shows (WCAG 2.5.3, label in name), so a
+	// speech user who says "click acme-4821" reaches it.
+	const restingName = $derived(
+		text === undefined || label.toLowerCase().includes(text.toLowerCase())
+			? label
+			: `${label} ${text}`,
+	);
 
 	// =========================
 	// FUNCTIONS
@@ -107,7 +114,7 @@
 	type="button"
 	onclick={copy}
 	title={label}
-	aria-label={announce === "name" && copied ? copiedLabel : label}
+	aria-label={announce === "name" && copied ? copiedLabel : restingName}
 	class={cn(
 		"group/copy t-press shrink-0 outline-none focus-visible:shadow-(--ring-focus)",
 		text === undefined

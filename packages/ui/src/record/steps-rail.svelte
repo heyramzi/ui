@@ -276,7 +276,7 @@
 							size="sm"
 							icon
 							class="relative ml-auto text-muted-foreground"
-							aria-label={t.editSteps}
+							aria-label={hiddenCount > 0 ? `${t.editSteps}: ${hiddenCount}` : t.editSteps}
 						>
 							<DotsThreeVertical aria-hidden="true" class="size-4" weight="bold" />
 							{#if hiddenCount > 0}

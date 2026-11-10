@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { LoadedExample } from "#lib/examples/index.js";
+	import { scrollFocus } from "#lib/scroll-focus.js";
 	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
 	import { Check, Copy } from "phosphor-svelte";
 
@@ -46,7 +47,10 @@
 	</header>
 
 	{#if tab === "preview"}
-		<div class="grid min-h-44 place-items-center overflow-x-auto bg-card px-4 py-8 sm:px-10">
+		<div
+			class="grid min-h-44 place-items-center overflow-x-auto bg-card px-4 py-8 sm:px-10"
+			{@attach scrollFocus}
+		>
 			<div class="flex w-full justify-center">
 				<example.component />
 			</div>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Entry } from "#lib/registry.js";
 	import { copyAiContext } from "#lib/ai-context.js";
+	import { scrollFocus } from "#lib/scroll-focus.js";
 	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
 	import { ArrowCounterClockwise, Check, Copy } from "phosphor-svelte";
 
@@ -63,6 +64,7 @@
 		<div
 			class="grid place-items-center overflow-x-auto bg-card px-4 py-10 sm:px-10 sm:py-12"
 			style="min-height:{entry.height ?? 240}px"
+			{@attach scrollFocus}
 		>
 			{#key run}
 				<div class="w-full">

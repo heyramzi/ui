@@ -206,14 +206,9 @@
 	<Popover.Root open={pickerOpen === key} onOpenChange={(open) => (pickerOpen = open ? key : null)}>
 		<Popover.Trigger>
 			{#snippet child({ props })}
-				<Button
-					{...props}
-					variant="text"
-					size="sm"
-					class={OPENER}
-					aria-label={t.edit(row.label)}
-					disabled={saving === key}
-				>
+				<Button {...props} variant="text" size="sm" class={OPENER} disabled={saving === key}>
+					<!-- Named by its text: the field, then the value it shows (WCAG 2.5.3, label in name). -->
+					<span class="sr-only">{t.edit(row.label)}</span>
 					{@render display(row)}
 					{#if saving === key}
 						<Spinner class="size-3.5 text-muted-foreground" />
@@ -412,9 +407,10 @@
 								variant="text"
 								size="sm"
 								class={cn(OPENER, isEmpty(row) && "text-muted-foreground")}
-								aria-label={t.edit(row.label)}
 								onclick={() => begin(row)}
 							>
+								<!-- Named by its text: the field, then the value it shows (WCAG 2.5.3, label in name). -->
+								<span class="sr-only">{t.edit(row.label)}</span>
 								{@render display(row)}
 							</Button>
 						{/if}

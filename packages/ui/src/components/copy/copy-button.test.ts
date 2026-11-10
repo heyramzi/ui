@@ -60,6 +60,13 @@ describe("CopyButton", () => {
     done();
   });
 
+  it("adds the chip's visible text to a label that leaves it out", () => {
+    stubClipboard();
+    const { button, done } = render({ value: "acme-4821", text: "acme-4821", label: "Copy id" });
+    expect(button.getAttribute("aria-label")).toBe("Copy id acme-4821");
+    done();
+  });
+
   it("announces in a live region by default and keeps its name", async () => {
     stubClipboard();
     const { button, target, done } = render({

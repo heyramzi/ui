@@ -123,7 +123,7 @@
 						aria-label={item.label}
 						aria-current={current ? "location" : undefined}
 						onclick={() => pick(item.id)}
-						class="otp-tick group/tick flex h-3.5 w-7 items-center pl-2 any-pointer-coarse:h-6"
+						class="otp-tick group/tick flex h-6 w-7 items-center pl-2"
 					>
 						<span
 							class="block h-0.5 rounded-full transition-[width,background-color] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {current
@@ -203,8 +203,8 @@
 {:else}
 	<Popover.Root bind:open>
 		<div class="relative">
+			<!-- Named by its own text, the label then the current heading (WCAG 2.5.3, label in name). -->
 			<Popover.Trigger
-				aria-label={label}
 				class="flex h-11 w-full items-center gap-2.5 px-4 text-left transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:bg-muted/50"
 			>
 				<List size={16} class="shrink-0 text-muted-foreground" aria-hidden="true" />

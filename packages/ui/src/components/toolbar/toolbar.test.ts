@@ -55,22 +55,23 @@ describe("Toolbar", () => {
       tabsLabel: "Status",
       viewLabel: "Layout",
     });
-    for (const label of ["Find", "Status", "Layout"]) {
+    for (const label of ["Find", "Status: All", "Layout"]) {
       expect(root.querySelector(`button[aria-label="${label}"]`), label).not.toBeNull();
     }
   });
 
-  it("shows the current tab on the narrow menu trigger", async () => {
+  // The name holds the visible tab too (WCAG 2.5.3), so a speech user can say it.
+  it("shows the current tab on the narrow menu trigger and names it", async () => {
     const root = render({ search: "", tabs, tab: "open", views, view: "list" });
     await tick();
-    expect(root.querySelector('button[aria-label="Show"]')?.textContent?.trim()).toBe("Open");
+    expect(root.querySelector('button[aria-label="Show: Open"]')?.textContent?.trim()).toBe("Open");
   });
 
   it("leaves out what it isn't given", () => {
     const root = render({ tabs, tab: "all" });
     expect(root.querySelector('button[aria-label="Search"]')).toBeNull();
     expect(root.querySelector('button[aria-label="View"]')).toBeNull();
-    expect(root.querySelector('button[aria-label="Show"]')).not.toBeNull();
+    expect(root.querySelector('button[aria-label="Show: All"]')).not.toBeNull();
   });
 
   // The 10 Nov audit: the wide search box had only its placeholder for a name.
