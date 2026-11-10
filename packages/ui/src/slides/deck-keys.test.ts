@@ -1,8 +1,19 @@
 import { afterEach, describe, expect, it } from "vite-plus/test";
 import { flushSync, mount, unmount } from "svelte";
-import Demo from "#src/slides/demo.svelte";
+import Deck from "#src/slides/Deck.svelte";
 
 let app: ReturnType<typeof mount> | null = null;
+
+/* An empty registry draws each slide as its "unknown type" fallback, enough to page through. */
+const slides = ["one", "two", "three"].map((id) => ({ id, type: "plain", content: null }));
+
+function mountDeck() {
+  app = mount(Deck, {
+    target: document.body.appendChild(document.createElement("div")),
+    props: { id: "keys", title: "Keys", slides, registry: {} },
+  });
+  flushSync();
+}
 
 afterEach(() => {
   if (app) unmount(app);
@@ -19,8 +30,7 @@ function press(target: EventTarget, key: string) {
 
 describe("a deck's keys", () => {
   it("ignores keys pressed outside it, even as the only deck on the page", () => {
-    app = mount(Demo, { target: document.body.appendChild(document.createElement("div")) });
-    flushSync();
+    mountDeck();
     const before = said();
     press(document.body, "ArrowRight");
     press(document.body, " ");
@@ -28,8 +38,7 @@ describe("a deck's keys", () => {
   });
 
   it("pages when focus is inside it", () => {
-    app = mount(Demo, { target: document.body.appendChild(document.createElement("div")) });
-    flushSync();
+    mountDeck();
     const deck = document.querySelector<HTMLElement>(".deck");
     if (!deck) throw new Error("no deck rendered");
     deck.focus();

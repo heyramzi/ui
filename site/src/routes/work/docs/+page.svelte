@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DocsDemo from "@heyramzi/ui/work/docs-demo.svelte";
+	import DocsDemo from "#lib/demos/pages/work-docs.svelte";
 </script>
 
 <svelte:head><title>Docs | heyramzi/ui</title></svelte:head>

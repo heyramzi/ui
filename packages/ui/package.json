@@ -183,7 +183,6 @@
       "node": "./dist/agents/index.js",
       "default": "./src/agents/index.ts"
     },
-    "./agents/demo.svelte": "./src/agents/demo.svelte",
     "./status": {
       "svelte": "./src/status/index.ts",
       "types": "./src/status/index.ts",
@@ -202,7 +201,6 @@
       "node": "./dist/record/index.js",
       "default": "./src/record/index.ts"
     },
-    "./record/demo.svelte": "./src/record/record-demo.svelte",
     "./thread": {
       "svelte": "./src/thread/index.ts",
       "types": "./src/thread/index.ts",
@@ -264,13 +262,6 @@
       "node": "./dist/work/docs/index.js",
       "default": "./src/work/docs/index.ts"
     },
-    "./work/docs-demo.svelte": "./src/work/docs/docs-demo.svelte",
-    "./work/detail-demo.svelte": "./src/work/detail/detail-demo.svelte",
-    "./work/demo": {
-      "svelte": "./src/work/demo.svelte",
-      "default": "./src/work/demo.svelte"
-    },
-    "./work/demo.svelte": "./src/work/demo.svelte",
     "./charts": {
       "svelte": "./src/charts/index.ts",
       "types": "./src/charts/index.ts",
@@ -299,16 +290,6 @@
       "node": "./dist/slides/export/index.js",
       "default": "./src/slides/export/index.ts"
     },
-    "./slides/demo": {
-      "svelte": "./src/slides/demo.svelte",
-      "default": "./src/slides/demo.svelte"
-    },
-    "./slides/demo.svelte": "./src/slides/demo.svelte",
-    "./slides/demo-slides": {
-      "svelte": "./src/slides/demo-slides.svelte",
-      "default": "./src/slides/demo-slides.svelte"
-    },
-    "./slides/demo-slides.svelte": "./src/slides/demo-slides.svelte",
     "./editor": {
       "svelte": "./src/editor/index.ts",
       "types": "./src/editor/index.ts",
@@ -350,11 +331,6 @@
       "node": "./dist/onboarding/stores.js",
       "default": "./src/onboarding/stores.ts"
     },
-    "./onboarding/demo": {
-      "svelte": "./src/onboarding/demo.svelte",
-      "default": "./src/onboarding/demo.svelte"
-    },
-    "./onboarding/demo.svelte": "./src/onboarding/demo.svelte",
     "./canvas": {
       "types": "./src/canvas/index.ts",
       "svelte": "./src/canvas/index.ts",

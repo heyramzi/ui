@@ -54,4 +54,8 @@ describe("module split", () => {
     }
     expect(Object.keys(pkg.exports).filter((name) => name.startsWith("./tasks"))).toEqual([]);
   });
+
+  it("ships no demo, the docs site holds them", () => {
+    expect(Object.keys(pkg.exports).filter((name) => name.includes("demo"))).toEqual([]);
+  });
 });

@@ -1,8 +1,19 @@
 <script lang="ts">
-	import KanbanBoard from "#src/work/kanban-board.svelte";
-	import TaskList from "#src/work/task-list.svelte";
-	import TaskGantt from "#src/work/task-gantt.svelte";
-	import { SegmentedFilter } from "#src/components/segmented/index.js";
+	import {
+		KanbanBoard,
+		TaskGantt,
+		TaskList,
+		TimeChip,
+		TimeTracker,
+		addDays,
+		dayNumber,
+		todayIso,
+		type GanttChange,
+		type KanbanMove,
+		type TimeLogInput,
+		type TimeStopInfo,
+	} from "@heyramzi/ui/work";
+	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
 	import {
 		CalendarBlank,
 		CellSignalFull,
@@ -12,19 +23,10 @@
 		Kanban,
 		ListBullets,
 	} from "phosphor-svelte";
-	import StatusPill from "#src/status/status-pill.svelte";
-	import { Card } from "#src/shadcn/card/index.js";
-	import WorkCard from "#src/components/work-parts/work-card.svelte";
-	import type { Tone } from "#src/lib/tone.js";
-	import StatusBadge from "#src/status/status-badge.svelte";
-	import StatusDot from "#src/status/status-dot.svelte";
-	import { defineStatuses } from "#src/status/define-statuses.js";
-	import { addDays, dayNumber, todayIso } from "#src/work/dates.js";
-	import type { KanbanMove } from "#src/work/kanban-types.js";
-	import type { GanttChange } from "#src/work/task-types.js";
-	import TimeTracker from "#src/work/time/time-tracker.svelte";
-	import TimeChip from "#src/work/time/time-chip.svelte";
-	import type { TimeLogInput, TimeStopInfo } from "#src/work/time/time-types.js";
+	import { StatusBadge, StatusDot, StatusPill, defineStatuses } from "@heyramzi/ui/status";
+	import { Card } from "@heyramzi/ui/shadcn/card";
+	import { WorkCard } from "@heyramzi/ui/components/work-parts";
+	import type { Tone } from "@heyramzi/ui/lib/tone.js";
 
 	type Priority = "low" | "medium" | "high";
 

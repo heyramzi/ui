@@ -3,29 +3,33 @@
 	// IMPORTS
 	// =========================
 	import { DotsThree, NotePencil } from "phosphor-svelte";
-	import { SegmentedFilter } from "#src/components/segmented/index.js";
-	import { Button } from "#src/shadcn/button/index.js";
-	import { Input } from "#src/shadcn/input/index.js";
-	import * as Tabs from "#src/shadcn/tabs/index.js";
-	import RecordShell from "#src/record/record-shell.svelte";
-	import RecordHeader from "#src/record/record-header.svelte";
-	import WhereWeAre from "#src/record/where-we-are.svelte";
-	import NextUp from "#src/record/next-up.svelte";
-	import RecordStats from "#src/record/record-stats.svelte";
-	import StepsRail from "#src/record/steps-rail.svelte";
-	import RecordTimeline from "#src/record/record-timeline.svelte";
-	import ProjectList from "#src/record/project-list.svelte";
-	import FieldSection from "#src/record/field-section.svelte";
-	import InfoList from "#src/record/info-list.svelte";
-	import { formatAge, formatMoney, formatRange } from "#src/record/format.js";
+	import { SegmentedFilter } from "@heyramzi/ui/components/segmented";
+	import { Button } from "@heyramzi/ui/shadcn/button";
+	import { Input } from "@heyramzi/ui/shadcn/input";
+	import * as Tabs from "@heyramzi/ui/shadcn/tabs";
 	import {
+		FieldSection,
+		InfoList,
+		NextUp,
+		ProjectList,
+		RecordHeader,
+		RecordShell,
+		RecordStats,
+		RecordTimeline,
+		StepsRail,
+		WhereWeAre,
+		formatAge,
+		formatMoney,
+		formatRange,
 		latestWhereWeAre,
 		mergeClientEvents,
 		nextAcrossProjects,
 		rollupProjects,
 		stepProgress,
-	} from "#src/record/logic.js";
-	import type { FieldValue, RecordEvent, StepDef } from "#src/record/types.js";
+		type FieldValue,
+		type RecordEvent,
+		type StepDef,
+	} from "@heyramzi/ui/record";
 	import {
 		DEMO_NOW,
 		DEMO_TODAY,
@@ -42,7 +46,7 @@
 		websiteEvents,
 		websiteSteps,
 		websiteValues,
-	} from "#src/record/demo-data.js";
+	} from "#lib/demos/pages/record-data.js";
 
 	// =========================
 	// STATE

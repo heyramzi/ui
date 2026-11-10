@@ -2,12 +2,9 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { docLooks } from "#src/components/work-parts/looks.js";
+	import { docLooks } from "@heyramzi/ui/components/work-parts";
 	import { Bell, FileText, LinkSimple, Star } from "phosphor-svelte";
-	import DocEditorPage from "#src/work/docs/doc-editor-page.svelte";
-	import DocMenu from "#src/work/docs/doc-menu.svelte";
-	import EditedChip from "#src/work/docs/edited-chip.svelte";
-	import type { CopyKind } from "#src/work/docs/menu.js";
+	import { DocEditorPage, DocMenu, EditedChip, type CopyKind } from "@heyramzi/ui/work/docs";
 
 	// =========================
 	// TYPES

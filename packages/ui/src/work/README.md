@@ -303,8 +303,9 @@ same values when they aren't. Everything goes still under
 
 ## Demo
 
-`src/demo.svelte` puts one task list behind a Board, List and Gantt filter, with
-sorting, a Days and Weeks scale and a status badge strip.
+The docs site's `/work` page (`site/src/lib/demos/pages/work.svelte`) puts one
+task list behind a Board, List and Gantt filter, with sorting, a Days and Weeks
+scale and a status badge strip.
 
 The fractional ordering in `board-order.ts` is the CC0 algorithm from
 [Implementing Fractional Indexing](https://observablehq.com/@dgreensp/implementing-fractional-indexing).

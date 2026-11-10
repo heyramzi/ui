@@ -45,7 +45,7 @@
         "**/packages/ui/src/effects/spotlight/Spotlight.svelte",
         "**/packages/ui/src/effects/image-comparison/ImageComparison.svelte",
         "**/packages/ui/src/slides/Controls.svelte",
-        "**/packages/ui/src/slides/demo-slides.svelte",
+        "**/site/src/lib/demos/pages/slides-deck.svelte",
         "**/packages/review/src/ui/LibrarySearch.svelte"
       ],
       "rules": {

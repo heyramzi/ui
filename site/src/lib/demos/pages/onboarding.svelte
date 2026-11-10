@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { Button } from "#src/shadcn/button/index.js";
-	import { Badge } from "#src/shadcn/badge/index.js";
+	import { Button } from "@heyramzi/ui/shadcn/button";
+	import { Badge } from "@heyramzi/ui/shadcn/badge";
 	import { Plus } from "phosphor-svelte";
-	import OnboardingProvider from "#src/onboarding/onboarding-provider.svelte";
-	import { defineTours } from "#src/onboarding/define-tours.js";
-	import { memoryStore } from "#src/onboarding/stores.js";
-	import type { Strings } from "#src/onboarding/types.js";
+	import {
+		OnboardingProvider,
+		defineTours,
+		memoryStore,
+		type Strings,
+	} from "@heyramzi/ui/onboarding";
 
 	const tours = defineTours([
 		{

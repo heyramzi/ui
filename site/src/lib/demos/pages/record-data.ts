@@ -8,7 +8,7 @@ import type {
   StageDef,
   StepDef,
   StepGroupDef,
-} from "#src/record/types.js";
+} from "@heyramzi/ui/record";
 
 /** The demo's clock, so a screenshot reads the same on any day. */
 export const DEMO_NOW = new Date("2026-10-21T12:00:00Z");

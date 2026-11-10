@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Demo from "@heyramzi/ui/work/demo.svelte";
-	import DetailDemo from "@heyramzi/ui/work/detail-demo.svelte";
+	import Demo from "#lib/demos/pages/work.svelte";
+	import DetailDemo from "#lib/demos/pages/work-detail.svelte";
 	import PackagePage from "#lib/PackagePage.svelte";
 </script>
 

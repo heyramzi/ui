@@ -1,5 +1,5 @@
 <script lang="ts">
-	import RecordDemo from "@heyramzi/ui/record/demo.svelte";
+	import RecordDemo from "#lib/demos/pages/record.svelte";
 </script>
 
 <svelte:head><title>Record | heyramzi/ui</title></svelte:head>

@@ -9,17 +9,19 @@
 		User,
 		UserCircle,
 	} from "phosphor-svelte";
-	import { Button } from "#src/shadcn/button/index.js";
-	import { Card } from "#src/shadcn/card/index.js";
-	import * as Avatar from "#src/shadcn/avatar/index.js";
-	import TaskDetail from "#src/work/detail/task-detail.svelte";
-	import PropertyRow from "#src/components/work-parts/property-row.svelte";
-	import TaskChip from "#src/work/detail/task-chip.svelte";
-	import TimeTracker from "#src/work/time/time-tracker.svelte";
-	import StatusDot from "#src/status/status-dot.svelte";
-	import { defineStatuses } from "#src/status/define-statuses.js";
-	import type { ThreadComment, ThreadPost } from "#src/thread/types.js";
-	import type { TimeLogInput, TimeStopInfo } from "#src/work/time/time-types.js";
+	import { Button } from "@heyramzi/ui/shadcn/button";
+	import { Card } from "@heyramzi/ui/shadcn/card";
+	import * as Avatar from "@heyramzi/ui/shadcn/avatar";
+	import {
+		TaskChip,
+		TaskDetail,
+		TimeTracker,
+		type TimeLogInput,
+		type TimeStopInfo,
+	} from "@heyramzi/ui/work";
+	import { PropertyRow } from "@heyramzi/ui/components/work-parts";
+	import { StatusDot, defineStatuses } from "@heyramzi/ui/status";
+	import type { ThreadComment, ThreadPost } from "@heyramzi/ui/thread";
 
 	type Scenario =
 		| "default"
