@@ -23,6 +23,7 @@
 	import { resolveEdgeFade } from "#src/charts/edge-fade.js";
 	import Figure from "#src/charts/figure.svelte";
 	import HoverFocus from "#src/charts/hover-focus.svelte";
+	import { dualAxis } from "#src/charts/dual-axis.js";
 	import { DOMAIN_MOTION, TOOLTIP_GAP, TOOLTIP_TOP } from "#src/charts/motion.js";
 	import { valueTick } from "#src/charts/primitives/chart-utils.js";
 	import Reveal from "#src/charts/reveal.svelte";
@@ -44,6 +45,11 @@
 		key: keyof TData & string;
 		label?: string;
 		color?: string;
+		/**
+		 * `"right"` plots the series on a second value axis with its own scale, for a measure in a
+		 * different unit or about 10x larger than the rest. It draws as a line, without the fill.
+		 */
+		axis?: "left" | "right";
 	};
 
 	interface Props {
@@ -68,8 +74,15 @@
 		xTicks?: number;
 		/** A target drawn across the plot, like the deal a cost runs up to. */
 		reference?: ChartReference;
-		/** The headline while no point is hovered, like a period total. Defaults to the last point. */
-		resting?: { value: number; label: string };
+		/**
+		 * The headline while no point is hovered, like a period total. Defaults to the last point.
+		 * `values`, keyed by series, shows one figure per series side by side in its colour, so it also reads as the legend.
+		 */
+		resting?: {
+			value?: number;
+			values?: Partial<Record<keyof TData & string, number>>;
+			label: string;
+		};
 		/** Smooths the drawn line by the window shown; the resting figure stays the caller's total. */
 		smoothing?: Smoothing;
 		/** The chart's accessible name. Its data range and values are read after it. */
@@ -146,11 +159,14 @@
 					key: s.key,
 					label: s.label ?? s.key,
 					color: s.color ?? `var(--chart-series-${(i % 6) + 1})`,
+					axis: s.axis === "right" ? ("right" as const) : ("left" as const),
 				}))
 			: yKey
-				? [{ key: yKey, label: yKey, color }]
+				? [{ key: yKey, label: yKey, color, axis: "left" as const }]
 				: [],
 	);
+	const leftSeries = $derived(series.filter((s) => s.axis === "left"));
+	const rightSeries = $derived(series.filter((s) => s.axis === "right"));
 	const smoothed = $derived(
 		smoothing
 			? smoothSeries(
@@ -167,12 +183,41 @@
 	const averageLabel = $derived(mode === "rolling" ? averageName(smoothed.window) : null);
 	const dataMax = $derived.by(() => {
 		if (stacked) {
-			return Math.max(0, ...data.map((d) => series.reduce((s, k) => s + Number(d[k.key] ?? 0), 0)));
+			return Math.max(
+				0,
+				...data.map((d) => leftSeries.reduce((s, k) => s + Number(d[k.key] ?? 0), 0)),
+			);
 		}
-		return Math.max(0, ...data.flatMap((d) => series.map((s) => Number(d[s.key] ?? 0))));
+		return Math.max(0, ...data.flatMap((d) => leftSeries.map((s) => Number(d[s.key] ?? 0))));
 	});
 	// A target above every point would sit off the plot.
 	const yMax = $derived(Math.max(dataMax, reference?.value ?? 0));
+	// A right-axis series lives on the chart's one y scale, rescaled so its domain fills the same
+	// height; the right axis labels that height in the series' own unit.
+	const axes = $derived.by(() => {
+		if (rightSeries.length === 0) return null;
+		const rightMax = Math.max(
+			0,
+			...data.flatMap((d) => rightSeries.map((s) => Number(d[s.key] ?? 0))),
+		);
+		return dualAxis(yMax, rightMax);
+	});
+	const plotKey = (s: { key: string; axis: "left" | "right" }) =>
+		s.axis === "right" ? `__hr_right_${s.key}` : s.key;
+	const plotData = $derived.by((): TData[] => {
+		if (!axes) return data;
+		const factor = axes.left.max / axes.right.max;
+		return data.map((d) => {
+			const row: Record<string, unknown> = { ...d };
+			// A gap stays a gap: null times a factor would draw a 0.
+			for (const s of rightSeries)
+				row[plotKey(s)] = d[s.key] == null ? null : Number(d[s.key]) * factor;
+			return row as TData;
+		});
+	});
+	// An axis takes its series' colour only when one series owns it; with two on a side the colour would name one of them.
+	const leftTone = $derived(axes && leftSeries.length === 1 ? leftSeries[0].color : undefined);
+	const rightTone = $derived(rightSeries.length === 1 ? rightSeries[0].color : undefined);
 	const curve = $derived(smooth ? curveMonotoneX : undefined);
 	const fade = $derived(resolveEdgeFade(edgeFade));
 	const fadeMask = $derived(fade > 0 ? `url(#${uid}-fade)` : undefined);
@@ -206,7 +251,16 @@
 <!-- WHY: leaving only resets the hover readout; the keyboard path is ChartPlot's. -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="hr-area-chart {className ?? ''}" onpointerleave={() => (active = null)}>
-	{#if resting && !active && series[0]}
+	{#if resting?.values && !active}
+		<Figure
+			series={series
+				.filter((s) => resting.values?.[s.key] != null)
+				.map((s) => ({ value: Number(resting.values?.[s.key]), label: s.label, color: s.color }))}
+			eyebrow={resting.label}
+			format={formatValue}
+			size="md"
+		/>
+	{:else if resting && resting.value != null && !active && series[0]}
 		<Figure
 			series={[{ value: resting.value, label: series[0].label, color: series[0].color }]}
 			eyebrow={resting.label}
@@ -226,21 +280,43 @@
 			<div class="empty"><p>No data</p></div>
 		{:else}
 			<Chart
-				{data}
+				data={plotData}
 				x={xKey}
-				y={series[0]?.key}
-				yDomain={[0, yMax || 1]}
-				yNice
-				padding={{ left: 48, bottom: 28, top: 8, right: 12 }}
+				y={series[0] ? plotKey(series[0]) : undefined}
+				yDomain={[0, axes ? axes.left.max : yMax || 1]}
+				yNice={!axes}
+				padding={{ left: 48, bottom: 28, top: 8, right: axes ? 48 : 12 }}
 				tooltipContext={{ mode: "quadtree-x" }}
 				motion={DOMAIN_MOTION}
 				bind:context
 			>
 				<Svg aria-hidden="true">
-					<Axis placement="left" format={(v) => tick(Number(v))} ticks={4} />
+					<g class="hr-axis-tone" style:--hr-axis-tone={leftTone}>
+						<Axis
+							placement="left"
+							format={(v) => tick(Number(v))}
+							ticks={axes ? axes.left.ticks : 4}
+						/>
+					</g>
+					{#if axes}
+						<g class="hr-axis-tone" style:--hr-axis-tone={rightTone}>
+							<Axis
+								placement="right"
+								domain={[0, axes.right.max]}
+								format={(v) => tick(Number(v))}
+								ticks={axes.right.ticks}
+							/>
+						</g>
+					{/if}
 					<Axis placement="bottom" format={(v) => formatX(v)} ticks={ticksForWidth(xTicks)} />
 					<g class="hr-area-grid">
-						<Axis placement="left" grid rule={false} ticks={4} format={() => ""} />
+						<Axis
+							placement="left"
+							grid
+							rule={false}
+							ticks={axes ? axes.left.ticks : 4}
+							format={() => ""}
+						/>
 					</g>
 					{#if fade > 0}
 						<EdgeFade id="{uid}-fade" amount={fade} />
@@ -261,17 +337,39 @@
 								<!-- WHY `y1` and not `y`: layerchart's Area has no `y` prop, so every
 							     series drew the first series' shape and the gradients stacked on
 							     one path. See `Area.shared.svelte.js`. -->
-								<Area y1={s.key} {curve} fill="url(#{uid}-{i})" mask={fadeMask} />
-								<Spline y={s.key} {curve} style="stroke: {s.color}; fill: none" stroke-width="2" />
+								{#if s.axis === "left"}
+									<Area y1={s.key} {curve} fill="url(#{uid}-{i})" mask={fadeMask} />
+								{/if}
+								<Spline
+									y={plotKey(s)}
+									{curve}
+									style="stroke: {s.color}; fill: none"
+									stroke-width="2"
+								/>
 							{/each}
 						</Reveal>
 						{#snippet segment()}
 							{#each series as s (s.key)}
-								<Spline y={s.key} {curve} style="stroke: {s.color}; fill: none" stroke-width="2" />
+								<Spline
+									y={plotKey(s)}
+									{curve}
+									style="stroke: {s.color}; fill: none"
+									stroke-width="2"
+								/>
 							{/each}
 						{/snippet}
 					</HoverFocus>
-					<Highlight points lines={{ style: `stroke: url(#${uid}-cross)` }} />
+					{#if axes}
+						<!-- WHY `data`: without it Highlight places dots from the tooltip's raw values, off the rescaled right series. -->
+						<Highlight lines={{ style: `stroke: url(#${uid}-cross)` }} />
+						{#if context?.tooltip.data}
+							{#each series as s (s.key)}
+								<Highlight data={context.tooltip.data} y={plotKey(s)} points={{ fill: s.color }} />
+							{/each}
+						{/if}
+					{:else}
+						<Highlight points lines={{ style: `stroke: url(#${uid}-cross)` }} />
+					{/if}
 				</Svg>
 				<Tooltip.Root x="data" y={TOOLTIP_TOP} xOffset={TOOLTIP_GAP}>
 					{#snippet children({ data: d })}

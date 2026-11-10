@@ -4,8 +4,8 @@
    `@heyramzi/ui/charts/dashboard` keeps its card edge without the barrel. */
 
 @layer components {
-  /* Shared chart tokens, held at zero specificity by `:where()`. The reveal pair
-     is the entrance every chart shares; motion.ts mirrors its duration. */
+  /* Shared chart tokens, held at zero specificity by `:where()`. The tooltip portals to
+     `body`, outside its chart, so it is listed for its series dots to match the lines. */
   :where(
     .hr-area-chart,
     .hr-bar-chart,
@@ -17,7 +17,8 @@
     .hr-ts-chart,
     .hr-donut-chart,
     .hr-ring,
-    .hr-gauge
+    .hr-gauge,
+    .lc-tooltip-container
   ) {
     /* Series palette: brand, then hues round the wheel, blue and orange first for colour
        blindness. Each is pulled 15% toward the text, clearing 3:1 on the card in both themes. */

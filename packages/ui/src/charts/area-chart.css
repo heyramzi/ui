@@ -15,6 +15,12 @@
     width: 100%;
   }
 
+  /* A value axis owned by one series wears its colour. Mixed toward the foreground like the
+     figure above it, since a line colour clears 3:1 and 11px text needs 4.5:1. */
+  .hr-area-chart .hr-axis-tone[style*="--hr-axis-tone"] .lc-axis-tick-label {
+    fill: color-mix(in oklab, var(--hr-axis-tone) 70%, var(--foreground, oklch(0.2 0.01 286)));
+  }
+
   .hr-area-chart .empty {
     display: flex;
     align-items: center;
