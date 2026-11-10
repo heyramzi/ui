@@ -1,5 +1,7 @@
 <script lang="ts" generics="T, C extends KanbanColumnDef = KanbanColumnDef">
 	import type { Snippet } from "svelte";
+	import LiveRegion from "#src/lib/live-region.svelte";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import { flip } from "svelte/animate";
 	import { cubicOut } from "svelte/easing";
 	import { durationMs } from "#src/lib/motion.js";
@@ -48,8 +50,12 @@
 		 * rows hold their own links and buttons.
 		 */
 		draggable?: boolean;
-		/** The screen-reader name of a row. Defaults to a hint about the keyboard move. */
+		/** The screen-reader name of a row. Defaults to the row's own text. */
 		getLabel?: (item: T) => string;
+		/** Read after a draggable row's name, as its description. */
+		moveHint?: string;
+		/** What a screen reader hears after a row moves with the keyboard. */
+		movedLabel?: (group: C) => string;
 		/** Fires when a group is folded or unfolded, with every folded id. */
 		onCollapsedChange?: (ids: string[]) => void;
 		sortKeys?: KanbanSortKey<T>[];
@@ -85,6 +91,8 @@
 		manualTiebreak,
 		draggable = true,
 		getLabel,
+		moveHint = "Press Alt plus Up or Down arrow to move between groups.",
+		movedLabel = (group) => `Moved to ${group.label}`,
 		onCollapsedChange,
 		sortKeys = [],
 		sortKey = "manual",
@@ -103,6 +111,10 @@
 
 	// svelte-ignore state_referenced_locally
 	let folded = $state(new Set(collapsed));
+	const uid = $props.id();
+	const hintId = `${uid}-hint`;
+	let listEl: HTMLDivElement | undefined = $state();
+	let live: LiveRegion | undefined = $state();
 
 	function compare(a: T, b: T): number {
 		if (sortKey === "manual") {
@@ -178,8 +190,36 @@
 		onCollapsedChange?.([...next]);
 	}
 
+	/** Unfolds a group and every group it sits in, so a row moved there can take focus. */
+	function reveal(groupId: string): void {
+		const next = new Set(folded);
+		const seen = new Set<string>();
+		let group = groups.find((g) => g.id === groupId);
+		while (group && !seen.has(group.id)) {
+			seen.add(group.id);
+			next.delete(group.id);
+			const parent = getParent?.(group);
+			group = parent ? groups.find((g) => g.id === parent) : undefined;
+		}
+		if (next.size === folded.size) return;
+		folded = next;
+		onCollapsedChange?.([...next]);
+	}
+
 	/** Alt + ArrowUp/Down sends the focused row to the end of the group above or below. */
-	function onRowKeyDown(e: KeyboardEvent, id: string): void {
+	async function onRowKeyDown(e: KeyboardEvent, id: string): Promise<void> {
+		const target = moveRow(e, id);
+		if (!target) return;
+		await target.done;
+		reveal(target.group.id);
+		void live?.announce(movedLabel(target.group));
+		await focusAfterRender(listEl, `[data-task-row="${CSS.escape(id)}"]`);
+	}
+
+	function moveRow(
+		e: KeyboardEvent,
+		id: string,
+	): { group: C; done: void | Promise<void> } | undefined {
 		if (!e.altKey || (e.key !== "ArrowUp" && e.key !== "ArrowDown")) return;
 		const item = items.find((entry) => getId(entry) === id);
 		if (!item) return;
@@ -191,21 +231,18 @@
 			const target = groups[i];
 			if (!canDrop(target.id)) continue;
 			e.preventDefault();
-			if (sortKey === "manual") {
-				const rows = sortedByGroup(target.id).filter((entry) => getId(entry) !== id);
-				const last = rows.at(-1);
-				void onMove(id, {
-					columnId: target.id,
-					...(boardOrder
-						? { boardOrder: boardOrderAt(rows, rows.length, (entry) => boardOrder(entry)) }
-						: {}),
-					beforeId: last === undefined ? null : getId(last),
-					afterId: null,
-				});
-			} else {
-				void onMove(id, { columnId: target.id });
-			}
-			return;
+			if (sortKey !== "manual") return { group: target, done: onMove(id, { columnId: target.id }) };
+			const rows = sortedByGroup(target.id).filter((entry) => getId(entry) !== id);
+			const last = rows.at(-1);
+			const done = onMove(id, {
+				columnId: target.id,
+				...(boardOrder
+					? { boardOrder: boardOrderAt(rows, rows.length, (entry) => boardOrder(entry)) }
+					: {}),
+				beforeId: last === undefined ? null : getId(last),
+				afterId: null,
+			});
+			return { group: target, done };
 		}
 	}
 </script>
@@ -276,11 +313,13 @@
 			{/if}
 		</div>
 
-		<div class="tl-fold" class:tl-fold-open={open}>
+		<!-- inert: a folded group's rows leave the Tab order and the accessibility tree. -->
+		<div class="tl-fold" class:tl-fold-open={open} inert={!open}>
 			<div class="tl-fold-inner">
 				<div role="list" aria-label={group.label} class="flex flex-col pb-1.5">
 					{#each rows as item, index (getId(item))}
 						{@const id = getId(item)}
+						{@const rowId = `${uid}-row-${encodeURIComponent(id)}`}
 						{@const dropBefore =
 							dnd.showIndicatorBefore(group.id, id) &&
 							!dnd.isDragSource(id) &&
@@ -290,10 +329,11 @@
 						<div
 							role="listitem"
 							tabindex={draggable ? 0 : undefined}
-							aria-label={getLabel?.(item) ??
-								(draggable
-									? "Row. Press Alt plus Up or Down arrow to move between groups."
-									: undefined)}
+							id={rowId}
+							data-task-row={id}
+							aria-label={getLabel?.(item)}
+							aria-labelledby={draggable && !getLabel ? rowId : undefined}
+							aria-describedby={draggable ? hintId : undefined}
 							aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
 							draggable={draggable ? "true" : undefined}
 							animate:flip={{ duration: () => durationMs("fast"), easing: cubicOut }}
@@ -307,7 +347,7 @@
 							ondragover={draggable
 								? (e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))
 								: undefined}
-							onkeydown={draggable ? (e) => onRowKeyDown(e, id) : undefined}
+							onkeydown={draggable ? (e) => void onRowKeyDown(e, id) : undefined}
 							style:--tl-i={Math.min(index, STAGGER_CAP)}
 							class={cn(
 								"tl-row relative mx-1.5 outline-none focus-visible:shadow-(--ring-focus)",
@@ -346,6 +386,7 @@
 {/snippet}
 
 <div
+	bind:this={listEl}
 	class={cn(
 		"task-list flex min-h-0 flex-1 flex-col overflow-y-auto",
 		flat ? "bg-card" : workLooks.panel,
@@ -366,6 +407,11 @@
 	{#each roots as group (group.id)}
 		{@render section(group, 0)}
 	{/each}
+
+	<LiveRegion bind:this={live} />
+	{#if draggable}
+		<p id={hintId} hidden>{moveHint}</p>
+	{/if}
 </div>
 
 <style>

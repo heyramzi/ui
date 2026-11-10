@@ -37,6 +37,7 @@
 		onToggle: (id: string) => void;
 		onChange?: (id: string, change: GanttChange) => void | Promise<void>;
 		onSelect?: (id: string) => void;
+		onKeyMove?: (id: string, span: Span) => void;
 		renderLabel?: Snippet<[T, GanttLabelContext]>;
 		describe: (span: Span) => string;
 	}
@@ -61,6 +62,7 @@
 		onToggle,
 		onChange,
 		onSelect,
+		onKeyMove,
 		renderLabel,
 		describe,
 	}: Props<T> = $props();
@@ -175,6 +177,7 @@
 				{onhover}
 				{onChange}
 				{onSelect}
+				{onKeyMove}
 				{describe}
 			/>
 		{/if}

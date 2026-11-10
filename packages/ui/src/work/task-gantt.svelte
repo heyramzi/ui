@@ -2,6 +2,8 @@
 	import { workLooks } from "#src/components/work-parts/looks.js";
 	import type { Snippet } from "svelte";
 	import { cn } from "#src/lib/utils.js";
+	import LiveRegion from "#src/lib/live-region.svelte";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import { dayNumber, isoFromDay, todayIso } from "#src/work/dates.js";
 	import GanttGrid from "#src/work/gantt/gantt-grid.svelte";
 	import GanttGroupRow from "#src/work/gantt/gantt-group-row.svelte";
@@ -57,6 +59,8 @@
 		onChange?: (id: string, change: GanttChange) => void | Promise<void>;
 		/** Called on a click or Enter that did not move the bar. */
 		onSelect?: (id: string) => void;
+		/** What a screen reader hears after an arrow key moves a bar, given its new dates. */
+		movedLabel?: (dates: string) => string;
 		/** The left column for a row. Defaults to the title. */
 		renderLabel?: Snippet<[T, GanttLabelContext]>;
 		/** First and last day shown. Default: the tasks' span, padded, starting on a Monday. */
@@ -92,6 +96,7 @@
 		getGroup,
 		onChange,
 		onSelect,
+		movedLabel = (dates) => `Now ${dates}`,
 		renderLabel,
 		from,
 		to,
@@ -115,6 +120,7 @@
 	let corner = $state<HTMLDivElement>();
 	let drag = $state<Drag | null>(null);
 	let hoveredId = $state<string | null>(null);
+	let live: LiveRegion | undefined = $state();
 	let scrolledToToday = false;
 	// svelte-ignore state_referenced_locally
 	let folded = $state(new Set(collapsed));
@@ -169,6 +175,12 @@
 
 	function describe(span: Span): string {
 		return rangeLabel(span, dayFormat);
+	}
+
+	// A chart sorted by date can reorder the moved bar, and a moved node loses focus.
+	async function onKeyMove(id: string, span: Span): Promise<void> {
+		void live?.announce(movedLabel(describe(span)));
+		await focusAfterRender(scroller, `[data-bar="${CSS.escape(id)}"]`);
 	}
 
 	// Open on today, a third of the way in, so past work and what's next both show.
@@ -240,6 +252,7 @@
 							onToggle={toggle}
 							{onChange}
 							{onSelect}
+							onKeyMove={(id, span) => void onKeyMove(id, span)}
 							{renderLabel}
 							{describe}
 						/>
@@ -248,4 +261,5 @@
 			</div>
 		</div>
 	</div>
+	<LiveRegion bind:this={live} />
 </div>

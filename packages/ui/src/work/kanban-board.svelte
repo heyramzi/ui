@@ -1,6 +1,8 @@
 <script lang="ts" generics="T, C extends KanbanColumnDef = KanbanColumnDef">
-	import { tick, type Snippet } from "svelte";
+	import type { Snippet } from "svelte";
 	import { slide } from "svelte/transition";
+	import LiveRegion from "#src/lib/live-region.svelte";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import KanbanColumn from "#src/work/kanban-column.svelte";
 	import KanbanColumnHead from "#src/work/kanban-column-head.svelte";
 	import KanbanFoldChevron from "#src/work/kanban-fold-chevron.svelte";
@@ -51,8 +53,10 @@
 		wrapColumn?: Snippet<[C, Snippet<[Record<string, unknown>]>]>;
 		/** Enter or Space on a focused card. Leave out when the card holds its own links and buttons. */
 		onSelect?: (id: string) => void;
-		/** The screen-reader name of a card. Defaults to a hint about the keyboard move. */
+		/** The screen-reader name of a card. Defaults to the card's own text. */
 		getLabel?: (item: T) => string;
+		/** Read after a card's name, as its description. */
+		moveHint?: string;
 		emptyLabel?: string;
 		/** Shows a plus in each default column head that adds a card to that column. */
 		onAdd?: (columnId: string) => void;
@@ -113,6 +117,7 @@
 		columnFooter,
 		wrapColumn,
 		getLabel,
+		moveHint = "Press Alt plus Left or Right arrow to move between columns.",
 		onSelect,
 		emptyLabel = "Nothing here yet",
 		onAdd,
@@ -159,18 +164,17 @@
 
 	type ColumnView = KanbanColumnView<T, C>;
 
+	const uid = $props.id();
+	const hintId = `${uid}-hint`;
 	let boardEl: HTMLDivElement | undefined = $state();
-	let announcement = $state("");
+	let live: LiveRegion | undefined = $state();
 
-	// A moved card renders anew in its new column, so focus would fall to <body> without this.
 	async function onCardKeyDown(e: KeyboardEvent, id: string) {
 		const moved = board.onCardKeyDown(e, id);
 		if (!moved) return;
 		await moved.done;
-		announcement = "";
-		await tick();
-		announcement = movedLabel(moved.column);
-		boardEl?.querySelector<HTMLElement>(`[data-kanban-card="${CSS.escape(id)}"]`)?.focus();
+		void live?.announce(movedLabel(moved.column));
+		await focusAfterRender(boardEl, `[data-kanban-card="${CSS.escape(id)}"]`);
 	}
 </script>
 
@@ -190,6 +194,7 @@
 
 {#snippet card(column: C, item: T, index: number, list: T[])}
 	{@const id = getId(item)}
+	{@const cardId = `${uid}-card-${encodeURIComponent(id)}`}
 	{@const nextId = board.idAt(list, index + 1)}
 	{@const isSource = dnd.isDragSource(id)}
 	<!-- The slot right after the held card is its own spot, so the card's place shows it instead. -->
@@ -203,9 +208,11 @@
 	<div
 		role="listitem"
 		tabindex="0"
+		id={cardId}
 		data-kanban-card={id}
-		aria-label={getLabel?.(item) ??
-			"Card. Press Alt plus Left or Right arrow to move between columns."}
+		aria-label={getLabel?.(item)}
+		aria-labelledby={getLabel ? undefined : cardId}
+		aria-describedby={hintId}
 		aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight"
 		draggable="true"
 		ondragstart={(e) => {
@@ -344,7 +351,8 @@
 		/>
 	{/if}
 
-	<div class="sr-only" role="status" aria-live="polite">{announcement}</div>
+	<LiveRegion bind:this={live} />
+	<p id={hintId} hidden>{moveHint}</p>
 </div>
 
 <style>

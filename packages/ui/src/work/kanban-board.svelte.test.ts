@@ -69,6 +69,16 @@ describe("KanbanBoard keyboard move", () => {
     done();
   });
 
+  it("names a card by its own text and describes it with the move hint", () => {
+    const { card, done } = render();
+    const el = card("k1");
+    expect(el?.hasAttribute("aria-label")).toBe(false);
+    expect(el?.getAttribute("aria-labelledby")).toBe(el?.id);
+    const hint = document.getElementById(el?.getAttribute("aria-describedby") ?? "");
+    expect(hint?.textContent).toBe("Press Alt plus Left or Right arrow to move between columns.");
+    done();
+  });
+
   it("puts every card inside a list", () => {
     const { target, done } = render();
     for (const item of target.querySelectorAll('[role="listitem"]')) {

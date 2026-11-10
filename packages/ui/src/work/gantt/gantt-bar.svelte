@@ -25,6 +25,8 @@
 		onhover: (id: string, on: boolean) => void;
 		onChange?: (id: string, change: GanttChange) => void | Promise<void>;
 		onSelect?: (id: string) => void;
+		/** After an arrow key's change is saved, with the bar's new dates. */
+		onKeyMove?: (id: string, span: Span) => void;
 		describe: (span: Span) => string;
 	}
 
@@ -44,6 +46,7 @@
 		onhover,
 		onChange,
 		onSelect,
+		onKeyMove,
 		describe,
 	}: Props = $props();
 
@@ -76,7 +79,7 @@
 	}
 
 	/** Arrow keys move a bar a day. Shift plus an arrow moves its end, so the task grows or shrinks. */
-	function onKeyDown(e: KeyboardEvent): void {
+	async function onKeyDown(e: KeyboardEvent): Promise<void> {
 		if (e.key === "Enter" || e.key === " ") {
 			e.preventDefault();
 			onSelect?.(id);
@@ -89,12 +92,13 @@
 			? { start: span.start, end: Math.max(span.start, span.end + step) }
 			: { start: span.start + step, end: span.end + step };
 		if (next.start === span.start && next.end === span.end) return;
-		void onChange?.(id, { start: isoFromDay(next.start), end: isoFromDay(next.end) });
+		await onChange?.(id, { start: isoFromDay(next.start), end: isoFromDay(next.end) });
+		onKeyMove?.(id, next);
 	}
 </script>
 
 <div
-	data-bar
+	data-bar={id}
 	role="button"
 	tabindex="0"
 	aria-roledescription="task bar"
@@ -118,7 +122,7 @@
 	onpointercancel={() => setDrag(null)}
 	onpointerenter={() => onhover(id, true)}
 	onpointerleave={() => onhover(id, false)}
-	onkeydown={onKeyDown}
+	onkeydown={(e) => void onKeyDown(e)}
 >
 	{#if progress > 0}
 		<!-- The clip keeps the bar's rounded corners while the fill scales. -->

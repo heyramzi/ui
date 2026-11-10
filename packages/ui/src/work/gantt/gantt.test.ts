@@ -60,6 +60,16 @@ describe("TaskGantt", () => {
     ]);
   });
 
+  it("announces a bar's new dates after an arrow key and keeps focus on it", async () => {
+    const root = render({ onChange: () => {} });
+    const bar = root.querySelector<HTMLElement>('[data-bar="a"]');
+    bar?.focus();
+    bar?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+    for (let i = 0; i < 4; i++) await tick();
+    expect(root.querySelector('[role="status"]')?.textContent).toBe("Now Oct 6 to Oct 10, 5 days");
+    expect(document.activeElement).toBe(root.querySelector('[data-bar="a"]'));
+  });
+
   it("selects on Enter and stays read-only without onChange", async () => {
     const picked: string[] = [];
     const root = render({ onSelect: (id: string) => picked.push(id) });
