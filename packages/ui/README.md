@@ -81,13 +81,14 @@ runes only.
 
 ## Using a component
 
-Import from a subpath:
+Import a named export from its subpath. There's no package root and no default export, and
+each name has exactly one path:
 
 ```svelte
 <script lang="ts">
   import { Button } from "@heyramzi/ui/shadcn/button";
   import { Card, CardHeader, CardTitle, CardContent } from "@heyramzi/ui/shadcn/card";
-  import Marquee from "@heyramzi/ui/effects/marquee/Marquee.svelte";
+  import { Marquee } from "@heyramzi/ui/effects/marquee";
 </script>
 ```
 
@@ -99,14 +100,14 @@ Many components take their content through snippets, so you keep full control:
 
 ## Sound
 
-`@heyramzi/ui/lib/sound` gives the kit's controls interaction sounds from
+`@heyramzi/ui/lib/sound.js` gives the kit's controls interaction sounds from
 [cuelume](https://cuelume.dev). They're off until the person turns them on, and the choice is
 saved in their browser. Start it once in the root layout:
 
 ```svelte
 <script lang="ts">
   import { onMount } from "svelte";
-  import { startSound } from "@heyramzi/ui/lib/sound";
+  import { startSound } from "@heyramzi/ui/lib/sound.js";
 
   onMount(() => startSound());
 </script>

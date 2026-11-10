@@ -207,7 +207,7 @@ icon, so `ChartBarHorizontal` stands in.
 `SidePanel` is a sheet for one record: a title, a description, status chips, doors
 out to other tools (`openIn`), a copy-a-prompt `handoff`, a strip of `stats`, then
 the body and an optional pinned `footer`. You pass the tools; the panel knows none.
-Import it from `@heyramzi/ui/panel`, or from `@heyramzi/ui/work` for now.
+Import it from `@heyramzi/ui/panel`.
 
 ```svelte
 <SidePanel
@@ -266,7 +266,7 @@ and fetches nothing. You pass entries in and persist what it hands back.
 | `locale`, `labels`, `class` | | `labels` overrides any string in `DEFAULT_TIME_LABELS`. |
 
 Alt+S starts and stops the timer. A screen reader hears the start, one update a
-minute and the stop. Import it alone from `@heyramzi/ui/work/time`.
+minute and the stop. Import it from `@heyramzi/ui/work`.
 
 For boards and lists: `TimeChip` (`minutes`, `estimate?`, `running?`) shows the
 logged total, with a pulsing dot while a timer runs and a small ring against an

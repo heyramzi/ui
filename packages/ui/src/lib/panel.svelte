@@ -1,7 +1,7 @@
 <script lang="ts">
 	/*
-	 * The one titled panel, exported as `DataPanel` from the dashboard and `DetailPanel`
-	 * from list-page. Both drew the same box from `panel.ts` with different props.
+	 * The one titled panel, exported as `DetailPanel` from list-page and used by the
+	 * dashboard too. It draws its box from `panel.ts`.
 	 */
 
 	// =========================

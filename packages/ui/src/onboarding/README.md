@@ -104,8 +104,8 @@ interface SeenStore {
 ```
 
 The store keeps a version, not a boolean. Raise a tour's `version` after the page changes and everyone sees it
-again. `localStorageStore(key?)` and `memoryStore(initial?)` come with the package and also live at
-`@heyramzi/ui/onboarding/stores`. Server stores belong in the app: a table keyed by user and tour id, and a `fetch`
+again. `localStorageStore(key?)` and `memoryStore(initial?)` come with
+`@heyramzi/ui/onboarding`. Server stores belong in the app: a table keyed by user and tour id, and a `fetch`
 adapter.
 
 If `load` rejects, no tour shows that session.

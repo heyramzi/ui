@@ -10,7 +10,7 @@ layer only styles through the layer below it, so one token edit moves every scre
 
 | Layer | Lives in | Owns |
 | --- | --- | --- |
-| Tokens | `src/tokens` (`palette.css`, `craft.css`, `base.css`), `src/design`, `src/animations` | every colour, radius, shadow, duration and easing |
+| Tokens | `src/tokens` (`palette.css`, `craft.css`, `primitives.css`, `base.css`; `design.css` is craft and primitives alone), `src/animations` | every colour, radius, shadow, duration and easing |
 | Atoms | `src/shadcn` | one control: button, input, menu, dialog, tooltip, sheet |
 | Molecules | `src/components`, `src/status` | small patterns: chip, pill, property row, card, segmented, table |
 | Organisms | `src/work`, `src/inbox`, `src/thread`, `src/record`, `src/panel` | whole surfaces: kanban, task list, gantt, detail, inbox, thread, record, side panel |
