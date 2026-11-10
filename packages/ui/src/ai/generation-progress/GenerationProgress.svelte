@@ -198,9 +198,10 @@
 		align-items: baseline;
 	}
 
+	/* A muted token, not opacity: brand at 60% fell to 3.8:1 on the card. */
 	.gen-total,
 	.gen-elapsed {
-		opacity: 0.6;
+		color: var(--color-muted-foreground);
 	}
 
 	/* ── Track ───────────────────────────────────────────── */

@@ -13,7 +13,7 @@
 <span
 	bind:this={ref}
 	data-slot="trace-description"
-	class={cn("shrink-0 text-muted-foreground/70 tabular-nums", className)}
+	class={cn("shrink-0 text-muted-foreground tabular-nums", className)}
 	{...restProps}
 >
 	{@render children?.()}

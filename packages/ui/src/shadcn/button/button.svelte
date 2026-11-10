@@ -23,7 +23,7 @@
 				ghost:
 					"hover:bg-foreground/6 hover:text-foreground aria-expanded:bg-foreground/6 aria-expanded:text-foreground",
 				destructive:
-					"bg-destructive/10 hover:bg-destructive/20 dark:bg-destructive/20 text-destructive dark:text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
+					"bg-destructive/10 hover:bg-destructive/20 dark:bg-destructive/20 text-destructive-ink focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
 				// Quiet text that opens an editor or a menu: a ghost that wraps to as many lines as its
 				// label needs, aligned left, never a fixed-height square.
 				text: "hover:bg-foreground/6 hover:text-foreground aria-expanded:bg-foreground/6 aria-expanded:text-foreground",
