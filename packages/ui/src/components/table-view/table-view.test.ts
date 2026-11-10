@@ -64,15 +64,19 @@ describe("TableView extensions", () => {
     { key: "total", label: "Total", numeric: true, sortable: true },
   ];
 
-  it("sorts from a head, by click or Enter, and sets aria-sort", () => {
+  // The 10 Nov audit: the head took focus itself with no button inside, so it wasn't announced as a control.
+  it("sorts from a button in the head and sets aria-sort on the th", () => {
     const { target, done } = render({ columns: sortable, sort: { key: "name", direction: "asc" } });
     const heads = target.querySelectorAll<HTMLElement>("thead th");
     expect(heads[0].getAttribute("aria-sort")).toBe("ascending");
     expect(heads[1].getAttribute("aria-sort")).toBe("none");
-    heads[1].click();
+    expect(heads[1].hasAttribute("tabindex")).toBe(false);
+    const button = heads[1].querySelector<HTMLButtonElement>("button");
+    expect(button?.textContent?.trim()).toBe("Total");
+    button?.click();
     flushSync();
     expect(target.querySelectorAll("thead th")[1].getAttribute("aria-sort")).toBe("ascending");
-    heads[1].dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    button?.click();
     flushSync();
     expect(target.querySelectorAll("thead th")[1].getAttribute("aria-sort")).toBe("descending");
     done();
@@ -123,17 +127,39 @@ describe("TableView extensions", () => {
 });
 
 describe("TableView row actions", () => {
-  it("opens a row on click and Enter, but leaves a nested button alone", () => {
+  // The 10 Nov audit: a clickable row took focus as a bare tr, so a screen reader didn't call it a control.
+  it("opens a row from its own named button or a click, but leaves a nested button alone", () => {
     const calls: string[] = [];
     const cell = createRawSnippet<[{ text: string }]>((cellProps) => ({
       render: () => `<span><button>${cellProps().text}</button></span>`,
     }));
     const { target, done } = render({ onRowClick: (row: Row) => calls.push(row.id), cell });
     const tr = target.querySelector("tbody tr") as HTMLElement;
+    expect(tr.hasAttribute("tabindex")).toBe(false);
+    const open = tr.querySelector<HTMLButtonElement>("td:last-child > button[aria-label]");
+    expect(open?.getAttribute("aria-label")).toBe("Audit");
+    open?.click();
     tr.click();
-    tr.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
-    (tr.querySelector("button") as HTMLButtonElement).click();
+    (tr.querySelector("span > button") as HTMLButtonElement).click();
     expect(calls).toEqual(["a", "a"]);
+    expect(target.querySelectorAll("thead th").length).toBe(3);
+    done();
+  });
+
+  it("opens a row menu from Shift+F10 or the ContextMenu key on a focused row", () => {
+    const rowMenu = createRawSnippet(() => ({ render: () => `<span>Rename</span>` }));
+    const { target, done } = render({ rowMenu });
+    const tr = target.querySelector("tbody tr") as HTMLElement;
+    expect(tr.tabIndex).toBe(0);
+    expect(tr.getAttribute("aria-keyshortcuts")).toBe("Shift+F10 ContextMenu");
+    for (const init of [{ key: "F10", shiftKey: true }, { key: "ContextMenu" }]) {
+      const opened: Event[] = [];
+      tr.addEventListener("contextmenu", (event) => opened.push(event), { once: true });
+      const key = new KeyboardEvent("keydown", { ...init, bubbles: true, cancelable: true });
+      tr.dispatchEvent(key);
+      expect(key.defaultPrevented).toBe(true);
+      expect(opened.length).toBe(1);
+    }
     done();
   });
 

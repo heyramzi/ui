@@ -7,6 +7,7 @@
 	import { ArrowUpRight, Copy, LinkSimple, Trash } from "phosphor-svelte";
 	import { copyText } from "#src/components/copy/clipboard.js";
 	import type { Snippet } from "svelte";
+	import { MENU_KEYS, openMenuFromKey } from "#src/components/data-table/menu-key.js";
 
 	// =========================
 	// TYPES
@@ -63,7 +64,7 @@
 <ContextMenu.Root>
 	<ContextMenu.Trigger>
 		{#snippet child({ props })}
-			{@render children(props)}
+			{@render children({ ...props, onkeydown: openMenuFromKey, "aria-keyshortcuts": MENU_KEYS })}
 		{/snippet}
 	</ContextMenu.Trigger>
 	<ContextMenu.Content class="w-48">

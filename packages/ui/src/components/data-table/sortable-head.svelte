@@ -8,6 +8,7 @@
 	import type { Snippet } from "svelte";
 	import { CaretDown, CaretUp, CaretUpDown } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import * as Table from "#src/shadcn/table/index.js";
 	import type { SortDirection, SortState } from "#src/components/data-table/data-table.js";
 
 	// ========================= TYPES
@@ -42,43 +43,37 @@
 	let ariaSort = $derived<"ascending" | "descending" | "none">(
 		direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none",
 	);
-
-	// ========================= FUNCTIONS
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === "Enter" || e.key === " ") {
-			e.preventDefault();
-			onSort(key);
-		}
-	}
 </script>
 
-<th
-	data-slot="table-head"
+<!-- A real button inside the head, so a screen reader calls it a control; aria-sort stays on the th.
+     The button's ::after covers the cell, so the whole head still takes the click. -->
+<Table.Head
 	scope="col"
 	{title}
 	{style}
 	class={cn(
-		"text-muted-foreground h-8 px-2 text-left align-middle text-xs font-medium whitespace-nowrap select-none",
+		"relative select-none",
 		"cursor-pointer transition-colors duration-quick ease-smooth-out hover:bg-foreground/4 motion-reduce:transition-none",
-		"outline-none focus-visible:shadow-(--ring-focus-inset)",
+		"has-[button:focus-visible]:shadow-(--ring-focus-inset)",
 		numeric && "text-right",
 		className,
 	)}
-	tabindex="0"
 	aria-sort={ariaSort}
-	onclick={() => onSort(key)}
-	onkeydown={handleKeydown}
 >
 	<!-- Pinned to the line's top, not its baseline: a leading caret gave the span the icon's foot
 	     as its baseline and lifted a numeric label 1.5px above the plain heads beside it. -->
-	<span class="inline-flex items-center gap-1 align-top">
+	<button
+		type="button"
+		class="inline-flex cursor-pointer items-center gap-1 align-top outline-none after:absolute after:inset-0 focus-visible:shadow-none"
+		onclick={() => onSort(key)}
+	>
 		{#if numeric}
 			{@render caret()}{@render children()}
 		{:else}
 			{@render children()}{@render caret()}
 		{/if}
-	</span>
-</th>
+	</button>
+</Table.Head>
 
 {#snippet caret()}
 	{#if direction === "asc"}

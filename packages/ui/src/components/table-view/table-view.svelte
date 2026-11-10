@@ -18,6 +18,7 @@
 	import { Checkbox } from "#src/shadcn/checkbox/index.js";
 	import { SortableHead, TableSkeleton } from "#src/components/data-table/index.js";
 	import { toggleSort, type SortState } from "#src/components/data-table/data-table.js";
+	import { MENU_KEYS, openMenuFromKey } from "#src/components/data-table/menu-key.js";
 
 	// =========================
 	// TYPES
@@ -55,7 +56,7 @@
 		selected?: Set<string>;
 		selectAllLabel?: string;
 		selectRowLabel?: (row: Row) => string;
-		/** The items of a right-click menu for one row: `ContextMenu.Item`s. */
+		/** The items of a row menu: `ContextMenu.Item`s. Right-click, a long press, Shift+F10 or the ContextMenu key opens it. */
 		rowMenu?: Snippet<[Row]>;
 		/** Rows that return the same key sit under one header row, and `null` rows sit with no header. Order `rows` so a group is contiguous. */
 		group?: (row: Row) => string | null;
@@ -67,7 +68,7 @@
 		collapsed?: Set<string>;
 		/** Draws a column head its own way, an icon or a colour. Print `column.label` for the plain case. */
 		head?: Snippet<[TableColumn<Row>]>;
-		/** The row opens in place. Click or Enter on the row, unless the target is a link, button or input inside it. */
+		/** The row opens in place, through a button over the row named like the row link. A click on a link, button or input inside the row stays its own. */
 		onRowClick?: (row: Row) => void;
 		/** Whether a row shows its `subRow`. */
 		expanded?: (row: Row) => boolean;
@@ -121,7 +122,9 @@
 	// =========================
 	// DERIVED
 	// =========================
-	let span = $derived(columns.length + (selectable ? 1 : 0));
+	// A row that opens gets a last cell for its link or button, so the spans count it.
+	let opens = $derived(Boolean(rowHref || onRowClick));
+	let span = $derived(columns.length + (selectable ? 1 : 0) + (opens ? 1 : 0));
 	// WHY a floor from the columns: with none, a 390px panel squeezed a text column until it broke
 	// "Handover" mid-word. A column hidden on small screens doesn't count, since it's gone there.
 	let floor = $derived.by(() => {
@@ -212,13 +215,6 @@
 		onRowClick?.(row);
 	}
 
-	function rowKeydown(event: KeyboardEvent, row: Row) {
-		if (event.target !== event.currentTarget) return;
-		if (event.key !== "Enter" && event.key !== " ") return;
-		event.preventDefault();
-		onRowClick?.(row);
-	}
-
 	function linkClick(event: MouseEvent, row: Row) {
 		if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
 			return;
@@ -268,7 +264,13 @@
 		<ContextMenu.Root>
 			<ContextMenu.Trigger>
 				{#snippet child({ props })}
-					{@render dataRow(row, props)}
+					<!-- A row with no link or button of its own takes focus itself, so the menu keys reach it. -->
+					{@render dataRow(row, {
+						...props,
+						tabindex: rowHref?.(row) || onRowClick ? props.tabindex : 0,
+						onkeydown: openMenuFromKey,
+						"aria-keyshortcuts": MENU_KEYS,
+					})}
 				{/snippet}
 			</ContextMenu.Trigger>
 			<ContextMenu.Content class="w-48">
@@ -286,16 +288,14 @@
 	<Table.Row
 		{...triggerProps}
 		data-state={isSelected ? "selected" : undefined}
-		tabindex={onRowClick ? 0 : undefined}
 		onclick={onRowClick ? (event: MouseEvent) => rowClick(event, row) : undefined}
-		onkeydown={onRowClick ? (event: KeyboardEvent) => rowKeydown(event, row) : undefined}
 		class={cn(
 			// Rows, not a card per row (DESIGN.md rule 19): a hairline under each and a flat
 			// hover tint. The atom's row lifts; this one does not.
 			"border-b border-border/70 last:border-b-0 hover:translate-y-0 hover:bg-foreground/3 hover:shadow-none",
-			href && "relative t-press active:bg-foreground/6",
-			onRowClick &&
-				"t-press active:bg-foreground/6 cursor-pointer outline-none focus-visible:shadow-(--ring-focus-inset)",
+			(href || onRowClick) && "relative t-press active:bg-foreground/6",
+			onRowClick && "cursor-pointer",
+			rowMenu && "outline-none focus-visible:shadow-(--ring-focus-inset)",
 			rowClass?.(row),
 		)}
 	>
@@ -319,11 +319,23 @@
 					class="absolute inset-0 z-0 outline-none focus-visible:shadow-(--ring-focus-inset)"
 				></a>
 			</td>
+		{:else if onRowClick}
+			<!-- The same overlay as a button, so a screen reader calls the row a control. -->
+			<td class="p-0">
+				<button
+					type="button"
+					aria-label={linkName(row)}
+					onclick={() => onRowClick(row)}
+					class="absolute inset-0 z-0 cursor-pointer outline-none focus-visible:shadow-(--ring-focus-inset)"
+				></button>
+			</td>
+		{:else if opens}
+			<td class="p-0"></td>
 		{/if}
 	</Table.Row>
 	{#if subRow && expanded?.(row)}
 		<Table.Row class="bg-foreground/2 hover:bg-foreground/2 hover:translate-y-0 hover:shadow-none">
-			<Table.Cell colspan={span + (rowHref ? 1 : 0)} class="whitespace-normal">
+			<Table.Cell colspan={span} class="whitespace-normal">
 				{@render subRow(row)}
 			</Table.Cell>
 		</Table.Row>
@@ -382,7 +394,7 @@
 						</Table.Head>
 					{/if}
 				{/each}
-				{#if rowHref}
+				{#if opens}
 					<th class="w-0 p-0"><span class="sr-only">Open</span></th>
 				{/if}
 			</Table.Row>
@@ -399,11 +411,7 @@
 							<Table.Row
 								class="bg-foreground/4 hover:translate-y-0 hover:bg-foreground/4 hover:shadow-none"
 							>
-								<Table.Head
-									colspan={span + (rowHref ? 1 : 0)}
-									scope="colgroup"
-									class="text-foreground h-8 p-0"
-								>
+								<Table.Head colspan={span} scope="colgroup" class="text-foreground h-8 p-0">
 									{#if collapsible}
 										<button
 											type="button"
@@ -442,16 +450,14 @@
 					{/each}
 					{#if rows.length === 0 && empty}
 						<Table.Row class="hover:bg-transparent hover:translate-y-0 hover:shadow-none">
-							<Table.Cell colspan={span + (rowHref ? 1 : 0)} class="whitespace-normal"
-								>{@render empty()}</Table.Cell
-							>
+							<Table.Cell colspan={span} class="whitespace-normal">{@render empty()}</Table.Cell>
 						</Table.Row>
 					{/if}
 				</Table.Body>
 			{/if}
 			{#if trailing}
 				<tbody>
-					<tr><td colspan={span + (rowHref ? 1 : 0)} class="p-0">{@render trailing()}</td></tr>
+					<tr><td colspan={span} class="p-0">{@render trailing()}</td></tr>
 				</tbody>
 			{/if}
 		{/if}
@@ -460,7 +466,7 @@
 				<Table.Row>
 					{#if selectable}<Table.Cell></Table.Cell>{/if}
 					{@render body(footer)}
-					{#if rowHref}<td></td>{/if}
+					{#if opens}<td></td>{/if}
 				</Table.Row>
 			</Table.Footer>
 		{/if}
