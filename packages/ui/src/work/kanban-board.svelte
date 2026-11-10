@@ -14,6 +14,7 @@
 		type KanbanColumnView,
 	} from "#src/work/kanban-board-state.svelte.js";
 	import { Button } from "#src/shadcn/button/index.js";
+	import * as Collapsible from "#src/shadcn/collapsible/index.js";
 	import { workLooks } from "#src/components/work-parts/looks.js";
 	import type {
 		KanbanCardContext,
@@ -278,33 +279,47 @@
 			</div>
 		{/if}
 
-		{#if showTail}
-			<!-- The tail sits shut in a 0fr row, so opening and closing animate its height. -->
-			<div class="kanban-fold" data-open={open} inert={!open}>
-				<div class="kanban-fold-inner" role="list">
-					{#each tail as item, index (getId(item))}
-						{@render card(column, item, head.length + index, list)}
-					{/each}
-				</div>
-			</div>
-		{/if}
+		<!-- The root renders no element, so the fold and its button stay items of the column's flex well. -->
+		<Collapsible.Root
+			bind:open={() => open, (next) => (next ? board.expand(column.id) : board.collapse(column.id))}
+		>
+			{#snippet child()}
+				{#if showTail}
+					<!-- The tail sits shut in a 0fr row, so opening and closing animate its height. -->
+					<Collapsible.Content forceMount>
+						{#snippet child({ props })}
+							<div {...props} class="kanban-fold" data-open={open} inert={!open}>
+								<div class="kanban-fold-inner" role="list">
+									{#each tail as item, index (getId(item))}
+										{@render card(column, item, head.length + index, list)}
+									{/each}
+								</div>
+							</div>
+						{/snippet}
+					</Collapsible.Content>
+				{/if}
 
-		{#if dnd.showIndicatorEnd(column.id) && board.idAt(shown, shown.length - 1) !== dnd.draggedId}
-			{@render dropSlot()}
-		{/if}
+				{#if dnd.showIndicatorEnd(column.id) && board.idAt(shown, shown.length - 1) !== dnd.draggedId}
+					{@render dropSlot()}
+				{/if}
 
-		{#if tail.length > 0 || open}
-			<Button
-				variant="ghost"
-				size="sm"
-				aria-expanded={open}
-				onclick={() => (open ? board.collapse(column.id) : board.expand(column.id))}
-				class="shrink-0 justify-start gap-1.5 px-2 text-xs font-normal text-muted-foreground"
-			>
-				<KanbanFoldChevron {open} class="size-2.5" />
-				<span class="tabular-nums">{open ? lessLabel : moreLabel(tail.length)}</span>
-			</Button>
-		{/if}
+				{#if tail.length > 0 || open}
+					<Collapsible.Trigger>
+						{#snippet child({ props })}
+							<Button
+								{...props}
+								variant="ghost"
+								size="sm"
+								class="shrink-0 justify-start gap-1.5 px-2 text-xs font-normal text-muted-foreground"
+							>
+								<KanbanFoldChevron {open} class="size-2.5" />
+								<span class="tabular-nums">{open ? lessLabel : moreLabel(tail.length)}</span>
+							</Button>
+						{/snippet}
+					</Collapsible.Trigger>
+				{/if}
+			{/snippet}
+		</Collapsible.Root>
 
 		{#if columnFooter}
 			{@render columnFooter(column, context)}
