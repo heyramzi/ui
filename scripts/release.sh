@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Releases from the Mac; CI only forwards the tarball to npmjs. The pack reads the working tree, so
+# Releases from the Mac to GitHub Packages and npmjs. The pack reads the working tree, so
 # ONLY="ui" releases that package alone, holding back any with another session's work.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -14,7 +14,7 @@ DRY_RUN="${DRY_RUN:-0}"
 TODAY=$(date +%Y-%m-%d)
 NOTES_DIR=$(mktemp -d)
 
-# component -> package dir. tasks, charts, slides, the editor, onboarding and the canvas ship
+# component -> package dir. work, charts, slides, the editor, onboarding and the canvas ship
 # inside ui as subpaths.
 COMPONENTS="ui packages/ui
 marketing packages/marketing
@@ -245,9 +245,26 @@ pack_rewritten() {
   return "$status"
 }
 
-# npmjs gets the same tarball from CI: it rides on the GitHub release, and publish-npmjs.yml
-# publishes it with npm trusted publishing, so no npm token lives on this Mac. The build can't run
-# in CI because it calls vibe-kit's build-dist.mjs, and vibe-kit is private.
+# npmjs gets the same tarball from this Mac, with the npm token `heyramzi-publish` in ~/.npmrc
+# (write on @heyramzi, bypasses 2FA, expires 7 Jan 2027). Until 10 Nov 2026 a hosted workflow
+# published it with npm trusted publishing, but GitHub refuses hosted jobs on this account and npm
+# trusts no self-hosted runner. A version already on npmjs is skipped, so a rerun is safe.
+# NPMJS_DRY_RUN=1 makes it a dry run. </dev/null: npm in a `while read` loop eats its stdin.
+publish_npmjs() {
+  local tgz=$1 id npmjs=https://registry.npmjs.org/
+  id=$(tar -xOzf "$tgz" package/package.json | node -p 'const j = JSON.parse(require("fs").readFileSync(0, "utf8")); j.name + "@" + j.version')
+  if [ -z "${NPMJS_DRY_RUN:-}" ] && npm view "$id" version --registry="$npmjs" </dev/null >/dev/null 2>&1; then
+    echo "$id already on npmjs"
+    return
+  fi
+  (cd "$(dirname "$tgz")" && npm publish "$tgz" ${NPMJS_DRY_RUN:+--dry-run} --access public \
+    --registry="$npmjs" "--@heyramzi:registry=$npmjs" </dev/null) || {
+    echo "release: npmjs refused $id. Check \`npm whoami --registry=$npmjs\` and the token's expiry (\`npm token list\`), then rerun: npm publish <tarball from the $id GitHub release> --access public --registry=$npmjs" >&2
+    return 1
+  }
+}
+
+# The build can't run in CI because it calls vibe-kit's build-dist.mjs, and vibe-kit is private.
 printf '%s' "$plan" | while read -r component dir version next bump first_release; do
   tag="$component-v$next"
   out=$(mktemp -d)
@@ -256,6 +273,7 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
   pack_rewritten "$dir" "$out"
   gh release create "$tag" "$out"/*.tgz --repo heyramzi/ui --title "$tag" \
     --notes-file "$NOTES_DIR/$component.md"
+  publish_npmjs "$(ls "$out"/*.tgz)"
   rm -rf "${out:?}"
 done
 

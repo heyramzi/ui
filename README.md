@@ -28,7 +28,7 @@ Release steps:
 
 1. Commit with [Conventional Commits](https://www.conventionalcommits.org): `feat(work): ...`, `fix(ui): ...`. A `feat` or a breaking change bumps the minor, anything else the patch. Only a `Release-As: 3.0.0` footer cuts a major. A removal committed as `refactor:` would ship as a patch, so say so with `BUMP="ui=minor" pnpm release`.
 2. Push to `main`, then run `pnpm release` (or `DRY_RUN=1 pnpm release` to preview). For each package with changes since its last tag, the script bumps the version, writes the `CHANGELOG.md` entry, commits the bumps, tags `<name>-v<version>`, publishes to GitHub Packages and creates the GitHub release with the packed tarball attached.
-3. The release starts `.github/workflows/publish-npmjs.yml`, which publishes that same tarball to npmjs with npm trusted publishing. No npm token is involved. The GitHub Packages token is the one in `~/.npmrc`.
+3. The script then publishes that same tarball to npmjs from the Mac, with the npm token `heyramzi-publish` in `~/.npmrc` (expires 7 Jan 2027). A hosted workflow did this with trusted publishing until 10 Nov 2026, when GitHub started refusing hosted jobs on this account; npm trusts no self-hosted runner.
 
 Install from npm:
 
