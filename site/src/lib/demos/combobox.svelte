@@ -51,7 +51,7 @@
 				<Command.Group>
 					{#each zones as zone (zone.value)}
 						<Command.Item value={zone.label} onSelect={() => choose(zone.value)}>
-							<Check aria-hidden="true" class={[value !== zone.value && "text-transparent"]} />
+							<Check aria-hidden="true" class={value === zone.value ? undefined : "invisible"} />
 							{zone.label}
 						</Command.Item>
 					{/each}
