@@ -1,10 +1,6 @@
 <script lang="ts">
-	import {
-		ThreadInbox,
-		type InboxEntry,
-		type InboxItem,
-		type InboxSubject,
-	} from "@heyramzi/ui/inbox";
+	import { ThreadInbox, type InboxEntry, type InboxSubject } from "@heyramzi/ui/inbox";
+	import type { InboxItem } from "@heyramzi/ui/work/inbox";
 	import { StatusBadge, defineStatuses } from "@heyramzi/ui/status";
 
 	const statuses = defineStatuses({
