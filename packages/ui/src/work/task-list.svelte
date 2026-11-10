@@ -11,6 +11,7 @@
 	import { createKanbanDnd } from "#src/work/use-kanban-dnd.svelte.js";
 	import { CaretRight } from "phosphor-svelte";
 	import { Button } from "#src/shadcn/button/index.js";
+	import * as Collapsible from "#src/shadcn/collapsible/index.js";
 	import GroupHead from "#src/components/work-parts/group-head.svelte";
 	import { workLooks } from "#src/components/work-parts/looks.js";
 	import type {
@@ -182,9 +183,10 @@
 		isDroppable: canDrop,
 	});
 
-	function toggle(groupId: string): void {
+	function setOpen(groupId: string, open: boolean): void {
+		if (open !== folded.has(groupId)) return;
 		const next = new Set(folded);
-		if (next.has(groupId)) next.delete(groupId);
+		if (open) next.delete(groupId);
 		else next.add(groupId);
 		folded = next;
 		onCollapsedChange?.([...next]);
@@ -255,134 +257,151 @@
 	{@const open = !folded.has(group.id)}
 	{@const hue = group.hue ?? "var(--color-primary)"}
 	{@const context = { count, active, open, depth, hasChildren: children.length > 0 }}
-	<section
-		aria-label={group.ariaLabel ?? group.label}
-		class={cn(
-			"tl-group group/tl",
-			depth === 0 ? "border-b border-border last:border-b-0" : "border-t border-border/60",
-		)}
-		class:tl-group-active={active}
-		style:--tl-hue={hue}
-		ondragover={children.length ? undefined : (e) => dnd.onColumnDragOver(e, group.id)}
-		ondragleave={children.length ? undefined : dnd.onDragLeave}
-		ondrop={children.length ? undefined : (e) => dnd.onDrop(e, group.id)}
-	>
-		<div
-			class={cn(
-				"hover-row sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm",
-				flat ? "bg-card/90" : "bg-card/90",
-				depth === 0 && (head ? "top-9" : "top-0"),
-			)}
-			style:top={depth > 0 ? `${(head ? 2.25 : 0) + depth * 2.5}rem` : undefined}
-			style:padding-inline-start={depth > 0 ? `${0.75 + depth * 1.25}rem` : undefined}
-		>
-			{#if collapsible}
-				<Button
-					variant="ghost"
-					size="sm"
-					icon
-					aria-expanded={open}
-					aria-label="{open ? 'Fold' : 'Unfold'} {group.label}"
-					onclick={() => toggle(group.id)}
-					class="-ml-1.5 text-muted-foreground"
+	<Collapsible.Root bind:open={() => open, (next) => setOpen(group.id, next)}>
+		{#snippet child({ props })}
+			<section
+				{...props}
+				aria-label={group.ariaLabel ?? group.label}
+				class={cn(
+					"tl-group group/tl",
+					depth === 0 ? "border-b border-border last:border-b-0" : "border-t border-border/60",
+				)}
+				class:tl-group-active={active}
+				style:--tl-hue={hue}
+				ondragover={children.length ? undefined : (e) => dnd.onColumnDragOver(e, group.id)}
+				ondragleave={children.length ? undefined : dnd.onDragLeave}
+				ondrop={children.length ? undefined : (e) => dnd.onDrop(e, group.id)}
+			>
+				<div
+					class={cn(
+						"hover-row sticky z-10 flex h-10 items-center gap-2 px-3 backdrop-blur-sm",
+						flat ? "bg-card/90" : "bg-card/90",
+						depth === 0 && (head ? "top-9" : "top-0"),
+					)}
+					style:top={depth > 0 ? `${(head ? 2.25 : 0) + depth * 2.5}rem` : undefined}
+					style:padding-inline-start={depth > 0 ? `${0.75 + depth * 1.25}rem` : undefined}
 				>
-					<span
-						class="tl-chevron size-3.5 [&>svg]:size-full"
-						class:tl-chevron-open={open}
-						aria-hidden="true"
-					>
-						<CaretRight aria-hidden="true" weight="bold" />
-					</span>
-				</Button>
-			{/if}
-			{#if groupHeader}
-				{@render groupHeader(group, context)}
-			{:else}
-				<GroupHead
-					label={group.label}
-					{hue}
-					{count}
-					onAdd={onAdd ? () => onAdd(group.id) : undefined}
-					{addLabel}
-				/>
-			{/if}
-			{#if actions}
-				<div class="tl-actions row-action ms-auto flex shrink-0 items-center gap-1">
-					{@render actions(group, context)}
-				</div>
-			{/if}
-		</div>
-
-		<!-- inert: a folded group's rows leave the Tab order and the accessibility tree. -->
-		<div class="tl-fold" class:tl-fold-open={open} inert={!open}>
-			<div class="tl-fold-inner">
-				<div role="list" aria-label={group.label} class="flex flex-col pb-1.5">
-					{#each rows as item, index (getId(item))}
-						{@const id = getId(item)}
-						{@const rowId = `${uid}-row-${encodeURIComponent(id)}`}
-						{@const dropBefore =
-							dnd.showIndicatorBefore(group.id, id) &&
-							!dnd.isDragSource(id) &&
-							idAt(rows, index - 1) !== dnd.draggedId}
-						<!-- WHY: a row is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
-						<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
-						<div
-							role="listitem"
-							tabindex={draggable ? 0 : undefined}
-							id={rowId}
-							data-task-row={id}
-							aria-label={getLabel?.(item)}
-							aria-labelledby={draggable && !getLabel ? rowId : undefined}
-							aria-describedby={draggable ? hintId : undefined}
-							aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
-							draggable={draggable ? "true" : undefined}
-							animate:flip={{ duration: () => durationMs("fast"), easing: cubicOut }}
-							ondragstart={draggable
-								? (e) => {
-										liftDragImage(e);
-										dnd.onDragStart(e, id);
-									}
-								: undefined}
-							ondragend={draggable ? () => dnd.resetDrag() : undefined}
-							ondragover={draggable
-								? (e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))
-								: undefined}
-							onkeydown={draggable ? (e) => void onRowKeyDown(e, id) : undefined}
-							style:--tl-i={Math.min(index, STAGGER_CAP)}
-							class={cn(
-								"tl-row relative mx-1.5 outline-none focus-visible:shadow-(--ring-focus)",
-								workLooks.row,
-								workLooks.rowHeight,
-								draggable && "cursor-grab active:cursor-grabbing",
-								dropBefore && "tl-drop-before",
-								dnd.isDragSource(id) && "opacity-40",
-							)}
-						>
-							{@render renderRow(item, { groupId: group.id, index })}
+					{#if collapsible}
+						<Collapsible.Trigger>
+							{#snippet child({ props })}
+								<Button
+									{...props}
+									variant="ghost"
+									size="sm"
+									icon
+									aria-label="{open ? 'Fold' : 'Unfold'} {group.label}"
+									class="-ml-1.5 text-muted-foreground"
+								>
+									<span
+										class="tl-chevron size-3.5 [&>svg]:size-full"
+										class:tl-chevron-open={open}
+										aria-hidden="true"
+									>
+										<CaretRight aria-hidden="true" weight="bold" />
+									</span>
+								</Button>
+							{/snippet}
+						</Collapsible.Trigger>
+					{/if}
+					{#if groupHeader}
+						{@render groupHeader(group, context)}
+					{:else}
+						<GroupHead
+							label={group.label}
+							{hue}
+							{count}
+							onAdd={onAdd ? () => onAdd(group.id) : undefined}
+							{addLabel}
+						/>
+					{/if}
+					{#if actions}
+						<div class="tl-actions row-action ms-auto flex shrink-0 items-center gap-1">
+							{@render actions(group, context)}
 						</div>
-					{/each}
-
-					{#if dnd.showIndicatorEnd(group.id) && idAt(rows, rows.length - 1) !== dnd.draggedId}
-						<div class="tl-drop-end relative mx-1.5 h-2" aria-hidden="true"></div>
-					{/if}
-
-					{#if groupFooter}
-						{@render groupFooter(group, context)}
-					{/if}
-
-					{#if rows.length === 0 && children.length === 0 && !active}
-						<p class={cn(workLooks.rowHole, "mx-1.5 px-3 py-3 text-xs text-muted-foreground")}>
-							{emptyLabel}
-						</p>
 					{/if}
 				</div>
 
-				{#each children as child (child.id)}
-					{@render section(child, depth + 1)}
-				{/each}
-			</div>
-		</div>
-	</section>
+				<!-- inert: a folded group's rows leave the Tab order and the accessibility tree. -->
+				<Collapsible.Content forceMount>
+					{#snippet child({ props })}
+						<div {...props} class="tl-fold" class:tl-fold-open={open} inert={!open}>
+							<div class="tl-fold-inner">
+								<div role="list" aria-label={group.label} class="flex flex-col pb-1.5">
+									{#each rows as item, index (getId(item))}
+										{@const id = getId(item)}
+										{@const rowId = `${uid}-row-${encodeURIComponent(id)}`}
+										{@const dropBefore =
+											dnd.showIndicatorBefore(group.id, id) &&
+											!dnd.isDragSource(id) &&
+											idAt(rows, index - 1) !== dnd.draggedId}
+										<!-- WHY: a row is a list item that takes focus for the Alt+arrow move; making it a button would hide the list from screen readers. -->
+										<!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
+										<div
+											role="listitem"
+											tabindex={draggable ? 0 : undefined}
+											id={rowId}
+											data-task-row={id}
+											aria-label={getLabel?.(item)}
+											aria-labelledby={draggable && !getLabel ? rowId : undefined}
+											aria-describedby={draggable ? hintId : undefined}
+											aria-keyshortcuts={draggable ? "Alt+ArrowUp Alt+ArrowDown" : undefined}
+											draggable={draggable ? "true" : undefined}
+											animate:flip={{ duration: () => durationMs("fast"), easing: cubicOut }}
+											ondragstart={draggable
+												? (e) => {
+														liftDragImage(e);
+														dnd.onDragStart(e, id);
+													}
+												: undefined}
+											ondragend={draggable ? () => dnd.resetDrag() : undefined}
+											ondragover={draggable
+												? (e) => dnd.onItemDragOver(e, group.id, id, idAt(rows, index + 1))
+												: undefined}
+											onkeydown={draggable ? (e) => void onRowKeyDown(e, id) : undefined}
+											style:--tl-i={Math.min(index, STAGGER_CAP)}
+											class={cn(
+												"tl-row relative mx-1.5 outline-none focus-visible:shadow-(--ring-focus)",
+												workLooks.row,
+												workLooks.rowHeight,
+												draggable && "cursor-grab active:cursor-grabbing",
+												dropBefore && "tl-drop-before",
+												dnd.isDragSource(id) && "opacity-40",
+											)}
+										>
+											{@render renderRow(item, { groupId: group.id, index })}
+										</div>
+									{/each}
+
+									{#if dnd.showIndicatorEnd(group.id) && idAt(rows, rows.length - 1) !== dnd.draggedId}
+										<div class="tl-drop-end relative mx-1.5 h-2" aria-hidden="true"></div>
+									{/if}
+
+									{#if groupFooter}
+										{@render groupFooter(group, context)}
+									{/if}
+
+									{#if rows.length === 0 && children.length === 0 && !active}
+										<p
+											class={cn(
+												workLooks.rowHole,
+												"mx-1.5 px-3 py-3 text-xs text-muted-foreground",
+											)}
+										>
+											{emptyLabel}
+										</p>
+									{/if}
+								</div>
+
+								{#each children as sub (sub.id)}
+									{@render section(sub, depth + 1)}
+								{/each}
+							</div>
+						</div>
+					{/snippet}
+				</Collapsible.Content>
+			</section>
+		{/snippet}
+	</Collapsible.Root>
 {/snippet}
 
 <div
