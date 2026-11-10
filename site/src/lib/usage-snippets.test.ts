@@ -60,6 +60,8 @@ describe("usage snippets", () => {
     async (slug, snippet) => {
       expect(await strangers(slug, snippet)).toEqual([]);
     },
+    // WHY: the first import of a page's module pulls in shiki or LayerChart, well past 5 s on a busy Mac.
+    30_000,
   );
 
   it("fails a part the import doesn't export", async () => {
