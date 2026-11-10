@@ -1,5 +1,43 @@
 # Changelog
 
+## [3.2.0](https://github.com/heyramzi/ui/compare/ui-v3.1.0...ui-v3.2.0) (2026-11-10)
+
+### Changes
+
+* `TagsInput` opens its suggestions in a portal on Bits UI's `Combobox`, so a parent with `overflow: hidden` no longer cuts the list off, and with `free` set the box is a plain text field instead of a combobox.
+* `FilterPopover` is a menu on Bits UI's `DropdownMenu` and `FilterItem` a checkable menu item: arrows, Home, End and a letter move through the options. A plain button placed inside `FilterPopover` is no longer reachable by keyboard, so make it a `FilterItem`.
+* `SegmentedFilter` is one Tab stop with arrow keys, and its segments announce as radios. The canvas tool rail, style bar and style panel, the deck controls and the editor toolbar are Bits UI toolbars: one Tab stop each, arrows inside.
+* `RichEditor` toolbar buttons are named without their shortcut (`Bold`, not `Bold (Cmd+B)`); the shortcut shows in a tooltip. Headings announce as radios. The link field opens in a popover under the link button.
+* `RichEditor` asks for an image or video link in a dialog instead of `window.prompt()`, shows a bad link's error under the field, and refuses a `javascript:` image link.
+* The image toolbar flips below the image when there's no room above and can be reached with Tab.
+* `ThemeToggle` with `variant="slide"` is a switch; its default name is `Dark mode`.
+* `GroupedList` headers move with the arrow keys. `TaskList` groups, the kanban hidden rail and "Show more", `TableView` group headers and the inbox snooze button name what they control.
+* `TimeTracker` shows its budget as a meter and two trackers on one page no longer share an id.
+* `Legend` rows are plain list items and no longer take a Tab stop; hovering one still reports `hoveredIndex`.
+* `Picker` takes an array `value` for a multi-select that stays open after a pick.
+* Dashboard `hint` texts on `RatingChip` and `DataTable` open as tooltips on keyboard focus.
+
+### Fixes
+
+* Opening the `TimeTracker` popover threw `props_invalid_value` and blanked the tracker.
+* `RichEditor` toolbar buttons kept their old pressed state after an edit.
+* The canvas keeps focus on a node after Esc, so tool letters keep working.
+
+### Features
+
+* feat(ui): button-group, input-group, item, pagination and native-select from shadcn-svelte, with combobox and date-picker pages (TSK-2207)
+
+### Bug Fixes
+
+* fix(ui): a pagination link is a square icon button, the kit has no icon size (TSK-2207)
+* fix(work-parts): the group head is a span, so it is valid inside a toggle button (TSK-2309)
+* fix(swaps): the style panel ignores a deselect, the task-list fold keeps inert off the spread element, a spec cast goes through unknown (TSK-2309)
+* fix(a11y): TableView group headers and the inbox snooze button name what they open (TSK-2309)
+* fix(canvas): focus stays on a node after Esc in every host, not just the demo (TSK-2309)
+* fix(site): the time tracker reads its total after declaring it, and the home-load script typechecks (TSK-2310)
+* fix(a11y): 9 pages off the axe allowlist, which is now empty (TSK-2310)
+
+
 ## [3.1.0](https://github.com/heyramzi/ui/compare/ui-v3.0.0...ui-v3.1.0) (2026-11-10)
 
 ### Features
