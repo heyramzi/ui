@@ -46,13 +46,6 @@ export type ControllerOptions = {
   transition?: (update: () => void) => void;
 };
 
-/* With several decks on a page, keys belong to the one the reader last touched. */
-const live = new Set<DeckController>();
-let active: DeckController | null = null;
-const claimKeys = (deck: DeckController) => {
-  active = deck;
-};
-
 /** Height the controls bar takes at the bottom of the overview, in px. */
 const CONTROLS_ROOM = 56;
 
@@ -143,25 +136,13 @@ export class DeckController {
     return () => this.#listeners.delete(listener);
   }
 
-  /** Marks this deck as the one that owns the keys. Mounting does it too. */
-  activate() {
-    claimKeys(this);
-  }
-
   mount(): () => void {
-    live.add(this);
-    claimKeys(this);
-    return () => {
-      live.delete(this);
-      if (active === this) active = null;
-      clearTimeout(this.#timer);
-    };
+    return () => clearTimeout(this.#timer);
   }
 
+  /** Which deck hears a key is the page's call: Deck passes only keys from focus inside it. */
   get listening() {
-    if (this.options.keyboard === false) return false;
-    const eligible = [...live].filter((deck) => deck.options.keyboard !== false);
-    return eligible.length <= 1 || active === this;
+    return this.options.keyboard !== false;
   }
 
   #write(position: Position) {

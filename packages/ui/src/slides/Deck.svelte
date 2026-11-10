@@ -131,6 +131,9 @@
 	);
 
 	function onkeydown(event: KeyboardEvent) {
+		// WHY on the window: fullscreen can leave focus on body, and the deck still owns the keys then.
+		const inside = event.target instanceof Node && root?.contains(event.target);
+		if (!inside && document.fullscreenElement !== root) return;
 		const action = deck.handleKey(event);
 		if (action === "fullscreen") void toggleFullscreen();
 		else if (action === "presenter") openPresenter?.();
@@ -138,7 +141,6 @@
 
 	let swipe: { x: number; y: number } | null = null;
 	function onpointerdown(event: PointerEvent) {
-		deck.activate();
 		swipe = event.pointerType === "mouse" ? null : { x: event.clientX, y: event.clientY };
 	}
 	function onpointerup(event: PointerEvent) {
@@ -174,8 +176,6 @@
 	data-view={deck.view}
 	data-transition={transition}
 	data-morphing={deck.morphing || undefined}
-	onfocusin={() => deck.activate()}
-	onpointerenter={() => deck.activate()}
 	{onpointerdown}
 	{onpointerup}
 >

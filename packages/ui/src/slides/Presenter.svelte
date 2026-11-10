@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { untrack } from "svelte";
+	import { onMount, untrack } from "svelte";
 	import Deck from "#src/slides/Deck.svelte";
 	import type { DeckController } from "#src/slides/deck-controller.svelte.js";
 	import { resolveLabels } from "#src/slides/labels.js";
@@ -43,6 +43,9 @@
 	let index = $state(0);
 	let step = $state(0);
 	let now = $state<DeckController>();
+	let frame = $state<HTMLDivElement>();
+	// The deck hears keys only from focus inside it, and this window is there to drive it.
+	onMount(() => frame?.querySelector<HTMLElement>(".deck")?.focus());
 
 	const upcoming = $derived(now?.upcoming ?? null);
 	const notes = $derived(now?.current?.notes);
@@ -102,7 +105,7 @@
 
 	<main class="presenter__main">
 		<section class="presenter__now" aria-label={labels.current}>
-			<div class="presenter__frame" style:aspect-ratio="{canvas.w} / {canvas.h}">
+			<div bind:this={frame} class="presenter__frame" style:aspect-ratio="{canvas.w} / {canvas.h}">
 				<Deck
 					bind:index
 					bind:step
