@@ -144,6 +144,9 @@
 				const paint = () => {
 					li.dataset.checked = String(current.attrs.checked);
 					input.checked = current.attrs.checked === true;
+					// The rich editor's library TaskItem names its box with the same words.
+					const text = current.textContent || "empty task item";
+					input.setAttribute("aria-label", `Task item checkbox for ${text}`);
 				};
 				paint();
 				input.addEventListener("change", () => {

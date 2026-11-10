@@ -6,6 +6,7 @@ import { DragHandle } from "@tiptap/extension-drag-handle";
 import { TaskItem, TaskList } from "@tiptap/extension-list";
 import { Table, TableCell, TableHeader, TableRow } from "@tiptap/extension-table";
 import { BlockIdExtension } from "#src/editor/block-id.js";
+import { BlockMove } from "#src/editor/block-move.js";
 import { CodeBlockChrome, HeadingAnchors } from "#src/editor/doc-blocks.js";
 
 const CmsBlock = TiptapNode.create({
@@ -115,6 +116,20 @@ function dedupeExtensions(extensions: Extensions): Extensions {
 
 const DRAG_DOTS = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="2.5" cy="2.5" r="1" fill="currentColor"/><circle cx="2.5" cy="6" r="1" fill="currentColor"/><circle cx="2.5" cy="9.5" r="1" fill="currentColor"/><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg>`;
 
+/** The stock Image has no align, so the image toolbar's choice was dropped. content.css reads data-align. */
+const AlignedImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      align: {
+        default: null,
+        parseHTML: (el) => el.getAttribute("data-align"),
+        renderHTML: (attrs) => (attrs.align ? { "data-align": attrs.align } : {}),
+      },
+    };
+  },
+});
+
 function dragHandle() {
   return DragHandle.configure({
     render() {
@@ -151,7 +166,7 @@ export function buildExtensions({
       ? [
           CmsBlock,
           Youtube,
-          Image.configure({ inline: false }),
+          AlignedImage.configure({ inline: false }),
           TaskList,
           TaskItem.configure({ nested: true }),
           Table.configure({ resizable: false }),
@@ -164,6 +179,7 @@ export function buildExtensions({
     ...(anchors ? [HeadingAnchors.configure(anchors)] : []),
     Placeholder.configure({ placeholder }),
     dragHandle(),
+    BlockMove,
     ...(blockIds ? [BlockIdExtension] : []),
   ]);
 }

@@ -38,7 +38,8 @@
 	// =========================
 	let linkUrl = $state("");
 	let showLinkPopover = $state(false);
-	let linkInputEl: HTMLInputElement | undefined = $state();
+	// null, not undefined: Input's ref falls back to null, and binding undefined to it throws.
+	let linkInputEl = $state<HTMLInputElement | null>(null);
 
 	// =========================
 	// DERIVED
@@ -57,7 +58,8 @@
 	// =========================
 	// FUNCTIONS
 	// =========================
-	function toggleLink() {
+	/** Opens the link field, or removes the link under the cursor. The editor binds Cmd+K to it. */
+	export function toggleLink() {
 		if (!editor) return;
 		if (editor.isActive("link")) {
 			editor.chain().focus().unsetLink().run();
@@ -115,8 +117,9 @@
 					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
 					onclick={cancelLink}
 					title="Cancel"
+					aria-label="Cancel link"
 				>
-					&times;
+					<span aria-hidden="true">&times;</span>
 				</Button>
 			</div>
 		{:else}

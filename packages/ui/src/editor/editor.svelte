@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { Editor } from "@tiptap/core";
+	import { NodeSelection } from "@tiptap/pm/state";
 	import { untrack } from "svelte";
 	import "#src/editor/content.css";
 	import "#src/editor/doc-page.css";
@@ -69,6 +70,9 @@
 	let slashMenuPos = $state({ top: 0, left: 0 });
 	let slashSelectedIndex = $state(0);
 	let slashMenuEl: HTMLDivElement | undefined = $state();
+	const uid = $props.id();
+	const slashMenuId = `${uid}-slash`;
+	let toolbar: EditorToolbar | undefined = $state();
 
 	// Image toolbar
 	let showImageToolbar = $state(false);
@@ -101,6 +105,19 @@
 	$effect(() => {
 		if (showSlashMenu) {
 			slashSelectedIndex = 0;
+		}
+	});
+
+	// Focus stays in the text while the menu is open, so the text points at the highlighted command.
+	$effect(() => {
+		const dom = editor?.view.dom;
+		if (!dom) return;
+		if (showSlashMenu && slashItems.length > 0) {
+			dom.setAttribute("aria-controls", slashMenuId);
+			dom.setAttribute("aria-activedescendant", `${slashMenuId}-${slashSelectedIndex}`);
+		} else {
+			dom.removeAttribute("aria-controls");
+			dom.removeAttribute("aria-activedescendant");
 		}
 	});
 
@@ -178,6 +195,18 @@
 		};
 	}
 
+	function openImageToolbar(img: HTMLImageElement) {
+		const rect = img.getBoundingClientRect();
+		const wrapperRect = editorElement?.getBoundingClientRect();
+		if (!wrapperRect) return;
+		activeImageElement = img;
+		imageToolbarPos = {
+			top: rect.top - wrapperRect.top - 40,
+			left: rect.left - wrapperRect.left + rect.width / 2 - 60,
+		};
+		showImageToolbar = true;
+	}
+
 	function setImageAlignment(align: "left" | "center" | "right") {
 		if (!editor || !activeImageElement) return;
 		const { state } = editor;
@@ -244,6 +273,18 @@
 				// A function, so ProseMirror reads the current label on every update.
 				attributes: () => ({ "aria-label": label }),
 				handleKeyDown: (_view, event) => {
+					const mod = event.metaKey || event.ctrlKey;
+					if (
+						mod &&
+						!event.altKey &&
+						!event.shiftKey &&
+						event.key.toLowerCase() === "k" &&
+						toolbar
+					) {
+						event.preventDefault();
+						toolbar.toggleLink();
+						return true;
+					}
 					// No items means no menu on screen, so Enter and the arrows stay the editor's.
 					if (showSlashMenu && slashItems.length > 0) {
 						if (event.key === "ArrowDown") {
@@ -279,23 +320,28 @@
 				// this one needs only the event.
 				handleClick(_view, _pos, event) {
 					const target = event.target as HTMLElement;
-					if (preset === "full" && target?.tagName === "IMG") {
-						activeImageElement = target as HTMLImageElement;
-						const rect = target.getBoundingClientRect();
-						const wrapperRect = editorElement?.getBoundingClientRect();
-						if (wrapperRect) {
-							imageToolbarPos = {
-								top: rect.top - wrapperRect.top - 40,
-								left: rect.left - wrapperRect.left + rect.width / 2 - 60,
-							};
-							showImageToolbar = true;
-						}
+					if (preset === "full" && target instanceof HTMLImageElement) {
+						openImageToolbar(target);
 						return true;
 					}
 					showImageToolbar = false;
 					activeImageElement = null;
 					return false;
 				},
+			},
+			// Arrowing onto an image selects it as a node: the same toolbar opens, next in Tab order.
+			onSelectionUpdate: ({ editor: e }) => {
+				if (preset !== "full") return;
+				const { selection } = e.state;
+				const isImage = selection instanceof NodeSelection && selection.node.type.name === "image";
+				const dom = isImage ? e.view.nodeDOM(selection.from) : null;
+				const img =
+					dom instanceof HTMLImageElement ? dom : (dom as Element | null)?.querySelector("img");
+				if (img) openImageToolbar(img);
+				else if (showImageToolbar) {
+					showImageToolbar = false;
+					activeImageElement = null;
+				}
 			},
 			onUpdate: ({ editor: e }) => {
 				onchange?.(e.getJSON());
@@ -348,7 +394,13 @@
 	style="--editor-min-height: {minHeight};"
 >
 	{#if !isPage}
-		<EditorToolbar {editor} {tick} {preset} onInsertYoutube={insertYoutubeVideo} />
+		<EditorToolbar
+			bind:this={toolbar}
+			{editor}
+			{tick}
+			{preset}
+			onInsertYoutube={insertYoutubeVideo}
+		/>
 	{/if}
 
 	<!-- Editor surface -->
@@ -357,6 +409,7 @@
 	<!-- Slash command menu -->
 	{#if showSlashMenu && slashItems.length > 0}
 		<SlashMenu
+			id={slashMenuId}
 			items={slashItems}
 			pos={slashMenuPos}
 			bind:selectedIndex={slashSelectedIndex}

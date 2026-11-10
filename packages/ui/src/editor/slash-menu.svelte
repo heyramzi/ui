@@ -8,6 +8,8 @@
 	// TYPES
 	// =========================
 	interface Props {
+		/** The listbox id. Option `i` is `${id}-${i}`, which the text points at while it's highlighted. */
+		id: string;
 		items: SlashItem[];
 		pos: { top: number; left: number };
 		selectedIndex: number;
@@ -19,15 +21,24 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Props = $props();
+	let { id, items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Props = $props();
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div bind:this={el} class="slash-menu" style="top: {pos.top}px; left: {pos.left}px;" role="listbox">
+<div
+	bind:this={el}
+	{id}
+	class="slash-menu"
+	style="top: {pos.top}px; left: {pos.left}px;"
+	role="listbox"
+	aria-label="Commands"
+>
 	{#each items as item, i}
 		<button
+			id="{id}-{i}"
+			tabindex="-1"
 			type="button"
 			class="slash-item"
 			class:selected={i === selectedIndex}
