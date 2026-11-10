@@ -27,11 +27,13 @@ for (const file of Object.keys(components)) {
   if (!listed.has(file)) throw new Error(`examples: ${file} has no row in its index.ts`);
 }
 
+/** A page's example rows in their listed order, or none. Each row's file is `./<slug>/<name>.svelte`. */
+export const examplesOf = (slug: string): Example[] => lists[`./${slug}/index.ts`] ?? [];
+
 /** A page's examples in their listed order, or none. */
 export async function loadExamples(slug: string): Promise<LoadedExample[]> {
-  const list = lists[`./${slug}/index.ts`] ?? [];
   return Promise.all(
-    list.map(async (example) => {
+    examplesOf(slug).map(async (example) => {
       const file = `./${slug}/${example.name}.svelte`;
       const [mod, source] = await Promise.all([components[file](), sources[file]()]);
       return { ...example, component: mod.default, source: source.trim() };

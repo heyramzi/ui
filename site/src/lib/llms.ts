@@ -9,11 +9,19 @@ import {
   peers,
   peersTitle,
 } from "#lib/docs-content.js";
+import { examplesOf } from "#lib/examples/index.js";
 import { cards, sectionById, sections } from "#lib/nav.js";
 import { importOf, loadEntry, type Entry } from "#lib/registry.js";
 import { usageSnippets } from "#lib/usage-snippets.js";
 
 export { SITE };
+
+// Every example's text up front: these files only run on the server, at prerender.
+const exampleSources = import.meta.glob<string>("./examples/*/*.svelte", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 /** A fenced block whose fence outlasts any backtick run inside the code. */
 function fence(lang: string, code: string): string {
@@ -39,6 +47,14 @@ export function componentMarkdown(entry: Entry): string {
   if (imports.length) parts.push("", "## Import", "", fence("ts", imports.join("\n")));
   const usage = usageSnippets[entry.slug];
   if (usage) parts.push("", "## Usage", "", fence("svelte", usage));
+  const examples = examplesOf(entry.slug);
+  if (examples.length) {
+    parts.push("", "## Examples");
+    for (const example of examples) {
+      const source = exampleSources[`./examples/${entry.slug}/${example.name}.svelte`];
+      parts.push("", `### ${example.title}`, "", example.note, "", fence("svelte", source));
+    }
+  }
   parts.push("", "## Demo", "", fence("svelte", entry.source));
   const api = apiOf(entry.slug);
   if (api.length) parts.push("", "## API", ...api.flatMap((part) => apiMarkdown(part, api.length)));
