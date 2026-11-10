@@ -44,15 +44,33 @@ export type ControllerOptions = {
   labels?: Partial<DeckLabels>;
   /** Wraps a position change so a View Transition can snapshot around it. */
   transition?: (update: () => void) => void;
+  /** How long the overview zoom plays, in ms. 0, or left out, swaps at once. */
+  zoomMs?: () => number;
 };
+
+/**
+ * The overview zoom while it plays. `index` is the slide the camera frames. `framed` puts that
+ * slide in its full-size spot with the grid around it, and `running` lets the boxes transition.
+ */
+export type Zoom = { index: number; framed: boolean; running: boolean };
 
 /** Height the controls bar takes at the bottom of the overview, in px. */
 const CONTROLS_ROOM = 56;
 
-/** How long the overview morph flag stays up, a little past the longest stagger. */
-const MORPH_MS = 900;
-
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+/**
+ * Where `cell` lands when the camera moves `target` onto `fit`. Every box shares one scale and
+ * shift, and a transform tween is linear in both, so the grid stays rigid while it zooms.
+ */
+function frame(cell: Box, target: Box, fit: Box): Box {
+  const k = fit.scale / target.scale;
+  return {
+    x: fit.x + (cell.x - target.x) * k,
+    y: fit.y + (cell.y - target.y) * k,
+    scale: cell.scale * k,
+  };
+}
 
 function isEditable(el: HTMLElement) {
   return el.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName);
@@ -71,12 +89,13 @@ export class DeckController {
   /** The highlighted thumbnail in the overview, as an index among the visible slides. */
   cursor = $state(0);
   direction = $state<1 | -1>(1);
-  morphing = $state(false);
+  zoom = $state<Zoom | null>(null);
   size = $state<Size>({ w: 0, h: 0 });
 
   readonly options!: ControllerOptions;
   #listeners = new Set<Listener>();
   #timer: ReturnType<typeof setTimeout> | undefined;
+  #frame = 0;
 
   constructor(options: ControllerOptions) {
     this.options = options;
@@ -116,8 +135,13 @@ export class DeckController {
 
   /** Where slide `index` sits right now: centred to fit, or in its overview cell. */
   boxOf(index: number): Box | undefined {
-    if (!this.overview) return this.fit;
-    return this.grid.boxes[this.visible.indexOf(index)];
+    const zoom = this.zoom;
+    const cell = this.grid.boxes[this.visible.indexOf(index)];
+    if (zoom?.framed) {
+      const target = this.grid.boxes[this.visible.indexOf(zoom.index)];
+      return cell && target ? frame(cell, target, this.fit) : this.fit;
+    }
+    return this.overview || zoom ? cell : this.fit;
   }
 
   register(entry: SlideEntry): () => void {
@@ -137,7 +161,7 @@ export class DeckController {
   }
 
   mount(): () => void {
-    return () => clearTimeout(this.#timer);
+    return () => this.#stopZoom();
   }
 
   /** Which deck hears a key is the page's call: Deck passes only keys from focus inside it. */
@@ -150,14 +174,16 @@ export class DeckController {
     this.options.step = position.step;
   }
 
-  commit(target: Position | null, source: Source = "local") {
+  /** `animate: false` skips the slide transition, for a move the overview zoom already shows. */
+  commit(target: Position | null, source: Source = "local", animate = true) {
     if (!target) return;
     const from = this.position;
     const to = settle(this.slides, target);
     if (to.index === from.index && to.step === from.step) return;
     this.direction = to.index >= from.index ? 1 : -1;
     const apply = () => this.#write(to);
-    if (to.index !== from.index && this.options.transition) this.options.transition(apply);
+    if (animate && to.index !== from.index && this.options.transition)
+      this.options.transition(apply);
     else apply();
     for (const listener of this.#listeners) listener(to, source);
   }
@@ -174,25 +200,45 @@ export class DeckController {
     this.commit({ index, step }, source);
   }
 
+  /**
+   * Opening zooms the camera out from the current slide to the whole grid. Closing zooms into
+   * the current slide, so `select` moves there first.
+   */
   toggleOverview(force?: boolean) {
     const open = force ?? !this.overview;
     if (open === this.overview) return;
-    if (open) this.cursor = Math.max(0, this.visible.indexOf(this.position.index));
+    const index = this.position.index;
+    if (open) this.cursor = Math.max(0, this.visible.indexOf(index));
     this.view = open ? "overview" : "slide";
-    this.#morph();
+    this.#stopZoom();
+    const ms = this.options.zoomMs?.() ?? 0;
+    if (ms <= 0 || !this.visible.includes(index)) return;
+
+    /*
+     * Each way paints its start state first and moves on a later frame. Moved in the same
+     * flush, a style read in between (the overview handing focus back) commits the boxes
+     * before the transition rule is on, and the zoom jumps to its end.
+     */
+    this.zoom = { index, framed: open, running: !open };
+    this.#frame = requestAnimationFrame(() => {
+      this.#frame = requestAnimationFrame(() => {
+        this.zoom = { index, framed: !open, running: true };
+        this.#timer = setTimeout(() => this.#stopZoom(), ms);
+      });
+    });
   }
 
   /** Leaves the overview on slide `index`. Picking the current slide keeps its step. */
   select(index: number) {
-    this.toggleOverview(false);
     const keep = index === this.position.index;
-    this.go(index, keep ? this.position.step : 0);
+    this.commit({ index, step: keep ? this.position.step : 0 }, "local", false);
+    this.toggleOverview(false);
   }
 
-  #morph() {
-    this.morphing = true;
+  #stopZoom() {
     clearTimeout(this.#timer);
-    this.#timer = setTimeout(() => (this.morphing = false), MORPH_MS);
+    cancelAnimationFrame(this.#frame);
+    this.zoom = null;
   }
 
   #moveCursor(to: number) {

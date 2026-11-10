@@ -25,7 +25,8 @@ function scaleFor(
 ): number {
   const rows = Math.ceil(count / cols);
   const byWidth = (view.w - 2 * pad - (cols - 1) * gap) / cols / canvas.w;
-  const byHeight = (view.h - 2 * pad - (rows - 1) * gap) / rows / canvas.h;
+  /* Every row, the last too, keeps a gap under it for its numbers. */
+  const byHeight = (view.h - 2 * pad - rows * gap) / rows / canvas.h;
   return Math.min(byWidth, byHeight);
 }
 
@@ -47,7 +48,7 @@ export function gridBoxes(view: Size, canvas: Canvas, count: number): Grid {
   const cellH = canvas.h * scale;
   const rows = Math.ceil(count / cols);
   const left = (view.w - (cols * cellW + (cols - 1) * gap)) / 2;
-  const top = (view.h - (rows * cellH + (rows - 1) * gap)) / 2;
+  const top = (view.h - rows * (cellH + gap)) / 2;
 
   const boxes = Array.from({ length: count }, (_, i) => ({
     x: left + (i % cols) * (cellW + gap),

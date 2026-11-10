@@ -3,6 +3,9 @@
 // `.svelte` under node_modules, so without them every component types as `any`.
 
 // prepack writes them, postpack deletes them (`--clean`): left in src, they'd shadow the components.
+// An export whose target is a `.svelte` file lists its `types` as [`x.svelte.d.ts`, `x.svelte`]:
+// from a `.svelte` target TypeScript only looks for `x.d.svelte.ts`, and svelte-check stops
+// faking that file once a real `x.svelte.d.ts` sits beside it, so the import found nothing (3.0.0).
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";

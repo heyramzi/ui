@@ -271,6 +271,10 @@
       "default": "./src/editor/block-ops.ts"
     },
     "./editor/inline-editor": {
+      "types": [
+        "./src/editor/inline-editor.svelte.d.ts",
+        "./src/editor/inline-editor.svelte"
+      ],
       "svelte": "./src/editor/inline-editor.svelte",
       "default": "./src/editor/inline-editor.svelte"
     },
@@ -291,7 +295,10 @@
       "default": "./src/canvas/index.ts"
     },
     "./canvas/*.svelte": {
-      "types": "./src/canvas/*.svelte",
+      "types": [
+        "./src/canvas/*.svelte.d.ts",
+        "./src/canvas/*.svelte"
+      ],
       "svelte": "./src/canvas/*.svelte",
       "default": "./src/canvas/*.svelte"
     },

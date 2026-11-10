@@ -152,19 +152,19 @@
 			transition-delay: 0s;
 		}
 
-		/* The overview shows every slide. They all leave the stack at once and settle in turn, later ones slower. */
-		:global(.deck[data-view="overview"]) .slide {
+		/*
+		 * The overview shows every slide. Opening and closing move them as one rigid grid, like a
+		 * camera pulling back or pushing in, so no slide gets its own delay.
+		 */
+		:global(.deck[data-view="overview"]) .slide,
+		:global(.deck[data-zoom]) .slide {
 			visibility: visible;
-		}
-		:global(.deck[data-morphing]) .slide {
-			transition:
-				visibility 0s linear calc(var(--deck-t-morph) + 10 * var(--deck-stagger)),
-				transform calc(var(--deck-t-morph) + min(var(--i), 10) * var(--deck-stagger))
-					var(--deck-ease);
-		}
-		/* Opening shows the slides at once, so only closing waits before hiding them. */
-		:global(.deck[data-morphing][data-view="overview"]) .slide {
 			transition-delay: 0s;
+		}
+		:global(.deck[data-zoom="run"]) .slide {
+			transition:
+				visibility 0s,
+				transform var(--deck-t-zoom) var(--deck-ease);
 		}
 
 		.slide__surface {
@@ -178,10 +178,16 @@
 			font-family: var(--deck-font);
 			animation: var(--deck-t-slide) var(--deck-ease) backwards;
 		}
-		:global(.deck[data-view="overview"]) .slide__surface {
+		/* Framed on one slide the grid looks like that slide, so it keeps a slide's square corners. */
+		:global(.deck[data-view="overview"]:not([data-zoom="hold"])) .slide__surface {
 			/* Design px, so divide by the scale to get the same corner on every thumbnail. */
 			border-radius: calc(10px / var(--slide-scale, 1));
 			box-shadow: 0 0 0 calc(1px / var(--slide-scale, 1)) var(--deck-line);
+		}
+		:global(.deck[data-zoom="run"]) .slide__surface {
+			transition:
+				border-radius var(--deck-t-zoom) var(--deck-ease),
+				box-shadow var(--deck-t-zoom) var(--deck-ease);
 		}
 
 		.slide__surface[data-align="center"],

@@ -60,7 +60,7 @@
 			padding: 0;
 			list-style: none;
 			/* The ring and number appear once the thumbnails have landed. */
-			animation: tiles-in var(--deck-t-quick) linear var(--deck-t-morph) backwards;
+			animation: tiles-in var(--deck-t-quick) linear var(--deck-t-zoom) backwards;
 		}
 		@media (prefers-reduced-motion: reduce) {
 			.deck__tiles {
@@ -94,14 +94,20 @@
 		.deck__tile:focus-visible {
 			outline-color: var(--deck-fg);
 		}
+		/*
+		 * The number sits in the gap under its thumbnail, never on it: straddling the edge put
+		 * half of it under the slide. 7px clears the 5px ring, and 7 + 18 fits the grid's 26px gap.
+		 */
 		.deck__tile-n {
 			position: absolute;
-			bottom: -12px;
+			top: calc(100% + 7px);
 			left: 50%;
-			min-width: 22px;
+			z-index: 1;
+			box-sizing: border-box;
+			min-width: 24px;
 			transform: translateX(-50%);
 			padding: 3px 6px;
-			font: 600 11px/1 var(--deck-font);
+			font: 600 12px/1 var(--deck-font);
 			font-variant-numeric: tabular-nums;
 			text-align: center;
 			color: var(--deck-fg);

@@ -72,6 +72,7 @@
 			return labels;
 		},
 		transition: viewTransition,
+		zoomMs,
 	});
 	controller = deck;
 	setContext(DECK_KEY, deck);
@@ -86,6 +87,14 @@
 		document.documentElement.dataset.deckVt = "";
 		const run = document.startViewTransition(() => flushSync(update));
 		run.finished.finally(() => delete document.documentElement.dataset.deckVt);
+	}
+
+	/* The overview zoom's length, read from the CSS so it follows the token. 0 under reduced motion. */
+	function zoomMs() {
+		if (!root || matchMedia("(prefers-reduced-motion: reduce)").matches) return 0;
+		const value = getComputedStyle(root).getPropertyValue("--deck-t-zoom").trim();
+		const ms = Number.parseFloat(value) * (value.endsWith("ms") ? 1 : 1000);
+		return Number.isFinite(ms) ? ms : 0;
 	}
 
 	onMount(() => deck.mount());
@@ -175,7 +184,7 @@
 	data-deck={id}
 	data-view={deck.view}
 	data-transition={transition}
-	data-morphing={deck.morphing || undefined}
+	data-zoom={deck.zoom ? (deck.zoom.running ? "run" : "hold") : undefined}
 	{onpointerdown}
 	{onpointerup}
 >
@@ -185,7 +194,8 @@
 		{:else}
 			{@render children?.()}
 		{/if}
-		{#if deck.overview}
+		<!-- The tiles mount once the camera starts pulling back, and fade in as it lands. -->
+		{#if deck.overview && !deck.zoom?.framed}
 			<Overview {deck} returnFocus={root} />
 		{/if}
 	</div>

@@ -43,7 +43,7 @@ Keys: arrows, Space (Shift+Space back), PageUp/PageDown, Home/End, `O` overview,
 
 ## Theming
 
-Set variables on `.deck`: `--deck-bg`, `--deck-fg`, `--deck-accent`, `--deck-on-accent`, `--deck-font`, `--deck-font-display`, `--deck-pad`, `--deck-text-*` (design px) and the timing tokens `--deck-t-slide`, `--deck-t-morph`, `--deck-stagger`, `--deck-ease`. They default to the `@heyramzi/ui` motion tokens when present. Motion is transform and opacity only and stops under `prefers-reduced-motion`.
+Set variables on `.deck`: `--deck-bg`, `--deck-fg`, `--deck-accent`, `--deck-on-accent`, `--deck-font`, `--deck-font-display`, `--deck-pad`, `--deck-text-*` (design px) and the timing tokens `--deck-t-slide`, `--deck-t-morph`, `--deck-t-zoom` (the overview zoom), `--deck-stagger`, `--deck-ease`. They default to the `@heyramzi/ui` motion tokens when present. `--deck-accent` and `--deck-on-accent` follow the app's `--primary` and `--primary-foreground`, and fall back to the deck's ink. Motion is transform and opacity only and stops under `prefers-reduced-motion`.
 
 ## Data-driven decks
 
