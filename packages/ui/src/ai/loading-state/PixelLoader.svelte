@@ -66,7 +66,8 @@
 		{/each}
 	</span>
 
-	<span class="shimmer text-sm font-medium">{label}</span>
+	<!-- Not `shimmer`: that's a kit utility, and a utility beats this label's own sweep. -->
+	<span class="pixel-loader-label text-sm font-medium">{label}</span>
 
 	{#if elapsed}
 		<span class="font-mono text-2xs tabular-nums text-[color:var(--muted-foreground,#71717a)]">
@@ -79,13 +80,46 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	.pixel-loader {
-		color: var(--foreground, #09090b);
-	}
+	@layer theme, base, components, utilities;
 
-	.cell {
-		opacity: 0.15;
-		animation: pixel-on 650ms ease-in-out infinite;
+	@layer components {
+		.pixel-loader {
+			color: var(--foreground, #09090b);
+		}
+
+		.cell {
+			opacity: 0.15;
+			animation: pixel-on 650ms ease-in-out infinite;
+		}
+
+		/* The label carries the same wait the grid does, so the two read as one
+		   object rather than as a spinner that happens to sit beside a word. */
+		.pixel-loader-label {
+			background: linear-gradient(
+				90deg,
+				var(--muted-foreground, #71717a) 0%,
+				var(--foreground, #09090b) 50%,
+				var(--muted-foreground, #71717a) 100%
+			);
+			background-size: 200% 100%;
+			background-clip: text;
+			-webkit-background-clip: text;
+			color: transparent;
+			animation: shimmer-sweep 1800ms linear infinite;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.cell {
+				animation: none;
+				opacity: 0.55;
+			}
+
+			.pixel-loader-label {
+				animation: none;
+				background: none;
+				color: var(--foreground, #09090b);
+			}
+		}
 	}
 
 	@keyframes pixel-on {
@@ -98,41 +132,12 @@
 		}
 	}
 
-	/* The label carries the same wait the grid does, so the two read as one
-	   object rather than as a spinner that happens to sit beside a word. */
-	.shimmer {
-		background: linear-gradient(
-			90deg,
-			var(--muted-foreground, #71717a) 0%,
-			var(--foreground, #09090b) 50%,
-			var(--muted-foreground, #71717a) 100%
-		);
-		background-size: 200% 100%;
-		background-clip: text;
-		-webkit-background-clip: text;
-		color: transparent;
-		animation: shimmer-sweep 1800ms linear infinite;
-	}
-
 	@keyframes shimmer-sweep {
 		from {
 			background-position: 200% 0;
 		}
 		to {
 			background-position: -200% 0;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.cell {
-			animation: none;
-			opacity: 0.55;
-		}
-
-		.shimmer {
-			animation: none;
-			background: none;
-			color: var(--foreground, #09090b);
 		}
 	}
 </style>
