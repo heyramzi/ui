@@ -182,6 +182,12 @@ export const meta: Record<string, Meta> = {
     description: "Filled, tinted and outlined labels, and a tone for severity.",
     height: 200,
   },
+  kbd: {
+    title: "Kbd",
+    icon: "type",
+    description: "A key cap for a shortcut, alone or as a group of keys.",
+    height: 200,
+  },
   card: {
     title: "Card",
     icon: "square",

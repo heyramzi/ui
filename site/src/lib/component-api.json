@@ -7829,6 +7829,62 @@
       "bases": []
     }
   ],
+  "kbd": [
+    {
+      "name": "Kbd.Root",
+      "file": "packages/ui/src/shadcn/kbd/kbd.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    },
+    {
+      "name": "Kbd.Group",
+      "file": "packages/ui/src/shadcn/kbd/kbd-group.svelte",
+      "props": [
+        {
+          "name": "ref",
+          "type": "HTMLElement | null",
+          "default": "null",
+          "bindable": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet"
+        }
+      ],
+      "bases": [
+        {
+          "kind": "package",
+          "label": "HTMLAttributes<HTMLElement>",
+          "from": "svelte/elements"
+        }
+      ]
+    }
+  ],
   "label": [
     {
       "name": "Label",

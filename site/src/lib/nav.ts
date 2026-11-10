@@ -93,6 +93,7 @@ export const sections: Section[] = [
           "language-flag",
           "mark",
           "tag-chip",
+          "kbd",
           "code-block",
           "table",
           "table-view",
