@@ -119,7 +119,7 @@ export const workNotes: Record<string, A11yNote> = {
       "Opening a reply or an edit puts focus in its box.",
       "Save, Cancel and Esc return focus to Edit. Closing or sending a reply returns it to Reply.",
       "After a delete, focus goes to the next comment, or the one before when it was the last.",
-      'Resolve is a toggle that reports pressed. "Show resolved" reports open or closed.',
+      'Resolve and "Show resolved" are toggles that report pressed.',
       "An agent's name is followed by a hidden word saying it's an agent.",
     ],
   },

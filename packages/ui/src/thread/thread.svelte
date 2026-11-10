@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
+	import { Toggle } from "bits-ui";
 	import { ArrowBendDownRight, Check, MapPin, PencilSimple, Trash } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { focusAfterRender } from "#src/lib/focus.js";
@@ -338,14 +339,20 @@
 			{labels.title}
 		</h2>
 		{#if resolved > 0}
-			<Button
-				variant="ghost"
-				size="sm"
-				aria-expanded={showResolved}
-				onclick={() => (showResolved = !showResolved)}
-			>
-				{showResolved ? labels.hideResolved : fillCount(labels.showResolved, resolved)}
-			</Button>
+			<!-- A filter on the list, so it reports pressed, not expanded. The wash it had as an
+			     expanded ghost button moves to aria-pressed. -->
+			<Toggle.Root bind:pressed={showResolved}>
+				{#snippet child({ props })}
+					<Button
+						{...props}
+						variant="ghost"
+						size="sm"
+						class="aria-pressed:bg-foreground/6 aria-pressed:text-foreground"
+					>
+						{showResolved ? labels.hideResolved : fillCount(labels.showResolved, resolved)}
+					</Button>
+				{/snippet}
+			</Toggle.Root>
 		{/if}
 	</div>
 

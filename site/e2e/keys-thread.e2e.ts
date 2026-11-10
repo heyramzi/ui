@@ -109,14 +109,14 @@ test("the composer sends on Cmd+Enter and keeps focus", async ({ page }) => {
   await expect(composer).toBeFocused();
 });
 
-test("Resolve reports pressed and Show resolved reports open", async ({ page }) => {
+test("Resolve and Show resolved report pressed", async ({ page }) => {
   const { thread, comment } = await openThread(page);
   const show = thread.getByRole("button", { name: "Show 1 resolved" });
-  await expect(show).toHaveAttribute("aria-expanded", "false");
+  await expect(show).toHaveAttribute("aria-pressed", "false");
   await show.focus();
   await page.keyboard.press("Enter");
   await expect(thread.getByRole("button", { name: "Hide resolved" })).toHaveAttribute(
-    "aria-expanded",
+    "aria-pressed",
     "true",
   );
   await expect(thread.getByText("Footer links checked")).toBeVisible();
