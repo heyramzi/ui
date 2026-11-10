@@ -14,9 +14,9 @@ test.use({ actionTimeout: 3000 });
 
 async function openList(page: Page) {
   await page.goto("/work", { waitUntil: "networkidle" });
-  const list = page.getByRole("button", { name: "List", exact: true }).first();
+  const list = page.getByRole("radio", { name: "List", exact: true }).first();
   await list.click();
-  await expect(list).toHaveAttribute("aria-pressed", "true");
+  await expect(list).toHaveAttribute("aria-checked", "true");
   const group = (name: string) => page.getByRole("region", { name, exact: true });
   await expect(group("To do")).toBeVisible();
   return { group };

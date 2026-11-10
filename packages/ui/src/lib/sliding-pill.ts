@@ -6,11 +6,12 @@ import type { Attachment } from "svelte/attachments";
 // `parentElement`, so any strip that renders one span gets the motion.
 
 // WHY measure: the active item's width is its label. The selector covers the
-// three ways a strip marks it: a tab, a nav link, a toggle.
+// ways a strip marks it: a tab, a nav link, a pressed button, a bits-ui toggle group item.
 
 // Per transitions.dev `tabs-sliding`: first paint and resizes write the
 // position with the transition off, so the pill snaps in instead of flying.
-const ACTIVE = '[data-state="active"],[aria-current="page"],[aria-pressed="true"]';
+const ACTIVE =
+  '[data-state="active"],[aria-current="page"],[aria-pressed="true"],[data-state="on"]';
 
 export const slidingPill: Attachment<HTMLElement> = (pill) => {
   const list = pill.parentElement;

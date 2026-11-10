@@ -151,17 +151,17 @@ export const overlayNotes: Record<string, A11yNote> = {
     keys: [
       {
         keys: ["ArrowRight", "ArrowLeft"],
-        does: "In AnimatedTabs, moves to the next or previous segment and opens it.",
+        does: "Moves to the next or previous segment. AnimatedTabs opens it, SegmentedFilter waits for Space or Enter.",
       },
       { keys: ["Home", "End"], does: "In AnimatedTabs, moves to the first or last segment." },
       {
         keys: ["Tab"],
-        does: "In SegmentedFilter, moves to the next segment. The segments are separate stops.",
+        does: "In SegmentedFilter, moves into the strip on the picked segment. The strip is one stop.",
       },
       { keys: ["Space", "Enter"], does: "In SegmentedFilter, picks the focused segment." },
     ],
     notes: [
-      "AnimatedTabs is a tablist with panels. SegmentedFilter is a group of buttons that report pressed. SegmentedNav is a nav of links, and the current one reports the page.",
+      "AnimatedTabs is a tablist with panels. SegmentedFilter is a named group of radio buttons, and the picked one reports checked. SegmentedNav is a nav of links, and the current one reports the page.",
       "Past the max, the extra segments fold into a More menu. It's a separate Tab stop after the strip, and it takes the picker's keys: arrows, Home, End, Enter and a letter to jump.",
       "A segment that shows only a mark or icon is named by its label.",
       "With reduced motion on, the pill fades to the new segment. It doesn't slide.",

@@ -83,6 +83,7 @@
 							[data-state="active"],
 							[aria-current="page"],
 							[aria-pressed="true"],
+							[data-state="on"],
 							[data-state="open"]
 						)
 				) {
@@ -116,7 +117,9 @@
 		/* Before the attachment measures, the active segment draws the pill itself,
 		   so a server-rendered strip is right before any JS arrives. */
 		.track:not([data-pill="on"])
-			:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
+			:global(
+				:is([data-state="active"], [aria-current="page"], [aria-pressed="true"], [data-state="on"])
+			) {
 			background-color: var(--color-card);
 			box-shadow: var(--elev-btn), var(--elev-hairline);
 		}
@@ -125,7 +128,9 @@
 		:global(.dark) .pill,
 		:global(.dark)
 			.track:not([data-pill="on"])
-			:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
+			:global(
+				:is([data-state="active"], [aria-current="page"], [aria-pressed="true"], [data-state="on"])
+			) {
 			background-color: color-mix(in oklch, var(--color-foreground) 14%, var(--color-card));
 		}
 
@@ -138,6 +143,7 @@
 							[data-state="active"],
 							[aria-current="page"],
 							[aria-pressed="true"],
+							[data-state="on"],
 							[data-state="open"]
 						)
 				) {
@@ -155,7 +161,9 @@
 		}
 
 		.track[data-variant="underline"]:not([data-pill="on"])
-			:global(:is([data-state="active"], [aria-current="page"], [aria-pressed="true"])) {
+			:global(
+				:is([data-state="active"], [aria-current="page"], [aria-pressed="true"], [data-state="on"])
+			) {
 			background-color: transparent;
 			box-shadow: inset 0 -2px 0 var(--segmented-rule, var(--color-foreground));
 		}

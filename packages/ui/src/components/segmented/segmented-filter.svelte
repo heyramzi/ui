@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { ToggleGroup } from "bits-ui";
 	import { cn } from "#src/lib/utils.js";
 	import Segment from "#src/components/segmented/segment.svelte";
 	import type { TabDef } from "#src/components/segmented/animated-tabs.svelte";
@@ -26,8 +27,9 @@
 		// WHY: picks which rows are listed, with no panel of its own. That's a
 		// segmented control, not a tab set.
 
-		// WHY not `AnimatedTabs`: a strip with no tabpanel is a `group` of `aria-pressed`
-		// toggles. "Tab 1 of 4" sends a screen reader looking for a panel.
+		// WHY not `AnimatedTabs`: a strip with no tabpanel is a bits-ui single toggle group,
+		// one Tab stop whose segments report checked. "Tab 1 of 4" sends a screen reader
+		// looking for a panel.
 
 		// WHY `TabDef`: an option and a tab were the same five fields written twice.
 		options: readonly TabDef<T>[];
@@ -107,6 +109,12 @@
 		value = next;
 		onValueChange?.(next);
 	}
+
+	// bits-ui hands back a plain string, and "" when the picked segment is pressed again.
+	function pickByValue(next: string) {
+		const option = merged.find((o) => o.value === next);
+		if (option) pick(option.value);
+	}
 </script>
 
 <!-- =========================== -->
@@ -132,20 +140,21 @@
 		{/snippet}
 	</Picker>
 {:else}
-	<div
+	<!-- WHY a function binding: a filter always has one option on, so the setter drops the ""
+	     and the getter keeps showing `value`. -->
+	<ToggleGroup.Root
+		type="single"
+		bind:value={() => value, pickByValue}
 		class={cn("no-scrollbar flex max-w-full min-w-0 overflow-x-auto", className)}
-		role="group"
 		aria-label={ariaLabel}
 	>
 		<SegmentedTrack fill={block}>
 			{#each split.visible as option (option.value)}
 				{@const active = value === option.value}
 				{@const markOnly = iconOnly && Boolean(option.image || option.icon)}
-				<button
-					type="button"
+				<ToggleGroup.Item
+					value={option.value}
 					class={segmentedTriggerClass({ fill: block, active })}
-					onclick={() => pick(option.value)}
-					aria-pressed={active}
 					aria-label={markOnly ? option.label : undefined}
 					title={markOnly ? option.label : undefined}
 				>
@@ -173,7 +182,7 @@
 							{active}
 						/>
 					{/if}
-				</button>
+				</ToggleGroup.Item>
 			{/each}
 			{#snippet after()}
 				{#if split.hidden.length > 0}
@@ -181,5 +190,5 @@
 				{/if}
 			{/snippet}
 		</SegmentedTrack>
-	</div>
+	</ToggleGroup.Root>
 {/if}

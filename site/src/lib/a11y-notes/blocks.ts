@@ -131,7 +131,7 @@ export const blockNotes: Record<string, A11yNote> = {
     notes: [
       "Rows are buttons, and the open one reports itself as current.",
       "A filter button opens a menu, and each option reports checked.",
-      "The filter tabs are a named group of buttons that report pressed.",
+      "The filter tabs are a named group of radio buttons. Arrows move between them, and the picked one reports checked.",
       "The search field has only its placeholder for a name.",
       "Under 1024px wide, the list and the record take turns. Picking a row moves focus into the record, and the back button returns it to that row.",
       "With reduced motion on, the list-to-record slide doesn't play.",
@@ -147,7 +147,7 @@ export const blockNotes: Record<string, A11yNote> = {
       { keys: ["Esc"], does: "On a head, cell or grade with a hint, hides its tooltip." },
     ],
     notes: [
-      "The period filter is a named group of buttons that report pressed, or links when href is set.",
+      "The period filter is a named group of radio buttons, one Tab stop that the arrows move through, or links when href is set.",
       "The table has real column headers. A sortable head holds a button and reports its sort order.",
       "A head's hint, a cell's title and a grade's hint show as a tooltip on hover or focus, and the focused one describes itself with it.",
       'A tile\'s change reads with its direction, like "up 8%".',
