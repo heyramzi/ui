@@ -85,7 +85,8 @@ export const blockNotes: Record<string, A11yNote> = {
       "The link field's Cancel button is named Cancel link.",
       "Arrowing onto an image selects it and opens its toolbar while focus stays in the text. Tab moves into the toolbar, one Tab stop named Image: the arrows move between Align left, Align center, Align right and Delete image, and Esc closes it and returns to the text.",
       "Checklist boxes are named by their line.",
-      "Image and YouTube inserts ask through the browser's prompt box.",
+      "The Image and YouTube commands open a dialog that asks for the link, with focus in the field. Enter inserts and Esc cancels, and either way focus goes back to the text.",
+      "A link the dialog can't use shows its error under the field, read out as an alert, and focus stays in the field.",
     ],
   },
 

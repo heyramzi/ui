@@ -207,6 +207,73 @@ test("arrowing onto an image opens its toolbar, one Tab stop away from the text"
   await expect(text).toBeFocused();
 });
 
+test("the image command asks for a link in a dialog and shows a bad one inline", async ({
+  page,
+}) => {
+  const { text } = await openEditor(page);
+  await page.keyboard.type("/image");
+  await expect(
+    page.getByRole("listbox", { name: "Commands" }).getByRole("option").first(),
+  ).toContainText("Image");
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog", { name: "Insert image" });
+  const field = dialog.getByRole("textbox", { name: "Image link" });
+  await expect(field).toBeFocused();
+
+  // A script link is refused where you typed it, and focus stays in the field.
+  await page.keyboard.type("javascript:alert(1)");
+  await page.keyboard.press("Enter");
+  await expect(dialog.getByRole("alert")).toHaveText("That is not a link to an image.");
+  await expect(field).toHaveAttribute("aria-invalid", "true");
+  await expect(field).toBeFocused();
+
+  await field.fill("/avatars/02.png");
+  await expect(dialog.getByRole("alert")).toHaveCount(0);
+  await page.keyboard.press("Enter");
+  await expect(dialog).toBeHidden();
+  await expect(text).toBeFocused();
+  await expect(text.locator('img[src="/avatars/02.png"]')).toBeVisible();
+});
+
+test("the video dialog opens from the slash menu, Esc cancels and Enter inserts", async ({
+  page,
+}) => {
+  const { text } = await openEditor(page);
+  const dialog = page.getByRole("dialog", { name: "Insert YouTube video" });
+  const field = dialog.getByRole("textbox", { name: "YouTube link" });
+  const openDialog = async () => {
+    await page.keyboard.type("/youtube");
+    await expect(
+      page.getByRole("listbox", { name: "Commands" }).getByRole("option").first(),
+    ).toContainText("YouTube");
+    await page.keyboard.press("Enter");
+    await expect(field).toBeFocused();
+  };
+
+  await openDialog();
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(text).toBeFocused();
+  await expect(text.locator("[data-video-id]")).toHaveCount(0);
+
+  await openDialog();
+  await page.keyboard.type("https://example.com/watch?v=dQw4w9WgXcQ");
+  await page.keyboard.press("Enter");
+  await expect(dialog.getByRole("alert")).toHaveText("That is not a recognized YouTube URL.");
+  await expect(field).toBeFocused();
+
+  await field.fill("https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=42");
+  await page.keyboard.press("Tab");
+  await expect(dialog.getByRole("textbox", { name: "Title (optional)" })).toBeFocused();
+  await page.keyboard.type("Made by keys");
+  await page.keyboard.press("Enter");
+  await expect(dialog).toBeHidden();
+  await expect(text).toBeFocused();
+  const video = text.locator('[data-video-id="dQw4w9WgXcQ"]');
+  await expect(video).toHaveAttribute("data-start", "42");
+  await expect(video).toContainText("Made by keys");
+});
+
 test("Cmd+K opens the link field, Enter applies and Esc returns to the text", async ({ page }) => {
   const { text } = await openEditor(page);
   await page.keyboard.type("docs");

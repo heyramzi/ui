@@ -11,9 +11,11 @@
 	import { buildSlashItems, type SlashItem } from "#src/editor/slash-items.js";
 	import { SLASH_WINDOW, slashQueryAt } from "#src/editor/slash-query.js";
 	import { parseYoutubeUrl } from "#src/editor/youtube-url.js";
+	import { safeImageUrl } from "#src/editor/safe-url.js";
 	import EditorToolbar from "#src/editor/editor-toolbar.svelte";
 	import SlashMenu from "#src/editor/slash-menu.svelte";
 	import ImageToolbar from "#src/editor/image-toolbar.svelte";
+	import UrlDialog from "#src/editor/url-dialog.svelte";
 
 	// =========================
 	// TYPES
@@ -74,6 +76,10 @@
 	const slashMenuId = `${uid}-slash`;
 	let toolbar: EditorToolbar | undefined = $state();
 
+	// Insert dialogs
+	let showImageDialog = $state(false);
+	let showVideoDialog = $state(false);
+
 	// Image toolbar
 	let showImageToolbar = $state(false);
 	let activeImageElement: HTMLImageElement | null = $state(null);
@@ -131,29 +137,34 @@
 	// FUNCTIONS
 	// =========================
 	function insertImageFromSlash() {
-		const url = prompt("Image URL:");
-		if (url?.trim()) {
-			editor?.chain().focus().setImage({ src: url.trim() }).run();
-		}
+		showImageDialog = true;
 	}
 
 	function insertYoutubeVideo() {
-		const url = prompt("YouTube URL:");
-		if (!url?.trim()) return;
-		const parsed = parseYoutubeUrl(url.trim());
-		if (!parsed) {
-			alert("That is not a recognized YouTube URL.");
-			return;
-		}
-		const title = prompt("Video title:")?.trim() || "";
+		showVideoDialog = true;
+	}
+
+	// The dialog holds focus while these run, so they leave focusing the text to its close.
+	function insertImage(url: string): string | null {
+		if (!url) return "Paste an image link.";
+		const src = safeImageUrl(url);
+		if (!src) return "That is not a link to an image.";
+		editor?.chain().setImage({ src }).run();
+		return null;
+	}
+
+	function insertVideo(url: string, title: string): string | null {
+		if (!url) return "Paste a YouTube link.";
+		const parsed = parseYoutubeUrl(url);
+		if (!parsed) return "That is not a recognized YouTube URL.";
 		editor
 			?.chain()
-			.focus()
 			.insertContent({
 				type: "youtube",
 				attrs: { videoId: parsed.videoId, title, start: parsed.start },
 			})
 			.run();
+		return null;
 	}
 
 	function closeSlashMenu() {
@@ -410,6 +421,23 @@
 			bind:open={showImageToolbar}
 			onAlign={setImageAlignment}
 			onDelete={deleteActiveImage}
+		/>
+		<UrlDialog
+			bind:open={showImageDialog}
+			heading="Insert image"
+			label="Image link"
+			placeholder="https://example.com/photo.png"
+			onSubmit={insertImage}
+			onClosed={() => editor?.commands.focus()}
+		/>
+		<UrlDialog
+			bind:open={showVideoDialog}
+			heading="Insert YouTube video"
+			label="YouTube link"
+			placeholder="https://www.youtube.com/watch?v=..."
+			titleLabel="Title (optional)"
+			onSubmit={insertVideo}
+			onClosed={() => editor?.commands.focus()}
 		/>
 	{/if}
 
