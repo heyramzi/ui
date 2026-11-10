@@ -13,7 +13,12 @@
 	<Card.Content>
 		<Field.Field>
 			<Field.Label for="example-card-email">Email</Field.Label>
-			<Input id="example-card-email" type="email" placeholder="sam@example.com" />
+			<Input
+				id="example-card-email"
+				type="email"
+				autocomplete="off"
+				placeholder="sam@example.com"
+			/>
 		</Field.Field>
 	</Card.Content>
 	<Card.Footer class="justify-end gap-2 border-t">

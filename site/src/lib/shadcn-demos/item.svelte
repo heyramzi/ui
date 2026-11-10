@@ -16,7 +16,7 @@
 	</Item.Root>
 	<Item.Root variant="outline" size="sm">
 		{#snippet child({ props })}
-			<a href="##" {...props}>
+			<a href="/components/avatar" {...props}>
 				<Item.Media>
 					<SealCheck aria-hidden="true" class="size-5" />
 				</Item.Media>
