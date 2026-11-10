@@ -120,7 +120,7 @@
 			{...api.getContentProps()}
 			bind:this={card}
 			class={[
-				"tour-card bg-popover text-popover-foreground ring-foreground/10 shadow-overlay pointer-events-auto max-w-full text-sm ring-1 outline-none",
+				"tour-card bg-popover text-popover-foreground ring-foreground/10 shadow-overlay pointer-events-auto max-w-full text-sm ring-1 outline-none max-sm:w-full",
 				intro ? "w-96 rounded-2xl" : "w-80 rounded-xl",
 			]}
 		>
@@ -143,64 +143,67 @@
 {/if}
 
 <style>
-	.tour-backdrop,
-	.tour-spotlight,
-	.tour-positioner {
-		--tour-z-index: 60;
-		z-index: calc(var(--tour-layer) + var(--tour-z-index));
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.tour-backdrop,
+		.tour-spotlight,
+		.tour-positioner {
+			--tour-z-index: 60;
+			z-index: calc(var(--tour-layer) + var(--tour-z-index));
+		}
+		.tour-backdrop {
+			background: oklch(0 0 0 / 0.5);
+			transition: clip-path var(--duration-fast) var(--ease-smooth-out);
+		}
+		.tour-backdrop[data-instant] {
+			transition-duration: 0ms;
+		}
+		.tour-spotlight {
+			outline: 2px solid oklch(1 0 0 / 0.7);
+			transition-property: left, top, width, height;
+			transition-duration: var(--duration-fast);
+			transition-timing-function: var(--ease-smooth-out);
+		}
+		.tour-positioner[data-type="dialog"] {
+			position: fixed;
+			inset: 0;
+			display: grid;
+			place-items: center;
+			padding: 1rem;
+			pointer-events: none;
+		}
+		.tour-card[data-state="open"] {
+			animation: tour-in var(--duration-fast) var(--ease-smooth-out);
+		}
+
+		@media (max-width: 639px) {
+			.tour-positioner {
+				position: fixed !important;
+				inset: auto 0 0 0 !important;
+				transform: none !important;
+				translate: none !important;
+				min-width: 0 !important;
+				width: auto !important;
+				display: block !important;
+				padding: 0.75rem 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+			}
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.tour-backdrop,
+			.tour-spotlight {
+				transition: none;
+			}
+			.tour-card[data-state="open"] {
+				animation: none;
+			}
+		}
 	}
-	.tour-backdrop {
-		background: oklch(0 0 0 / 0.5);
-		transition: clip-path var(--duration-fast) var(--ease-smooth-out);
-	}
-	.tour-backdrop[data-instant] {
-		transition-duration: 0ms;
-	}
-	.tour-spotlight {
-		outline: 2px solid oklch(1 0 0 / 0.7);
-		transition-property: left, top, width, height;
-		transition-duration: var(--duration-fast);
-		transition-timing-function: var(--ease-smooth-out);
-	}
-	.tour-positioner[data-type="dialog"] {
-		position: fixed;
-		inset: 0;
-		display: grid;
-		place-items: center;
-		padding: 1rem;
-		pointer-events: none;
-	}
-	.tour-card[data-state="open"] {
-		animation: tour-in var(--duration-fast) var(--ease-smooth-out);
-	}
+
 	@keyframes tour-in {
 		from {
 			opacity: 0;
 			scale: 0.97;
-		}
-	}
-	@media (max-width: 639px) {
-		.tour-positioner {
-			position: fixed !important;
-			inset: auto 0 0 0 !important;
-			transform: none !important;
-			translate: none !important;
-			min-width: 0 !important;
-			width: auto !important;
-			display: block !important;
-			padding: 0.75rem 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
-		}
-		.tour-card {
-			width: 100%;
-		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.tour-backdrop,
-		.tour-spotlight {
-			transition: none;
-		}
-		.tour-card[data-state="open"] {
-			animation: none;
 		}
 	}
 </style>
