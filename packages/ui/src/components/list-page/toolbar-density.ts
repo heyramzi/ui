@@ -33,8 +33,19 @@ export function getToolbarDensity(): ToolbarDensity | undefined {
 // its container, so reading it back always says "it fits" (see collapse.ts).
 // WHY `flex: none` too: a row that is itself a flex item takes its width from
 // flex-basis, so `max-content` alone read back the container (10 Nov 2026).
+// WHY transitions are stopped: under reduced motion `tokens/base.css` gives every
+// element an 80ms transition on `all`, so the probe's own width change started a
+// transition and the read got the old width. The row never folded at 390px and
+// axe flagged the squeezed search field (gallery, 10 Nov 2026). The last fold's
+// gap and shrink changes are still running then too, so they're finished first.
 export function naturalRowWidth(row: HTMLElement): number {
+  for (const animation of row.getAnimations({ subtree: true })) {
+    if (animation instanceof CSSTransition) animation.finish();
+  }
   const { width, flexWrap, flex } = row.style;
+  const transition = row.style.getPropertyValue("transition");
+  const priority = row.style.getPropertyPriority("transition");
+  row.style.setProperty("transition", "none", "important");
   row.style.width = "max-content";
   row.style.flexWrap = "nowrap";
   row.style.flex = "none";
@@ -42,5 +53,9 @@ export function naturalRowWidth(row: HTMLElement): number {
   row.style.width = width;
   row.style.flexWrap = flexWrap;
   row.style.flex = flex;
+  // The restored size has to settle before transitions come back, or the
+  // row would animate back from its probe width.
+  void row.offsetWidth;
+  row.style.setProperty("transition", transition, priority);
   return needed;
 }
