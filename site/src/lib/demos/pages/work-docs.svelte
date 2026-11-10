@@ -142,8 +142,8 @@
 		<DocEditorPage
 			bind:title
 			{content}
-			onchange={touched}
-			oncopylink={() => said("Copied link to section")}
+			onContentChange={touched}
+			onCopyLink={() => said("Copied link to section")}
 		>
 			{#snippet breadcrumb()}
 				<span class="flex min-w-0 items-center gap-1.5 text-muted-foreground @max-xl/doc:hidden">
@@ -177,15 +177,15 @@
 					url="https://ui.heyramzi.com/work/docs"
 					content={latest}
 					{favorited}
-					onmove={() => said("Move to")}
-					onduplicate={() => said("Duplicated")}
-					onrename={() => said("Rename")}
-					ontemplate={() => said("Template created")}
-					onfavorite={() => (favorited = !favorited)}
-					oncopy={copied}
-					onremind={() => said("Remind me")}
-					onhistory={() => said("History")}
-					ondelete={() => said("Deleted")}
+					onMove={() => said("Move to")}
+					onDuplicate={() => said("Duplicated")}
+					onRename={() => said("Rename")}
+					onTemplate={() => said("Template created")}
+					onFavorite={() => (favorited = !favorited)}
+					onCopy={copied}
+					onRemind={() => said("Remind me")}
+					onHistory={() => said("History")}
+					onDelete={() => said("Deleted")}
 				/>
 			{/snippet}
 
@@ -195,8 +195,8 @@
 					{owner}
 					lastEditor={owner}
 					showAuthorNames={showAuthors}
-					onshowauthors={(next) => (showAuthors = next)}
-					onhistory={() => said("History")}
+					onShowAuthorNamesChange={(next) => (showAuthors = next)}
+					onHistory={() => said("History")}
 				/>
 			{/snippet}
 

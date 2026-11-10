@@ -4,11 +4,11 @@
 	interface Props {
 		deck: DeckController;
 		/** Shown only when the deck has somewhere to open the presenter view. */
-		onpresenter?: () => void;
-		onfullscreen: () => void;
+		onPresenter?: () => void;
+		onFullscreen: () => void;
 	}
 
-	let { deck, onpresenter, onfullscreen }: Props = $props();
+	let { deck, onPresenter, onFullscreen }: Props = $props();
 
 	const icons = {
 		prev: "M15 5 8 12l7 7",
@@ -59,10 +59,10 @@
 		false,
 		deck.overview,
 	)}
-	{#if onpresenter}
-		{@render button("presenter", deck.labels.presenter, onpresenter)}
+	{#if onPresenter}
+		{@render button("presenter", deck.labels.presenter, onPresenter)}
 	{/if}
-	{@render button("fullscreen", deck.labels.fullscreen, onfullscreen)}
+	{@render button("fullscreen", deck.labels.fullscreen, onFullscreen)}
 </div>
 
 <style>

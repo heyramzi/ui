@@ -191,7 +191,7 @@ const written: Record<string, string> = {
   options={tools}
   label="Tools"
   labels={{ add: "Add a tool" }}
-  onchange={(next) => (used = next)}
+  onValueChange={(next) => (used = next)}
 />`,
 
   select: `
@@ -731,7 +731,7 @@ const written: Record<string, string> = {
   getStart={(task) => task.start}
   getEnd={(task) => task.end}
   today={todayIso()}
-  {onChange}
+  {onDatesChange}
 />`,
 
   "side-panel": `
@@ -780,13 +780,13 @@ const written: Record<string, string> = {
 <InlineEditor
   {doc}
   placeholder="Write a note"
-  onchange={(next) => (doc = next)}
-  onexit={() => api?.focus()}
-  onready={(editor) => (api = editor)}
+  onDocChange={(next) => (doc = next)}
+  onExit={() => api?.focus()}
+  onReady={(editor) => (api = editor)}
 />`,
 
   "rich-editor": `
-<RichEditor content={doc} onchange={(json) => (doc = json)} minHeight="14rem" />`,
+<RichEditor content={doc} onContentChange={(json) => (doc = json)} minHeight="14rem" />`,
 
   "section-card": `
 <SectionCard title="General">

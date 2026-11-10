@@ -11,7 +11,7 @@
 		options={tools}
 		label="Tools"
 		labels={{ add: "Add a tool" }}
-		onchange={(next) => {
+		onValueChange={(next) => {
 			used = next;
 		}}
 	/>

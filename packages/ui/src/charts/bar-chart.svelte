@@ -188,7 +188,7 @@
 		height={fill ? null : `${height}px`}
 		label={label ?? "Bar chart"}
 		{table}
-		onstep={step}
+		onStep={step}
 	>
 		{#if data.length === 0}
 			<div class="empty"><p>No data</p></div>

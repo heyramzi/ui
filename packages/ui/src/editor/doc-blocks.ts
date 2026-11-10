@@ -14,7 +14,7 @@ export type HeadingAnchorsOptions = {
   /** The word on the hover button. */
   label: string;
   /** Runs after the link is copied; a host shows a toast here. */
-  oncopy?: (url: string, id: string) => void;
+  onCopy?: (url: string, id: string) => void;
 };
 
 const anchorsKey = new PluginKey("headingAnchors");
@@ -24,7 +24,7 @@ export const HeadingAnchors = Extension.create<HeadingAnchorsOptions>({
   name: "headingAnchors",
 
   addOptions() {
-    return { label: "Copy link", oncopy: undefined };
+    return { label: "Copy link", onCopy: undefined };
   },
 
   addProseMirrorPlugins() {
@@ -63,7 +63,7 @@ export const HeadingAnchors = Extension.create<HeadingAnchorsOptions>({
                       void copyText(url);
                       button.dataset.copied = "true";
                       setTimeout(() => delete button.dataset.copied, 1400);
-                      options.oncopy?.(url, id);
+                      options.onCopy?.(url, id);
                     });
                     return button;
                   },

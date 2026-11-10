@@ -76,7 +76,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `field-row` — FieldRow, a labelled control with its action button at the control's height
 - `table-view` — TableView, a read-only table from columns and rows: numeric columns, footer row, custom cell; opt-in: `bare`, sortable heads (`column.sortable`, bind `sort`; the caller orders `rows`), `rowHref` (a real link over the row; `onRowLink` opens in place on a plain click), `onRowClick`, `selectable` + bind `selected`, `rowMenu` (context-menu items), `group` (a `null` key sits with no header) + `groupHeader` + `collapsible`, `subRow` + `expanded`, `loading` (skeleton rows in the frame), `empty`, `trailing`, `head`, and per-column `hideBelow`, `sticky`, `interactive`, `class`
 - `segmented` — AnimatedTabs (pill or underline), SegmentedFilter, SegmentedNav, SectionRuns, one bordered track with a sliding pill, a badge note and an overflow menu
-- `theme` — ThemeProvider, mode, userPrefersMode, setMode, toggleMode, resetMode: the one light and dark system (mode-watcher, optional peer). Mount `<ThemeProvider initial onChange themeColors modeStorageKey />` once; flip with `toggleMode()`, read `mode.current`. Pair with `revealTheme(event, toggleMode)` from `@heyramzi/ui/lib/theme-transition.js` for the wipe
+- `theme` — ThemeProvider, mode, userPrefersMode, setMode, toggleMode, resetMode: the one light and dark system (mode-watcher, optional peer). Mount `<ThemeProvider initial onModeChange themeColors modeStorageKey />` once; flip with `toggleMode()`, read `mode.current`. Pair with `revealTheme(event, toggleMode)` from `@heyramzi/ui/lib/theme-transition.js` for the wipe
 - `star-rating-input` — StarRatingInput
 - `svg` — Svg, an SVG file imported with `?raw`
 

@@ -17,9 +17,9 @@
 		strings,
 		titleAttrs,
 		bodyAttrs,
-		onclose,
-		onprev,
-		onnext,
+		onClose,
+		onPrev,
+		onNext,
 	}: {
 		title: string;
 		body: string;
@@ -30,10 +30,10 @@
 		strings: Strings;
 		titleAttrs: Attrs;
 		bodyAttrs: Attrs;
-		onclose: () => void;
-		onprev: () => void;
+		onClose: () => void;
+		onPrev: () => void;
 		/** The last step's button reads "done", and this closes the tour. */
-		onnext: () => void;
+		onNext: () => void;
 	} = $props();
 
 	const last = $derived(index === total - 1);
@@ -55,7 +55,7 @@
 			{title}
 		</h2>
 		<Button
-			onclick={onclose}
+			onclick={onClose}
 			variant="ghost"
 			size="sm"
 			icon
@@ -88,8 +88,8 @@
 	{/if}
 	<div class="flex items-center gap-2">
 		{#if index > 0}
-			<Button onclick={onprev} variant="ghost" size="sm">{strings.back}</Button>
+			<Button onclick={onPrev} variant="ghost" size="sm">{strings.back}</Button>
 		{/if}
-		<Button onclick={onnext} size="sm">{last ? strings.done : strings.next}</Button>
+		<Button onclick={onNext} size="sm">{last ? strings.done : strings.next}</Button>
 	</div>
 </div>

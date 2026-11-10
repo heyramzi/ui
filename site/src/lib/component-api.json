@@ -3374,7 +3374,7 @@
           "description": "Hovered index, bindable for chart hover-sync."
         },
         {
-          "name": "onHoverChange",
+          "name": "onHoveredIndexChange",
           "type": "(index: number | null) => void"
         },
         {
@@ -5776,7 +5776,7 @@
           "description": "What the rail is called: \"On this page\". Passed in so the library holds no copy."
         },
         {
-          "name": "onselect",
+          "name": "onSelect",
           "type": "(id: string) => void",
           "required": true
         },
@@ -7424,25 +7424,25 @@
           "description": "Opens with the text replaced by these characters and the caret after them."
         },
         {
-          "name": "onchange",
+          "name": "onDocChange",
           "type": "(doc: InlineDoc) => void",
           "required": true
         },
         {
-          "name": "onexit",
+          "name": "onExit",
           "type": "() => void",
           "required": true
         },
         {
-          "name": "onlink",
+          "name": "onLink",
           "type": "() => void"
         },
         {
-          "name": "onstate",
+          "name": "onState",
           "type": "() => void"
         },
         {
-          "name": "onready",
+          "name": "onReady",
           "type": "(api: InlineEditorApi) => void"
         },
         {
@@ -8616,7 +8616,7 @@
           "required": true
         },
         {
-          "name": "onselect",
+          "name": "onSelect",
           "type": "(id: string) => void",
           "required": true
         },
@@ -10093,7 +10093,7 @@
           "default": "null"
         },
         {
-          "name": "onchange",
+          "name": "onContentChange",
           "type": "(json: Record<string, unknown>) => void"
         },
         {
@@ -10129,7 +10129,7 @@
           "description": "The word on a heading's hover button, for `page`."
         },
         {
-          "name": "oncopylink",
+          "name": "onCopyLink",
           "type": "(url: string, id: string) => void",
           "description": "A heading's link was copied."
         },
@@ -10219,7 +10219,7 @@
           "description": "Hovered ring index, bindable for legend hover-sync."
         },
         {
-          "name": "onHoverChange",
+          "name": "onHoveredIndexChange",
           "type": "(index: number | null) => void"
         },
         {
@@ -11505,9 +11505,9 @@
           "description": "The body brings its own header: the title is read out but not drawn, and the body is neither padded nor scrolled by the panel."
         },
         {
-          "name": "onClose",
-          "type": "() => void",
-          "description": "Fires once when the panel closes, from the close button, Escape or the overlay."
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Called with the new state when the close button, Escape or the overlay closes the panel."
         }
       ],
       "bases": []
@@ -12462,8 +12462,9 @@
           "type": "string"
         },
         {
-          "name": "onchange",
-          "type": "(index: number, step: number) => void"
+          "name": "onIndexChange",
+          "type": "(index: number, step: number) => void",
+          "description": "Called with the new position when the slide or its fragment step changes."
         },
         {
           "name": "children",
@@ -12809,8 +12810,9 @@
           "type": "string"
         },
         {
-          "name": "onchange",
-          "type": "(value: number) => void"
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Called with the new rating after a pick."
         }
       ],
       "bases": []
@@ -13741,7 +13743,7 @@
           "description": "A leading mark: a tag icon, a colour dot, an avatar."
         },
         {
-          "name": "onremove",
+          "name": "onRemove",
           "type": "() => void",
           "description": "Shows a remove button after the label."
         },
@@ -13788,7 +13790,7 @@
           "description": "The tags. Order is kept."
         },
         {
-          "name": "onchange",
+          "name": "onValueChange",
           "type": "(next: string[]) => void | Promise<void>",
           "required": true,
           "description": "Called with the whole next list. Throw to refuse: the list reverts."
@@ -13814,7 +13816,7 @@
           "name": "free",
           "type": "boolean",
           "default": "false",
-          "description": "Tags typed freely, with no options and no menu: Enter, comma, space or Tab adds what's typed, a pasted list adds every part, and leaving the field keeps what was typed."
+          "description": "Free typing, no options or menu: Enter, comma, space or Tab adds what's typed, a paste adds every part, and leaving the field keeps the text."
         },
         {
           "name": "label",
@@ -13918,7 +13920,7 @@
           "type": "(item: T) => string"
         },
         {
-          "name": "onChange",
+          "name": "onDatesChange",
           "type": "(id: string, change: GanttChange) => void | Promise<void>",
           "description": "Called after a bar is dragged, resized or nudged. Leave it out for a read-only chart."
         },

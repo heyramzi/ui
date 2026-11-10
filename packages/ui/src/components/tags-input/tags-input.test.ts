@@ -13,7 +13,7 @@ async function render(start: string[]) {
       get value() {
         return saved;
       },
-      onchange: (next: string[]) => {
+      onValueChange: (next: string[]) => {
         saved = next;
       },
       label: "Tools",

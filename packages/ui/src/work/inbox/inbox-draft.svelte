@@ -14,7 +14,7 @@
 		/** What the person typed, by template. A template with no entry shows the agent's text. */
 		edits: InboxDraftEdits;
 		/** The person picked another template. */
-		onpick: (templateId: string) => void;
+		onPick: (templateId: string) => void;
 		/** The body field, so a shortcut can focus it. */
 		bodyEl?: HTMLTextAreaElement | null;
 		disabled?: boolean;
@@ -25,7 +25,7 @@
 		drafts,
 		recommended,
 		selected,
-		onpick,
+		onPick,
 		edits = $bindable(),
 		bodyEl = $bindable(null),
 		disabled = false,
@@ -48,7 +48,7 @@
 			variant="outline"
 			size="sm"
 			value={selected}
-			onValueChange={(next) => next && onpick(next)}
+			onValueChange={(next) => next && onPick(next)}
 			aria-label="Reply template"
 			class="flex-wrap"
 		>

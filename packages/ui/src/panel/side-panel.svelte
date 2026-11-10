@@ -44,8 +44,8 @@
 		/** The body brings its own header: the title is read out but not drawn, and
 	    the body is neither padded nor scrolled by the panel. */
 		bare?: boolean;
-		/** Fires once when the panel closes, from the close button, Escape or the overlay. */
-		onClose?: () => void;
+		/** Called with the new state when the close button, Escape or the overlay closes the panel. */
+		onOpenChange?: (open: boolean) => void;
 	}
 	let {
 		open = $bindable(),
@@ -61,7 +61,7 @@
 		children,
 		width = "sm",
 		bare = false,
-		onClose,
+		onOpenChange,
 	}: Props = $props();
 
 	// =========================
@@ -104,12 +104,7 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<Sheet.Root
-	bind:open
-	onOpenChange={(next) => {
-		if (!next) onClose?.();
-	}}
->
+<Sheet.Root bind:open {onOpenChange}>
 	<Sheet.Content
 		side="right"
 		bind:ref={panel}

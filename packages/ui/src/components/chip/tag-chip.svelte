@@ -8,7 +8,7 @@
 		/** A leading mark: a tag icon, a colour dot, an avatar. */
 		icon?: Snippet;
 		/** Shows a remove button after the label. */
-		onremove?: () => void;
+		onRemove?: () => void;
 		/** The remove button's accessible name. */
 		removeLabel?: string;
 		/**
@@ -22,7 +22,7 @@
 
 	let {
 		icon,
-		onremove,
+		onRemove,
 		removeLabel = "Remove",
 		removeFocusable = true,
 		children,
@@ -38,14 +38,14 @@
 	class={cn(
 		"inline-flex h-5 max-w-full shrink-0 items-center gap-1 overflow-hidden rounded-sm border border-border bg-muted/60 px-1.5 text-xs text-foreground",
 		"[&>svg]:size-3 [&>svg]:shrink-0 [&>svg]:text-muted-foreground",
-		onremove && "pr-0.5",
+		onRemove && "pr-0.5",
 		className,
 	)}
 	{...restProps}
 >
 	{@render icon?.()}
 	<span class="min-w-0 truncate">{@render children?.()}</span>
-	{#if onremove}
+	{#if onRemove}
 		<!-- The glyph is 12px; the after: box takes the hit area to 24px without growing the chip. -->
 		<button
 			type="button"
@@ -55,7 +55,7 @@
 			onmousedown={(e) => {
 				if (!removeFocusable) e.preventDefault();
 			}}
-			onclick={onremove}
+			onclick={onRemove}
 		>
 			<X aria-hidden="true" class="size-3" weight="bold" />
 		</button>

@@ -33,9 +33,9 @@
 		tipBelow: boolean;
 		drag: Drag | null;
 		setDrag: (drag: Drag | null) => void;
-		onhover: (id: string, on: boolean) => void;
+		onHover: (id: string, on: boolean) => void;
 		onToggle: (id: string) => void;
-		onChange?: (id: string, change: GanttChange) => void | Promise<void>;
+		onDatesChange?: (id: string, change: GanttChange) => void | Promise<void>;
 		onSelect?: (id: string) => void;
 		onKeyMove?: (id: string, span: Span) => void;
 		renderLabel?: Snippet<[T, GanttLabelContext]>;
@@ -58,9 +58,9 @@
 		tipBelow,
 		drag,
 		setDrag,
-		onhover,
+		onHover,
 		onToggle,
-		onChange,
+		onDatesChange,
 		onSelect,
 		onKeyMove,
 		renderLabel,
@@ -131,8 +131,8 @@
 				style:--g-hue={hue}
 				style:left="{dayX(layout, span.end) + layout.dayWidth / 2}px"
 				onclick={() => onSelect?.(row.id)}
-				onpointerenter={() => onhover(row.id, true)}
-				onpointerleave={() => onhover(row.id, false)}
+				onpointerenter={() => onHover(row.id, true)}
+				onpointerleave={() => onHover(row.id, false)}
 			>
 				<span class="size-5 [&>svg]:size-full" aria-hidden="true"
 					><FlagPennant aria-hidden="true" weight="fill" /></span
@@ -157,8 +157,8 @@
 				onclick={() => onSelect?.(row.id)}
 				onkeydown={(e) =>
 					(e.key === "Enter" || e.key === " ") && (e.preventDefault(), onSelect?.(row.id))}
-				onpointerenter={() => onhover(row.id, true)}
-				onpointerleave={() => onhover(row.id, false)}
+				onpointerenter={() => onHover(row.id, true)}
+				onpointerleave={() => onHover(row.id, false)}
 			></div>
 		{:else}
 			<GanttBar
@@ -174,8 +174,8 @@
 				{tipBelow}
 				{drag}
 				{setDrag}
-				{onhover}
-				{onChange}
+				{onHover}
+				{onDatesChange}
 				{onSelect}
 				{onKeyMove}
 				{describe}

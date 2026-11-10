@@ -47,7 +47,8 @@
 		/** Show the label of the currently hovered/selected step beside the stars. */
 		showLabel?: boolean;
 		class?: string;
-		onchange?: (value: number) => void;
+		/** Called with the new rating after a pick. */
+		onValueChange?: (value: number) => void;
 	}
 
 	let {
@@ -61,7 +62,7 @@
 		labels,
 		showLabel = false,
 		class: className,
-		onchange,
+		onValueChange,
 	}: Props = $props();
 
 	/** Held for the length of the pop, then dropped so the next pick can replay it. */
@@ -78,7 +79,7 @@
 	}
 
 	function picked(next: number) {
-		onchange?.(next);
+		onValueChange?.(next);
 
 		// Drop the class before re-adding it, or a second pick inside the animation
 		// window finds it already set and nothing replays.

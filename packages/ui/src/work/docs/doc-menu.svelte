@@ -65,17 +65,17 @@
 		content?: unknown;
 		favorited?: boolean;
 		/** Every item is a callback. One that isn't passed doesn't show. */
-		onmove?: () => void;
-		onduplicate?: () => void;
-		onrename?: () => void;
-		ontemplate?: () => void;
-		onfavorite?: () => void;
+		onMove?: () => void;
+		onDuplicate?: () => void;
+		onRename?: () => void;
+		onTemplate?: () => void;
+		onFavorite?: () => void;
 		/** Passing it shows Copy. It runs after the text is on the clipboard, for a toast. */
-		oncopy?: (kind: CopyKind, text: string) => void;
-		onremind?: () => void;
-		onhistory?: () => void;
+		onCopy?: (kind: CopyKind, text: string) => void;
+		onRemind?: () => void;
+		onHistory?: () => void;
 		/** Passing it shows Delete, behind a confirm that names the doc. */
-		ondelete?: () => void;
+		onDelete?: () => void;
 		/** One line under the confirm title: "and its 3 sub-pages". */
 		deleteDetail?: string;
 		/** Fire items from the keyboard (⇧R) while no field has focus. */
@@ -94,15 +94,15 @@
 		url,
 		content,
 		favorited = false,
-		onmove,
-		onduplicate,
-		onrename,
-		ontemplate,
-		onfavorite,
-		oncopy,
-		onremind,
-		onhistory,
-		ondelete,
+		onMove,
+		onDuplicate,
+		onRename,
+		onTemplate,
+		onFavorite,
+		onCopy,
+		onRemind,
+		onHistory,
+		onDelete,
 		deleteDetail,
 		shortcuts = true,
 		open = $bindable(false),
@@ -124,15 +124,15 @@
 	let all = $derived(
 		menuItems(
 			{
-				move: !!onmove,
-				duplicate: !!onduplicate,
-				rename: !!onrename,
-				template: !!ontemplate,
-				favorite: !!onfavorite,
-				copy: !!oncopy,
-				remind: !!onremind,
-				history: !!onhistory,
-				delete: !!ondelete,
+				move: !!onMove,
+				duplicate: !!onDuplicate,
+				rename: !!onRename,
+				template: !!onTemplate,
+				favorite: !!onFavorite,
+				copy: !!onCopy,
+				remind: !!onRemind,
+				history: !!onHistory,
+				delete: !!onDelete,
 			},
 			t,
 			{ favorited },
@@ -176,13 +176,13 @@
 
 	function fire(id: MenuId) {
 		const run: Partial<Record<MenuId, (() => void) | undefined>> = {
-			move: onmove,
-			duplicate: onduplicate,
-			rename: onrename,
-			template: ontemplate,
-			favorite: onfavorite,
-			remind: onremind,
-			history: onhistory,
+			move: onMove,
+			duplicate: onDuplicate,
+			rename: onRename,
+			template: onTemplate,
+			favorite: onFavorite,
+			remind: onRemind,
+			history: onHistory,
 		};
 		if (id === "copy") {
 			query = "";
@@ -198,7 +198,7 @@
 		open = false;
 		// A blocked clipboard still reports, so the host can say the copy didn't land.
 		await copyText(text);
-		oncopy?.(kind, text);
+		onCopy?.(kind, text);
 	}
 
 	function onWindowKey(event: KeyboardEvent) {
@@ -336,7 +336,7 @@
 			<AlertDialogCancel>{t.cancel}</AlertDialogCancel>
 			<AlertDialogAction
 				class={buttonVariants({ variant: "destructive" })}
-				onclick={() => ondelete?.()}
+				onclick={() => onDelete?.()}
 			>
 				{t.delete}
 			</AlertDialogAction>

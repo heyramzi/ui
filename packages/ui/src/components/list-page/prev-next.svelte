@@ -14,7 +14,7 @@
 		/** Ids in the order the list shows them. */
 		ids: readonly string[];
 		current: string | null | undefined;
-		onselect: (id: string) => void;
+		onSelect: (id: string) => void;
 		previousLabel?: string;
 		nextLabel?: string;
 		/** Off when two steppers share a page, so one key press moves one list. */
@@ -28,7 +28,7 @@
 	let {
 		ids,
 		current,
-		onselect,
+		onSelect,
 		previousLabel = "Previous",
 		nextLabel = "Next",
 		keys = true,
@@ -67,7 +67,7 @@
 		const id = targetFor(event.key);
 		if (!id) return;
 		event.preventDefault();
-		onselect(id);
+		onSelect(id);
 	}
 </script>
 
@@ -81,7 +81,7 @@
 			icon
 			class="text-muted-foreground"
 			disabled={!prev}
-			onclick={() => prev && onselect(prev)}
+			onclick={() => prev && onSelect(prev)}
 			aria-label={previousLabel}
 			title={`${previousLabel} (K)`}
 		>
@@ -94,7 +94,7 @@
 			icon
 			class="text-muted-foreground"
 			disabled={!next}
-			onclick={() => next && onselect(next)}
+			onclick={() => next && onSelect(next)}
 			aria-label={nextLabel}
 			title={`${nextLabel} (J)`}
 		>

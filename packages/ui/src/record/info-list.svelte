@@ -339,7 +339,7 @@
 								max={row.tags.max}
 								label={t.edit(row.label)}
 								labels={{ add: t.add(row.label), none: t.noMatch }}
-								onchange={(next) => commit(row, next, false)}
+								onValueChange={(next) => commit(row, next, false)}
 							/>
 						{:else if row.input === "multi" && row.options}
 							{@render list(row, key, true)}

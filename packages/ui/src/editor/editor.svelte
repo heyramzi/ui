@@ -20,7 +20,7 @@
 	// =========================
 	interface Props {
 		content?: Record<string, unknown> | null;
-		onchange?: (json: Record<string, unknown>) => void;
+		onContentChange?: (json: Record<string, unknown>) => void;
 		placeholder?: string;
 		minHeight?: string;
 		preset?: "full" | "notes";
@@ -33,7 +33,7 @@
 		/** The word on a heading's hover button, for `page`. */
 		copyLinkLabel?: string;
 		/** A heading's link was copied. */
-		oncopylink?: (url: string, id: string) => void;
+		onCopyLink?: (url: string, id: string) => void;
 		/** The live editor, for a host that needs focus or the document. */
 		instance?: Editor | null;
 		/** The editable region's accessible name. */
@@ -45,14 +45,14 @@
 	// =========================
 	let {
 		content = null,
-		onchange,
+		onContentChange,
 		placeholder = "Start writing...",
 		minHeight = "28rem",
 		preset = "full",
 		blockIds = false,
 		variant = "box",
 		copyLinkLabel = "Copy link",
-		oncopylink,
+		onCopyLink,
 		instance = $bindable(null),
 		label = "Text editor",
 	}: Props = $props();
@@ -262,7 +262,7 @@
 			preset,
 			placeholder,
 			blockIds,
-			anchors: variant === "page" ? { label: copyLinkLabel, oncopy: oncopylink } : false,
+			anchors: variant === "page" ? { label: copyLinkLabel, onCopy: onCopyLink } : false,
 		});
 
 		editorInstance = new Editor({
@@ -344,7 +344,7 @@
 				}
 			},
 			onUpdate: ({ editor: e }) => {
-				onchange?.(e.getJSON());
+				onContentChange?.(e.getJSON());
 
 				const { from } = e.state.selection;
 				const textBefore = e.state.doc.textBetween(Math.max(0, from - SLASH_WINDOW), from, "\n");
@@ -376,8 +376,8 @@
 		};
 	}
 
-	// Only the element mounts the editor. Read tracked, `content` (fed back by onchange) and the
-	// `tick++` each transaction makes would destroy and rebuild it until Svelte stops the loop.
+	// Only the element mounts the editor. Read tracked, `content` (fed back by onContentChange) and
+	// the `tick++` each transaction makes would destroy and rebuild it until Svelte stops the loop.
 	$effect(() => {
 		if (editorElement) return untrack(mount);
 	});
@@ -414,13 +414,13 @@
 			pos={slashMenuPos}
 			bind:selectedIndex={slashSelectedIndex}
 			bind:el={slashMenuEl}
-			onselect={executeSlashCommand}
+			onSelect={executeSlashCommand}
 		/>
 	{/if}
 
 	<!-- Image toolbar (full preset only) -->
 	{#if preset === "full" && showImageToolbar}
-		<ImageToolbar pos={imageToolbarPos} onalign={setImageAlignment} ondelete={deleteActiveImage} />
+		<ImageToolbar pos={imageToolbarPos} onAlign={setImageAlignment} onDelete={deleteActiveImage} />
 	{/if}
 
 	<!-- Status bar -->

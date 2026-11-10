@@ -167,7 +167,7 @@
 			height={typeof height === "number" ? `${height}px` : height}
 			{label}
 			{table}
-			onstep={bare ? undefined : step}
+			onStep={bare ? undefined : step}
 		>
 			<Chart {data} x={xKey} y={yKey} {padding} tooltipContext={{ mode: "bisect-x" }} bind:context>
 				<Svg aria-hidden="true">

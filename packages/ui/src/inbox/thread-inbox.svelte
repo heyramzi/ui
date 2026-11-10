@@ -510,7 +510,7 @@
 						bind:this={cards[entry.id]}
 						item={entry.proposal!}
 						selected={entry === pinned}
-						onverdict={(verdict) => onDecide?.(verdict, current)}
+						onVerdict={(verdict) => onDecide?.(verdict, current)}
 						{renderProposal}
 						when={(at) => when(at)}
 					/>

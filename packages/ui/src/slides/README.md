@@ -37,7 +37,7 @@ Keys: arrows, Space (Shift+Space back), PageUp/PageDown, Home/End, `O` overview,
 | `presenter` | | URL of the presenter view. Adds a button and the `p` key. |
 | `labels` | | Partial `DeckLabels` to translate every string. |
 | `controller` | | Bindable `DeckController`: `next()`, `prev()`, `go(i, step)`, `toggleOverview()`, `position`, `ordinal`. |
-| `id`, `title`, `locale`, `onchange`, `class`, `style` | | |
+| `id`, `title`, `locale`, `onIndexChange`, `class`, `style` | | |
 
 `Slide`: `notes` (string or snippet), `hidden`, `label`, `align` (`center`, `start`, `bare`). `Fragment`: `step`, `reveal` (`rise`, `fade`, `scale`), `as`. Fragments that share a step stagger. Authored type classes: `deck-display`, `deck-title`, `deck-heading`, `deck-lead`, `deck-body`, `deck-caption`, `deck-label`, `deck-accent`.
 

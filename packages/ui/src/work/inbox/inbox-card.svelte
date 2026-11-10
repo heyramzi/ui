@@ -36,8 +36,8 @@
 		item: InboxItem;
 		/** The keyboard cursor is on this card. */
 		selected?: boolean;
-		onselect?: () => void;
-		onverdict: (verdict: InboxVerdict) => void;
+		onSelect?: () => void;
+		onVerdict: (verdict: InboxVerdict) => void;
 		/** Replaces the summary lines, for a host that renders its own proposal. */
 		renderProposal?: Snippet<[InboxItem]>;
 		/** How the source time reads. Defaults to a relative time, never a raw ISO string. */
@@ -50,8 +50,8 @@
 	let {
 		item,
 		selected = false,
-		onselect,
-		onverdict,
+		onSelect,
+		onVerdict,
 		renderProposal,
 		when = whenOf,
 	}: Props = $props();
@@ -108,7 +108,7 @@
 		if (!open) return;
 		// Sending the decline template closes the item as declined, whichever button sent it.
 		const type = selectedDraft?.outcome === "decline" ? "decline" : "approve";
-		onverdict({ type, id: item.id, draft: current() });
+		onVerdict({ type, id: item.id, draft: current() });
 	}
 
 	export function decline() {
@@ -120,7 +120,7 @@
 			edit();
 			return;
 		}
-		onverdict({ type: "decline", id: item.id });
+		onVerdict({ type: "decline", id: item.id });
 	}
 
 	export function steer() {
@@ -135,13 +135,13 @@
 	}
 
 	export function undo() {
-		if (canUndo(item)) onverdict({ type: "undo", id: item.id });
+		if (canUndo(item)) onVerdict({ type: "undo", id: item.id });
 	}
 
 	function submitSteer() {
 		const text = note.trim();
 		if (!text) return;
-		onverdict({ type: "steer", id: item.id, note: text });
+		onVerdict({ type: "steer", id: item.id, note: text });
 		steering = false;
 		note = "";
 	}
@@ -171,19 +171,16 @@
 	);
 </script>
 
-<!-- WHY a card only while it waits: a decided or automatic item is a line in a log, so it
-     drops to the grey ground and the queue stays scannable. The card step draws its own
-     hairline, so a border on top of it would show a 2px edge. -->
-<!-- WHY a focusable article: j and k move focus card to card, and a screen reader
-     reads the card as one labelled unit. -->
+<!-- Only a waiting item is a card; the card step draws its own hairline, so a border here
+     doubles it. Focusable so j and k move card to card. -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <article
 	data-inbox-item={item.id}
 	data-selected={selected || undefined}
 	aria-label={item.title}
 	tabindex={selected ? 0 : -1}
-	onfocusin={onselect}
-	onpointerdown={onselect}
+	onfocusin={onSelect}
+	onpointerdown={onSelect}
 	class={cn(
 		"flex flex-col gap-3 p-3 outline-none transition-[background-color,box-shadow] duration-quick ease-smooth-out motion-reduce:transition-none",
 		"focus-visible:shadow-(--ring-focus)",
@@ -327,7 +324,7 @@
 				selected={selectedDraft.templateId}
 				bind:edits
 				bind:bodyEl
-				onpick={(id) => (pickedDraft = id)}
+				onPick={(id) => (pickedDraft = id)}
 			/>
 		</div>
 	{/if}

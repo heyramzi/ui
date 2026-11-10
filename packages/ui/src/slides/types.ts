@@ -80,6 +80,7 @@ export type DeckProps = {
   labels?: Partial<DeckLabels>;
   class?: string;
   style?: string;
-  onchange?: (index: number, step: number) => void;
+  /** Called with the new position when the slide or its fragment step changes. */
+  onIndexChange?: (index: number, step: number) => void;
   children?: Snippet;
 };

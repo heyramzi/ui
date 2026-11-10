@@ -221,7 +221,7 @@
 		<Figure value="—" eyebrow="Latest" size="md" />
 	{/if}
 
-	<ChartPlot class="hr-chart-body" height="{height}px" {label} {table} onstep={step}>
+	<ChartPlot class="hr-chart-body" height="{height}px" {label} {table} onStep={step}>
 		{#if data.length === 0}
 			<div class="empty"><p>No data</p></div>
 		{:else}

@@ -156,7 +156,7 @@ matches no group is drawn at the top level.
 inclusive ISO dates (`"2026-10-16"`). Drag a bar to move it, drag an edge to
 resize it, and the bar glides from day to day while a tip shows the new range.
 A focused bar moves a day with the arrow keys, and Shift plus an arrow moves
-its end. Leave out `onChange` and the chart is read only.
+its end. Leave out `onDatesChange` and the chart is read only.
 
 ```svelte
 <TaskGantt
@@ -168,7 +168,7 @@ its end. Leave out `onChange` and the chart is read only.
   getDependsOn={(task) => task.blockedBy}
   groups={columns}
   getGroup={(task) => task.column}
-  onChange={(id, { start, end }) => save(id, start, end)}
+  onDatesChange={(id, { start, end }) => save(id, start, end)}
 />
 ```
 
@@ -176,7 +176,7 @@ its end. Leave out `onChange` and the chart is read only.
 | -------------- | ----------------------------------------- | ----------------------------------------------------------- |
 | `items`, `getId`, `getTitle` |                             | Required.                                                   |
 | `getStart`, `getEnd` | `(item: T) => string \| null \| undefined` | ISO dates, inclusive. A one-day task has the same start and end. One date alone is a one-day task, none is undated. A parent with no dates draws the span of its children as an outline bar. |
-| `onChange`     | `(id, { start, end }) => void \| Promise<void>` | Called after a drag, a resize or a key nudge.        |
+| `onDatesChange` | `(id, { start, end }) => void \| Promise<void>` | Called after a drag, a resize or a key nudge.        |
 | `onSelect`     | `(id) => void`                            | A click or Enter that didn't move the bar.                  |
 | `getHue`       | `(item: T) => string \| undefined`         | Bar color. Falls back to the group hue, then `--color-primary`. |
 | `getProgress`  | `(item: T) => number \| undefined`         | 0 to 1, filled from the left.                               |

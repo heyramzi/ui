@@ -22,13 +22,18 @@
 		 * Fires when the person changes the mode, never on load. An app that saves the choice
 		 * on its server posts it here.
 		 */
-		onChange?: (mode: ThemeMode) => void;
+		onModeChange?: (mode: ThemeMode) => void;
 	}
 
 	// =========================
 	// PROPS
 	// =========================
-	let { initial = "system", onChange, synchronousModeChanges = true, ...watcher }: Props = $props();
+	let {
+		initial = "system",
+		onModeChange,
+		synchronousModeChanges = true,
+		...watcher
+	}: Props = $props();
 
 	// =========================
 	// EFFECTS
@@ -37,7 +42,7 @@
 	let seen: ThemeMode | null = null;
 	$effect(() => {
 		const next = userPrefersMode.current;
-		if (seen !== null && next !== seen) onChange?.(next);
+		if (seen !== null && next !== seen) onModeChange?.(next);
 		seen = next;
 	});
 </script>

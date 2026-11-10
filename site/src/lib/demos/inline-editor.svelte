@@ -61,8 +61,8 @@
 		{doc}
 		placeholder="Write a note"
 		class="tiptap-content min-h-28 p-3 text-sm outline-none"
-		onchange={(next) => (doc = next)}
-		onexit={() => api?.focus()}
-		onready={(a) => (api = a)}
+		onDocChange={(next) => (doc = next)}
+		onExit={() => api?.focus()}
+		onReady={(a) => (api = a)}
 	/>
 </div>

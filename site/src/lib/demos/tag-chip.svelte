@@ -15,7 +15,7 @@
 		<TagChip
 			class="max-w-48"
 			removeLabel={`Remove ${tag}`}
-			onremove={() => {
+			onRemove={() => {
 				tags = tags.filter((t) => t !== tag);
 			}}
 		>

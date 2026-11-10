@@ -28,7 +28,7 @@ pnpm add @heyramzi/ui
   let doc = $state<Record<string, unknown> | null>(null);
 </script>
 
-<RichEditor content={doc} onchange={(json) => (doc = json)} preset="full" />
+<RichEditor content={doc} onContentChange={(json) => (doc = json)} preset="full" />
 
 <RichRenderer content={doc} />
 ```

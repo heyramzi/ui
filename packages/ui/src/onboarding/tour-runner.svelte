@@ -10,13 +10,13 @@
 		tour,
 		steps,
 		strings,
-		onfinish,
+		onFinish,
 	}: {
 		tour: Tour;
 		steps: Step[];
 		strings: Strings;
 		/** `null` means the tour never showed, so nothing is worth recording. */
-		onfinish: (outcome: Outcome | null) => void;
+		onFinish: (outcome: Outcome | null) => void;
 	} = $props();
 
 	// The provider keys this component per run, so the tour never changes under it.
@@ -40,7 +40,7 @@
 	function finish(outcome: Outcome | null) {
 		if (finished) return;
 		finished = true;
-		onfinish(outcome);
+		onFinish(outcome);
 	}
 
 	// Dismissing on the last step reports "dismissed" and then "completed" in one go, so the
@@ -134,9 +134,9 @@
 				{strings}
 				titleAttrs={api.getTitleProps()}
 				bodyAttrs={api.getDescriptionProps()}
-				onclose={dismiss}
-				onprev={() => api.prev()}
-				onnext={() => (api.lastStep ? dismiss() : api.next())}
+				onClose={dismiss}
+				onPrev={() => api.prev()}
+				onNext={() => (api.lastStep ? dismiss() : api.next())}
 			/>
 		</div>
 	</div>

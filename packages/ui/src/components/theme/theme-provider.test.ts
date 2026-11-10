@@ -46,16 +46,16 @@ describe("ThemeProvider", () => {
   });
 
   it("reports a person's choice and not the load", () => {
-    const onChange = vi.fn();
-    const done = render({ initial: "light", onChange, disableHeadScriptInjection: true });
+    const onModeChange = vi.fn();
+    const done = render({ initial: "light", onModeChange, disableHeadScriptInjection: true });
     flushSync();
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onModeChange).not.toHaveBeenCalled();
     setMode("dark");
     flushSync();
-    expect(onChange).toHaveBeenLastCalledWith("dark");
+    expect(onModeChange).toHaveBeenLastCalledWith("dark");
     toggleMode();
     flushSync();
-    expect(onChange).toHaveBeenLastCalledWith("light");
+    expect(onModeChange).toHaveBeenLastCalledWith("light");
     done();
   });
 });

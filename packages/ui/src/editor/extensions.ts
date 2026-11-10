@@ -146,7 +146,7 @@ export type ExtensionOptions = {
   placeholder: string;
   blockIds: boolean;
   /** A document page: heading anchors with a hover "Copy link", and the label for it. */
-  anchors?: { label: string; oncopy?: (url: string, id: string) => void } | false;
+  anchors?: { label: string; onCopy?: (url: string, id: string) => void } | false;
 };
 
 /** The extension list for a preset: `full` adds CMS blocks, YouTube, images and H4. */

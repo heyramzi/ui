@@ -40,7 +40,7 @@
 		showGlow?: boolean;
 		/** Hovered ring index, bindable for legend hover-sync. */
 		hoveredIndex?: number | null;
-		onHoverChange?: (index: number | null) => void;
+		onHoveredIndexChange?: (index: number | null) => void;
 		minWidth?: number;
 		ariaLabel?: string;
 		/** Replaces the center readout, for a number that isn't the ring's own value. */
@@ -63,7 +63,7 @@
 		animate = true,
 		showGlow = true,
 		hoveredIndex = $bindable(null),
-		onHoverChange,
+		onHoveredIndexChange,
 		minWidth = 170,
 		ariaLabel,
 		children,
@@ -99,7 +99,7 @@
 	// =========================
 	function setHover(index: number | null) {
 		hoveredIndex = index;
-		onHoverChange?.(index);
+		onHoveredIndexChange?.(index);
 	}
 </script>
 

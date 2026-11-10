@@ -130,10 +130,10 @@
 				count={screen.parts.length}
 				{labels}
 				{readonly}
-				oncommit={(change, live) => commitPart(part, change, live)}
-				onmove={(step) => write({ parts: movePart(screen.parts, part.id, step) })}
-				onremove={() => write({ parts: removePart(screen.parts, part.id) })}
-				onend={() => editor?.endTextEdit()}
+				onCommit={(change, live) => commitPart(part, change, live)}
+				onMove={(step) => write({ parts: movePart(screen.parts, part.id, step) })}
+				onRemove={() => write({ parts: removePart(screen.parts, part.id) })}
+				onEnd={() => editor?.endTextEdit()}
 			/>
 		{/each}
 

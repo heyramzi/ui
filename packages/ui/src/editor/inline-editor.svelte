@@ -55,11 +55,11 @@
 		selectAll?: boolean;
 		/** Opens with the text replaced by these characters and the caret after them. */
 		seed?: string;
-		onchange: (doc: InlineDoc) => void;
-		onexit: () => void;
-		onlink?: () => void;
-		onstate?: () => void;
-		onready?: (api: InlineEditorApi) => void;
+		onDocChange: (doc: InlineDoc) => void;
+		onExit: () => void;
+		onLink?: () => void;
+		onState?: () => void;
+		onReady?: (api: InlineEditorApi) => void;
 		/** The editable region's accessible name. */
 		label?: string;
 	}
@@ -75,11 +75,11 @@
 		at,
 		selectAll = false,
 		seed,
-		onchange,
-		onexit,
-		onlink,
-		onstate,
-		onready,
+		onDocChange,
+		onExit,
+		onLink,
+		onState,
+		onReady,
 		label = "Text editor",
 	}: Props = $props();
 
@@ -191,11 +191,11 @@
 				return {
 					"Mod-Shift-x": () => this.editor.commands.toggleStrike(),
 					"Mod-k": () => {
-						onlink?.();
+						onLink?.();
 						return true;
 					},
 					Escape: () => {
-						onexit();
+						onExit();
 						return true;
 					},
 					// Lists stay flat: the stored text has no nesting, so Tab does nothing.
@@ -264,9 +264,9 @@
 				},
 			},
 			onUpdate: ({ editor: ed, transaction }) => {
-				if (transaction.docChanged) onchange(ed.getJSON());
+				if (transaction.docChanged) onDocChange(ed.getJSON());
 			},
-			onTransaction: () => onstate?.(),
+			onTransaction: () => onState?.(),
 		});
 
 		const hit = at ? editor.view.posAtCoords({ left: at.x, top: at.y }) : null;
@@ -275,7 +275,7 @@
 		else if (hit) editor.chain().setTextSelection(hit.pos).focus().run();
 		else editor.commands.focus("end");
 
-		onready?.({
+		onReady?.({
 			toggle: (command) => {
 				if (
 					marksOnly &&

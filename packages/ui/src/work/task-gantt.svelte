@@ -56,7 +56,7 @@
 		groups?: KanbanColumnDef[];
 		getGroup?: (item: T) => string;
 		/** Called after a bar is dragged, resized or nudged. Leave it out for a read-only chart. */
-		onChange?: (id: string, change: GanttChange) => void | Promise<void>;
+		onDatesChange?: (id: string, change: GanttChange) => void | Promise<void>;
 		/** Called on a click or Enter that did not move the bar. */
 		onSelect?: (id: string) => void;
 		/** What a screen reader hears after an arrow key moves a bar, given its new dates. */
@@ -94,7 +94,7 @@
 		getDependsOn,
 		groups,
 		getGroup,
-		onChange,
+		onDatesChange,
 		onSelect,
 		movedLabel = (dates) => `Now ${dates}`,
 		renderLabel,
@@ -248,9 +248,9 @@
 							tipBelow={row.order === 0 && !groups}
 							{drag}
 							setDrag={(next) => (drag = next)}
-							onhover={hover}
+							onHover={hover}
 							onToggle={toggle}
-							{onChange}
+							{onDatesChange}
 							{onSelect}
 							onKeyMove={(id, span) => void onKeyMove(id, span)}
 							{renderLabel}

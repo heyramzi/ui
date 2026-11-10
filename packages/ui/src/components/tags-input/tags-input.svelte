@@ -36,7 +36,7 @@
 		/** The tags. Order is kept. */
 		value: readonly string[];
 		/** Called with the whole next list. Throw to refuse: the list reverts. */
-		onchange: (next: string[]) => void | Promise<void>;
+		onValueChange: (next: string[]) => void | Promise<void>;
 		/** The labels people pick from. Picking one stores its exact spelling and case. */
 		options?: readonly string[];
 		/**
@@ -47,8 +47,8 @@
 		/** Most tags the list holds. Past it the input goes away. */
 		max?: number;
 		/**
-		 * Tags typed freely, with no options and no menu: Enter, comma, space or Tab adds what's
-		 * typed, a pasted list adds every part, and leaving the field keeps what was typed.
+		 * Free typing, no options or menu: Enter, comma, space or Tab adds what's typed, a paste
+		 * adds every part, and leaving the field keeps the text.
 		 */
 		free?: boolean;
 		/** Accessible name of the field. */
@@ -63,7 +63,7 @@
 	// =========================
 	let {
 		value,
-		onchange,
+		onValueChange,
 		options = [],
 		allowCreate = true,
 		max,
@@ -125,7 +125,7 @@
 		const before = tags;
 		pending = [...next];
 		try {
-			await onchange([...next]);
+			await onValueChange([...next]);
 			announcement = [
 				...next.filter((tag) => !before.includes(tag)).map(text.added),
 				...before.filter((tag) => !next.includes(tag)).map(text.removed),
@@ -276,7 +276,7 @@
 		title={tag}
 		removeLabel={text.remove(tag)}
 		removeFocusable={false}
-		onremove={removable ? () => commit(removeTag(tags, tag)) : undefined}
+		onRemove={removable ? () => commit(removeTag(tags, tag)) : undefined}
 		onkeydown={removable ? (event: KeyboardEvent) => onChipKey(event, tag) : undefined}
 	>
 		{tag}

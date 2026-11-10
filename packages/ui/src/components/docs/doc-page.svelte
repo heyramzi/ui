@@ -99,7 +99,7 @@
 				items={headings}
 				active={spy.active}
 				label={contentsLabel}
-				onselect={(id) => spy.jump(id)}
+				onSelect={(id) => spy.jump(id)}
 			/>
 		</div>
 	{/if}
@@ -164,7 +164,7 @@
 					items={headings}
 					active={spy.active}
 					label={contentsLabel}
-					onselect={(id) => spy.jump(id)}
+					onSelect={(id) => spy.jump(id)}
 				/>
 			</aside>
 		{/if}

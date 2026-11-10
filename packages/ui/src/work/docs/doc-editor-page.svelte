@@ -20,8 +20,8 @@
 		title: string;
 		/** The body as Tiptap JSON. Read once: wrap the page in `{#key doc.id}` to swap documents. */
 		content?: Record<string, unknown> | null;
-		onchange?: (json: Record<string, unknown>) => void;
-		ontitle?: (title: string) => void;
+		onContentChange?: (json: Record<string, unknown>) => void;
+		onTitleChange?: (title: string) => void;
 		/** Focus the title on open: a doc that was just created. */
 		autofocusTitle?: boolean;
 		/** Parent icon, parent title › this doc. */
@@ -35,7 +35,7 @@
 		/** The tile above the title. Defaults to a document glyph. */
 		icon?: Snippet;
 		/** A heading's link was copied; show the toast here. */
-		oncopylink?: (url: string, id: string) => void;
+		onCopyLink?: (url: string, id: string) => void;
 		labels?: Partial<DocLabels>;
 		/** The live editor, to focus it or read it. */
 		instance?: Editor | null;
@@ -47,15 +47,15 @@
 	let {
 		title = $bindable(""),
 		content = null,
-		onchange,
-		ontitle,
+		onContentChange,
+		onTitleChange,
 		autofocusTitle = false,
 		breadcrumb,
 		menu,
 		meta,
 		actions,
 		icon,
-		oncopylink,
+		onCopyLink,
 		labels: labelOverrides,
 		instance = $bindable(null),
 	}: Props = $props();
@@ -92,7 +92,7 @@
 
 	function handleChange(json: Record<string, unknown>) {
 		outline = outlineOfDoc(json);
-		onchange?.(json);
+		onContentChange?.(json);
 	}
 
 	function onTitleKey(event: KeyboardEvent) {
@@ -129,7 +129,7 @@
 					items={outline}
 					active={spy.active}
 					label={t.outline}
-					onselect={(id) => spy.jump(id)}
+					onSelect={(id) => spy.jump(id)}
 				/>
 			</div>
 			<!-- Narrow: the strip the reading pages use, since a phone has no gutter. -->
@@ -141,7 +141,7 @@
 					items={outline}
 					active={spy.active}
 					label={t.outline}
-					onselect={(id) => spy.jump(id)}
+					onSelect={(id) => spy.jump(id)}
 				/>
 			</div>
 		{/if}
@@ -161,7 +161,7 @@
 				<textarea
 					bind:this={titleField}
 					bind:value={title}
-					oninput={() => ontitle?.(title)}
+					oninput={() => onTitleChange?.(title)}
 					onkeydown={onTitleKey}
 					rows="1"
 					spellcheck="false"
@@ -172,13 +172,13 @@
 
 				<RichEditor
 					{content}
-					onchange={handleChange}
+					onContentChange={handleChange}
 					variant="page"
 					preset="full"
 					placeholder=""
 					minHeight="20rem"
 					copyLinkLabel={t.copyLink}
-					{oncopylink}
+					{onCopyLink}
 					bind:instance
 				/>
 			</div>

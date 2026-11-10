@@ -969,7 +969,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "A bar is a button named by the task's title and dates, plus a hint about the arrow keys when the chart is editable.",
-      "Without onChange the arrow keys do nothing and the chart is read only.",
+      "Without onDatesChange the arrow keys do nothing and the chart is read only.",
       "No key moves a bar's start alone. Move the bar, then fix its end with Shift.",
       "Milestone flags and a parent's summary bar can be selected but not moved.",
       'After an arrow key, a live region reads the new dates, like "Now Nov 5 to Nov 9, 5 days". movedLabel changes the words. Focus stays on the bar.',
@@ -1061,7 +1061,7 @@ export const a11yNotes: Record<string, A11yNote> = {
       { keys: ["Cmd+E"], does: "Inline code." },
       { keys: ["Cmd+Shift+8"], does: "Bullet list." },
       { keys: ["Cmd+Shift+7"], does: "Numbered list." },
-      { keys: ["Cmd+K"], does: "Asks the host for a link, through onlink." },
+      { keys: ["Cmd+K"], does: "Asks the host for a link, through onLink." },
       { keys: ["Cmd+Z"], does: "Undo." },
       { keys: ["Cmd+Shift+Z", "Cmd+Y"], does: "Redo." },
       { keys: ["Enter"], does: "In a list, starts a new item." },
@@ -1070,7 +1070,7 @@ export const a11yNotes: Record<string, A11yNote> = {
         does: "In a list, lifts the item out. From a plain paragraph, leaves the field.",
       },
       { keys: ["Tab"], does: "Does nothing, so lists stay flat." },
-      { keys: ["Esc"], does: "Calls onexit. The host decides where focus goes." },
+      { keys: ["Esc"], does: "Calls onExit. The host decides where focus goes." },
     ],
     notes: [
       "Cmd is Ctrl on Windows and Linux.",

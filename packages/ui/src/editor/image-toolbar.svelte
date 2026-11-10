@@ -9,14 +9,14 @@
 	// =========================
 	interface Props {
 		pos: { top: number; left: number };
-		onalign: (align: "left" | "center" | "right") => void;
-		ondelete: () => void;
+		onAlign: (align: "left" | "center" | "right") => void;
+		onDelete: () => void;
 	}
 
 	// =========================
 	// PROPS
 	// =========================
-	let { pos, onalign, ondelete }: Props = $props();
+	let { pos, onAlign, onDelete }: Props = $props();
 </script>
 
 <!-- =========================== -->
@@ -27,7 +27,7 @@
 		type="button"
 		class="image-toolbar-btn"
 		title="Align left"
-		onclick={() => onalign("left")}
+		onclick={() => onAlign("left")}
 	>
 		<TextAlignLeft aria-hidden="true" size={14} />
 	</button>
@@ -35,7 +35,7 @@
 		type="button"
 		class="image-toolbar-btn"
 		title="Align center"
-		onclick={() => onalign("center")}
+		onclick={() => onAlign("center")}
 	>
 		<TextAlignCenter aria-hidden="true" size={14} />
 	</button>
@@ -43,7 +43,7 @@
 		type="button"
 		class="image-toolbar-btn"
 		title="Align right"
-		onclick={() => onalign("right")}
+		onclick={() => onAlign("right")}
 	>
 		<TextAlignRight aria-hidden="true" size={14} />
 	</button>
@@ -52,7 +52,7 @@
 		type="button"
 		class="image-toolbar-btn destructive"
 		title="Delete image"
-		onclick={ondelete}
+		onclick={onDelete}
 	>
 		<Trash aria-hidden="true" size={14} />
 	</button>

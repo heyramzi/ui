@@ -32,7 +32,7 @@
 		formatPercentage?: (p: number) => string;
 		/** Hovered index, bindable for chart hover-sync. */
 		hoveredIndex?: number | null;
-		onHoverChange?: (index: number | null) => void;
+		onHoveredIndexChange?: (index: number | null) => void;
 		class?: string;
 	}
 
@@ -49,7 +49,7 @@
 		formatValue = (v) => v.toLocaleString(),
 		formatPercentage = (p) => `${p.toFixed(0)}%`,
 		hoveredIndex = $bindable(null),
-		onHoverChange,
+		onHoveredIndexChange,
 		class: className,
 	}: Props = $props();
 
@@ -63,7 +63,7 @@
 
 	function setHover(index: number | null) {
 		hoveredIndex = index;
-		onHoverChange?.(index);
+		onHoveredIndexChange?.(index);
 	}
 </script>
 

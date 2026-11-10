@@ -16,7 +16,7 @@
 		active: string;
 		/** What the rail is called: "On this page". Passed in so the library holds no copy. */
 		label: string;
-		onselect: (id: string) => void;
+		onSelect: (id: string) => void;
 		/**
 		 * `rail` sits beside the document, `bar` replaces it on a narrow pane, and `ticks` marks
 		 * each heading in the gutter with a card of headings on hover or focus.
@@ -27,7 +27,7 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { items, active, label, onselect, variant = "rail" }: Props = $props();
+	let { items, active, label, onSelect, variant = "rail" }: Props = $props();
 
 	let hovering = $state(false);
 	let focusing = $state(false);
@@ -90,7 +90,7 @@
 	// Closing hands focus back to the bar's trigger, which Bits UI's Popover does.
 	function pick(id: string) {
 		open = false;
-		onselect(id);
+		onSelect(id);
 	}
 
 	// The menu opens on the heading the reader is in, not on the first one.

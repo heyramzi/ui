@@ -47,7 +47,9 @@ describe("TaskGantt", () => {
 
   it("moves a bar a day on an arrow key, and grows it on shift plus arrow", async () => {
     const changes: GanttChange[] = [];
-    const root = render({ onChange: (_id: string, change: GanttChange) => changes.push(change) });
+    const root = render({
+      onDatesChange: (_id: string, change: GanttChange) => changes.push(change),
+    });
     const bar = root.querySelector("[data-bar]");
     bar?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
     bar?.dispatchEvent(
@@ -61,7 +63,7 @@ describe("TaskGantt", () => {
   });
 
   it("announces a bar's new dates after an arrow key and keeps focus on it", async () => {
-    const root = render({ onChange: () => {} });
+    const root = render({ onDatesChange: () => {} });
     const bar = root.querySelector<HTMLElement>('[data-bar="a"]');
     bar?.focus();
     bar?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
@@ -70,7 +72,7 @@ describe("TaskGantt", () => {
     expect(document.activeElement).toBe(root.querySelector('[data-bar="a"]'));
   });
 
-  it("selects on Enter and stays read-only without onChange", async () => {
+  it("selects on Enter and stays read-only without onDatesChange", async () => {
     const picked: string[] = [];
     const root = render({ onSelect: (id: string) => picked.push(id) });
     const bar = root.querySelector("[data-bar]");

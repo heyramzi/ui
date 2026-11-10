@@ -127,6 +127,6 @@
 
 {#if active}
 	{#key active.run}
-		<TourRunner tour={active.tour} steps={active.steps} {strings} onfinish={finish} />
+		<TourRunner tour={active.tour} steps={active.steps} {strings} onFinish={finish} />
 	{/key}
 {/if}

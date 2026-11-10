@@ -148,7 +148,7 @@
 <!-- =========================== -->
 <!-- TIME SERIES CHART -->
 <!-- =========================== -->
-<ChartPlot class="hr-ts-chart" height="{height}px" label={ariaLabel} {table} onstep={step}>
+<ChartPlot class="hr-ts-chart" height="{height}px" label={ariaLabel} {table} onStep={step}>
 	{#if chartData.length === 0}
 		<div class="empty"><p>No historical data yet</p></div>
 	{:else}

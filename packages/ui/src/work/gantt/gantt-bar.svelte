@@ -22,8 +22,8 @@
 		tipBelow: boolean;
 		drag: Drag | null;
 		setDrag: (drag: Drag | null) => void;
-		onhover: (id: string, on: boolean) => void;
-		onChange?: (id: string, change: GanttChange) => void | Promise<void>;
+		onHover: (id: string, on: boolean) => void;
+		onDatesChange?: (id: string, change: GanttChange) => void | Promise<void>;
 		onSelect?: (id: string) => void;
 		/** After an arrow key's change is saved, with the bar's new dates. */
 		onKeyMove?: (id: string, span: Span) => void;
@@ -43,14 +43,14 @@
 		tipBelow,
 		drag,
 		setDrag,
-		onhover,
-		onChange,
+		onHover,
+		onDatesChange,
 		onSelect,
 		onKeyMove,
 		describe,
 	}: Props = $props();
 
-	let editable = $derived(!!onChange);
+	let editable = $derived(!!onDatesChange);
 	let dragging = $derived(drag?.id === id);
 	let width = $derived(barWidth(span, layout));
 	let left = $derived(dayX(layout, span.start) + layout.inset);
@@ -74,7 +74,8 @@
 		if (!drag || drag.id !== id) return;
 		const moved = drag.dx !== 0;
 		setDrag(null);
-		if (moved) void onChange?.(id, { start: isoFromDay(span.start), end: isoFromDay(span.end) });
+		if (moved)
+			void onDatesChange?.(id, { start: isoFromDay(span.start), end: isoFromDay(span.end) });
 		else onSelect?.(id);
 	}
 
@@ -92,7 +93,7 @@
 			? { start: span.start, end: Math.max(span.start, span.end + step) }
 			: { start: span.start + step, end: span.end + step };
 		if (next.start === span.start && next.end === span.end) return;
-		await onChange?.(id, { start: isoFromDay(next.start), end: isoFromDay(next.end) });
+		await onDatesChange?.(id, { start: isoFromDay(next.start), end: isoFromDay(next.end) });
 		onKeyMove?.(id, next);
 	}
 </script>
@@ -120,8 +121,8 @@
 	onpointermove={onPointerMove}
 	onpointerup={onPointerUp}
 	onpointercancel={() => setDrag(null)}
-	onpointerenter={() => onhover(id, true)}
-	onpointerleave={() => onhover(id, false)}
+	onpointerenter={() => onHover(id, true)}
+	onpointerleave={() => onHover(id, false)}
 	onkeydown={(e) => void onKeyDown(e)}
 >
 	{#if progress > 0}

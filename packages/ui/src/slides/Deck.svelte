@@ -32,7 +32,7 @@
 		labels,
 		class: className,
 		style,
-		onchange,
+		onIndexChange,
 		children,
 	}: DeckProps = $props();
 
@@ -90,7 +90,7 @@
 
 	onMount(() => deck.mount());
 
-	$effect(() => deck.listen((position) => onchange?.(position.index, position.step)));
+	$effect(() => deck.listen((position) => onIndexChange?.(position.index, position.step)));
 	$effect(() => {
 		const options = urlSync;
 		if (options) return untrack(() => attachUrlSync(deck, options === true ? {} : options));
@@ -209,7 +209,7 @@
 	{/if}
 
 	{#if controls}
-		<Controls {deck} onpresenter={openPresenter} onfullscreen={toggleFullscreen} />
+		<Controls {deck} onPresenter={openPresenter} onFullscreen={toggleFullscreen} />
 	{/if}
 </div>
 

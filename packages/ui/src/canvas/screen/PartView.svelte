@@ -20,10 +20,10 @@
 		count: number;
 		labels: ScreenLabels;
 		readonly?: boolean;
-		oncommit: (patch: Partial<Omit<ScreenPart, "id" | "kind">>, live: boolean) => void;
-		onmove: (step: -1 | 1) => void;
-		onremove: () => void;
-		onend: () => void;
+		onCommit: (patch: Partial<Omit<ScreenPart, "id" | "kind">>, live: boolean) => void;
+		onMove: (step: -1 | 1) => void;
+		onRemove: () => void;
+		onEnd: () => void;
 	}
 
 	// =========================
@@ -36,10 +36,10 @@
 		count,
 		labels,
 		readonly = false,
-		oncommit,
-		onmove,
-		onremove,
-		onend,
+		onCommit,
+		onMove,
+		onRemove,
+		onEnd,
 	}: Props = $props();
 
 	// =========================
@@ -70,11 +70,11 @@
 		keep(event);
 		if (event.key === "Enter") {
 			event.preventDefault();
-			oncommit({ items: [...items.slice(0, at + 1), "Item", ...items.slice(at + 1)] }, false);
+			onCommit({ items: [...items.slice(0, at + 1), "Item", ...items.slice(at + 1)] }, false);
 			focusItem(at + 1);
 		} else if (event.key === "Backspace" && items[at] === "" && items.length > 1) {
 			event.preventDefault();
-			oncommit({ items: removeItem(items, at) }, false);
+			onCommit({ items: removeItem(items, at) }, false);
 			focusItem(Math.max(0, at - 1));
 		}
 	}
@@ -95,7 +95,7 @@
 		{readonly}
 		aria-label={aria}
 		oninput={(event) => commit(event.currentTarget.value, true)}
-		onblur={onend}
+		onblur={onEnd}
 		onkeydown={keep}
 	/>
 {/snippet}
@@ -107,7 +107,7 @@
 			{@render words(
 				part.label,
 				labels.kinds.header,
-				(next, live) => oncommit({ label: next }, live),
+				(next, live) => onCommit({ label: next }, live),
 				"cv-header-title",
 			)}
 			<span class="cv-menu" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -116,7 +116,7 @@
 		<div class="cv-button-row">
 			<div class="cv-button is-{part.variant ?? 'primary'}">
 				{@render words(part.label, labels.kinds.button, (next, live) =>
-					oncommit({ label: next }, live),
+					onCommit({ label: next }, live),
 				)}
 			</div>
 		</div>
@@ -125,7 +125,7 @@
 			{@render words(
 				part.label,
 				labels.kinds.input,
-				(next, live) => oncommit({ label: next }, live),
+				(next, live) => onCommit({ label: next }, live),
 				"cv-input-label",
 			)}
 			<div class="cv-input-box" aria-hidden="true"><i></i></div>
@@ -138,7 +138,7 @@
 			{@render words(
 				part.label,
 				labels.kinds.image,
-				(next, live) => oncommit({ label: next }, live),
+				(next, live) => onCommit({ label: next }, live),
 				"cv-caption",
 			)}
 		</div>
@@ -154,8 +154,8 @@
 						{readonly}
 						aria-label={labels.kinds.list}
 						oninput={(event) =>
-							oncommit({ items: setItem(items, at, event.currentTarget.value) }, true)}
-						onblur={onend}
+							onCommit({ items: setItem(items, at, event.currentTarget.value) }, true)}
+						onblur={onEnd}
 						onkeydown={(event) => itemKey(event, at)}
 					/>
 					{#if !readonly && items.length > 1}
@@ -163,7 +163,7 @@
 							type="button"
 							class="cv-mini nodrag"
 							aria-label={labels.removeItem}
-							onclick={() => oncommit({ items: removeItem(items, at) }, false)}
+							onclick={() => onCommit({ items: removeItem(items, at) }, false)}
 						>
 							<GlyphIcon name="close" size={10} />
 						</button>
@@ -175,7 +175,7 @@
 					<button
 						type="button"
 						class="cv-add-item nodrag"
-						onclick={() => oncommit({ items: addItem(items) }, false)}
+						onclick={() => onCommit({ items: addItem(items) }, false)}
 					>
 						<GlyphIcon name="plus" size={10} />
 						{labels.addItem}
@@ -189,7 +189,7 @@
 				{@render words(
 					part.label,
 					labels.kinds.modal,
-					(next, live) => oncommit({ label: next }, live),
+					(next, live) => onCommit({ label: next }, live),
 					"cv-modal-title",
 				)}
 				<GlyphIcon name="close" size={10} class="cv-x" />
@@ -197,7 +197,7 @@
 			{@render words(
 				part.text ?? "",
 				labels.kinds.modal,
-				(next, live) => oncommit({ text: next }, live),
+				(next, live) => onCommit({ text: next }, live),
 				"cv-modal-text",
 			)}
 		</div>
@@ -211,7 +211,7 @@
 					class="cv-tool is-text"
 					aria-pressed={part.variant !== "secondary"}
 					onclick={() =>
-						oncommit({ variant: part.variant === "secondary" ? "primary" : "secondary" }, false)}
+						onCommit({ variant: part.variant === "secondary" ? "primary" : "secondary" }, false)}
 				>
 					{part.variant === "secondary" ? labels.secondary : labels.primary}
 				</button>
@@ -221,7 +221,7 @@
 				class="cv-tool"
 				aria-label={labels.moveUp}
 				disabled={index === 0}
-				onclick={() => onmove(-1)}
+				onclick={() => onMove(-1)}
 			>
 				<GlyphIcon name="up" />
 			</button>
@@ -230,11 +230,11 @@
 				class="cv-tool"
 				aria-label={labels.moveDown}
 				disabled={index === count - 1}
-				onclick={() => onmove(1)}
+				onclick={() => onMove(1)}
 			>
 				<GlyphIcon name="down" />
 			</button>
-			<button type="button" class="cv-tool" aria-label={labels.remove} onclick={onremove}>
+			<button type="button" class="cv-tool" aria-label={labels.remove} onclick={onRemove}>
 				<GlyphIcon name="close" />
 			</button>
 		</div>

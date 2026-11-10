@@ -46,7 +46,7 @@
 		},
 	]);
 
-	function onChange(id: string, change: GanttChange) {
+	function onDatesChange(id: string, change: GanttChange) {
 		tasks = tasks.map((t) => (t.id === id ? { ...t, ...change } : t));
 	}
 </script>
@@ -62,6 +62,6 @@
 		getDependsOn={(t) => t.dependsOn}
 		{today}
 		labelWidth={140}
-		{onChange}
+		{onDatesChange}
 	/>
 </div>

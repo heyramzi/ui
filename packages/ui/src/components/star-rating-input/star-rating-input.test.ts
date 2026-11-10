@@ -3,10 +3,10 @@ import { describe, expect, it, vi } from "vite-plus/test";
 import StarRatingInput from "#src/components/star-rating-input/star-rating-input.svelte";
 
 function render(props: Record<string, unknown> = {}) {
-  const onchange = vi.fn();
+  const onValueChange = vi.fn();
   const target = document.createElement("div");
   document.body.appendChild(target);
-  const app = mount(StarRatingInput, { target, props: { value: 0, onchange, ...props } });
+  const app = mount(StarRatingInput, { target, props: { value: 0, onValueChange, ...props } });
   flushSync();
   const stars = target.querySelector<HTMLElement>(".stars");
   if (!stars) throw new Error("StarRatingInput rendered no stars");
@@ -16,7 +16,7 @@ function render(props: Record<string, unknown> = {}) {
   };
   return {
     stars,
-    onchange,
+    onValueChange,
     key,
     done: () => {
       void unmount(app);
@@ -28,7 +28,7 @@ function render(props: Record<string, unknown> = {}) {
 // The 10 Nov audit: arrows did nothing, zero was out of reach, and a read-only name left out the value.
 describe("StarRatingInput keyboard", () => {
   it("is one slider from 0 to max that arrows step through", () => {
-    const { stars, onchange, key, done } = render({ value: 2 });
+    const { stars, onValueChange, key, done } = render({ value: 2 });
     expect(stars.getAttribute("role")).toBe("slider");
     expect(stars.tabIndex).toBe(0);
     expect(stars.getAttribute("aria-valuemin")).toBe("0");
@@ -38,27 +38,27 @@ describe("StarRatingInput keyboard", () => {
     key("ArrowLeft");
     key("ArrowDown");
     expect(stars.getAttribute("aria-valuenow")).toBe("1");
-    expect(onchange.mock.calls.map(([v]) => v)).toEqual([3, 2, 1]);
+    expect(onValueChange.mock.calls.map(([v]) => v)).toEqual([3, 2, 1]);
     done();
   });
 
   it("clears to zero with Home, and End goes to max", () => {
-    const { stars, onchange, key, done } = render({ value: 4 });
+    const { stars, onValueChange, key, done } = render({ value: 4 });
     key("Home");
     expect(stars.getAttribute("aria-valuenow")).toBe("0");
     expect(stars.getAttribute("aria-valuetext")).toBe("No rating");
-    expect(onchange).toHaveBeenLastCalledWith(0);
+    expect(onValueChange).toHaveBeenLastCalledWith(0);
     key("End");
     expect(stars.getAttribute("aria-valuenow")).toBe("5");
     done();
   });
 
   it("clears to zero when the only lit star is clicked again", () => {
-    const { stars, onchange, done } = render({ value: 1 });
+    const { stars, onValueChange, done } = render({ value: 1 });
     stars.querySelector<HTMLElement>("[data-value='1']")?.click();
     flushSync();
     expect(stars.getAttribute("aria-valuenow")).toBe("0");
-    expect(onchange).toHaveBeenLastCalledWith(0);
+    expect(onValueChange).toHaveBeenLastCalledWith(0);
     done();
   });
 
@@ -73,11 +73,11 @@ describe("StarRatingInput keyboard", () => {
   });
 
   it("ignores keys while disabled and leaves the Tab order", () => {
-    const { stars, onchange, key, done } = render({ value: 2, disabled: true });
+    const { stars, onValueChange, key, done } = render({ value: 2, disabled: true });
     expect(stars.tabIndex).toBe(-1);
     expect(stars.getAttribute("aria-disabled")).toBe("true");
     key("ArrowRight");
-    expect(onchange).not.toHaveBeenCalled();
+    expect(onValueChange).not.toHaveBeenCalled();
     done();
   });
 

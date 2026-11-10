@@ -14,5 +14,5 @@
 </script>
 
 <div class="w-full max-w-2xl rounded-xl border border-border bg-card p-4">
-	<RichEditor content={doc} onchange={(json) => (doc = json)} minHeight="14rem" />
+	<RichEditor content={doc} onContentChange={(json) => (doc = json)} minHeight="14rem" />
 </div>

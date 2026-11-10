@@ -15,13 +15,13 @@
 		selectedIndex: number;
 		/** The menu element, so the parent can close it on an outside click. */
 		el?: HTMLDivElement;
-		onselect: (item: SlashItem) => void;
+		onSelect: (item: SlashItem) => void;
 	}
 
 	// =========================
 	// PROPS
 	// =========================
-	let { id, items, pos, selectedIndex = $bindable(), el = $bindable(), onselect }: Props = $props();
+	let { id, items, pos, selectedIndex = $bindable(), el = $bindable(), onSelect }: Props = $props();
 </script>
 
 <!-- =========================== -->
@@ -42,7 +42,7 @@
 			type="button"
 			class="slash-item"
 			class:selected={i === selectedIndex}
-			onclick={() => onselect(item)}
+			onclick={() => onSelect(item)}
 			onpointerenter={() => (selectedIndex = i)}
 			role="option"
 			aria-selected={i === selectedIndex}

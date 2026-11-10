@@ -16,7 +16,7 @@
 		/** From chartTable(): the summary read after the name, and one row per point. */
 		table: ChartTable;
 		/** Shows point `i`'s tooltip, or clears it on `null`. */
-		onstep?: (i: number | null) => void;
+		onStep?: (i: number | null) => void;
 		/** Any CSS length. */
 		height?: string | null;
 		class?: string;
@@ -26,7 +26,7 @@
 	// =========================
 	// PROPS
 	// =========================
-	let { label, table, onstep, height, class: className, children }: Props = $props();
+	let { label, table, onStep, height, class: className, children }: Props = $props();
 
 	// =========================
 	// STATE
@@ -42,19 +42,19 @@
 		if (next === undefined) return;
 		e.preventDefault();
 		at = next ?? -1;
-		onstep?.(next);
+		onStep?.(next);
 	}
 
 	function onfocusout() {
 		if (at < 0) return;
 		at = -1;
-		onstep?.(null);
+		onStep?.(null);
 	}
 
 	// =========================
 	// DERIVED
 	// =========================
-	const count = $derived(onstep ? table.rows.length : 0);
+	const count = $derived(onStep ? table.rows.length : 0);
 	const shown = $derived(table.rows.length > 0);
 	const announce = $derived(at >= 0 ? rowSummary(table, at) : "");
 </script>

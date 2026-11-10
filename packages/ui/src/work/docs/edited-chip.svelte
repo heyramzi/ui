@@ -24,9 +24,9 @@
 		lastEditor?: (Person & { at?: DateInput }) | null;
 		/** The switch row shows only when this is passed. */
 		showAuthorNames?: boolean;
-		onshowauthors?: (show: boolean) => void;
+		onShowAuthorNamesChange?: (show: boolean) => void;
 		/** The history button shows only when this is passed. */
-		onhistory?: () => void;
+		onHistory?: () => void;
 		labels?: Partial<DocLabels>;
 		timeZone?: string;
 		now?: Date;
@@ -40,8 +40,8 @@
 		owner = null,
 		lastEditor = null,
 		showAuthorNames = false,
-		onshowauthors,
-		onhistory,
+		onShowAuthorNamesChange,
+		onHistory,
 		labels: labelOverrides,
 		timeZone,
 		now,
@@ -54,7 +54,7 @@
 	let chip = $derived(editedLabel(editedAt, t.edited, { timeZone, now }));
 	let editorStamp = $derived(editStamp(lastEditor?.at ?? editedAt, { timeZone, now }));
 	// Nothing to open: the chip is a plain label rather than a button that opens an empty card.
-	let hasDetails = $derived(!!onshowauthors || !!owner || !!lastEditor || !!onhistory);
+	let hasDetails = $derived(!!onShowAuthorNamesChange || !!owner || !!lastEditor || !!onHistory);
 </script>
 
 {#snippet person(who: Person)}
@@ -83,12 +83,12 @@
 			class="w-[21.5rem] gap-0 p-0 text-(length:--text-control)"
 		>
 			<div class="divide-y divide-border/70">
-				{#if onshowauthors}
+				{#if onShowAuthorNamesChange}
 					<div class="flex items-center justify-between px-4 py-3">
 						<span class="text-muted-foreground">{t.showAuthorNames}</span>
 						<Switch
 							checked={showAuthorNames}
-							onCheckedChange={(next) => onshowauthors?.(next)}
+							onCheckedChange={(next) => onShowAuthorNamesChange?.(next)}
 							aria-label={t.showAuthorNames}
 						/>
 					</div>
@@ -108,11 +108,11 @@
 						{/if}
 					</div>
 				{/if}
-				{#if onhistory}
+				{#if onHistory}
 					<div class="p-2">
 						<button
 							type="button"
-							onclick={onhistory}
+							onclick={onHistory}
 							class="t-press flex h-8 w-full items-center justify-center gap-2 {docLooks.control} bg-foreground/5 font-medium transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] outline-none hover:bg-foreground/8 focus-visible:shadow-(--ring-focus)"
 						>
 							<ClockCounterClockwise size={14} aria-hidden="true" />

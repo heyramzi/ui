@@ -216,7 +216,7 @@
 		);
 	}
 
-	function onChange(id: string, change: GanttChange) {
+	function onDatesChange(id: string, change: GanttChange) {
 		tasks = tasks.map((task) => (task.id === id ? { ...task, ...change } : task));
 	}
 
@@ -465,7 +465,7 @@
 						{today}
 						dayWidth={scale === "days" ? 32 : 14}
 						labelWidth={220}
-						{onChange}
+						{onDatesChange}
 					>
 						{#snippet renderLabel(task)}
 							<StatusDot {statuses} status={task.status} />
