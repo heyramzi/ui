@@ -3,6 +3,15 @@ export type A11yNote = { keys?: { keys: string[]; does: string }[]; notes?: stri
 
 // Behaviour comes from Bits UI where the part wraps it: https://bits-ui.com/docs/components/<name>.
 // Other entries come from the kit's source. A gap note stays until the kit fixes it.
+/** The plot keys every cartesian chart shares, from the kit's ChartPlot. */
+const chartKeys: A11yNote["keys"] = [
+  { keys: ["Tab"], does: "Moves focus to the plot." },
+  { keys: ["ArrowRight", "ArrowDown"], does: "Shows the next point's tooltip." },
+  { keys: ["ArrowLeft", "ArrowUp"], does: "Shows the previous point's tooltip." },
+  { keys: ["Home", "End"], does: "Shows the first or last point." },
+  { keys: ["Esc"], does: "Hides the tooltip." },
+];
+
 export const a11yNotes: Record<string, A11yNote> = {
   // Components: Actions
   button: {
@@ -560,10 +569,10 @@ export const a11yNotes: Record<string, A11yNote> = {
   },
   marquee: {
     notes: [
-      "The repeated copies are hidden from screen readers, so the content is read once.",
-      "Links or buttons in the copies still take focus, so a keyboard user tabs through each one again.",
+      "The repeated copies are inert and hidden from screen readers, so the content is read once and its links take focus once.",
+      "It pauses while focus is inside it, so a focused link holds still.",
       "With reduced motion on, it stands still. It also pauses offscreen and in a hidden tab.",
-      "pauseOnHover pauses it for a mouse only. Nothing pauses it for keyboard focus.",
+      "pauseOnHover pauses it under a mouse too.",
     ],
   },
   spotlight: {
@@ -634,31 +643,38 @@ export const a11yNotes: Record<string, A11yNote> = {
 
   // Charts
   "area-chart": {
+    keys: chartKeys,
     notes: [
-      'The chart is an image named "Area chart", with no data in the name. Describe the trend in text nearby.',
-      "The values show in a tooltip on pointer hover only. There's no keyboard way to read a point.",
+      'The plot is named by label, "Area chart" by default. A summary follows the name: the range, then each series\' first, last, low and high value.',
+      "The keys read out the point they land on and show the same tooltip as hover.",
+      "A hidden table lists every point for a screen reader to browse.",
       "With reduced motion on, the area draws in place without the reveal.",
     ],
   },
   "line-chart": {
+    keys: chartKeys,
     notes: [
-      'The chart is an image named "Line chart", with no data in the name. Describe the trend in text nearby.',
-      "The values show in a tooltip on pointer hover only. There's no keyboard way to read a point.",
+      'The plot is named by label, "Line chart" by default. A summary follows the name: the range, then each series\' first, last, low and high value.',
+      "The keys read out the point they land on and show the same tooltip as hover.",
+      "A hidden table lists every point for a screen reader to browse.",
       "With reduced motion on, the line draws in place without the reveal.",
     ],
   },
   "bar-chart": {
+    keys: chartKeys,
     notes: [
-      'The chart is an image named by label, or "Bar chart" without one. The name holds no data.',
-      "label also builds a hidden table of the values. It sits inside the image, and screen readers skip what's inside an image. Describe the data in text nearby.",
-      "The tooltip shows on pointer hover only.",
+      'The plot is named by label, "Bar chart" by default. A summary follows the name: the range, then the first, last, low and high value.',
+      "The keys read out the bar they land on and show the same tooltip as hover.",
+      "A hidden table lists every bar for a screen reader to browse. xLabel and yLabel name its columns.",
       "With reduced motion on, the bars show without growing in.",
     ],
   },
   "time-series-chart": {
+    keys: chartKeys,
     notes: [
-      "The chart has no role or name, so a screen reader walks the raw drawing. Describe it in text nearby.",
-      "The values show in a tooltip on pointer hover only.",
+      "The plot is named by ariaLabel, or by label without one. A summary follows the name: the date range, then each line's first, last, low and high value.",
+      "The keys read out the day they land on and show the same tooltip as hover.",
+      "A hidden table lists every day for a screen reader to browse.",
     ],
   },
   "donut-chart": {
@@ -682,14 +698,16 @@ export const a11yNotes: Record<string, A11yNote> = {
   "number-chart": {
     notes: [
       "The number is plain text. With reduced motion on, it shows the final value with no count.",
-      "The change reads as a bare percent: the arrow that says up or down is hidden from screen readers.",
+      'The change reads with its direction, like "up 8%" or "down 1%". The arrow itself is hidden.',
       "The share rail is an image named by its label and percent.",
     ],
   },
   sparkline: {
+    keys: chartKeys,
     notes: [
-      'A sparkline is an image named "Sparkline", with no data. With bare set, it\'s hidden from screen readers.',
-      "Its tooltip shows on pointer hover only.",
+      'A sparkline is named by label, "Sparkline" by default, with a summary of its range, first, last, low and high value.',
+      "The arrow keys step through its points and show the same tooltip as on hover, and read out the point.",
+      "With bare set, it's hidden from screen readers and takes no focus.",
     ],
   },
   "stat-card": {
@@ -828,8 +846,8 @@ export const a11yNotes: Record<string, A11yNote> = {
   },
   "generation-progress": {
     notes: [
-      'The bar is a progressbar named by the label, with a value like "2 of 5" when steps are known.',
-      'A polite status says each new step, like "Writing the proposal: Outlining three sections", and says "Generation failed".',
+      'The bar is a progressbar named by the label, with a value like "2 of 5" once it knows the step count.',
+      'A polite status says each new step, like "Writing the proposal: Outlining 3 sections", and says "Generation failed".',
       "The copy of the label drawn for the shimmer is hidden from screen readers.",
       "With reduced motion on, the shimmer, the pulse and the sweep stop.",
     ],
@@ -847,7 +865,8 @@ export const a11yNotes: Record<string, A11yNote> = {
     notes: [
       'The avatar is an image named by name and role, like "Ada, Researcher". Pass aria-hidden when text beside it already names the agent.',
       "When a name is set, the state, like working, drops out of the name.",
-      "A click makes it jump, but it can't take focus, so there's no keyboard way to do that.",
+      "A click makes it jump. That's decoration, so it stays an image and takes no focus.",
+      "With onclick set, it's a button named the same way, so the action takes focus, Enter and Space.",
       "With reduced motion on, it draws one still frame.",
     ],
   },
@@ -1058,7 +1077,7 @@ export const a11yNotes: Record<string, A11yNote> = {
       'The field is a multi-line text box named by label, "Text editor" by default.',
       "With inline set, the list keys are off and only the marks work.",
       "The page's shortcuts don't hear what you type in the field, except Cmd+S.",
-      "Typing [ ] and a space starts a checklist. Its boxes are real checkboxes, but they have no name.",
+      'Typing [ ] and a space starts a checklist, and every box is a real checkbox named by its line, like "Task item checkbox for Buy milk".',
     ],
   },
   "rich-editor": {
@@ -1084,6 +1103,14 @@ export const a11yNotes: Record<string, A11yNote> = {
       { keys: ["Cmd+Alt+C"], does: "Code block." },
       { keys: ["Shift+Enter", "Cmd+Enter"], does: "Line break inside the paragraph." },
       {
+        keys: ["Cmd+K"],
+        does: "Opens the link field, or removes the link under the cursor. Not in the page variant, which has no toolbar.",
+      },
+      {
+        keys: ["Alt+Shift+ArrowUp", "Alt+Shift+ArrowDown"],
+        does: "Moves the block holding the cursor up or down, the same block the drag handle moves. A whole list or table moves as one.",
+      },
+      {
         keys: ["Tab", "Shift+Tab"],
         does: "Indents or outdents a list item. In a table, moves to the next or previous cell, and Tab in the last cell adds a row.",
       },
@@ -1095,9 +1122,10 @@ export const a11yNotes: Record<string, A11yNote> = {
       'The writing area is named by label, "Text editor" by default.',
       "In the link field, Enter applies the link and Esc cancels and returns focus to the text.",
       "Toolbar buttons report pressed and are separate Tab stops. The arrow keys don't move along the toolbar.",
-      "Focus stays in the text while the command menu is open, so a screen reader isn't told which command is highlighted.",
-      "The Add link tooltip says Cmd+K, but no key is bound to it.",
-      "Image alignment opens only on a click on the image, and blocks reorder only by dragging their handle.",
+      "Focus stays in the text while the command menu is open. The text points at the highlighted command, so a screen reader reads it as it moves.",
+      "The link field's Cancel button is named Cancel link.",
+      "Arrowing onto an image selects it and opens its toolbar. Tab moves into the toolbar to align or delete it.",
+      "Checklist boxes are named by their line.",
       "Image and YouTube inserts ask through the browser's prompt box.",
     ],
   },
@@ -1124,7 +1152,7 @@ export const a11yNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "The title is an h1. The contents is a nav named by contentsLabel, and the current heading reports itself as current.",
-      "On a narrow pane the contents is a button that opens a menu. The menu opens with focus on the current heading.",
+      "On a narrow pane the contents is a button that opens a menu, with focus on the current heading.",
       "Picking a heading scrolls to it, at once under reduced motion, but focus stays in the contents list.",
       "Picking from the narrow menu, or a click outside it, closes it and returns focus to its button.",
       "With reduced motion on, the rail marker and progress line don't animate.",
@@ -1154,8 +1182,8 @@ export const a11yNotes: Record<string, A11yNote> = {
     notes: [
       "The period filter is a named group of buttons that report pressed, or links when href is set.",
       "The table has real column headers. A sortable head holds a button and reports its sort order.",
-      "A tile's change reads as a bare percent: the up or down arrow is hidden from screen readers.",
-      "The charts are images with a fixed name and no data, and their values show on hover only.",
+      'A tile\'s change reads with its direction, like "up 8%".',
+      "Every chart here is named and summarised, holds a hidden table of its values, and the arrow keys step its tooltip.",
       "With reduced motion on, the numbers show their final value with no count.",
     ],
   },
@@ -1178,7 +1206,8 @@ export const a11yNotes: Record<string, A11yNote> = {
       'The deck is a region named by its title. A live region says "Slide 3 of 12" when the slide changes.',
       "A screen reader gets only the current slide. The others, and steps not shown yet, are hidden and can't take focus.",
       "A step that appears isn't announced.",
-      "With one deck on the page, the keys work wherever focus is outside a text field, so Space and PageDown move slides and don't scroll the page. With several decks, the one last focused or hovered takes them.",
+      "The keys work while focus is inside the deck, or while it's fullscreen. Elsewhere Space and PageDown scroll the page as usual. Click the deck or Tab to it first.",
+      "The presenter window puts focus on its deck when it opens.",
       "Space and Enter on a focused button or link stay with that control.",
       "With reduced motion on, the morph between slides is skipped.",
     ],
@@ -1194,13 +1223,18 @@ export const a11yNotes: Record<string, A11yNote> = {
         keys: ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"],
         does: "Moves the selected nodes 5px. Hold Shift for 20px.",
       },
-      { keys: ["Backspace"], does: "Deletes the selected nodes." },
+      { keys: ["Backspace", "Delete"], does: "Deletes the selected nodes." },
+      {
+        keys: ["V", "H", "L", "P", "M", "E", "T", "R", "O", "D", "F"],
+        does: "Picks the tool its tooltip names, while focus is on the canvas and not in a text field.",
+      },
     ],
     notes: [
       "A live region announces every arrow move.",
-      "Tool buttons are named and report pressed. Their tooltips show a letter for each tool, but the toolbar doesn't listen for it; the host binds those keys.",
-      "Drawing, placing a shape or text, connecting nodes and resizing a shape are pointer only.",
-      "Nodes have no name and a drawn stroke is hidden, so a screen reader hears an unnamed node.",
+      "Tool buttons are named and report pressed. resolveToolKey turns a key press into the tool, so a host binds the letters in one line.",
+      'Each node is named by its words: "Draw on me", "Rectangle: Idea", or "Pen stroke" for a drawing. The name follows edits.',
+      "Drawing, placing a shape or text, connecting nodes and resizing a shape are still pointer only.",
+      "Enter doesn't open a node's text yet. The host owns that key and calls requestStartEdit.",
       "A node's text field keeps the keys you type in it, and Esc leaves it.",
       "With reduced motion on, the toolbar doesn't animate.",
     ],
