@@ -101,12 +101,11 @@
 	bind:this={trigger}
 	type="button"
 	onclick={() => (open = true)}
-	aria-label="Search"
 	aria-keyshortcuts={mac ? "Meta+K /" : "Control+K /"}
 	class="flex h-8 items-center gap-2 rounded-full px-2 text-[13px] text-muted-foreground transition-colors duration-quick ease-smooth-out hover:bg-foreground/8 hover:text-foreground sm:bg-foreground/5 sm:pr-1.5 sm:pl-2.5"
 >
 	<MagnifyingGlass class="size-4" aria-hidden="true" />
-	<span class="hidden sm:inline">Search</span>
+	<span class="max-sm:sr-only">Search</span>
 	<Kbd class="hidden bg-background/80 sm:inline-flex" aria-hidden="true">{mac ? "⌘" : "Ctrl"} K</Kbd
 	>
 </button>
