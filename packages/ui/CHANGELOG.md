@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/heyramzi/ui/compare/ui-v3.2.0...ui-v3.3.0) (2026-11-10)
+
+### Features
+
+* feat(ui): drawer on vaul-svelte, with its page (TSK-2207)
+
+
 ## [3.2.0](https://github.com/heyramzi/ui/compare/ui-v3.1.0...ui-v3.2.0) (2026-11-10)
 
 ### Changes
