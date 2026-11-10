@@ -4,6 +4,7 @@
 	import Nav from "#lib/Nav.svelte";
 	import Sidebar from "#lib/Sidebar.svelte";
 	import { TooltipProvider } from "@heyramzi/ui/shadcn/tooltip";
+	import { Toaster } from "@heyramzi/ui/shadcn/sonner";
 	import { ThemeProvider } from "@heyramzi/ui/components/theme";
 	let { children } = $props();
 
@@ -31,7 +32,8 @@
 	>Skip to content</a
 >
 
-<!-- The provider an app mounts once at its root: the primitives' demos assume one is there. -->
+<!-- The providers an app mounts once at its root: the primitives' demos assume they're there. -->
+<Toaster />
 <TooltipProvider>
 	<Nav />
 	{#if bare}
