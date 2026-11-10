@@ -140,9 +140,8 @@
 			</button>
 		{:else if !row.own}
 			<!-- A parent with no dates of its own: the span of what is below it. Not draggable. -->
-			<div
-				role="button"
-				tabindex="0"
+			<button
+				type="button"
 				aria-label="{title}, {describe(span)}"
 				title="{title}, {describe(span)}"
 				class={cn(
@@ -155,11 +154,9 @@
 				style:width="{barWidth(span, layout)}px"
 				style:height="{Math.max(layout.rowHeight - 24, 10)}px"
 				onclick={() => onSelect?.(row.id)}
-				onkeydown={(e) =>
-					(e.key === "Enter" || e.key === " ") && (e.preventDefault(), onSelect?.(row.id))}
 				onpointerenter={() => onHover(row.id, true)}
 				onpointerleave={() => onHover(row.id, false)}
-			></div>
+			></button>
 		{:else}
 			<GanttBar
 				id={row.id}
