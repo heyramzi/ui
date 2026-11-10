@@ -4,7 +4,6 @@
 	import Nav from "#lib/Nav.svelte";
 	import Sidebar from "#lib/Sidebar.svelte";
 	import { TooltipProvider } from "@heyramzi/ui/shadcn/tooltip";
-	import { Toaster } from "@heyramzi/ui/shadcn/sonner";
 	import { ThemeProvider } from "@heyramzi/ui/components/theme";
 	let { children } = $props();
 
@@ -33,7 +32,12 @@
 >
 
 <!-- The providers an app mounts once at its root: the primitives' demos assume they're there. -->
-<Toaster />
+<!-- The toaster loads after the page, and never on the bare pages: they raise no toast. -->
+{#if !bare}
+	{#await import("@heyramzi/ui/shadcn/sonner") then { Toaster }}
+		<Toaster />
+	{/await}
+{/if}
 <TooltipProvider>
 	<Nav />
 	{#if bare}

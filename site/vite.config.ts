@@ -22,6 +22,15 @@ export default defineConfig({
   // SSR bundles every dependency, because they ship raw .ts and .svelte through @heyramzi/ui,
   // and a partial list loads a second copy of Svelte.
   ssr: { noExternal: true },
+  // phosphor-svelte has no `sideEffects` field, so the site's 136 icons shared one 82 KB chunk
+  // every page loaded. Marked pure, each icon ships with its page.
+  build: {
+    rolldownOptions: {
+      treeshake: {
+        moduleSideEffects: (id) => (id.includes("/phosphor-svelte/") ? false : undefined),
+      },
+    },
+  },
   // Unit tests live beside their code; `e2e/*.spec.ts` belongs to Playwright.
   test: { include: ["src/**/*.test.ts"] },
 });
