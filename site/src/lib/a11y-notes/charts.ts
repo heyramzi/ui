@@ -85,4 +85,9 @@ export const chartNotes: Record<string, A11yNote> = {
       "The change arrow is hidden from screen readers.",
     ],
   },
+  "chart-variants": {
+    notes: [
+      "A Legend is a list of each row's label and value. Its rows take no focus, and hovering one highlights its series.",
+    ],
+  },
 };

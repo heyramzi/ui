@@ -77,36 +77,32 @@
 	<ul class="hr-legend-items">
 		{#each items as item, i (item.label + i)}
 			{@const dimmed = hoveredIndex !== null && hoveredIndex !== i}
-			<li>
-				<button
-					type="button"
-					class="hr-legend-item"
-					class:dimmed
-					onmouseenter={() => setHover(i)}
-					onmouseleave={() => setHover(null)}
-					onfocus={() => setHover(i)}
-					onblur={() => setHover(null)}
-				>
-					<span class="hr-legend-marker" style:background={item.color}></span>
-					<span class="hr-legend-label">{item.label}</span>
-					{#if showValue}
-						<span class="hr-legend-value">
-							{formatValue(item.value)}{#if showPercentage && item.maxValue}<span
-									class="hr-legend-pct">{formatPercentage(pct(item))}</span
-								>{/if}
-						</span>
-					{/if}
-					{#if showProgress && item.maxValue}
-						<span class="hr-legend-track">
-							<span
-								class="hr-legend-bar"
-								style:--hr-bar-scale={pct(item) / 100}
-								style:background={item.color}
-								style:animation-delay="{160 + i * 120}ms"
-							></span>
-						</span>
-					{/if}
-				</button>
+			<!-- A row, not a button: hover only highlights its series, so a Tab stop here did nothing. -->
+			<li
+				class="hr-legend-item"
+				class:dimmed
+				onmouseenter={() => setHover(i)}
+				onmouseleave={() => setHover(null)}
+			>
+				<span class="hr-legend-marker" style:background={item.color}></span>
+				<span class="hr-legend-label">{item.label}</span>
+				{#if showValue}
+					<span class="hr-legend-value">
+						{formatValue(item.value)}{#if showPercentage && item.maxValue}<span
+								class="hr-legend-pct">{formatPercentage(pct(item))}</span
+							>{/if}
+					</span>
+				{/if}
+				{#if showProgress && item.maxValue}
+					<span class="hr-legend-track">
+						<span
+							class="hr-legend-bar"
+							style:--hr-bar-scale={pct(item) / 100}
+							style:background={item.color}
+							style:animation-delay="{160 + i * 120}ms"
+						></span>
+					</span>
+				{/if}
 			</li>
 		{/each}
 	</ul>

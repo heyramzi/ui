@@ -39,13 +39,10 @@
     align-items: center;
     gap: 0.5rem 0.625rem;
     padding: 0.375rem 0.5rem;
-    border: 0;
     border-radius: 0.5rem;
     background: transparent;
-    font: inherit;
     color: var(--foreground);
     text-align: left;
-    cursor: pointer;
     transition:
       background 160ms ease,
       opacity 160ms ease;
@@ -55,11 +52,6 @@
     width: auto;
     grid-template-columns: auto auto;
     padding: 0.25rem 0.375rem;
-  }
-
-  .hr-legend-item:focus-visible {
-    background: var(--muted);
-    outline: none;
   }
 
   @media (hover: hover) and (pointer: fine) {
