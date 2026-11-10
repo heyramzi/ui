@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Reasoning, ReasoningContent, ReasoningTrigger } from "#src/ai/reasoning/index.js";
+	import { Brain } from "phosphor-svelte";
+	import * as Trace from "#src/shadcn/trace/index.js";
 	import type { InboxTrace } from "#src/work/inbox/inbox-types.js";
 
 	interface Props {
@@ -18,13 +19,16 @@
 	);
 </script>
 
-<!-- WHY the shared Reasoning and not a local disclosure: it is already the
-     collapsed-by-default "how the agent got here" pattern, with the same chevron. -->
-<Reasoning>
-	<ReasoningTrigger class="w-auto">
-		<span>Trace{count > 0 ? ` · ${count} ${count === 1 ? "quote" : "quotes"}` : ""}</span>
-	</ReasoningTrigger>
-	<ReasoningContent>
+<Trace.Collapsible class="text-sm">
+	<Trace.CollapsibleTrigger class="gap-2">
+		<Trace.Line>
+			<Trace.Icon><Brain aria-hidden="true" /></Trace.Icon>
+			<Trace.Title
+				>Trace{count > 0 ? ` · ${count} ${count === 1 ? "quote" : "quotes"}` : ""}</Trace.Title
+			>
+		</Trace.Line>
+	</Trace.CollapsibleTrigger>
+	<Trace.CollapsibleContent class="mt-3 mb-0 ml-0 border-l-2 pr-0 pl-3">
 		<div class="flex flex-col gap-3">
 			{#if label || trace.source.href}
 				<p class="text-foreground">
@@ -54,5 +58,5 @@
 				<p><span class="text-foreground font-medium">Why:</span> {reasoning}</p>
 			{/if}
 		</div>
-	</ReasoningContent>
-</Reasoning>
+	</Trace.CollapsibleContent>
+</Trace.Collapsible>
