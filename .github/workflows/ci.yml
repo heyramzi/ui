@@ -49,7 +49,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      # Full history, so the commit step below can rebase onto whatever main gained meanwhile.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v6.1.1
       - uses: actions/setup-node@v7
         with:
@@ -78,7 +81,12 @@ jobs:
           git add -A -- site/e2e
           if git diff --cached --quiet; then echo "nothing changed"; exit 0; fi
           git commit -m "test(gallery): rewrite baselines or the axe allowlist from CI" -m "Run ${{ github.run_id }}."
-          git push origin "HEAD:${{ github.ref_name }}"
+          # The run takes 20 minutes and main moves meanwhile (18 commits on 10 Nov 2026).
+          for try in 1 2 3; do
+            git pull --rebase -q origin "${{ github.ref_name }}" && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep 10
+          done
+          exit 1
 
       - name: Upload the Playwright report
         if: ${{ failure() }}
@@ -88,4 +96,5 @@ jobs:
           path: |
             site/e2e/report
             site/e2e/results
+            site/e2e/axe-allowlist.json
           retention-days: 14
