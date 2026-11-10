@@ -68,10 +68,8 @@
 	@layer theme, base, components, utilities;
 
 	@layer components {
-		/* Columns split the board's width equally, never under 240px (the board scrolls instead)
-		   nor over 420px (a 2-line card title stays near 55 characters a line). At 280px four
-		   columns needed 1168px, so a docs page at 1440 cut the Done column off; 240px fits four
-		   in the 1008px a 1440 page leaves, and a card's meta row still fits on one line. */
+		/* Equal columns, 240px to 420px (the board scrolls below that): four fit the 1008px a
+		   1440 page leaves, and a 2-line title stays near 55 characters a line. */
 		.kanban-column {
 			flex: 1 1 0;
 			min-width: var(--kanban-column-min, 240px);

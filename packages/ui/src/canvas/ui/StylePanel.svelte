@@ -258,7 +258,7 @@
 			padding-inline: 4px;
 			color: var(--cv-ink-muted);
 			font-size: 12px;
-			line-height: 16px;
+			line-height: calc(16 / 12);
 		}
 
 		.cv-swatches {
