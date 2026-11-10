@@ -356,72 +356,76 @@
 </div>
 
 <style>
-	/* A grid row folds the card out of the column smoothly, so the cards below slide up. */
-	.kanban-card {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr);
-		grid-template-rows: 1fr;
-		transition:
-			grid-template-rows var(--duration-quick) var(--ease-smooth-out),
-			margin-top var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.kanban-card > :global(*) {
-		min-height: 0;
-	}
+	@layer components {
+		/* A grid row folds the card out of the column smoothly, so the cards below slide up. */
+		.kanban-card {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-rows: 1fr;
+			transition:
+				grid-template-rows var(--duration-quick) var(--ease-smooth-out),
+				margin-top var(--duration-quick) var(--ease-smooth-out);
+		}
 
-	/* -0.375rem cancels the column's gap-1.5, so a folded card leaves no gap behind. */
-	.kanban-lifted-out {
-		grid-template-rows: 0fr;
-		margin-top: -0.375rem;
-	}
+		.kanban-card > :global(*) {
+			min-height: 0;
+		}
 
-	.kanban-lifted-out > :global(*) {
-		overflow: hidden;
-		visibility: hidden;
-	}
+		/* -0.375rem cancels the column's gap-1.5, so a folded card leaves no gap behind. */
+		.kanban-lifted-out {
+			grid-template-rows: 0fr;
+			margin-top: -0.375rem;
+		}
 
-	/* The fold: height rides grid-template-rows 0fr to 1fr, the fade runs shorter so it leads.
-	   Shut, -0.375rem cancels the well's gap-1.5, so a closed fold leaves no gap behind. */
-	.kanban-fold {
-		display: grid;
-		grid-template-rows: 0fr;
-		margin-top: -0.375rem;
-		opacity: 0;
-		transition:
-			grid-template-rows var(--duration-fast) var(--ease-smooth-out),
-			margin-top var(--duration-fast) var(--ease-smooth-out),
-			opacity var(--duration-quick) var(--ease-smooth-out);
-	}
+		.kanban-lifted-out > :global(*) {
+			overflow: hidden;
+			visibility: hidden;
+		}
 
-	.kanban-fold[data-open="true"] {
-		grid-template-rows: 1fr;
-		margin-top: 0;
-		opacity: 1;
-	}
-
-	/* clip, not hidden: the margin lets a lifted card's shadow out while the fold stays shut.
-	   relative: a card's sr-only labels are absolute, and clip only cuts what this box contains.
-	   Without it they hang below a shut fold and the page scrolls past its last lane (TSK-1617). */
-	.kanban-fold-inner {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: 0.375rem;
-		min-height: 0;
-		overflow: clip;
-		overflow-clip-margin: 0.375rem;
-	}
-
-	/* The held card's place keeps its hole, never its content. */
-	.kanban-origin-slot > :global(*) {
-		visibility: hidden;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.kanban-card,
+		/* The fold: height rides grid-template-rows 0fr to 1fr, the fade runs shorter so it leads.
+		   Shut, -0.375rem cancels the well's gap-1.5, so a closed fold leaves no gap behind. */
 		.kanban-fold {
-			transition: none;
+			display: grid;
+			grid-template-rows: 0fr;
+			margin-top: -0.375rem;
+			opacity: 0;
+			transition:
+				grid-template-rows var(--duration-fast) var(--ease-smooth-out),
+				margin-top var(--duration-fast) var(--ease-smooth-out),
+				opacity var(--duration-quick) var(--ease-smooth-out);
+		}
+
+		.kanban-fold[data-open="true"] {
+			grid-template-rows: 1fr;
+			margin-top: 0;
+			opacity: 1;
+		}
+
+		/* clip, not hidden: the margin lets a lifted card's shadow out while the fold stays shut.
+		   relative: a card's sr-only labels are absolute, and clip only cuts what this box contains.
+		   Without it they hang below a shut fold and the page scrolls past its last lane (TSK-1617). */
+		.kanban-fold-inner {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			gap: 0.375rem;
+			min-height: 0;
+			overflow: clip;
+			overflow-clip-margin: 0.375rem;
+		}
+
+		/* The held card's place keeps its hole, never its content. */
+		.kanban-origin-slot > :global(*) {
+			visibility: hidden;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.kanban-card,
+			.kanban-fold {
+				transition: none;
+			}
 		}
 	}
 </style>

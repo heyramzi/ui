@@ -17,18 +17,22 @@
 >
 
 <style>
-	.kanban-fold-chevron {
-		display: inline-flex;
-		transition: transform var(--duration-fast) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.kanban-fold-chevron-open {
-		transform: scaleY(-1);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
+	@layer components {
 		.kanban-fold-chevron {
-			transition: none;
+			display: inline-flex;
+			transition: transform var(--duration-fast) var(--ease-smooth-out);
+		}
+
+		.kanban-fold-chevron-open {
+			transform: scaleY(-1);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.kanban-fold-chevron {
+				transition: none;
+			}
 		}
 	}
 </style>

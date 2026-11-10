@@ -185,35 +185,39 @@
 </div>
 
 <style>
-	.g-row {
-		transition: background-color var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.g-row-hot {
-		background: color-mix(in oklab, var(--color-foreground, currentColor) 3%, transparent);
-	}
+	@layer components {
+		.g-row {
+			transition: background-color var(--duration-quick) var(--ease-smooth-out);
+		}
 
-	.g-chevron {
-		transition: rotate var(--duration-fast) var(--ease-smooth-out);
-	}
+		.g-row-hot {
+			background: color-mix(in oklab, var(--color-foreground, currentColor) 3%, transparent);
+		}
 
-	.g-chevron-open {
-		rotate: 90deg;
-	}
-
-	/* A summary of what is below: an outline, so it never reads as a task you can drag. */
-	.g-derived {
-		background: color-mix(in oklab, var(--g-hue) 10%, transparent);
-		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 45%, transparent);
-	}
-
-	.g-flag {
-		color: var(--g-hue);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
 		.g-chevron {
-			transition: none;
+			transition: rotate var(--duration-fast) var(--ease-smooth-out);
+		}
+
+		.g-chevron-open {
+			rotate: 90deg;
+		}
+
+		/* A summary of what is below: an outline, so it never reads as a task you can drag. */
+		.g-derived {
+			background: color-mix(in oklab, var(--g-hue) 10%, transparent);
+			box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 45%, transparent);
+		}
+
+		.g-flag {
+			color: var(--g-hue);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.g-chevron {
+				transition: none;
+			}
 		}
 	}
 </style>

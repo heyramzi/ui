@@ -415,99 +415,117 @@
 </div>
 
 <style>
-	.tl-group {
-		transition: background-color var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.tl-group-active {
-		background: color-mix(in oklab, var(--tl-hue) 6%, transparent);
-	}
-
-	.tl-chevron {
-		transition: rotate var(--duration-fast) var(--ease-smooth-out);
-	}
-
-	.tl-chevron-open {
-		rotate: 90deg;
-	}
-
-	/* A 0fr to 1fr track folds to any height. Padding lives inside, or 0fr never fully closes. */
-	.tl-fold {
-		display: grid;
-		grid-template-rows: 0fr;
-		opacity: 0;
-		transition:
-			grid-template-rows var(--duration-fast) var(--ease-smooth-out),
-			opacity var(--duration-quick) var(--ease-smooth-out);
-	}
-
-	.tl-fold-open {
-		grid-template-rows: 1fr;
-		opacity: 1;
-	}
-
-	.tl-fold-inner {
-		min-height: 0;
-		overflow: hidden;
-	}
-
-	.tl-row {
-		animation: tl-row-in var(--duration-slow) var(--ease-smooth-out) backwards;
-		animation-delay: calc(var(--tl-i, 0) * var(--duration-stagger));
-		transition: background-color var(--duration-quick) var(--ease-smooth-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.tl-row:hover {
-			background: color-mix(in oklab, var(--color-foreground) 4%, transparent);
+	@layer components {
+		.tl-group {
+			transition: background-color var(--duration-quick) var(--ease-smooth-out);
 		}
-	}
 
-	/* The drop line: a hairline in the group's hue with a dot where it starts. */
-	.tl-drop-before::before,
-	.tl-drop-end::before {
-		content: "";
-		position: absolute;
-		left: 0.5rem;
-		right: 0.5rem;
-		height: 2px;
-		background: var(--tl-hue);
-		animation: tl-line-in var(--duration-quick) var(--ease-smooth-out) both;
-	}
+		.tl-group-active {
+			background: color-mix(in oklab, var(--tl-hue) 6%, transparent);
+		}
 
-	/* A ring where the line starts, so the drop point reads at a glance. */
-	.tl-drop-before::after,
-	.tl-drop-end::after {
-		content: "";
-		position: absolute;
-		left: 0.25rem;
-		width: 8px;
-		height: 8px;
-		/* A ring drawn as a gradient, so the line needs no radius or border of its own. */
-		background: radial-gradient(
-			circle closest-side,
-			var(--color-card) calc(50% - 0.5px),
-			var(--tl-hue) 50%,
-			var(--tl-hue) calc(100% - 0.5px),
-			transparent 100%
-		);
-		animation: tl-line-in var(--duration-quick) var(--ease-smooth-out) both;
-	}
+		.tl-chevron {
+			transition: rotate var(--duration-fast) var(--ease-smooth-out);
+		}
 
-	.tl-drop-before::before {
-		top: -1px;
-	}
+		.tl-chevron-open {
+			rotate: 90deg;
+		}
 
-	.tl-drop-before::after {
-		top: -4px;
-	}
+		/* A 0fr to 1fr track folds to any height. Padding lives inside, or 0fr never fully closes. */
+		.tl-fold {
+			display: grid;
+			grid-template-rows: 0fr;
+			opacity: 0;
+			transition:
+				grid-template-rows var(--duration-fast) var(--ease-smooth-out),
+				opacity var(--duration-quick) var(--ease-smooth-out);
+		}
 
-	.tl-drop-end::before {
-		top: 0;
-	}
+		.tl-fold-open {
+			grid-template-rows: 1fr;
+			opacity: 1;
+		}
 
-	.tl-drop-end::after {
-		top: -3px;
+		.tl-fold-inner {
+			min-height: 0;
+			overflow: hidden;
+		}
+
+		.tl-row {
+			animation: tl-row-in var(--duration-slow) var(--ease-smooth-out) backwards;
+			animation-delay: calc(var(--tl-i, 0) * var(--duration-stagger));
+			transition: background-color var(--duration-quick) var(--ease-smooth-out);
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.tl-row:hover {
+				background: color-mix(in oklab, var(--color-foreground) 4%, transparent);
+			}
+		}
+
+		/* The drop line: a hairline in the group's hue with a dot where it starts. */
+		.tl-drop-before::before,
+		.tl-drop-end::before {
+			content: "";
+			position: absolute;
+			left: 0.5rem;
+			right: 0.5rem;
+			height: 2px;
+			background: var(--tl-hue);
+			animation: tl-line-in var(--duration-quick) var(--ease-smooth-out) both;
+		}
+
+		/* A ring where the line starts, so the drop point reads at a glance. */
+		.tl-drop-before::after,
+		.tl-drop-end::after {
+			content: "";
+			position: absolute;
+			left: 0.25rem;
+			width: 8px;
+			height: 8px;
+			/* A ring drawn as a gradient, so the line needs no radius or border of its own. */
+			background: radial-gradient(
+				circle closest-side,
+				var(--color-card) calc(50% - 0.5px),
+				var(--tl-hue) 50%,
+				var(--tl-hue) calc(100% - 0.5px),
+				transparent 100%
+			);
+			animation: tl-line-in var(--duration-quick) var(--ease-smooth-out) both;
+		}
+
+		.tl-drop-before::before {
+			top: -1px;
+		}
+
+		.tl-drop-before::after {
+			top: -4px;
+		}
+
+		.tl-drop-end::before {
+			top: 0;
+		}
+
+		.tl-drop-end::after {
+			top: -3px;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.tl-row,
+			.tl-drop-before::before,
+			.tl-drop-end::before,
+			.tl-drop-before::after,
+			.tl-drop-end::after {
+				animation: none;
+			}
+			.tl-fold,
+			.tl-chevron {
+				transition: none;
+			}
+		}
 	}
 
 	@keyframes tl-row-in {
@@ -522,20 +540,6 @@
 		from {
 			opacity: 0;
 			transform: scaleX(0.6);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.tl-row,
-		.tl-drop-before::before,
-		.tl-drop-end::before,
-		.tl-drop-before::after,
-		.tl-drop-end::after {
-			animation: none;
-		}
-		.tl-fold,
-		.tl-chevron {
-			transition: none;
 		}
 	}
 </style>

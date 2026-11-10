@@ -169,94 +169,98 @@
 {/if}
 
 <style>
-	.g-bar {
-		touch-action: pan-y;
-		background: color-mix(in oklab, var(--g-hue) 16%, var(--color-card, white));
-		box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 34%, transparent);
-		/* Snapping to whole days reads as a glide, not a jump. */
-		transition:
-			left var(--duration-quick) var(--ease-smooth-out),
-			width var(--duration-quick) var(--ease-smooth-out),
-			box-shadow var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	@media (hover: hover) and (pointer: fine) {
-		.g-bar:hover {
+	@layer components {
+		.g-bar {
+			touch-action: pan-y;
+			background: color-mix(in oklab, var(--g-hue) 16%, var(--color-card, white));
+			box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 34%, transparent);
+			/* Snapping to whole days reads as a glide, not a jump. */
+			transition:
+				left var(--duration-quick) var(--ease-smooth-out),
+				width var(--duration-quick) var(--ease-smooth-out),
+				box-shadow var(--duration-quick) var(--ease-smooth-out);
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.g-bar:hover {
+				box-shadow:
+					inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 55%, transparent),
+					0 1px 2px rgb(0 0 0 / 0.06),
+					0 4px 12px color-mix(in oklab, var(--g-hue) 18%, transparent);
+			}
+		}
+
+		.g-bar-dragging {
 			box-shadow:
 				inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 55%, transparent),
 				0 1px 2px rgb(0 0 0 / 0.06),
 				0 4px 12px color-mix(in oklab, var(--g-hue) 18%, transparent);
 		}
-	}
 
-	.g-bar-dragging {
-		box-shadow:
-			inset 0 0 0 1px color-mix(in oklab, var(--g-hue) 55%, transparent),
-			0 1px 2px rgb(0 0 0 / 0.06),
-			0 4px 12px color-mix(in oklab, var(--g-hue) 18%, transparent);
-	}
+		.g-bar-dragging {
+			z-index: 15;
+		}
 
-	.g-bar-dragging {
-		z-index: 15;
-	}
+		.g-progress {
+			background: color-mix(in oklab, var(--g-hue) 32%, var(--color-card, white));
+			transition: transform var(--duration-fast) var(--ease-smooth-out);
+		}
 
-	.g-progress {
-		background: color-mix(in oklab, var(--g-hue) 32%, var(--color-card, white));
-		transition: transform var(--duration-fast) var(--ease-smooth-out);
-	}
+		/* Resize grips: a wide invisible hit area, a slim pill that shows on hover. */
+		.g-handle {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 12px;
+			cursor: ew-resize;
+			touch-action: none;
+		}
 
-	/* Resize grips: a wide invisible hit area, a slim pill that shows on hover. */
-	.g-handle {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		width: 12px;
-		cursor: ew-resize;
-		touch-action: none;
-	}
+		.g-handle::after {
+			content: "";
+			position: absolute;
+			top: 25%;
+			bottom: 25%;
+			left: 50%;
+			width: 3px;
+			translate: -50% 0;
+			background: color-mix(in oklab, var(--g-hue) 70%, var(--color-foreground));
+			opacity: 0;
+			transition: opacity var(--duration-quick) var(--ease-smooth-out);
+		}
 
-	.g-handle::after {
-		content: "";
-		position: absolute;
-		top: 25%;
-		bottom: 25%;
-		left: 50%;
-		width: 3px;
-		translate: -50% 0;
-		background: color-mix(in oklab, var(--g-hue) 70%, var(--color-foreground));
-		opacity: 0;
-		transition: opacity var(--duration-quick) var(--ease-smooth-out);
-	}
+		@media (hover: hover) and (pointer: fine) {
+			.g-bar:hover .g-handle::after {
+				opacity: 0.6;
+			}
+		}
 
-	@media (hover: hover) and (pointer: fine) {
-		.g-bar:hover .g-handle::after {
+		.g-bar:focus-visible .g-handle::after,
+		.g-bar-dragging .g-handle::after {
 			opacity: 0.6;
 		}
-	}
 
-	.g-bar:focus-visible .g-handle::after,
-	.g-bar-dragging .g-handle::after {
-		opacity: 0.6;
-	}
+		.g-tip {
+			animation: g-tip-in var(--duration-quick) var(--ease-smooth-out) both;
+		}
 
-	.g-tip {
-		animation: g-tip-in var(--duration-quick) var(--ease-smooth-out) both;
+		@media (prefers-reduced-motion: reduce) {
+			.g-tip {
+				animation: none;
+			}
+			.g-bar,
+			.g-progress {
+				transition: none;
+			}
+		}
 	}
 
 	@keyframes g-tip-in {
 		from {
 			opacity: 0;
 			translate: 0 var(--distance-micro);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.g-tip {
-			animation: none;
-		}
-		.g-bar,
-		.g-progress {
-			transition: none;
 		}
 	}
 </style>

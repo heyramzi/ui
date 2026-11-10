@@ -63,19 +63,23 @@
 </span>
 
 <style>
-	.time-ring-arc {
-		transition:
-			stroke-dasharray var(--duration-slow) var(--ease-smooth-out),
-			color var(--duration-fast) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.time-ring-arc.is-empty {
-		opacity: 0;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
+	@layer components {
 		.time-ring-arc {
-			transition: none;
+			transition:
+				stroke-dasharray var(--duration-slow) var(--ease-smooth-out),
+				color var(--duration-fast) var(--ease-smooth-out);
+		}
+
+		.time-ring-arc.is-empty {
+			opacity: 0;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.time-ring-arc {
+				transition: none;
+			}
 		}
 	}
 </style>

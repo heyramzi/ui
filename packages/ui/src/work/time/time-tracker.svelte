@@ -433,50 +433,68 @@
 </section>
 
 <style>
-	/* A running timer tints the whole split button in the accent. */
-	.time-chip {
-		transition: background-color var(--duration-fast) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.time-chip.is-running {
-		background: color-mix(in oklab, var(--tone-accent, var(--color-primary)) 10%, transparent);
-	}
-
+	/* Unlayered: the ghost button's hover and open text-foreground would otherwise drop the running accent. */
 	.time-chip.is-running :global(.time-open) {
 		color: var(--tone-accent, var(--color-primary));
 	}
 
-	.time-segment {
-		transition: width var(--duration-slow) var(--ease-smooth-out);
-	}
-
-	.time-row :global(.time-delete) {
-		opacity: 0;
-	}
-
-	.time-row:focus-within :global(.time-delete) {
-		opacity: 1;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.time-row:hover :global(.time-delete) {
-			opacity: 1;
+	@layer components {
+		/* A running timer tints the whole split button in the accent. */
+		.time-chip {
+			transition: background-color var(--duration-fast) var(--ease-smooth-out);
 		}
-	}
 
-	@media (hover: none) {
+		.time-chip.is-running {
+			background: color-mix(in oklab, var(--tone-accent, var(--color-primary)) 10%, transparent);
+		}
+
+		.time-segment {
+			transition: width var(--duration-slow) var(--ease-smooth-out);
+		}
+
 		.time-row :global(.time-delete) {
+			opacity: 0;
+		}
+
+		.time-row:focus-within :global(.time-delete) {
 			opacity: 1;
 		}
-	}
 
-	.time-pop,
-	.time-preview {
-		animation: time-pop var(--duration-quick) var(--ease-smooth-out) backwards;
-	}
+		@media (hover: hover) and (pointer: fine) {
+			.time-row:hover :global(.time-delete) {
+				opacity: 1;
+			}
+		}
 
-	.time-row.is-new {
-		animation: time-row-in var(--duration-fast) var(--ease-smooth-out) backwards;
+		@media (hover: none) {
+			.time-row :global(.time-delete) {
+				opacity: 1;
+			}
+		}
+
+		.time-pop,
+		.time-preview {
+			animation: time-pop var(--duration-quick) var(--ease-smooth-out) backwards;
+		}
+
+		.time-row.is-new {
+			animation: time-row-in var(--duration-fast) var(--ease-smooth-out) backwards;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.time-chip,
+			.time-segment {
+				transition: none;
+			}
+
+			.time-pop,
+			.time-preview,
+			.time-row.is-new {
+				animation: none;
+			}
+		}
 	}
 
 	@keyframes time-pop {
@@ -492,19 +510,6 @@
 			opacity: 0;
 			transform: translateY(var(--distance-base));
 			filter: blur(var(--blur-small));
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.time-chip,
-		.time-segment {
-			transition: none;
-		}
-
-		.time-pop,
-		.time-preview,
-		.time-row.is-new {
-			animation: none;
 		}
 	}
 </style>

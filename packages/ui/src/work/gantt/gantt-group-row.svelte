@@ -43,16 +43,20 @@
 </div>
 
 <style>
-	.g-summary {
-		background: color-mix(in oklab, var(--g-hue) 45%, transparent);
-		transition:
-			left var(--duration-quick) var(--ease-smooth-out),
-			width var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	@media (prefers-reduced-motion: reduce) {
+	@layer components {
 		.g-summary {
-			transition: none;
+			background: color-mix(in oklab, var(--g-hue) 45%, transparent);
+			transition:
+				left var(--duration-quick) var(--ease-smooth-out),
+				width var(--duration-quick) var(--ease-smooth-out);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.g-summary {
+				transition: none;
+			}
 		}
 	}
 </style>

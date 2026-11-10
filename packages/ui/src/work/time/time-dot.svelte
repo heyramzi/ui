@@ -18,24 +18,37 @@
 ></span>
 
 <style>
-	.time-dot {
-		position: relative;
-		display: inline-block;
-		flex: none;
-		width: var(--time-dot-size);
-		height: var(--time-dot-size);
-		/* A dot, the one round shape DESIGN rule 15 allows for a status. */
-		border-radius: 50%;
-		background: currentColor;
-	}
+	@layer theme, base, components, utilities;
 
-	.time-dot.is-running::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		background: currentColor;
-		animation: time-dot-pulse var(--time-pulse-duration, 2000ms) var(--ease-out, ease-out) infinite;
+	@layer components {
+		.time-dot {
+			position: relative;
+			display: inline-block;
+			flex: none;
+			width: var(--time-dot-size);
+			height: var(--time-dot-size);
+			/* A dot, the one round shape DESIGN rule 15 allows for a status. */
+			border-radius: 50%;
+			background: currentColor;
+		}
+
+		.time-dot.is-running::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: inherit;
+			background: currentColor;
+			animation: time-dot-pulse var(--time-pulse-duration, 2000ms) var(--ease-out, ease-out)
+				infinite;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.time-dot.is-running::after {
+				animation: none;
+				transform: scale(1.9);
+				opacity: 0.25;
+			}
+		}
 	}
 
 	@keyframes time-dot-pulse {
@@ -46,14 +59,6 @@
 		to {
 			transform: scale(2.8);
 			opacity: 0;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.time-dot.is-running::after {
-			animation: none;
-			transform: scale(1.9);
-			opacity: 0.25;
 		}
 	}
 </style>

@@ -73,28 +73,40 @@
 </div>
 
 <style>
-	.g-today {
-		transform-origin: top;
-		animation: g-today-in var(--duration-slow) var(--ease-smooth-out) backwards;
-	}
+	@layer theme, base, components, utilities;
 
-	.g-arrow {
-		stroke: color-mix(in oklab, var(--color-muted-foreground, gray) 55%, transparent);
-		transition: stroke var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer components {
+		.g-today {
+			transform-origin: top;
+			animation: g-today-in var(--duration-slow) var(--ease-smooth-out) backwards;
+		}
 
-	.g-arrow-lit {
-		stroke: var(--color-foreground, currentColor);
-	}
+		.g-arrow {
+			stroke: color-mix(in oklab, var(--color-muted-foreground, gray) 55%, transparent);
+			transition: stroke var(--duration-quick) var(--ease-smooth-out);
+		}
 
-	.g-arrow-line {
-		stroke-dasharray: 1;
-		stroke-dashoffset: 0;
-		animation: g-draw var(--duration-slow) var(--ease-smooth-out) 300ms backwards;
-	}
+		.g-arrow-lit {
+			stroke: var(--color-foreground, currentColor);
+		}
 
-	.g-arrow-head {
-		animation: g-fade var(--duration-quick) var(--ease-smooth-out) 700ms backwards;
+		.g-arrow-line {
+			stroke-dasharray: 1;
+			stroke-dashoffset: 0;
+			animation: g-draw var(--duration-slow) var(--ease-smooth-out) 300ms backwards;
+		}
+
+		.g-arrow-head {
+			animation: g-fade var(--duration-quick) var(--ease-smooth-out) 700ms backwards;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.g-today,
+			.g-arrow-line,
+			.g-arrow-head {
+				animation: none;
+			}
+		}
 	}
 
 	@keyframes g-today-in {
@@ -112,14 +124,6 @@
 	@keyframes g-fade {
 		from {
 			opacity: 0;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.g-today,
-		.g-arrow-line,
-		.g-arrow-head {
-			animation: none;
 		}
 	}
 </style>

@@ -9,7 +9,7 @@
 	// TYPES
 	// =========================
 	interface Props {
-		/** `<DataPanel>` children, or tiles standing beside one. */
+		/** `<DetailPanel>` children, or tiles standing beside one. */
 		children: Snippet;
 		/**
 		 * Panels per row: two charts, three breakdowns, or `main`, where the first

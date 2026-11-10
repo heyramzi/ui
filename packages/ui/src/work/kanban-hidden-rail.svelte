@@ -96,6 +96,7 @@
 </div>
 
 <style>
+	/* Unlayered: the row's transition-[background-color,outline-color] utility would otherwise drop the fade out. */
 	.kanban-rail-item-leaving {
 		pointer-events: none;
 		opacity: 0;

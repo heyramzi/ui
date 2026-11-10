@@ -65,40 +65,59 @@
 </div>
 
 <style>
-	/* Columns split the board's width equally, never under 240px (the board scrolls instead)
-	   nor over 420px (a 2-line card title stays near 55 characters a line). At 280px four
-	   columns needed 1168px, so a docs page at 1440 cut the Done column off; 240px fits four
-	   in the 1008px a 1440 page leaves, and a card's meta row still fits on one line. */
-	.kanban-column {
-		flex: 1 1 0;
-		min-width: var(--kanban-column-min, 240px);
-		max-width: var(--kanban-column-max, 420px);
-		transition: opacity var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	/* A board under 40rem wide (a phone, a side panel) shows one column and a peek of the next, as 82vw did on a phone. */
-	@container kanban-board (width < 40rem) {
+	@layer components {
+		/* Columns split the board's width equally, never under 240px (the board scrolls instead)
+		   nor over 420px (a 2-line card title stays near 55 characters a line). At 280px four
+		   columns needed 1168px, so a docs page at 1440 cut the Done column off; 240px fits four
+		   in the 1008px a 1440 page leaves, and a card's meta row still fits on one line. */
 		.kanban-column {
-			flex: 0 0 88cqw;
-			min-width: 0;
-			max-width: 88cqw;
-			scroll-snap-align: start;
+			flex: 1 1 0;
+			min-width: var(--kanban-column-min, 240px);
+			max-width: var(--kanban-column-max, 420px);
+			transition: opacity var(--duration-quick) var(--ease-smooth-out);
 		}
-	}
 
-	.kanban-column-collapsing,
-	.kanban-column-expanding {
-		will-change: opacity;
-		overflow: hidden;
-	}
+		/* A board under 40rem wide (a phone, a side panel) shows one column and a peek of the next, as 82vw did on a phone. */
+		@container kanban-board (width < 40rem) {
+			.kanban-column {
+				flex: 0 0 88cqw;
+				min-width: 0;
+				max-width: 88cqw;
+				scroll-snap-align: start;
+			}
+		}
 
-	.kanban-column-collapsing {
-		pointer-events: none;
-		animation: column-fold var(--duration-slow) var(--ease-smooth-out) forwards;
-	}
+		.kanban-column-collapsing,
+		.kanban-column-expanding {
+			will-change: opacity;
+			overflow: hidden;
+		}
 
-	.kanban-column-expanding {
-		animation: column-unfold var(--duration-slow) var(--ease-smooth-out) both;
+		.kanban-column-collapsing {
+			pointer-events: none;
+			animation: column-fold var(--duration-slow) var(--ease-smooth-out) forwards;
+		}
+
+		.kanban-column-expanding {
+			animation: column-unfold var(--duration-slow) var(--ease-smooth-out) both;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.kanban-column-expanding {
+				animation: none;
+			}
+
+			.kanban-column-collapsing {
+				animation: none;
+				opacity: 0;
+				flex: 0 0 0;
+				min-width: 0;
+				max-width: 0;
+				margin-inline-end: -1rem;
+			}
+		}
 	}
 
 	/* One end only: the other is the column's resting width, whatever the container gave it.
@@ -119,21 +138,6 @@
 			opacity: 0;
 			flex-grow: 0;
 			flex-basis: 0;
-			min-width: 0;
-			max-width: 0;
-			margin-inline-end: -1rem;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.kanban-column-expanding {
-			animation: none;
-		}
-
-		.kanban-column-collapsing {
-			animation: none;
-			opacity: 0;
-			flex: 0 0 0;
 			min-width: 0;
 			max-width: 0;
 			margin-inline-end: -1rem;
