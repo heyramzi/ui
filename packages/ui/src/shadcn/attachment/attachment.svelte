@@ -26,6 +26,7 @@
 <script lang="ts">
 	import { cn, type WithElementRef } from "#src/lib/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
+	import { setAttachmentTitleId } from "#src/shadcn/attachment/context.js";
 
 	let {
 		ref = $bindable(null),
@@ -40,6 +41,9 @@
 		size?: AttachmentSize;
 		orientation?: AttachmentOrientation;
 	} = $props();
+
+	const uid = $props.id();
+	setAttachmentTitleId(`${uid}-title`);
 </script>
 
 <div

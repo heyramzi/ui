@@ -35,11 +35,12 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
+<!-- With the label shown, the flag is decorative, or the code is read twice. -->
 {#if src}
 	<span class={cn("inline-flex items-center gap-1.5", className)}>
 		<img
 			{src}
-			alt={language.toUpperCase()}
+			alt={showLabel ? "" : language.toUpperCase()}
 			class={cn("shrink-0 rounded-sm", sizeClass)}
 			loading="lazy"
 		/>

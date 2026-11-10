@@ -36,6 +36,7 @@
 					<Attachment.Title>{image.name}</Attachment.Title>
 					<Attachment.Description>{image.meta}</Attachment.Description>
 				</Attachment.Content>
+				<Attachment.Trigger onclick={() => window.open(image.src, "_blank")} />
 			</Attachment.Root>
 		{/each}
 	</Attachment.Group>
@@ -62,7 +63,7 @@
 			<Attachment.Description>TypeScript · 12 KB</Attachment.Description>
 		</Attachment.Content>
 		<Attachment.Actions>
-			<Attachment.Action aria-label="Remove message-renderer.tsx">
+			<Attachment.Action>
 				<X aria-hidden="true" />
 			</Attachment.Action>
 		</Attachment.Actions>

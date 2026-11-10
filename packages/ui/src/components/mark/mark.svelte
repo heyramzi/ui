@@ -55,7 +55,9 @@
 		onerror={() => (broken = src)}
 	/>
 {:else}
+	<!-- Hidden like the image: a lone initial read aloud is a stray letter, not a name. -->
 	<span
+		aria-hidden="true"
 		class={cn(
 			"bg-muted text-muted-foreground flex size-4 shrink-0 items-center justify-center text-[10px] leading-none font-bold",
 			round ? "rounded-full" : "rounded-xs",

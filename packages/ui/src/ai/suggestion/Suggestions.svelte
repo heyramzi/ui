@@ -5,10 +5,12 @@
 
 	export interface SuggestionsProps extends HTMLAttributes<HTMLDivElement> {
 		children?: Snippet;
+		/** The group's name for a screen reader. */
+		label?: string;
 		class?: string;
 	}
 
-	let { children, class: className, ...rest }: SuggestionsProps = $props();
+	let { children, label = "Suggestions", class: className, ...rest }: SuggestionsProps = $props();
 </script>
 
 <div
@@ -19,6 +21,7 @@
 		className,
 	)}
 	role="group"
+	aria-label={label}
 	{...rest}
 >
 	{@render children?.()}
