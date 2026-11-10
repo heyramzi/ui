@@ -34,8 +34,8 @@
 </script>
 
 <!-- A group's head, the same in a kanban column, a list group, a grouped list and a table group:
-     dot, name, count, plus. -->
-<div class={cn("flex h-8 min-w-0 flex-1 items-center gap-2", className)}>
+     dot, name, count, plus. A span, since two callers put it inside their toggle button. -->
+<span class={cn("flex h-8 min-w-0 flex-1 items-center gap-2", className)}>
 	{#if hue}
 		<span class="size-2 shrink-0 rounded-full" style:background={hue} aria-hidden="true"></span>
 	{/if}
@@ -64,4 +64,4 @@
 			{/if}
 		</span>
 	{/if}
-</div>
+</span>
