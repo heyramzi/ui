@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.3.1](https://github.com/heyramzi/ui/compare/ui-v3.3.0...ui-v3.3.1) (2026-11-10)
+
+### Bug Fixes
+
+* fix(ui): list-page toolbar folds under reduced motion too (TSK-2121)
+* fix(ui): list-page toolbar stays one row, folding filters and search instead of wrapping (TSK-2121)
+
+
 ## [3.3.0](https://github.com/heyramzi/ui/compare/ui-v3.2.0...ui-v3.3.0) (2026-11-10)
 
 ### Features
