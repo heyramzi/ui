@@ -1,5 +1,6 @@
 <script lang="ts" module>
-	export type TocItem = { id: string; label: string; depth?: 1 | 2 };
+	/** A depth 2 row names code in mono unless `mono` is false. */
+	export type TocItem = { id: string; label: string; depth?: 1 | 2; mono?: boolean };
 </script>
 
 <script lang="ts">
@@ -40,7 +41,9 @@
 					aria-current={active === item.id ? "location" : undefined}
 					class="-ml-px block border-l border-transparent py-1 text-muted-foreground transition-colors duration-(--duration-quick) hover:text-foreground aria-[current]:border-foreground aria-[current]:text-foreground {item.depth ===
 					2
-						? 'pl-6 font-mono text-xs'
+						? item.mono === false
+							? 'pl-6 text-xs'
+							: 'pl-6 font-mono text-xs'
 						: 'pl-3'}"
 				>
 					{item.label}

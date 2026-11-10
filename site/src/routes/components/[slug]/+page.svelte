@@ -5,6 +5,7 @@
 	import ComponentApi, { apiAnchor } from "#lib/ComponentApi.svelte";
 	import CodeSnippet from "#lib/CodeSnippet.svelte";
 	import DocHeading from "#lib/DocHeading.svelte";
+	import ExampleViewer from "#lib/ExampleViewer.svelte";
 	import InstallCommand from "#lib/InstallCommand.svelte";
 	import OnThisPage, { type TocItem } from "#lib/OnThisPage.svelte";
 	import Viewer from "#lib/Viewer.svelte";
@@ -52,12 +53,25 @@
 	const toc: TocItem[] = $derived([
 		{ id: "installation", label: "Installation" },
 		...(usage ? [{ id: "usage", label: "Usage" }] : []),
+		...(data.examples.length
+			? [
+					{ id: "examples", label: "Examples" },
+					...data.examples.map((example) => ({
+						id: exampleAnchor(example.name),
+						label: example.title,
+						depth: 2 as const,
+						mono: false,
+					})),
+				]
+			: []),
 		...(a11y ? [{ id: "accessibility", label: "Keyboard" }] : []),
 		...(data.api.length ? [{ id: "api", label: "API reference" }] : []),
 		...(data.api.length > 1
 			? data.api.map((part) => ({ id: apiAnchor(part.name), label: part.name, depth: 2 as const }))
 			: []),
 	]);
+
+	const exampleAnchor = (name: string) => `example-${name}`;
 
 	const glyphs: Record<string, string> = {
 		ArrowRight: "→",
@@ -137,6 +151,25 @@
 				<div class="mt-4">
 					{#key entry.slug}<CodeSnippet code={usage} lang="svelte" label="Copy import" />{/key}
 				</div>
+			</section>
+		{/if}
+
+		{#if data.examples.length}
+			<section aria-labelledby="examples" class="mt-14">
+				<DocHeading id="examples">Examples</DocHeading>
+				{#key entry.slug}
+					{#each data.examples as example (example.name)}
+						<div class="mt-8 first-of-type:mt-5">
+							<DocHeading id={exampleAnchor(example.name)} level={3} mono={false}
+								>{example.title}</DocHeading
+							>
+							<p class="mt-1 max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
+								{example.note}
+							</p>
+							<div class="mt-4"><ExampleViewer {example} /></div>
+						</div>
+					{/each}
+				{/key}
 			</section>
 		{/if}
 

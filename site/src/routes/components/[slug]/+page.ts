@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { cardBySlug, cards, sectionById } from "#lib/nav.js";
 import { loadEntry } from "#lib/registry.js";
+import { loadExamples } from "#lib/examples/index.js";
 
 export const prerender = true;
 
@@ -14,5 +15,6 @@ export async function load({ params, data }) {
   if (!card) error(404, "No such component");
   const section = sectionById(card.section);
   if (!section) error(500, `No section "${card.section}"`);
-  return { ...data, entry: await loadEntry(card.slug), section };
+  const [entry, examples] = await Promise.all([loadEntry(card.slug), loadExamples(card.slug)]);
+  return { ...data, entry, examples, section };
 }
