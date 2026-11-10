@@ -2,6 +2,7 @@
 	import type { Snippet } from "svelte";
 	import { ArrowBendDownRight, Check, MapPin, PencilSimple, Trash } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import { shortDate } from "#src/lib/dates.js";
 	import { initial } from "#src/lib/initials.js";
 	import { AgentAvatar } from "#src/agents/index.js";
@@ -91,6 +92,7 @@
 	let sending = $state(false);
 	let editingId = $state<string | null>(null);
 	let editDraft = $state("");
+	let threadEl: HTMLElement | undefined = $state();
 
 	async function post(body: string, parentId: string | null): Promise<boolean> {
 		const text = body.trim();
@@ -105,27 +107,65 @@
 
 	async function sendRoot(): Promise<void> {
 		if (await post(draft, null)) draft = "";
+		// The emptied draft disables Send, which drops focus to the page.
+		if (document.activeElement === document.body) {
+			await focusAfterRender(threadEl, "[data-thread-composer]");
+		}
 	}
 
 	async function sendReply(): Promise<void> {
-		if (await post(replyDraft, replyTo)) {
-			replyDraft = "";
-			replyTo = null;
-		}
+		if (await post(replyDraft, replyTo)) closeReply();
 	}
 
-	function submitOnModEnter(event: KeyboardEvent, send: () => Promise<void>): void {
+	function closeReply(): void {
+		const parentId = replyTo;
+		replyDraft = "";
+		replyTo = null;
+		void focusAfterRender(threadEl, `[data-thread-reply="${CSS.escape(parentId ?? "")}"]`);
+	}
+
+	function onComposerKey(event: KeyboardEvent, send: () => Promise<void>, isReply: boolean): void {
 		if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
 			event.preventDefault();
 			void send();
+		} else if (event.key === "Escape" && isReply) {
+			event.preventDefault();
+			closeReply();
 		}
+	}
+
+	function openEdit(comment: ThreadComment): void {
+		editingId = comment.id;
+		editDraft = comment.body;
+		void focusAfterRender(threadEl, `[data-thread-edit-box="${CSS.escape(comment.id)}"]`);
+	}
+
+	function closeEdit(id: string): void {
+		editingId = null;
+		void focusAfterRender(threadEl, `[data-thread-edit="${CSS.escape(id)}"]`);
 	}
 
 	async function saveEdit(comment: ThreadComment): Promise<void> {
 		const body = editDraft.trim();
-		editingId = null;
+		closeEdit(comment.id);
 		if (!body || body === comment.body) return;
 		await onEdit?.(comment, body);
+	}
+
+	// Focus lands on the next comment still shown, then the one before, the composer, the thread.
+	async function remove(comment: ThreadComment): Promise<void> {
+		const ids = [...(threadEl?.querySelectorAll<HTMLElement>("[data-comment]") ?? [])].map(
+			(el) => el.dataset.comment ?? "",
+		);
+		const at = ids.indexOf(comment.id);
+		const around = [...ids.slice(at + 1), ...ids.slice(0, at).reverse()];
+		await onDelete?.(comment);
+		await focusAfterRender(
+			threadEl,
+			...around.map((id) => `[data-comment="${CSS.escape(id)}"]`),
+			"[data-thread-composer]",
+			threadEl,
+		);
 	}
 </script>
 
@@ -143,11 +183,12 @@
 		<textarea
 			{value}
 			oninput={(event) => set(event.currentTarget.value)}
-			onkeydown={(event) => submitOnModEnter(event, onSend)}
+			onkeydown={(event) => onComposerKey(event, onSend, isReply)}
 			rows={2}
 			{placeholder}
 			aria-label={placeholder}
 			autofocus={isReply}
+			data-thread-composer={isReply ? undefined : ""}
 			class="block max-h-60 min-h-16 w-full resize-none border-0 bg-transparent px-3 py-2 text-sm leading-relaxed outline-none [field-sizing:content] placeholder:text-muted-foreground"
 		></textarea>
 		<div class="flex justify-end px-2 pb-2">
@@ -159,7 +200,11 @@
 {/snippet}
 
 {#snippet row(comment: ThreadComment, isRoot: boolean)}
-	<div class="group/row hover-row relative flex gap-3">
+	<div
+		data-comment={comment.id}
+		tabindex="-1"
+		class="group/row hover-row relative flex gap-3 rounded-md outline-none focus-visible:shadow-(--ring-focus)"
+	>
 		<span class="relative size-6 shrink-0">
 			{#if avatar}
 				{@render avatar(comment)}
@@ -226,10 +271,8 @@
 									size="sm"
 									icon
 									aria-label={labels.edit}
-									onclick={() => {
-										editingId = comment.id;
-										editDraft = comment.body;
-									}}
+									data-thread-edit={comment.id}
+									onclick={() => openEdit(comment)}
 								>
 									<PencilSimple class="size-3.5" aria-hidden="true" />
 								</Button>
@@ -240,7 +283,7 @@
 									size="sm"
 									icon
 									aria-label={labels.delete}
-									onclick={() => onDelete?.(comment)}
+									onclick={() => remove(comment)}
 								>
 									<Trash class="size-3.5" aria-hidden="true" />
 								</Button>
@@ -255,10 +298,16 @@
 					bind:value={editDraft}
 					rows={3}
 					aria-label={labels.edit}
+					data-thread-edit-box={comment.id}
+					onkeydown={(event) => {
+						if (event.key !== "Escape") return;
+						event.preventDefault();
+						closeEdit(comment.id);
+					}}
 					class="mt-1 w-full resize-y rounded-md border border-input bg-transparent px-2.5 py-2 text-sm leading-relaxed outline-none focus-visible:border-ring focus-visible:shadow-(--ring-focus)"
 				></textarea>
 				<div class="mt-2 flex justify-end gap-1.5">
-					<Button variant="ghost" size="sm" onclick={() => (editingId = null)}
+					<Button variant="ghost" size="sm" onclick={() => closeEdit(comment.id)}
 						>{labels.cancel}</Button
 					>
 					<Button size="sm" onclick={() => saveEdit(comment)}>{labels.save}</Button>
@@ -278,7 +327,12 @@
 	</div>
 {/snippet}
 
-<section aria-label={labels.title} class={cn("flex flex-col gap-3", className)}>
+<section
+	bind:this={threadEl}
+	tabindex="-1"
+	aria-label={labels.title}
+	class={cn("flex flex-col gap-3 outline-none", className)}
+>
 	<div class={cn("flex h-7 items-center justify-between", !heading && resolved === 0 && "sr-only")}>
 		<h2 class={cn("text-xs font-medium text-muted-foreground", !heading && "sr-only")}>
 			{labels.title}
@@ -345,6 +399,7 @@
 									variant="ghost"
 									size="sm"
 									class="ms-9 w-fit"
+									data-thread-reply={node.comment.id}
 									onclick={() => {
 										replyTo = node.comment.id;
 										replyDraft = "";

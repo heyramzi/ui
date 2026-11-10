@@ -76,6 +76,8 @@
 		(target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
 
 	function onkeydown(event: KeyboardEvent) {
+		// A focused component that used the key, like an editor's Cmd+K link, keeps it.
+		if (event.defaultPrevented) return;
 		if (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey)) {
 			event.preventDefault();
 			open = !open;
