@@ -13,7 +13,6 @@
     transition:
       width var(--resize-dur) var(--resize-ease),
       height var(--resize-dur) var(--resize-ease);
-    will-change: width, height;
   }
 
   @media (prefers-reduced-motion: reduce) {

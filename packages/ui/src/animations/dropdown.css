@@ -79,9 +79,8 @@
       opacity var(--dropdown-close-dur) var(--dropdown-ease);
   }
 
-  /* WHY the floating var first: bits-ui computes the exact point on the trigger after
-     a flip or a shift, so a menu nudged off the viewport edge still grows from its
-     trigger. The side and align corners stay as the fallback for a non-bits surface. */
+  /* WHY the floating var first: bits-ui knows the trigger's point after a flip or shift,
+     so a nudged menu still grows from its trigger. Corners are the fallback off bits-ui. */
   .t-dropdown[data-side="bottom"][data-align="start"] {
     transform-origin: var(--bits-floating-transform-origin, top left);
   }

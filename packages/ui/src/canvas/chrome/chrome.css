@@ -29,7 +29,7 @@
     color: var(--cv-chrome-surface);
     font-size: 12px;
     font-weight: 600;
-    line-height: 16px;
+    line-height: calc(16 / 12);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
     transform: translateX(-50%) scale(var(--canvas-unzoom, 1));

@@ -43,7 +43,7 @@
     fill: var(--foreground, oklch(0.18 0.02 240));
     font-size: 16px;
     font-weight: 600;
-    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
     transition: opacity 180ms ease;
   }
 
