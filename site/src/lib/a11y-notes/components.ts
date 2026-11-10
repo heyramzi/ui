@@ -59,6 +59,7 @@ export const componentNotes: Record<string, A11yNote> = {
     keys: [{ keys: ["Space", "Enter"], does: "Switches the theme." }],
     notes: [
       'The name says what a press does, like "Switch to dark mode". With mode set, it reads "Theme: dark". label replaces both.',
+      'The slide variant is a switch named "Dark mode" that reports on in dark and off in light. label replaces the name.',
       "With reduced motion on, the theme changes at once with no circular wipe, and the slide variant's thumb jumps.",
     ],
   },

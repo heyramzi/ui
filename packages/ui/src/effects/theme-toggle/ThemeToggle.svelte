@@ -4,6 +4,7 @@
 	// =========================
 	import "#src/effects/theme-toggle/ThemeToggle.css";
 	import { cn } from "#src/lib/utils.js";
+	import { Switch } from "bits-ui";
 	import { Monitor, Moon, Sun } from "phosphor-svelte";
 	import { revealTheme } from "#src/lib/theme-transition.js";
 
@@ -55,12 +56,22 @@
 	let text = $derived(
 		label ?? (mode ? `Theme: ${mode}` : isDark ? "Switch to light mode" : "Switch to dark mode"),
 	);
+	// A switch reads its own on or off, so its name stays put instead of naming the next press.
+	let slideText = $derived(label ?? "Dark mode");
 
 	// =========================
 	// FUNCTIONS
 	// =========================
 	function handleClick(event: MouseEvent) {
 		revealTheme(event, () => onToggle(event), { skip: skipTransition });
+	}
+
+	// bits-ui flips a switch on keydown with no click, and `onToggle` wants a MouseEvent, so the
+	// key becomes the click a plain button would have fired. preventDefault stops bits-ui's own.
+	function clickOnKey(event: KeyboardEvent & { currentTarget: HTMLButtonElement }) {
+		if (event.key !== "Enter" && event.key !== " ") return;
+		event.preventDefault();
+		event.currentTarget.click();
 	}
 
 	function iconClass(show: boolean, tilt: "rotate-90" | "-rotate-90") {
@@ -74,12 +85,15 @@
 <!-- MARKUP -->
 <!-- =========================== -->
 {#if style === "slide"}
-	<button
-		type="button"
+	<!-- WHY a no-op setter: the theme is the caller's, so `onclick` hands it the MouseEvent and
+	     the switch only mirrors `active`. -->
+	<Switch.Root
+		bind:checked={() => active === "dark", () => {}}
 		onclick={handleClick}
-		aria-label={text}
+		onkeydown={clickOnKey}
+		aria-label={slideText}
 		{title}
-		data-state={active === "dark" ? "dark" : "light"}
+		data-mode={active === "dark" ? "dark" : "light"}
 		class={cn("theme-toggle-slide", size === "default" && "theme-toggle-slide--lg", className)}
 	>
 		<span class="theme-toggle-slide__glow" aria-hidden="true"></span>
@@ -104,8 +118,8 @@
 				class="theme-toggle-slide__mark theme-toggle-slide__mark--moon"
 			/>
 		</span>
-		<span class="sr-only">{text}</span>
-	</button>
+		<span class="sr-only">{slideText}</span>
+	</Switch.Root>
 {:else}
 	<button
 		onclick={handleClick}
