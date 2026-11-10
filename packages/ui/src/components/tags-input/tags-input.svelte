@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { tick } from "svelte";
 	import { Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import TagChip from "#src/components/chip/tag-chip.svelte";
@@ -26,6 +27,9 @@
 		max: string;
 		/** Shown when what's typed matches nothing and creating isn't allowed. */
 		none: string;
+		/** Announced to a screen reader once a tag is saved, and once one is gone. */
+		added: (tag: string) => string;
+		removed: (tag: string) => string;
 	}
 
 	interface Props {
@@ -80,6 +84,8 @@
 	let pending = $state<string[] | null>(null);
 	let input = $state<HTMLInputElement | null>(null);
 	let root = $state<HTMLElement | null>(null);
+	/** What the live region last said: the tags a save added or removed. */
+	let announcement = $state("");
 	const listId = $props.id();
 
 	// =========================
@@ -91,6 +97,8 @@
 		remove: (tag) => `Remove ${tag}`,
 		max: "Limit reached",
 		none: "No match",
+		added: (tag) => `Added ${tag}`,
+		removed: (tag) => `Removed ${tag}`,
 		...labels,
 	});
 	const tags = $derived(pending ?? [...value]);
@@ -114,9 +122,14 @@
 	// =========================
 	async function commit(next: readonly string[]) {
 		if (next === tags) return;
+		const before = tags;
 		pending = [...next];
 		try {
 			await onchange([...next]);
+			announcement = [
+				...next.filter((tag) => !before.includes(tag)).map(text.added),
+				...before.filter((tag) => !next.includes(tag)).map(text.removed),
+			].join(", ");
 		} finally {
 			pending = null;
 		}
@@ -125,7 +138,33 @@
 	function start() {
 		if (disabled) return;
 		editing = true;
-		queueMicrotask(() => input?.focus());
+		// A full list has no box, so focus lands on the last chip instead.
+		void tick().then(() => (input ?? chipButtons().at(-1))?.focus());
+	}
+
+	const chipButtons = () => [
+		...(root?.querySelectorAll<HTMLButtonElement>("[data-slot=tag-chip] button") ?? []),
+	];
+
+	// Arrows walk the chips and the box, Backspace or Delete removes the focused chip, Esc goes back to the box.
+	function onChipKey(event: KeyboardEvent, tag: string) {
+		const buttons = chipButtons();
+		const index = buttons.findIndex((button) => button === event.target);
+		if (index < 0) return;
+		const next = buttons[index + 1] ?? input;
+		if (event.key === "ArrowLeft") buttons[index - 1]?.focus();
+		else if (event.key === "ArrowRight") next?.focus();
+		else if (event.key === "Escape") (input ?? next)?.focus();
+		else if (["Backspace", "Delete", "Enter", " "].includes(event.key)) {
+			// Focus moves on before the chip goes, so focus never drops to the page.
+			(next ?? buttons[index - 1])?.focus();
+			void commit(removeTag(tags, tag));
+			// The last chip of a full list had nowhere to go: the box only comes back after it.
+			void tick().then(() => {
+				if (!root?.contains(document.activeElement)) input?.focus();
+			});
+		} else return;
+		event.preventDefault();
 	}
 
 	// Blur keeps typed text only when it's an existing label spelt another way, or the field is free.
@@ -149,7 +188,7 @@
 		if (free && (separator || event.key === "Enter" || (event.key === "Tab" && query.trim()))) {
 			event.preventDefault();
 			if (query.trim()) add(query);
-			else if (event.key === "Enter") stop();
+			else if (event.key === "Enter") finish();
 		} else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
 			if (rows.length === 0) return;
 			event.preventDefault();
@@ -158,21 +197,32 @@
 		} else if (event.key === "Enter") {
 			event.preventDefault();
 			// The highlighted row: a close option when there is one, else the visible Create row.
-			if (!query.trim()) stop();
+			if (!query.trim()) finish();
 			else if (rows.length > 0) add(rows[Math.min(active, last)].name);
 		} else if (event.key === "," || (event.key === "Tab" && query.trim())) {
 			event.preventDefault();
 			if (query.trim() && rows.length > 0) add(rows[Math.min(active, last)].name);
+		} else if (
+			event.key === "ArrowLeft" &&
+			tags.length > 0 &&
+			input?.selectionStart === 0 &&
+			input.selectionEnd === 0
+		) {
+			event.preventDefault();
+			chipButtons().at(-1)?.focus();
 		} else if (event.key === "Backspace" && query === "" && tags.length > 0) {
 			void commit(removeTag(tags, tags[tags.length - 1]));
 		} else if (event.key === "Escape") {
 			event.preventDefault();
 			if (query) query = "";
-			else {
-				editing = false;
-				root?.querySelector("button")?.focus();
-			}
+			else finish();
 		}
+	}
+
+	// Closing from the keyboard hands focus back to the field, once it's drawn again.
+	function finish() {
+		stop();
+		void tick().then(() => root?.querySelector("button")?.focus());
 	}
 
 	// Pasted words that are existing labels are added. The rest stay in the box to be created on purpose.
@@ -201,9 +251,10 @@
 		);
 	}
 
-	// WHY: Chrome fires focusout from the read-state button as editing removes it, so only the input leaving counts.
+	// WHY: Chrome fires focusout from the read-state button as editing removes it, so only the box or a chip leaving counts.
 	function onFocusOut(event: FocusEvent) {
-		if (event.target !== input) return;
+		const chipLeft = editing && (event.target as Element).closest("[data-slot=tag-chip]");
+		if (event.target !== input && !chipLeft) return;
 		const next = event.relatedTarget as Node | null;
 		if (editing && !(next && root?.contains(next))) stop();
 	}
@@ -227,6 +278,7 @@
 		removeLabel={text.remove(tag)}
 		removeFocusable={false}
 		onremove={removable ? () => commit(removeTag(tags, tag)) : undefined}
+		onkeydown={removable ? (event: KeyboardEvent) => onChipKey(event, tag) : undefined}
 	>
 		{tag}
 	</TagChip>
@@ -309,7 +361,7 @@
 			class={cn(
 				"-ml-1.5 flex min-h-7 w-full flex-wrap items-center gap-1 rounded-lg px-1.5 py-1 text-left transition-colors outline-none duration-quick ease-smooth-out hover:bg-foreground/4 focus-visible:shadow-(--ring-focus) disabled:pointer-events-none motion-reduce:transition-none",
 			)}
-			aria-label={label}
+			aria-label={tags.length > 0 ? `${label}: ${tags.join(", ")}` : label}
 			{disabled}
 			onclick={start}
 		>
@@ -320,4 +372,5 @@
 			{/each}
 		</button>
 	{/if}
+	<span class="sr-only" role="status">{announcement}</span>
 </div>
