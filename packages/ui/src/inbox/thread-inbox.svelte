@@ -139,6 +139,8 @@
 	let labels = $derived(resolveInboxLabels(labelOverrides));
 	let filter = $state<InboxFilter>({ ...NO_FILTER });
 	let snoozing = $state(false);
+	const uid = $props.id();
+	const snoozeChoicesId = `${uid}-snooze`;
 	let pane = $state<"rail" | "detail">("rail");
 	let root = $state<HTMLDivElement>();
 	let cards = $state<Record<string, ReturnType<typeof InboxCard> | null>>({});
@@ -472,6 +474,7 @@
 								variant="ghost"
 								onclick={snoozeKey}
 								aria-expanded={snoozing}
+								aria-controls={snoozeChoicesId}
 								aria-keyshortcuts="h"
 							>
 								<BellSlash aria-hidden="true" />{labels.snooze}
@@ -496,7 +499,12 @@
 				</DetailHeader>
 
 				{#if snoozing}
-					<div class="flex flex-wrap gap-2" role="group" aria-label={labels.snooze}>
+					<div
+						id={snoozeChoicesId}
+						class="flex flex-wrap gap-2"
+						role="group"
+						aria-label={labels.snooze}
+					>
 						{#each snoozeChoices(new Date()) as choice, index (choice.id)}
 							<Button size="sm" variant="outline" onclick={() => snooze(choice.until)}>
 								<Kbd>{index + 1}</Kbd>{snoozeLabel(choice.id)}

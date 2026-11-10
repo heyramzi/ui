@@ -119,6 +119,9 @@
 		skeletonRows = 5,
 	}: Props = $props();
 
+	// Names each group's body, so a fold button can say which rows it folds.
+	const uid = $props.id();
+
 	// =========================
 	// DERIVED
 	// =========================
@@ -403,10 +406,11 @@
 			<TableSkeleton rows={skeletonRows} columns={skeletonColumns} />
 		{:else}
 			{#if group}
-				{#each entries as entry (entry.id)}
+				{#each entries as entry, index (entry.id)}
 					{@const folded = entry.key !== null && collapsible && collapsed.has(entry.key)}
 					{@const tableGroup = { key: entry.key ?? "", rows: entry.rows }}
-					<Table.Body>
+					{@const bodyId = `${uid}-group-${index}`}
+					<Table.Body id={bodyId}>
 						{#if entry.key !== null}
 							<Table.Row
 								class="bg-foreground/4 hover:translate-y-0 hover:bg-foreground/4 hover:shadow-none"
@@ -416,6 +420,7 @@
 										<button
 											type="button"
 											aria-expanded={!folded}
+											aria-controls={bodyId}
 											class="t-press flex h-8 w-full items-center gap-2 px-2 text-start outline-none focus-visible:shadow-(--ring-focus-inset)"
 											onclick={() => toggleGroup(tableGroup.key)}
 										>
