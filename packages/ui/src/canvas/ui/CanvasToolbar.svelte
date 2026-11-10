@@ -123,6 +123,23 @@
 		else if (value) tool = value as CanvasTool;
 	}
 
+	// Svelte Flow deselects a node on Esc and blurs it a frame later, so focus fell to the page
+	// and the tool letters stopped. A later frame hands focus back to the node. The listener sits
+	// on the window: Svelte runs the node's own handler at its root, so a frame asked for any
+	// lower would run before the blur.
+	function keepNodeFocus(panel: HTMLElement) {
+		const flow = panel.closest<HTMLElement>(".svelte-flow");
+		if (!flow) return;
+		const onkeydown = (event: KeyboardEvent) => {
+			const node = event.target;
+			if (event.key !== "Escape" || !(node instanceof HTMLElement)) return;
+			if (!node.matches(".svelte-flow__node") || !flow.contains(node)) return;
+			requestAnimationFrame(() => node.isConnected && node.focus());
+		};
+		window.addEventListener("keydown", onkeydown);
+		return () => window.removeEventListener("keydown", onkeydown);
+	}
+
 	function pickTool(value: string) {
 		if (value) tool = value as CanvasTool;
 	}
@@ -139,7 +156,7 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<Panel position="center-left" class="cv-dock">
+<Panel position="center-left" class="cv-dock" {@attach keepNodeFocus}>
 	<Tooltip.Provider>
 		<div class="cv-row">
 			<Toolbar.Root

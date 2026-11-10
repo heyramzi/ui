@@ -94,16 +94,6 @@
 	role="group"
 	aria-label="Canvas"
 	onkeydown={(event) => {
-		// Svelte Flow blurs a node a frame after Esc deselects it. This later frame refocuses it.
-		const target = event.target;
-		if (
-			event.key === "Escape" &&
-			target instanceof HTMLElement &&
-			target.matches(".svelte-flow__node")
-		) {
-			requestAnimationFrame(() => target.isConnected && target.focus());
-			return;
-		}
 		const next = resolveToolKey(event);
 		if (!next) return;
 		event.preventDefault();
