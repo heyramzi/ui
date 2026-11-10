@@ -135,23 +135,63 @@
 {/if}
 
 <style>
-	.sd {
-		flex-shrink: 0;
-	}
+	@layer theme, base, components, utilities;
 
-	/* The tick and cross read as cut out of the disc. A host sets the mark to its own ground. */
-	.sd-mark {
-		stroke: var(--status-dot-mark, white);
-	}
+	@layer components {
+		.sd {
+			flex-shrink: 0;
+		}
 
-	/* 12 dashes that close evenly: 2 * PI * 5.5 = 34.56, cut into 12 periods of 2.88. */
-	.sd-dashed {
-		stroke-dasharray: 1.3 1.58;
-	}
+		/* The tick and cross read as cut out of the disc. A host sets the mark to its own ground. */
+		.sd-mark {
+			stroke: var(--status-dot-mark, white);
+		}
 
-	.sd-fill {
-		transform-origin: 7px 7px;
-		animation: sd-fill-in var(--duration-slow) var(--ease-smooth-out) forwards;
+		/* 12 dashes that close evenly: 2 * PI * 5.5 = 34.56, cut into 12 periods of 2.88. */
+		.sd-dashed {
+			stroke-dasharray: 1.3 1.58;
+		}
+
+		.sd-fill {
+			transform-origin: 7px 7px;
+			animation: sd-fill-in var(--duration-slow) var(--ease-smooth-out) forwards;
+		}
+
+		.sd-pop {
+			transform-origin: 7px 7px;
+			animation: sd-pop-in var(--duration-medium) var(--ease-smooth-out) forwards;
+		}
+
+		.sd-check {
+			stroke-dasharray: 12;
+			stroke-dashoffset: 12;
+			animation: sd-trace var(--duration-medium) var(--ease-smooth-out) var(--duration-quick)
+				forwards;
+		}
+
+		.sd-cross {
+			stroke-dasharray: 6;
+			stroke-dashoffset: 6;
+			animation: sd-trace calc(var(--duration-fast) / 2) var(--ease-smooth-out)
+				var(--duration-quick) forwards;
+		}
+
+		.sd-cross-second {
+			animation-delay: calc(var(--duration-quick) + var(--duration-fast) / 2);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.sd-fill,
+			.sd-pop,
+			.sd-check,
+			.sd-cross {
+				animation: none;
+			}
+			.sd-check,
+			.sd-cross {
+				stroke-dashoffset: 0;
+			}
+		}
 	}
 
 	@keyframes sd-fill-in {
@@ -165,11 +205,6 @@
 		}
 	}
 
-	.sd-pop {
-		transform-origin: 7px 7px;
-		animation: sd-pop-in var(--duration-medium) var(--ease-smooth-out) forwards;
-	}
-
 	@keyframes sd-pop-in {
 		from {
 			transform: scale(0.4);
@@ -181,38 +216,8 @@
 		}
 	}
 
-	.sd-check {
-		stroke-dasharray: 12;
-		stroke-dashoffset: 12;
-		animation: sd-trace var(--duration-medium) var(--ease-smooth-out) var(--duration-quick) forwards;
-	}
-
-	.sd-cross {
-		stroke-dasharray: 6;
-		stroke-dashoffset: 6;
-		animation: sd-trace calc(var(--duration-fast) / 2) var(--ease-smooth-out) var(--duration-quick)
-			forwards;
-	}
-
-	.sd-cross-second {
-		animation-delay: calc(var(--duration-quick) + var(--duration-fast) / 2);
-	}
-
 	@keyframes sd-trace {
 		to {
-			stroke-dashoffset: 0;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.sd-fill,
-		.sd-pop,
-		.sd-check,
-		.sd-cross {
-			animation: none;
-		}
-		.sd-check,
-		.sd-cross {
 			stroke-dashoffset: 0;
 		}
 	}
