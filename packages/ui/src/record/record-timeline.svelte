@@ -169,7 +169,9 @@
 									{:else}
 										<p class="text-sm leading-snug font-medium wrap-anywhere">
 											{#if event.href}
-												<a href={event.href} class="underline-offset-2 hover:underline"
+												<a
+													href={event.href}
+													class="-my-1 inline-block py-1 underline-offset-2 hover:underline"
 													>{event.title}</a
 												>
 											{:else}

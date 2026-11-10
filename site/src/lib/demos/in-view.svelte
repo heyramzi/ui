@@ -5,7 +5,9 @@
 	let seen = $state(false);
 </script>
 
-<div class="scroller">
+<!-- A keyboard can only scroll a region it can focus (axe scrollable-region-focusable). -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<div class="scroller" role="region" aria-label="Blocks" tabindex="0">
 	<p class="hint">Scroll this panel.</p>
 	{#each blocks as n (n)}
 		<InView preset="slide" amount={0.4} once={false} class="block">
@@ -26,6 +28,11 @@
 		height: 11rem;
 		overflow-y: auto;
 		padding: 0.75rem;
+		border-radius: 0.75rem;
+	}
+	.scroller:focus-visible {
+		outline: none;
+		box-shadow: var(--ring-focus-inset);
 	}
 	.hint {
 		margin: 0;

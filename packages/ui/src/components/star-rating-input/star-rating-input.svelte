@@ -12,8 +12,9 @@
 		lg: "size-7",
 	};
 
+	// Side by side stars can't overlap, so a 24px target (WCAG 2.5.8) means a 24px pitch.
 	const HIT_SIZE: Record<StarRatingSize, string> = {
-		sm: "p-0.5",
+		sm: "p-1",
 		lg: "p-1",
 	};
 
@@ -110,6 +111,7 @@
      two copies had already drifted apart on the glow. -->
 {#snippet star(step: number)}
 	<Star
+		aria-hidden="true"
 		class={cn("star", starSize, step <= displayed && "is-filled")}
 		weight={step <= displayed ? "fill" : "regular"}
 	/>
