@@ -159,6 +159,11 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
   {
     echo "## [$next](https://github.com/heyramzi/ui/compare/$component-v$version...$component-v$next) ($TODAY)"
     echo ""
+    # Hand-written notes for this release (breaking changes, the codemod) sit in NEXT.md until it ships.
+    if [ -f "$dir/NEXT.md" ]; then
+      cat "$dir/NEXT.md"
+      echo ""
+    fi
     if [ -n "$feats" ]; then
       echo "### Features"
       echo ""
@@ -195,6 +200,7 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
     const rest = at === -1 ? '' : '\n\n' + cur.slice(at);
     fs.writeFileSync(p, head + '\n\n' + notes + '\n' + rest);
   "
+  rm -f "$dir/NEXT.md"
 done
 
 # Only the files this script wrote: other sessions leave uncommitted or staged work in packages/.
@@ -202,6 +208,10 @@ release_files=()
 while read -r component dir version next bump first_release; do
   [ -n "$dir" ] || continue
   release_files+=("$dir/package.json" "$dir/CHANGELOG.md")
+  # Staging the path records NEXT.md's removal when this release used one.
+  if git ls-files --error-unmatch "$dir/NEXT.md" >/dev/null 2>&1; then
+    release_files+=("$dir/NEXT.md")
+  fi
 done <<< "$plan"
 git add -- "${release_files[@]}"
 targets=$(printf '%s' "$plan" | while read -r component dir version next bump first_release; do printf '%s-v%s, ' "$component" "$next"; done)
