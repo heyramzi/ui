@@ -26,7 +26,10 @@
 	];
 </script>
 
-<div class="flex h-[520px] flex-col overflow-hidden rounded-xl border border-border bg-background">
+<!-- w-full: the doc page is a size container, so it has no width of its own to shrink to. -->
+<div
+	class="flex h-[520px] w-full flex-col overflow-hidden rounded-xl border border-border bg-background"
+>
 	<DocPage
 		title="Learnings"
 		summary="What engagements taught"

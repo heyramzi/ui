@@ -2,8 +2,9 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { tick } from "svelte";
 	import { CaretDown, List } from "phosphor-svelte";
+	import * as Popover from "#src/shadcn/popover/index.js";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import type { DocHeading } from "#src/components/docs/scroll-spy.svelte.js";
 
 	// =========================
@@ -37,6 +38,7 @@
 	// =========================
 	let list = $state<HTMLElement | null>(null);
 	let open = $state(false);
+	let menu = $state<HTMLElement | null>(null);
 	let marker = $state({ y: 0, h: 0, ready: false });
 	// Plain, not state: the effect below writes `marker`, so it can't also read it.
 	let placed = false;
@@ -85,22 +87,18 @@
 		}
 	});
 
+	// Closing hands focus back to the bar's trigger, which Bits UI's Popover does.
 	function pick(id: string) {
 		open = false;
 		onselect(id);
-		void tick();
+	}
+
+	// The menu opens on the heading the reader is in, not on the first one.
+	function focusCurrent(event: Event) {
+		event.preventDefault();
+		void focusAfterRender(menu, '[aria-current="location"]', "button");
 	}
 </script>
-
-<svelte:window
-	onkeydown={(event) => {
-		if (event.key === "Escape") open = false;
-	}}
-	onpointerdown={(event) => {
-		if (!open) return;
-		if (!(event.target as HTMLElement).closest("[data-otp-bar]")) open = false;
-	}}
-/>
 
 <!-- =========================== -->
 <!-- MARKUP -->
@@ -203,58 +201,63 @@
 		</div>
 	</nav>
 {:else}
-	<div data-otp-bar class="relative">
-		<button
-			type="button"
-			aria-expanded={open}
-			aria-label={label}
-			onclick={() => (open = !open)}
-			class="flex h-11 w-full items-center gap-2.5 px-4 text-left transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:bg-muted/50"
-		>
-			<List size={16} class="shrink-0 text-muted-foreground" aria-hidden="true" />
-			<span class="shrink-0 text-xs font-medium text-muted-foreground">{label}</span>
-			<span class="min-w-0 flex-1 truncate text-sm font-medium text-foreground">{activeLabel}</span>
-			<CaretDown
-				aria-hidden="true"
-				size={14}
-				class="shrink-0 text-muted-foreground transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {open
-					? 'rotate-180'
-					: ''}"
-			/>
-		</button>
-		<!-- How far through the reader is. The only motion here, and it is the state. -->
-		<span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px bg-border">
-			<span
-				class="otp-progress block h-full origin-left bg-brand dark:bg-brand-light"
-				style="transform: scaleX({progress});"
-			></span>
-		</span>
-
-		{#if open}
-			<nav
+	<Popover.Root bind:open>
+		<div class="relative">
+			<Popover.Trigger
 				aria-label={label}
-				class="thin-scrollbar absolute inset-x-2 top-full z-20 mt-1 max-h-[60svh] overflow-y-auto rounded-2xl bg-popover p-1.5 shadow-edge-raised"
+				class="flex h-11 w-full items-center gap-2.5 px-4 text-left transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] hover:bg-muted/50"
 			>
-				<ul class="flex flex-col">
-					{#each items as item (item.id)}
-						{@const current = item.id === active}
-						<li>
-							<button
-								type="button"
-								aria-current={current ? "location" : undefined}
-								onclick={() => pick(item.id)}
-								class="block w-full rounded-lg px-3 py-2.5 text-left text-sm leading-snug transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {current
-									? 'bg-muted font-medium text-foreground'
-									: 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'}"
-							>
-								{item.label}
-							</button>
-						</li>
-					{/each}
-				</ul>
-			</nav>
-		{/if}
-	</div>
+				<List size={16} class="shrink-0 text-muted-foreground" aria-hidden="true" />
+				<span class="shrink-0 text-xs font-medium text-muted-foreground">{label}</span>
+				<span class="min-w-0 flex-1 truncate text-sm font-medium text-foreground"
+					>{activeLabel}</span
+				>
+				<CaretDown
+					aria-hidden="true"
+					size={14}
+					class="shrink-0 text-muted-foreground transition-transform duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {open
+						? 'rotate-180'
+						: ''}"
+				/>
+			</Popover.Trigger>
+			<!-- How far through the reader is. The only motion here, and it is the state. -->
+			<span aria-hidden="true" class="absolute inset-x-0 bottom-0 h-px bg-border">
+				<span
+					class="otp-progress block h-full origin-left bg-brand dark:bg-brand-light"
+					style="transform: scaleX({progress});"
+				></span>
+			</span>
+
+			<!-- Bits UI moves focus into the menu, closes it on Esc or a click outside, and returns focus to the trigger. -->
+			<Popover.Content
+				bind:ref={menu}
+				align="start"
+				alignOffset={8}
+				onOpenAutoFocus={focusCurrent}
+				class="thin-scrollbar max-h-[60svh] w-[calc(var(--bits-popover-anchor-width)-1rem)] p-1.5"
+			>
+				<nav aria-label={label}>
+					<ul class="flex flex-col">
+						{#each items as item (item.id)}
+							{@const current = item.id === active}
+							<li>
+								<button
+									type="button"
+									aria-current={current ? "location" : undefined}
+									onclick={() => pick(item.id)}
+									class="block w-full rounded-lg px-3 py-2.5 text-left text-sm leading-snug transition-colors duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] {current
+										? 'bg-muted font-medium text-foreground'
+										: 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'}"
+								>
+									{item.label}
+								</button>
+							</li>
+						{/each}
+					</ul>
+				</nav>
+			</Popover.Content>
+		</div>
+	</Popover.Root>
 {/if}
 
 <!-- =========================== -->

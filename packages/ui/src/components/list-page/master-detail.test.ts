@@ -21,7 +21,7 @@ describe("master detail on a phone", () => {
 
   it("draws a way back to the list, and only while stacked", () => {
     expect(shell).toContain('stackBelow === "xl" ? "xl:hidden" : "lg:hidden"');
-    expect(shell).toContain('onclick={() => (pane = "rail")}');
+    expect(shell).toContain("onclick={back}");
     expect(shell).toContain("{backLabel}");
   });
 

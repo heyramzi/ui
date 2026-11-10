@@ -3,7 +3,8 @@
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { setContext } from "svelte";
+	import { setContext, tick } from "svelte";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import { CaretLeft } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import { Button } from "#src/shadcn/button/index.js";
@@ -63,6 +64,14 @@
 	}: Props = $props();
 
 	// =========================
+	// STATE
+	// =========================
+	let railEl = $state<HTMLElement>();
+	let detailEl = $state<HTMLElement>();
+	// Plain, not state: only back() reads it.
+	let opener: HTMLElement | null = null;
+
+	// =========================
 	// DERIVED
 	// =========================
 	// One pane at a time when stacked. Two rows put a 34svh list scroller on top of
@@ -85,10 +94,23 @@
 	// `RailRow` calls this when a record is picked. Above the breakpoint the classes
 	// that read `pane` are all prefixed away, so the flag changes nothing there.
 	setContext<MasterDetailPane>(MASTER_DETAIL_PANE, {
-		open: () => {
-			if (stackBelow) pane = "detail";
-		},
+		open: () => void openDetail(),
 	});
+
+	// Stacked, the rail hides under the focused row, so focus follows into the record.
+	async function openDetail() {
+		if (!stackBelow) return;
+		opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+		pane = "detail";
+		await tick();
+		if (railEl?.getClientRects().length === 0) await focusAfterRender(null, detailEl);
+	}
+
+	// Back puts focus on the row that opened the record, or the current one.
+	function back() {
+		pane = "rail";
+		void focusAfterRender(railEl, opener, '[aria-current="page"]');
+	}
 </script>
 
 <!-- =========================== -->
@@ -109,13 +131,16 @@
 		data-stack={stackBelow ?? undefined}
 	>
 		<aside
+			bind:this={railEl}
 			class={cn("md-rail min-h-0", railClass, stackBelow && pane === "detail" && hideWhileStacked)}
 		>
 			{@render rail()}
 		</aside>
 		<div
+			bind:this={detailEl}
+			tabindex="-1"
 			class={cn(
-				"md-detail flex min-h-0 min-w-0 flex-col",
+				"md-detail flex min-h-0 min-w-0 flex-col outline-none",
 				stackBelow && pane === "rail" && hideWhileStacked,
 			)}
 		>
@@ -126,7 +151,7 @@
 					variant="ghost"
 					size="sm"
 					class={cn("-mx-1 mb-2 self-start px-1 text-muted-foreground", stackedOnly)}
-					onclick={() => (pane = "rail")}
+					onclick={back}
 				>
 					<CaretLeft aria-hidden="true" size={16} weight="bold" />
 					{backLabel}
