@@ -174,9 +174,13 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* WHY scoped here: `NumberChart` has no
-	   series, so the sparkline's bottom room is added on the tile that draws it. */
-	.hr-stat-tile[data-series] :global(.hr-number-chart) {
-		padding-bottom: 4.25rem;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		/* WHY scoped here: `NumberChart` has no
+		   series, so the sparkline's bottom room is added on the tile that draws it. */
+		.hr-stat-tile[data-series] :global(.hr-number-chart) {
+			padding-bottom: 4.25rem;
+		}
 	}
 </style>
