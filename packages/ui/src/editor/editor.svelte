@@ -435,166 +435,170 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	/* ---- WRAPPER ---- */
-	.editor-wrapper {
-		position: relative;
-		border-radius: var(--radius-xl);
-		background: var(--color-card);
-		border: 1px solid var(--color-border);
-		transition:
-			border-color var(--duration-quick) var(--ease-smooth-out),
-			box-shadow var(--duration-quick) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.editor-wrapper.focused {
-		border-color: oklch(from var(--color-brand) l c h / 0.25);
-		box-shadow: 0 0 0 3px oklch(from var(--color-brand) l c h / 0.06);
-	}
-
-	/* A document page owns its frame, so the editor draws none. */
-	.editor-wrapper.page {
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-	}
-
-	.editor-wrapper.page .editor-surface :global(.tiptap) {
-		outline: none;
-		min-height: var(--editor-min-height, 28rem);
-	}
-
-	/* ---- EDITOR SURFACE ---- */
-	.editor-surface {
-		min-height: var(--editor-min-height, 28rem);
-	}
-
-	.editor-wrapper:not(.page) .editor-surface :global(.tiptap) {
-		padding: 2rem 2.5rem;
-		outline: none;
-		min-height: var(--editor-min-height, 28rem);
-		font-size: 1rem;
-		line-height: 1.75;
-		color: var(--color-foreground);
-		caret-color: var(--color-brand);
-	}
-
-	/* Placeholder */
-	.editor-surface :global(.tiptap p.is-editor-empty:first-child::before) {
-		content: attr(data-placeholder);
-		color: var(--color-muted-foreground);
-		opacity: 0.4;
-		pointer-events: none;
-		float: left;
-		height: 0;
-	}
-
-	/* Node typography (h1-h4, p, ul/ol/li, blockquote, code, pre, a, img, hr, strong)
-	   lives in ./content.css which is imported at the top of this component.
-	   Editor-only chrome (cursor, hover outline) below. */
-	.editor-surface :global(.tiptap .image-wrapper) {
-		position: relative;
-		display: inline-block;
-		max-width: 100%;
-	}
-
-	.editor-surface :global(.tiptap img) {
-		transition: box-shadow var(--duration-quick) var(--ease-smooth-out);
-		cursor: pointer;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.editor-surface :global(.tiptap img:hover) {
-			box-shadow: 0 0 0 2px oklch(from var(--color-brand) l c h / 0.2);
-		}
-	}
-
-	/* ---- DRAG HANDLE ---- */
-	.editor-surface :global(.drag-handle) {
-		position: absolute;
-		top: 0.25rem;
-		left: -1.5rem;
-		width: 1.25rem;
-		height: 1.25rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--color-muted-foreground);
-		cursor: grab;
-		opacity: 0;
-		transition: opacity var(--duration-fast) var(--ease-smooth-out);
-		border-radius: var(--radius-xs);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.editor-surface :global(.drag-handle:hover) {
-			background: var(--color-accent);
-			color: var(--color-foreground);
-		}
-	}
-
-	.editor-surface :global(.drag-handle:active) {
-		cursor: grabbing;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.editor-surface :global(.tiptap > *:hover .drag-handle) {
-			opacity: 0.5;
-		}
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle) {
-			opacity: 0.5;
-		}
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.editor-surface :global(.tiptap > *:hover .drag-handle:hover) {
-			opacity: 1;
-		}
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle:hover) {
-			opacity: 1;
-		}
-	}
-
-	/* ---- STATUS BAR ---- */
-	.status-bar {
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		padding: 0.5rem 1.25rem;
-		border-top: 1px solid oklch(from var(--color-border) l c h / 0.5);
-	}
-
-	.status-hint {
-		font-size: 0.6875rem;
-		color: var(--color-muted-foreground);
-	}
-
-	.status-hint kbd {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 1.125rem;
-		height: 1.125rem;
-		padding: 0 0.25rem;
-		margin: 0 0.125rem;
-		border: 1px solid oklch(from var(--color-border) l c h / 0.6);
-		border-radius: var(--radius-xs);
-		background: var(--color-muted);
-		font-family: var(--font-mono);
-		font-size: 0.625rem;
-		font-weight: 500;
-		line-height: 1;
-	}
-
-	/* ---- REDUCED MOTION ---- */
-	@media (prefers-reduced-motion: reduce) {
+	@layer components {
+		/* ---- WRAPPER ---- */
 		.editor-wrapper {
-			transition: none;
+			position: relative;
+			border-radius: var(--radius-xl);
+			background: var(--color-card);
+			border: 1px solid var(--color-border);
+			transition:
+				border-color var(--duration-quick) var(--ease-smooth-out),
+				box-shadow var(--duration-quick) var(--ease-smooth-out);
+		}
+
+		.editor-wrapper.focused {
+			border-color: oklch(from var(--color-brand) l c h / 0.25);
+			box-shadow: 0 0 0 3px oklch(from var(--color-brand) l c h / 0.06);
+		}
+
+		/* A document page owns its frame, so the editor draws none. */
+		.editor-wrapper.page {
+			border: 0;
+			border-radius: 0;
+			background: transparent;
+		}
+
+		.editor-wrapper.page .editor-surface :global(.tiptap) {
+			outline: none;
+			min-height: var(--editor-min-height, 28rem);
+		}
+
+		/* ---- EDITOR SURFACE ---- */
+		.editor-surface {
+			min-height: var(--editor-min-height, 28rem);
+		}
+
+		.editor-wrapper:not(.page) .editor-surface :global(.tiptap) {
+			padding: 2rem 2.5rem;
+			outline: none;
+			min-height: var(--editor-min-height, 28rem);
+			font-size: 1rem;
+			line-height: 1.75;
+			color: var(--color-foreground);
+			caret-color: var(--color-brand);
+		}
+
+		/* Placeholder */
+		.editor-surface :global(.tiptap p.is-editor-empty:first-child::before) {
+			content: attr(data-placeholder);
+			color: var(--color-muted-foreground);
+			opacity: 0.4;
+			pointer-events: none;
+			float: left;
+			height: 0;
+		}
+
+		/* Node typography (h1-h4, p, ul/ol/li, blockquote, code, pre, a, img, hr, strong)
+		   lives in ./content.css which is imported at the top of this component.
+		   Editor-only chrome (cursor, hover outline) below. */
+		.editor-surface :global(.tiptap .image-wrapper) {
+			position: relative;
+			display: inline-block;
+			max-width: 100%;
+		}
+
+		.editor-surface :global(.tiptap img) {
+			transition: box-shadow var(--duration-quick) var(--ease-smooth-out);
+			cursor: pointer;
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.editor-surface :global(.tiptap img:hover) {
+				box-shadow: 0 0 0 2px oklch(from var(--color-brand) l c h / 0.2);
+			}
+		}
+
+		/* ---- DRAG HANDLE ---- */
+		.editor-surface :global(.drag-handle) {
+			position: absolute;
+			top: 0.25rem;
+			left: -1.5rem;
+			width: 1.25rem;
+			height: 1.25rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--color-muted-foreground);
+			cursor: grab;
+			opacity: 0;
+			transition: opacity var(--duration-fast) var(--ease-smooth-out);
+			border-radius: var(--radius-xs);
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.editor-surface :global(.drag-handle:hover) {
+				background: var(--color-accent);
+				color: var(--color-foreground);
+			}
+		}
+
+		.editor-surface :global(.drag-handle:active) {
+			cursor: grabbing;
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.editor-surface :global(.tiptap > *:hover .drag-handle) {
+				opacity: 0.5;
+			}
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle) {
+				opacity: 0.5;
+			}
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.editor-surface :global(.tiptap > *:hover .drag-handle:hover) {
+				opacity: 1;
+			}
+		}
+
+		@media (hover: hover) and (pointer: fine) {
+			.editor-surface :global(.tiptap [data-node-view-wrapper]:hover .drag-handle:hover) {
+				opacity: 1;
+			}
+		}
+
+		/* ---- STATUS BAR ---- */
+		.status-bar {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			padding: 0.5rem 1.25rem;
+			border-top: 1px solid oklch(from var(--color-border) l c h / 0.5);
+		}
+
+		.status-hint {
+			font-size: 0.6875rem;
+			color: var(--color-muted-foreground);
+		}
+
+		.status-hint kbd {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 1.125rem;
+			height: 1.125rem;
+			padding: 0 0.25rem;
+			margin: 0 0.125rem;
+			border: 1px solid oklch(from var(--color-border) l c h / 0.6);
+			border-radius: var(--radius-xs);
+			background: var(--color-muted);
+			font-family: var(--font-mono);
+			font-size: 0.625rem;
+			font-weight: 500;
+			line-height: 1;
+		}
+
+		/* ---- REDUCED MOTION ---- */
+		@media (prefers-reduced-motion: reduce) {
+			.editor-wrapper {
+				transition: none;
+			}
 		}
 	}
 </style>

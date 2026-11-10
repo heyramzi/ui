@@ -264,48 +264,52 @@
 <!-- STYLE -->
 <!-- =========================== -->
 <style>
-	.otp-marker.is-ready {
-		transition:
-			transform var(--duration-medium) var(--ease-smooth-out),
-			height var(--duration-medium) var(--ease-smooth-out);
-	}
+	@layer theme, base, components, utilities;
 
-	.otp-progress {
-		transition: transform var(--duration-medium) var(--ease-smooth-out);
-	}
+	@layer components {
+		.otp-marker.is-ready {
+			transition:
+				transform var(--duration-medium) var(--ease-smooth-out),
+				height var(--duration-medium) var(--ease-smooth-out);
+		}
 
-	/* A long list fades into its edges instead of ending on a hard cut. */
-	.otp-fade {
-		mask-image: linear-gradient(
-			to bottom,
-			transparent,
-			#000 0.5rem,
-			#000 calc(100% - 1.5rem),
-			transparent
-		);
-	}
+		.otp-progress {
+			transition: transform var(--duration-medium) var(--ease-smooth-out);
+		}
 
-	/* Opacity and a short slide, no scale: the card is anchored to a line of ticks. */
-	.otp-card {
-		opacity: 0;
-		translate: -4px -50%;
-		pointer-events: none;
-		transition:
-			opacity var(--duration-fast) var(--ease-smooth-out),
-			translate var(--duration-fast) var(--ease-smooth-out);
-	}
+		/* A long list fades into its edges instead of ending on a hard cut. */
+		.otp-fade {
+			mask-image: linear-gradient(
+				to bottom,
+				transparent,
+				#000 0.5rem,
+				#000 calc(100% - 1.5rem),
+				transparent
+			);
+		}
 
-	.otp-card[data-open="true"] {
-		opacity: 1;
-		translate: 0 -50%;
-		pointer-events: auto;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.otp-marker.is-ready,
-		.otp-progress,
+		/* Opacity and a short slide, no scale: the card is anchored to a line of ticks. */
 		.otp-card {
-			transition: none;
+			opacity: 0;
+			translate: -4px -50%;
+			pointer-events: none;
+			transition:
+				opacity var(--duration-fast) var(--ease-smooth-out),
+				translate var(--duration-fast) var(--ease-smooth-out);
+		}
+
+		.otp-card[data-open="true"] {
+			opacity: 1;
+			translate: 0 -50%;
+			pointer-events: auto;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.otp-marker.is-ready,
+			.otp-progress,
+			.otp-card {
+				transition: none;
+			}
 		}
 	}
 </style>

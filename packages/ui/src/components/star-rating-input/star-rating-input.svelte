@@ -148,75 +148,109 @@
 </div>
 
 <style>
-	.rating {
-		--like-pop: var(--duration-medium);
-		--like-pop-ease: var(--ease-smooth-out);
-		--like-fill: var(--duration-quick);
-		--like-ease: var(--ease-smooth-out);
+	@layer theme, base, components, utilities;
 
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-	}
+	@layer components {
+		.rating {
+			--like-pop: var(--duration-medium);
+			--like-pop-ease: var(--ease-smooth-out);
+			--like-fill: var(--duration-quick);
+			--like-ease: var(--ease-smooth-out);
 
-	.rating :global(.stars) {
-		display: flex;
-		align-items: center;
-	}
-
-	.rating :global(.hit) {
-		display: inline-flex;
-		border-radius: var(--radius-sm);
-	}
-
-	.rating :global(.hit-button) {
-		transition: transform var(--duration-quick, 150ms) var(--ease-smooth-out, ease);
-	}
-
-	.rating :global(.stars-input) {
-		border-radius: var(--radius-sm);
-	}
-
-	.rating :global(.stars-input:focus-visible) {
-		outline: none;
-		box-shadow: 0 0 0 2px var(--color-ring);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.rating :global(.stars-input:not(.is-disabled) .hit-button:hover) {
-			transform: scale(1.1);
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
 		}
-	}
 
-	.rating :global(.stars-input:not(.is-disabled) .hit-button:active) {
-		transform: scale(0.95);
-	}
+		.rating :global(.stars) {
+			display: flex;
+			align-items: center;
+		}
 
-	.rating :global(.is-disabled) {
-		cursor: not-allowed;
-		opacity: 0.6;
-	}
+		.rating :global(.hit) {
+			display: inline-flex;
+			border-radius: var(--radius-sm);
+		}
 
-	.rating :global(.star) {
-		color: var(--color-border);
-		transition: color var(--like-fill) var(--like-ease);
-	}
+		.rating :global(.hit-button) {
+			transition: transform var(--duration-quick, 150ms) var(--ease-smooth-out, ease);
+		}
 
-	.rating :global(.star.is-filled) {
-		color: var(--color-warning-400);
-	}
+		.rating :global(.stars-input) {
+			border-radius: var(--radius-sm);
+		}
 
-	/* The glow is the size's business, not a prop: it belongs to the ask, where
-	   the stars are large enough to carry it, and it turned to mud at 16px. */
-	.rating-lg :global(.star.is-filled) {
-		filter: drop-shadow(0 0 4px color-mix(in oklab, var(--color-warning-400) 45%, transparent));
-	}
+		.rating :global(.stars-input:focus-visible) {
+			outline: none;
+			box-shadow: 0 0 0 2px var(--color-ring);
+		}
 
-	/* transitions.dev like-button pop. Every selected star pops, left to right,
-	   as one gesture. A class on the group drives it, since rebuilding the row
-	   would drop keyboard focus. */
-	.rating :global(.is-popping .hit-button[data-on="true"]) {
-		animation: t-like-pop var(--like-pop) var(--like-pop-ease) var(--pop-delay, 0ms);
+		@media (hover: hover) and (pointer: fine) {
+			.rating :global(.stars-input:not(.is-disabled) .hit-button:hover) {
+				transform: scale(1.1);
+			}
+		}
+
+		.rating :global(.stars-input:not(.is-disabled) .hit-button:active) {
+			transform: scale(0.95);
+		}
+
+		.rating :global(.is-disabled) {
+			cursor: not-allowed;
+			opacity: 0.6;
+		}
+
+		.rating :global(.star) {
+			color: var(--color-border);
+			transition: color var(--like-fill) var(--like-ease);
+		}
+
+		.rating :global(.star.is-filled) {
+			color: var(--color-warning-400);
+		}
+
+		/* The glow is the size's business, not a prop: it belongs to the ask, where
+		   the stars are large enough to carry it, and it turned to mud at 16px. */
+		.rating-lg :global(.star.is-filled) {
+			filter: drop-shadow(0 0 4px color-mix(in oklab, var(--color-warning-400) 45%, transparent));
+		}
+
+		/* transitions.dev like-button pop. Every selected star pops, left to right,
+		   as one gesture. A class on the group drives it, since rebuilding the row
+		   would drop keyboard focus. */
+		.rating :global(.is-popping .hit-button[data-on="true"]) {
+			animation: t-like-pop var(--like-pop) var(--like-pop-ease) var(--pop-delay, 0ms);
+		}
+
+		/* Inside the slider the caption sits in the stars' row, so it keeps the outer gap itself. */
+		.rating :global(.stars-input .rating-caption) {
+			margin-inline-start: 0.25rem;
+		}
+
+		.rating-caption {
+			font-size: 0.75rem;
+			font-weight: 500;
+			font-variant-numeric: tabular-nums;
+			color: var(--color-muted-foreground);
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.rating :global(.hit-button),
+			.rating :global(.is-popping .hit-button[data-on="true"]) {
+				animation: none;
+				transition: none;
+			}
+
+			.rating :global(.stars-input:not(.is-disabled) .hit-button:active) {
+				transform: none;
+			}
+
+			@media (hover: hover) and (pointer: fine) {
+				.rating :global(.stars-input:not(.is-disabled) .hit-button:hover) {
+					transform: none;
+				}
+			}
+		}
 	}
 
 	@keyframes t-like-pop {
@@ -228,36 +262,6 @@
 		}
 		100% {
 			transform: scale(1);
-		}
-	}
-
-	/* Inside the slider the caption sits in the stars' row, so it keeps the outer gap itself. */
-	.rating :global(.stars-input .rating-caption) {
-		margin-inline-start: 0.25rem;
-	}
-
-	.rating-caption {
-		font-size: 0.75rem;
-		font-weight: 500;
-		font-variant-numeric: tabular-nums;
-		color: var(--color-muted-foreground);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.rating :global(.hit-button),
-		.rating :global(.is-popping .hit-button[data-on="true"]) {
-			animation: none;
-			transition: none;
-		}
-
-		.rating :global(.stars-input:not(.is-disabled) .hit-button:active) {
-			transform: none;
-		}
-
-		@media (hover: hover) and (pointer: fine) {
-			.rating :global(.stars-input:not(.is-disabled) .hit-button:hover) {
-				transform: none;
-			}
 		}
 	}
 </style>

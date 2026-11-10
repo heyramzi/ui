@@ -187,9 +187,13 @@
 </div>
 
 <style>
-	/* The title grows with its text, so a long one wraps instead of scrolling sideways. */
-	.doc-title {
-		field-sizing: content;
-		text-wrap: balance;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		/* The title grows with its text, so a long one wraps instead of scrolling sideways. */
+		.doc-title {
+			field-sizing: content;
+			text-wrap: balance;
+		}
 	}
 </style>

@@ -39,8 +39,7 @@ test("a utility beats a kit stylesheet", async ({ page }) => {
   });
 });
 
-// Component <style> blocks are layered in phase 2 of the 3.0 plan: make this a plain `test` then.
-test.fail("a utility beats a component style block", async ({ page }) => {
+test("a utility beats a component style block", async ({ page }) => {
   const { "background-color": red } = await computed(
     page.getByTestId("control"),
     "background-color",

@@ -36,15 +36,6 @@ const UNLAYERED_FILES: Record<string, string> = {
   "shadcn/utilities.css": "its reduced-motion `.shimmer` rule has to beat the `shimmer` utility",
 };
 
-/** Components whose `<style>` block isn't layered yet. Phase 2 of the 3.0 plan empties this list. */
-const PENDING_STYLE_BLOCKS = new Set([
-  "components/docs/on-this-page.svelte",
-  "components/star-rating-input/star-rating-input.svelte",
-  "editor/editor.svelte",
-  "slides/Deck.svelte",
-  "work/docs/doc-editor-page.svelte",
-]);
-
 /** Component rules that stay unlayered because a utility on the same element would beat them, and why. */
 const UNLAYERED_RULES: Record<string, string> = {
   "work/kanban-hidden-rail.svelte .kanban-rail-item-leaving":
@@ -139,19 +130,9 @@ describe("kit CSS sits in the components layer", () => {
     const found = files(src, ".svelte").flatMap((path) => {
       const file = relative(src, path);
       const css = styleBlock(path);
-      if (css === null || PENDING_STYLE_BLOCKS.has(file)) return [];
+      if (css === null) return [];
       return violations(file, css);
     });
     expect(found).toEqual([]);
-  });
-
-  it("with no pending component that is already layered", () => {
-    const done = files(src, ".svelte").flatMap((path) => {
-      const file = relative(src, path);
-      if (!PENDING_STYLE_BLOCKS.has(file)) return [];
-      const css = styleBlock(path);
-      return css !== null && violations(file, css).length === 0 ? [file] : [];
-    });
-    expect(done, "layered now: remove these from PENDING_STYLE_BLOCKS").toEqual([]);
   });
 });

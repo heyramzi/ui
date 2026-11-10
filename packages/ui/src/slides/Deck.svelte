@@ -214,63 +214,70 @@
 </div>
 
 <style>
-	.deck {
-		position: relative;
-		display: block;
-		width: 100%;
-		height: 100%;
-		min-height: 0;
-		overflow: hidden;
-		container-type: inline-size;
-		background: var(--deck-letterbox);
-		color: var(--deck-fg);
-		font-family: var(--deck-font);
-		outline: none;
-		touch-action: pan-y;
-		-webkit-tap-highlight-color: transparent;
-	}
-	.deck:focus-visible {
-		outline: 2px solid var(--deck-accent);
-		outline-offset: -2px;
-	}
-	.deck:fullscreen {
-		background: var(--deck-bg);
-	}
+	@layer theme, base, components, utilities;
 
-	.deck__stage {
-		position: absolute;
-		inset: 0;
-		overflow: hidden;
-	}
+	@layer components {
+		.deck {
+			position: relative;
+			display: block;
+			width: 100%;
+			height: 100%;
+			min-height: 0;
+			overflow: hidden;
+			container-type: inline-size;
+			background: var(--deck-letterbox);
+			color: var(--deck-fg);
+			font-family: var(--deck-font);
+			outline: none;
+			touch-action: pan-y;
+			-webkit-tap-highlight-color: transparent;
+		}
 
-	.deck__progress {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		z-index: 5;
-		height: 3px;
-		background: var(--deck-line);
-	}
-	.deck__progress-fill {
-		height: 100%;
-		background: var(--deck-accent);
-		transform-origin: 0 50%;
-		transition: transform var(--deck-t-morph) var(--deck-ease);
-	}
+		.deck:focus-visible {
+			outline: 2px solid var(--deck-accent);
+			outline-offset: -2px;
+		}
 
-	.deck__sr {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
-	}
+		.deck:fullscreen {
+			background: var(--deck-bg);
+		}
 
-	@media (prefers-reduced-motion: reduce) {
+		.deck__stage {
+			position: absolute;
+			inset: 0;
+			overflow: hidden;
+		}
+
+		.deck__progress {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 5;
+			height: 3px;
+			background: var(--deck-line);
+		}
+
 		.deck__progress-fill {
-			transition: none;
+			height: 100%;
+			background: var(--deck-accent);
+			transform-origin: 0 50%;
+			transition: transform var(--deck-t-morph) var(--deck-ease);
+		}
+
+		.deck__sr {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip-path: inset(50%);
+			white-space: nowrap;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.deck__progress-fill {
+				transition: none;
+			}
 		}
 	}
 </style>
