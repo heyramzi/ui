@@ -1,17 +1,17 @@
 import { tick } from "svelte";
 
 /**
- * Focuses the first match of the selectors under root, tried in order, once Svelte has rendered.
- * A moved keyed item or a newly opened pane is a new node.
+ * Focuses the first target that takes focus, a selector under root or an element, once Svelte
+ * has rendered. A moved keyed item or a newly opened pane is a new node.
  */
 export async function focusAfterRender(
   root: ParentNode | null | undefined,
-  ...selectors: string[]
+  ...targets: (string | HTMLElement)[]
 ): Promise<HTMLElement | undefined> {
   await tick();
-  for (const selector of selectors) {
-    const el = root?.querySelector<HTMLElement>(selector);
-    if (!el) continue;
+  for (const target of targets) {
+    const el = typeof target === "string" ? root?.querySelector<HTMLElement>(target) : target;
+    if (!el?.isConnected) continue;
     el.focus();
     if (document.activeElement === el) return el;
   }

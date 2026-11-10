@@ -45,7 +45,9 @@
 	let words = $derived({ ...DEFAULT_TRIAGE_TASK_LABELS, ...labels });
 	let busy = $state(false);
 
+	// aria-disabled, not disabled, while busy: a disabled button drops focus to the page.
 	async function undo() {
+		if (busy) return;
 		busy = true;
 		try {
 			await onUndo?.();
@@ -56,8 +58,9 @@
 </script>
 
 <li
+	tabindex="-1"
 	class={cn(
-		"flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between",
+		"flex flex-col gap-3 px-5 py-4 outline-none focus-visible:shadow-(--ring-focus) sm:flex-row sm:items-center sm:justify-between",
 		className,
 	)}
 >
@@ -88,7 +91,12 @@
 	</div>
 
 	{#if onUndo}
-		<Button variant="outline" class="shrink-0" disabled={busy} onclick={undo}>
+		<Button
+			variant="outline"
+			class="shrink-0 aria-disabled:pointer-events-none aria-disabled:opacity-50"
+			aria-disabled={busy}
+			onclick={undo}
+		>
 			{words.undo}
 		</Button>
 	{/if}

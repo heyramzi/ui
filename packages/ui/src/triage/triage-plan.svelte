@@ -2,6 +2,7 @@
 	import { Button } from "#src/shadcn/button/index.js";
 	import { Input } from "#src/shadcn/input/index.js";
 	import { cn } from "#src/lib/utils.js";
+	import { focusAfterRender } from "#src/lib/focus.js";
 	import { DEFAULT_TRIAGE_PLAN_LABELS, type TriagePlanLabels } from "#src/triage/types.js";
 
 	interface Props {
@@ -21,7 +22,7 @@
 		/** A failed attempt, shown on the card. */
 		error?: string | null;
 		labels?: Partial<TriagePlanLabels>;
-		/** Run the plan. The buttons stay disabled until it settles. */
+		/** Run the plan. The buttons stay unavailable until it settles. */
 		onApprove: () => void | Promise<void>;
 		/** Run a task the person typed instead of the plan. */
 		onPick: (task: string) => void | Promise<void>;
@@ -50,8 +51,13 @@
 	let picking = $state(false);
 	let busy = $state(false);
 	let task = $state("");
+	let card: HTMLElement | undefined = $state();
+
+	// aria-disabled, not disabled, while busy: a disabled button drops focus to the page.
+	const busyLook = "aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 	async function run(job: () => void | Promise<void>) {
+		if (busy) return;
 		busy = true;
 		try {
 			await job();
@@ -59,11 +65,27 @@
 			busy = false;
 		}
 	}
+
+	async function setPicking(on: boolean) {
+		picking = on;
+		await focusAfterRender(card, on ? `[id="${id}-task"]` : "[data-triage-pick]");
+	}
 </script>
 
-<article class={cn("bg-card border-border rounded-xl border p-5", className)}>
+<article
+	bind:this={card}
+	tabindex="-1"
+	aria-labelledby="{id}-heading"
+	class={cn(
+		"bg-card border-border rounded-xl border p-5 outline-none focus-visible:shadow-(--ring-focus)",
+		className,
+	)}
+>
 	<div class="flex items-start justify-between gap-3">
-		<h2 class="text-foreground min-w-0 text-sm font-semibold [overflow-wrap:anywhere]">
+		<h2
+			id="{id}-heading"
+			class="text-foreground min-w-0 text-sm font-semibold [overflow-wrap:anywhere]"
+		>
 			{sender}: “{subject}”
 		</h2>
 		{#if received}
@@ -100,11 +122,18 @@
 	{/if}
 
 	{#if picking}
+		<!-- WHY: Esc from any control in the form cancels, so one listener sits on the form. -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<form
 			class="mt-4 space-y-2"
 			onsubmit={(event) => {
 				event.preventDefault();
 				run(() => onPick(task.trim()));
+			}}
+			onkeydown={(event) => {
+				if (event.key !== "Escape") return;
+				event.preventDefault();
+				void setPicking(false);
 			}}
 		>
 			<label for="{id}-task" class="text-foreground block text-sm font-medium">
@@ -112,8 +141,8 @@
 			</label>
 			<Input id="{id}-task" bind:value={task} required autocomplete="off" />
 			<div class="flex flex-wrap gap-2">
-				<Button type="submit" disabled={busy}>{words.useTask}</Button>
-				<Button type="button" variant="outline" onclick={() => (picking = false)}>
+				<Button type="submit" aria-disabled={busy} class={busyLook}>{words.useTask}</Button>
+				<Button type="button" variant="outline" onclick={() => setPicking(false)}>
 					{words.cancel}
 				</Button>
 			</div>
@@ -121,10 +150,14 @@
 	{:else}
 		<div class="mt-4 flex flex-wrap gap-2">
 			{#if plan}
-				<Button disabled={busy} onclick={() => run(onApprove)}>{words.approve}</Button>
-				<Button variant="outline" onclick={() => (picking = true)}>{words.pick}</Button>
+				<Button aria-disabled={busy} class={busyLook} onclick={() => run(onApprove)}>
+					{words.approve}
+				</Button>
+				<Button variant="outline" data-triage-pick onclick={() => setPicking(true)}>
+					{words.pick}
+				</Button>
 			{/if}
-			<Button variant="ghost" disabled={busy} onclick={() => run(onDismiss)}>
+			<Button variant="ghost" aria-disabled={busy} class={busyLook} onclick={() => run(onDismiss)}>
 				{words.dismiss}
 			</Button>
 		</div>
