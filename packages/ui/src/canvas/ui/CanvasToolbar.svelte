@@ -123,10 +123,8 @@
 		else if (value) tool = value as CanvasTool;
 	}
 
-	// Svelte Flow deselects a node on Esc and blurs it a frame later, so focus fell to the page
-	// and the tool letters stopped. A later frame hands focus back to the node. The listener sits
-	// on the window: Svelte runs the node's own handler at its root, so a frame asked for any
-	// lower would run before the blur.
+	// Svelte Flow blurs a node a frame after Esc deselects it, which stops the tool letters.
+	// A later frame refocuses it. On the window, so it runs after the node's delegated handler.
 	function keepNodeFocus(panel: HTMLElement) {
 		const flow = panel.closest<HTMLElement>(".svelte-flow");
 		if (!flow) return;
