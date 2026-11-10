@@ -15,7 +15,6 @@ const install = "pnpm add @heyramzi/ui bits-ui";
 
 const css = `@import "tailwindcss";
 @import "@heyramzi/ui/tokens.css";
-@import "@heyramzi/ui/design";
 
 /* Tailwind doesn't scan node_modules. Without this, a switch draws as a grey box. */
 @source "../node_modules/@heyramzi/ui/src";`;

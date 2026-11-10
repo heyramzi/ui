@@ -1,6 +1,6 @@
 @layer theme, base, components, utilities;
 
-/* The shadow family, now valued by @heyramzi/ui/design. Names stay because
+/* The shadow family, valued by craft.css. Names stay because
    170-odd call sites use them. Shadow only, since these elements draw their own border. */
 
 /* New work: use `shadow-btn`, `shadow-card`, `shadow-raised` and `shadow-overlay`.
@@ -23,8 +23,7 @@
   box-shadow: var(--elev-raised);
 }
 
-/* The nine bits-ui state variants moved into `@heyramzi/ui/design` on 14 Sep
-   2026. app.css imports that before this file. */
+/* The nine bits-ui state variants live in primitives.css. */
 
 @utility no-scrollbar {
   -ms-overflow-style: none;

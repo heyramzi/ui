@@ -34,8 +34,6 @@ const UNLAYERED_FILES: Record<string, string> = {
   "tokens/craft.css": "token blocks that agency-os and upsys scripts read by top-level selector",
   "tokens/primitives.css": "reached only through tokens/index.css, which declares the order",
   "shadcn/utilities.css": "its reduced-motion `.shimmer` rule has to beat the `shimmer` utility",
-  "design/index.css": "src/design leaves the package in 3.0",
-  "design/polish.css": "src/design leaves the package in 3.0",
 };
 
 /** Components whose `<style>` block isn't layered yet. Phase 2 of the 3.0 plan empties this list. */

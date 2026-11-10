@@ -127,8 +127,8 @@
       "default": "./src/icons/sf-symbols.ts"
     },
     "./design": {
-      "style": "./src/design/index.css",
-      "default": "./src/design/index.css"
+      "style": "./src/tokens/design.css",
+      "default": "./src/tokens/design.css"
     },
     "./animations": {
       "style": "./src/animations/index.css",

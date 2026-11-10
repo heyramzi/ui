@@ -1,0 +1,8 @@
+@layer theme, base, components, utilities;
+
+/* `./design`: the craft layer and the bits-ui variants without the palette, for an app that
+ * brings its own colours. tokens.css already loads both, so import one or the other.
+ */
+
+@import "./craft.css";
+@import "./primitives.css";
