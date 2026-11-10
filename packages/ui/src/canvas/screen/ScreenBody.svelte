@@ -2,6 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
+	import { RadioGroup } from "bits-ui";
 	import { getDiagramEditorContext } from "#src/canvas/editor/editor-context.js";
 	import { isLocked } from "#src/canvas/editor/lock.js";
 	import { DEFAULT_SCREEN_LABELS, type ScreenLabels } from "#src/canvas/screen/labels.js";
@@ -71,6 +72,13 @@
 		if (mode !== screen.mode) write({ mode });
 	}
 
+	// Svelte Flow nudges a selected card on an arrow, so the mode switch keeps the keys it moves by.
+	function keepArrows(event: KeyboardEvent) {
+		if (event.key.startsWith("Arrow") || event.key === "Home" || event.key === "End") {
+			event.stopPropagation();
+		}
+	}
+
 	function add(kind: PartKind) {
 		write({ parts: addPart(screen.parts, kind) });
 		tray = false;
@@ -104,20 +112,19 @@
 			}}
 		/>
 		{#if !readonly}
-			<div class="cv-switch nodrag" role="radiogroup" aria-label={labels.mode}>
+			<RadioGroup.Root
+				class="cv-switch nodrag"
+				orientation="horizontal"
+				aria-label={labels.mode}
+				bind:value={() => screen.mode, (mode) => setMode(mode as ScreenMode)}
+				onkeydown={keepArrows}
+			>
 				{#each SCREEN_MODES as mode (mode)}
-					<button
-						type="button"
-						role="radio"
-						class="cv-seg"
-						aria-checked={screen.mode === mode}
-						data-mode-option={mode}
-						onclick={() => setMode(mode)}
-					>
+					<RadioGroup.Item value={mode} class="cv-seg" data-mode-option={mode}>
 						{labels.modes[mode]}
-					</button>
+					</RadioGroup.Item>
 				{/each}
-			</div>
+			</RadioGroup.Root>
 		{/if}
 	</div>
 
