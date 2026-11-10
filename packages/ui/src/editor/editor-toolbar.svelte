@@ -58,6 +58,14 @@
 	// =========================
 	// FUNCTIONS
 	// =========================
+	/**
+	 * Active state for a toolbar button. `editor` is the same object every transaction, so a
+	 * derived of it never re-runs the template; reading `tick` here does.
+	 */
+	function isActive(name: string, attributes?: Record<string, unknown>): boolean {
+		return tick >= 0 && (editor?.isActive(name, attributes) ?? false);
+	}
+
 	/** Opens the link field, or removes the link under the cursor. The editor binds Cmd+K to it. */
 	export function toggleLink() {
 		if (!editor) return;
@@ -128,7 +136,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand font-heading text-xs font-bold"
-				aria-pressed={editor.isActive("heading", { level: 1 })}
+				aria-pressed={isActive("heading", { level: 1 })}
 				onclick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
 				title="Heading 1"
 			>
@@ -139,7 +147,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand font-heading text-xs font-bold"
-				aria-pressed={editor.isActive("heading", { level: 2 })}
+				aria-pressed={isActive("heading", { level: 2 })}
 				onclick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
 				title="Heading 2"
 			>
@@ -150,7 +158,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand font-heading text-xs font-bold"
-				aria-pressed={editor.isActive("heading", { level: 3 })}
+				aria-pressed={isActive("heading", { level: 3 })}
 				onclick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
 				title="Heading 3"
 			>
@@ -164,7 +172,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("bold")}
+				aria-pressed={isActive("bold")}
 				onclick={() => editor?.chain().focus().toggleBold().run()}
 				title="Bold (Cmd+B)"
 			>
@@ -175,7 +183,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("italic")}
+				aria-pressed={isActive("italic")}
 				onclick={() => editor?.chain().focus().toggleItalic().run()}
 				title="Italic (Cmd+I)"
 			>
@@ -186,7 +194,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("strike")}
+				aria-pressed={isActive("strike")}
 				onclick={() => editor?.chain().focus().toggleStrike().run()}
 				title="Strikethrough"
 			>
@@ -195,7 +203,7 @@
 
 			<div class="toolbar-divider"></div>
 
-			{#if editor.isActive("link")}
+			{#if isActive("link")}
 				<Button
 					variant="ghost"
 					size="sm"
@@ -227,7 +235,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("bulletList")}
+				aria-pressed={isActive("bulletList")}
 				onclick={() => editor?.chain().focus().toggleBulletList().run()}
 				title="Bullet list"
 			>
@@ -238,7 +246,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("orderedList")}
+				aria-pressed={isActive("orderedList")}
 				onclick={() => editor?.chain().focus().toggleOrderedList().run()}
 				title="Ordered list"
 			>
@@ -249,7 +257,7 @@
 				size="sm"
 				icon
 				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={editor.isActive("blockquote")}
+				aria-pressed={isActive("blockquote")}
 				onclick={() => editor?.chain().focus().toggleBlockquote().run()}
 				title="Quote"
 			>
@@ -264,7 +272,7 @@
 					size="sm"
 					icon
 					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-					aria-pressed={editor.isActive("youtube")}
+					aria-pressed={isActive("youtube")}
 					onclick={onInsertYoutube}
 					title="Insert YouTube video"
 				>

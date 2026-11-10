@@ -388,7 +388,7 @@
 <!-- =========================== -->
 <div
 	class="editor-wrapper"
-	class:focused={editor?.isFocused && !isPage}
+	class:focused={tick >= 0 && editor?.isFocused && !isPage}
 	class:page={isPage}
 	class:doc-surface={isPage}
 	style="--editor-min-height: {minHeight};"
