@@ -7,11 +7,12 @@
 	import { penColorVar } from "#src/canvas/pen/colors.js";
 	import { strokePath } from "#src/canvas/pen/stroke-path.js";
 	import { HIGHLIGHTER_OPACITY, type StrokeData } from "#src/canvas/pen/types.js";
+	import { penNodeName, useNodeName } from "#src/canvas/pen/node-name.svelte.js";
 
 	// =========================
 	// PROPS
 	// =========================
-	let { data, selected, width, height }: NodeProps = $props();
+	let { id, data, selected, width, height }: NodeProps = $props();
 
 	// =========================
 	// DERIVED
@@ -21,6 +22,11 @@
 	// A wide, invisible line along the centre so a thin stroke is easy to click.
 	let hitPoints = $derived(stroke.points.map((point) => `${point[0]},${point[1]}`).join(" "));
 	let hitWidth = $derived(Math.max(stroke.size, 14));
+
+	useNodeName(
+		() => id,
+		() => penNodeName("stroke", stroke),
+	);
 </script>
 
 <!-- =========================== -->

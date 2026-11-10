@@ -12,6 +12,7 @@
 	import { penColorVar } from "#src/canvas/pen/colors.js";
 	import { shapeOutline } from "#src/canvas/pen/shapes.js";
 	import type { ShapeData } from "#src/canvas/pen/types.js";
+	import { penNodeName, useNodeName } from "#src/canvas/pen/node-name.svelte.js";
 
 	// =========================
 	// PROPS
@@ -31,6 +32,11 @@
 	let shape = $derived(data as ShapeData);
 	let outline = $derived(shapeOutline(shape.shape, width ?? 0, height ?? 0, shape.strokeWidth / 2));
 	let ink = $derived(penColorVar(shape.color));
+
+	useNodeName(
+		() => id,
+		() => penNodeName("shape", shape),
+	);
 </script>
 
 <!-- =========================== -->

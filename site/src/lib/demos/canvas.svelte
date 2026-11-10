@@ -8,6 +8,7 @@
 		brushSize,
 		DEFAULT_BRUSH_LEVEL,
 		isDrawingTool,
+		resolveToolKey,
 		type CanvasTool,
 	} from "@heyramzi/ui/canvas/ui/tools.js";
 	import CanvasToolbar from "@heyramzi/ui/canvas/ui/CanvasToolbar.svelte";
@@ -86,8 +87,27 @@
 	} as const;
 </script>
 
-<div class="h-[440px] w-full overflow-hidden rounded-xl border border-border">
-	<SvelteFlow bind:nodes bind:edges nodeTypes={registry.nodeTypes()} fitView {fitViewOptions}>
+<!-- The letters bubble up from the focused node or tool button; the group takes no focus itself. -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<div
+	class="h-[440px] w-full overflow-hidden rounded-xl border border-border"
+	role="group"
+	aria-label="Canvas"
+	onkeydown={(event) => {
+		const next = resolveToolKey(event);
+		if (!next) return;
+		event.preventDefault();
+		tool = next;
+	}}
+>
+	<SvelteFlow
+		bind:nodes
+		bind:edges
+		nodeTypes={registry.nodeTypes()}
+		fitView
+		{fitViewOptions}
+		deleteKey={["Backspace", "Delete"]}
+	>
 		<Background />
 		{#if isDrawingTool(tool)}
 			<PenLayer

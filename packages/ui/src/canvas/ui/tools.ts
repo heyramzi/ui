@@ -1,6 +1,7 @@
 // The tool bar's tools, their keys and the shortcut list the help panel renders.
 // Pure data and two lookups, so the keyboard, the bar and the panel can't disagree.
 
+import { isEditingTarget } from "#src/canvas/editor/keymap.js";
 import { PEN_DEFAULTS, type PenTool, type ShapeKind } from "#src/canvas/pen/types.js";
 
 export type CanvasTool = "select" | "hand" | "connect" | "frame" | PenTool;
@@ -30,6 +31,13 @@ const TOOL_BY_KEY = new Map(TOOLS.map((tool) => [tool.key.toLowerCase(), tool.id
 /** The tool a bare letter selects. Callers rule out modifiers and typing targets first. */
 export function toolForKey(key: string): CanvasTool | null {
   return TOOL_BY_KEY.get(key.toLowerCase()) ?? null;
+}
+
+/** The tool a key press picks: the tooltip's bare letter, never with a modifier or while a field has focus. */
+export function resolveToolKey(event: KeyboardEvent): CanvasTool | null {
+  if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return null;
+  if (isEditingTarget(event.target)) return null;
+  return toolForKey(event.key);
 }
 
 export function keyForTool(tool: CanvasTool): string {

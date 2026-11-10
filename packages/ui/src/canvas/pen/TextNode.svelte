@@ -13,6 +13,7 @@
 	import "#src/canvas/pen/pen.css";
 	import { penColorVar } from "#src/canvas/pen/colors.js";
 	import type { TextData } from "#src/canvas/pen/types.js";
+	import { penNodeName, useNodeName } from "#src/canvas/pen/node-name.svelte.js";
 
 	// =========================
 	// PROPS
@@ -45,6 +46,11 @@
 	// =========================
 	// EFFECTS
 	// =========================
+	useNodeName(
+		() => id,
+		() => penNodeName("text", text),
+	);
+
 	// The editor asks a freshly dropped text to open, so the first thing typed lands in it.
 	onMount(() => editor?.registerStartEdit(id, () => void field?.edit()));
 
