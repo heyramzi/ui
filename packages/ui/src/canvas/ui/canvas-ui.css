@@ -192,75 +192,14 @@
     background: currentColor;
   }
 
-  /* A label on hover, for a pointer that can hover. Touch gets the aria-label alone. */
-  @media (hover: hover) {
-    .cv-btn[data-tip]::after,
-    .cv-swatch[data-tip]::after {
-      content: attr(data-tip);
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      translate: -50% 4px;
-      padding: 4px 8px;
-      border-radius: var(--radius-sm, 6px);
-      background: var(--foreground, #1c1c24);
-      color: var(--background, #fff);
-      font-size: 12px;
-      line-height: 1.2;
-      white-space: pre;
-      pointer-events: none;
-      opacity: 0;
-      z-index: 5;
-      transition:
-        opacity var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out),
-        translate var(--duration-fast, 150ms) var(--ease-smooth-out, ease-out);
-    }
-
-    .cv-btn[data-tip]:hover::after,
-    .cv-btn[data-tip]:focus-visible::after,
-    .cv-swatch[data-tip]:hover::after,
-    .cv-swatch[data-tip]:focus-visible::after {
-      opacity: 1;
-      translate: -50% 0;
-      transition-delay: 350ms;
-    }
-
-    .cv-btn:active::after,
-    .cv-btn:disabled::after,
-    .cv-btn[aria-expanded="true"]::after,
-    .cv-btn[data-state="open"]::after {
-      opacity: 0 !important;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .cv-btn,
-    .cv-swatch::before,
-    .cv-btn[data-tip]::after {
+    .cv-swatch::before {
       transition: none;
     }
 
     .cv-btn:active:not(:disabled) {
       scale: 1;
-    }
-  }
-
-  /* On a bar docked to the right edge the label opens to the left. */
-  @media (hover: hover) {
-    .cv-side .cv-btn[data-tip]::after,
-    .cv-side .cv-swatch[data-tip]::after {
-      top: 50%;
-      bottom: auto;
-      left: auto;
-      right: calc(100% + 10px);
-      translate: 4px -50%;
-    }
-
-    .cv-side .cv-btn[data-tip]:hover::after,
-    .cv-side .cv-btn[data-tip]:focus-visible::after,
-    .cv-side .cv-swatch[data-tip]:hover::after,
-    .cv-side .cv-swatch[data-tip]:focus-visible::after {
-      translate: 0 -50%;
     }
   }
 }

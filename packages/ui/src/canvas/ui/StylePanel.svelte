@@ -23,11 +23,13 @@
 	// IMPORTS
 	// =========================
 	import { Panel, useStore } from "@xyflow/svelte";
+	import { Toolbar } from "bits-ui";
 	import type { CanvasOp } from "#src/canvas/ops/ops.js";
 	import {
 		FONT_SIZES,
 		styleOps,
 		summarizeStyle,
+		type FillValue,
 		type FontWeight,
 		type StyleNode,
 		type StyleValues,
@@ -35,8 +37,10 @@
 	} from "#src/canvas/editor/style.js";
 	import { PEN_COLORS } from "#src/canvas/pen/types.js";
 	import "#src/canvas/pen/pen.css";
+	import BarTooltip from "#src/canvas/ui/BarTooltip.svelte";
 	import { placeBeside, type Box } from "#src/canvas/ui/place-panel.js";
 	import "#src/canvas/ui/canvas-ui.css";
+	import * as Tooltip from "#src/shadcn/tooltip/index.js";
 
 	// =========================
 	// TYPES
@@ -70,6 +74,8 @@
 	const LEVELS: readonly WidthLevel[] = [0, 1, 2];
 
 	let summary = $derived(summarizeStyle(nodes, frameType));
+	// Roving focus remembers its tab stop by element, so a panel whose sections change is rebuilt fresh.
+	let controlsKey = $derived(summary ? [...summary.controls].join() : "");
 	let strokeLabel = $derived(
 		summary?.controls.has("fill") || summary?.controls.has("width") ? labels.stroke : labels.colour,
 	);
@@ -118,12 +124,24 @@
 		const ops = styleOps(nodes, next, frameType);
 		if (ops.length > 0) commit(ops);
 	}
+
+	// A single-select group sends "" when its pressed item is pressed again. A style stays set.
+	// Each group's values are the item values written below, so a value maps back to its own type.
+	function pick(key: keyof StyleValues, value: string) {
+		if (!value) return;
+		if (key === "fill") change({ fill: value as FillValue });
+		else if (key === "stroke") change({ stroke: value as PenColor });
+		else if (key === "width") change({ width: Number(value) as WidthLevel });
+		else if (key === "fontSize") change({ fontSize: Number(value) });
+		else change({ fontWeight: value as FontWeight });
+	}
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
 {#if summary}
+	{@const { values, controls } = summary}
 	<Panel
 		position="center-right"
 		class="cv-dock cv-style-dock {placed ? 'is-placed' : ''}"
@@ -132,110 +150,164 @@
 			: undefined}
 		data-side={placed?.side}
 	>
-		<div
-			bind:offsetWidth={barWidth}
-			bind:offsetHeight={barHeight}
-			class="cv-bar cv-side cv-style t-enter"
-			role="toolbar"
-			aria-label={labels.panel}
-			data-testid="style-panel"
-		>
-			{#if summary.controls.has("fill")}
-				<div class="cv-section" role="group" aria-label={labels.fill} data-testid="style-fill">
-					<span class="cv-label" aria-hidden="true">{labels.fill}</span>
-					<div class="cv-swatches">
-						<button
-							type="button"
-							class="cv-swatch cv-swatch-none"
-							aria-pressed={summary.values.fill === "none"}
-							aria-label="{labels.fill}: {labels.none}"
-							data-tip={labels.none}
-							onclick={() => change({ fill: "none" })}
-						></button>
-						{#each PEN_COLORS as swatch (swatch)}
-							<button
-								type="button"
-								class="cv-swatch"
-								aria-pressed={summary.values.fill === swatch}
-								aria-label="{labels.fill}: {labels.colors[swatch]}"
-								data-tip={labels.colors[swatch]}
-								style:--swatch="var(--pen-{swatch})"
-								onclick={() => change({ fill: swatch })}
-							></button>
-						{/each}
-					</div>
-				</div>
-			{/if}
+		<Tooltip.Provider>
+			{#key controlsKey}
+				<Toolbar.Root aria-label={labels.panel}>
+					{#snippet child({ props })}
+						<div
+							{...props}
+							bind:offsetWidth={barWidth}
+							bind:offsetHeight={barHeight}
+							class="cv-bar cv-style t-enter"
+							data-testid="style-panel"
+						>
+							{#if controls.has("fill")}
+								<div
+									class="cv-section"
+									role="group"
+									aria-label={labels.fill}
+									data-testid="style-fill"
+								>
+									<span class="cv-label" aria-hidden="true">{labels.fill}</span>
+									<Toolbar.Group
+										type="single"
+										class="cv-swatches"
+										bind:value={() => values.fill, (value) => pick("fill", value)}
+									>
+										<BarTooltip label={labels.none} name="{labels.fill}: {labels.none}" side="left">
+											{#snippet child({ props })}
+												<Toolbar.GroupItem
+													{...props}
+													value="none"
+													class="cv-swatch cv-swatch-none"
+												/>
+											{/snippet}
+										</BarTooltip>
+										{#each PEN_COLORS as swatch (swatch)}
+											{@render colorItem(swatch, labels.fill)}
+										{/each}
+									</Toolbar.Group>
+								</div>
+							{/if}
 
-			{#if summary.controls.has("stroke")}
-				<div class="cv-section" role="group" aria-label={strokeLabel} data-testid="style-stroke">
-					<span class="cv-label" aria-hidden="true">{strokeLabel}</span>
-					<div class="cv-swatches">
-						{#each PEN_COLORS as swatch (swatch)}
-							<button
-								type="button"
-								class="cv-swatch"
-								aria-pressed={summary.values.stroke === swatch}
-								aria-label="{strokeLabel}: {labels.colors[swatch]}"
-								data-tip={labels.colors[swatch]}
-								style:--swatch="var(--pen-{swatch})"
-								onclick={() => change({ stroke: swatch })}
-							></button>
-						{/each}
-					</div>
-				</div>
-			{/if}
+							{#if controls.has("stroke")}
+								<div
+									class="cv-section"
+									role="group"
+									aria-label={strokeLabel}
+									data-testid="style-stroke"
+								>
+									<span class="cv-label" aria-hidden="true">{strokeLabel}</span>
+									<Toolbar.Group
+										type="single"
+										class="cv-swatches"
+										bind:value={() => values.stroke, (value) => pick("stroke", value)}
+									>
+										{#each PEN_COLORS as swatch (swatch)}
+											{@render colorItem(swatch, strokeLabel)}
+										{/each}
+									</Toolbar.Group>
+								</div>
+							{/if}
 
-			{#if summary.controls.has("width")}
-				<div class="cv-section" role="group" aria-label={labels.width} data-testid="style-width">
-					<span class="cv-label" aria-hidden="true">{labels.width}</span>
-					<div class="cv-swatches">
-						{#each LEVELS as level (level)}
-							<button
-								type="button"
-								class="cv-btn"
-								aria-pressed={summary.values.width === level}
-								aria-label="{labels.width}: {labels.widths[level]}"
-								data-tip={labels.widths[level]}
-								onclick={() => change({ width: level })}
-							>
-								<span class="cv-line" style:--line="{[1.5, 3, 5][level]}px"></span>
-							</button>
-						{/each}
-					</div>
-				</div>
-			{/if}
+							{#if controls.has("width")}
+								<div
+									class="cv-section"
+									role="group"
+									aria-label={labels.width}
+									data-testid="style-width"
+								>
+									<span class="cv-label" aria-hidden="true">{labels.width}</span>
+									<Toolbar.Group
+										type="single"
+										class="cv-swatches"
+										bind:value={() => String(values.width), (value) => pick("width", value)}
+									>
+										{#each LEVELS as level (level)}
+											<BarTooltip
+												label={labels.widths[level]}
+												name="{labels.width}: {labels.widths[level]}"
+												side="left"
+											>
+												{#snippet child({ props })}
+													<Toolbar.GroupItem {...props} value={String(level)} class="cv-btn">
+														<span class="cv-line" style:--line="{[1.5, 3, 5][level]}px"></span>
+													</Toolbar.GroupItem>
+												{/snippet}
+											</BarTooltip>
+										{/each}
+									</Toolbar.Group>
+								</div>
+							{/if}
 
-			{#if summary.controls.has("fontSize")}
-				<div class="cv-section" role="group" aria-label={labels.font} data-testid="style-font">
-					<span class="cv-label" aria-hidden="true">{labels.font}</span>
-					<div class="cv-swatches">
-						{#each FONT_SIZES as size (size)}
-							<button
-								type="button"
-								class="cv-btn cv-figure"
-								aria-pressed={summary.values.fontSize === size}
-								aria-label="{labels.font}: {size}"
-								onclick={() => change({ fontSize: size })}>{size}</button
-							>
-						{/each}
-						{#each WEIGHTS as weight (weight)}
-							<button
-								type="button"
-								class="cv-btn cv-figure"
-								style:font-weight={weight === "bold" ? 700 : 400}
-								aria-pressed={summary.values.fontWeight === weight}
-								aria-label={weight === "bold" ? labels.bold : labels.regular}
-								data-tip={weight === "bold" ? labels.bold : labels.regular}
-								onclick={() => change({ fontWeight: weight })}>Aa</button
-							>
-						{/each}
-					</div>
-				</div>
-			{/if}
-		</div>
+							{#if controls.has("fontSize")}
+								<div
+									class="cv-section"
+									role="group"
+									aria-label={labels.font}
+									data-testid="style-font"
+								>
+									<span class="cv-label" aria-hidden="true">{labels.font}</span>
+									<!-- Size and weight are two picks that share one grid, so each group lays out as its items. -->
+									<div class="cv-swatches">
+										<Toolbar.Group
+											type="single"
+											class="cv-contents"
+											bind:value={() => String(values.fontSize), (value) => pick("fontSize", value)}
+										>
+											{#each FONT_SIZES as size (size)}
+												<Toolbar.GroupItem
+													value={String(size)}
+													class="cv-btn cv-figure"
+													aria-label="{labels.font}: {size}">{size}</Toolbar.GroupItem
+												>
+											{/each}
+										</Toolbar.Group>
+										<Toolbar.Group
+											type="single"
+											class="cv-contents"
+											bind:value={() => values.fontWeight, (value) => pick("fontWeight", value)}
+										>
+											{#each WEIGHTS as weight (weight)}
+												<BarTooltip
+													label={weight === "bold" ? labels.bold : labels.regular}
+													side="left"
+												>
+													{#snippet child({ props })}
+														<Toolbar.GroupItem
+															{...props}
+															value={weight}
+															class="cv-btn cv-figure"
+															style="font-weight: {weight === 'bold' ? 700 : 400}"
+															>Aa</Toolbar.GroupItem
+														>
+													{/snippet}
+												</BarTooltip>
+											{/each}
+										</Toolbar.Group>
+									</div>
+								</div>
+							{/if}
+						</div>
+					{/snippet}
+				</Toolbar.Root>
+			{/key}
+		</Tooltip.Provider>
 	</Panel>
 {/if}
+
+{#snippet colorItem(swatch: PenColor, section: string)}
+	<BarTooltip label={labels.colors[swatch]} name="{section}: {labels.colors[swatch]}" side="left">
+		{#snippet child({ props })}
+			<Toolbar.GroupItem
+				{...props}
+				value={swatch}
+				class="cv-swatch"
+				style="--swatch: var(--pen-{swatch})"
+			/>
+		{/snippet}
+	</BarTooltip>
+{/snippet}
 
 <style>
 	@layer theme, base, components, utilities;
@@ -261,10 +333,15 @@
 			line-height: calc(16 / 12);
 		}
 
-		.cv-swatches {
+		/* Bits renders the groups and their items, so those classes are reached through the bar. */
+		.cv-style :global(.cv-swatches) {
 			display: grid;
 			grid-template-columns: repeat(3, var(--cv-btn));
 			gap: 0;
+		}
+
+		.cv-style :global(.cv-contents) {
+			display: contents;
 		}
 
 		.cv-line {
@@ -274,13 +351,13 @@
 			background: currentColor;
 		}
 
-		.cv-figure {
+		.cv-style :global(.cv-figure) {
 			font-size: 12px;
 			font-variant-numeric: tabular-nums;
 		}
 
 		/* No fill is an empty disc struck through, since a swatch can't show the absence of a colour. */
-		.cv-swatch-none::before {
+		.cv-style :global(.cv-swatch-none)::before {
 			background:
 				linear-gradient(135deg, transparent 46%, var(--cv-ink-muted) 46% 54%, transparent 54%),
 				var(--cv-surface);
