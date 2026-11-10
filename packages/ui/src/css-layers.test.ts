@@ -38,22 +38,10 @@ const UNLAYERED_FILES: Record<string, string> = {
 
 /** Components whose `<style>` block isn't layered yet. Phase 2 of the 3.0 plan empties this list. */
 const PENDING_STYLE_BLOCKS = new Set([
-  "agents/agent-cast.svelte",
-  "ai/generation-progress/GenerationProgress.svelte",
-  "ai/loading-state/PixelLoader.svelte",
-  "charts/dashboard/stat-tile.svelte",
   "components/docs/on-this-page.svelte",
-  "components/hold-to-confirm/hold-to-confirm.svelte",
-  "components/list-page/empty-state.svelte",
-  "components/list-page/master-detail.svelte",
-  "components/segmented/segmented-track.svelte",
   "components/star-rating-input/star-rating-input.svelte",
   "editor/editor.svelte",
-  "effects/interactive-hover-button/InteractiveHoverButton.svelte",
-  "onboarding/tour-runner.svelte",
-  "shadcn/table/table-cell.svelte",
   "slides/Deck.svelte",
-  "status/status-dot.svelte",
   "work/docs/doc-editor-page.svelte",
 ]);
 
