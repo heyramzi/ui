@@ -13,7 +13,7 @@
 	// "More" is only answered by a connected agent, so the page says whether one is on it.
 	const WAIT = {
 		listening: "Your agent is finding tracks.",
-		idle: "No agent is connected, so nobody is looking yet. Connect one from the agent dock.",
+		idle: "No agent has connected, so nobody is looking yet. Connect one from the agent dock.",
 		offline: "Editor OS is offline. The request waits here.",
 	} as const;
 	const wait = $derived(WAIT[app.review.session]);

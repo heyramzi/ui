@@ -51,7 +51,7 @@
 			return `${start}, about ${left} left`;
 		},
 		progress: "Estimated progress",
-		playTip: "Playback is back when your video is updated",
+		playTip: "Playback comes back once your video updates",
 	};
 	const cover = $derived.by(() => {
 		// The take proxies report no progress, so the bar sweeps until they're ready.
