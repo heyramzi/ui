@@ -5,7 +5,7 @@
 	let {
 		ref = $bindable(null),
 		class: className,
-		size = "icon",
+		size = "default",
 		isActive,
 		page,
 		children,
@@ -28,8 +28,7 @@
 	data-active={isActive}
 	data-size={size}
 	class={cn(
-		buttonVariants({ size, variant: isActive ? "outline" : "ghost" }),
-		"",
+		buttonVariants({ size, icon: true, variant: isActive ? "outline" : "ghost" }),
 		className
 	)}
 	{...restProps}

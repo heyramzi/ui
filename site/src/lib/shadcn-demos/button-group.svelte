@@ -9,7 +9,7 @@
 
 <ButtonGroup.Root>
 	<ButtonGroup.Root class="hidden sm:flex">
-		<Button variant="outline" size="icon" aria-label="Go Back">
+		<Button variant="outline" icon aria-label="Go Back">
 			<ArrowLeft aria-hidden="true" />
 		</Button>
 	</ButtonGroup.Root>
@@ -22,7 +22,7 @@
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
-					<Button {...props} variant="outline" size="icon" aria-label="More Options">
+					<Button {...props} variant="outline" icon aria-label="More Options">
 						<DotsThree aria-hidden="true" />
 					</Button>
 				{/snippet}
