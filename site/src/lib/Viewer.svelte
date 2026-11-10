@@ -25,8 +25,9 @@
 	}
 </script>
 
-<!-- One border, no shadow, no pattern: the demo is the only thing on the stage. The toolbar is
-     a strip of the same surface, split from it by a hairline. -->
+<!-- One border, no shadow, no pattern: the demo is the only thing on the stage. The stage is
+     the card surface, the white panel an app puts its content on: on the grey canvas an input,
+     a select trigger or a key cap was a hairline on its own colour. -->
 <section id={entry.slug} class="overflow-hidden rounded-(--radius-xl) border border-border">
 	<header class="flex h-11 items-center gap-2 border-b border-border bg-muted/40 pl-1.5 pr-1.5">
 		<SegmentedFilter options={views} bind:value={tab} ariaLabel="View" block={false} />
@@ -60,7 +61,7 @@
 
 	{#if tab === "preview"}
 		<div
-			class="grid place-items-center overflow-x-auto bg-background px-4 py-10 sm:px-10 sm:py-12"
+			class="grid place-items-center overflow-x-auto bg-card px-4 py-10 sm:px-10 sm:py-12"
 			style="min-height:{entry.height ?? 240}px"
 		>
 			{#key run}
