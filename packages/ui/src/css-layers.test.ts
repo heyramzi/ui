@@ -41,17 +41,6 @@ const PENDING_STYLE_BLOCKS = new Set([
   "agents/agent-cast.svelte",
   "ai/generation-progress/GenerationProgress.svelte",
   "ai/loading-state/PixelLoader.svelte",
-  "canvas/chrome/snap-guides.svelte",
-  "canvas/components/shared/svg/PreviewSvg.svelte",
-  "canvas/components/shared/svg/ShapeOutline.svelte",
-  "canvas/components/shared/svg/StrokeNode.svelte",
-  "canvas/components/shared/svg/TextRule.svelte",
-  "canvas/edges/bend-handle.svelte",
-  "canvas/lod/lod-switch.svelte",
-  "canvas/pen/PenOverlay.svelte",
-  "canvas/pen/TextNode.svelte",
-  "canvas/ui/FrameLayer.svelte",
-  "canvas/ui/StylePanel.svelte",
   "charts/dashboard/stat-tile.svelte",
   "components/docs/on-this-page.svelte",
   "components/hold-to-confirm/hold-to-confirm.svelte",
@@ -59,34 +48,33 @@ const PENDING_STYLE_BLOCKS = new Set([
   "components/list-page/master-detail.svelte",
   "components/segmented/segmented-track.svelte",
   "components/star-rating-input/star-rating-input.svelte",
-  "editor/editor-toolbar.svelte",
   "editor/editor.svelte",
-  "editor/image-toolbar.svelte",
-  "editor/slash-menu.svelte",
   "effects/interactive-hover-button/InteractiveHoverButton.svelte",
   "onboarding/tour-runner.svelte",
   "shadcn/table/table-cell.svelte",
-  "slides/Controls.svelte",
   "slides/Deck.svelte",
-  "slides/Fragment.svelte",
-  "slides/Overview.svelte",
-  "slides/Presenter.svelte",
-  "slides/Slide.svelte",
   "status/status-dot.svelte",
   "work/docs/doc-editor-page.svelte",
-  "work/gantt/gantt-bar.svelte",
-  "work/gantt/gantt-grid.svelte",
-  "work/gantt/gantt-group-row.svelte",
-  "work/gantt/gantt-task-row.svelte",
-  "work/kanban-board.svelte",
-  "work/kanban-column.svelte",
-  "work/kanban-fold-chevron.svelte",
-  "work/kanban-hidden-rail.svelte",
-  "work/task-list.svelte",
-  "work/time/time-dot.svelte",
-  "work/time/time-ring.svelte",
-  "work/time/time-tracker.svelte",
 ]);
+
+/** Component rules that stay unlayered because a utility on the same element would beat them, and why. */
+const UNLAYERED_RULES: Record<string, string> = {
+  "work/kanban-hidden-rail.svelte .kanban-rail-item-leaving":
+    "the row's `transition-[background-color,outline-color]` utility would drop the fade out",
+  "work/time/time-tracker.svelte .time-chip.is-running :global(.time-open)":
+    "the ghost button's `hover:text-foreground` would drop the running accent",
+};
+
+function keptUnlayered(file: string, css: string, node: Node): boolean {
+  const all = rules(node);
+  return (
+    all.length > 0 &&
+    all.every(
+      (rule) =>
+        `${file} ${css.slice(rule.prelude.start, rule.prelude.end).trim()}` in UNLAYERED_RULES,
+    )
+  );
+}
 
 function files(dir: string, ext: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -122,7 +110,7 @@ function violations(file: string, css: string): string[] {
   const line = (node: Node) => `${file}:${css.slice(0, node.start).split("\n").length}`;
 
   for (const node of nodes) {
-    if (overridesXyflow(file, css, node)) continue;
+    if (overridesXyflow(file, css, node) || keptUnlayered(file, css, node)) continue;
     if (node.type === "Rule") {
       found.push(`${line(node)} rule outside a layer`);
     } else if (!TOP_LEVEL_AT_RULES.has(node.name)) {
