@@ -4,7 +4,8 @@ import { expect, test, type Page } from "@playwright/test";
  * The rich editor on /components/rich-editor by keyboard, as its entry in site/src/lib/a11y-notes.ts
  * states it: "/" opens the command menu, the arrows move a highlight the text points at, Enter runs
  * it and Esc closes it with focus kept in the text; Cmd+B and friends press their toolbar button;
- * Cmd+K opens the link field, Enter applies and Esc cancels back to the text.
+ * the toolbar is one Tab stop the arrows move along; Cmd+K opens the link field, Enter applies
+ * and Esc cancels back to the text.
  */
 
 test.beforeEach(() => {
@@ -88,8 +89,8 @@ test("Esc closes the command menu and keeps focus in the text", async ({ page })
 
 test("mark keys press their toolbar button", async ({ page }) => {
   const { text } = await openEditor(page);
-  const bold = page.getByRole("button", { name: "Bold (Cmd+B)" });
-  const italic = page.getByRole("button", { name: "Italic (Cmd+I)" });
+  const bold = page.getByRole("button", { name: "Bold" });
+  const italic = page.getByRole("button", { name: "Italic" });
   await expect(bold).toHaveAttribute("aria-pressed", "false");
 
   await page.keyboard.press("ControlOrMeta+b");
@@ -102,13 +103,54 @@ test("mark keys press their toolbar button", async ({ page }) => {
   await page.keyboard.press("ControlOrMeta+b");
   await expect(bold).toHaveAttribute("aria-pressed", "false");
 
-  // Toolbar buttons are their own Tab stops and run on Enter.
+  // A toolbar button runs on Enter and hands focus back to the text.
   await page.keyboard.press("ControlOrMeta+i");
   await expect(italic).toHaveAttribute("aria-pressed", "false");
   await italic.focus();
   await page.keyboard.press("Enter");
   await expect(italic).toHaveAttribute("aria-pressed", "true");
   await expect(text).toBeFocused();
+});
+
+test("the toolbar is one Tab stop and the arrows move along it", async ({ page }) => {
+  const { text } = await openEditor(page);
+  const toolbar = page.getByRole("toolbar", { name: "Formatting" });
+  const h1 = toolbar.getByRole("radio", { name: "Heading 1" });
+  const h2 = toolbar.getByRole("radio", { name: "Heading 2" });
+  const bold = toolbar.getByRole("button", { name: "Bold" });
+
+  await page.keyboard.press("Shift+Tab");
+  await expect(h1).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await expect(h2).toBeFocused();
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
+  await expect(bold).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(toolbar.getByRole("radio", { name: "Heading 3" })).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(toolbar.getByRole("button", { name: "Insert YouTube video" })).toBeFocused();
+  // The arrows wrap at both ends.
+  await page.keyboard.press("ArrowRight");
+  await expect(h1).toBeFocused();
+
+  // Tab leaves the toolbar whole, and Shift+Tab comes back to the button last reached.
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("Tab");
+  await expect(text).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(h2).toBeFocused();
+
+  // The headings are one pick: Space sets H2 and focus returns to the text.
+  await expect(h2).toHaveAttribute("aria-checked", "false");
+  await page.keyboard.press("Space");
+  await expect(text).toBeFocused();
+  await expect(h2).toHaveAttribute("aria-checked", "true");
+  await expect(h1).toHaveAttribute("aria-checked", "false");
+  await page.keyboard.type("Picked from the toolbar");
+  await expect(
+    text.getByRole("heading", { level: 2, name: "Picked from the toolbar" }),
+  ).toBeVisible();
 });
 
 test("Cmd+K opens the link field, Enter applies and Esc returns to the text", async ({ page }) => {

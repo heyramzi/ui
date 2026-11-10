@@ -3,8 +3,12 @@
 	// IMPORTS
 	// =========================
 	import type { Editor } from "@tiptap/core";
+	import { Toolbar } from "bits-ui";
 	import { Button } from "#src/shadcn/button/index.js";
 	import { Input } from "#src/shadcn/input/index.js";
+	import { Kbd } from "#src/shadcn/kbd/index.js";
+	import * as Popover from "#src/shadcn/popover/index.js";
+	import * as Tooltip from "#src/shadcn/tooltip/index.js";
 	import {
 		TextB,
 		TextItalic,
@@ -28,32 +32,40 @@
 		onInsertYoutube: () => void;
 	}
 
+	type Tool = {
+		label: string;
+		keys?: string;
+		icon: typeof TextB;
+		bold?: boolean;
+		pressed?: boolean;
+		run: () => void;
+	};
+
 	// =========================
 	// PROPS
 	// =========================
 	let { editor: editorProp, tick, preset, onInsertYoutube }: Props = $props();
 
 	// =========================
+	// CONSTANTS
+	// =========================
+	const TOOL = "text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand";
+	const LEVELS = [1, 2, 3] as const;
+
+	// =========================
 	// STATE
 	// =========================
 	let linkUrl = $state("");
 	let showLinkPopover = $state(false);
-	// null, not undefined: Input's ref falls back to null, and binding undefined to it throws.
-	let linkInputEl = $state<HTMLInputElement | null>(null);
+	let linkButton = $state<HTMLElement | null>(null);
+	let linkContent = $state<HTMLElement | null>(null);
 
 	// =========================
 	// DERIVED
 	// =========================
 	let editor: Editor | null = $derived(tick >= 0 ? editorProp : null);
-
-	// =========================
-	// EFFECTS
-	// =========================
-	$effect(() => {
-		if (showLinkPopover && linkInputEl) {
-			linkInputEl.focus();
-		}
-	});
+	let linkActive = $derived(isActive("link"));
+	let heading = $derived(LEVELS.find((level) => isActive("heading", { level }))?.toString() ?? "");
 
 	// =========================
 	// FUNCTIONS
@@ -66,6 +78,12 @@
 		return tick >= 0 && (editor?.isActive(name, attributes) ?? false);
 	}
 
+	/** The heading group's value: a level, or "" when the pressed one is pressed again. */
+	function setHeading(value: string) {
+		const level = LEVELS.find((l) => l.toString() === (value || heading));
+		if (level) editor?.chain().focus().toggleHeading({ level }).run();
+	}
+
 	/** Opens the link field, or removes the link under the cursor. The editor binds Cmd+K to it. */
 	export function toggleLink() {
 		if (!editor) return;
@@ -73,215 +91,227 @@
 			editor.chain().focus().unsetLink().run();
 			return;
 		}
-		const previousUrl = editor.getAttributes("link").href;
-		linkUrl = previousUrl || "";
+		if (showLinkPopover) {
+			showLinkPopover = false;
+			return;
+		}
+		linkUrl = editor.getAttributes("link").href || "";
 		showLinkPopover = true;
 	}
 
 	function applyLink() {
-		if (!editor) return;
-		if (linkUrl.trim()) {
-			editor.chain().focus().setLink({ href: linkUrl.trim() }).run();
-		}
-		linkUrl = "";
+		if (linkUrl.trim()) editor?.chain().setLink({ href: linkUrl.trim() }).run();
 		showLinkPopover = false;
 	}
 
-	function cancelLink() {
+	/** Closing the field puts focus back in the text, unless a click already sent it elsewhere. */
+	function returnToText(e: Event) {
+		e.preventDefault();
 		linkUrl = "";
-		showLinkPopover = false;
-		editor?.chain().focus().run();
+		const active = document.activeElement;
+		if (!active || active === document.body || linkContent?.contains(active)) {
+			editor?.commands.focus();
+		}
 	}
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div class="editor-toolbar" role="toolbar">
-	{#if editor}
-		{#if showLinkPopover}
-			<div class="link-popover">
-				<Input
-					bind:ref={linkInputEl}
-					type="url"
-					bind:value={linkUrl}
-					placeholder="Paste link..."
-					class="h-7 w-52 text-[0.8125rem]"
-					onkeydown={(e) => {
-						if (e.key === "Enter") {
-							e.preventDefault();
-							applyLink();
-						}
-						if (e.key === "Escape") cancelLink();
-					}}
-				/>
-				<Button size="sm" icon onclick={applyLink} aria-label="Apply link">
-					<LinkSimple aria-hidden="true" size={14} />
-				</Button>
-				<Button
-					variant="ghost"
-					size="sm"
-					icon
-					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-					onclick={cancelLink}
-					title="Cancel"
-					aria-label="Cancel link"
-				>
-					<span aria-hidden="true">&times;</span>
-				</Button>
+{#snippet tip(label: string, keys?: string)}
+	{label}
+	{#if keys}<Kbd>{keys}</Kbd>{/if}
+{/snippet}
+
+{#snippet tool(t: Tool)}
+	<Tooltip.Root>
+		<Tooltip.Trigger aria-label={t.label} aria-pressed={t.pressed} onclick={t.run}>
+			{#snippet child({ props: trigger })}
+				<Toolbar.Button {...trigger}>
+					{#snippet child({ props })}
+						<Button {...props} variant="ghost" size="sm" icon class={TOOL}>
+							<t.icon aria-hidden="true" size={15} weight={t.bold ? "bold" : undefined} />
+						</Button>
+					{/snippet}
+				</Toolbar.Button>
+			{/snippet}
+		</Tooltip.Trigger>
+		<Tooltip.Content>{@render tip(t.label, t.keys)}</Tooltip.Content>
+	</Tooltip.Root>
+{/snippet}
+
+<Tooltip.Provider>
+	<Toolbar.Root aria-label="Formatting">
+		{#snippet child({ props: root })}
+			<div {...root} class="editor-toolbar">
+				{#if editor}
+					<Toolbar.Group
+						type="single"
+						class="flex items-center gap-px"
+						aria-label="Heading"
+						bind:value={() => heading, setHeading}
+					>
+						{#each LEVELS as level (level)}
+							<Tooltip.Root>
+								<Tooltip.Trigger aria-label="Heading {level}">
+									{#snippet child({ props: trigger })}
+										<Toolbar.GroupItem {...trigger} value={level.toString()}>
+											{#snippet child({ props })}
+												<Button
+													{...props}
+													variant="ghost"
+													size="sm"
+													icon
+													class="text-muted-foreground aria-checked:bg-brand/10 aria-checked:text-brand font-heading text-xs font-bold"
+												>
+													H{level}
+												</Button>
+											{/snippet}
+										</Toolbar.GroupItem>
+									{/snippet}
+								</Tooltip.Trigger>
+								<Tooltip.Content
+									>{@render tip(`Heading ${level}`, `Cmd+Alt+${level}`)}</Tooltip.Content
+								>
+							</Tooltip.Root>
+						{/each}
+					</Toolbar.Group>
+
+					<div class="toolbar-divider"></div>
+
+					{@render tool({
+						label: "Bold",
+						keys: "Cmd+B",
+						icon: TextB,
+						bold: true,
+						pressed: isActive("bold"),
+						run: () => editor?.chain().focus().toggleBold().run(),
+					})}
+					{@render tool({
+						label: "Italic",
+						keys: "Cmd+I",
+						icon: TextItalic,
+						pressed: isActive("italic"),
+						run: () => editor?.chain().focus().toggleItalic().run(),
+					})}
+					{@render tool({
+						label: "Strikethrough",
+						keys: "Cmd+Shift+S",
+						icon: TextStrikethrough,
+						pressed: isActive("strike"),
+						run: () => editor?.chain().focus().toggleStrike().run(),
+					})}
+
+					<div class="toolbar-divider"></div>
+
+					<!-- One button that changes its job, so the toolbar's Tab stop never lands on a removed node. -->
+					<Tooltip.Root>
+						<Tooltip.Trigger
+							aria-label={linkActive ? "Remove link" : "Add link"}
+							aria-pressed={linkActive || undefined}
+							aria-expanded={linkActive ? undefined : showLinkPopover}
+							onclick={toggleLink}
+						>
+							{#snippet child({ props: trigger })}
+								<Toolbar.Button {...trigger} bind:ref={linkButton}>
+									{#snippet child({ props })}
+										<Button {...props} variant="ghost" size="sm" icon class={TOOL}>
+											{#if linkActive}
+												<LinkBreak aria-hidden="true" size={15} />
+											{:else}
+												<LinkSimple aria-hidden="true" size={15} />
+											{/if}
+										</Button>
+									{/snippet}
+								</Toolbar.Button>
+							{/snippet}
+						</Tooltip.Trigger>
+						<Tooltip.Content>
+							{@render tip(linkActive ? "Remove link" : "Add link", "Cmd+K")}
+						</Tooltip.Content>
+					</Tooltip.Root>
+
+					<div class="toolbar-divider"></div>
+
+					{@render tool({
+						label: "Bullet list",
+						keys: "Cmd+Shift+8",
+						icon: ListBullets,
+						pressed: isActive("bulletList"),
+						run: () => editor?.chain().focus().toggleBulletList().run(),
+					})}
+					{@render tool({
+						label: "Ordered list",
+						keys: "Cmd+Shift+7",
+						icon: ListNumbers,
+						pressed: isActive("orderedList"),
+						run: () => editor?.chain().focus().toggleOrderedList().run(),
+					})}
+					{@render tool({
+						label: "Quote",
+						keys: "Cmd+Shift+B",
+						icon: Quotes,
+						pressed: isActive("blockquote"),
+						run: () => editor?.chain().focus().toggleBlockquote().run(),
+					})}
+
+					{#if preset === "full"}
+						<div class="toolbar-divider"></div>
+
+						{@render tool({
+							label: "Insert YouTube video",
+							icon: VideoCamera,
+							pressed: isActive("youtube"),
+							run: onInsertYoutube,
+						})}
+					{/if}
+				{/if}
 			</div>
-		{:else}
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand font-heading text-xs font-bold"
-				aria-pressed={isActive("heading", { level: 1 })}
-				onclick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
-				title="Heading 1"
-			>
-				H1
-			</Button>
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand font-heading text-xs font-bold"
-				aria-pressed={isActive("heading", { level: 2 })}
-				onclick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-				title="Heading 2"
-			>
-				H2
-			</Button>
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand font-heading text-xs font-bold"
-				aria-pressed={isActive("heading", { level: 3 })}
-				onclick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
-				title="Heading 3"
-			>
-				H3
-			</Button>
+		{/snippet}
+	</Toolbar.Root>
+</Tooltip.Provider>
 
-			<div class="toolbar-divider"></div>
-
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={isActive("bold")}
-				onclick={() => editor?.chain().focus().toggleBold().run()}
-				title="Bold (Cmd+B)"
-			>
-				<TextB aria-hidden="true" size={15} weight="bold" />
+<Popover.Root bind:open={showLinkPopover}>
+	<Popover.Content
+		bind:ref={linkContent}
+		customAnchor={linkButton}
+		align="start"
+		class="w-auto rounded-xl p-1.5"
+		onCloseAutoFocus={returnToText}
+		onInteractOutside={(e) => {
+			if (linkButton?.contains(e.target as Node)) e.preventDefault();
+		}}
+	>
+		<form
+			class="link-popover"
+			novalidate
+			onsubmit={(e) => {
+				e.preventDefault();
+				applyLink();
+			}}
+		>
+			<Input
+				type="url"
+				bind:value={linkUrl}
+				placeholder="Paste link..."
+				class="h-7 w-52 text-[0.8125rem]"
+			/>
+			<Button type="submit" size="sm" icon aria-label="Apply link">
+				<LinkSimple aria-hidden="true" size={14} />
 			</Button>
 			<Button
 				variant="ghost"
 				size="sm"
 				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={isActive("italic")}
-				onclick={() => editor?.chain().focus().toggleItalic().run()}
-				title="Italic (Cmd+I)"
+				class="text-muted-foreground"
+				onclick={() => (showLinkPopover = false)}
+				aria-label="Cancel link"
 			>
-				<TextItalic aria-hidden="true" size={15} />
+				<span aria-hidden="true">&times;</span>
 			</Button>
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={isActive("strike")}
-				onclick={() => editor?.chain().focus().toggleStrike().run()}
-				title="Strikethrough"
-			>
-				<TextStrikethrough aria-hidden="true" size={15} />
-			</Button>
-
-			<div class="toolbar-divider"></div>
-
-			{#if isActive("link")}
-				<Button
-					variant="ghost"
-					size="sm"
-					icon
-					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-					aria-pressed={true}
-					onclick={() => editor?.chain().focus().unsetLink().run()}
-					title="Remove link"
-				>
-					<LinkBreak aria-hidden="true" size={15} />
-				</Button>
-			{:else}
-				<Button
-					variant="ghost"
-					size="sm"
-					icon
-					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-					onclick={toggleLink}
-					title="Add link (Cmd+K)"
-				>
-					<LinkSimple aria-hidden="true" size={15} />
-				</Button>
-			{/if}
-
-			<div class="toolbar-divider"></div>
-
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={isActive("bulletList")}
-				onclick={() => editor?.chain().focus().toggleBulletList().run()}
-				title="Bullet list"
-			>
-				<ListBullets aria-hidden="true" size={15} />
-			</Button>
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={isActive("orderedList")}
-				onclick={() => editor?.chain().focus().toggleOrderedList().run()}
-				title="Ordered list"
-			>
-				<ListNumbers aria-hidden="true" size={15} />
-			</Button>
-			<Button
-				variant="ghost"
-				size="sm"
-				icon
-				class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-				aria-pressed={isActive("blockquote")}
-				onclick={() => editor?.chain().focus().toggleBlockquote().run()}
-				title="Quote"
-			>
-				<Quotes aria-hidden="true" size={15} />
-			</Button>
-
-			{#if preset === "full"}
-				<div class="toolbar-divider"></div>
-
-				<Button
-					variant="ghost"
-					size="sm"
-					icon
-					class="text-muted-foreground aria-pressed:bg-brand/10 aria-pressed:text-brand"
-					aria-pressed={isActive("youtube")}
-					onclick={onInsertYoutube}
-					title="Insert YouTube video"
-				>
-					<VideoCamera aria-hidden="true" size={15} />
-				</Button>
-			{/if}
-		{/if}
-	{/if}
-</div>
+		</form>
+	</Popover.Content>
+</Popover.Root>
 
 <!-- =========================== -->
 <!-- STYLE -->
