@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.1.0](https://github.com/heyramzi/ui/compare/ui-v3.0.0...ui-v3.1.0) (2026-11-10)
+
+### Features
+
+* feat(charts): a series can sit on a right-hand axis with its own scale (TSK-2314)
+
+### Bug Fixes
+
+* fix(slides): the deck accent follows the deck scheme, not the page theme; CI builds review before verify (TSK-2310)
+* fix(slides): the overview zooms out and back in, numbers sit below tiles, accent follows the app; canvas .svelte subpaths resolve types again (TSK-2314)
+
+
 ## [3.0.0](https://github.com/heyramzi/ui/compare/ui-v2.24.0...ui-v3.0.0) (2026-11-10)
 
 ### Breaking changes

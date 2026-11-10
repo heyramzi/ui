@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/heyramzi/ui/compare/review-v1.1.2...review-v1.1.3) (2026-11-10)
+
+### Bug Fixes
+
+* fix(review): the dev plugin reads studio.css from upsys/packages/studio (TSK-2282)
+
+
 ## [1.1.2](https://github.com/heyramzi/ui/compare/review-v1.1.1...review-v1.1.2) (2026-11-09)
 
 ### Bug Fixes
