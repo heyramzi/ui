@@ -4,6 +4,7 @@
 	// =========================
 	import { untrack, type Snippet } from "svelte";
 	import { SvelteSet } from "svelte/reactivity";
+	import { Accordion } from "bits-ui";
 	import { CaretDown, Plus } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
 	import CountChip from "#src/components/chip/count-chip.svelte";
@@ -58,16 +59,24 @@
 	// =========================
 	// STATE
 	// =========================
+	// WHY the collapsed set stays the truth and not the accordion's open list: a group that
+	// leaves `groups` and comes back keeps its fold.
 	const collapsed = new SvelteSet<string>(untrack(() => defaultCollapsed));
+	const uid = $props.id();
+
+	// =========================
+	// DERIVED
+	// =========================
+	let openKeys = $derived(groups.map(getKey).filter((key) => !collapsed.has(key)));
 
 	// =========================
 	// FUNCTIONS
 	// =========================
-	function toggle(key: string) {
-		if (collapsed.has(key)) {
-			collapsed.delete(key);
-		} else {
-			collapsed.add(key);
+	function setOpen(next: string[]) {
+		for (const group of groups) {
+			const key = getKey(group);
+			if (next.includes(key)) collapsed.delete(key);
+			else collapsed.add(key);
 		}
 		onCollapsedChange?.([...collapsed]);
 	}
@@ -76,13 +85,19 @@
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<div class={cn("flex w-full flex-col", className)}>
+<Accordion.Root
+	type="multiple"
+	bind:value={() => openKeys, setOpen}
+	class={cn("flex w-full flex-col", className)}
+>
 	{#each groups as group, index (getKey(group))}
 		{@const key = getKey(group)}
 		{@const isCollapsed = collapsed.has(key)}
+		{@const rowsId = `${uid}-rows-${index}`}
 		<!-- Groups part by space, not a rule: the header band already marks where one starts
 		     (DESIGN.md rule 19). -->
-		<div
+		<Accordion.Item
+			value={key}
 			class={cn(index > 0 && "mt-4")}
 			role={onGroupDragOver || onGroupDrop ? "group" : undefined}
 			ondragover={onGroupDragOver ? (e) => onGroupDragOver(e, group) : undefined}
@@ -94,11 +109,10 @@
 			<div
 				class="group/header hover-row flex min-h-8 items-center gap-1 rounded-lg bg-foreground/4 transition-colors duration-quick ease-smooth-out hover:bg-foreground/6 motion-reduce:transition-none any-pointer-coarse:min-h-11"
 			>
-				<button
-					type="button"
+				<!-- No Accordion.Header: it would make every group lid a heading. -->
+				<Accordion.Trigger
 					class="flex min-w-0 flex-1 cursor-pointer items-center gap-2 self-stretch rounded-lg px-2.5 text-left outline-none focus-visible:shadow-[var(--ring-focus)]"
-					onclick={() => toggle(key)}
-					aria-expanded={!isCollapsed}
+					aria-controls={rowsId}
 				>
 					<!-- The accordion chevron: it turns on the fast step and holds still under
 					     reduced motion, where the open state is aria-expanded and the rows. -->
@@ -114,7 +128,7 @@
 					{#if getCount}
 						<CountChip count={getCount(group)} />
 					{/if}
-				</button>
+				</Accordion.Trigger>
 				{#if actions}
 					<div class="row-action flex shrink-0 items-center gap-1 pe-1">
 						{@render actions(group)}
@@ -132,14 +146,16 @@
 				{/if}
 			</div>
 
-			{#if !isCollapsed}
-				<div>
+			<!-- bits-ui keeps a closed panel in the DOM, hidden. The rows stay unmounted, so a
+			     folded group of 200 rows costs nothing. -->
+			<Accordion.Content id={rowsId}>
+				{#if !isCollapsed}
 					{@render rows(group)}
-				</div>
-			{/if}
-		</div>
+				{/if}
+			</Accordion.Content>
+		</Accordion.Item>
 	{/each}
-</div>
+</Accordion.Root>
 
 <!-- No entrance motion. Four stacked animations made the last group of a
      40-row board arrive two seconds late. Working surfaces don't animate in. -->

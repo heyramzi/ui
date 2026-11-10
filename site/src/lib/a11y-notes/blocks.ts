@@ -127,10 +127,15 @@ export const blockNotes: Record<string, A11yNote> = {
         does: "In a filter menu, moves through its options. Space or Enter checks one and the menu stays open.",
       },
       { keys: ["Esc"], does: "Closes a filter menu and returns focus to its button." },
+      {
+        keys: ["ArrowDown", "ArrowUp", "Home", "End"],
+        does: "In a GroupedList, moves between the group headers. Space or Enter folds or unfolds one.",
+      },
     ],
     notes: [
       "Rows are buttons, and the open one reports itself as current.",
       "A filter button opens a menu, and each option reports checked.",
+      "A GroupedList header reports open or closed and points at the rows it folds.",
       "The filter tabs are a named group of radio buttons. Arrows move between them, and the picked one reports checked.",
       "The search field has only its placeholder for a name.",
       "Under 1024px wide, the list and the record take turns. Picking a row moves focus into the record, and the back button returns it to that row.",
