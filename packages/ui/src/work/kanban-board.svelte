@@ -384,8 +384,8 @@
 			visibility: hidden;
 		}
 
-		/* The fold: height rides grid-template-rows 0fr to 1fr, the fade runs shorter so it leads.
-		   Shut, -0.375rem cancels the well's gap-1.5, so a closed fold leaves no gap behind. */
+		/* The fold: height rides grid-template-rows 0fr to 1fr and the shorter fade leads.
+		   Shut, -0.375rem cancels the well's gap-1.5, so a closed fold leaves no gap. */
 		.kanban-fold {
 			display: grid;
 			grid-template-rows: 0fr;
