@@ -43,14 +43,17 @@
 				title="Replay"
 				onclick={() => run++}
 			>
-				<ArrowCounterClockwise class="size-4" />
+				<ArrowCounterClockwise class="size-4" aria-hidden="true" />
 			</button>
 			<button
 				type="button"
 				class="flex h-8 items-center gap-1.5 rounded-(--radius-lg) px-2.5 text-[13px] font-medium text-muted-foreground transition-colors duration-(--duration-quick) hover:bg-muted hover:text-foreground"
 				onclick={copy}
 			>
-				{#if copied}<Check class="size-4 text-emerald-500" /> Copied{:else}<Copy class="size-4" /> Copy{/if}
+				{#if copied}<Check class="size-4 text-emerald-500" aria-hidden="true" /> Copied{:else}<Copy
+						class="size-4"
+						aria-hidden="true"
+					/> Copy{/if}
 			</button>
 		</div>
 	</header>

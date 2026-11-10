@@ -20,23 +20,30 @@
 		bases: ApiBase[];
 		untyped?: boolean;
 	};
+
+	/** The id a part's heading carries, shared with the page's contents list. */
+	export const apiAnchor = (name: string) => `api-${name.toLowerCase().replaceAll(".", "-")}`;
 </script>
 
 <script lang="ts">
 	import * as Table from "@heyramzi/ui/shadcn/table";
+	import DocHeading from "#lib/DocHeading.svelte";
 
 	let { parts }: { parts: ApiPart[] } = $props();
 
-	const anchor = (name: string) => `api-${name.toLowerCase().replaceAll(".", "-")}`;
 	const typeOf = (prop: ApiProp) => prop.values?.join(" | ") ?? prop.type;
 </script>
 
-<section aria-labelledby="api" class="mt-14">
-	<h2 id="api" class="scroll-mt-24 text-xl font-semibold tracking-tight">API</h2>
+<!-- The raw destructive red reads 3.7:1 on the page grey; mixed toward the ground it clears 4.5. -->
+<section
+	aria-labelledby="api"
+	class="mt-14 [--required:color-mix(in_oklab,var(--destructive)_72%,black)] dark:[--required:color-mix(in_oklab,var(--destructive)_75%,white)]"
+>
+	<DocHeading id="api">API reference</DocHeading>
 	{#each parts as part (part.file)}
 		<div class="mt-6">
 			{#if parts.length > 1}
-				<h3 id={anchor(part.name)} class="mb-3 font-mono text-sm font-medium">{part.name}</h3>
+				<DocHeading id={apiAnchor(part.name)} level={3} class="mb-3">{part.name}</DocHeading>
 			{/if}
 			<!-- A phone gets one row per prop, stacked: three columns in 390px put Default off-screen. -->
 			<dl class="divide-y divide-border rounded-(--radius-xl) border border-border sm:hidden">
@@ -46,17 +53,17 @@
 							<span class="flex items-center gap-1.5">
 								<code class="font-mono text-[13px] font-medium">{prop.name}</code>
 								{#if prop.required}
-									<span class="text-xs text-destructive">required</span>
+									<span class="text-xs font-medium text-(--required)">required</span>
 								{/if}
 								{#if prop.bindable}
 									<span
-										class="rounded-md border border-border bg-muted/50 px-1.5 py-px font-mono text-[11px] text-muted-foreground"
+										class="rounded-(--radius-sm) border border-border px-1.5 font-mono text-xs leading-5 text-muted-foreground"
 										>bindable</span
 									>
 								{/if}
 							</span>
 							{#if typeOf(prop)}
-								<code class="font-mono text-xs leading-5 text-foreground/80">{typeOf(prop)}</code>
+								<code class="font-mono text-xs leading-5 text-foreground">{typeOf(prop)}</code>
 							{:else if part.bases[0]}
 								<code class="font-mono text-xs leading-5 text-muted-foreground"
 									>{part.bases[0].label}</code
@@ -65,7 +72,7 @@
 						</dt>
 						{#if prop.default !== undefined}
 							<dd class="mt-1 text-xs text-muted-foreground">
-								Default <code class="font-mono text-foreground/80">{prop.default}</code>
+								Default <code class="font-mono text-foreground">{prop.default}</code>
 							</dd>
 						{/if}
 						{#if prop.description}
@@ -77,7 +84,7 @@
 					<div class="px-4 py-3">
 						<dt><code class="font-mono text-[13px] text-muted-foreground">...rest</code></dt>
 						<dd class="mt-1 text-xs text-muted-foreground">
-							Every prop of <code class="font-mono text-foreground/80">{base.label}</code>
+							Every prop of <code class="font-mono text-foreground">{base.label}</code>
 							{#if base.from}from <code class="font-mono">{base.from}</code>{/if}
 							{#if base.omit}except <code class="font-mono">{base.omit.join(", ")}</code>{/if}
 						</dd>
@@ -100,11 +107,11 @@
 									<span class="flex min-h-5 flex-wrap items-center gap-1.5">
 										<code class="font-mono text-[13px] font-medium">{prop.name}</code>
 										{#if prop.required}
-											<span class="text-xs text-destructive">required</span>
+											<span class="text-xs font-medium text-(--required)">required</span>
 										{/if}
 										{#if prop.bindable}
 											<span
-												class="rounded-md border border-border bg-muted/50 px-1.5 py-px font-mono text-[11px] text-muted-foreground"
+												class="rounded-(--radius-sm) border border-border px-1.5 font-mono text-xs leading-5 text-muted-foreground"
 												>bindable</span
 											>
 										{/if}
@@ -117,9 +124,7 @@
 								</Table.Cell>
 								<Table.Cell wrap class="py-3 align-top">
 									{#if typeOf(prop)}
-										<code class="font-mono text-xs leading-5 text-foreground/80"
-											>{typeOf(prop)}</code
-										>
+										<code class="font-mono text-xs leading-5 text-foreground">{typeOf(prop)}</code>
 									{:else if part.bases[0]}
 										<code class="font-mono text-xs leading-5 text-muted-foreground"
 											>{part.bases[0].label}</code
@@ -128,9 +133,7 @@
 								</Table.Cell>
 								<Table.Cell wrap class="py-3 pr-4 align-top">
 									{#if prop.default !== undefined}
-										<code class="font-mono text-xs leading-5 text-foreground/80"
-											>{prop.default}</code
-										>
+										<code class="font-mono text-xs leading-5 text-foreground">{prop.default}</code>
 									{/if}
 								</Table.Cell>
 							</Table.Row>
@@ -145,7 +148,7 @@
 									colspan={2}
 									class="py-3 pr-4 align-top text-xs text-muted-foreground"
 								>
-									Every prop of <code class="font-mono text-foreground/80">{base.label}</code>
+									Every prop of <code class="font-mono text-foreground">{base.label}</code>
 									{#if base.from}from <code class="font-mono">{base.from}</code>{/if}
 									{#if base.omit}except <code class="font-mono">{base.omit.join(", ")}</code>{/if}
 								</Table.Cell>

@@ -54,3 +54,11 @@ export const importOf = (entry: Entry) => {
   if (own) return own;
   return entry.demo.startsWith("./shadcn-demos/") ? `@heyramzi/ui/shadcn/${entry.slug}` : paths[0];
 };
+
+/** The demo's import of the part's own path, for the Usage block. Helpers the demo leans on stay out. */
+export const importLinesOf = (entry: Entry) => {
+  const path = importOf(entry);
+  const statements = [...entry.source.matchAll(/import\s[^"]*?from\s+"(@heyramzi\/[^"]+)";?/g)];
+  const own = statements.find((m) => m[1] === path)?.[0];
+  return (own ?? "").replace(/\n[\t ]+/g, "\n  ").replace(/\n {2}\}/g, "\n}");
+};
