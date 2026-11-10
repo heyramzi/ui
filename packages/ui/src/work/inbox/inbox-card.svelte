@@ -28,6 +28,7 @@
 	import InboxTraceView from "#src/work/inbox/inbox-trace.svelte";
 	import { TagChip } from "#src/components/chip/index.js";
 	import { workLooks } from "#src/components/work-parts/looks.js";
+	import { measureClamp } from "#src/record/measure-clamp.js";
 	import { FolderSimple } from "phosphor-svelte";
 	import { Copied } from "#src/components/copy/copied.svelte.js";
 	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
@@ -68,10 +69,7 @@
 	// for a link the host already shows.
 	let hasTrace = $derived(item.trace.evidence.length > 0 || !!why);
 	let expanded = $state(false);
-	let longCommand = $derived(
-		!!facts.command &&
-			(facts.command.text.length > 240 || facts.command.text.split("\n").length > 3),
-	);
+	let commandCut = $state(false);
 
 	let pickedDraft = $state<string>();
 	let edits = $state<InboxDraftEdits>({});
@@ -210,13 +208,17 @@
 						<!-- The padding sits on a wrapper: on the clamped box itself, the 4th line showed through it. -->
 						<div class={cn(workLooks.inset, "w-full px-2.5 py-2")}>
 							<pre
+								{@attach measureClamp(
+									() => expanded,
+									(cut) => (commandCut = cut),
+								)}
 								class={cn(
 									"text-foreground font-mono text-xs leading-5 break-words whitespace-pre-wrap",
 									!expanded && "line-clamp-3",
 								)}><span class="text-muted-foreground select-none"
 									>{facts.command.tool} </span>{facts.command.text}</pre>
 						</div>
-						{#if longCommand}
+						{#if commandCut || expanded}
 							<button
 								type="button"
 								class="text-muted-foreground hover:text-foreground text-xs underline-offset-2 hover:underline"

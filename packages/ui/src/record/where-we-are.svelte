@@ -9,6 +9,7 @@
 	import type { Tone } from "#src/lib/tone.js";
 	import { gutterClass } from "#src/record/gutter.js";
 	import { formatAge } from "#src/record/format.js";
+	import { measureClamp } from "#src/record/measure-clamp.js";
 	import { resolveLabels, type RecordLabels } from "#src/record/types.js";
 
 	// =========================
@@ -35,7 +36,6 @@
 	// =========================
 	let expanded = $state(false);
 	let clamped = $state(false);
-	let text = $state<HTMLElement | null>(null);
 
 	// =========================
 	// DERIVED
@@ -43,23 +43,6 @@
 	let t = $derived(resolveLabels(labels));
 	let age = $derived(at ? formatAge(at, now, locale) : null);
 	let hasMeta = $derived(Boolean(health || actor || age));
-
-	// =========================
-	// EFFECTS
-	// =========================
-	// Measured, not guessed from length: a note that fits two lines at 1280px
-	// overflows at 390px, and "More" shows only when text is cut.
-	$effect(() => {
-		if (!text) return;
-		const el = text;
-		const measure = () => {
-			if (!expanded) clamped = el.scrollHeight > el.clientHeight + 1;
-		};
-		measure();
-		const observer = new ResizeObserver(measure);
-		observer.observe(el);
-		return () => observer.disconnect();
-	});
 </script>
 
 <!-- =========================== -->
@@ -83,7 +66,10 @@
 			<!-- No `title` attribute: a native tooltip would repeat the whole note
 			     over the steps list. "More" opens it in place. -->
 			<p
-				bind:this={text}
+				{@attach measureClamp(
+					() => expanded,
+					(cut) => (clamped = cut),
+				)}
 				class={cn("text-sm leading-snug text-muted-foreground", !expanded && "line-clamp-2")}
 			>
 				<span class="font-medium text-foreground">{t.whereWeAre}</span>

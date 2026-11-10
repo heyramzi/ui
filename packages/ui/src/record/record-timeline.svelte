@@ -13,6 +13,7 @@
 	import { TONE_ICON } from "#src/lib/tone.js";
 	import { DEFAULT_RECORD_FILTERS, DEFAULT_RECORD_KINDS } from "#src/record/kinds.js";
 	import { formatDayHeader, formatMoney, formatTime } from "#src/record/format.js";
+	import { measureClamp } from "#src/record/measure-clamp.js";
 	import {
 		dayRelation,
 		eventsForFilter,
@@ -78,6 +79,8 @@
 	// =========================
 	let showAll = $state(false);
 	const expanded = new SvelteSet<string>();
+	// Ids whose body is cut by its clamp, as measured.
+	const cut = new SvelteSet<string>();
 
 	// =========================
 	// DERIVED
@@ -110,10 +113,11 @@
 		return kindByKey.get(event.kind) ?? { key: event.kind, label: event.kind };
 	}
 
-	// A body this long, or with a line break, gets a More toggle. Measuring each
-	// row would re-layout the list on every resize.
-	function isLong(body: string | null | undefined): boolean {
-		return Boolean(body && (body.length > 180 || body.includes("\n")));
+	function measureBody(id: string) {
+		return measureClamp(
+			() => expanded.has(id),
+			(isCut) => (isCut ? cut.add(id) : cut.delete(id)),
+		);
 	}
 </script>
 
@@ -180,6 +184,7 @@
 										</p>
 										{#if event.body}
 											<p
+												{@attach measureBody(event.id)}
 												class={cn(
 													"mt-0.5 text-sm leading-snug whitespace-pre-line text-muted-foreground wrap-anywhere",
 													!expanded.has(event.id) && "line-clamp-3",
@@ -187,7 +192,7 @@
 											>
 												{event.body}
 											</p>
-											{#if isLong(event.body)}
+											{#if cut.has(event.id) || expanded.has(event.id)}
 												<Button
 													variant="ghost"
 													size="sm"
