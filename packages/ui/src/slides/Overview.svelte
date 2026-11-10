@@ -49,70 +49,75 @@
 </ol>
 
 <style>
-	.deck__tiles {
-		position: absolute;
-		inset: 0;
-		z-index: 4;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		/* The ring and number appear once the thumbnails have landed. */
-		animation: tiles-in var(--deck-t-quick) linear var(--deck-t-morph) backwards;
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.deck__tiles {
+			position: absolute;
+			inset: 0;
+			z-index: 4;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			/* The ring and number appear once the thumbnails have landed. */
+			animation: tiles-in var(--deck-t-quick) linear var(--deck-t-morph) backwards;
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.deck__tiles {
+				animation: none;
+			}
+		}
+		.deck__tile-cell {
+			position: absolute;
+		}
+		.deck__tile {
+			position: absolute;
+			inset: 0;
+			padding: 0;
+			color: var(--deck-fg);
+			background: transparent;
+			border: 0;
+			border-radius: 10px;
+			cursor: pointer;
+			outline: 2px solid transparent;
+			outline-offset: 3px;
+			transition: outline-color var(--deck-t-quick) var(--deck-ease);
+		}
+		@media (hover: hover) and (pointer: fine) {
+			.deck__tile:hover {
+				outline-color: color-mix(in srgb, var(--deck-accent) 55%, transparent);
+			}
+		}
+		.deck__tile[aria-current="step"] {
+			outline-color: var(--deck-accent);
+		}
+		.deck__tile:focus-visible {
+			outline-color: var(--deck-fg);
+		}
+		.deck__tile-n {
+			position: absolute;
+			bottom: -12px;
+			left: 50%;
+			min-width: 22px;
+			transform: translateX(-50%);
+			padding: 3px 6px;
+			font: 600 11px/1 var(--deck-font);
+			font-variant-numeric: tabular-nums;
+			text-align: center;
+			color: var(--deck-fg);
+			background: var(--deck-bg);
+			box-shadow: 0 0 0 1px var(--deck-line);
+			border-radius: 6px;
+		}
+		.deck__tile[aria-current="step"] .deck__tile-n {
+			color: var(--deck-on-accent);
+			background: var(--deck-accent);
+		}
 	}
+
 	@keyframes tiles-in {
 		from {
 			opacity: 0;
 		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.deck__tiles {
-			animation: none;
-		}
-	}
-	.deck__tile-cell {
-		position: absolute;
-	}
-	.deck__tile {
-		position: absolute;
-		inset: 0;
-		padding: 0;
-		color: var(--deck-fg);
-		background: transparent;
-		border: 0;
-		border-radius: 10px;
-		cursor: pointer;
-		outline: 2px solid transparent;
-		outline-offset: 3px;
-		transition: outline-color var(--deck-t-quick) var(--deck-ease);
-	}
-	@media (hover: hover) and (pointer: fine) {
-		.deck__tile:hover {
-			outline-color: color-mix(in srgb, var(--deck-accent) 55%, transparent);
-		}
-	}
-	.deck__tile[aria-current="step"] {
-		outline-color: var(--deck-accent);
-	}
-	.deck__tile:focus-visible {
-		outline-color: var(--deck-fg);
-	}
-	.deck__tile-n {
-		position: absolute;
-		bottom: -12px;
-		left: 50%;
-		min-width: 22px;
-		transform: translateX(-50%);
-		padding: 3px 6px;
-		font: 600 11px/1 var(--deck-font);
-		font-variant-numeric: tabular-nums;
-		text-align: center;
-		color: var(--deck-fg);
-		background: var(--deck-bg);
-		box-shadow: 0 0 0 1px var(--deck-line);
-		border-radius: 6px;
-	}
-	.deck__tile[aria-current="step"] .deck__tile-n {
-		color: var(--deck-on-accent);
-		background: var(--deck-accent);
 	}
 </style>

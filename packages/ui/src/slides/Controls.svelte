@@ -66,99 +66,103 @@
 </div>
 
 <style>
-	.deck__controls {
-		position: absolute;
-		right: 12px;
-		bottom: 14px;
-		z-index: 5;
-		display: flex;
-		align-items: center;
-		gap: 2px;
-		padding: 4px;
-		color: var(--deck-fg);
-		background: color-mix(in srgb, var(--deck-bg) 72%, transparent);
-		border: 1px solid var(--deck-line);
-		border-radius: 12px;
-		backdrop-filter: blur(var(--blur-large, 8px));
-		/* At rest the counter still reads 4.5:1 on a light or dark deck; 0.55 was 3.1:1. */
-		opacity: 0.7;
-		transition: opacity var(--deck-t-quick) var(--deck-ease);
-	}
-	.deck__controls:focus-within {
-		opacity: 1;
-	}
-	@media (hover: hover) and (pointer: fine) {
-		.deck__controls:hover {
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		.deck__controls {
+			position: absolute;
+			right: 12px;
+			bottom: 14px;
+			z-index: 5;
+			display: flex;
+			align-items: center;
+			gap: 2px;
+			padding: 4px;
+			color: var(--deck-fg);
+			background: color-mix(in srgb, var(--deck-bg) 72%, transparent);
+			border: 1px solid var(--deck-line);
+			border-radius: 12px;
+			backdrop-filter: blur(var(--blur-large, 8px));
+			/* At rest the counter still reads 4.5:1 on a light or dark deck; 0.55 was 3.1:1. */
+			opacity: 0.7;
+			transition: opacity var(--deck-t-quick) var(--deck-ease);
+		}
+		.deck__controls:focus-within {
 			opacity: 1;
 		}
-	}
-	.deck__button {
-		display: grid;
-		place-items: center;
-		width: 32px;
-		height: 32px;
-		padding: 0;
-		color: inherit;
-		background: transparent;
-		border: 0;
-		border-radius: 8px;
-		cursor: pointer;
-		transition:
-			background-color var(--deck-t-quick) var(--deck-ease),
-			transform var(--deck-t-quick) var(--deck-ease);
-	}
-	@media (hover: hover) and (pointer: fine) {
-		.deck__button:hover:not(:disabled) {
-			background: var(--deck-line);
-		}
-	}
-	.deck__button:active:not(:disabled) {
-		transform: scale(var(--scale-medium, 0.97));
-	}
-	.deck__button[aria-pressed="true"] {
-		color: var(--deck-on-accent);
-		background: var(--deck-accent);
-	}
-	.deck__button:disabled {
-		opacity: 0.3;
-		cursor: default;
-	}
-	.deck__button:focus-visible {
-		outline: 2px solid var(--deck-accent);
-		outline-offset: 1px;
-	}
-	.deck__counter {
-		min-width: 52px;
-		font: 500 12px/1 var(--deck-font);
-		font-variant-numeric: tabular-nums;
-		text-align: center;
-	}
-	.deck__divider {
-		width: 1px;
-		height: 16px;
-		margin: 0 4px;
-		background: var(--deck-line);
-	}
-
-	@media (hover: none) {
-		.deck__controls {
-			opacity: 0.9;
-		}
-	}
-	/* On a small deck the controls shrink and drop the extras, so they don't cover the slide. */
-	@container (max-width: 520px) {
-		.deck__controls {
-			right: 6px;
-			bottom: 10px;
-			padding: 2px;
+		@media (hover: hover) and (pointer: fine) {
+			.deck__controls:hover {
+				opacity: 1;
+			}
 		}
 		.deck__button {
-			width: 28px;
-			height: 28px;
+			display: grid;
+			place-items: center;
+			width: 32px;
+			height: 32px;
+			padding: 0;
+			color: inherit;
+			background: transparent;
+			border: 0;
+			border-radius: 8px;
+			cursor: pointer;
+			transition:
+				background-color var(--deck-t-quick) var(--deck-ease),
+				transform var(--deck-t-quick) var(--deck-ease);
 		}
-		.deck__counter,
+		@media (hover: hover) and (pointer: fine) {
+			.deck__button:hover:not(:disabled) {
+				background: var(--deck-line);
+			}
+		}
+		.deck__button:active:not(:disabled) {
+			transform: scale(var(--scale-medium, 0.97));
+		}
+		.deck__button[aria-pressed="true"] {
+			color: var(--deck-on-accent);
+			background: var(--deck-accent);
+		}
+		.deck__button:disabled {
+			opacity: 0.3;
+			cursor: default;
+		}
+		.deck__button:focus-visible {
+			outline: 2px solid var(--deck-accent);
+			outline-offset: 1px;
+		}
+		.deck__counter {
+			min-width: 52px;
+			font: 500 12px/1 var(--deck-font);
+			font-variant-numeric: tabular-nums;
+			text-align: center;
+		}
 		.deck__divider {
-			display: none;
+			width: 1px;
+			height: 16px;
+			margin: 0 4px;
+			background: var(--deck-line);
+		}
+
+		@media (hover: none) {
+			.deck__controls {
+				opacity: 0.9;
+			}
+		}
+		/* On a small deck the controls shrink and drop the extras, so they don't cover the slide. */
+		@container (max-width: 520px) {
+			.deck__controls {
+				right: 6px;
+				bottom: 10px;
+				padding: 2px;
+			}
+			.deck__button {
+				width: 28px;
+				height: 28px;
+			}
+			.deck__counter,
+			.deck__divider {
+				display: none;
+			}
 		}
 	}
 </style>

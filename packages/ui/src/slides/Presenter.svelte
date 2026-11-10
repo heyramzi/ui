@@ -177,153 +177,157 @@
 </div>
 
 <style>
-	.presenter {
-		display: grid;
-		grid-template-rows: auto minmax(0, 1fr);
-		height: 100dvh;
-		color: var(--deck-fg);
-		background: var(--deck-bg);
-		font-family: var(--deck-font);
-	}
+	@layer theme, base, components, utilities;
 
-	.presenter__bar {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 8px 20px;
-		padding: 12px 20px;
-		border-bottom: 1px solid var(--deck-line);
-	}
-	.presenter__title {
-		flex: 1;
-		min-width: 0;
-		margin: 0;
-		overflow: hidden;
-		font: 600 15px/1.2 var(--deck-font);
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	.presenter__where {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-		font: 500 14px/1 var(--deck-font);
-		color: var(--deck-muted);
-	}
-	.presenter__steps {
-		padding: 3px 7px;
-		font-size: 12px;
-		font-variant-numeric: tabular-nums;
-		color: var(--deck-on-accent);
-		background: var(--deck-accent);
-		border-radius: 6px;
-	}
-	.presenter__timer {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-	.presenter__clock {
-		min-width: 5ch;
-		margin-right: 4px;
-		font: 700 28px/1 var(--deck-font-display);
-		font-variant-numeric: tabular-nums;
-		letter-spacing: -0.02em;
-	}
-	.presenter__button {
-		min-height: 32px;
-		padding: 0 12px;
-		font: 500 13px/1 var(--deck-font);
-		color: var(--deck-fg);
-		background: var(--deck-surface);
-		border: 1px solid var(--deck-line);
-		border-radius: 8px;
-		cursor: pointer;
-		transition: background-color var(--deck-t-quick) var(--deck-ease);
-	}
-	@media (hover: hover) and (pointer: fine) {
-		.presenter__button:hover {
-			background: var(--deck-line);
-		}
-	}
-	.presenter__button:focus-visible {
-		outline: 2px solid var(--deck-accent);
-		outline-offset: 2px;
-	}
-
-	.presenter__main {
-		display: grid;
-		grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-		gap: 20px;
-		min-height: 0;
-		padding: 20px;
-	}
-	.presenter__now {
-		display: grid;
-		place-items: center;
-		min-height: 0;
-		container-type: size;
-	}
-	.presenter__frame {
-		overflow: hidden;
-		border-radius: 12px;
-		box-shadow: 0 0 0 1px var(--deck-line);
-	}
-	.presenter__now .presenter__frame {
-		width: min(100cqw, calc(100cqh * var(--ratio)));
-	}
-	.presenter__frame--next {
-		width: 100%;
-	}
-
-	.presenter__side {
-		display: grid;
-		grid-template-rows: auto minmax(0, 1fr);
-		gap: 20px;
-		min-height: 0;
-	}
-	.presenter__heading {
-		margin: 0 0 8px;
-		font: 600 12px/1 var(--deck-font);
-		letter-spacing: 0.02em;
-		color: var(--deck-muted);
-	}
-	.presenter__notes {
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
-	}
-	.presenter__notes-body {
-		flex: 1;
-		min-height: 0;
-		padding-right: 4px;
-		overflow-y: auto;
-		font-size: clamp(18px, 1.5vw, 26px);
-		line-height: 1.5;
-		white-space: pre-line;
-		text-wrap: pretty;
-	}
-	.presenter__notes-body p {
-		margin: 0;
-	}
-	.presenter__empty {
-		margin: 0;
-		color: var(--deck-muted);
-	}
-
-	@media (max-width: 860px) {
+	@layer components {
 		.presenter {
-			height: auto;
-			min-height: 100dvh;
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr);
+			height: 100dvh;
+			color: var(--deck-fg);
+			background: var(--deck-bg);
+			font-family: var(--deck-font);
 		}
+
+		.presenter__bar {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 8px 20px;
+			padding: 12px 20px;
+			border-bottom: 1px solid var(--deck-line);
+		}
+		.presenter__title {
+			flex: 1;
+			min-width: 0;
+			margin: 0;
+			overflow: hidden;
+			font: 600 15px/1.2 var(--deck-font);
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.presenter__where {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font: 500 14px/1 var(--deck-font);
+			color: var(--deck-muted);
+		}
+		.presenter__steps {
+			padding: 3px 7px;
+			font-size: 12px;
+			font-variant-numeric: tabular-nums;
+			color: var(--deck-on-accent);
+			background: var(--deck-accent);
+			border-radius: 6px;
+		}
+		.presenter__timer {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+		.presenter__clock {
+			min-width: 5ch;
+			margin-right: 4px;
+			font: 700 28px/1 var(--deck-font-display);
+			font-variant-numeric: tabular-nums;
+			letter-spacing: -0.02em;
+		}
+		.presenter__button {
+			min-height: 32px;
+			padding: 0 12px;
+			font: 500 13px/1 var(--deck-font);
+			color: var(--deck-fg);
+			background: var(--deck-surface);
+			border: 1px solid var(--deck-line);
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background-color var(--deck-t-quick) var(--deck-ease);
+		}
+		@media (hover: hover) and (pointer: fine) {
+			.presenter__button:hover {
+				background: var(--deck-line);
+			}
+		}
+		.presenter__button:focus-visible {
+			outline: 2px solid var(--deck-accent);
+			outline-offset: 2px;
+		}
+
 		.presenter__main {
-			grid-template-columns: minmax(0, 1fr);
+			display: grid;
+			grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+			gap: 20px;
+			min-height: 0;
+			padding: 20px;
 		}
 		.presenter__now {
-			container-type: inline-size;
+			display: grid;
+			place-items: center;
+			min-height: 0;
+			container-type: size;
+		}
+		.presenter__frame {
+			overflow: hidden;
+			border-radius: 12px;
+			box-shadow: 0 0 0 1px var(--deck-line);
 		}
 		.presenter__now .presenter__frame {
+			width: min(100cqw, calc(100cqh * var(--ratio)));
+		}
+		.presenter__frame--next {
 			width: 100%;
+		}
+
+		.presenter__side {
+			display: grid;
+			grid-template-rows: auto minmax(0, 1fr);
+			gap: 20px;
+			min-height: 0;
+		}
+		.presenter__heading {
+			margin: 0 0 8px;
+			font: 600 12px/1 var(--deck-font);
+			letter-spacing: 0.02em;
+			color: var(--deck-muted);
+		}
+		.presenter__notes {
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
+		}
+		.presenter__notes-body {
+			flex: 1;
+			min-height: 0;
+			padding-right: 4px;
+			overflow-y: auto;
+			font-size: clamp(18px, 1.5vw, 26px);
+			line-height: 1.5;
+			white-space: pre-line;
+			text-wrap: pretty;
+		}
+		.presenter__notes-body p {
+			margin: 0;
+		}
+		.presenter__empty {
+			margin: 0;
+			color: var(--deck-muted);
+		}
+
+		@media (max-width: 860px) {
+			.presenter {
+				height: auto;
+				min-height: 100dvh;
+			}
+			.presenter__main {
+				grid-template-columns: minmax(0, 1fr);
+			}
+			.presenter__now {
+				container-type: inline-size;
+			}
+			.presenter__now .presenter__frame {
+				width: 100%;
+			}
 		}
 	}
 </style>

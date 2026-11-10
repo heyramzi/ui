@@ -50,29 +50,33 @@
 </svelte:element>
 
 <style>
-	.deck-fragment {
-		opacity: 0;
-		transition:
-			opacity var(--deck-t-slide) var(--deck-ease),
-			transform var(--deck-t-slide) var(--deck-ease);
-	}
-	.deck-fragment[data-reveal="rise"] {
-		transform: translateY(var(--deck-shift));
-	}
-	.deck-fragment[data-reveal="scale"] {
-		transform: scale(var(--scale-large, 0.96));
-	}
-	.deck-fragment[data-visible="true"] {
-		opacity: 1;
-		transform: none;
-		transition-delay: calc(var(--frag-i) * var(--deck-stagger));
-	}
+	@layer theme, base, components, utilities;
 
-	@media (prefers-reduced-motion: reduce) {
+	@layer components {
 		.deck-fragment {
-			transform: none !important;
-			transition: opacity var(--deck-t-quick) linear;
-			transition-delay: 0s !important;
+			opacity: 0;
+			transition:
+				opacity var(--deck-t-slide) var(--deck-ease),
+				transform var(--deck-t-slide) var(--deck-ease);
+		}
+		.deck-fragment[data-reveal="rise"] {
+			transform: translateY(var(--deck-shift));
+		}
+		.deck-fragment[data-reveal="scale"] {
+			transform: scale(var(--scale-large, 0.96));
+		}
+		.deck-fragment[data-visible="true"] {
+			opacity: 1;
+			transform: none;
+			transition-delay: calc(var(--frag-i) * var(--deck-stagger));
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.deck-fragment {
+				transform: none !important;
+				transition: opacity var(--deck-t-quick) linear;
+				transition-delay: 0s !important;
+			}
 		}
 	}
 </style>
