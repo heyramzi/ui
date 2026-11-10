@@ -73,21 +73,16 @@ export function dirsOf(slug: string): string[] {
   return [...dirs].sort();
 }
 
-let barrelNames: Map<string, string[]> | undefined;
-
-/** Every kit barrel's names for each component file. A file has one public path, so one entry. */
-function publicNamesOf(file: string): string[] | undefined {
-  if (!barrelNames) {
-    barrelNames = new Map();
-    const walk = (dir: string): void => {
-      for (const [f, names] of exportsOf(dir)) barrelNames!.set(f, names);
-      for (const e of readdirSync(dir, { withFileTypes: true }))
-        if (e.isDirectory()) walk(join(dir, e.name));
-    };
-    walk(UI_SRC);
-  }
-  return barrelNames.get(file);
+/** Every barrel's names for each component file under `dir`. A file has one public path, so one entry. */
+function barrelNamesUnder(dir: string, names = new Map<string, string[]>()): Map<string, string[]> {
+  for (const [file, exported] of exportsOf(dir)) names.set(file, exported);
+  for (const e of readdirSync(dir, { withFileTypes: true }))
+    if (e.isDirectory()) barrelNamesUnder(join(dir, e.name), names);
+  return names;
 }
+
+let barrelNames: Map<string, string[]> | undefined;
+const publicNamesOf = (file: string) => (barrelNames ??= barrelNamesUnder(UI_SRC)).get(file);
 
 /** A part's name in code: `Dialog.Trigger` when namespaced, else its export, found in any
  *  barrel for `lib/panel.svelte`. `tags` are the spellings a demo might use, for ordering. */
