@@ -1183,7 +1183,7 @@ export const a11yNotes: Record<string, A11yNote> = {
       "The period filter is a named group of buttons that report pressed, or links when href is set.",
       "The table has real column headers. A sortable head holds a button and reports its sort order.",
       'A tile\'s change reads with its direction, like "up 8%".',
-      "Every chart here is named and summarised, holds a hidden table of its values, and the arrow keys step its tooltip.",
+      "The charts here are named and summarised, hold a hidden table of their values, and the arrow keys step the tooltip.",
       "With reduced motion on, the numbers show their final value with no count.",
     ],
   },
