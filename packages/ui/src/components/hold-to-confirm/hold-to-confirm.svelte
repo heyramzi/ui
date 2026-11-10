@@ -1,6 +1,7 @@
 <script lang="ts">
 	// ========================= IMPORTS
 	import { cn } from "#src/lib/utils.js";
+	import LiveRegion from "#src/lib/live-region.svelte";
 	import { buttonVariants, type ButtonSize, type ButtonVariant } from "#src/shadcn/button/index.js";
 	import type { Snippet } from "svelte";
 	import type { HTMLButtonAttributes } from "svelte/elements";
@@ -191,7 +192,7 @@
 	</span>
 </button>
 <!-- Outside the button so it isn't part of its name, and mounted empty so the prompt is read when it lands. -->
-<span role="status" class="sr-only">{armed ? confirmPrompt : ""}</span>
+<LiveRegion message={armed ? confirmPrompt : ""} />
 
 <!-- ========================= STYLE -->
 <style>

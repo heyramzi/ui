@@ -51,6 +51,7 @@
 	// =========================
 	import { Check, Copy, StarFour } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import LiveRegion from "#src/lib/live-region.svelte";
 	import { buttonVariants } from "#src/shadcn/button/index.js";
 	import { copyText } from "#src/components/copy/clipboard.js";
 
@@ -177,6 +178,6 @@
 
 	<!-- The swap is invisible to a reader who cannot see it. -->
 	{#if announce === "region"}
-		<span aria-live="polite" class="sr-only">{copied ? copiedLabel : ""}</span>
+		<LiveRegion message={copied ? copiedLabel : ""} />
 	{/if}
 </button>
