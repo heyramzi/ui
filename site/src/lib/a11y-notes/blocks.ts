@@ -167,8 +167,18 @@ export const blockNotes: Record<string, A11yNote> = {
   // Blocks: Canvas
   canvas: {
     keys: [
-      { keys: ["Tab"], does: "Moves between the tool buttons and the nodes." },
-      { keys: ["Space", "Enter"], does: "Selects the focused node." },
+      {
+        keys: ["Tab"],
+        does: "Moves between the tool rail, the style bar and the nodes. Each bar is one stop.",
+      },
+      {
+        keys: ["ArrowUp", "ArrowDown", "Home", "End"],
+        does: "On the tool rail, moves between the tools. ArrowLeft and ArrowRight do it on the style bar.",
+      },
+      {
+        keys: ["Space", "Enter"],
+        does: "On a bar, picks the focused tool, colour or size. On a node, selects it.",
+      },
       { keys: ["Esc"], does: "Deselects the focused node, or cancels a stroke being drawn." },
       {
         keys: ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"],
@@ -182,7 +192,7 @@ export const blockNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "A live region announces every arrow move.",
-      "Tool buttons are named and report pressed. resolveToolKey turns a key press into the tool, so a host binds the letters in one line.",
+      "Tools, colours and sizes are named radios that report checked, and each tool's tooltip and aria-keyshortcuts give its letter. resolveToolKey turns a key press into the tool, so a host binds the letters in one line.",
       'A node is named by its words: "Draw on me", "Rectangle: Idea", or "Pen stroke" for a drawing. The name follows edits.',
       "Drawing, placing a shape or text, connecting nodes and resizing a shape are still pointer only.",
       "Enter doesn't open a node's text yet. The host owns that key and calls requestStartEdit.",

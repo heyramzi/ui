@@ -17,11 +17,14 @@
 	// IMPORTS
 	// =========================
 	import { Panel } from "@xyflow/svelte";
+	import { mergeProps, Toolbar } from "bits-ui";
 	import type { Snippet } from "svelte";
 	import "#src/canvas/pen/pen.css";
 	import { PEN_COLORS } from "#src/canvas/pen/types.js";
 	import "#src/canvas/ui/canvas-ui.css";
 	import ToolIcon from "#src/canvas/components/icons/ToolIcon.svelte";
+	import BarTooltip from "#src/canvas/ui/BarTooltip.svelte";
+	import * as Tooltip from "#src/shadcn/tooltip/index.js";
 	import {
 		hasBrush,
 		hasColor,
@@ -63,6 +66,9 @@
 	// =========================
 	let lastShape = $state<"rectangle" | "ellipse" | "diamond">("rectangle");
 	let lastBrush = $state<BrushTool>("pen");
+	let styleBar = $state<HTMLElement | null>(null);
+	/** The value of the style bar item that had focus when its layout changed, or null when focus was elsewhere. */
+	let refocus: string | null = null;
 
 	// =========================
 	// DERIVED
@@ -70,10 +76,17 @@
 	const BRUSHES = ["pen", "highlighter", "eraser"] as const;
 	const SHAPES = ["rectangle", "ellipse", "diamond"] as const;
 	const BRUSH_DOT = [4, 7, 11] as const;
+	const SINGLE_TOOLS = ["select", "hand", "connect"] as const;
 
 	let shapeActive = $derived(isShapeTool(tool));
 	let brushActive = $derived(isBrushTool(tool));
 	let showStyle = $derived(brushActive || shapeActive || hasColor(tool));
+	/** The brush and shape buttons stand for a family of tools, so the rail's pick is the family. */
+	let railValue = $derived(brushActive ? "brush" : shapeActive ? "shapes" : tool);
+	// Roving focus remembers its tab stop by element, so a bar whose items change is rebuilt fresh.
+	let styleLayout = $derived(
+		`${brushActive ? "brush" : shapeActive ? "shape" : "none"}-${hasColor(tool)}-${hasBrush(tool)}`,
+	);
 
 	// =========================
 	// EFFECTS
@@ -83,12 +96,43 @@
 		if (isBrushTool(tool)) lastBrush = tool;
 	});
 
+	$effect.pre(() => {
+		void styleLayout;
+		const active = document.activeElement;
+		refocus =
+			active instanceof HTMLElement && styleBar?.contains(active)
+				? (active.dataset.value ?? "")
+				: null;
+	});
+
+	$effect(() => {
+		void styleLayout;
+		if (refocus === null || !styleBar) return;
+		const items = [...styleBar.querySelectorAll<HTMLElement>("[data-toolbar-item]")];
+		(items.find((item) => item.dataset.value === refocus) ?? items[0])?.focus();
+		refocus = null;
+	});
+
 	// =========================
 	// FUNCTIONS
 	// =========================
-	function tip(id: CanvasTool, label = labels.tools[id]): string {
-		const key = keyForTool(id);
-		return key ? `${label}  ${key}` : label;
+	// A single-select group sends "" when its pressed item is pressed again. A tool stays picked.
+	function pickRail(value: string) {
+		if (value === "brush") tool = lastBrush;
+		else if (value === "shapes") tool = lastShape;
+		else if (value) tool = value as CanvasTool;
+	}
+
+	function pickTool(value: string) {
+		if (value) tool = value as CanvasTool;
+	}
+
+	function pickColor(value: string) {
+		if (value) color = value as PenColor;
+	}
+
+	function pickLevel(value: string) {
+		if (value) level = Number(value) as BrushLevel;
 	}
 </script>
 
@@ -96,162 +140,117 @@
 <!-- MARKUP -->
 <!-- =========================== -->
 <Panel position="center-left" class="cv-dock">
-	<div class="cv-row">
-		<div
-			class="cv-bar cv-rail"
-			role="toolbar"
-			aria-orientation="vertical"
-			aria-label={labels.toolbar}
-		>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={tool === "select"}
-				aria-label={labels.tools.select}
-				data-tip={tip("select")}
-				onclick={() => (tool = "select")}
+	<Tooltip.Provider>
+		<div class="cv-row">
+			<Toolbar.Root
+				class="cv-bar cv-rail"
+				orientation="vertical"
+				aria-orientation="vertical"
+				aria-label={labels.toolbar}
 			>
-				<ToolIcon name="select" />
-			</button>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={tool === "hand"}
-				aria-label={labels.tools.hand}
-				data-tip={tip("hand")}
-				onclick={() => (tool = "hand")}
-			>
-				<ToolIcon name="hand" />
-			</button>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={tool === "connect"}
-				aria-label={labels.tools.connect}
-				data-tip={tip("connect")}
-				onclick={() => (tool = "connect")}
-			>
-				<ToolIcon name="connect" />
-			</button>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={brushActive}
-				aria-label={labels.tools[lastBrush]}
-				data-tip={tip(lastBrush)}
-				onclick={() => (tool = lastBrush)}
-			>
-				<ToolIcon name={brushActive ? (tool as BrushTool) : lastBrush} />
-			</button>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={tool === "text"}
-				aria-label={labels.tools.text}
-				data-tip={tip("text")}
-				onclick={() => (tool = "text")}
-			>
-				<ToolIcon name="text" />
-			</button>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={shapeActive}
-				aria-label={labels.tools.shapes}
-				data-tip={tip("rectangle", labels.tools.shapes)}
-				onclick={() => (tool = lastShape)}
-			>
-				<ToolIcon name={shapeActive ? (tool as typeof lastShape) : lastShape} />
-			</button>
-			<button
-				type="button"
-				class="cv-btn"
-				aria-pressed={tool === "frame"}
-				aria-label={labels.tools.frame}
-				data-tip={tip("frame")}
-				onclick={() => (tool = "frame")}
-			>
-				<ToolIcon name="frame" />
-			</button>
-			{#if onNote}
-				<button
-					type="button"
-					class="cv-btn"
-					aria-label={labels.tools.note}
-					data-tip="{labels.tools.note}  N"
-					onclick={onNote}
-				>
-					<ToolIcon name="note" />
-				</button>
-			{/if}
+				<Toolbar.Group type="single" class="cv-group" bind:value={() => railValue, pickRail}>
+					{#each SINGLE_TOOLS as id (id)}
+						{@render railItem(id, labels.tools[id], keyForTool(id), id)}
+					{/each}
+					{@render railItem(
+						"brush",
+						labels.tools[lastBrush],
+						keyForTool(lastBrush),
+						brushActive ? (tool as BrushTool) : lastBrush,
+					)}
+					{@render railItem("text", labels.tools.text, keyForTool("text"), "text")}
+					{@render railItem(
+						"shapes",
+						labels.tools.shapes,
+						keyForTool("rectangle"),
+						shapeActive ? (tool as typeof lastShape) : lastShape,
+					)}
+					{@render railItem("frame", labels.tools.frame, keyForTool("frame"), "frame")}
+				</Toolbar.Group>
+				{#if onNote}
+					<BarTooltip label={labels.tools.note} shortcut="N" side="right">
+						{#snippet child({ props })}
+							<Toolbar.Button {...mergeProps(props, { onclick: onNote })} class="cv-btn">
+								<ToolIcon name="note" />
+							</Toolbar.Button>
+						{/snippet}
+					</BarTooltip>
+				{/if}
 
-			{#if extra}
-				<span class="cv-gap" aria-hidden="true"></span>
-				{@render extra()}
+				{#if extra}
+					<span class="cv-gap" aria-hidden="true"></span>
+					{@render extra()}
+				{/if}
+			</Toolbar.Root>
+
+			{#if showStyle}
+				<div class="cv-bar t-enter" bind:this={styleBar}>
+					{#key styleLayout}
+						<Toolbar.Root class="cv-group" aria-label={labels.style}>
+							{#if brushActive || shapeActive}
+								<Toolbar.Group type="single" class="cv-group" bind:value={() => tool, pickTool}>
+									{#each brushActive ? BRUSHES : SHAPES as kind (kind)}
+										<BarTooltip label={labels.tools[kind]} shortcut={keyForTool(kind)}>
+											{#snippet child({ props })}
+												<Toolbar.GroupItem {...props} value={kind} class="cv-btn">
+													<ToolIcon name={kind} />
+												</Toolbar.GroupItem>
+											{/snippet}
+										</BarTooltip>
+									{/each}
+								</Toolbar.Group>
+							{/if}
+
+							{#if hasColor(tool)}
+								{#if brushActive || shapeActive}<span class="cv-gap" aria-hidden="true"></span>{/if}
+								<Toolbar.Group type="single" class="cv-group" bind:value={() => color, pickColor}>
+									{#each PEN_COLORS as swatch (swatch)}
+										<BarTooltip label={labels.colors[swatch]}>
+											{#snippet child({ props })}
+												<Toolbar.GroupItem
+													{...props}
+													value={swatch}
+													class="cv-swatch"
+													style="--swatch: var(--pen-{swatch})"
+												/>
+											{/snippet}
+										</BarTooltip>
+									{/each}
+								</Toolbar.Group>
+							{/if}
+
+							{#if hasBrush(tool)}
+								<span class="cv-gap" aria-hidden="true"></span>
+								<Toolbar.Group
+									type="single"
+									class="cv-group"
+									bind:value={() => String(level), pickLevel}
+								>
+									{#each BRUSH_DOT as dot, index (index)}
+										<BarTooltip label={labels.sizes[index]}>
+											{#snippet child({ props })}
+												<Toolbar.GroupItem {...props} value={String(index)} class="cv-btn">
+													<span class="cv-dot" style:--dot="{dot}px"></span>
+												</Toolbar.GroupItem>
+											{/snippet}
+										</BarTooltip>
+									{/each}
+								</Toolbar.Group>
+							{/if}
+						</Toolbar.Root>
+					{/key}
+				</div>
 			{/if}
 		</div>
-
-		{#if showStyle}
-			<div class="cv-bar t-enter" role="toolbar" aria-label={labels.style}>
-				{#if brushActive}
-					{#each BRUSHES as brush (brush)}
-						<button
-							type="button"
-							class="cv-btn"
-							aria-pressed={tool === brush}
-							aria-label={labels.tools[brush]}
-							data-tip={tip(brush)}
-							onclick={() => (tool = brush)}
-						>
-							<ToolIcon name={brush} />
-						</button>
-					{/each}
-				{:else if shapeActive}
-					{#each SHAPES as shape (shape)}
-						<button
-							type="button"
-							class="cv-btn"
-							aria-pressed={tool === shape}
-							aria-label={labels.tools[shape]}
-							data-tip={tip(shape)}
-							onclick={() => (tool = shape)}
-						>
-							<ToolIcon name={shape} />
-						</button>
-					{/each}
-				{/if}
-
-				{#if hasColor(tool)}
-					{#if brushActive || shapeActive}<span class="cv-gap" aria-hidden="true"></span>{/if}
-					{#each PEN_COLORS as swatch (swatch)}
-						<button
-							type="button"
-							class="cv-swatch"
-							aria-pressed={color === swatch}
-							aria-label={labels.colors[swatch]}
-							data-tip={labels.colors[swatch]}
-							style:--swatch="var(--pen-{swatch})"
-							onclick={() => (color = swatch)}
-						></button>
-					{/each}
-				{/if}
-
-				{#if hasBrush(tool)}
-					<span class="cv-gap" aria-hidden="true"></span>
-					{#each BRUSH_DOT as dot, index (index)}
-						<button
-							type="button"
-							class="cv-btn"
-							aria-pressed={level === index}
-							aria-label={labels.sizes[index]}
-							data-tip={labels.sizes[index]}
-							onclick={() => (level = index as BrushLevel)}
-						>
-							<span class="cv-dot" style:--dot="{dot}px"></span>
-						</button>
-					{/each}
-				{/if}
-			</div>
-		{/if}
-	</div>
+	</Tooltip.Provider>
 </Panel>
+
+{#snippet railItem(value: string, label: string, shortcut: string, icon: CanvasTool)}
+	<BarTooltip {label} {shortcut} side="right">
+		{#snippet child({ props })}
+			<Toolbar.GroupItem {...props} {value} class="cv-btn">
+				<ToolIcon name={icon} />
+			</Toolbar.GroupItem>
+		{/snippet}
+	</BarTooltip>
+{/snippet}

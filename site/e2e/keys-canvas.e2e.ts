@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 /*
  * The canvas on /components/canvas by keyboard, as its entry in site/src/lib/a11y-notes.ts states
- * it: tool buttons are named and report pressed, a bare letter picks its tool, Enter selects a
+ * it: tool buttons are named and report checked, a bare letter picks its tool, Enter selects a
  * named node, arrows nudge it 5px (20px with Shift) and announce it, Esc deselects, Delete removes.
  */
 
@@ -16,7 +16,8 @@ async function openCanvas(page: Page) {
   const canvas = page.getByRole("group", { name: "Canvas" });
   const toolbar = canvas.getByRole("toolbar", { name: "Canvas tools" });
   await expect(toolbar).toBeVisible();
-  const tool = (name: string) => toolbar.getByRole("button", { name, exact: true });
+  // The tools are one single-select group in the toolbar, so each is a radio.
+  const tool = (name: string) => toolbar.getByRole("radio", { name, exact: true });
   return { canvas, toolbar, tool };
 }
 
@@ -29,28 +30,46 @@ async function position(node: Locator): Promise<{ x: number; y: number }> {
 
 test("a bare letter picks its tool, a modified one doesn't", async ({ page }) => {
   const { tool } = await openCanvas(page);
-  await expect(tool("Select")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Select")).toHaveAttribute("aria-checked", "true");
 
   await tool("Select").focus();
   await page.keyboard.press("p");
-  await expect(tool("Pen")).toHaveAttribute("aria-pressed", "true");
-  await expect(tool("Select")).toHaveAttribute("aria-pressed", "false");
+  await expect(tool("Pen")).toHaveAttribute("aria-checked", "true");
+  await expect(tool("Select")).toHaveAttribute("aria-checked", "false");
 
   await page.keyboard.press("h");
-  await expect(tool("Hand")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Hand")).toHaveAttribute("aria-checked", "true");
   await page.keyboard.press("t");
-  await expect(tool("Text")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Text")).toHaveAttribute("aria-checked", "true");
 
   // Shift and Cmd/Ctrl keep their own meaning, so they pick no tool.
   await page.keyboard.press("Shift+V");
-  await expect(tool("Text")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Text")).toHaveAttribute("aria-checked", "true");
   await page.keyboard.press("v");
-  await expect(tool("Select")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Select")).toHaveAttribute("aria-checked", "true");
 
   // Space on a focused tool button presses it like any button.
   await tool("Hand").focus();
   await page.keyboard.press("Space");
-  await expect(tool("Hand")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Hand")).toHaveAttribute("aria-checked", "true");
+});
+
+test("the tool rail is one Tab stop that arrows move along", async ({ page }) => {
+  const { toolbar, tool } = await openCanvas(page);
+  await tool("Select").focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(tool("Hand")).toBeFocused();
+  // Moving focus picks nothing. Space does.
+  await expect(tool("Select")).toHaveAttribute("aria-checked", "true");
+  await page.keyboard.press("ArrowUp");
+  await expect(tool("Select")).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(tool("Frame")).toBeFocused();
+
+  await page.keyboard.press("Tab");
+  await expect(toolbar.locator(":focus")).toHaveCount(0);
+  await page.keyboard.press("Shift+Tab");
+  await expect(tool("Frame")).toBeFocused();
 });
 
 test("a node is selected by Enter, nudged by arrows and freed by Esc", async ({ page }) => {
@@ -78,7 +97,7 @@ test("a node is selected by Enter, nudged by arrows and freed by Esc", async ({ 
   // "Pen" button, so the tool is looked up in the tools toolbar.
   await expect(idea).toBeFocused();
   await page.keyboard.press("p");
-  await expect(tool("Pen")).toHaveAttribute("aria-pressed", "true");
+  await expect(tool("Pen")).toHaveAttribute("aria-checked", "true");
 });
 
 test("Delete and Backspace remove the selected node", async ({ page }) => {

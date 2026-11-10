@@ -67,6 +67,14 @@
     pointer-events: none;
   }
 
+  /* A toolbar group lays its items out as if they sat in the bar itself. */
+  .cv-group {
+    display: flex;
+    flex-direction: inherit;
+    align-items: center;
+    gap: inherit;
+  }
+
   /* Groups are set apart by space, never by a rule. */
   .cv-gap {
     flex: none;
@@ -107,6 +115,7 @@
 
   /* One active style for a tool, a size, a brush and an open popover. */
   .cv-btn[aria-pressed="true"],
+  .cv-btn[data-state="on"],
   .cv-btn[aria-expanded="true"],
   .cv-btn[data-state="open"] {
     background: var(--cv-surface-hover);
@@ -169,7 +178,8 @@
     }
   }
 
-  .cv-swatch[aria-pressed="true"]::before {
+  .cv-swatch[aria-pressed="true"]::before,
+  .cv-swatch[data-state="on"]::before {
     box-shadow:
       0 0 0 2px var(--cv-surface),
       0 0 0 4px var(--cv-ink);
@@ -213,19 +223,6 @@
       opacity: 1;
       translate: -50% 0;
       transition-delay: 350ms;
-    }
-
-    /* On the rail the label opens to the right. */
-    .cv-rail .cv-btn[data-tip]::after {
-      top: 50%;
-      bottom: auto;
-      left: calc(100% + 10px);
-      translate: -4px -50%;
-    }
-
-    .cv-rail .cv-btn[data-tip]:hover::after,
-    .cv-rail .cv-btn[data-tip]:focus-visible::after {
-      translate: 0 -50%;
     }
 
     .cv-btn:active::after,
