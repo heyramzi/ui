@@ -30,18 +30,22 @@
 <!-- A cell's link is 20px tall, so on a coarse pointer it grows a 44px hit box here, unless it
      positions itself, like a stretched row link. -->
 <style>
-	@media (any-pointer: coarse) {
-		td :global(a[href]:not([class*="absolute"], [class*="fixed"], [class*="sticky"])) {
-			position: relative;
-		}
-		td :global(a[href]:not([class*="absolute"], [class*="fixed"], [class*="sticky"]))::after {
-			content: "";
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: max(100%, 2.75rem);
-			height: max(100%, 2.75rem);
-			transform: translate(-50%, -50%);
+	@layer theme, base, components, utilities;
+
+	@layer components {
+		@media (any-pointer: coarse) {
+			td :global(a[href]:not([class*="absolute"], [class*="fixed"], [class*="sticky"])) {
+				position: relative;
+			}
+			td :global(a[href]:not([class*="absolute"], [class*="fixed"], [class*="sticky"]))::after {
+				content: "";
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: max(100%, 2.75rem);
+				height: max(100%, 2.75rem);
+				transform: translate(-50%, -50%);
+			}
 		}
 	}
 </style>
