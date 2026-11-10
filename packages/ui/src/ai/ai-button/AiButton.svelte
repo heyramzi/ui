@@ -39,6 +39,14 @@
 		class: className,
 		iconOnly = false,
 	}: AiButtonProps = $props();
+
+	// A disabled button drops focus to the page, so while it works it's aria-disabled and ignores presses instead.
+	const busy = $derived(status === "processing");
+
+	function handleClick(e: MouseEvent) {
+		if (busy) return;
+		onclick?.(e);
+	}
 </script>
 
 <!-- ===========================
@@ -49,12 +57,13 @@
 		{variant}
 		size="sm"
 		icon
-		disabled={disabled || status === "processing"}
-		aria-label={status === "processing" ? processingLabel : label}
-		{onclick}
-		class={cn("relative", status === "processing" && "pointer-events-none", className)}
+		{disabled}
+		aria-disabled={busy || undefined}
+		aria-label={busy ? processingLabel : label}
+		onclick={handleClick}
+		class={cn("relative", busy && "pointer-events-none opacity-50", className)}
 	>
-		{#if status === "processing"}
+		{#if busy}
 			<Spinner class="size-4" />
 		{:else}
 			<Sparkle class="size-4" weight="fill" aria-hidden="true" />
@@ -64,11 +73,12 @@
 	<Button
 		{variant}
 		{size}
-		disabled={disabled || status === "processing"}
-		{onclick}
-		class={cn("gap-1.5", status === "processing" && "pointer-events-none", className)}
+		{disabled}
+		aria-disabled={busy || undefined}
+		onclick={handleClick}
+		class={cn("gap-1.5", busy && "pointer-events-none opacity-50", className)}
 	>
-		{#if status === "processing"}
+		{#if busy}
 			<Spinner class="size-3.5" />
 			<span>{processingLabel}</span>
 		{:else}

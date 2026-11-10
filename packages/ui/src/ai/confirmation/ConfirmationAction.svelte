@@ -34,7 +34,12 @@
 				? false
 				: ctx.executing && variant === "default",
 	);
-	const isDisabled = $derived(Boolean(disabled) || ctx.executing);
+	// A disabled button drops focus to the page, so while the action runs it's aria-disabled and stops presses here.
+	function blockWhileRunning(event: MouseEvent) {
+		if (!ctx.executing) return;
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	}
 </script>
 
 <Button
@@ -42,8 +47,10 @@
 	{variant}
 	{size}
 	type="button"
-	disabled={isDisabled}
-	class={cn("h-8 px-3 text-sm", className)}
+	{disabled}
+	aria-disabled={ctx.executing || undefined}
+	onclickcapture={blockWhileRunning}
+	class={cn("h-8 px-3 text-sm", ctx.executing && "pointer-events-none opacity-50", className)}
 >
 	{#if showBusy && busyLabel}
 		{busyLabel}
