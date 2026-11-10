@@ -253,7 +253,9 @@ pack_rewritten() {
 publish_npmjs() {
   local tgz=$1 id npmjs=https://registry.npmjs.org/
   id=$(tar -xOzf "$tgz" package/package.json | node -p 'const j = JSON.parse(require("fs").readFileSync(0, "utf8")); j.name + "@" + j.version')
-  if [ -z "${NPMJS_DRY_RUN:-}" ] && npm view "$id" version --registry="$npmjs" </dev/null >/dev/null 2>&1; then
+  # The scope flag too: without it the repo's .npmrc sends the lookup to GitHub Packages, which
+  # just got this version, so 3.3.0 and 3.3.1 read "already on npmjs" and were never sent there.
+  if [ -z "${NPMJS_DRY_RUN:-}" ] && npm view "$id" version --registry="$npmjs" "--@heyramzi:registry=$npmjs" </dev/null >/dev/null 2>&1; then
     echo "$id already on npmjs"
     return
   fi
