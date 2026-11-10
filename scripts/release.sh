@@ -74,6 +74,19 @@ while read -r component dir; do
     next="$release_as"
     bump="release-as"
   fi
+  # A removed export path breaks every app that imports it, so it ships only in a major.
+  if [ "$first_release" = "0" ]; then
+    removed=$(git show "$tag:$dir/package.json" | node -e "
+      const before = Object.keys(JSON.parse(require('fs').readFileSync(0, 'utf8')).exports ?? {});
+      const after = new Set(Object.keys(require('./$dir/package.json').exports ?? {}));
+      console.log(before.filter((key) => !after.has(key)).join(' '));
+    ")
+    if [ -n "$removed" ] && [ "${next%%.*}" = "${version%%.*}" ]; then
+      echo "release: $component $next drops export paths that $version had: $removed" >&2
+      echo "release: that's a breaking change. Cut a major with a Release-As: $(( ${version%%.*} + 1 )).0.0 footer on a commit in $dir." >&2
+      exit 1
+    fi
+  fi
   # A package's first publish is 1.0.0, whatever its commits say.
   if [ "$first_release" = "1" ] || [ "$untracked" = "1" ]; then
     next="1.0.0"
