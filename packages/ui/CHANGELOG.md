@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.5.0](https://github.com/heyramzi/ui/compare/ui-v3.4.0...ui-v3.5.0) (2026-11-11)
+
+### Features
+
+* feat(ui): Flag draws a country's flag from its ISO code, served by flagAssets() (TSK-2589)
+
+### Bug Fixes
+
+* fix(ui): flagAssets() no longer hands Vite a post hook that crashes the server (TSK-2589)
+* fix(ui): printPage waits for lazy and loading images before calling them broken
+* fix(security): htmlToPlainText parses with DOMParser, not a live div (TSK-2499)
+
+
 ## [3.4.0](https://github.com/heyramzi/ui/compare/ui-v3.3.1...ui-v3.4.0) (2026-11-11)
 
 ### Features

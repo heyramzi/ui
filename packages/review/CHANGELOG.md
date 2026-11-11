@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/heyramzi/ui/compare/review-v1.1.3...review-v1.1.4) (2026-11-11)
+
+### Bug Fixes
+
+* fix(security): the review handler refuses a Host that isn't localhost (TSK-2491)
+
+
 ## [1.1.3](https://github.com/heyramzi/ui/compare/review-v1.1.2...review-v1.1.3) (2026-11-10)
 
 ### Bug Fixes
