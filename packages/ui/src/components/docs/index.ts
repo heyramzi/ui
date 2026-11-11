@@ -3,6 +3,7 @@
  * A surface supplies a title and a body, and never lays a document out itself.
  */
 export { default as DocPage } from "#src/components/docs/doc-page.svelte";
+export { default as DocumentView } from "#src/components/docs/document-view.svelte";
 export { default as OnThisPage } from "#src/components/docs/on-this-page.svelte";
 export {
   ScrollSpy,
