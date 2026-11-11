@@ -30,7 +30,8 @@ export function flagAssets(options: { base?: string } = {}) {
   const known = new Set(files);
   let ssrBuild = false;
 
-  const serve = (server: Server) =>
+  // Returns nothing: Vite calls a function returned from configureServer as a post hook.
+  const serve = (server: Server): void => {
     server.middlewares.use((req, res, next) => {
       const path = req.url?.split("?")[0] ?? "";
       const name = path.startsWith(`${base}/`) ? path.slice(base.length + 1) : "";
@@ -39,6 +40,7 @@ export function flagAssets(options: { base?: string } = {}) {
       res.setHeader("Cache-Control", "public, max-age=86400");
       res.end(readFileSync(join(dir, name)));
     });
+  };
 
   return {
     name: "heyramzi-ui:flags",
