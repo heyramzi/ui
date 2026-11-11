@@ -51,7 +51,7 @@
     "vite-plus": "catalog:"
   },
   "peerDependencies": {
-    "@heyramzi/utils": "^1.8.1",
+    "@heyramzi/utils": "^1.18.1",
     "@mux/mux-player": ">=3.0.0",
     "@umami/node": ">=0.4.0",
     "phosphor-svelte": ">=3.0.0",

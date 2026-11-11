@@ -195,8 +195,8 @@ importers:
   packages/marketing:
     dependencies:
       '@heyramzi/utils':
-        specifier: ^1.8.1
-        version: 1.15.3(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@6.0.3))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)
+        specifier: ^1.18.1
+        version: 1.18.1(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@6.0.3))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)
       '@mux/mux-player':
         specifier: '>=3.0.0'
         version: 3.14.1(react@19.3.1)
@@ -232,8 +232,8 @@ importers:
         specifier: workspace:*
         version: link:../ui
       '@heyramzi/utils':
-        specifier: ^1.15.3
-        version: 1.15.3(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)
+        specifier: ^1.18.1
+        version: 1.18.1(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)
       '@playwright/test':
         specifier: ^1.64.1
         version: 1.64.1
@@ -774,8 +774,8 @@ packages:
   '@heyramzi/social@1.3.0':
     resolution: {integrity: sha512-Gm4eSjcRehNs28/x2LWbYsg2coXYHA9T/uBMWerSqMqkWbQg4qdxnO1h0jG6ZAvLUpM5OwrcGNiM46W1V8kHMA==, tarball: https://npm.pkg.github.com/download/@heyramzi/social/1.3.0/cb1424e00f114ba7abe59b62a39ebc51192e7914}
 
-  '@heyramzi/utils@1.15.3':
-    resolution: {integrity: sha512-BfkRfpeSmkoFvp7/o03H+kA72J2+4ElXnfyaQKrYm4sw0ZWz3td7tIutIXfCcGh7uj2Wib7eEP6GGeOKpfaZJQ==, tarball: https://npm.pkg.github.com/download/@heyramzi/utils/1.15.3/51d76180160e5956a46c7f204e9d221b8d8dfb77}
+  '@heyramzi/utils@1.18.1':
+    resolution: {integrity: sha512-sbBVm1wH/rMPIZqf/oZwisaCBzViKA1VfSxFhHz1qRF7X2GhKWRHOhYt6vPHST6ob9XaZ88kEQmAK4szVjw8HA==, tarball: https://npm.pkg.github.com/download/@heyramzi/utils/1.18.1/195cc2c45219d234bd72c0fa17ebeeab08ce1621}
     peerDependencies:
       ai: '>=7.0.11'
       satori: '>=0.63.2'
@@ -3656,7 +3656,7 @@ snapshots:
 
   '@heyramzi/social@1.3.0': {}
 
-  '@heyramzi/utils@1.15.3(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@6.0.3))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)':
+  '@heyramzi/utils@1.18.1(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@6.0.3))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)':
     dependencies:
       ai: 7.0.162(zod@4.6.7)
       clsx: 2.1.1
@@ -3668,7 +3668,7 @@ snapshots:
       vite: '@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@6.0.3)'
       wawoff2: 2.0.1
 
-  '@heyramzi/utils@1.15.3(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)':
+  '@heyramzi/utils@1.18.1(@voidzero-dev/vite-plus-core@1.5.0(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(typescript@7.0.2))(ai@7.0.162(zod@4.6.7))(satori-html@0.3.2)(satori@0.63.2)(sharp@0.35.5(@types/node@26.6.6))(ultrahtml@1.7.0)(wawoff2@2.0.1)':
     dependencies:
       ai: 7.0.162(zod@4.6.7)
       clsx: 2.1.1
