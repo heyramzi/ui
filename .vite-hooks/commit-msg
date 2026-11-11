@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# >>> studio commit-msg guard (managed) >>>
+# Installed by vibe-kit/ai-doc/scripts/pre-commit-hooks.sh; edit there, not here.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __cm_bin="$HOME/Studio/upsys/kit/packages/lint/bin/heyramzi-commit-msg.js"
+  [ -f "$__cm_bin" ] || __cm_bin="$(git rev-parse --show-toplevel)/node_modules/@heyramzi/lint/bin/heyramzi-commit-msg.js"
+  if [ -f "$__cm_bin" ]; then node "$__cm_bin" "$1" || exit 1; fi
+fi
+# <<< studio commit-msg guard (managed) <<<
+

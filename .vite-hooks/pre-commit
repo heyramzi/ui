@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+# >>> studio pre-commit guards (managed) >>>
+# Installed by vibe-kit/ai-doc/scripts/pre-commit-hooks.sh; edit there, not here.
+if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
+  __pc_root=$(git rev-parse --show-toplevel)
+  __pc_lint="$HOME/Studio/upsys/kit/packages/lint/bin"
+  [ -d "$__pc_lint" ] || __pc_lint="$__pc_root/node_modules/@heyramzi/lint/bin"
+  for __pc_gate in file-tokens repo-rules; do
+    if [ -f "$__pc_lint/heyramzi-$__pc_gate.js" ]; then
+      ( cd "$__pc_root" && node "$__pc_lint/heyramzi-$__pc_gate.js" ) || exit 1
+    else
+      echo "$__pc_gate: skip (@heyramzi/lint not installed)"
+    fi
+  done
+  __pc_swift="$HOME/Studio/upsys/kit/swift/lint/house-lint.mjs"
+  if [ -f "$__pc_swift" ] && git diff --cached --name-only --diff-filter=ACMR | grep -q '\.swift$'; then
+    ( cd "$__pc_root" && node "$__pc_swift" ) || exit 1
+  fi
+fi
+# WHY: `vp staged` (lint-staged) `git add`s every file whose working-tree diff changed while its
+# tasks ran, so another session's edit landing mid-format joined `git commit --only` (2 commits,
+# 10 Nov 2026). This wraps the repo's own `vp staged` line and fails the commit, naming the paths.
+vp() {
+  [ "${1-}" = "staged" ] || { command vp "$@"; return; }
+  __pc_before=$(mktemp)
+  git diff --cached --name-only > "$__pc_before"
+  command vp "$@" || { __pc_rc=$?; rm -f "$__pc_before"; return "$__pc_rc"; }
+  __pc_extra=$(git diff --cached --name-only | grep -vxF -f "$__pc_before" || true)
+  rm -f "$__pc_before"
+  [ -z "$__pc_extra" ] && return 0
+  echo "pre-commit: vp staged added files this commit was never given (another session edited them mid-run):" >&2
+  printf '%s\n' "$__pc_extra" | sed 's/^/  /' >&2
+  echo "pre-commit: commit refused, nothing committed or staged; run the same commit again." >&2
+  return 1
+}
+# <<< studio pre-commit guards (managed) <<<
+
+vp staged
