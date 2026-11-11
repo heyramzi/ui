@@ -28,6 +28,12 @@ export const meta: Record<string, Meta> = {
     description: "Real Apple SF Symbols, drawn from the shared path set.",
     height: 360,
   },
+  flag: {
+    title: "Flag",
+    icon: "tag",
+    description: "A country's flag from its ISO code, sized to the text beside it.",
+    height: 520,
+  },
   "language-flag": {
     title: "Language flag",
     icon: "tag",

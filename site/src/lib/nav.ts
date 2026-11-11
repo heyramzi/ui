@@ -91,6 +91,7 @@ export const sections: Section[] = [
         title: "Data display",
         items: [
           "avatar",
+          "flag",
           "language-flag",
           "mark",
           "item",

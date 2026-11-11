@@ -75,6 +75,7 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/tokens/palette.css",
     "../../../packages/ui/src/brand/index.ts",
     "../../../packages/ui/src/icons/sf-symbols.ts",
+    "../../../packages/ui/src/components/flag/flag.svelte",
     "../../../packages/ui/src/components/language-flag/language-flag.svelte",
     "../../../packages/ui/src/components/mark/mark.svelte",
     "../../../packages/ui/src/components/data-table/data-table.ts",

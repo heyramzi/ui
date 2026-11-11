@@ -3,9 +3,12 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite-plus";
+// The source file, since the package's dist only exists after a build.
+import { flagAssets } from "../packages/ui/src/vite/flags.ts";
 
 export default defineConfig({
   plugins: [
+    flagAssets(),
     tailwindcss(),
     sveltekit({
       preprocess: vitePreprocess(),

@@ -140,6 +140,11 @@ export const componentSources: Record<string, string[]> = {
   colors: ["packages/ui/src/tokens/palette.css"],
   theming: ["packages/ui/src/brand/index.ts"],
   "sf-symbols": ["packages/ui/src/icons/sf-symbols.ts"],
+  flag: [
+    "packages/ui/src/components/flag/flag.svelte",
+    "packages/ui/src/components/flag/codes.ts",
+    "packages/ui/src/vite/flags.ts",
+  ],
   "language-flag": ["packages/ui/src/components/language-flag/language-flag.svelte"],
   mark: ["packages/ui/src/components/mark/mark.svelte"],
   "data-table": [

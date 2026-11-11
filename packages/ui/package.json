@@ -115,6 +115,11 @@
       "node": "./dist/effects/magnetic/magnetic.js",
       "default": "./src/effects/magnetic/magnetic.ts"
     },
+    "./vite": {
+      "types": "./src/vite/flags.ts",
+      "node": "./dist/vite/flags.js",
+      "default": "./src/vite/flags.ts"
+    },
     "./icons/sf-symbols": {
       "svelte": "./src/icons/sf-symbols.ts",
       "types": "./src/icons/sf-symbols.ts",

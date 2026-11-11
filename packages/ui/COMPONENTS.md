@@ -63,6 +63,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 
 - `copy` — CopyButton, copyText, copyRichText, htmlToPlainText, Copied
 - `data-table` — SortableHead, Pagination, InfiniteScroll, RowContextMenu, TableSkeleton, and the sort, page and filter helpers
+- `flag` — Flag, FLAG_CODES, flagCode: a country flag from an ISO 3166-1 alpha-2 code (plus XK for Kosovo), 1em tall at 3:2, one lazy `<img>` of `/flags/<CODE>.svg` each. Add `flagAssets()` from `@heyramzi/ui/vite` to the app's Vite plugins to serve the 250 SVGs (country-flag-icons, MIT, licence beside them). Decorative unless `label` is set. An unknown code renders nothing; to keep a row's layout, wrap it in `<span class="inline-block aspect-[3/2] h-[1em]">`
 - `hold-to-confirm` — HoldToConfirm, press and hold to confirm
 - `language-flag` — LanguageFlag, LANGUAGE_FLAGS (code to `/flags/*.svg`, also a SegmentedFilter option's `image`)
 - `list-page` — ListPageShell, MasterDetail, GroupedList, RailRow and the rest of the master-detail page kit, DetailPanel, ToolbarSearch, toolbarTriggerClass, NoticeBar, EmptyState, FilterPopover, setSectionHost

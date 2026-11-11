@@ -101,6 +101,12 @@ export const componentNotes: Record<string, A11yNote> = {
       "Give the image an alt. When it fails to load, the fallback text is what a screen reader reads.",
     ],
   },
+  flag: {
+    notes: [
+      "The flag is hidden from screen readers by default, because the country name sits beside it.",
+      'Shown alone, pass label="Japan" and it becomes an image with that name.',
+    ],
+  },
   "language-flag": {
     notes: [
       'The flag\'s alt is the language code in capitals, like "FR".',

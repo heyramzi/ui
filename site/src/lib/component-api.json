@@ -7359,6 +7359,36 @@
       "bases": []
     }
   ],
+  "flag": [
+    {
+      "name": "Flag",
+      "file": "packages/ui/src/components/flag/flag.svelte",
+      "props": [
+        {
+          "name": "code",
+          "type": "string | null | undefined",
+          "required": true,
+          "description": "ISO 3166-1 alpha-2 code, or XK for Kosovo, any case. Unknown or empty renders nothing."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the flag for a reader. Leave it out when the country name sits beside it."
+        },
+        {
+          "name": "base",
+          "type": "string",
+          "default": "FLAG_BASE",
+          "description": "Where the host serves `<CODE>.svg`."
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": []
+    }
+  ],
   "gauge-chart": [
     {
       "name": "GaugeChart",
@@ -9195,6 +9225,18 @@
         {
           "name": "extra",
           "type": "Snippet"
+        },
+        {
+          "name": "searchLabel",
+          "type": "string",
+          "default": "\"Search\"",
+          "description": "The folded search icon's name, on a toolbar too narrow for the field. Translate at the call site."
+        },
+        {
+          "name": "closeSearchLabel",
+          "type": "string",
+          "default": "\"Close search\"",
+          "description": "The close button's name once the folded search is open."
         }
       ],
       "bases": []
@@ -9228,6 +9270,101 @@
         {
           "name": "class",
           "type": "string"
+        }
+      ],
+      "bases": []
+    },
+    {
+      "name": "FilterPopover",
+      "file": "packages/ui/src/components/list-page/filter-popover.svelte",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "icon",
+          "type": "PhosphorIcon",
+          "default": "DefaultFunnelIcon"
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "default": "0"
+        },
+        {
+          "name": "active",
+          "type": "boolean"
+        },
+        {
+          "name": "onClear",
+          "type": "() => void"
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "default": "\"start\""
+        },
+        {
+          "name": "width",
+          "type": "`w-${string}`",
+          "default": "\"w-52\""
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false",
+          "bindable": true
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "default": "\"Clear\""
+        },
+        {
+          "name": "triggerClass",
+          "type": "string"
+        },
+        {
+          "name": "contentClass",
+          "type": "string"
+        },
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": true
+        },
+        {
+          "name": "trailing",
+          "type": "Snippet"
+        }
+      ],
+      "bases": []
+    },
+    {
+      "name": "FilterItem",
+      "file": "packages/ui/src/components/list-page/filter-item.svelte",
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onclick",
+          "type": "() => void",
+          "required": true
+        },
+        {
+          "name": "variant",
+          "type": "\"checkbox\" | \"radio\"",
+          "default": "\"checkbox\""
+        },
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": true
         }
       ],
       "bases": []
@@ -9613,33 +9750,6 @@
       "bases": []
     },
     {
-      "name": "FilterItem",
-      "file": "packages/ui/src/components/list-page/filter-item.svelte",
-      "props": [
-        {
-          "name": "checked",
-          "type": "boolean",
-          "required": true
-        },
-        {
-          "name": "onclick",
-          "type": "() => void",
-          "required": true
-        },
-        {
-          "name": "variant",
-          "type": "\"checkbox\" | \"radio\"",
-          "default": "\"checkbox\""
-        },
-        {
-          "name": "children",
-          "type": "Snippet",
-          "required": true
-        }
-      ],
-      "bases": []
-    },
-    {
       "name": "PrevNext",
       "file": "packages/ui/src/components/list-page/prev-next.svelte",
       "props": [
@@ -9707,74 +9817,6 @@
         {
           "name": "class",
           "type": "string"
-        }
-      ],
-      "bases": []
-    },
-    {
-      "name": "FilterPopover",
-      "file": "packages/ui/src/components/list-page/filter-popover.svelte",
-      "props": [
-        {
-          "name": "label",
-          "type": "string",
-          "required": true
-        },
-        {
-          "name": "icon",
-          "type": "PhosphorIcon",
-          "default": "DefaultFunnelIcon"
-        },
-        {
-          "name": "count",
-          "type": "number",
-          "default": "0"
-        },
-        {
-          "name": "active",
-          "type": "boolean"
-        },
-        {
-          "name": "onClear",
-          "type": "() => void"
-        },
-        {
-          "name": "align",
-          "type": "\"start\" | \"center\" | \"end\"",
-          "default": "\"start\""
-        },
-        {
-          "name": "width",
-          "type": "`w-${string}`",
-          "default": "\"w-52\""
-        },
-        {
-          "name": "open",
-          "type": "boolean",
-          "default": "false",
-          "bindable": true
-        },
-        {
-          "name": "clearLabel",
-          "type": "string",
-          "default": "\"Clear\""
-        },
-        {
-          "name": "triggerClass",
-          "type": "string"
-        },
-        {
-          "name": "contentClass",
-          "type": "string"
-        },
-        {
-          "name": "children",
-          "type": "Snippet",
-          "required": true
-        },
-        {
-          "name": "trailing",
-          "type": "Snippet"
         }
       ],
       "bases": []
