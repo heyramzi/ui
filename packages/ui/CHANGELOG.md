@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.6.0](https://github.com/heyramzi/ui/compare/ui-v3.5.0...ui-v3.6.0) (2026-11-11)
+
+### Features
+
+* feat(ui): ChatGptWindow and ClaudeWindow draw a ChatGPT or Claude conversation for a product page (TSK-2605)
+
+### Bug Fixes
+
+* fix(ui): the chat windows' labels live in labels.ts and the ChatGPT placeholder passes contrast (TSK-2605)
+
+
 ## [3.5.0](https://github.com/heyramzi/ui/compare/ui-v3.4.0...ui-v3.5.0) (2026-11-11)
 
 ### Features
