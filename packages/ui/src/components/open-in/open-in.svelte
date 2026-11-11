@@ -14,8 +14,8 @@
 	}
 
 	/** `chip` is the bordered inline tag, `button` sits in a header beside other
-	 *  buttons, `icon` is the bare mark for a dense row. */
-	export type OpenInVariant = "chip" | "button" | "icon";
+	 *  buttons. A bare-mark form was cut: at 20px it failed WCAG 2.5.8. */
+	export type OpenInVariant = "chip" | "button";
 	export type OpenInSize = "sm" | "default";
 </script>
 
@@ -86,22 +86,21 @@
 		class={cn(
 			variant === "button"
 				? buttonVariants({ variant: "outline", size: size === "sm" ? "sm" : "default" })
-				: variant === "icon"
-					? "inline-flex shrink-0 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-					: cn(
-							"inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
-							size === "sm" ? "px-1.5 py-0.5 text-2xs" : "px-2 py-1 text-xs",
-						),
-			variant === "icon" && (size === "sm" ? "size-5" : "size-6"),
+				: cn(
+						"inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+						// WHY the button heights: the sm chip was 19px, under the 24px target
+						// floor. Under a thumb it grows to 40 and 44, and the sm hit area to 44.
+						size === "sm"
+							? "relative h-7 px-2 text-2xs after:absolute after:top-1/2 after:left-1/2 after:h-[max(100%,1.5rem)] after:w-[max(100%,1.5rem)] after:-translate-x-1/2 after:-translate-y-1/2 any-pointer-coarse:h-10 any-pointer-coarse:after:h-[max(100%,2.75rem)] any-pointer-coarse:after:w-[max(100%,2.75rem)]"
+							: "h-8 px-2.5 text-xs any-pointer-coarse:h-11 any-pointer-coarse:px-3",
+					),
 			className,
 		)}
 	>
 		<Icon aria-hidden="true" size={iconSize} />
-		{#if variant !== "icon"}
-			{text}
-			<!-- The one thing the mark can't say: this leaves the app. It stays muted
-				     so the eye lands on the tool name first. -->
-			<ArrowSquareOut aria-hidden="true" size={iconSize} class="text-muted-foreground" />
-		{/if}
+		{text}
+		<!-- The one thing the mark can't say: this leaves the app. It stays muted
+		     so the eye lands on the tool name first. -->
+		<ArrowSquareOut aria-hidden="true" size={iconSize} class="text-muted-foreground" />
 	</a>
 </div>

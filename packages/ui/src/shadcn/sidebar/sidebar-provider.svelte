@@ -14,6 +14,7 @@
 		ref = $bindable(null),
 		open = $bindable(true),
 		onOpenChange = () => {},
+		persist = true,
 		class: className,
 		style,
 		children,
@@ -21,6 +22,11 @@
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
 		open?: boolean;
 		onOpenChange?: (open: boolean) => void;
+		/**
+		 * False for a sidebar that isn't the app's shell, such as a docs demo: it then
+		 * writes no state cookie and takes no Cmd+B, so it can't fold the real one.
+		 */
+		persist?: boolean;
 	} = $props();
 
 	let openState = $state(open);
@@ -40,12 +46,13 @@
 			onOpenChange(value);
 
 			// This sets the cookie to keep the sidebar state.
-			document.cookie = `${SIDEBAR_COOKIE_NAME}=${value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+			if (persist)
+				document.cookie = `${SIDEBAR_COOKIE_NAME}=${value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
 		},
 	});
 </script>
 
-<svelte:window onkeydown={sidebar.handleShortcutKeydown} />
+<svelte:window onkeydown={persist ? sidebar.handleShortcutKeydown : undefined} />
 
 <Tooltip.Provider delayDuration={0}>
 	<!-- An h-svh frame that never scrolls: the app puts its page in a

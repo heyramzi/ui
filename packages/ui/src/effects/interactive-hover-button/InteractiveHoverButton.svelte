@@ -12,7 +12,8 @@
 		/** `submit` posts the form the button sits in. */
 		type?: "button" | "submit";
 		disabled?: boolean;
-		size?: "default" | "md" | "sm";
+		/** `sm` is 40px for a condensed bar; under a thumb both are 44px. */
+		size?: "default" | "sm";
 		tone?: "ink" | "coral";
 		beam?: boolean;
 		dot?: boolean;
@@ -43,7 +44,6 @@
 	let classes = $derived(
 		[
 			"cta-hover",
-			size === "md" && "cta-hover--md",
 			size === "sm" && "cta-hover--sm",
 			tone === "coral" && "cta-hover--coral",
 			!beam && "cta-hover--no-beam",
@@ -168,28 +168,24 @@
 			pointer-events: none;
 		}
 
-		/* 40px, between 44px and 32px, for a CTA in a condensed bar. 32px is too
-		   small to read as the main action, so only the label shrinks, to 13px. */
-		.cta-hover--md {
+		/* 40px for a CTA in a condensed bar. The old 32px was too small to read as
+		   the main action, so only the label shrinks, to 13px. */
+		.cta-hover--sm {
 			height: 40px;
 			padding: 0 24px;
 			font-size: 13px;
 		}
 
-		.cta-hover--md .cta-hover__dot {
+		.cta-hover--sm .cta-hover__dot {
 			width: 7px;
 			height: 7px;
 		}
 
-		.cta-hover--sm {
-			height: 32px;
-			padding: 0 20px;
-			font-size: 13px;
-		}
-
-		.cta-hover--sm .cta-hover__dot {
-			width: 6px;
-			height: 6px;
+		/* Under a thumb both sizes clear the 44px touch target, as Button does. */
+		@media (any-pointer: coarse) {
+			.cta-hover--sm {
+				height: 44px;
+			}
 		}
 
 		.cta-hover--no-beam::before {
@@ -344,10 +340,38 @@
 			}
 		}
 
+		/* The beam stops, and hover swaps the fill and label in place: no dot
+		   growing out, no label sliding across. */
 		@media (prefers-reduced-motion: reduce) {
 			.cta-hover::before {
 				animation: none;
 				opacity: 0;
+			}
+
+			.cta-hover,
+			.cta-hover__resting,
+			.cta-hover__dot,
+			.cta-hover__label,
+			.cta-hover__reveal,
+			:global(.cta-hover__arrow--inline) {
+				transition-property: opacity, background-color, color;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
+			.cta-hover:hover .cta-hover__dot,
+			.cta-hover:not(.cta-hover--no-dot):hover .cta-hover__resting .cta-hover__label,
+			.cta-hover:not(.cta-hover--no-dot):hover .cta-hover__reveal,
+			.cta-hover--no-dot:hover :global(.cta-hover__arrow--inline) {
+				transform: none;
+			}
+
+			.cta-hover:not(.cta-hover--no-dot):hover::after {
+				background: var(--color-signal-600);
+			}
+
+			.cta-hover--coral:not(.cta-hover--no-dot):hover::after {
+				background: var(--color-ink);
 			}
 		}
 	}
