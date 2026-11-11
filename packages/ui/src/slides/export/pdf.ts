@@ -75,6 +75,17 @@ export async function printPage(page: PageLike, options: PrintOptions = {}): Pro
   }
   await page.evaluate(() => document.fonts.ready.then(() => undefined));
   if (options.settle) await page.waitForTimeout(options.settle);
+  // WHY: a lazy or still-loading image read as broken while the PDF printed it (testimonial photos, 11 Nov 2026).
+  await page.evaluate(() =>
+    Promise.all(
+      [...document.images].map((img) => {
+        img.loading = "eager";
+        if (img.complete) return undefined;
+        const loaded = img.decode().catch(() => undefined);
+        return Promise.race([loaded, new Promise((resolve) => setTimeout(resolve, 15_000))]);
+      }),
+    ).then(() => undefined),
+  );
   const brokenImages = await page.evaluate(() =>
     [...document.images]
       .filter((img) => !img.complete || img.naturalWidth === 0)
