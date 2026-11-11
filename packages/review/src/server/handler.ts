@@ -12,7 +12,24 @@ export type ReviewHandlerOptions = {
   maxBody?: number;
   /** Extra origins allowed to write, beyond the request's own host. */
   allowedOrigins?: string[];
+  /**
+   * Host names (port ignored) this handler answers. Anything else gets a 403, because a DNS-rebound
+   * page reaches a localhost server under its own name. Default: localhost, 127.0.0.1, [::1].
+   */
+  allowedHosts?: string[];
 };
+
+const LOCAL_HOSTS = ["localhost", "127.0.0.1", "[::1]"];
+
+/** The host name in a Host header or an origin, without the port. Null when it doesn't parse. */
+function hostname(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    return new URL(value.includes("://") ? value : `http://${value}`).hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+}
 
 export type ReviewHandler = (request: IncomingMessage, response: ServerResponse) => boolean;
 
@@ -46,6 +63,8 @@ export function createReviewHandler(
   const base = options.base.replace(/\/+$/, "");
   const maxBody = options.maxBody ?? 256 * 1024;
   const streams = new Map<string, { cast: Broadcaster; unwatch: () => void }>();
+  const hosts = new Set((options.allowedHosts ?? LOCAL_HOSTS).map((host) => host.toLowerCase()));
+  const allowedHost = (value: string | undefined) => hosts.has(hostname(value) ?? "");
 
   /** One watch and one reload per video, however many pages are open on it. */
   function stream(id: string) {
@@ -99,13 +118,17 @@ export function createReviewHandler(
     });
   }
 
-  /** Stops other pages in the browser writing here. Browsers send Origin cross-site; CLIs don't. */
+  /**
+   * Stops other pages in the browser writing here. Browsers send Origin cross-site; CLIs don't.
+   * The Origin's name must be an allowed host too: after a DNS rebind, Origin and Host both carry
+   * the attacker's name, so matching them alone proves nothing.
+   */
   function sameOrigin(request: IncomingMessage): boolean {
     const origin = request.headers.origin;
     if (!origin) return true;
     if (options.allowedOrigins?.includes(origin)) return true;
     try {
-      return new URL(origin).host === request.headers.host;
+      return allowedHost(origin) && new URL(origin).host === request.headers.host;
     } catch {
       return false;
     }
@@ -142,6 +165,10 @@ export function createReviewHandler(
   return (request, response) => {
     const url = new URL(request.url ?? "/", "http://review.local");
     if (!url.pathname.startsWith(`${base}/`)) return false;
+    if (!allowedHost(request.headers.host)) {
+      problem(response, 403, "Wrong host.");
+      return true;
+    }
     const [rawId = "", route = "", ...rest] = url.pathname.slice(base.length + 1).split("/");
     let id: string;
     try {

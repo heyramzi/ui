@@ -1,4 +1,4 @@
-import { createServer, type Server } from "node:http";
+import { createServer, request, type Server } from "node:http";
 import { connect, type AddressInfo } from "node:net";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -125,6 +125,42 @@ describe("createReviewHandler", () => {
   it("takes a write from its own origin and from a client that sends none", async () => {
     expect((await postFrom(url)).status).toBe(200);
     expect((await post({ type: "refresh" })).status).toBe(200);
+  });
+  /** fetch won't set Host, so a DNS-rebound request is sent by hand. */
+  const rebound = (path: string, method = "GET") =>
+    new Promise<number>((done, failed) => {
+      const req = request(
+        {
+          port: (server.address() as AddressInfo).port,
+          host: "localhost",
+          path,
+          method,
+          headers: {
+            host: "evil.example:3350",
+            origin: "http://evil.example:3350",
+            "content-type": "application/json",
+          },
+        },
+        (res) => {
+          res.resume();
+          done(res.statusCode ?? 0);
+        },
+      );
+      req.on("error", failed);
+      req.end(method === "POST" ? JSON.stringify({ type: "refresh" }) : undefined);
+    });
+  it("refuses every route when the Host isn't localhost (DNS rebinding)", async () => {
+    const before = seen.length;
+    expect(await rebound("/review/v1/state")).toBe(403);
+    expect(await rebound("/review/v1/library")).toBe(403);
+    expect(await rebound("/review/v1/media?file=clip.bin")).toBe(403);
+    expect(await rebound("/review/v1/events")).toBe(403);
+    expect(await rebound("/review/v1/act", "POST")).toBe(403);
+    expect(seen.length).toBe(before);
+  });
+  it("takes 127.0.0.1 as a Host", async () => {
+    const port = (server.address() as AddressInfo).port;
+    expect((await fetch(`http://127.0.0.1:${port}/review/v1/state`)).status).toBe(200);
   });
   it("stays up when a client drops mid-upload", async () => {
     const socket = connect((server.address() as AddressInfo).port, "localhost");
