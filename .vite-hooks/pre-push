@@ -48,8 +48,8 @@ __PUSH_REFS
   # A pure move (R100) changes nothing. Projections and the Editor OS plugin build are generated and judged at their source.
   PUSH_FILES=$(printf '%s\n' "$PUSH_FILES" | grep -vE '^\.(agents|claude|opencode|gemini)/|^\.github/skills/|^plugins/editor-os/(agents|bin|descript|edit|motion|skills|studio)/' || true)
 fi
-# Gates read files from disk. When the working tree holds anything other than the pushed tip
-# (another session's half-edit, or a fix not yet committed), they read a temporary worktree of the tip.
+# Gates read from disk, so a working tree that differs from the pushed tip (another session's half-edit)
+# sends them to a temporary worktree of the tip.
 if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __push_stale=0
   [ "$(git rev-parse --verify --quiet HEAD || true)" = "$__push_tip" ] || __push_stale=1
@@ -66,11 +66,11 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     __push_wt=$(mktemp -d "$(dirname "$__push_real")/.push-gate-$(basename "$__push_real").XXXXXX")
     __push_links="$__push_wt.links"
     : > "$__push_links"
-    # The links go first: a recursive delete must never reach the real node_modules behind them.
-    # A linked worktree built by hand, not `git worktree add`: the same .git file, refs, objects and config, but
-    # nothing in .git/worktrees, which Orca listed as a detached HEAD coming and going on every push (29 Oct 2026).
+    # Built by hand, not `git worktree add`, so .git/worktrees stays empty: Orca listed each push's checkout as a
+    # detached HEAD (29 Oct 2026).
     __push_common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
     __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
+    # The links go first: a recursive delete must never reach the real node_modules behind them.
     trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; rm -rf "$__push_wt" "$__push_admin"; rm -f "$__push_links"' EXIT
     trap 'exit 130' INT TERM HUP
     mkdir -p "$__push_admin" || exit 1
@@ -80,8 +80,8 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     # The explicit dirs and the unset index keep an inherited GIT_DIR or GIT_INDEX_FILE from resetting the real checkout.
     env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$__push_admin" --work-tree="$__push_wt" \
       -c core.hooksPath=/dev/null read-tree --reset -u HEAD || exit 1
-    # A worktree lacks node_modules and generated output (paraglide, .svelte-kit, .wxt), so fallow called every message import unresolved.
-    ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm"
+    # A worktree lacks node_modules, generated output and the gitignored .impeccable config: fallow called imports unresolved, the design gate flagged brand fonts (TSK-2432).
+    ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt -o -name .impeccable \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm"
     while IFS= read -r __push_nm; do
       __push_nm=${__push_nm#./}
       if [ ! -d "$__push_wt/$(dirname "$__push_nm")" ] || [ -e "$__push_wt/$__push_nm" ]; then
@@ -104,9 +104,9 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     cd "$__push_wt"
     # pnpm's install before a script wrote through the links and repointed the real .bin shims at this worktree.
     export pnpm_config_verify_deps_before_run=false
-    # A detached HEAD has no upstream, so push-diff takes its base from here.
-    if [ -z "${PUSH_BASE-}" ] && [ -n "${__push_base-}" ]; then export PUSH_BASE="$__push_base"; fi
   fi
+  # A detached HEAD, like git-sync-main's replay checkout, has no upstream: push-diff fell back to origin/HEAD.
+  if [ -z "${PUSH_BASE-}" ] && [ -n "${__push_base-}" ]; then export PUSH_BASE="$__push_base"; fi
 fi
 export PUSH_FILES
 __push_code=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|svelte)$' || true)
@@ -117,7 +117,7 @@ __push_code=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|sv
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __cl_root=$(git rev-parse --show-toplevel)
-  __cl_bin="$HOME/Studio/vibe-kit/packages/lint/bin/heyramzi-comment-length.js"
+  __cl_bin="$HOME/Studio/upsys/kit/packages/lint/bin/heyramzi-comment-length.js"
   [ -f "$__cl_bin" ] || __cl_bin="$__cl_root/node_modules/@heyramzi/lint/bin/heyramzi-comment-length.js"
   if [ -z "${__push_code-}" ]; then
     echo "comment-length: skip (no code in this push)"
@@ -158,7 +158,7 @@ fi
 # The slop check over this repo's copy. Installed by
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
-  __sl_check="$HOME/Studio/vibe-kit/ai-doc/scripts/slop-check.mjs"
+  __sl_check="$HOME/Studio/upsys/kit/ai-doc/scripts/slop-check.mjs"
   if [ -f "$__sl_check" ]; then
     echo "slop: checking ..."
     ( cd "$(git rev-parse --show-toplevel)" && __sl_files=$(node "$__sl_check" --list) && printf '%s\n' "$__sl_files" | node -e '
@@ -169,8 +169,10 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
       process.stdin.on("data", d => input += d).on("end", () => {
         const files = input.split("\n").filter(f => pushed.has(f) && existsSync(f));
         if (!files.length) return;
-        process.exit(spawnSync("node", [process.argv[1], ...files], { stdio: "inherit" }).status ?? 1);
-      });' "$HOME/Studio/vibe-kit/packages/lint/bin/heyramzi-slop.js" ) || exit 1
+        const status = spawnSync("node", [process.argv[1], ...files], { stdio: "inherit" }).status ?? 1;
+        if (status !== 0) spawnSync("node", [process.argv[2], "--hint", ...files], { stdio: "inherit" });
+        process.exit(status);
+      });' "$HOME/Studio/upsys/kit/packages/lint/bin/heyramzi-slop.js" "$__sl_check" ) || exit 1
     # Instruction files aren't copy, so they get the one check every file passes: no dashes.
     # Vendored text is replaced whole on its next upgrade, so it's skipped.
     __sl_docs=$(printf '%s\n' "$PUSH_FILES" | grep -E '^ai-doc/.*\.md$|(^|/)(AGENTS|CLAUDE|GEMINI|CODING_STANDARDS)\.md$' \
@@ -178,7 +180,7 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
     if [ -n "$__sl_docs" ]; then
       echo "slop: instruction files, dashes ..."
       ( cd "$(git rev-parse --show-toplevel)" && printf '%s\n' "$__sl_docs" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \
-        | xargs -0 sh -c 'if [ $# -gt 0 ]; then exec node "$0" --only=dash "$@"; fi' "$HOME/Studio/vibe-kit/packages/lint/bin/heyramzi-slop.js" ) || exit 1
+        | xargs -0 sh -c 'if [ $# -gt 0 ]; then exec node "$0" --only=dash "$@"; fi' "$HOME/Studio/upsys/kit/packages/lint/bin/heyramzi-slop.js" ) || exit 1
     fi
   else
     echo "slop: skip (no vibe-kit checkout)"
@@ -195,7 +197,8 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   [ -x "$__design_bin" ] || __design_bin="$__design_root/.agents/skills/impeccable/scripts/impeccable"
   [ -x "$__design_bin" ] || __design_bin="$HOME/.agents/skills/impeccable/scripts/impeccable"
   # A sync replaces .upstream/ copies whole, so their upstream style isn't ours to judge.
-  __design_files=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(tsx|jsx|html|vue|svelte|astro|css|scss|sass|less|ts|js)$' | grep -v '/skills/impeccable/' | grep -v 'node_modules/' | grep -vE '(^|/)playground/' | grep -v '/\.upstream/' | grep -v '/inputs/' | grep -vE '(^|/)(emails?|[a-z-]*email-templates|resend-templates)/|(^|/)emails?\.(ts|js)$' || true)
+  # upsys's kit/ isn't held to upsys's DESIGN.md: its fmt and lint skip kit/** for the same reason.
+  __design_files=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(tsx|jsx|html|vue|svelte|astro|css|scss|sass|less|ts|js)$' | grep -v '^kit/' | grep -v '/skills/impeccable/' | grep -v 'node_modules/' | grep -vE '(^|/)playground/' | grep -v '/\.upstream/' | grep -v '/inputs/' | grep -vE '(^|/)(emails?|[a-z-]*email-templates|resend-templates)/|(^|/)emails?\.(ts|js)$|(^|/)[a-z0-9-]*-email\.html$' || true)
   if [ -z "$__design_files" ]; then
     echo "design: skip (no UI files in this push)"
   elif [ ! -x "$__design_bin" ]; then
@@ -212,7 +215,7 @@ fi
 # Disallow inline SVG paths in components across the repo. SVGs must be separate
 # files (.svg) and imported. Installed by vibe-kit/ai-doc/scripts/pre-push-hooks.sh.
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
-  __ip_check="$HOME/Studio/vibe-kit/ai-doc/scripts/inline-path-check.mjs"
+  __ip_check="$HOME/Studio/upsys/kit/ai-doc/scripts/inline-path-check.mjs"
   if ! printf '%s\n' "$PUSH_FILES" | grep -qE '\.(svelte|vue|jsx|tsx)$'; then
     echo "inline-path: skip (no components in this push)"
   elif [ -f "$__ip_check" ]; then
@@ -229,7 +232,7 @@ fi
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __pg_root=$(git rev-parse --show-toplevel)
-  __pg_lint="$HOME/Studio/vibe-kit/packages/lint/bin"
+  __pg_lint="$HOME/Studio/upsys/kit/packages/lint/bin"
   [ -d "$__pg_lint" ] || __pg_lint="$__pg_root/node_modules/@heyramzi/lint/bin"
   for __pg_gate in ui-rules svelte-markup push-diff old-names; do
     [ -f "$__pg_lint/heyramzi-$__pg_gate.js" ] || continue
@@ -242,7 +245,7 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   # Only repos a stranger or a buyer reads: ai-agency is public, agency-os ships to buyers.
   case "$(basename "$__pg_root")" in
     ai-agency | agency-os)
-      ( cd "$__pg_root" && node "$HOME/Studio/vibe-kit/ai-doc/scripts/check-public-hygiene.mjs" ) || exit 1 ;;
+      ( cd "$__pg_root" && node "$HOME/Studio/upsys/kit/ai-doc/scripts/check-public-hygiene.mjs" ) || exit 1 ;;
   esac
 fi
 # <<< push gates (managed) <<<

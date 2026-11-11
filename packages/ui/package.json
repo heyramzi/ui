@@ -317,7 +317,7 @@
     "sync": "pnpm sync:transitions && pnpm sync:shadcn",
     "sync:check": "node scripts/sync-transitions.mjs --check && node scripts/sync-shadcn.mjs --check",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "build": "node ../../../vibe-kit/scripts/build-dist.mjs",
+    "build": "node ../../../upsys/kit/scripts/build-dist.mjs",
     "prepack": "pnpm build && node scripts/svelte-dts.mjs",
     "postpack": "node scripts/svelte-dts.mjs --clean"
   },
