@@ -14,7 +14,7 @@
 
 {#snippet tally()}
 	<span class="grid size-4 place-items-center rounded-[4px] bg-teal-700 text-white">
-		<Timer size={11} weight="bold" />
+		<Timer size={11} weight="bold" aria-hidden="true" />
 	</span>
 {/snippet}
 

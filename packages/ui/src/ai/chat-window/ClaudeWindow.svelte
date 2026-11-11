@@ -1,24 +1,6 @@
 <script lang="ts" module>
+	import type { ClaudeLabels } from "#src/ai/chat-window/labels.js";
 	import type { ChatMessage, ChatTheme } from "#src/ai/chat-window/types.js";
-
-	/** Every string the window prints itself. `{name}` is the connector's name. */
-	export interface ClaudeLabels {
-		running: string;
-		done: string;
-		share: string;
-		disclaimer: string;
-		userSaid: string;
-		assistantSaid: string;
-	}
-
-	export const CLAUDE_LABELS: ClaudeLabels = {
-		running: "Using {name}",
-		done: "Used {name}",
-		share: "Share",
-		disclaimer: "Claude can make mistakes. Please double-check responses.",
-		userSaid: "You said:",
-		assistantSaid: "Claude said:",
-	};
 
 	export interface ClaudeWindowProps {
 		/** The conversation's name, shown in the bar and read out as the picture's label. */
@@ -48,6 +30,7 @@
 	// =========================
 	import ChatGlyph from "#src/ai/chat-window/ChatGlyph.svelte";
 	import { CLAUDE_ICONS as I } from "#src/ai/chat-window/icons.js";
+	import { CLAUDE_LABELS } from "#src/ai/chat-window/labels.js";
 	import { createReveal } from "#src/ai/chat-window/reveal.svelte.js";
 	import { fillName } from "#src/ai/chat-window/types.js";
 

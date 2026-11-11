@@ -1,16 +1,14 @@
 import ChatGptWindow from "#src/ai/chat-window/ChatGptWindow.svelte";
 import ClaudeWindow from "#src/ai/chat-window/ClaudeWindow.svelte";
 
+export type { ChatGptWindowProps } from "#src/ai/chat-window/ChatGptWindow.svelte";
+export type { ClaudeWindowProps } from "#src/ai/chat-window/ClaudeWindow.svelte";
 export {
   CHATGPT_LABELS,
-  type ChatGptLabels,
-  type ChatGptWindowProps,
-} from "#src/ai/chat-window/ChatGptWindow.svelte";
-export {
   CLAUDE_LABELS,
+  type ChatGptLabels,
   type ClaudeLabels,
-  type ClaudeWindowProps,
-} from "#src/ai/chat-window/ClaudeWindow.svelte";
+} from "#src/ai/chat-window/labels.js";
 export {
   REVEAL_BEATS,
   revealSchedule,

@@ -1,24 +1,6 @@
 <script lang="ts" module>
+	import type { ChatGptLabels } from "#src/ai/chat-window/labels.js";
 	import type { ChatMessage, ChatTheme } from "#src/ai/chat-window/types.js";
-
-	/** Every string the window prints itself. `{name}` is the connector's name. */
-	export interface ChatGptLabels {
-		running: string;
-		done: string;
-		share: string;
-		disclaimer: string;
-		userSaid: string;
-		assistantSaid: string;
-	}
-
-	export const CHATGPT_LABELS: ChatGptLabels = {
-		running: "Calling {name}",
-		done: "Used {name}",
-		share: "Share",
-		disclaimer: "ChatGPT can make mistakes. Check important info.",
-		userSaid: "You said:",
-		assistantSaid: "ChatGPT said:",
-	};
 
 	export interface ChatGptWindowProps {
 		/** The conversation's name, read out as the picture's label. */
@@ -48,6 +30,7 @@
 	// =========================
 	import ChatGlyph from "#src/ai/chat-window/ChatGlyph.svelte";
 	import { CHATGPT_ICONS as I } from "#src/ai/chat-window/icons.js";
+	import { CHATGPT_LABELS } from "#src/ai/chat-window/labels.js";
 	import { createReveal } from "#src/ai/chat-window/reveal.svelte.js";
 	import { fillName } from "#src/ai/chat-window/types.js";
 
@@ -183,7 +166,7 @@
 			--gpt-bubble: light-dark(#f4f4f4, #303030);
 			--gpt-ink: light-dark(#0d0d0d, #ffffff);
 			--gpt-soft: light-dark(#5d5d5d, #afafaf);
-			--gpt-faint: light-dark(#8f8f8f, #8f8f8f);
+			--gpt-faint: light-dark(#767676, #979797);
 			--gpt-line: light-dark(rgb(13 13 13 / 0.07), rgb(255 255 255 / 0.1));
 			--gpt-rim: light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.12));
 			--gpt-composer: light-dark(#ffffff, #303030);
