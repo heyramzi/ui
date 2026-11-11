@@ -82,25 +82,28 @@
 	{#if count > 0}
 		<p class="hr-sr-only" aria-live="polite">{announce}</p>
 	{/if}
-	<table class="hr-sr-only">
-		<caption>{label}</caption>
-		<thead>
-			<tr>
-				<th scope="col">{table.xLabel}</th>
-				{#each table.columns as column, j (j)}
-					<th scope="col">{column}</th>
-				{/each}
-			</tr>
-		</thead>
-		<tbody>
-			{#each table.rows as row, i (i)}
+	<!-- A table ignores width: 1px and spills past the page, so the clipping box is a div. -->
+	<div class="hr-sr-only">
+		<table>
+			<caption>{label}</caption>
+			<thead>
 				<tr>
-					<th scope="row">{row.x}</th>
-					{#each row.cells as cell, j (j)}
-						<td>{cell}</td>
+					<th scope="col">{table.xLabel}</th>
+					{#each table.columns as column, j (j)}
+						<th scope="col">{column}</th>
 					{/each}
 				</tr>
-			{/each}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{#each table.rows as row, i (i)}
+					<tr>
+						<th scope="row">{row.x}</th>
+						{#each row.cells as cell, j (j)}
+							<td>{cell}</td>
+						{/each}
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
 {/if}
