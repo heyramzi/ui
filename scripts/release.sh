@@ -4,9 +4,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# prepack builds with ../vibe-kit, so a checkout outside ~/Studio tags and pushes, then packs nothing.
-if [ ! -d ../vibe-kit ]; then
-  echo "release: no ../vibe-kit beside this checkout. Use a worktree under ~/Studio: git worktree add ../.ui-release-\$\$ origin/main" >&2
+# prepack builds with ../upsys/kit, so a checkout outside ~/Studio tags and pushes, then packs nothing.
+if [ ! -d ../upsys/kit ]; then
+  echo "release: no ../upsys/kit beside this checkout. Use a worktree under ~/Studio: git worktree add ../.ui-release-\$\$ origin/main" >&2
   exit 1
 fi
 
