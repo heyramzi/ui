@@ -114,6 +114,20 @@ export const chatNotes: Record<string, A11yNote> = {
       "With reduced motion on, the state swap doesn't animate.",
     ],
   },
+  "chatgpt-window": {
+    notes: [
+      "The window is a figure named after the conversation. A screen reader gets the messages as text, each opened by who said it, and skips the bar, the composer and the icons.",
+      "Nothing in it takes focus or answers a click: every control is a drawing.",
+      "With reduced motion on, the reveal doesn't play and the finished conversation shows.",
+    ],
+  },
+  "claude-window": {
+    notes: [
+      "The window is a figure named after the conversation. A screen reader gets the messages as text, each opened by who said it, and skips the bar, the composer and the icons.",
+      "Nothing in it takes focus or answers a click: every control is a drawing.",
+      "With reduced motion on, the reveal doesn't play and the finished conversation shows.",
+    ],
+  },
   "chat-typing": {
     notes: [
       "With no label, the dots are hidden from screen readers.",

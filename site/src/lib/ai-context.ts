@@ -72,6 +72,8 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/ai/prompt-input/PromptInput.svelte",
     "../../../packages/ui/src/ai/response/Response.svelte",
     "../../../packages/ui/src/ai/typing-dots/TypingDots.svelte",
+    "../../../packages/ui/src/ai/chat-window/ChatGptWindow.svelte",
+    "../../../packages/ui/src/ai/chat-window/ClaudeWindow.svelte",
     "../../../packages/ui/src/tokens/palette.css",
     "../../../packages/ui/src/brand/index.ts",
     "../../../packages/ui/src/icons/sf-symbols.ts",

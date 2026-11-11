@@ -204,6 +204,8 @@ export const sections: Section[] = [
           "loading-state",
           "generation-progress",
           "voice-waveform",
+          "chatgpt-window",
+          "claude-window",
         ],
       },
       { title: "Agents", items: ["agent-avatar", "agent-cast"] },

@@ -447,6 +447,20 @@ export const meta: Record<string, Meta> = {
     description: "Ask box with suggestions and send states.",
     height: 300,
   },
+  "chatgpt-window": {
+    title: "ChatGPT window",
+    icon: "prompt",
+    description:
+      "A picture of a ChatGPT conversation that calls your connector, for a product page.",
+    height: 620,
+  },
+  "claude-window": {
+    title: "Claude window",
+    icon: "prompt",
+    description:
+      "A picture of a Claude conversation that calls your connector, for a product page.",
+    height: 620,
+  },
   "chat-typing": {
     title: "Typing dots",
     icon: "typing",

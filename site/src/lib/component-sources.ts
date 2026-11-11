@@ -136,6 +136,16 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/slides/Fragment.svelte",
   ],
   "ai-prompt": ["packages/ui/src/ai/prompt-input/PromptInput.svelte"],
+  "chatgpt-window": [
+    "packages/ui/src/ai/chat-window/ChatGptWindow.svelte",
+    "packages/ui/src/ai/chat-window/reveal.svelte.ts",
+    "packages/ui/src/ai/chat-window/types.ts",
+  ],
+  "claude-window": [
+    "packages/ui/src/ai/chat-window/ClaudeWindow.svelte",
+    "packages/ui/src/ai/chat-window/reveal.svelte.ts",
+    "packages/ui/src/ai/chat-window/types.ts",
+  ],
   "chat-typing": ["packages/ui/src/ai/typing-dots/TypingDots.svelte"],
   colors: ["packages/ui/src/tokens/palette.css"],
   theming: ["packages/ui/src/brand/index.ts"],

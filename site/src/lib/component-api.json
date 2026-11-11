@@ -3503,6 +3503,81 @@
       ]
     }
   ],
+  "chatgpt-window": [
+    {
+      "name": "ChatGptWindow",
+      "file": "packages/ui/src/ai/chat-window/ChatGptWindow.svelte",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "The conversation's name, read out as the picture's label."
+        },
+        {
+          "name": "messages",
+          "type": "ChatMessage[]",
+          "required": true
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "default": "\"ChatGPT\"",
+          "description": "The picker in the bar."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"Ask anything\""
+        },
+        {
+          "name": "theme",
+          "type": "ChatTheme",
+          "values": ["\"light\"", "\"dark\"", "\"auto\""],
+          "default": "\"auto\""
+        },
+        {
+          "name": "reveal",
+          "type": "boolean",
+          "default": "false",
+          "description": "Plays the messages in once the window is on screen. Off, it is a still."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "description": "With `reveal`, plays each time this turns on, for a rotator."
+        },
+        {
+          "name": "ondone",
+          "type": "() => void",
+          "description": "Called after the reveal ends and `hold` ms have passed."
+        },
+        {
+          "name": "hold",
+          "type": "number",
+          "default": "4000"
+        },
+        {
+          "name": "frame",
+          "type": "boolean",
+          "default": "true",
+          "description": "Draws macOS's traffic lights, as the desktop app."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<ChatGptLabels>",
+          "default": "{}"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "bases": []
+    }
+  ],
   "checkbox": [
     {
       "name": "Checkbox",
@@ -3539,6 +3614,81 @@
           "omit": ["child", "children"]
         }
       ]
+    }
+  ],
+  "claude-window": [
+    {
+      "name": "ClaudeWindow",
+      "file": "packages/ui/src/ai/chat-window/ClaudeWindow.svelte",
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "The conversation's name, shown in the bar and read out as the picture's label."
+        },
+        {
+          "name": "messages",
+          "type": "ChatMessage[]",
+          "required": true
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "default": "\"Opus 5.5\"",
+          "description": "The model picker in the composer."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"Reply to Claude…\""
+        },
+        {
+          "name": "theme",
+          "type": "ChatTheme",
+          "values": ["\"light\"", "\"dark\"", "\"auto\""],
+          "default": "\"auto\""
+        },
+        {
+          "name": "reveal",
+          "type": "boolean",
+          "default": "false",
+          "description": "Plays the messages in once the window is on screen. Off, it is a still."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "description": "With `reveal`, plays each time this turns on, for a rotator."
+        },
+        {
+          "name": "ondone",
+          "type": "() => void",
+          "description": "Called after the reveal ends and `hold` ms have passed."
+        },
+        {
+          "name": "hold",
+          "type": "number",
+          "default": "4000"
+        },
+        {
+          "name": "frame",
+          "type": "boolean",
+          "default": "true",
+          "description": "Draws macOS's traffic lights, as the desktop app."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<ClaudeLabels>",
+          "default": "{}"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": "\"\""
+        }
+      ],
+      "bases": []
     }
   ],
   "code-block": [

@@ -125,6 +125,7 @@ Named exports from `@heyramzi/ui/effects/<name>`, e.g.
 Imported from `@heyramzi/ui/ai/<name>`, e.g. `import { AiButton } from "@heyramzi/ui/ai/ai-button"`.
 
 - `ai-button` — AiButton
+- `chat-window` — ChatGptWindow, ClaudeWindow: still or playing pictures of a ChatGPT or Claude conversation for a marketing page, with a connector call row. `messages` takes user text, assistant text or a snippet, and tool steps; every printed string is a prop
 - `confirmation` — Confirmation, ConfirmationTitle, ConfirmationState (`when` names the kind it shows), ConfirmationActions, ConfirmationAction, type ConfirmationKind
 - `generation-progress` — GenerationProgress
 - `loading-state` — PixelLoader
