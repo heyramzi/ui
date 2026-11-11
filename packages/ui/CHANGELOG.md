@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.4.0](https://github.com/heyramzi/ui/compare/ui-v3.3.1...ui-v3.4.0) (2026-11-11)
+
+### Features
+
+* feat(ui): DocumentView renders a parsed page inline, no iframe (TSK-2417)
+
+### Bug Fixes
+
+* fix(ui): DocumentView styles sit in the components layer (TSK-2417)
+* fix(charts): clip the screen-reader table in a div so it can't widen the page
+
+
 ## [3.3.1](https://github.com/heyramzi/ui/compare/ui-v3.3.0...ui-v3.3.1) (2026-11-10)
 
 ### Bug Fixes
