@@ -47,7 +47,7 @@ export function htmlToPlainText(html: string): string {
       .replace(/&gt;/g, ">")
       .trim();
   }
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  return div.textContent || div.innerText || "";
+  // A DOMParser document has no browsing context, so nothing in the markup loads or runs.
+  // An element from document.createElement belongs to the live page: an <img onerror> fires.
+  return new DOMParser().parseFromString(html, "text/html").body.textContent ?? "";
 }

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
-import { copyRichText, copyText } from "#src/components/copy/clipboard.js";
+import { copyRichText, copyText, htmlToPlainText } from "#src/components/copy/clipboard.js";
 
 // Mock navigator.clipboard
 const mockClipboard = {
@@ -202,5 +202,21 @@ describe("htmlToPlainText (server-side)", () => {
     await copyRichText("Hello&nbsp;World &amp; Friends &lt;3&gt;");
 
     expect(mockWriteText).toHaveBeenCalledWith("Hello World & Friends <3>");
+  });
+});
+
+describe("htmlToPlainText (browser)", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it("parses into an inert document, so an onerror in the markup never runs", async () => {
+    const win = window as Window & { __fired?: boolean };
+    win.__fired = false;
+    const createElement = vi.spyOn(document, "createElement");
+    expect(htmlToPlainText('<img src="x" onerror="window.__fired=true">hi')).toBe("hi");
+    await new Promise((done) => setTimeout(done, 10));
+    expect(win.__fired).toBe(false);
+    // jsdom loads no images, so the onerror can't fire here either way: the live-document
+    // element the old code built is what a real browser runs the handler on.
+    expect(createElement).not.toHaveBeenCalled();
   });
 });
