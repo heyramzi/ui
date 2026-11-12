@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# This repo's own push check, run by the managed hook with PUSH_FILES set.
+set -eu
+# Types, lint and the related tests over the pushed files and the files importing them.
+node scripts/gate.mjs

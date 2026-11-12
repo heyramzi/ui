@@ -9,6 +9,7 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "test:gallery": "pnpm --filter site test:gallery",
+    "gate": "node scripts/gate.mjs",
     "verify": "pnpm check && pnpm test && pnpm lint",
     "lint": "vp fmt --check . && vp lint -c .oxlintrc.json . && pnpm lint:comment-length",
     "lint:fix": "vp fmt . && vp lint -c .oxlintrc.json --fix .",

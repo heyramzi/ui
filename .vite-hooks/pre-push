@@ -112,6 +112,11 @@ export PUSH_FILES
 __push_code=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|svelte)$' || true)
 # <<< push scope (managed) <<<
 
+# >>> repo pre-push (managed) >>>
+# This repo's own checks, in its tracked scripts/hooks/pre-push.
+sh scripts/hooks/pre-push </dev/null || exit 1
+# <<< repo pre-push (managed) <<<
+
 # >>> comment-length pre-push guard (managed) >>>
 # The 30-word comment cap, packages/lint/README.md in vibe-kit. Installed by
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
@@ -176,7 +181,7 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
     # Instruction files aren't copy, so they get the one check every file passes: no dashes.
     # Vendored text is replaced whole on its next upgrade, so it's skipped.
     __sl_docs=$(printf '%s\n' "$PUSH_FILES" | grep -E '^ai-doc/.*\.md$|(^|/)(AGENTS|CLAUDE|GEMINI|CODING_STANDARDS)\.md$' \
-      | grep -vE '^ai-doc/references/demandcurve/|^ai-doc/skills/content/video/tesseract-video/|^ai-doc/skills/engineering/security/security-audit/|/motion-design/references/remotion/|/anti-ai-slop/references/color-expert\.md$' || true)
+      | grep -vE '^ai-doc/references/demandcurve/|^ai-doc/skills/content/video/tesseract-video/|^ai-doc/skills/engineering/security/security-audit/|/motion-design/references/remotion/|/anti-ai-slop/references/color-expert\.md$|^ai-doc/skills/apple/release/app-store-screenshots/' || true)
     if [ -n "$__sl_docs" ]; then
       echo "slop: instruction files, dashes ..."
       ( cd "$(git rev-parse --show-toplevel)" && printf '%s\n' "$__sl_docs" | while IFS= read -r f; do [ -f "$f" ] && printf '%s\0' "$f"; done \

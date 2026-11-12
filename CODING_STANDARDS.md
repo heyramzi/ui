@@ -21,3 +21,16 @@ Read only the rows that match the files or operation in this task. The linked ru
 For repository-specific implementation or runtime operations, read **Repository conventions** below, if present. For design, integrations, product decisions or releases, follow the **Task references** for that subject. Nested instruction files add local exceptions.
 
 <!-- vibekit:coding-standards:end -->
+
+## Repository conventions
+
+```bash
+pnpm gate <your paths>          # check-changed over your files and the files importing them: lint, types, related tests
+pnpm gate                       # the same over everything since origin/main, other sessions' edits included
+pnpm gate --list <your paths>   # what it would check, and nothing else
+FULL_CHECK=1 pnpm verify        # every package's whole svelte-check, every unit test, whole-repo lint
+pnpm release                    # runs FULL_CHECK=1 pnpm verify and the gallery suite before it publishes
+```
+
+- The push runs the same gate over the pushed files. A changed `pnpm-lock.yaml`, `tsconfig.json`, `svelte.config.js` or `.d.ts` runs that package's whole `check` inside it, because no import reaches the files it affects.
+- `verify` is for a dependency upgrade, an export renamed across packages, or a gate scope in doubt. CI and the release run it, so a publish never ships on a scoped check.
