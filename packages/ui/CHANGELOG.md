@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.9.0](https://github.com/heyramzi/ui/compare/ui-v3.8.0...ui-v3.9.0) (2026-11-12)
+
+### Features
+
+* feat(ui): built-in accessible labels take a prop, closeLabel on sheet and dialog (TSK-2735)
+
+### Bug Fixes
+
+* fix(ui): AlertDialog.Cancel est type=button par défaut, comme Dialog.Close (TSK-2744)
+
+
 ## [3.8.0](https://github.com/heyramzi/ui/compare/ui-v3.7.1...ui-v3.8.0) (2026-11-12)
 
 ### Features
