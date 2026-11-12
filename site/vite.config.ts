@@ -2,12 +2,14 @@ import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { devFavicon } from "@heyramzi/utils/vite";
 import { defineConfig } from "vite-plus";
 // The source file, since the package's dist only exists after a build.
 import { flagAssets } from "../packages/ui/src/vite/flags.ts";
 
 export default defineConfig({
   plugins: [
+    devFavicon(),
     flagAssets(),
     tailwindcss(),
     sveltekit({
