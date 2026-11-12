@@ -235,15 +235,15 @@
 {#snippet kindIcon(file: File)}
 	{@const kind = fileKind(file)}
 	{#if kind === "pdf"}
-		<FilePdf weight="regular" />
+		<FilePdf weight="regular" aria-hidden="true" />
 	{:else if kind === "image"}
-		<FileImage weight="regular" />
+		<FileImage weight="regular" aria-hidden="true" />
 	{:else if kind === "csv"}
-		<FileCsv weight="regular" />
+		<FileCsv weight="regular" aria-hidden="true" />
 	{:else if kind === "sheet"}
-		<FileXls weight="regular" />
+		<FileXls weight="regular" aria-hidden="true" />
 	{:else}
-		<FileIcon weight="regular" />
+		<FileIcon weight="regular" aria-hidden="true" />
 	{/if}
 {/snippet}
 
@@ -291,7 +291,7 @@
 				aria-hidden="true"
 				class="mb-3 grid size-10 place-items-center rounded-lg bg-background text-muted-foreground shadow-[var(--elev-hairline)] transition-[translate,color] duration-fast ease-smooth-out group-hover/zone:text-foreground group-data-dragging/zone:-translate-y-0.5 group-data-dragging/zone:text-primary motion-reduce:transition-none motion-reduce:group-data-dragging/zone:translate-y-0"
 			>
-				<UploadSimple class="size-5" weight="regular" />
+				<UploadSimple class="size-5" weight="regular" aria-hidden="true" />
 			</span>
 			<span class="text-sm font-medium text-foreground">
 				{dragging ? text.dragging : text.title}
@@ -328,7 +328,7 @@
 								{disabled}
 								onclick={() => remove(file)}
 							>
-								<X weight="bold" />
+								<X weight="bold" aria-hidden="true" />
 							</Attachment.Action>
 						</Attachment.Actions>
 					</Attachment.Root>
