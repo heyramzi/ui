@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.8.0](https://github.com/heyramzi/ui/compare/ui-v3.7.1...ui-v3.8.0) (2026-11-12)
+
+### Features
+
+* feat(ui): file-drop-zone, a drop zone over a real file input (TSK-2686)
+* feat(ui): port shadcn-svelte's latest moves, track kbd, split usage snippets (TSK-2402)
+
+### Bug Fixes
+
+* fix(ui): file-drop-zone icons hidden from screen readers (TSK-2686)
+* fix(ui): file-drop-zone thumbnails render with their src set (TSK-2686)
+* fix(ui): a pack no longer leaves scripts/lib/svelte-modules.d.mts behind (TSK-2605)
+
+
 ## [3.7.1](https://github.com/heyramzi/ui/compare/ui-v3.7.0...ui-v3.7.1) (2026-11-12)
 
 ### Bug Fixes
