@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.7.0](https://github.com/heyramzi/ui/compare/ui-v3.6.0...ui-v3.7.0) (2026-11-12)
+
+### Features
+
+* feat(ui): OpenIn is chip or button, InteractiveHoverButton is default or sm (TSK-2381)
+
+
 ## [3.6.0](https://github.com/heyramzi/ui/compare/ui-v3.5.0...ui-v3.6.0) (2026-11-11)
 
 ### Features
