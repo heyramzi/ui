@@ -2,7 +2,6 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import type { Attachment as Attach } from "svelte/attachments";
 	import {
 		File as FileIcon,
 		FileCsv,
@@ -211,14 +210,25 @@
 		input?.click();
 	}
 
-	// A blob URL for an image's thumbnail, freed when the row goes.
-	const preview =
-		(file: File): Attach<HTMLImageElement> =>
-		(img) => {
-			const url = URL.createObjectURL(file);
-			img.src = url;
-			return () => URL.revokeObjectURL(url);
-		};
+	// One blob URL per image thumbnail, freed when its file leaves the list or the zone unmounts.
+	const urls = new Map<File, string>();
+	function thumb(file: File) {
+		let url = urls.get(file);
+		if (!url) urls.set(file, (url = URL.createObjectURL(file)));
+		return url;
+	}
+	$effect(() => {
+		const live = new Set(files);
+		for (const [file, url] of urls) {
+			if (live.has(file)) continue;
+			URL.revokeObjectURL(url);
+			urls.delete(file);
+		}
+	});
+	$effect(() => () => {
+		for (const url of urls.values()) URL.revokeObjectURL(url);
+		urls.clear();
+	});
 	const canPreview = typeof URL !== "undefined" && typeof URL.createObjectURL === "function";
 </script>
 
@@ -300,7 +310,7 @@
 					<Attachment.Root class="w-full" data-file-name={file.name}>
 						{#if canPreview && fileKind(file) === "image"}
 							<Attachment.Media variant="image">
-								<img alt="" {@attach preview(file)} />
+								<img alt="" src={thumb(file)} />
 							</Attachment.Media>
 						{:else}
 							<Attachment.Media>{@render kindIcon(file)}</Attachment.Media>

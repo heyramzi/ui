@@ -43,8 +43,8 @@ const same = (a: File, b: File) =>
   a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
 
 /**
- * Sorts what came in (a drop, a paste or the picker) into the next list and what got turned away.
- * Type is checked first, then size, then room left, so a file is refused for its first fault.
+ * Sorts a drop, paste or pick into the next list and the refusals.
+ * A file is refused for its first fault: type, then size, then room.
  */
 export function checkFiles(
   incoming: readonly File[],

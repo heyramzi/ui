@@ -2,8 +2,8 @@ import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
 import { flushSync, mount, unmount } from "svelte";
 import FileDropZone from "#src/components/file-drop-zone/file-drop-zone.svelte";
 
-// jsdom has no DataTransfer, and its input.files only takes a real FileList. The stub hands back a
-// plain array, and each test's input gets an own `files` property that records what the zone wrote.
+// jsdom has no DataTransfer and its input.files takes only a FileList, so the stub returns an
+// array and each input records what the zone wrote.
 class DataTransferStub {
   readonly list: File[] = [];
   readonly items = { add: (file: File) => this.list.push(file) };
