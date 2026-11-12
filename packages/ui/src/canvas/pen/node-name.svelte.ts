@@ -1,8 +1,10 @@
 // A pen node's accessible name. Svelte Flow puts `ariaLabel` on the focusable node wrapper,
 // so the name has to live on the node object and follow its words as they're edited.
 
-import { useSvelteFlow } from "@xyflow/svelte";
+import { useStore } from "@xyflow/svelte";
 import { untrack } from "svelte";
+
+type FlowStore = ReturnType<typeof useStore>;
 
 const cap = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
 
@@ -18,15 +20,37 @@ export function penNodeName(
   return label ? `${shape}: ${label}` : shape;
 }
 
+// One write per canvas per tick: a write per node redrew the whole board once for each, 473 times opening 1,000 cards.
+const pending = new WeakMap<FlowStore, Map<string, string>>();
+
+function queueName(store: FlowStore, nodeId: string, label: string): void {
+  let names = pending.get(store);
+  if (!names) {
+    const queued = new Map<string, string>();
+    names = queued;
+    pending.set(store, queued);
+    queueMicrotask(() => {
+      pending.delete(store);
+      let changed = false;
+      const nodes = store.nodes.map((node) => {
+        const name = queued.get(node.id);
+        if (name === undefined || node.ariaLabel === name) return node;
+        changed = true;
+        return { ...node, ariaLabel: name };
+      });
+      if (changed) store.nodes = nodes;
+    });
+  }
+  names.set(nodeId, label);
+}
+
 /** Keeps node `id`'s ariaLabel equal to `name()`. Call it from a node component. */
 export function useNodeName(id: () => string, name: () => string): void {
-  const { getNode, updateNode } = useSvelteFlow();
+  const store = useStore();
   $effect(() => {
     const nodeId = id();
     const label = name();
-    // untrack: updateNode reads the node list, and tracking it would rerun this on every write.
-    untrack(() => {
-      if (getNode(nodeId)?.ariaLabel !== label) updateNode(nodeId, { ariaLabel: label });
-    });
+    // untrack: the write reads the node list, and tracking it would rerun this on every write.
+    untrack(() => queueName(store, nodeId, label));
   });
 }
