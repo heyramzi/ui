@@ -79,6 +79,7 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `segmented` — AnimatedTabs (pill or underline), SegmentedFilter, SegmentedNav, SectionRuns, one bordered track with a sliding pill, a badge note and an overflow menu
 - `theme` — ThemeProvider, mode, userPrefersMode, setMode, toggleMode, resetMode: the one light and dark system (mode-watcher, optional peer). Mount `<ThemeProvider initial onModeChange themeColors modeStorageKey />` once; flip with `toggleMode()`, read `mode.current`. Pair with `revealTheme(event, toggleMode)` from `@heyramzi/ui/lib/theme-transition.js` for the wipe
 - `star-rating-input` — StarRatingInput
+- `file-drop-zone` — FileDropZone, a drop zone over a real `<input type="file">`: drag, click, keyboard or paste; accept, size and count limits with French messages; a file list with thumbnails and remove. Plus checkFiles, matchesAccept, formatSize, describeLimits
 - `svg` — Svg, an SVG file imported with `?raw`
 
 ## Effects (`src/effects`)

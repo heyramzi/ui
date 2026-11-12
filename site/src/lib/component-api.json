@@ -7509,6 +7509,86 @@
       "bases": []
     }
   ],
+  "file-drop-zone": [
+    {
+      "name": "FileDropZone",
+      "file": "packages/ui/src/components/file-drop-zone/file-drop-zone.svelte",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The file input's name: what the form post carries the files under."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "description": "The id of the real input, for an outside `<label for>`."
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "description": "Same syntax as the input's `accept`: `.pdf`, `application/pdf`, `image/*`."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "maxFiles",
+          "type": "number",
+          "description": "Most files the list holds when `multiple` is set."
+        },
+        {
+          "name": "maxFileSize",
+          "type": "number",
+          "description": "Largest file, in bytes."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "capturePaste",
+          "type": "boolean",
+          "default": "false",
+          "description": "Takes files pasted anywhere on the page."
+        },
+        {
+          "name": "files",
+          "type": "File[]",
+          "default": "[]",
+          "bindable": true,
+          "description": "The chosen files. Kept in step with the real input, so a plain form post sends them."
+        },
+        {
+          "name": "onUpload",
+          "type": "(added: File[]) => void",
+          "description": "Called with the files a drop, a paste or the picker just added."
+        },
+        {
+          "name": "onFileRejected",
+          "type": "(rejected: Rejection[]) => void",
+          "description": "Called with each file turned away and why."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<Labels>"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
+      "bases": []
+    }
+  ],
   "flag": [
     {
       "name": "Flag",

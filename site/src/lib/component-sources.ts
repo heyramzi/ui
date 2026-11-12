@@ -164,6 +164,10 @@ export const componentSources: Record<string, string[]> = {
     "packages/ui/src/components/data-table/table-skeleton.svelte",
     "packages/ui/src/components/data-table/row-arrow.svelte",
   ],
+  "file-drop-zone": [
+    "packages/ui/src/components/file-drop-zone/file-drop-zone.svelte",
+    "packages/ui/src/components/file-drop-zone/files.ts",
+  ],
   "star-rating-input": ["packages/ui/src/components/star-rating-input/star-rating-input.svelte"],
   "shader-gradient": ["packages/ui/src/effects/shader-gradient/ShaderGradient.svelte"],
   "interactive-hover-button": [

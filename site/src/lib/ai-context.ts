@@ -86,6 +86,7 @@ const sources = import.meta.glob(
     "../../../packages/ui/src/components/data-table/table-skeleton.svelte",
     "../../../packages/ui/src/components/data-table/row-arrow.svelte",
     "../../../packages/ui/src/components/star-rating-input/star-rating-input.svelte",
+    "../../../packages/ui/src/components/file-drop-zone/file-drop-zone.svelte",
     "../../../packages/ui/src/effects/shader-gradient/ShaderGradient.svelte",
     "../../../packages/ui/src/effects/interactive-hover-button/InteractiveHoverButton.svelte",
     "../../../packages/ui/src/ai/suggestion/Suggestion.svelte",

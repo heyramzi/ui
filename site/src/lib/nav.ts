@@ -123,6 +123,7 @@ export const sections: Section[] = [
           "slider",
           "star-rating-input",
           "tags-input",
+          "file-drop-zone",
           "select",
           "native-select",
           "combobox",

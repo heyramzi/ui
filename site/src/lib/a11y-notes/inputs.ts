@@ -81,6 +81,18 @@ export const inputNotes: Record<string, A11yNote> = {
       "With reduced motion on, the pop on a pick doesn't play.",
     ],
   },
+  "file-drop-zone": {
+    keys: [
+      { keys: ["Tab"], does: "Moves focus to the zone, then to each file's remove button." },
+      { keys: ["Space", "Enter"], does: "On the zone, opens the file picker." },
+    ],
+    notes: [
+      "The zone is a label over a visually hidden input type=file, so a screen reader announces a file field, and an outside label with for={id} names it.",
+      "Refusals (wrong format, too heavy, too many) sit in a polite live region tied to the input by aria-describedby.",
+      "Each remove button is named for its file, so a list of them reads apart.",
+      "With one file and no multiple, the file takes the zone's place, and removing it puts focus back on the zone.",
+    ],
+  },
   "tags-input": {
     keys: [
       { keys: ["Space", "Enter"], does: "On the field, starts editing." },

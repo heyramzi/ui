@@ -53,6 +53,13 @@ export const meta: Record<string, Meta> = {
       "Searchable, sortable client table with pagination, a loading skeleton and row arrows.",
     height: 420,
   },
+  "file-drop-zone": {
+    title: "File drop zone",
+    icon: "form",
+    description:
+      "Drop, click or paste files into a real file input, so a plain form post sends them. Limits on type, size and count, a list with thumbnails, and French words out of the box.",
+    height: 420,
+  },
   "star-rating-input": {
     title: "Star rating input",
     icon: "form",
