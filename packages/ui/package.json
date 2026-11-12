@@ -143,6 +143,12 @@
     "./animations/*": {
       "default": "./src/animations/*"
     },
+    "./shadcn/hooks/*.svelte": {
+      "svelte": "./src/shadcn/hooks/*.svelte.js",
+      "types": "./src/shadcn/hooks/*.svelte.ts",
+      "node": "./dist/shadcn/hooks/*.svelte.js",
+      "default": "./src/shadcn/hooks/*.svelte.js"
+    },
     "./shadcn/hooks/*": {
       "svelte": "./src/shadcn/hooks/*.ts",
       "types": "./src/shadcn/hooks/*.ts",
@@ -308,6 +314,12 @@
       "default": "./src/canvas/*.svelte"
     },
     "./canvas/*.css": "./src/canvas/*.css",
+    "./canvas/*.svelte.js": {
+      "types": "./src/canvas/*.svelte.ts",
+      "svelte": "./src/canvas/*.svelte.js",
+      "node": "./dist/canvas/*.svelte.js",
+      "default": "./src/canvas/*.svelte.js"
+    },
     "./canvas/*.js": {
       "types": "./src/canvas/*.ts",
       "svelte": "./src/canvas/*.ts",
@@ -323,8 +335,8 @@
     "sync:check": "node scripts/sync-transitions.mjs --check && node scripts/sync-shadcn.mjs --check",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "build": "node ../../../upsys/kit/scripts/build-dist.mjs",
-    "prepack": "pnpm build && node scripts/svelte-dts.mjs",
-    "postpack": "node scripts/svelte-dts.mjs --clean"
+    "prepack": "pnpm build && node scripts/svelte-dts.mjs && node scripts/svelte-modules.mjs",
+    "postpack": "node scripts/svelte-dts.mjs --clean && node scripts/svelte-modules.mjs --clean"
   },
   "dependencies": {
     "@dagrejs/dagre": "^3.1.3",
