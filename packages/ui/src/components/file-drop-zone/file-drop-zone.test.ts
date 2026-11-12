@@ -29,7 +29,8 @@ function render(props: Record<string, unknown> = {}) {
   document.body.appendChild(target);
   const app = mount(FileDropZone, { target, props: { name: "justificatif", ...props } });
   flushSync();
-  const input = target.querySelector<HTMLInputElement>("input[type=file]")!;
+  const input = target.querySelector<HTMLInputElement>("input[type=file]");
+  if (!input) throw new Error("no file input");
   let written: File[] = [];
   Object.defineProperty(input, "files", {
     configurable: true,
@@ -43,7 +44,7 @@ function render(props: Record<string, unknown> = {}) {
     Object.defineProperty(event, "dataTransfer", {
       value: { types: ["Files"], files, dropEffect: "none" },
     });
-    target.querySelector("[data-slot=file-drop-zone-target]")!.dispatchEvent(event);
+    target.querySelector("[data-slot=file-drop-zone-target]")?.dispatchEvent(event);
     flushSync();
   };
   const drop = (files: File[]) => {
@@ -121,7 +122,7 @@ describe("FileDropZone", () => {
   it("removes a file from the list and from the input", () => {
     const { target, drop, names, written, done } = render({ multiple: true });
     drop([pdf("a.pdf"), pdf("b.pdf")]);
-    target.querySelector<HTMLButtonElement>('[aria-label="Retirer a.pdf"]')!.click();
+    target.querySelector<HTMLButtonElement>('[aria-label="Retirer a.pdf"]')?.click();
     flushSync();
     expect(names()).toEqual(["b.pdf"]);
     expect(written()).toEqual(["b.pdf"]);
@@ -132,7 +133,7 @@ describe("FileDropZone", () => {
     const { target, drop, done } = render();
     drop([pdf("bail.pdf")]);
     expect(target.querySelector("[data-slot=file-drop-zone-target]")).toBeNull();
-    target.querySelector<HTMLButtonElement>('[aria-label="Retirer bail.pdf"]')!.click();
+    target.querySelector<HTMLButtonElement>('[aria-label="Retirer bail.pdf"]')?.click();
     flushSync();
     expect(target.querySelector("[data-slot=file-drop-zone-target]")).not.toBeNull();
     done();
