@@ -39,6 +39,8 @@ await emitDts({
   ["svelteShimsPath"]: createRequire(import.meta.url).resolve("svelte2tsx/svelte-shims-v4.d.ts"),
   declarationDir: out,
 });
+// A script a test imports gets its .d.mts written beside it, outside libRoot (3.7.1).
+for (const file of walk(join(root, "scripts"), (n) => n.endsWith(".d.mts"))) rmSync(file);
 
 const components = walk(src, (n) => n.endsWith(".svelte"));
 const dtsOf = (file) => join(out, `${relative(src, file)}.d.ts`);
