@@ -1,7 +1,7 @@
 # Coding standards
 
 <!-- vibekit:coding-standards:start -->
-<!-- Generated from vibe-kit/ai-doc/references/coding-standards.md. -->
+<!-- Generated from upsys/kit/ai-doc/references/coding-standards.md. -->
 
 Read only the rows that match the files or operation in this task. The linked rules are materialized locally so this repository also works without the sibling kit checkout.
 

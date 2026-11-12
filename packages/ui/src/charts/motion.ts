@@ -10,10 +10,5 @@ export const DOMAIN_MOTION = { type: "tween", duration: 500, easing: cubicInOut 
 export const TOOLTIP_TOP = 8;
 export const TOOLTIP_GAP = 16;
 
-/** A chart duration token in ms, read off a mounted element; both `ms` and `s` parse. */
-export function tokenMs(el: Element, name: string, fallback: number): number {
-  const raw = getComputedStyle(el).getPropertyValue(name).trim();
-  const n = Number.parseFloat(raw);
-  if (Number.isNaN(n)) return fallback;
-  return raw.endsWith("ms") ? n : n * 1000;
-}
+/** A chart duration token in ms, read off a mounted element. Lives in `lib/motion` now. */
+export { tokenMs } from "#src/lib/motion.js";

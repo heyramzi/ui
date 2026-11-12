@@ -8557,6 +8557,11 @@
           "bindable": true
         },
         {
+          "name": "inputRef",
+          "default": "null",
+          "bindable": true
+        },
+        {
           "name": "class",
           "type": "string"
         },
@@ -8674,8 +8679,9 @@
         },
         {
           "name": "size",
-          "type": "\"default\" | \"md\" | \"sm\"",
-          "default": "\"default\""
+          "type": "\"default\" | \"sm\"",
+          "default": "\"default\"",
+          "description": "`sm` is 40px for a condensed bar; under a thumb both are 44px."
         },
         {
           "name": "tone",
@@ -13194,6 +13200,12 @@
           "name": "onOpenChange",
           "type": "(open: boolean) => void",
           "default": "() => {}"
+        },
+        {
+          "name": "persist",
+          "type": "boolean",
+          "default": "true",
+          "description": "False for a sidebar that isn't the app's shell, such as a docs demo: it then writes no state cookie and takes no Cmd+B, so it can't fold the real one."
         },
         {
           "name": "ref",

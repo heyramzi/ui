@@ -57,6 +57,16 @@ export type ThreadEvent = {
   /** ISO timestamp. */
   at: string;
   icon?: PhosphorIcon;
+  /** A record the sentence names, drawn as a chip inside it. Write `{record}` in `title` where
+      it goes; without the token it ends the sentence. */
+  record?: ThreadEventRecord;
+};
+
+/** A linked record inside an activity line: a task, a doc, a thread. */
+export type ThreadEventRecord = {
+  label: string;
+  href?: string;
+  icon?: PhosphorIcon;
 };
 
 /** The thread in time order: a conversation, or a run of events between two of them. */

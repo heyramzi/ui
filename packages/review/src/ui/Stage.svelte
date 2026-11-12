@@ -566,7 +566,7 @@
 		width: 100%;
 		max-width: 640px;
 	}
-	/* The bar is the viewer's last row, so a tooltip below it adds a scroll range, even at opacity 0. Open it upward over the frame. */
+	/* The bar is the viewer's last row, so a tooltip below it adds a scroll range, even at opacity 0. Open it upward. */
 	.bar [data-tip]::after {
 		top: auto;
 		bottom: calc(100% + 8px);
@@ -601,13 +601,11 @@
 			background var(--duration-quick) var(--ease-smooth-out),
 			transform var(--duration-quick) var(--ease-smooth-out);
 	}
-	@media (hover: hover) and (pointer: fine) {
-		.play:hover:not(:disabled) {
-			background: color-mix(in oklch, var(--text) 85%, var(--ground));
-		}
+	.play:hover:not(:disabled) {
+		background: color-mix(in oklch, var(--text) 85%, var(--ground));
 	}
 	.play:active:not(:disabled) {
-		transform: scale(var(--scale-large));
+		transform: scale(0.92);
 	}
 	/* Locked while the preview updates: a quiet ring instead of the solid disc, and no pointer. */
 	.play:disabled {
