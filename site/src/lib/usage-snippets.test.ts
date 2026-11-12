@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import { cardBySlug } from "#lib/nav.js";
 import { importLinesOf, importOf } from "#lib/registry.js";
-import { usageSnippets } from "#lib/usage-snippets.js";
+import { usageSnippets } from "#lib/usage-snippets/index.js";
 
 const sources = import.meta.glob<string>(["./demos/*.svelte", "./shadcn-demos/*.svelte"], {
   query: "?raw",

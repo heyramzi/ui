@@ -4,15 +4,16 @@
 	import { useHighlightedCode } from "@heyramzi/ui/shadcn/hooks/use-highlighted-code.svelte";
 	import { Button } from "@heyramzi/ui/shadcn/button";
 
-	const code = `import { streamText } from "ai"
+	const code = `import { convertToModelMessages, streamText } from "ai"
+import type { RequestHandler } from "./$types"
 
-export async function POST(request: Request) {
+export const POST: RequestHandler = async ({ request }) => {
   const { messages } = await request.json()
 
   const result = streamText({
     model: "anthropic/claude-sonnet-4.5",
     system: "You are a helpful assistant. Answer in one short paragraph.",
-    messages,
+    messages: await convertToModelMessages(messages),
   })
 
   return result.toUIMessageStreamResponse()
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
 		<CodeBlock.Header>
 			<CodeBlock.Title>
 				<FileCode aria-hidden="true" />
-				app/api/chat/route.ts
+				src/routes/api/chat/+server.ts
 			</CodeBlock.Title>
 			<CodeBlock.Actions>
 				<Button
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
 					size="sm"
 					icon
 					aria-label="Download"
-					onclick={() => download(code, "route.ts")}
+					onclick={() => download(code, "+server.ts")}
 				>
 					<DownloadSimple aria-hidden="true" />
 				</Button>
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
 		<CodeBlock.Content {wrap} lineNumbers>
 			{#each lines.current as line, index (index)}
 				<CodeBlock.Line
-					variant={index >= 5 && index <= 9 ? "highlighted" : "default"}
+					variant={index >= 6 && index <= 10 ? "highlighted" : "default"}
 					code={line}
 				/>
 			{/each}

@@ -80,7 +80,6 @@ const NOT_SHIPPED = new Set([
   "chart",
   "data-table",
   "form",
-  "kbd",
   "menubar",
   "navigation-menu",
   "range-calendar",

@@ -12,7 +12,7 @@ import {
 import { examplesOf } from "#lib/examples/index.js";
 import { cards, sectionById, sections } from "#lib/nav.js";
 import { importOf, loadEntry, type Entry } from "#lib/registry.js";
-import { usageSnippets } from "#lib/usage-snippets.js";
+import { usageSnippets } from "#lib/usage-snippets/index.js";
 
 export { SITE };
 

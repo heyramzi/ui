@@ -1,8 +1,8 @@
 {
 	"source": "https://github.com/huntabyte/shadcn-svelte",
 	"registry": "https://shadcn-svelte.com/registry/styles/vega/index.json",
-	"fetchedAt": "2026-10-16",
-	"components": 56,
+	"fetchedAt": "2026-11-12",
+	"components": 57,
 	"localOnly": [
 		"hooks"
 	],
@@ -129,7 +129,7 @@
 		"calendar": {
 			"type": "registry:ui",
 			"files": 19,
-			"sha256": "e633e116bb462506",
+			"sha256": "8095d2f367504aaa",
 			"adapted": [
 				"calendar/calendar-caption.svelte",
 				"calendar/calendar-cell.svelte",
@@ -175,7 +175,13 @@
 			"files": 9,
 			"sha256": "25bde10a48b6e372",
 			"adapted": [
-				"code-block/code-block-copy-button.svelte"
+				"code-block/code-block-actions.svelte",
+				"code-block/code-block-content.svelte",
+				"code-block/code-block-copy-button.svelte",
+				"code-block/code-block-header.svelte",
+				"code-block/code-block-line.svelte",
+				"code-block/code-block-title.svelte",
+				"code-block/code-block.svelte"
 			]
 		},
 		"collapsible": {
@@ -213,6 +219,7 @@
 				"context-menu/context-menu-item.svelte",
 				"context-menu/context-menu-label.svelte",
 				"context-menu/context-menu-radio-item.svelte",
+				"context-menu/context-menu-separator.svelte",
 				"context-menu/context-menu-shortcut.svelte",
 				"context-menu/context-menu-sub-content.svelte",
 				"context-menu/context-menu-sub-trigger.svelte",
@@ -223,7 +230,7 @@
 		"dialog": {
 			"type": "registry:ui",
 			"files": 11,
-			"sha256": "d1f9aaaa0a3b0848",
+			"sha256": "21872e256e85ce91",
 			"adapted": [
 				"dialog/dialog-content.svelte",
 				"dialog/dialog-description.svelte",
@@ -250,6 +257,7 @@
 				"dropdown-menu/dropdown-menu-item.svelte",
 				"dropdown-menu/dropdown-menu-label.svelte",
 				"dropdown-menu/dropdown-menu-radio-item.svelte",
+				"dropdown-menu/dropdown-menu-separator.svelte",
 				"dropdown-menu/dropdown-menu-shortcut.svelte",
 				"dropdown-menu/dropdown-menu-sub-content.svelte",
 				"dropdown-menu/dropdown-menu-sub-trigger.svelte",
@@ -287,11 +295,6 @@
 				"field/index.ts"
 			]
 		},
-		"highlighter": {
-			"type": "registry:lib",
-			"files": 1,
-			"sha256": "7dc14baaefec97fd"
-		},
 		"hover-card": {
 			"type": "registry:ui",
 			"files": 5,
@@ -304,7 +307,7 @@
 		"input": {
 			"type": "registry:ui",
 			"files": 2,
-			"sha256": "232427e89411ad6c",
+			"sha256": "c2b21d11b8724141",
 			"adapted": [
 				"input/index.ts",
 				"input/input.svelte"
@@ -318,7 +321,7 @@
 		"input-otp": {
 			"type": "registry:ui",
 			"files": 5,
-			"sha256": "24b0206559b23cc5",
+			"sha256": "87eaede2c59ddc5d",
 			"adapted": [
 				"input-otp/index.ts",
 				"input-otp/input-otp-group.svelte",
@@ -327,15 +330,20 @@
 				"input-otp/input-otp.svelte"
 			]
 		},
-		"is-mobile": {
-			"type": "registry:hook",
-			"files": 1,
-			"sha256": "d1531dab938681b4"
-		},
 		"item": {
 			"type": "registry:ui",
 			"files": 11,
 			"sha256": "d070c7d2acc164e9"
+		},
+		"kbd": {
+			"type": "registry:ui",
+			"files": 3,
+			"sha256": "f099fa051c4e2756",
+			"adapted": [
+				"kbd/index.ts",
+				"kbd/kbd-group.svelte",
+				"kbd/kbd.svelte"
+			]
 		},
 		"label": {
 			"type": "registry:ui",
@@ -390,7 +398,15 @@
 		"pagination": {
 			"type": "registry:ui",
 			"files": 10,
-			"sha256": "004d3f3083594150"
+			"sha256": "004d3f3083594150",
+			"adapted": [
+				"pagination/pagination-ellipsis.svelte",
+				"pagination/pagination-link.svelte",
+				"pagination/pagination-next-button.svelte",
+				"pagination/pagination-next.svelte",
+				"pagination/pagination-prev-button.svelte",
+				"pagination/pagination-previous.svelte"
+			]
 		},
 		"popover": {
 			"type": "registry:ui",
@@ -427,7 +443,7 @@
 		"scroll-area": {
 			"type": "registry:ui",
 			"files": 3,
-			"sha256": "66ced48403f092ea",
+			"sha256": "c12167d60b93d913",
 			"adapted": [
 				"scroll-area/index.ts",
 				"scroll-area/scroll-area-scrollbar.svelte",
@@ -465,6 +481,7 @@
 			"adapted": [
 				"sheet/index.ts",
 				"sheet/sheet-content.svelte",
+				"sheet/sheet-footer.svelte",
 				"sheet/sheet-header.svelte",
 				"sheet/sheet-overlay.svelte",
 				"sheet/sheet-title.svelte"
@@ -503,7 +520,8 @@
 			"files": 2,
 			"sha256": "b2e08534791653bd",
 			"adapted": [
-				"skeleton/index.ts"
+				"skeleton/index.ts",
+				"skeleton/skeleton.svelte"
 			]
 		},
 		"slider": {
@@ -548,6 +566,7 @@
 			"sha256": "963bd250ffa76ef0",
 			"adapted": [
 				"table/index.ts",
+				"table/table-cell.svelte",
 				"table/table-head.svelte",
 				"table/table-header.svelte",
 				"table/table-row.svelte",
@@ -597,7 +616,7 @@
 		"tooltip": {
 			"type": "registry:ui",
 			"files": 6,
-			"sha256": "a50a0530f2d6ba62",
+			"sha256": "b7ccf9039d632283",
 			"adapted": [
 				"tooltip/index.ts",
 				"tooltip/tooltip-content.svelte",
@@ -611,13 +630,32 @@
 			"files": 9,
 			"sha256": "02b08bd48b6dd88e",
 			"adapted": [
-				"trace/trace-collapsible-trigger.svelte"
+				"trace/trace-collapsible-trigger.svelte",
+				"trace/trace-description.svelte",
+				"trace/trace-line.svelte",
+				"trace/trace.svelte"
 			]
+		},
+		"is-mobile": {
+			"type": "registry:hook",
+			"files": 1,
+			"sha256": "d1531dab938681b4"
 		},
 		"use-highlighted-code": {
 			"type": "registry:hook",
 			"files": 1,
-			"sha256": "4182b361007c05fb"
+			"sha256": "4182b361007c05fb",
+			"adapted": [
+				"use-highlighted-code.svelte.ts"
+			]
+		},
+		"highlighter": {
+			"type": "registry:lib",
+			"files": 1,
+			"sha256": "7dc14baaefec97fd",
+			"adapted": [
+				"highlighter.ts"
+			]
 		}
 	}
 }

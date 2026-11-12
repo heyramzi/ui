@@ -22,5 +22,9 @@
 	)}
 	{...restProps}
 >
-	{cell.char}
+	{#snippet child({ props })}
+		<div {...props} data-active={cell.isActive}>
+			{cell.char}
+		</div>
+	{/snippet}
 </InputOTPPrimitive.Cell>

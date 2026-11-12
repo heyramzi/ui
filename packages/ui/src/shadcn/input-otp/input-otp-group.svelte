@@ -13,6 +13,7 @@
 <div
 	bind:this={ref}
 	data-slot="input-otp-group"
+	aria-hidden="true"
 	class={cn("flex items-center", className)}
 	{...restProps}
 >

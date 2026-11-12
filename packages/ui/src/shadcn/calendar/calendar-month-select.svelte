@@ -26,7 +26,7 @@
 						value={monthItem.value}
 						selected={value !== undefined
 							? monthItem.value === value
-							: monthItem.value === selectedMonthItem.value}
+							: monthItem.value === selectedMonthItem?.value}
 					>
 						{monthItem.label}
 					</option>
@@ -36,7 +36,7 @@
 				class="[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md ps-2 pe-1 text-sm font-medium select-none [&>svg]:size-3.5"
 				aria-hidden="true"
 			>
-				{monthItems.find((item) => item.value === value)?.label || selectedMonthItem.label}
+				{monthItems.find((item) => item.value === value)?.label || selectedMonthItem?.label}
 				<CaretDown aria-hidden="true" class="size-4" />
 			</span>
 		{/snippet}

@@ -25,7 +25,7 @@
 						value={yearItem.value}
 						selected={value !== undefined
 							? yearItem.value === value
-							: yearItem.value === selectedYearItem.value}
+							: yearItem.value === selectedYearItem?.value}
 					>
 						{yearItem.label}
 					</option>
@@ -35,7 +35,7 @@
 				class="[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md ps-2 pe-1 text-sm font-medium select-none [&>svg]:size-3.5"
 				aria-hidden="true"
 			>
-				{yearItems.find((item) => item.value === value)?.label || selectedYearItem.label}
+				{yearItems.find((item) => item.value === value)?.label || selectedYearItem?.label || value}
 				<CaretDown aria-hidden="true" class="size-4" />
 			</span>
 		{/snippet}

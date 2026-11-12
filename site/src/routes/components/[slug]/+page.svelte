@@ -2,7 +2,7 @@
 	import { cards, categoryId } from "#lib/nav.js";
 	import { importLinesOf } from "#lib/registry.js";
 	import { a11yNotes } from "#lib/a11y-notes.js";
-	import { usageSnippets } from "#lib/usage-snippets.js";
+	import { usageSnippets } from "#lib/usage-snippets/index.js";
 	import ComponentApi, { apiAnchor } from "#lib/ComponentApi.svelte";
 	import CodeSnippet from "#lib/CodeSnippet.svelte";
 	import DocHeading from "#lib/DocHeading.svelte";
