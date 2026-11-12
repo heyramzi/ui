@@ -20,7 +20,7 @@ export function penNodeName(
   return label ? `${shape}: ${label}` : shape;
 }
 
-// One write per canvas per tick: a write per node redrew the whole board once for each, 473 times opening 1,000 cards.
+// One write per canvas per tick: a write per node redrew the board 473 times opening 1,000 cards.
 const pending = new WeakMap<FlowStore, Map<string, string>>();
 
 function queueName(store: FlowStore, nodeId: string, label: string): void {
