@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { Mark } from "@heyramzi/ui/components/mark";
 	import atelier from "#lib/demos/marks/atelier.svg?url";
-	import northwind from "#lib/demos/marks/northwind.svg?url";
+	import tavares from "#lib/demos/marks/tavares.svg?url";
 
 	const marks = [
-		{ label: "Northwind Legal", src: northwind },
+		{ label: "Tavares Legal", src: tavares },
 		{ label: "Atelier Morel", src: atelier },
 		{ label: "Harbor Dental", src: "data:image/png;base64,AA==" },
 		{ label: "Kestrel Surveys" },

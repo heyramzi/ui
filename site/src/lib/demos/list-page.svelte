@@ -32,7 +32,7 @@
 	const quotes: Quote[] = [
 		{
 			id: "q-2041",
-			client: "Northwind Legal",
+			client: "Tavares Legal",
 			title: "Contract workflow",
 			status: "sent",
 			total: "€9,000",

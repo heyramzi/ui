@@ -53,7 +53,7 @@
 	};
 
 	const rows = [
-		{ name: "Brand refresh", client: "Northwind", tone: "success" as const, label: "On track" },
+		{ name: "Brand refresh", client: "Tavares", tone: "success" as const, label: "On track" },
 		{ name: "Pricing page", client: "Acme", tone: "warning" as const, label: "Late" },
 		{ name: "Launch email", client: "Globex", tone: "neutral" as const, label: "Draft" },
 	];

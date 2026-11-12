@@ -5,7 +5,7 @@
 	import { Button } from "@heyramzi/ui/shadcn/button";
 	import { Input } from "@heyramzi/ui/shadcn/input";
 
-	let name = $state("Northwind Studio");
+	let name = $state("Tavares Studio");
 </script>
 
 <div class="flex w-full max-w-2xl flex-col gap-6">

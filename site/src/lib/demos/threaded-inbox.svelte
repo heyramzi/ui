@@ -27,7 +27,7 @@
 		type: "task",
 		id: "12",
 		ref: "TSK-12",
-		title: "Send the Northwind quote",
+		title: "Send the Tavares quote",
 		status: "todo",
 	};
 	const brief: InboxSubject = { type: "doc", id: "brief", title: "Launch brief", status: "done" };
@@ -41,12 +41,12 @@
 		kind: "decision",
 		tier: "ask",
 		state: "proposed",
-		title: "Send the Northwind quote",
-		project: { id: "northwind", name: "Contract workflow" },
+		title: "Send the Tavares quote",
+		project: { id: "tavares", name: "Contract workflow" },
 		proposal: { summary: "Quote 14 templates at the mid tier, valid for 30 days." },
 		confidence: { score: 0.72, missing: "They never confirmed the office count." },
 		trace: {
-			source: { type: "email", label: "Reply from Northwind Legal", at: "Thu 08:15" },
+			source: { type: "email", label: "Reply from Tavares Legal", at: "Thu 08:15" },
 			evidence: [{ quote: "Three offices, maybe four.", by: "Dana" }],
 			reasoning: "Scope matches the mid tier unless a fourth office joins.",
 		},

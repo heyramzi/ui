@@ -13,7 +13,7 @@
 			{
 				type: "paragraph",
 				content: [
-					{ type: "text", text: "Call Northwind about the " },
+					{ type: "text", text: "Call Tavares about the " },
 					{ type: "text", text: "revised scope", marks: [{ type: "bold" }] },
 					{ type: "text", text: " before Friday." },
 				],

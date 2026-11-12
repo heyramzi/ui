@@ -19,7 +19,7 @@
 	type Client = { id: string; name: string; city: string; projects: number; revenue: number };
 
 	const clients: Client[] = [
-		{ id: "c1", name: "Northwind Legal", city: "Lyon", projects: 4, revenue: 18400 },
+		{ id: "c1", name: "Tavares Legal", city: "Lyon", projects: 4, revenue: 18400 },
 		{ id: "c2", name: "Acme Freight", city: "Rotterdam", projects: 2, revenue: 9600 },
 		{ id: "c3", name: "Birchwood Logistics", city: "Leeds", projects: 1, revenue: 3200 },
 		{ id: "c4", name: "Atelier Morel", city: "Paris", projects: 6, revenue: 27100 },
