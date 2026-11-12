@@ -58,7 +58,7 @@ const WORST: Person[] = [
   {
     id: "w1",
     name: "Aleksandra Wiśniewska-Kowalczyk",
-    email: "bartholomew.fitzgerald@tavares-industries-holdings.example.com",
+    email: "bartholomew.fitzgerald@brightwell-industries-holdings.example.com",
     role: "Senior Product Design Engineer, Platform Infrastructure",
     status: "Invitation expired 12 days ago",
     amount: 12345678.9,
