@@ -7,8 +7,12 @@
 		ref = $bindable(null),
 		class: className,
 		children,
+		label = "Toggle Sidebar",
 		...restProps
-	}: WithElementRef<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> = $props();
+	}: WithElementRef<HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+		/** The rail's name and hover tooltip, in the app's language. */
+		label?: string;
+	} = $props();
 
 	const sidebar = useSidebar();
 </script>
@@ -17,10 +21,10 @@
 	bind:this={ref}
 	data-sidebar="rail"
 	data-slot="sidebar-rail"
-	aria-label="Toggle Sidebar"
+	aria-label={label}
 	tabindex={-1}
 	onclick={sidebar.toggle}
-	title="Toggle Sidebar"
+	title={label}
 	class={cn(
 		"hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-[background-color,transform,inset] duration-[var(--duration-fast)] ease-[var(--ease-smooth-out)] group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex",
 		"in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",

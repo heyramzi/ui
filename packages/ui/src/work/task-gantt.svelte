@@ -73,6 +73,8 @@
 		/** Width of the task column in px. It never takes more than 40% of a narrow screen. */
 		labelWidth?: number;
 		labelHeading?: string;
+		/** What a screen reader calls the list of bars. */
+		timelineLabel?: string;
 		locale?: string;
 		/** Drops the card chrome (border, radius, fill) so the chart sits flat on the page. */
 		flat?: boolean;
@@ -105,6 +107,7 @@
 		rowHeight = 40,
 		labelWidth = 240,
 		labelHeading = "Task",
+		timelineLabel = "Timeline",
 		locale = "en-US",
 		flat = false,
 		class: className,
@@ -227,7 +230,7 @@
 				draggingId={drag?.id ?? null}
 			/>
 
-			<div role="list" aria-label="Timeline">
+			<div role="list" aria-label={timelineLabel}>
 				{#each rows as row, index (row.kind === "group" ? `g:${row.group.id}` : row.id)}
 					{#if row.kind === "group"}
 						<GanttGroupRow {row} {index} {layout} staggerCap={STAGGER_CAP} />

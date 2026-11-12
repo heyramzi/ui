@@ -4362,6 +4362,12 @@
           "default": "false"
         },
         {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "\"Close\"",
+          "description": "What a screen reader calls the close button, in the app's language."
+        },
+        {
           "name": "class",
           "type": "string"
         },
@@ -5917,6 +5923,12 @@
           "default": "true"
         },
         {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "\"Close\"",
+          "description": "What a screen reader calls the built-in close button, in the app's language."
+        },
+        {
           "name": "overlayClass",
           "type": "string",
           "description": "Classes for the backdrop this dialog mounts, which is its sibling in the portal and so cannot be reached from the content's own class."
@@ -6026,6 +6038,12 @@
           "name": "showCloseButton",
           "type": "boolean",
           "default": "false"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "\"Close\"",
+          "description": "The close button's text, in the app's language."
         },
         {
           "name": "band",
@@ -8352,6 +8370,24 @@
         {
           "name": "class",
           "type": "string"
+        },
+        {
+          "name": "revealLabel",
+          "type": "string",
+          "default": "\"Reveal value\"",
+          "description": "The reveal button's name while the value is hidden, in the app's language."
+        },
+        {
+          "name": "hideLabel",
+          "type": "string",
+          "default": "\"Hide value\"",
+          "description": "The same button's name while the value shows."
+        },
+        {
+          "name": "maskedLabel",
+          "type": "string",
+          "default": "\"Encrypted value\"",
+          "description": "The name of the `obfuscate` box."
         }
       ],
       "bases": [
@@ -10698,6 +10734,11 @@
           "default": "\"sm\""
         },
         {
+          "name": "label",
+          "type": "string",
+          "description": "What a screen reader calls the icon-only button, in the app's language. Defaults to \"Scroll to end\", or \"Scroll to start\" when `direction=\"start\"`."
+        },
+        {
           "name": "ref",
           "type": "HTMLElement | null",
           "default": "null",
@@ -11034,6 +11075,12 @@
       "file": "packages/ui/src/shadcn/pagination/pagination-previous.svelte",
       "props": [
         {
+          "name": "label",
+          "type": "string",
+          "default": "\"Previous\"",
+          "description": "The text beside the arrow from `sm` up. Name the button with `aria-label`."
+        },
+        {
           "name": "ref",
           "type": "HTMLElement | null",
           "default": "null",
@@ -11121,6 +11168,12 @@
       "name": "Pagination.Next",
       "file": "packages/ui/src/shadcn/pagination/pagination-next.svelte",
       "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Next\"",
+          "description": "The text beside the arrow from `sm` up. Name the button with `aria-label`."
+        },
         {
           "name": "ref",
           "type": "HTMLElement | null",
@@ -12882,6 +12935,12 @@
           "default": "true"
         },
         {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "\"Close\"",
+          "description": "What a screen reader calls the built-in close button, in the app's language."
+        },
+        {
           "name": "floating",
           "type": "boolean",
           "description": "From `sm` up a left or right sheet floats 8px off the edge, like SidePanel; `floating={false}` keeps it flush. A phone stays full bleed for the width."
@@ -13832,6 +13891,12 @@
       "file": "packages/ui/src/shadcn/sidebar/sidebar-rail.svelte",
       "props": [
         {
+          "name": "label",
+          "type": "string",
+          "default": "\"Toggle Sidebar\"",
+          "description": "The rail's name and hover tooltip, in the app's language."
+        },
+        {
           "name": "ref",
           "type": "HTMLButtonElement | null",
           "default": "null",
@@ -13882,6 +13947,12 @@
         {
           "name": "onclick",
           "type": "(e: MouseEvent) => void"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Toggle Sidebar\"",
+          "description": "What a screen reader calls the icon-only button, in the app's language."
         },
         {
           "name": "ref",
@@ -15228,6 +15299,12 @@
           "type": "(row: Row) => string"
         },
         {
+          "name": "openColumnLabel",
+          "type": "string",
+          "default": "\"Open\"",
+          "description": "The hidden head of the last column, the one holding each row's link or button."
+        },
+        {
           "name": "rowMenu",
           "type": "Snippet<[Row]>",
           "description": "The items of a row menu: `ContextMenu.Item`s. Right-click, a long press, Shift+F10 or the ContextMenu key opens it."
@@ -15653,6 +15730,12 @@
           "name": "labelHeading",
           "type": "string",
           "default": "\"Task\""
+        },
+        {
+          "name": "timelineLabel",
+          "type": "string",
+          "default": "\"Timeline\"",
+          "description": "What a screen reader calls the list of bars."
         },
         {
           "name": "locale",

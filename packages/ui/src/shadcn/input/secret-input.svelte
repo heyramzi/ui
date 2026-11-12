@@ -14,12 +14,26 @@
 		variant?: "lock" | "obfuscate";
 		value?: string;
 		class?: string;
+		/** The reveal button's name while the value is hidden, in the app's language. */
+		revealLabel?: string;
+		/** The same button's name while the value shows. */
+		hideLabel?: string;
+		/** The name of the `obfuscate` box. */
+		maskedLabel?: string;
 	};
 
 	// =========================
 	// PROPS
 	// =========================
-	let { variant = "lock", value = $bindable(""), class: className, ...rest }: Props = $props();
+	let {
+		variant = "lock",
+		value = $bindable(""),
+		class: className,
+		revealLabel = "Reveal value",
+		hideLabel = "Hide value",
+		maskedLabel = "Encrypted value",
+		...rest
+	}: Props = $props();
 
 	// =========================
 	// STATE
@@ -46,7 +60,7 @@
 			"border-input bg-muted/30 text-muted-foreground flex h-8 w-full items-center gap-2 rounded-lg border px-2.5 py-1 font-mono text-sm",
 			className,
 		)}
-		aria-label="Encrypted value"
+		aria-label={maskedLabel}
 	>
 		<LockKey aria-hidden="true" class="text-muted-foreground/70 size-3.5 shrink-0" />
 		<span class="truncate">{masked || "••••••••"}</span>
@@ -61,7 +75,7 @@
 		/>
 		<button
 			type="button"
-			aria-label={revealed ? "Hide value" : "Reveal value"}
+			aria-label={revealed ? hideLabel : revealLabel}
 			class="text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 flex w-8 items-center justify-center rounded-r-lg transition-colors"
 			onclick={() => (revealed = !revealed)}
 		>

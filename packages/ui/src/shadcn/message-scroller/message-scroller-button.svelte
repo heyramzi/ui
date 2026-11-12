@@ -14,11 +14,19 @@
 		variant = "outline",
 		size = "sm",
 		onclick,
+		label,
 		...restProps
 	}: MessageScrollerPrimitive.ButtonProps & {
 		variant?: ButtonVariant;
 		size?: ButtonSize;
+		/**
+		 * What a screen reader calls the icon-only button, in the app's language.
+		 * Defaults to "Scroll to end", or "Scroll to start" when `direction="start"`.
+		 */
+		label?: string;
 	} = $props();
+
+	const srLabel = $derived(label ?? (direction === "end" ? "Scroll to end" : "Scroll to start"));
 
 	// The primitive blurs the button and it turns inert at the end, dropping focus to the page. Focus goes to the thread instead.
 	function handleClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
@@ -54,9 +62,7 @@
 					{@render children()}
 				{:else}
 					<ArrowDown aria-hidden="true" />
-					<span class="sr-only">
-						{direction === "end" ? "Scroll to end" : "Scroll to start"}
-					</span>
+					<span class="sr-only">{srLabel}</span>
 				{/if}
 			</Button>
 		{/if}

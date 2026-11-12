@@ -7,8 +7,12 @@
 	let {
 		ref = $bindable(null),
 		class: className,
+		label = "Previous",
 		...restProps
-	}: PaginationPrimitive.PrevButtonProps = $props();
+	}: PaginationPrimitive.PrevButtonProps & {
+		/** The text beside the arrow from `sm` up. Name the button with `aria-label`. */
+		label?: string;
+	} = $props();
 </script>
 
 <PaginationPrimitive.PrevButton
@@ -26,5 +30,5 @@
 		data-icon="inline-start"
 		class="cn-rtl-flip"
 	/>
-	<span class="hidden sm:block">Previous</span>
+	<span class="hidden sm:block">{label}</span>
 </PaginationPrimitive.PrevButton>

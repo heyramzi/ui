@@ -9,9 +9,12 @@
 		ref = $bindable(null),
 		class: className,
 		onclick,
+		label = "Toggle Sidebar",
 		...restProps
 	}: ComponentProps<typeof Button> & {
 		onclick?: (e: MouseEvent) => void;
+		/** What a screen reader calls the icon-only button, in the app's language. */
+		label?: string;
 	} = $props();
 
 	const sidebar = useSidebar();
@@ -35,5 +38,5 @@
 	{...restProps}
 >
 	<SidebarSimple aria-hidden="true" size={16} />
-	<span class="sr-only">Toggle Sidebar</span>
+	<span class="sr-only">{label}</span>
 </Button>

@@ -14,12 +14,15 @@
 		portalProps,
 		children,
 		showCloseButton = true,
+		closeLabel = "Close",
 		overlayClass,
 		...restProps
 	}: WithoutChildrenOrChild<DialogPrimitive.ContentProps> & {
 		portalProps?: WithoutChildrenOrChild<ComponentProps<typeof DialogPortal>>;
 		children: Snippet;
 		showCloseButton?: boolean;
+		/** What a screen reader calls the built-in close button, in the app's language. */
+		closeLabel?: string;
 		/** Classes for the backdrop this dialog mounts, which is its sibling in the
 		 *  portal and so cannot be reached from the content's own class. */
 		overlayClass?: string;
@@ -62,7 +65,7 @@
 						{...props}
 					>
 						<X aria-hidden="true" size={16} />
-						<span class="sr-only">Close</span>
+						<span class="sr-only">{closeLabel}</span>
 					</Button>
 				{/snippet}
 			</DialogPrimitive.Close>

@@ -7,8 +7,12 @@
 	let {
 		ref = $bindable(null),
 		class: className,
+		label = "Next",
 		...restProps
-	}: PaginationPrimitive.NextButtonProps = $props();
+	}: PaginationPrimitive.NextButtonProps & {
+		/** The text beside the arrow from `sm` up. Name the button with `aria-label`. */
+		label?: string;
+	} = $props();
 </script>
 
 <PaginationPrimitive.NextButton
@@ -17,7 +21,7 @@
 	class={cn(buttonVariants({ variant: "ghost", size: "default" }), "pr-2!", className)}
 	{...restProps}
 >
-	<span class="hidden sm:block">Next</span>
+	<span class="hidden sm:block">{label}</span>
 	<CaretRight
 		aria-hidden="true"
 		data-icon="inline-end"

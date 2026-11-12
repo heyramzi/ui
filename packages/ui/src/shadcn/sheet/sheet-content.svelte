@@ -19,6 +19,7 @@
 		class: className,
 		side = "right",
 		showCloseButton = true,
+		closeLabel = "Close",
 		floating,
 		portalProps,
 		children,
@@ -27,6 +28,8 @@
 		portalProps?: WithoutChildrenOrChild<ComponentProps<typeof SheetPortal>>;
 		side?: Side;
 		showCloseButton?: boolean;
+		/** What a screen reader calls the built-in close button, in the app's language. */
+		closeLabel?: string;
 		/**
 		 * From `sm` up a left or right sheet floats 8px off the edge, like SidePanel;
 		 * `floating={false}` keeps it flush. A phone stays full bleed for the width.
@@ -82,7 +85,7 @@
 				{#snippet child({ props })}
 					<Button variant="ghost" class="absolute top-3 right-2" size="sm" icon {...props}>
 						<X aria-hidden="true" size={16} />
-						<span class="sr-only">Close</span>
+						<span class="sr-only">{closeLabel}</span>
 					</Button>
 				{/snippet}
 			</SheetPrimitive.Close>

@@ -70,6 +70,7 @@ export const overlayNotes: Record<string, A11yNote> = {
     notes: [
       "Focus moves into the dialog when it opens and stays trapped there until it closes.",
       "Dialog.Title and Dialog.Description name and describe it for a screen reader.",
+      'The close button is named "Close", or whatever `closeLabel` says.',
       "The page behind it stops scrolling while it's open.",
     ],
   },
@@ -93,7 +94,7 @@ export const overlayNotes: Record<string, A11yNote> = {
     ],
     notes: [
       "A sheet is a dialog from the edge, so Tab can't leave it while it's open.",
-      'The close button is named "Close".',
+      'The close button is named "Close", or whatever `closeLabel` says.',
       "Sheet.Title and Sheet.Description name and describe it for a screen reader.",
     ],
   },

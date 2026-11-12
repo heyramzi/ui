@@ -12,6 +12,7 @@
 		title = "Command Palette",
 		description = "Search for a command to run...",
 		showCloseButton = false,
+		closeLabel = "Close",
 		portalProps,
 		children,
 		class: className,
@@ -23,6 +24,8 @@
 			title?: string;
 			description?: string;
 			showCloseButton?: boolean;
+			/** What a screen reader calls the close button, in the app's language. */
+			closeLabel?: string;
 			class?: string;
 		} = $props();
 </script>
@@ -51,6 +54,7 @@
 		data-command-dialog="true"
 		overlayClass="t-instant"
 		{showCloseButton}
+		{closeLabel}
 		{portalProps}
 	>
 		<!-- WHY the root's opaque `bg-popover`, no glass: `.t-modal` on the content sets `will-change:

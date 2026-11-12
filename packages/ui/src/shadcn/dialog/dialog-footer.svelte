@@ -9,10 +9,13 @@
 		class: className,
 		children,
 		showCloseButton = false,
+		closeLabel = "Close",
 		band = false,
 		...restProps
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
 		showCloseButton?: boolean;
+		/** The close button's text, in the app's language. */
+		closeLabel?: string;
 		/**
 		 * Draw the footer as a band: a hairline on top and a quiet surface out to both edges
 		 * and the bottom corners. It cancels the content's `--dialog-pad` with a negative
@@ -43,7 +46,7 @@
 	{#if showCloseButton}
 		<DialogPrimitive.Close>
 			{#snippet child({ props })}
-				<Button variant="outline" {...props}>Close</Button>
+				<Button variant="outline" {...props}>{closeLabel}</Button>
 			{/snippet}
 		</DialogPrimitive.Close>
 	{/if}

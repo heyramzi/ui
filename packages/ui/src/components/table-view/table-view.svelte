@@ -57,6 +57,8 @@
 		selected?: Set<string>;
 		selectAllLabel?: string;
 		selectRowLabel?: (row: Row) => string;
+		/** The hidden head of the last column, the one holding each row's link or button. */
+		openColumnLabel?: string;
 		/** The items of a row menu: `ContextMenu.Item`s. Right-click, a long press, Shift+F10 or the ContextMenu key opens it. */
 		rowMenu?: Snippet<[Row]>;
 		/** Rows that return the same key sit under one header row, and `null` rows sit with no header. Order `rows` so a group is contiguous. */
@@ -105,6 +107,7 @@
 		selected = $bindable(new Set<string>()),
 		selectAllLabel = "Select all rows",
 		selectRowLabel,
+		openColumnLabel = "Open",
 		rowMenu,
 		group,
 		groupHeader,
@@ -408,7 +411,7 @@
 					{/if}
 				{/each}
 				{#if opens}
-					<th class="w-0 p-0"><span class="sr-only">Open</span></th>
+					<th class="w-0 p-0"><span class="sr-only">{openColumnLabel}</span></th>
 				{/if}
 			</Table.Row>
 		</Table.Header>

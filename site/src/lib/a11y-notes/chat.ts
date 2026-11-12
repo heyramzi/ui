@@ -40,9 +40,9 @@ export const chatNotes: Record<string, A11yNote> = {
       { keys: ["Space", "Enter"], does: "On the scroll button, jumps to the end." },
     ],
     notes: [
-      'The thread is a region named "Messages" that takes focus.',
+      'The thread is a region named "Messages" that takes focus. Rename it with `aria-label` on the viewport.',
       "The message list is a log, so new messages are read out as they arrive.",
-      'The scroll button is named "Scroll to end" or "Scroll to start".',
+      'The scroll button is named "Scroll to end" or "Scroll to start", or whatever its `label` says.',
       "After the jump the button hides and focus moves to the thread.",
     ],
   },
