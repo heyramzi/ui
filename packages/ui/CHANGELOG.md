@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.7.1](https://github.com/heyramzi/ui/compare/ui-v3.7.0...ui-v3.7.1) (2026-11-12)
+
+### Bug Fixes
+
+* fix(ui): a consumer's dev server prebundles the package with no config (TSK-2605)
+
+### Performance
+
+* perf(canvas): pen nodes write their names in one batch, not one board redraw each (TSK-1131)
+
+
 ## [3.7.0](https://github.com/heyramzi/ui/compare/ui-v3.6.0...ui-v3.7.0) (2026-11-12)
 
 ### Features
