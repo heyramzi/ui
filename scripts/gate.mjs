@@ -177,11 +177,12 @@ ok = run("node", [CHECK_CHANGED, ...passed, ...all.map((f) => join(ROOT, f))]) &
 const whole = new Set();
 for (const f of files.filter((file) => WHOLE.test(file))) {
   const owner = ownerOf(f);
-  for (const p of owner ? [owner] : PACKAGES) if (p.scripts?.check) whole.add(p.name);
+  for (const p of owner ? [owner] : PACKAGES) if (p.scripts?.check) whole.add(p);
 }
-for (const name of whole) {
+for (const { name, dir } of whole) {
   console.log(`\ngate: ${name}'s config or shared types changed, so its whole check runs`);
-  const check = ["pnpm", "--filter", name, "run", "check"];
+  // WHY --dir, not --filter: pnpm 12 refuses a filtered run when the root node_modules is a link, as in the push gate's temporary worktree.
+  const check = ["pnpm", "--dir", dir, "run", "check"];
   const gated = existsSync(HEAVY_GATE)
     ? ["python3", [HEAVY_GATE, "run", "--", ...check]]
     : [check[0], check.slice(1)];
