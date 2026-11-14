@@ -24,9 +24,12 @@ The analytics module provides wrappers for Umami tracking across different envir
 #### Server-side (Node.js/SvelteKit)
 
 ```typescript
+import { dev } from '$app/env';
 import { initServer, trackServer } from '@heyramzi/marketing/analytics/server';
 
+// Re-exported from @heyramzi/utils. enabled is required: false sends nothing, so dev and tests stay out of production.
 initServer({
+  enabled: !dev,
   hostUrl: 'https://umami.example.com',
   websiteId: process.env.UMAMI_WEBSITE_ID,
   hostname: 'example.com',
