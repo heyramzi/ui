@@ -153,7 +153,16 @@
 			class="testimonial-mux-player size-full"
 		></mux-player>
 	{:else if embedUrl}
-		<iframe src={embedUrl} class="absolute inset-0 size-full" allowfullscreen {title}></iframe>
+		<!-- WHY sandbox: the players need script and their own origin's storage to play, and nothing
+			 else: no top navigation, forms or popups. allow-same-origin is safe only because getEmbedUrl
+			 returns a YouTube, Vimeo or Loom url, never this page's origin. -->
+		<iframe
+			src={embedUrl}
+			sandbox="allow-scripts allow-same-origin allow-presentation"
+			class="absolute inset-0 size-full"
+			allowfullscreen
+			{title}
+		></iframe>
 	{:else}
 		<video
 			bind:this={videoEl}
