@@ -32,6 +32,7 @@
 	import { FolderSimple } from "phosphor-svelte";
 	import { Copied } from "#src/components/copy/copied.svelte.js";
 	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	interface Props {
 		item: InboxItem;
@@ -261,9 +262,9 @@
 					{/if}
 					<span class={FACT}>
 						<!-- The linked record is a chip inside the line, a link when the project has a page. -->
-						{#if item.project.href}
+						{#if safeHref(item.project.href)}
 							<a
-								href={item.project.href}
+								href={safeHref(item.project.href)}
 								class={workLooks.chipLink}
 								aria-label="Project: {item.project.name}"
 							>

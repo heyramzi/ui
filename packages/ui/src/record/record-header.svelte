@@ -8,6 +8,7 @@
 	import type { Tone } from "#src/lib/tone.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import { gutterClass } from "#src/record/gutter.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	// =========================
 	// PROPS
@@ -45,7 +46,7 @@
 <header class={cn("flex flex-col gap-2 border-b border-border py-3", gutterClass, className)}>
 	{#if parent}
 		<a
-			href={parent.href}
+			href={safeHref(parent.href)}
 			class="-ml-1 inline-flex min-h-6 w-fit max-w-full items-center gap-0.5 rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground any-pointer-coarse:min-h-11"
 		>
 			<CaretLeft class="size-3.5 shrink-0" aria-hidden="true" />

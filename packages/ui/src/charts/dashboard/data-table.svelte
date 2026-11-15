@@ -42,6 +42,7 @@
 	 * optional pager. A row opens by `rowHref` or `onRowClick`, stretched over the row from the lead.
 	 */
 	import { cn } from "#src/lib/utils.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import RatingChip from "#src/charts/dashboard/rating-chip.svelte";
 	import Hint from "#src/charts/dashboard/hint.svelte";
 	import {
@@ -216,7 +217,7 @@
 					<tr class={cn(dataTrClass, "group", opens && "relative cursor-pointer")}>
 						<td class={cn(dataTdClass, "py-3")}>
 							{#if rowHref}
-								<a href={rowHref(row)} class={stretch}>{@render lead(row)}</a>
+								<a href={safeHref(rowHref(row))} class={stretch}>{@render lead(row)}</a>
 							{:else if onRowClick}
 								<button type="button" class={stretch} onclick={() => onRowClick(row)}>
 									{@render lead(row)}

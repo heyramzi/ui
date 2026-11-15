@@ -423,6 +423,25 @@ describe("fields", () => {
     expect(saved).toEqual([["budget", 9000]]);
   });
 
+  // The audit's finding: a url field rendered whatever scheme an editor saved as a live link.
+  it("links a url field only to http, https or mailto, and shows anything else as text", () => {
+    const site: FieldDef = { key: "site", label: "Website", type: "url" };
+    expect(fieldRow(site, "https://www.example.com/").href).toBe("https://www.example.com/");
+    expect(fieldRow(site, "http://example.com").href).toBe("http://example.com/");
+    expect(fieldRow(site, "mailto:hi@example.com").href).toBe("mailto:hi@example.com");
+    for (const hostile of [
+      "javascript:alert(document.domain)",
+      " javascript:alert(1)",
+      "java\tscript:alert(1)",
+      "data:text/html,<script>alert(1)</script>",
+      "vbscript:msgbox(1)",
+    ]) {
+      const row = fieldRow(site, hostile);
+      expect(row.href).toBeUndefined();
+      expect(row.value).toBe(hostile);
+    }
+  });
+
   it("leaves a row read-only when no onSave is given, and empty values undrawn", () => {
     const row = fieldRow(size, null);
     expect(row.onSave).toBeUndefined();

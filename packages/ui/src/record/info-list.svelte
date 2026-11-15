@@ -14,6 +14,7 @@
 	import { TagsInput } from "#src/components/tags-input/index.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import { resolveLabels, type InfoRow, type RecordLabels } from "#src/record/types.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	// =========================
 	// PROPS
@@ -171,9 +172,9 @@
 		<StatusBadge tone={row.tone} capitalize={false} class="w-fit max-w-full"
 			>{row.value}</StatusBadge
 		>
-	{:else if row.href && row.value}
+	{:else if safeHref(row.href) && row.value}
 		<a
-			href={row.href}
+			href={safeHref(row.href)}
 			title={row.value}
 			class={cn(
 				"min-w-0 truncate text-sm font-medium underline-offset-2 hover:underline",

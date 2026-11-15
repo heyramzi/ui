@@ -10,6 +10,7 @@
 	import { formatRange } from "#src/record/format.js";
 	import { todayIso } from "#src/work/dates.js";
 	import { resolveLabels, type RecordLabels, type RecordNext } from "#src/record/types.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	// =========================
 	// PROPS
@@ -61,8 +62,8 @@
 				>{when}</span
 			>
 		{/if}
-		{#if next.href}
-			<a href={next.href} class="min-w-0 truncate underline-offset-2 hover:underline"
+		{#if safeHref(next.href)}
+			<a href={safeHref(next.href)} class="min-w-0 truncate underline-offset-2 hover:underline"
 				>{next.label}</a
 			>
 		{:else}

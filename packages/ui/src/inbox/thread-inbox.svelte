@@ -38,6 +38,7 @@
 	} from "#src/thread/index.js";
 	import InboxCard from "#src/work/inbox/inbox-card.svelte";
 	import { whenOf } from "#src/work/inbox/inbox-logic.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import type { InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
 	import {
 		NO_FILTER,
@@ -490,8 +491,8 @@
 								<Check aria-hidden="true" />{labels.clear}
 							</Button>
 						{/if}
-						{#if current.subject.href}
-							<Button size="sm" variant="ghost" href={current.subject.href}>
+						{#if safeHref(current.subject.href)}
+							<Button size="sm" variant="ghost" href={safeHref(current.subject.href)}>
 								<ArrowSquareOut aria-hidden="true" />{labels.open}
 							</Button>
 						{/if}

@@ -3,6 +3,7 @@
 	// IMPORTS
 	// =========================
 	import { cn } from "#src/lib/utils.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import { Progress } from "#src/shadcn/progress/index.js";
 	import { TONE_TEXT } from "#src/lib/tone.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
@@ -115,10 +116,11 @@
 	<ul class={cn("flex flex-col gap-1", className)}>
 		{#each projects as project (project.id)}
 			{@const active = project.id === activeId}
+			{@const href = safeHref(project.href)}
 			<li>
-				{#if project.href}
+				{#if href}
 					<a
-						href={project.href}
+						{href}
 						aria-current={active ? "page" : undefined}
 						class={cn(
 							"flex flex-col gap-1.5 rounded-lg px-2 py-2 transition-colors any-pointer-coarse:py-3",

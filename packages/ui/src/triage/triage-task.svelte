@@ -2,6 +2,7 @@
 	import { Button } from "#src/shadcn/button/index.js";
 	import StatusBadge from "#src/status/status-badge.svelte";
 	import { cn } from "#src/lib/utils.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import {
 		DEFAULT_TRIAGE_TASK_LABELS,
 		type TriageOutcome,
@@ -72,7 +73,7 @@
 			<StatusBadge tone={outcome.tone} capitalize={false}>{outcome.label}</StatusBadge>
 			{#if task}
 				<a
-					href={task.url}
+					href={safeHref(task.url)}
 					target="_blank"
 					rel="noreferrer"
 					class="text-primary min-w-0 text-xs [overflow-wrap:anywhere] hover:underline"

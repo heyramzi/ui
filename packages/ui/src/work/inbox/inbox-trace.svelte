@@ -2,6 +2,7 @@
 	import { Brain } from "phosphor-svelte";
 	import * as Trace from "#src/shadcn/trace/index.js";
 	import type { InboxTrace } from "#src/work/inbox/inbox-types.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	interface Props {
 		trace: InboxTrace;
@@ -30,12 +31,13 @@
 	</Trace.CollapsibleTrigger>
 	<Trace.CollapsibleContent class="mt-3 mb-0 ml-0 border-l-2 pr-0 pl-3">
 		<div class="flex flex-col gap-3">
-			{#if label || trace.source.href}
+			{#if label || safeHref(trace.source.href)}
 				<p class="text-foreground">
 					{label}
-					{#if trace.source.href}
-						<a href={trace.source.href} class="text-foreground underline underline-offset-2"
-							>Open source</a
+					{#if safeHref(trace.source.href)}
+						<a
+							href={safeHref(trace.source.href)}
+							class="text-foreground underline underline-offset-2">Open source</a
 						>
 					{/if}
 				</p>

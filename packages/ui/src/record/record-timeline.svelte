@@ -14,6 +14,7 @@
 	import { DEFAULT_RECORD_FILTERS, DEFAULT_RECORD_KINDS } from "#src/record/kinds.js";
 	import { formatDayHeader, formatMoney, formatTime } from "#src/record/format.js";
 	import { measureClamp } from "#src/record/measure-clamp.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import {
 		dayRelation,
 		eventsForFilter,
@@ -172,9 +173,9 @@
 										{@render custom(event)}
 									{:else}
 										<p class="text-sm leading-snug font-medium wrap-anywhere">
-											{#if event.href}
+											{#if safeHref(event.href)}
 												<a
-													href={event.href}
+													href={safeHref(event.href)}
 													class="-my-1 inline-block py-1 underline-offset-2 hover:underline"
 													>{event.title}</a
 												>
@@ -235,7 +236,7 @@
 										{#if showProject && event.projectName}
 											<Badge
 												variant="outline"
-												href={event.projectHref ?? undefined}
+												href={safeHref(event.projectHref)}
 												class="max-w-48 truncate"
 											>
 												{event.projectName}

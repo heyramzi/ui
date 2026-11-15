@@ -15,6 +15,18 @@ function hasOptions(field: FieldDef): field is Extract<FieldDef, { type: "choice
 
 export type FieldValues = Record<string, FieldValue | undefined>;
 
+const WEB_PROTOCOLS = new Set(["http:", "https:", "mailto:"]);
+
+/** A url field's link: http, https or mailto only. Anything else, javascript: above all, shows as text. */
+function webLink(text: string): string | undefined {
+  try {
+    const url = new URL(text);
+    return WEB_PROTOCOLS.has(url.protocol) ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function isEmpty(value: FieldValue | undefined): boolean {
   return value == null || value === "" || (Array.isArray(value) && value.length === 0);
 }
@@ -144,7 +156,7 @@ export function fieldRow(
         row.value = String(value)
           .replace(/^https?:\/\/(www\.)?/, "")
           .replace(/\/$/, "");
-        row.href = String(value);
+        row.href = webLink(String(value));
         break;
       case "email":
         row.value = String(value);

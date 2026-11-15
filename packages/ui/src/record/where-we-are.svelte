@@ -11,6 +11,7 @@
 	import { formatAge } from "#src/record/format.js";
 	import { measureClamp } from "#src/record/measure-clamp.js";
 	import { resolveLabels, type RecordLabels } from "#src/record/types.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	// =========================
 	// PROPS
@@ -74,9 +75,9 @@
 			>
 				<span class="font-medium text-foreground">{t.whereWeAre}</span>
 				{#if project}
-					{#if project.href}
+					{#if safeHref(project.href)}
 						<a
-							href={project.href}
+							href={safeHref(project.href)}
 							class="font-medium text-foreground underline-offset-2 hover:underline"
 							>{project.name}</a
 						>

@@ -2,6 +2,7 @@
 	import * as TraceUI from "#src/shadcn/trace/index.js";
 	import { TagChip } from "#src/components/chip/index.js";
 	import type { ThreadEvent } from "#src/thread/types.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 
 	interface Props {
 		events: ThreadEvent[];
@@ -34,8 +35,9 @@
 				{#if event.record}
 					{@const record = event.record}
 					{@const [before, after] = split(event)}
-					{before}{#if record.href}<a
-							href={record.href}
+					{@const recordHref = safeHref(record.href)}
+					{before}{#if recordHref}<a
+							href={recordHref}
 							class="rounded-sm align-middle outline-none focus-visible:shadow-[var(--ring-focus)]"
 							><TagChip>
 								{#snippet icon()}{#if record.icon}{@const RecordIcon = record.icon}<RecordIcon

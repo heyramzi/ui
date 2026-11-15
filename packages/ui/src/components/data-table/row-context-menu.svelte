@@ -6,6 +6,7 @@
 	import { HoldToConfirm } from "#src/components/hold-to-confirm/index.js";
 	import { ArrowUpRight, Copy, LinkSimple, Trash } from "phosphor-svelte";
 	import { copyText } from "#src/components/copy/clipboard.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import type { Snippet } from "svelte";
 	import { MENU_KEYS, openMenuFromKey } from "#src/components/data-table/menu-key.js";
 
@@ -42,7 +43,8 @@
 	// FUNCTIONS
 	// =========================
 	function handleOpen() {
-		if (href) window.location.href = href;
+		const target = safeHref(href);
+		if (target) window.location.href = target;
 	}
 
 	// WHY the whole URL and not the path: what leaves this menu is pasted into a
@@ -68,7 +70,7 @@
 		{/snippet}
 	</ContextMenu.Trigger>
 	<ContextMenu.Content class="w-48">
-		{#if href}
+		{#if safeHref(href)}
 			<ContextMenu.Item onclick={handleOpen}>
 				<ArrowUpRight aria-hidden="true" size={14} />
 				Open

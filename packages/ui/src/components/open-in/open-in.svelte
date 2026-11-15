@@ -25,6 +25,7 @@
 	// =========================
 	import { ArrowSquareOut } from "phosphor-svelte";
 	import { cn } from "#src/lib/utils.js";
+	import { safeHref } from "#src/lib/safe-href.js";
 	import { buttonVariants } from "#src/shadcn/button/index.js";
 
 	// =========================
@@ -78,7 +79,7 @@
 	onkeydown={(e) => e.stopPropagation()}
 >
 	<a
-		{href}
+		href={safeHref(href)}
 		target="_blank"
 		rel="noopener noreferrer"
 		aria-label={action}
