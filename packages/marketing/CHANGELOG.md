@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.20.3](https://github.com/heyramzi/ui/compare/marketing-v1.20.2...marketing-v1.20.3) (2026-11-15)
+
+### Bug Fixes
+
+* fix(marketing): testimonial embeds take only https on YouTube, Vimeo and Loom, rebuilt from a checked id, in a sandboxed frame (TSK-2895)
+* fix(marketing): analytics/server re-exports @heyramzi/utils' tracker, enabled included (TSK-2879)
+* fix(deps): @heyramzi/utils 1.18.1, so events tracked before Umami loads are sent (TSK-2615)
+
+
 ## Unreleased
 
 ### Breaking changes
