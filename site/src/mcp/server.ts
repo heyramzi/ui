@@ -83,7 +83,38 @@ function decodeHeader(value: string | null): string | null {
   return new TextDecoder().decode(Uint8Array.from(atob(encoded), (c) => c.charCodeAt(0)));
 }
 
-const NOT_JSON = Symbol("not json");
+// WHY: /mcp is public and anonymous, and Cloudflare lets a body up to 100 MB through. One JSON-RPC
+// message is a few KB, so 64 KB leaves room for a client's capabilities and refuses the rest unread.
+export const MAX_BODY_BYTES = 65_536;
+// WHY: rank() tests every query word against every component, so the word count sets the CPU bill.
+// A search is a few words, and a slug is shorter still.
+export const MAX_QUERY_CHARS = 200;
+
+/** The body as text, or null once it passes `limit` bytes, read no further than that. */
+async function readCapped(request: Request, limit: number): Promise<string | null> {
+  if (Number(request.headers.get("content-length")) > limit) return null;
+  if (!request.body) return "";
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > limit) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(size);
+  let at = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, at);
+    at += chunk.byteLength;
+  }
+  return new TextDecoder().decode(bytes);
+}
 
 export async function handleMcp(request: Request, docs: Docs): Promise<Response> {
   if (!originAllowed(request))
@@ -92,9 +123,22 @@ export async function handleMcp(request: Request, docs: Docs): Promise<Response>
   if (request.method !== "POST")
     return new Response(null, { status: 405, headers: { allow: "POST" } });
 
-  const message: unknown = await request.json().catch(() => NOT_JSON);
-  if (message === NOT_JSON)
+  const body = await readCapped(request, MAX_BODY_BYTES);
+  if (body === null)
+    return json(
+      errorBody(
+        undefined,
+        INVALID_REQUEST,
+        `Request too large: send at most ${MAX_BODY_BYTES} bytes`,
+      ),
+      413,
+    );
+  let message: unknown;
+  try {
+    message = JSON.parse(body);
+  } catch {
     return json(errorBody(undefined, PARSE_ERROR, "Parse error: the body isn't JSON"), 400);
+  }
   if (
     !isRecord(message) ||
     message.jsonrpc !== "2.0" ||
@@ -350,6 +394,8 @@ function rank(registry: Registry, query: string): RegistryComponent[] {
 function searchComponents(registry: Registry, query: unknown): ToolResult {
   if (typeof query !== "string" || !words(query).length)
     return text("Pass a query with at least one word, such as 'tabs'.", true);
+  if (query.length > MAX_QUERY_CHARS)
+    return text(`Keep the query under ${MAX_QUERY_CHARS} characters, such as 'tabs'.`, true);
   const found = rank(registry, query).slice(0, 10);
   if (!found.length)
     return text(`Nothing matches "${query}". Call list_components to see every component.`);
@@ -367,6 +413,8 @@ function searchComponents(registry: Registry, query: unknown): ToolResult {
 async function getComponent(registry: Registry, docs: Docs, slug: unknown): Promise<ToolResult> {
   if (typeof slug !== "string" || !slug.trim())
     return text("Pass the component's slug, such as 'tabs'.", true);
+  if (slug.length > MAX_QUERY_CHARS)
+    return text("No component has a slug that long. Call list_components for the slugs.", true);
   const key = slug.trim().toLowerCase();
   const component = registry.components.find(
     (c) => c.slug === key || c.title.toLowerCase() === key,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 import type { Registry } from "#lib/component-registry.js";
-import { handleMcp, MODERN, type Docs } from "#src/mcp/server.js";
+import { handleMcp, MAX_BODY_BYTES, MODERN, type Docs } from "#src/mcp/server.js";
 
 // Cases follow the MCP spec's Streamable HTTP page (revisions 2026-07-28 and 2025-11-25).
 
@@ -288,5 +288,28 @@ describe("transport", () => {
     const res = await post([{ jsonrpc: "2.0", id: 1, method: "ping" }]);
     expect(res.status).toBe(400);
     expect((await res.json()).error.code).toBe(-32600);
+  });
+
+  it("refuses a body over the cap with 413 before parsing it", async () => {
+    const res = await post({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "ping",
+      pad: "x".repeat(MAX_BODY_BYTES),
+    });
+    expect(res.status).toBe(413);
+    expect((await res.json()).error.code).toBe(-32600);
+  });
+
+  it("refuses a search query or slug over the cap without ranking or echoing it", async () => {
+    const long = "zz ".repeat(5000);
+    for (const [name, args] of [
+      ["search_components", { query: long }],
+      ["get_component", { slug: long }],
+    ] as const) {
+      const { result } = await (await modern("tools/call", { name, arguments: args })).json();
+      expect(result.isError).toBe(true);
+      expect(result.content[0].text).not.toContain(long);
+    }
   });
 });
