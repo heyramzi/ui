@@ -1,5 +1,5 @@
 {
   "extends": "$app/tsconfig",
   "compilerOptions": { "strict": true, "skipLibCheck": true },
-  "exclude": ["node_modules", "build", ".svelte-kit", ".wrangler"]
+  "exclude": ["node_modules", "build", ".svelte-kit", ".wrangler", "e2e/report", "e2e/results"]
 }
