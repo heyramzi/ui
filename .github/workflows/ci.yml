@@ -1,6 +1,6 @@
 name: CI
 
-# Typecheck, unit tests and lint, then the gallery suite: every site page at 390 and 1280 wide,
+# Typecheck, unit tests and lint, each its own job, beside the gallery suite: every site page at 390 and 1280 wide,
 # light and dark, failing on console errors, new axe violations and screenshot diffs.
 #
 # Dispatch only, on the VPS runners (vibe-kit ai-doc/references/github-actions-cost.md). Run it with
@@ -28,8 +28,23 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+# `pnpm verify` split into 3 light jobs, each in its own 2560M container: setup is about 35 s
+# against a 386 s verify step, and sharing one container got a build killed (137) before.
 jobs:
-  verify:
+  check:
+    if: ${{ !inputs.update_baselines && !inputs.record_axe }}
+    runs-on: [self-hosted, Linux, X64, studio-linux]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.1.1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+
+  test:
     if: ${{ !inputs.update_baselines && !inputs.record_axe }}
     runs-on: [self-hosted, Linux, X64, studio-linux]
     timeout-minutes: 20
@@ -43,7 +58,20 @@ jobs:
       # review's build.test.ts builds dist when it's missing. Inside `pnpm test` that build ran
       # beside the other packages' suites and the light runner killed it (137, run 42860821936).
       - run: pnpm --filter @heyramzi/review build
-      - run: pnpm verify
+      - run: pnpm test
+
+  lint:
+    if: ${{ !inputs.update_baselines && !inputs.record_axe }}
+    runs-on: [self-hosted, Linux, X64, studio-linux]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6.1.1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
 
   # Heavy: the site build and Chromium together pass a light runner's 2560 MB.
   gallery:
