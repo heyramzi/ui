@@ -75,7 +75,12 @@
      clip it would flash as the whole line. -->
 <defs>
 	<clipPath {id}>
-		<rect x={left.current} y={-bleed} width={width.current} height={ctx.height + bleed * 2} />
+		<rect
+			x={left.current}
+			y={-bleed}
+			width={Math.max(0, width.current)}
+			height={Math.max(0, ctx.height + bleed * 2)}
+		/>
 	</clipPath>
 </defs>
 {#if band}

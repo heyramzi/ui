@@ -52,7 +52,7 @@
 			x={-bleed}
 			y={-bleed}
 			width={Math.max(0, (ctx.width + bleed * 2) * progress.current)}
-			height={ctx.height + bleed * 2}
+			height={Math.max(0, ctx.height + bleed * 2)}
 		/>
 	</clipPath>
 </defs>
