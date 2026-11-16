@@ -82,10 +82,14 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
       -c core.hooksPath=/dev/null read-tree --reset -u HEAD || exit 1
     # A worktree lacks node_modules, generated output and the gitignored .impeccable config: fallow called imports unresolved, the design gate flagged brand fonts (TSK-2432).
     ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt -o -name .impeccable \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm"
+    : > "$__push_wt.kit"
     while IFS= read -r __push_nm; do
       __push_nm=${__push_nm#./}
       if [ ! -d "$__push_wt/$(dirname "$__push_nm")" ] || [ -e "$__push_wt/$__push_nm" ]; then
         :
+      elif [ "$(basename "$__push_nm")" = .svelte-kit ]; then
+        # A linked .svelte-kit typed the real checkout's untracked routes: 27 errors refused an immo push (16 Nov 2026).
+        dirname "$__push_nm" >> "$__push_wt.kit"
       elif [ -d "$__push_real/$__push_nm/\$app" ]; then
         # Kit's $app/tsconfig.json holds relative paths, so it's copied: through a link it resolved outside the worktree and fallow dropped @ext.
         mkdir "$__push_wt/$__push_nm" || exit 1
@@ -100,6 +104,18 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
       fi
     done < "$__push_wt.nm"
     rm -f "$__push_wt.nm"
+    # After the node_modules links, so each app's own svelte-kit generates its types from the tip.
+    while IFS= read -r __push_app; do
+      __push_d="$__push_wt/$__push_app"
+      until [ -x "$__push_d/node_modules/.bin/svelte-kit" ] || [ "$__push_d" = "$__push_wt" ]; do
+        __push_d=$(dirname "$__push_d")
+      done
+      if [ -x "$__push_d/node_modules/.bin/svelte-kit" ]; then
+        ( cd "$__push_wt/$__push_app" && "$__push_d/node_modules/.bin/svelte-kit" sync >/dev/null 2>&1 ) ||
+          echo "push scope: svelte-kit sync failed in $__push_app, so its gates read no generated types"
+      fi
+    done < "$__push_wt.kit"
+    rm -f "$__push_wt.kit"
     echo "push scope: working tree differs from $(git rev-parse --short "$__push_tip"), gates read a temporary worktree of it"
     cd "$__push_wt"
     # pnpm's install before a script wrote through the links and repointed the real .bin shims at this worktree.
