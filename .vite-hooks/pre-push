@@ -70,18 +70,23 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     # detached HEAD (29 Oct 2026).
     __push_common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
     __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
-    # The links go first: a recursive delete must never reach the real node_modules behind them.
-    trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; rm -rf "$__push_wt" "$__push_admin"; rm -f "$__push_links"' EXIT
+    # The links go first, so a recursive delete never reaches the real node_modules. The tree goes in the background:
+    # upsys's 4.5 GB took 3 to 8 s (TSK-2955).
+    trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; rm -rf "$__push_admin"; rm -f "$__push_links" "$__push_wt.nm" "$__push_wt.kit"; ( rm -rf "$__push_wt" ) </dev/null >/dev/null 2>&1 &' EXIT
     trap 'exit 130' INT TERM HUP
     mkdir -p "$__push_admin" || exit 1
     printf '%s\n' "$__push_common" > "$__push_admin/commondir"
     printf '%s\n' "$__push_tip" > "$__push_admin/HEAD"
     printf 'gitdir: %s\n' "$__push_admin" > "$__push_wt/.git"
-    # The explicit dirs and the unset index keep an inherited GIT_DIR or GIT_INDEX_FILE from resetting the real checkout.
-    env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$__push_admin" --work-tree="$__push_wt" \
-      -c core.hooksPath=/dev/null read-tree --reset -u HEAD || exit 1
     # A worktree lacks node_modules, generated output and the gitignored .impeccable config: fallow called imports unresolved, the design gate flagged brand fonts (TSK-2432).
-    ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt -o -name .impeccable \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm"
+    # Found in the real tree, during the checkout.
+    ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt -o -name .impeccable \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm" &
+    __push_find=$!
+    # The explicit dirs and the unset index keep an inherited GIT_DIR or GIT_INDEX_FILE off the real checkout.
+    # A worker per core: upsys took 40 s with one, 13 s with 12.
+    env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$__push_admin" --work-tree="$__push_wt" \
+      -c core.hooksPath=/dev/null -c checkout.workers=0 read-tree --reset -u HEAD || { wait "$__push_find"; exit 1; }
+    wait "$__push_find"
     : > "$__push_wt.kit"
     while IFS= read -r __push_nm; do
       __push_nm=${__push_nm#./}
@@ -104,17 +109,20 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
       fi
     done < "$__push_wt.nm"
     rm -f "$__push_wt.nm"
-    # After the node_modules links, so each app's own svelte-kit generates its types from the tip.
+    # After the node_modules links, so each app's own svelte-kit generates its types from the tip. The apps sync side by side.
+    __push_syncs=""
     while IFS= read -r __push_app; do
       __push_d="$__push_wt/$__push_app"
       until [ -x "$__push_d/node_modules/.bin/svelte-kit" ] || [ "$__push_d" = "$__push_wt" ]; do
         __push_d=$(dirname "$__push_d")
       done
       if [ -x "$__push_d/node_modules/.bin/svelte-kit" ]; then
-        ( cd "$__push_wt/$__push_app" && "$__push_d/node_modules/.bin/svelte-kit" sync >/dev/null 2>&1 ) ||
-          echo "push scope: svelte-kit sync failed in $__push_app, so its gates read no generated types"
+        { ( cd "$__push_wt/$__push_app" && "$__push_d/node_modules/.bin/svelte-kit" sync >/dev/null 2>&1 ) ||
+          echo "push scope: svelte-kit sync failed in $__push_app, so its gates read no generated types"; } &
+        __push_syncs="$__push_syncs $!"
       fi
     done < "$__push_wt.kit"
+    for __push_s in $__push_syncs; do wait "$__push_s"; done
     rm -f "$__push_wt.kit"
     echo "push scope: working tree differs from $(git rev-parse --short "$__push_tip"), gates read a temporary worktree of it"
     cd "$__push_wt"
@@ -128,14 +136,63 @@ export PUSH_FILES
 __push_code=$(printf '%s\n' "$PUSH_FILES" | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|svelte)$' || true)
 # <<< push scope (managed) <<<
 
+# >>> gate runner (managed) >>>
+# `__gate_bg <name> <function>` starts a gate as a background job with its own log. `__gate_wait` prints
+# the logs in start order and fails naming every gate that failed. The repo's own lines can use both.
+__gate_list=""
+__gate_dir=""
+__gate_bg() {
+  [ -n "$__gate_dir" ] || __gate_dir=$(mktemp -d "${TMPDIR:-/tmp}/push-gates.XXXXXX") || exit 1
+  (
+    __gate_t=$(date +%s)
+    if ( "$2" ); then __gate_rc=0; else __gate_rc=$?; fi
+    echo "$(($(date +%s) - __gate_t))" > "$__gate_dir/$1.s"
+    exit "$__gate_rc"
+  ) > "$__gate_dir/$1" 2>&1 &
+  __gate_list="$__gate_list $1:$!"
+}
+__gate_wait() {
+  __gate_failed=""
+  for __gate in $__gate_list; do
+    if wait "${__gate##*:}"; then __gate_rc=0; else __gate_rc=$?; fi
+    __gate=${__gate%:*}
+    cat "$__gate_dir/$__gate"
+    __gate_s=$(cat "$__gate_dir/$__gate.s" 2>/dev/null || echo "?")
+    if [ "$__gate_rc" -eq 0 ]; then
+      echo "-- $__gate: ok in ${__gate_s}s"
+    else
+      echo "-- $__gate: FAILED (exit $__gate_rc) in ${__gate_s}s"
+      __gate_failed="$__gate_failed $__gate"
+    fi
+  done
+  [ -z "$__gate_dir" ] || rm -rf "$__gate_dir"
+  __gate_dir=""
+  __gate_list=""
+  [ -z "$__gate_failed" ] || { echo "push gate: failed:$__gate_failed"; return 1; }
+}
+# A background job ignores Ctrl-C, so the interrupt kills each gate and its children before the scope's cleanup runs.
+__gate_kill() {
+  for __gate_p in "$@"; do
+    __gate_kids=$(pgrep -P "$__gate_p" 2>/dev/null)
+    kill "$__gate_p" 2>/dev/null
+    [ -z "$__gate_kids" ] || __gate_kill $__gate_kids
+  done
+}
+trap 'for __gate in $__gate_list; do __gate_kill "${__gate##*:}"; done; [ -z "$__gate_dir" ] || rm -rf "$__gate_dir"; exit 130' INT TERM HUP
+# <<< gate runner (managed) <<<
+
 # >>> repo pre-push (managed) >>>
 # This repo's own checks, in its tracked scripts/hooks/pre-push.
-sh scripts/hooks/pre-push </dev/null || exit 1
+__gate_repo() {
+  sh scripts/hooks/pre-push </dev/null || exit 1
+}
+__gate_bg repo __gate_repo
 # <<< repo pre-push (managed) <<<
 
 # >>> comment-length pre-push guard (managed) >>>
 # The 30-word comment cap, packages/lint/README.md in vibe-kit. Installed by
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+__gate_comment_length() {
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __cl_root=$(git rev-parse --show-toplevel)
   __cl_bin="$HOME/Studio/upsys/kit/packages/lint/bin/heyramzi-comment-length.js"
@@ -149,11 +206,14 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
     echo "comment-length: skip (@heyramzi/lint not installed)"
   fi
 fi
+}
+__gate_bg comment-length __gate_comment_length
 # <<< comment-length pre-push guard (managed) <<<
 
 # >>> code gate pre-push guard (managed) >>>
 # Format and lint only the pushed files. Whole-project checks run in CI.
 # vibe-kit svelte-standards/references/lint.md. Installed by pre-push-hooks.sh.
+__gate_code() {
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __cg_root=$(git rev-parse --show-toplevel)
   if [ -z "${__push_code-}" ]; then
@@ -173,11 +233,14 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
     fi
   fi
 fi
+}
+__gate_bg code __gate_code
 # <<< code gate pre-push guard (managed) <<<
 
 # >>> slop pre-push guard (managed) >>>
 # The slop check over this repo's copy. Installed by
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+__gate_slop() {
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __sl_check="$HOME/Studio/upsys/kit/ai-doc/scripts/slop-check.mjs"
   if [ -f "$__sl_check" ]; then
@@ -207,11 +270,14 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
     echo "slop: skip (no vibe-kit checkout)"
   fi
 fi
+}
+__gate_bg slop __gate_slop
 # <<< slop pre-push guard (managed) <<<
 
 # >>> design pre-push guard (managed) >>>
 # Impeccable detector over pushed UI files. Installed by
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+__gate_design() {
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __design_root=$(git rev-parse --show-toplevel)
   __design_bin="$__design_root/.claude/skills/impeccable/scripts/impeccable"
@@ -230,11 +296,14 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
       | xargs -0 sh -c 'if [ $# -gt 0 ]; then exec "$0" detect "$@"; fi' "$__design_bin" ) || exit 1
   fi
 fi
+}
+__gate_bg design __gate_design
 # <<< design pre-push guard (managed) <<<
 
 # >>> inline-path pre-push guard (managed) >>>
 # Disallow inline SVG paths in components across the repo. SVGs must be separate
 # files (.svg) and imported. Installed by vibe-kit/ai-doc/scripts/pre-push-hooks.sh.
+__gate_inline_path() {
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __ip_check="$HOME/Studio/upsys/kit/ai-doc/scripts/inline-path-check.mjs"
   if ! printf '%s\n' "$PUSH_FILES" | grep -qE '\.(svelte|vue|jsx|tsx)$'; then
@@ -246,11 +315,14 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
     echo "inline-path: skip (no vibe-kit checkout)"
   fi
 fi
+}
+__gate_bg inline-path __gate_inline_path
 # <<< inline-path pre-push guard (managed) <<<
 
 # >>> push gates (managed) >>>
 # UI, Svelte markup, pushed-diff, old-name and repo convention gates over PUSH_FILES. Installed by
 # vibe-kit/ai-doc/scripts/pre-push-hooks.sh; edit there, not here.
+__gate_push_gates() {
 if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
   __pg_root=$(git rev-parse --show-toplevel)
   __pg_lint="$HOME/Studio/upsys/kit/packages/lint/bin"
@@ -269,4 +341,10 @@ if [ "${HUSKY-}" != "0" ] && [ "${VITE_GIT_HOOKS-}" != "0" ]; then
       ( cd "$__pg_root" && node "$HOME/Studio/upsys/kit/ai-doc/scripts/check-public-hygiene.mjs" ) || exit 1 ;;
   esac
 fi
+}
+__gate_bg push-gates __gate_push_gates
 # <<< push gates (managed) <<<
+
+# >>> gate results (managed) >>>
+__gate_wait || exit 1
+# <<< gate results (managed) <<<
