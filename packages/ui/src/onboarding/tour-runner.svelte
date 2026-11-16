@@ -78,6 +78,13 @@
 	// backdrop hole has to snap with it, or it trails the ring.
 	const instant = $derived(String(api.getSpotlightProps().style ?? "").includes("0ms"));
 
+	// On a tooltip step Zag makes the backdrop `absolute; inset: 0` and cuts its hole in page
+	// coordinates. Portaled to an unpositioned body, inset 0 spans the first viewport only, so
+	// the dim stopped there once the tour scrolled down. Give it the page height Zag measures.
+	const pageHeight = $derived(
+		api.step?.type === "tooltip" ? service.context.get("boundarySize").height : null,
+	);
+
 	let card = $state<HTMLElement | null>(null);
 	let cleanupMargin: (() => void) | null = null;
 
@@ -112,6 +119,8 @@
 		use:portal
 		{...api.getBackdropProps()}
 		class="tour-backdrop"
+		style:bottom={pageHeight ? "auto" : undefined}
+		style:height={pageHeight ? `${pageHeight}px` : undefined}
 		data-instant={instant || undefined}
 	></div>
 	<div use:portal {...api.getSpotlightProps()} class="tour-spotlight"></div>
