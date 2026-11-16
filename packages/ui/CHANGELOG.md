@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.3](https://github.com/heyramzi/ui/compare/ui-v3.9.2...ui-v3.9.3) (2026-11-16)
+
+### Bug Fixes
+
+* fix(ui): chart clip rects never get a negative size when drawn hidden (TSK-3005)
+
+
 ## [3.9.2](https://github.com/heyramzi/ui/compare/ui-v3.9.1...ui-v3.9.2) (2026-11-16)
 
 ### Bug Fixes
