@@ -62,39 +62,95 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     echo "push scope: working tree matches $(git rev-parse --short "$__push_tip"), gates read it in place"
   else
     __push_real=$(git rev-parse --show-toplevel)
-    # Beside the repo, not in $TMPDIR: a skill symlinked to a sibling repo, and Studio itself, resolve from there.
-    __push_wt=$(mktemp -d "$(dirname "$__push_real")/.push-gate-$(basename "$__push_real").XXXXXX")
-    __push_links="$__push_wt.links"
-    : > "$__push_links"
     # Built by hand, not `git worktree add`, so .git/worktrees stays empty: Orca listed each push's checkout as a
     # detached HEAD (29 Oct 2026).
     __push_common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
+    # Beside the repo, not in $TMPDIR: a skill symlinked to a sibling repo, and Studio itself, resolve from there.
+    # One kept checkout per repo, moved to each tip, rewrites only what changed: a fresh one wrote upsys's 31,000
+    # files in 47 s (TSK-2975). A push that finds it busy takes a temporary one.
+    __push_wt="$(dirname "$__push_real")/.push-gate-$(basename "$__push_real")"
     __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
-    # The links go first, so a recursive delete never reaches the real node_modules. The tree goes in the background:
-    # upsys's 4.5 GB took 3 to 8 s (TSK-2955).
-    trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; rm -rf "$__push_admin"; rm -f "$__push_links" "$__push_wt.nm" "$__push_wt.kit"; ( rm -rf "$__push_wt" ) </dev/null >/dev/null 2>&1 &' EXIT
+    __push_keep=0
+    if [ "${PUSH_GATE_FRESH-}" != 1 ]; then
+      if [ -f "$__push_wt.lock/pid" ] && ! kill -0 "$(cat "$__push_wt.lock/pid")" 2>/dev/null; then
+        # A push killed mid-move leaves its lock and a half-moved checkout, so both go.
+        rm -rf "$__push_wt.lock" "$__push_wt" "$__push_admin"
+      fi
+      if mkdir "$__push_wt.lock" 2>/dev/null; then
+        printf '%s\n' $$ > "$__push_wt.lock/pid"
+        __push_keep=1
+        # Its node_modules are links into the real install, so a changed lockfile rebuilds it.
+        __push_deps=$(cat "$__push_real/pnpm-lock.yaml" "$__push_real/bun.lock" 2>/dev/null | cksum)
+        [ "$(cat "$__push_admin/deps" 2>/dev/null)" = "$__push_deps" ] || rm -rf "$__push_wt" "$__push_admin"
+      fi
+    fi
+    if [ "$__push_keep" = 1 ]; then
+      mkdir -p "$__push_wt"
+      __push_links=/dev/null
+      trap 'cd "$__push_real" 2>/dev/null; rm -f "$__push_wt.nm" "$__push_wt.kit"; rm -rf "$__push_wt.lock"' EXIT
+    else
+      __push_wt=$(mktemp -d "$(dirname "$__push_real")/.push-gate-$(basename "$__push_real").XXXXXX")
+      __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
+      __push_links="$__push_wt.links"
+      : > "$__push_links"
+      # The links go first, so a recursive delete never reaches the real node_modules. The tree goes in the background:
+      # upsys's 4.5 GB took 3 to 8 s (TSK-2955).
+      trap 'cd "$__push_real" 2>/dev/null; while IFS= read -r __l; do rm -f "$__l"; done < "$__push_links"; rm -rf "$__push_admin"; rm -f "$__push_links" "$__push_wt.nm" "$__push_wt.kit"; ( rm -rf "$__push_wt" ) </dev/null >/dev/null 2>&1 &' EXIT
+    fi
     trap 'exit 130' INT TERM HUP
-    mkdir -p "$__push_admin" || exit 1
+    mkdir -p "$__push_admin/info" || exit 1
     printf '%s\n' "$__push_common" > "$__push_admin/commondir"
+    __push_prev=$(cat "$__push_admin/HEAD" 2>/dev/null || true)
     printf '%s\n' "$__push_tip" > "$__push_admin/HEAD"
     printf 'gitdir: %s\n' "$__push_admin" > "$__push_wt/.git"
+    # No gate reads video or audio, and upsys holds 1.7 GB of it; full-gate.yml leaves out the same list.
+    printf '%s\n' '/*' '!*.mov' '!*.mp4' '!*.webm' '!*.wav' '!*.mp3' '!*.m4a' > "$__push_admin/info/sparse-checkout"
     # A worktree lacks node_modules, generated output and the gitignored .impeccable config: fallow called imports unresolved, the design gate flagged brand fonts (TSK-2432).
     # Found in the real tree, during the checkout.
-    ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt -o -name .impeccable \) -prune ! -name .git -print 2>/dev/null || true ) > "$__push_wt.nm" &
-    __push_find=$!
+    __push_scan() {
+      ( cd "$__push_real" && find . \( -name .git -o -name node_modules -o -name paraglide -o -name .svelte-kit -o -name .wxt -o -name .impeccable \) -prune ! -name .git -print 2>/dev/null || true )
+    }
+    __push_find=""
+    if [ "$__push_keep" = 1 ] && [ -f "$__push_admin/nm" ]; then
+      # The scan took 4.9 s in upsys and its list moves only when an app or an install appears, so the kept
+      # checkout reads the last push's list and rescans after this one.
+      cp "$__push_admin/nm" "$__push_wt.nm"
+      ( __push_scan > "$__push_admin/nm.new" && mv "$__push_admin/nm.new" "$__push_admin/nm" ) </dev/null >/dev/null 2>&1 &
+    else
+      __push_scan > "$__push_wt.nm" &
+      __push_find=$!
+    fi
     # The explicit dirs and the unset index keep an inherited GIT_DIR or GIT_INDEX_FILE off the real checkout.
     # A worker per core: upsys took 40 s with one, 13 s with 12.
-    env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$__push_admin" --work-tree="$__push_wt" \
-      -c core.hooksPath=/dev/null -c checkout.workers=0 read-tree --reset -u HEAD || { wait "$__push_find"; exit 1; }
-    wait "$__push_find"
+    __push_git() {
+      env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE git --git-dir="$__push_admin" --work-tree="$__push_wt" \
+        -c core.hooksPath=/dev/null -c checkout.workers=0 -c core.sparseCheckout=true "$@"
+    }
+    # read-tree skips a file whose index entry didn't move, so one a gate left edited is restored too.
+    if ! { __push_git read-tree --reset -u HEAD && __push_git diff-files --name-only -z | __push_git checkout-index -f -z --stdin; }; then
+      [ -z "$__push_find" ] || wait "$__push_find"
+      [ "$__push_keep" = 1 ] && rm -rf "$__push_wt" "$__push_admin"
+      exit 1
+    fi
+    [ "$__push_keep" = 1 ] && printf '%s\n' "$__push_deps" > "$__push_admin/deps"
+    if [ -n "$__push_find" ]; then
+      wait "$__push_find"
+      [ "$__push_keep" = 1 ] && cp "$__push_wt.nm" "$__push_admin/nm"
+    fi
+    # Every file the kept checkout moved across, this push's or another session's: an app none of them touched keeps its types.
+    __push_moved=""
+    [ "$__push_keep" = 1 ] && [ -n "$__push_prev" ] && __push_moved=$(__push_git diff --name-only "$__push_prev" "$__push_tip" 2>/dev/null || echo "*")
     : > "$__push_wt.kit"
     while IFS= read -r __push_nm; do
       __push_nm=${__push_nm#./}
-      if [ ! -d "$__push_wt/$(dirname "$__push_nm")" ] || [ -e "$__push_wt/$__push_nm" ]; then
+      if [ ! -d "$__push_wt/$(dirname "$__push_nm")" ]; then
         :
       elif [ "$(basename "$__push_nm")" = .svelte-kit ]; then
         # A linked .svelte-kit typed the real checkout's untracked routes: 27 errors refused an immo push (16 Nov 2026).
+        # Synced on every push, kept checkout or not, so a new route gets its types.
         dirname "$__push_nm" >> "$__push_wt.kit"
+      elif [ -e "$__push_wt/$__push_nm" ]; then
+        :
       elif [ -d "$__push_real/$__push_nm/\$app" ]; then
         # Kit's $app/tsconfig.json holds relative paths, so it's copied: through a link it resolved outside the worktree and fallow dropped @ext.
         mkdir "$__push_wt/$__push_nm" || exit 1
@@ -112,6 +168,12 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     # After the node_modules links, so each app's own svelte-kit generates its types from the tip. The apps sync side by side.
     __push_syncs=""
     while IFS= read -r __push_app; do
+      if [ -n "$__push_prev" ] && [ "$__push_keep" = 1 ] && [ -d "$__push_wt/$__push_app/.svelte-kit" ] && [ "$__push_moved" != "*" ]; then
+        case "$__push_app" in
+          .) [ -n "$__push_moved" ] || continue ;;
+          *) printf '%s\n' "$__push_moved" | grep -q "^$__push_app/" || continue ;;
+        esac
+      fi
       __push_d="$__push_wt/$__push_app"
       until [ -x "$__push_d/node_modules/.bin/svelte-kit" ] || [ "$__push_d" = "$__push_wt" ]; do
         __push_d=$(dirname "$__push_d")
@@ -124,7 +186,9 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     done < "$__push_wt.kit"
     for __push_s in $__push_syncs; do wait "$__push_s"; done
     rm -f "$__push_wt.kit"
-    echo "push scope: working tree differs from $(git rev-parse --short "$__push_tip"), gates read a temporary worktree of it"
+    __push_kind="a temporary checkout"
+    [ "$__push_keep" = 1 ] && __push_kind="the kept checkout $__push_wt"
+    echo "push scope: working tree differs from $(git rev-parse --short "$__push_tip"), gates read $__push_kind of it"
     cd "$__push_wt"
     # pnpm's install before a script wrote through the links and repointed the real .bin shims at this worktree.
     export pnpm_config_verify_deps_before_run=false
@@ -348,3 +412,21 @@ __gate_bg push-gates __gate_push_gates
 # >>> gate results (managed) >>>
 __gate_wait || exit 1
 # <<< gate results (managed) <<<
+
+# >>> flows publish (managed) >>>
+# A push that passed its gates and touches an app with a flows.json republishes that app's
+# user flows to the portfolio in the background (kit/scripts/flows.mjs, TSK-2968).
+if [ "${FLOWS_PUBLISH-}" != "0" ] && [ -f "$HOME/Studio/upsys/kit/scripts/flows.mjs" ]; then
+  # git-sync-main.sh pushes from a temp worktree with no node_modules, so publish from the main checkout.
+  __fl_root=$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")
+  for __fl_json in $(git -C "$__fl_root" ls-files 'flows.json' '*/flows.json'); do
+    __fl_dir=$(dirname "$__fl_json")
+    [ "$__fl_dir" = "." ] && __fl_match='' || __fl_match="$__fl_dir/"
+    printf '%s\n' "$PUSH_FILES" | grep -qE "^${__fl_match}.*\.(svelte|ts|css|swift|xcstrings|json)$" || continue
+    mkdir -p "$__fl_root/$__fl_dir/build/flows"
+    nohup node "$HOME/Studio/upsys/kit/scripts/flows.mjs" publish "$__fl_root/$__fl_dir" --capture \
+      > "$__fl_root/$__fl_dir/build/flows/publish.log" 2>&1 </dev/null &
+    echo "flows: republishing $__fl_dir in the background ($__fl_dir/build/flows/publish.log)"
+  done
+fi
+# <<< flows publish (managed) <<<
