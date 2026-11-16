@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.5](https://github.com/heyramzi/ui/compare/review-v1.1.4...review-v1.1.5) (2026-11-16)
+
+### Bug Fixes
+
+* fix(deps): @heyramzi/utils 1.18.1, so events tracked before Umami loads are sent (TSK-2615)
+
+
 ## [1.1.4](https://github.com/heyramzi/ui/compare/review-v1.1.3...review-v1.1.4) (2026-11-11)
 
 ### Bug Fixes

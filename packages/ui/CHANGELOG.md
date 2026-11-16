@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.9.2](https://github.com/heyramzi/ui/compare/ui-v3.9.1...ui-v3.9.2) (2026-11-16)
+
+### Bug Fixes
+
+* fix(ui): tour backdrop dims the whole page after scrolling to a step (TSK-3004)
+
+
 ## [3.9.1](https://github.com/heyramzi/ui/compare/ui-v3.9.0...ui-v3.9.1) (2026-11-15)
 
 ### Bug Fixes
