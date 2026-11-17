@@ -7,4 +7,9 @@ paths:
 
 # Simplicity
 
-Write the minimum that solves the problem asked, nothing speculative. No abstraction for a single use, no configuration nobody asked for, no error handling for a case that can't happen. If 200 lines could be 50, rewrite them.
+Write the minimum that solves the problem asked, nothing speculative. If 200 lines could be 50, rewrite them.
+
+- **No abstraction for a single use.** Inline a helper with one caller and a wrapper that only renames.
+- **No option nobody passes**, and no config object for one setting.
+- **No handling for a case the types rule out**: `if (!items) return` on `items: Item[]`, `?? []` on a value that's never undefined, a `try` around code that can't throw. Narrow `unknown` once, at the boundary.
+- **No `as` or `!` without a comment saying why.** Fix the type first.
