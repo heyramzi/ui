@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { useConnection, useStore } from "@xyflow/svelte";
+	import { useConnection, useSvelteFlowStore } from "@xyflow/svelte";
 	import { untrack } from "svelte";
 
 	// A root `--canvas-unzoom` restyled every card per zoom frame. It lives only on nodes showing chrome: selected, hovered, or all while a link is dragged.
@@ -16,7 +16,7 @@
 	// =========================
 	// STATE
 	// =========================
-	const store = useStore();
+	const store = useSvelteFlowStore();
 	const connection = useConnection();
 
 	// Plain collections: they change on selection and hover, never per frame, and nothing reads them reactively.

@@ -3,7 +3,7 @@
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { useStore } from "@xyflow/svelte";
+	import { useSvelteFlowStore } from "@xyflow/svelte";
 	import SideHandles from "#src/canvas/chrome/side-handles.svelte";
 	import { lodMode } from "#src/canvas/lod/lod-mode.svelte.js";
 	import { renderAll } from "#src/canvas/lod/render-all.svelte.js";
@@ -33,7 +33,7 @@
 	// =========================
 	// STATE
 	// =========================
-	const store = useStore();
+	const store = useSvelteFlowStore();
 	const mode = lodMode(store);
 	let probe = $state<HTMLElement>();
 	// xyflow keeps the size of a card that scrolled away, so it comes back as a box.

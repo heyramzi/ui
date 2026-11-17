@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { useStore } from "@xyflow/svelte";
+	import { useSvelteFlowStore } from "@xyflow/svelte";
 
 	// The grab dot on a selected elbow, one size on screen. Only the edge showing it reads the zoom; a root value restyles every card per frame.
 
@@ -30,7 +30,7 @@
 	// =========================
 	// STATE
 	// =========================
-	const store = useStore();
+	const store = useSvelteFlowStore();
 
 	// =========================
 	// DERIVED

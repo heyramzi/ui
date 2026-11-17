@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { useStore } from "@xyflow/svelte";
+	import { useSvelteFlowStore } from "@xyflow/svelte";
 
 	// =========================
 	// TYPES
@@ -43,7 +43,7 @@
 	// =========================
 	// STATE
 	// =========================
-	const store = useStore();
+	const store = useSvelteFlowStore();
 	let canvas = $state<HTMLCanvasElement | null>(null);
 	let width = $state(0);
 	let height = $state(0);

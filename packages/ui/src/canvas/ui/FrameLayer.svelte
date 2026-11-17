@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { useStore } from "@xyflow/svelte";
+	import { useSvelteFlowStore } from "@xyflow/svelte";
 	import { frameRect, type FrameRect } from "#src/canvas/editor/frame.js";
 	import "#src/canvas/ui/canvas-ui.css";
 	import { forwardWheel } from "#src/canvas/ui/forward-wheel.js";
@@ -24,7 +24,7 @@
 	// STATE
 	// =========================
 	// The layer maps screen pixels to flow units, so it reads the live xyflow viewport.
-	const store = useStore();
+	const store = useSvelteFlowStore();
 	let layer = $state<HTMLDivElement | null>(null);
 	let start = $state<{ x: number; y: number } | null>(null);
 	let end = $state<{ x: number; y: number } | null>(null);

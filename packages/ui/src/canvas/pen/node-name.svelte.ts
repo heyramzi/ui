@@ -1,10 +1,10 @@
 // A pen node's accessible name. Svelte Flow puts `ariaLabel` on the focusable node wrapper,
 // so the name has to live on the node object and follow its words as they're edited.
 
-import { useStore } from "@xyflow/svelte";
+import { useSvelteFlowStore } from "@xyflow/svelte";
 import { untrack } from "svelte";
 
-type FlowStore = ReturnType<typeof useStore>;
+type FlowStore = ReturnType<typeof useSvelteFlowStore>;
 
 const cap = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
 
@@ -46,7 +46,7 @@ function queueName(store: FlowStore, nodeId: string, label: string): void {
 
 /** Keeps node `id`'s ariaLabel equal to `name()`. Call it from a node component. */
 export function useNodeName(id: () => string, name: () => string): void {
-  const store = useStore();
+  const store = useSvelteFlowStore();
   $effect(() => {
     const nodeId = id();
     const label = name();

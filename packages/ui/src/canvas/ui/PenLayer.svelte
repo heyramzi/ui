@@ -2,7 +2,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { useStore } from "@xyflow/svelte";
+	import { useSvelteFlowStore } from "@xyflow/svelte";
 	import type { ErasableNode } from "#src/canvas/pen/eraser.js";
 	import type { PenOp } from "#src/canvas/pen/ops.js";
 	import PenOverlay from "#src/canvas/pen/PenOverlay.svelte";
@@ -30,7 +30,7 @@
 	// STATE
 	// =========================
 	// The overlay maps screen pixels to flow units, so it reads the live xyflow viewport.
-	const store = useStore();
+	const store = useSvelteFlowStore();
 </script>
 
 <!-- =========================== -->

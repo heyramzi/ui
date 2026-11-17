@@ -17,7 +17,7 @@
   }
 }
 
-/* xyflow's stylesheet is unlayered and beats every layer, so rules on its parts stay unlayered below. */
+/* xyflow 2 puts its stylesheet in `@layer xyflow`, which a host that loads it last ranks above every kit layer, so rules on its parts stay unlayered below. */
 
 /* The edges are hit areas only, a finger wide at every zoom. */
 .svelte-flow .svelte-flow__resize-control.line.cv-edge {

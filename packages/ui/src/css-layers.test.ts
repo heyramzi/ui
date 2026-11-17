@@ -72,7 +72,7 @@ function rules(node: Node): AST.CSS.Rule[] {
   );
 }
 
-/** xyflow's own stylesheet is unlayered, so a canvas rule on its parts stays unlayered to keep winning. */
+/** xyflow's `@layer xyflow` can rank above every kit layer, so a canvas rule on its parts stays unlayered to keep winning. */
 function overridesXyflow(file: string, css: string, node: Node): boolean {
   if (!file.startsWith("canvas/")) return false;
   const all = rules(node);

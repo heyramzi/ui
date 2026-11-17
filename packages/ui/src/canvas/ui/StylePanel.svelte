@@ -22,7 +22,7 @@
 	// =========================
 	// IMPORTS
 	// =========================
-	import { Panel, useStore } from "@xyflow/svelte";
+	import { Panel, useSvelteFlowStore } from "@xyflow/svelte";
 	import { Toolbar } from "bits-ui";
 	import type { CanvasOp } from "#src/canvas/ops/ops.js";
 	import {
@@ -63,7 +63,7 @@
 	// =========================
 	// STATE
 	// =========================
-	const store = useStore();
+	const store = useSvelteFlowStore();
 	let barWidth = $state(0);
 	let barHeight = $state(0);
 

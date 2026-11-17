@@ -237,7 +237,19 @@
   }
 }
 
-/* xyflow's stylesheet is unlayered and beats every layer, so rules on its parts stay unlayered below. */
+/* xyflow 2 puts its stylesheet in `@layer xyflow`, which a host that loads it last ranks above every kit layer, so rules on its parts stay unlayered below. */
+
+/* xyflow 2 gives the board `color-scheme: light dark`, so a light page on a dark system drew a
+   dark board. It follows the kit's `.dark` class unless the host passes `forceColorMode`.
+   Not `inherit`: Lightning CSS compiles light-dark() to variables that only a literal
+   light or dark sets. */
+.svelte-flow:not(.dark, .light) {
+  color-scheme: light;
+}
+
+.dark .svelte-flow:not(.dark, .light) {
+  color-scheme: dark;
+}
 
 .svelte-flow .svelte-flow__panel.cv-dock {
   margin: var(--cv-edge);
