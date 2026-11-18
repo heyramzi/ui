@@ -68,10 +68,13 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
     # Beside the repo, not in $TMPDIR: a skill symlinked to a sibling repo, and Studio itself, resolve from there.
     # One kept checkout per repo, moved to each tip, rewrites only what changed: a fresh one wrote upsys's 31,000
     # files in 47 s (TSK-2975). A push that finds it busy takes a temporary one.
-    __push_wt="$(dirname "$__push_real")/.push-gate-$(basename "$__push_real")"
+    __push_repo=$__push_real
+    case "$__push_common" in */.git) __push_repo=$(dirname "$__push_common") ;; esac
+    __push_wt="$(dirname "$__push_repo")/.push-gate-$(basename "$__push_repo")"
     __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
     __push_keep=0
-    if [ "${PUSH_GATE_FRESH-}" != 1 ]; then
+    # Only the main checkout keeps one: each git-sync worktree left its own 2.8 GB, 34 GB in a day (TSK-3000).
+    if [ "${PUSH_GATE_FRESH-}" != 1 ] && [ "$__push_real" = "$__push_repo" ]; then
       if [ -f "$__push_wt.lock/pid" ] && ! kill -0 "$(cat "$__push_wt.lock/pid")" 2>/dev/null; then
         # A push killed mid-move leaves its lock and a half-moved checkout, so both go.
         rm -rf "$__push_wt.lock" "$__push_wt" "$__push_admin"
@@ -89,7 +92,7 @@ if [ -n "$__push_tip" ] && [ -n "$PUSH_FILES" ] && [ "${HUSKY-}" != "0" ] && [ "
       __push_links=/dev/null
       trap 'cd "$__push_real" 2>/dev/null; rm -f "$__push_wt.nm" "$__push_wt.kit"; rm -rf "$__push_wt.lock"' EXIT
     else
-      __push_wt=$(mktemp -d "$(dirname "$__push_real")/.push-gate-$(basename "$__push_real").XXXXXX")
+      __push_wt=$(mktemp -d "$(dirname "$__push_repo")/.push-gate-$(basename "$__push_repo").XXXXXX")
       __push_admin="$__push_common/temp-checkouts/$(basename "$__push_wt")"
       __push_links="$__push_wt.links"
       : > "$__push_links"
