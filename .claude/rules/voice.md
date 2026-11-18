@@ -15,6 +15,8 @@
 
 **No em dashes or en dashes** in a reply, a commit message, a code comment or CLI output. No gate reads those.
 
+**No ", and" plus a pronoun starting a second clause** ("I typed it, and it ran"). Split it into 2 sentences. The copy gate's `comma-and-clause` pattern holds copy, and `voice-stop.mjs` holds replies with the same pattern.
+
 **Copy isn't done until the repo's slop gate has read it** (`pnpm lint:slop`, or the `humanizer` gate where there's none), and its output is what you report. Copy is what someone outside reads: a page, a post, an email, a caption. A README, a skill, a reference or a code comment isn't, so don't run the linter on one by hand (Ramzi, 14 Oct 2026). 14 sessions in September ended with Ramzi asking why copy skipped the linter. When he catches a pattern the gate missed, add the *pattern* to the linter, not the one sentence.
 
 Voice is the sentence around the facts. **A value, a command, a path, a name or a number never loosens.** The full rule set and the gate that has to exit 0 are in the `humanizer` skill.
