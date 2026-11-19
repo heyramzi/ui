@@ -231,7 +231,7 @@ export const meta: Record<string, Meta> = {
     title: "Toolbar",
     icon: "list",
     description:
-      "One row at any width. Wide, search, tabs and the view switch sit inline. In a narrow pane each folds into a menu and the row never wraps.",
+      "The list-page toolbar row for a pane. Wide, search, tabs and the view switch sit inline. Narrower, tabs and views fold into a picker, then search into an icon, and the row never wraps.",
     height: 360,
   },
   "copy-button": {
@@ -506,7 +506,7 @@ export const meta: Record<string, Meta> = {
     title: "Section card",
     icon: "form",
     description:
-      "A settings page kit: a card with a fixed-height header and a line under it, a section header with a count chip, and a field row whose action sits at the control's height.",
+      "A settings page kit: a panel with a 44px header and a line under it, a section header with a count chip, and a field row whose action sits at the control's height.",
     height: 380,
   },
   "table-view": {

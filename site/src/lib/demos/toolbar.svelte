@@ -32,7 +32,8 @@
 	</div>
 	<div class="flex flex-col gap-2">
 		<p class="text-xs text-muted-foreground">
-			A 340px pane: the same row, with each of the three folded into a menu.
+			A 340px pane: the same row folded. Tabs and view open a picker, and search opens across the
+			row.
 		</p>
 		<div class="w-[340px] max-w-full rounded-lg border border-border bg-card p-3">
 			<Toolbar bind:search bind:tab bind:view {tabs} {views}>

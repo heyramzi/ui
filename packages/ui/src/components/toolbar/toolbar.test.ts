@@ -29,22 +29,16 @@ afterEach(() => {
 });
 
 describe("Toolbar", () => {
-  it("is one row that never wraps", () => {
+  // It draws ListPageShell's row (TSK-2309), so both fold the same way.
+  it("is the list-page row: one line that never wraps, with a fold level", () => {
     const root = render({ search: "", tabs, tab: "all", views, view: "list" });
-    const row = root.querySelector(".flex");
+    const row = root.querySelector("[data-fold]");
+    expect(row?.getAttribute("data-fold")).toBe("0");
     expect(row?.classList.contains("flex-nowrap")).toBe(true);
     expect(row?.classList.contains("flex-wrap")).toBe(false);
   });
 
-  it("draws search, tabs and view twice, one for each width, and queries pick one", () => {
-    const root = render({ search: "", tabs, tab: "all", views, view: "list" });
-    const wide = root.querySelectorAll(".\\@max-2xl\\/toolbar\\:hidden");
-    const narrow = root.querySelectorAll(".\\@2xl\\/toolbar\\:hidden");
-    expect(wide.length).toBe(3);
-    expect(narrow.length).toBe(3);
-  });
-
-  it("names the narrow controls so a screen reader can find them", () => {
+  it("draws search, tabs and view once, wide, and names each", () => {
     const root = render({
       search: "",
       tabs,
@@ -55,29 +49,23 @@ describe("Toolbar", () => {
       tabsLabel: "Status",
       viewLabel: "Layout",
     });
-    for (const label of ["Find", "Status: All", "Layout"]) {
-      expect(root.querySelector(`button[aria-label="${label}"]`), label).not.toBeNull();
-    }
+    expect(root.querySelectorAll('input[aria-label="Find"]').length).toBe(1);
+    expect(root.querySelector('[aria-label="Status"]')).not.toBeNull();
+    expect(root.querySelector('[aria-label="Layout"]')).not.toBeNull();
   });
 
-  // The name holds the visible tab too (WCAG 2.5.3), so a speech user can say it.
-  it("shows the current tab on the narrow menu trigger and names it", async () => {
-    const root = render({ search: "", tabs, tab: "open", views, view: "list" });
+  it("marks the current tab and view as on", async () => {
+    const root = render({ tabs, tab: "open", views, view: "grid" });
     await tick();
-    expect(root.querySelector('button[aria-label="Show: Open"]')?.textContent?.trim()).toBe("Open");
+    const on = [...root.querySelectorAll('[data-state="on"]')].map((el) => el.textContent?.trim());
+    expect(on.some((text) => text?.startsWith("Open"))).toBe(true);
+    expect(on.some((text) => text?.startsWith("Grid"))).toBe(true);
   });
 
   it("leaves out what it isn't given", () => {
     const root = render({ tabs, tab: "all" });
-    expect(root.querySelector('button[aria-label="Search"]')).toBeNull();
-    expect(root.querySelector('button[aria-label="View"]')).toBeNull();
-    expect(root.querySelector('button[aria-label="Show: All"]')).not.toBeNull();
-  });
-
-  // The 10 Nov audit: the wide search box had only its placeholder for a name.
-  it("names the wide search box with searchLabel", () => {
-    const root = render({ search: "", searchLabel: "Search clients" });
-    const box = root.querySelector(".\\@max-2xl\\/toolbar\\:hidden input");
-    expect(box?.getAttribute("aria-label")).toBe("Search clients");
+    expect(root.querySelector("input")).toBeNull();
+    expect(root.querySelector('[aria-label="View"]')).toBeNull();
+    expect(root.querySelector('[aria-label="Show"]')).not.toBeNull();
   });
 });

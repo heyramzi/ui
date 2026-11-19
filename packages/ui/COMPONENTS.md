@@ -67,12 +67,12 @@ Generic pieces built on the primitives, imported from `@heyramzi/ui/components/<
 - `hold-to-confirm` — HoldToConfirm, press and hold to confirm
 - `language-flag` — LanguageFlag, LANGUAGE_FLAGS (code to `/flags/*.svg`, also a SegmentedFilter option's `image`)
 - `list-page` — ListPageShell, MasterDetail, GroupedList, RailRow and the rest of the master-detail page kit, DetailPanel, ToolbarSearch, toolbarTriggerClass, NoticeBar, EmptyState, FilterPopover, setSectionHost
-- `toolbar` — Toolbar: one row at any width; search, tabs and the view switch fold into menus in a narrow pane. Its search box is `list-page`'s ToolbarSearch
+- `toolbar` — Toolbar: `ListPageShell`'s toolbar row with search, tabs and the view switch wired in. It folds by measured width like the shell: tabs and views into a Picker, then search into an icon. Its search box is `list-page`'s ToolbarSearch
 - `mark` — Mark, a logo or photo glyph with an initial fallback
 - `open-in` — OpenIn, a link out to a tool that takes the tool's name, label and mark as a prop
 - `picker` — Picker, MarkPicker, pickerTriggerClass, a command palette at popover scale
 - `docs` — DocPage, OnThisPage, ScrollSpy: one page anatomy for documentation, an icon, title and summary header, a reading column and a contents rail that becomes a bar on a narrow pane
-- `section-card` — SectionCard, a card with a fixed-height header, an h3 title, optional actions and a line under it
+- `section-card` — SectionCard, a Panel (DetailPanel) with an h3 title: the 44px header, optional actions and a line under it
 - `section-header` — SectionHeader, a section label with a count chip, a line of description and actions; SectionLabel, the label alone
 - `field-row` — FieldRow, a labelled control with its action button at the control's height
 - `table-view` — TableView, a read-only table from columns and rows: numeric columns, footer row, custom cell; opt-in: `bare`, sortable heads (`column.sortable`, bind `sort`; the caller orders `rows`), `rowHref` (a real link over the row; `onRowLink` opens in place on a plain click), `onRowClick`, `selectable` + bind `selected`, `rowMenu` (context-menu items), `group` (a `null` key sits with no header) + `groupHeader` + `collapsible`, `subRow` + `expanded`, `loading` (skeleton rows in the frame), `empty`, `trailing`, `head`, and per-column `hideBelow`, `sticky`, `interactive`, `class`

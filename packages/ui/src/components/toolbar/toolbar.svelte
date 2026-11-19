@@ -1,16 +1,18 @@
 <script lang="ts" generics="Tab extends string, View extends string">
+	/*
+	 * A list-page toolbar for a pane, with the data wired in: search, tabs and a
+	 * view switch. It draws `ListPageShell`'s row, so it folds by measured width
+	 * the same way, and a folded tab or view strip opens a `Picker`.
+	 */
+
 	// =========================
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { CaretDown, MagnifyingGlass } from "phosphor-svelte";
 	import { SegmentedFilter } from "#src/components/segmented/index.js";
 	import type { TabDef } from "#src/components/segmented/animated-tabs.svelte";
-	import { toolbarTriggerClass } from "#src/components/toolbar/toolbar-trigger.js";
 	import ToolbarSearch from "#src/components/toolbar/toolbar-search.svelte";
-	import { Input } from "#src/shadcn/input/index.js";
-	import * as DropdownMenu from "#src/shadcn/dropdown-menu/index.js";
-	import * as Popover from "#src/shadcn/popover/index.js";
+	import ToolbarRow from "#src/components/list-page/toolbar-row.svelte";
 	import { cn } from "#src/lib/utils.js";
 
 	// =========================
@@ -20,8 +22,10 @@
 		/** The search text. Leave it out for no search. */
 		search?: string;
 		searchPlaceholder?: string;
-		/** The label of the narrow search button. Translate at the call site. */
+		/** The search box's name, and the folded search button's. Translate at the call site. */
 		searchLabel?: string;
+		/** The close button's name once the folded search is open. */
+		closeSearchLabel?: string;
 		/** A strip of tabs, such as All, Open and Done. */
 		tabs?: readonly TabDef<Tab>[];
 		tab?: Tab;
@@ -44,6 +48,7 @@
 		search = $bindable(),
 		searchPlaceholder = "Search...",
 		searchLabel = "Search",
+		closeSearchLabel = "Close search",
 		tabs,
 		tab = $bindable(),
 		tabsLabel = "Show",
@@ -58,116 +63,47 @@
 	// =========================
 	// DERIVED
 	// =========================
-	let currentTab = $derived(tabs?.find((t) => t.value === tab));
-	let currentView = $derived(views?.find((v) => v.value === view));
-	let searching = $derived(Boolean(search));
+	let hasSearch = $derived(search !== undefined);
+	let hasTabs = $derived(Boolean(tabs && tab !== undefined));
+	let hasViews = $derived(Boolean(views && view !== undefined));
 </script>
 
 <!-- =========================== -->
 <!-- MARKUP -->
 <!-- =========================== -->
-<!-- A container query, not a breakpoint, because the toolbar sits in a pane narrower than the
-     screen; both forms stay in the DOM, so nothing flashes. -->
-<div class={cn("@container/toolbar min-w-0", className)}>
-	<div class="flex flex-nowrap items-center gap-2">
-		{#if search !== undefined}
-			<div class="w-56 shrink-0 @max-2xl/toolbar:hidden">
-				<ToolbarSearch bind:value={search} placeholder={searchPlaceholder} label={searchLabel} />
-			</div>
-			<Popover.Root>
-				<Popover.Trigger
-					aria-label={searchLabel}
-					class={cn(toolbarTriggerClass({ active: searching }), "@2xl/toolbar:hidden")}
-				>
-					<MagnifyingGlass class="size-3.5" aria-hidden="true" />
-				</Popover.Trigger>
-				<Popover.Content align="start" class="w-64 p-2">
-					<Input
-						bind:value={search}
-						placeholder={searchPlaceholder}
-						aria-label={searchLabel}
-						class="h-8"
-					/>
-				</Popover.Content>
-			</Popover.Root>
-		{/if}
+{#snippet searchField()}
+	<ToolbarSearch
+		bind:value={() => search ?? "", (next) => (search = next)}
+		placeholder={searchPlaceholder}
+		label={searchLabel}
+		size="sm"
+		class="w-56 max-w-full"
+	/>
+{/snippet}
 
+<!-- The row's own gap, so the two strips don't touch: 8px, 6px once labels drop. -->
+{#snippet strips()}
+	<div
+		class="flex min-w-0 items-center gap-2 group-data-[fold=2]/toolbar:gap-1.5 group-data-[fold=3]/toolbar:gap-1.5"
+	>
 		{#if tabs && tab !== undefined}
-			<SegmentedFilter
-				options={tabs}
-				bind:value={tab}
-				ariaLabel={tabsLabel}
-				block={false}
-				class="@max-2xl/toolbar:hidden"
-			/>
-			<DropdownMenu.Root>
-				<!-- The name carries the tab it shows (WCAG 2.5.3), so "click Open" reaches it. -->
-				<DropdownMenu.Trigger
-					aria-label={currentTab ? `${tabsLabel}: ${currentTab.label}` : tabsLabel}
-					class={cn(toolbarTriggerClass(), "min-w-0 @2xl/toolbar:hidden")}
-				>
-					<span class="truncate">{currentTab?.label}</span>
-					<CaretDown class="size-3 shrink-0" aria-hidden="true" />
-				</DropdownMenu.Trigger>
-				<DropdownMenu.Content align="start">
-					<DropdownMenu.RadioGroup bind:value={tab}>
-						{#each tabs as item (item.value)}
-							<DropdownMenu.RadioItem value={item.value}>
-								{item.label}
-								{#if item.count != null}
-									<span class="ms-auto pe-2 text-xs text-muted-foreground tabular-nums"
-										>{item.count.toLocaleString()}</span
-									>
-								{/if}
-							</DropdownMenu.RadioItem>
-						{/each}
-					</DropdownMenu.RadioGroup>
-				</DropdownMenu.Content>
-			</DropdownMenu.Root>
+			<SegmentedFilter options={tabs} bind:value={tab} ariaLabel={tabsLabel} block={false} />
 		{/if}
-
-		{#if filters}
-			<div class="no-scrollbar flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
-				{@render filters()}
-			</div>
-		{:else}
-			<div class="flex-1"></div>
-		{/if}
-
 		{#if views && view !== undefined}
-			<SegmentedFilter
-				options={views}
-				bind:value={view}
-				ariaLabel={viewLabel}
-				block={false}
-				class="@max-2xl/toolbar:hidden"
-			/>
-			<DropdownMenu.Root>
-				<DropdownMenu.Trigger
-					aria-label={viewLabel}
-					class={cn(toolbarTriggerClass(), "@2xl/toolbar:hidden")}
-				>
-					{#if currentView}
-						<currentView.icon class="size-3.5" aria-hidden="true" />
-					{/if}
-				</DropdownMenu.Trigger>
-				<DropdownMenu.Content align="end">
-					<DropdownMenu.RadioGroup bind:value={view}>
-						{#each views as item (item.value)}
-							<DropdownMenu.RadioItem value={item.value}>
-								<item.icon class="size-4" aria-hidden="true" />
-								{item.label}
-							</DropdownMenu.RadioItem>
-						{/each}
-					</DropdownMenu.RadioGroup>
-				</DropdownMenu.Content>
-			</DropdownMenu.Root>
-		{/if}
-
-		{#if actions}
-			<div class="flex shrink-0 items-center gap-2">
-				{@render actions()}
-			</div>
+			<SegmentedFilter options={views} bind:value={view} ariaLabel={viewLabel} block={false} />
 		{/if}
 	</div>
+{/snippet}
+
+<!-- The same container the shell gives its row, so the search box lets go of
+     its desk width at the same pane width. -->
+<div class={cn("@container/toolbar flex min-w-0", className)}>
+	<ToolbarRow
+		search={hasSearch ? searchField : undefined}
+		{filters}
+		tabs={hasTabs || hasViews ? strips : undefined}
+		rightActions={actions}
+		{searchLabel}
+		{closeSearchLabel}
+	/>
 </div>
