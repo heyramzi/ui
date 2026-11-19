@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.11.0](https://github.com/heyramzi/ui/compare/ui-v3.10.0...ui-v3.11.0) (2026-11-19)
+
+### Changes
+
+* `SectionCard` is `DetailPanel` underneath (TSK-2309). Its props (`title`, `actions`, `flush`, `class`) work as before, and the title stays an `h3`. The look moves to the panel's: a 44px header (was 56px), the title in the panel's small label style, a flat hairline box with no card shadow, and 16px body padding at every width (was 24px from `sm`). Screenshot pages that use it after the bump. A page that needs the bigger title keeps a `SectionHeader` above a `DetailPanel`.
+* `DetailPanel` takes `heading` (2 to 6) to make its label a heading at that level. `SectionCard` passes 3.
+* `Toolbar` draws `ListPageShell`'s toolbar row, so both fold by measured width, where `Toolbar` used a container query. All its props keep working, and `closeSearchLabel` is new. In a narrow pane the tabs and the view switch open a `Picker` (was a radio menu), and search becomes an icon that opens the field across the row (was a popover). The tabs and view switch now sit at the right with the actions, as on a list page. A test that looked for the `@max-2xl/toolbar:hidden` copies finds one copy of each control now.
+
+### Features
+
+* feat(toolbar): Toolbar draws the ListPageShell row, folded menus open a Picker (TSK-2309)
+* feat(section-card): SectionCard is Panel underneath (TSK-2309)
+
+### Bug Fixes
+
+* fix(segmented): a folded filter's trigger name carries the count it shows (TSK-3181)
+
+
 ## [3.10.0](https://github.com/heyramzi/ui/compare/ui-v3.9.3...ui-v3.10.0) (2026-11-17)
 
 ### Changes
