@@ -96,6 +96,10 @@
 	const density = getToolbarDensity();
 	let folded = $derived(density?.compact === true);
 	let current = $derived(merged.find((option) => option.value === value) ?? merged[0]);
+	// The trigger draws the count after the label, and a name missing visible text fails axe.
+	let triggerLabel = $derived(
+		current && `${ariaLabel}: ${current.label}${current.count != null ? ` ${current.count}` : ""}`,
+	);
 	let pickerOptions = $derived(
 		merged.map((option) => ({
 			value: option.value,
@@ -128,7 +132,7 @@
 		{value}
 		onSelect={pick}
 		triggerClass={toolbarTriggerClass({ className: "group/segment text-foreground" })}
-		triggerLabel={`${ariaLabel}: ${current.label}`}
+		{triggerLabel}
 		align="end"
 	>
 		{#snippet trigger()}
