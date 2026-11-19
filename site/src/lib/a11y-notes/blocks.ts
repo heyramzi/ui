@@ -93,7 +93,7 @@ export const blockNotes: Record<string, A11yNote> = {
   // Blocks: Layouts
   "section-card": {
     notes: [
-      "The card's title is an h3. SectionHeader's title is an h2 unless you set level.",
+      "The section card's title is an h3. SectionHeader's title is an h2 unless you set level.",
       "FieldRow ties its label to the control through for, and links the description or error to it.",
       "An error marks the control invalid and is read out as an alert.",
     ],

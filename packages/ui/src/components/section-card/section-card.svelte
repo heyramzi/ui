@@ -1,10 +1,15 @@
 <script lang="ts">
+	/*
+	 * A titled settings or content block. It is `Panel` underneath (TSK-2309):
+	 * the same hairline box and 44px header as every dashboard and detail panel,
+	 * with the title kept as an h3 so the page outline doesn't change.
+	 */
+
 	// =========================
 	// IMPORTS
 	// =========================
 	import type { Snippet } from "svelte";
-	import { cn } from "#src/lib/utils.js";
-	import * as Card from "#src/shadcn/card/index.js";
+	import Panel from "#src/lib/panel.svelte";
 
 	// =========================
 	// TYPES
@@ -27,19 +32,7 @@
 
 <!-- =========================== -->
 <!-- MARKUP -->
-<!-- WHY a fixed header height: a card with an action in its header and one
-     without sat 12px apart on the same page. -->
 <!-- =========================== -->
-<Card.Root class={cn("gap-0 py-0", className)}>
-	<header class="flex min-h-14 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6">
-		<Card.Title as="h3" class="min-w-0 text-base font-medium text-balance [overflow-wrap:anywhere]"
-			>{title}</Card.Title
-		>
-		{#if actions}
-			<div class="flex shrink-0 items-center gap-2">{@render actions()}</div>
-		{/if}
-	</header>
-	<div class={flush ? "" : "p-4 sm:p-6"}>
-		{@render children()}
-	</div>
-</Card.Root>
+<Panel label={title} heading={3} {actions} pad={!flush} class={className}>
+	{@render children()}
+</Panel>

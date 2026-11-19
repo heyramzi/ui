@@ -194,8 +194,8 @@ rule 12.
 - **Counts beside tabs and headings.** A bare muted number after the label, `tabular-nums`,
   no brackets and no pill. A pill is only for a count that needs the user (unread, overdue).
   Carried by `Segment` and `SectionHeader`.
-- **Section headers and section cards.** A section on a page of parts is a `SectionCard`:
-  fixed-height header, `h3` title, a line under it, `actions` on the right. A section inside a
+- **Section headers and section cards.** A section on a page of parts is a `SectionCard`,
+  which is the panel underneath: its 44px header, `h3` title, a line under it, `actions` on the right. A section inside a
   card or a sheet is a `SectionHeader`, with no card. Lint: `section-card`, `card-title`,
   `card-separator`.
 - **Cards in grids.** Cards go in a grid only when each one is a thing you open (a template, a

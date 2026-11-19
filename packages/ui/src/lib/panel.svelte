@@ -22,6 +22,8 @@
 		labelIcon?: PhosphorIcon;
 		/** A mark the icon set lacks (a platform logo), drawn ahead of the label at the same size. */
 		labelLead?: Snippet;
+		/** Makes the label a heading at this level, for a panel that opens a page section. */
+		heading?: 2 | 3 | 4 | 5 | 6;
 		/** A line under the label, for the scope a number was measured over. */
 		sublabel?: string;
 		/**
@@ -49,6 +51,7 @@
 		label,
 		labelIcon,
 		labelLead,
+		heading,
 		sublabel,
 		hint,
 		actions,
@@ -75,7 +78,14 @@
 		<div class={panelHeaderClass}>
 			{#if titled}
 				<div class="flex min-w-0 flex-col gap-0.5">
-					{#if label || labelLead}
+					{#if (label || labelLead) && heading}
+						<svelte:element this={`h${heading}`} class="min-w-0">
+							<SectionLabel icon={labelIcon}>
+								{@render labelLead?.()}
+								{label}
+							</SectionLabel>
+						</svelte:element>
+					{:else if label || labelLead}
 						<SectionLabel icon={labelIcon}>
 							{@render labelLead?.()}
 							{label}
