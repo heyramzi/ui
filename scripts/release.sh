@@ -273,8 +273,14 @@ printf '%s' "$plan" | while read -r component dir version next bump first_releas
   git tag "$tag"
   git push origin "$tag"
   pack_rewritten "$dir" "$out"
-  gh release create "$tag" "$out"/*.tgz --repo heyramzi/ui --title "$tag" \
-    --notes-file "$NOTES_DIR/$component.md"
+  # GitHub's API answers 500/502 in bursts and leaves a half-made draft, which stopped 3.13.1 here (25 Nov 2026).
+  for try in 1 2 3 4; do
+    gh release create "$tag" "$out"/*.tgz --repo heyramzi/ui --title "$tag" \
+      --notes-file "$NOTES_DIR/$component.md" && break
+    [ "$try" = 4 ] && { echo "release: GitHub refused $tag 4 times. Rerun: gh release create $tag <tarball> --repo heyramzi/ui" >&2; exit 1; }
+    gh release delete "$tag" --repo heyramzi/ui --yes 2>/dev/null || true
+    sleep $((try * 20))
+  done
   publish_npmjs "$(ls "$out"/*.tgz)"
   rm -rf "${out:?}"
 done
