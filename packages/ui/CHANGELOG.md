@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.2](https://github.com/heyramzi/ui/compare/ui-v3.13.1...ui-v3.13.2) (2026-11-25)
+
+### Bug Fixes
+
+* fix(inbox): the card's meta row drops an agent fact with no name, and the project chip draws its trimmed name (TSK-3615)
+
+
 ## [3.13.1](https://github.com/heyramzi/ui/compare/ui-v3.13.0...ui-v3.13.1) (2026-11-25)
 
 ### Bug Fixes
