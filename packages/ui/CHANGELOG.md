@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.1](https://github.com/heyramzi/ui/compare/ui-v3.13.0...ui-v3.13.1) (2026-11-25)
+
+### Bug Fixes
+
+* fix(inbox): a first message's draft reads Your message, a reply's Your reply (TSK-3600)
+
+
 ## [3.13.0](https://github.com/heyramzi/ui/compare/ui-v3.12.0...ui-v3.13.0) (2026-11-25)
 
 ### Features
