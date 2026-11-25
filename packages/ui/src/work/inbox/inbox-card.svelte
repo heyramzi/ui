@@ -73,6 +73,8 @@
 	// title a second time as a chip.
 	let projectName = $derived(item.project.name.trim());
 	let showProject = $derived(!!projectName && projectName !== item.title.trim());
+	// WHY: an agent sent with an empty name drew a bare avatar; the source label says more.
+	let agentName = $derived(item.agent?.name.trim() ?? "");
 	let time = $derived(when(item.trace.source.at));
 	let why = $derived(freshReasoning(item, facts));
 	// WHY not the source link alone: a trace holding only "Open source" was a disclosure to open
@@ -326,10 +328,10 @@
 			     never starts with a dot. The same pattern as DetailHeader's meta line. -->
 			<div class="overflow-hidden">
 				<p class="text-muted-foreground -ms-3 flex flex-wrap items-center gap-y-1 text-xs">
-					{#if item.agent}
+					{#if item.agent && agentName}
 						<span class={cn(FACT, "gap-1.5")}>
 							<AgentAvatar
-								name={item.agent.name}
+								name={agentName}
 								shape={item.agent.shape}
 								color={item.agent.color}
 								state={item.state === "working" ? "working" : "default"}
@@ -338,7 +340,7 @@
 								interactive={false}
 								aria-hidden
 							/>
-							{item.agent.name}
+							{agentName}
 						</span>
 					{:else}
 						<span class={cn(FACT, "gap-1.5")}>
@@ -353,17 +355,17 @@
 								<a
 									href={safeHref(item.project.href)}
 									class={workLooks.chipLink}
-									aria-label="Project: {item.project.name}"
+									aria-label="Project: {projectName}"
 								>
 									<TagChip class="hover:bg-muted">
 										{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
-										{item.project.name}
+										{projectName}
 									</TagChip>
 								</a>
 							{:else}
 								<TagChip>
 									{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
-									{item.project.name}
+									{projectName}
 								</TagChip>
 							{/if}
 						</span>
