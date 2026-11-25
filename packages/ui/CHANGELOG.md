@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.12.0](https://github.com/heyramzi/ui/compare/ui-v3.11.0...ui-v3.12.0) (2026-11-25)
+
+### Features
+
+* feat(inbox): Needs you and For info tabs replace All and Needs you (TSK-3593)
+
+
 ## [3.11.0](https://github.com/heyramzi/ui/compare/ui-v3.10.0...ui-v3.11.0) (2026-11-19)
 
 ### Changes
