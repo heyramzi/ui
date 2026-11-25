@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.0](https://github.com/heyramzi/ui/compare/ui-v3.12.0...ui-v3.13.0) (2026-11-25)
+
+### Features
+
+* feat(inbox): a draft's card shows Replying to and Your reply (TSK-3600)
+
+
 ## [3.12.0](https://github.com/heyramzi/ui/compare/ui-v3.11.0...ui-v3.12.0) (2026-11-25)
 
 ### Features
