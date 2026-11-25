@@ -35,9 +35,12 @@ export type CardFacts = {
  * one that starts with the title keeps only the rest.
  */
 export function cardFacts(item: InboxItem): CardFacts {
-  const { command, summary, detail } = item.proposal;
+  const { command, summary, detail, message, replyingTo } = item.proposal;
   const shown = [plain(item.title)];
   if (command) shown.push(plain(`${command.tool}: ${command.text}`), plain(command.text));
+  for (const said of [message?.body, message?.subject, replyingTo?.title, replyingTo?.excerpt]) {
+    if (said?.trim()) shown.push(plain(said));
+  }
   const lines: string[] = [];
   for (const raw of [summary, detail]) {
     let line = raw?.trim() ?? "";

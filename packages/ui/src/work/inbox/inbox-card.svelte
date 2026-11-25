@@ -29,7 +29,7 @@
 	import { TagChip } from "#src/components/chip/index.js";
 	import { workLooks } from "#src/components/work-parts/looks.js";
 	import { measureClamp } from "#src/record/measure-clamp.js";
-	import { FolderSimple } from "phosphor-svelte";
+	import { ArrowUpRight, FolderSimple } from "phosphor-svelte";
 	import { Copied } from "#src/components/copy/copied.svelte.js";
 	import type { InboxDraftEdits, InboxItem, InboxVerdict } from "#src/work/inbox/inbox-types.js";
 	import { safeHref } from "#src/lib/safe-href.js";
@@ -64,6 +64,13 @@
 	let tone = $derived(inboxConfidence.tone(level));
 	let SourceIcon = $derived(SOURCE_ICON[item.trace.source.type]);
 	let facts = $derived(cardFacts(item));
+	let message = $derived(item.proposal.message);
+	let replyingTo = $derived(item.proposal.replyingTo);
+	let replyingHref = $derived(safeHref(replyingTo?.href));
+	// WHY: a draft has no project, and a host that falls back to the title for its name drew the
+	// title a second time as a chip.
+	let projectName = $derived(item.project.name.trim());
+	let showProject = $derived(!!projectName && projectName !== item.title.trim());
 	let time = $derived(when(item.trace.source.at));
 	let why = $derived(freshReasoning(item, facts));
 	// WHY not the source link alone: a trace holding only "Open source" was a disclosure to open
@@ -204,7 +211,84 @@
 			{#if renderProposal}
 				{@render renderProposal(item)}
 			{:else}
-				{#if facts.command}
+				{#if replyingTo}
+					<!-- What the draft answers, quoted the way a mail client quotes: a rule, not a box,
+					     so it reads as their words and the inset below reads as yours. -->
+					<section class="flex flex-col gap-1" aria-label="Replying to">
+						<p class="text-muted-foreground flex flex-wrap items-baseline gap-x-1.5 text-xs">
+							<span class="text-foreground font-medium">Replying to</span>
+							{#if replyingTo.author}
+								<span class="min-w-0 truncate"
+									>{replyingTo.author}{#if replyingTo.kind}&rsquo;s {replyingTo.kind}{/if}</span
+								>
+							{/if}
+							{#if replyingHref}
+								<a
+									href={replyingHref}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="hover:text-foreground ms-auto inline-flex items-center gap-0.5 rounded-sm underline-offset-2 outline-none hover:underline focus-visible:shadow-(--ring-focus)"
+								>
+									{replyingTo.hrefLabel ?? "Open"}
+									<ArrowUpRight size={12} weight="bold" aria-hidden="true" />
+								</a>
+							{/if}
+						</p>
+						<blockquote class="border-border flex flex-col gap-0.5 border-s-2 ps-3">
+							{#if replyingTo.title}
+								<p class="line-clamp-2 text-sm leading-5 font-medium text-pretty">
+									{replyingTo.title}
+								</p>
+							{/if}
+							{#if replyingTo.excerpt}
+								<p class="text-muted-foreground line-clamp-2 text-sm leading-5 text-pretty">
+									{replyingTo.excerpt}
+								</p>
+							{/if}
+						</blockquote>
+					</section>
+				{/if}
+				{#if message}
+					<section class="flex flex-col items-start gap-1" aria-label="Your reply">
+						<p class="text-foreground text-xs font-medium">Your reply</p>
+						{#if message.to || message.subject}
+							<dl class="grid grid-cols-[auto_1fr] gap-x-2 text-xs leading-5">
+								{#if message.to}
+									<dt class="text-muted-foreground">To</dt>
+									<dd class="min-w-0 truncate">{message.to}</dd>
+								{/if}
+								{#if message.subject}
+									<dt class="text-muted-foreground">Subject</dt>
+									<dd class="min-w-0 text-pretty">{message.subject}</dd>
+								{/if}
+							</dl>
+						{/if}
+						<div class={cn(workLooks.inset, "w-full px-3 py-2")}>
+							<p
+								{@attach measureClamp(
+									() => expanded,
+									(cut) => (commandCut = cut),
+								)}
+								class={cn(
+									"text-foreground text-sm leading-6 break-words whitespace-pre-wrap",
+									!expanded && "line-clamp-4",
+								)}
+							>
+								{message.body}
+							</p>
+						</div>
+						{#if commandCut || expanded}
+							<button
+								type="button"
+								class="text-muted-foreground hover:text-foreground text-xs underline-offset-2 hover:underline"
+								aria-expanded={expanded}
+								onclick={() => (expanded = !expanded)}
+							>
+								{expanded ? "Show less" : "Show all"}
+							</button>
+						{/if}
+					</section>
+				{:else if facts.command}
 					<div class="flex flex-col items-start gap-1">
 						<!-- The padding sits on a wrapper: on the clamped box itself, the 4th line showed through it. -->
 						<div class={cn(workLooks.inset, "w-full px-2.5 py-2")}>
@@ -260,26 +344,28 @@
 							{SOURCE_LABEL[item.trace.source.type]}
 						</span>
 					{/if}
-					<span class={FACT}>
-						<!-- The linked record is a chip inside the line, a link when the project has a page. -->
-						{#if safeHref(item.project.href)}
-							<a
-								href={safeHref(item.project.href)}
-								class={workLooks.chipLink}
-								aria-label="Project: {item.project.name}"
-							>
-								<TagChip class="hover:bg-muted">
+					{#if showProject}
+						<span class={FACT}>
+							<!-- The linked record is a chip inside the line, a link when the project has a page. -->
+							{#if safeHref(item.project.href)}
+								<a
+									href={safeHref(item.project.href)}
+									class={workLooks.chipLink}
+									aria-label="Project: {item.project.name}"
+								>
+									<TagChip class="hover:bg-muted">
+										{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
+										{item.project.name}
+									</TagChip>
+								</a>
+							{:else}
+								<TagChip>
 									{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
 									{item.project.name}
 								</TagChip>
-							</a>
-						{:else}
-							<TagChip>
-								{#snippet icon()}<FolderSimple aria-hidden="true" />{/snippet}
-								{item.project.name}
-							</TagChip>
-						{/if}
-					</span>
+							{/if}
+						</span>
+					{/if}
 					{#if time}
 						<span class={cn(FACT, "tabular-nums")}>{time}</span>
 					{/if}

@@ -24,12 +24,40 @@ export type InboxDraft = {
   outcome?: InboxOutcome;
 };
 
+/** The post, comment or mail a drafted message answers, quoted above it. */
+export type InboxReplyingTo = {
+  /** Who wrote it: "u/maya_dev", "Priya Shah". */
+  author?: string;
+  /** What it is, after the author: "post", "comment". */
+  kind?: string;
+  /** The thread or mail title. */
+  title?: string;
+  /** Their words. The card clamps them to 2 lines. */
+  excerpt?: string;
+  /** Where it opens, outside the app. */
+  href?: string;
+  /** The link's words. Defaults to "Open". */
+  hrefLabel?: string;
+};
+
+/** Words the agent drafted to send under the person's name: drawn as the reply, not a command. */
+export type InboxMessage = {
+  /** Who receives it, when the title doesn't already say. */
+  to?: string;
+  subject?: string;
+  body: string;
+};
+
 /** What the agent wants to do, in one line, with the drafts it prepared. */
 export type InboxProposal = {
   summary: string;
   detail?: string;
   /** The exact call to run, drawn once in monospace. Summary and detail that repeat it are dropped. */
   command?: { tool: string; text: string };
+  /** What a drafted message answers, drawn as "Replying to" above `message`. */
+  replyingTo?: InboxReplyingTo;
+  /** A drafted message, drawn as "Your reply" in place of `command`. */
+  message?: InboxMessage;
   drafts?: InboxDraft[];
   /** The draft to open on. Defaults to the first. */
   recommended?: string;
