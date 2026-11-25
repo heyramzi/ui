@@ -135,10 +135,9 @@
 		class: className,
 	}: Props = $props();
 
-	const NEEDS_YOU = "needs-you";
-
 	let labels = $derived(resolveInboxLabels(labelOverrides));
-	let filter = $state<InboxFilter>({ ...NO_FILTER });
+	// The inbox opens on what waits on the person. For info holds everything else.
+	let filter = $state<InboxFilter>({ ...NO_FILTER, view: "needs-you" });
 	let snoozing = $state(false);
 	const uid = $props.id();
 	const snoozeChoicesId = `${uid}-snooze`;
@@ -151,15 +150,15 @@
 	let types = $derived(subjectTypes(all));
 	let people = $derived(actorNames(all));
 	let current = $derived(visible.find((thread) => thread.key === selected) ?? visible[0]);
-	let needsYouCount = $derived(all.filter((thread) => thread.pending.length > 0).length);
-	let filtered = $derived(filter.type !== ALL || filter.who !== ALL || filter.needsYou);
+	let needsYouCount = $derived(all.filter((thread) => thread.needsYou).length);
+	let filtered = $derived(filter.type !== ALL || filter.who !== ALL);
 	let narrowed = $derived(
 		Number(filter.type !== ALL) + Number(filter.who !== ALL) + Number(showSnoozed),
 	);
 	let anyUnread = $derived(all.some((thread) => thread.unread > 0));
-	let views = $derived([
-		{ value: ALL, label: labels.all, count: all.length },
-		{ value: NEEDS_YOU, label: labels.needsYou, count: needsYouCount },
+	let views = $derived<{ value: InboxFilter["view"]; label: string; count: number }[]>([
+		{ value: "needs-you", label: labels.needsYou, count: needsYouCount },
+		{ value: "info", label: labels.forInfo, count: all.length - needsYouCount },
 	]);
 	let readThreads = $derived(
 		all.filter((thread) => thread.unread === 0 && thread.pending.length === 0),
@@ -323,8 +322,8 @@
 				<div class="flex items-center gap-2">
 					<SegmentedFilter
 						options={views}
-						value={filter.needsYou ? NEEDS_YOU : ALL}
-						onValueChange={(view) => (filter = { ...filter, needsYou: view === NEEDS_YOU })}
+						value={filter.view}
+						onValueChange={(view) => (filter = { ...filter, view })}
 						ariaLabel={labels.title}
 						class="min-w-0 flex-1"
 					/>
@@ -333,7 +332,7 @@
 						count={narrowed}
 						align="end"
 						onClear={() => {
-							filter = { ...NO_FILTER, needsYou: filter.needsYou };
+							filter = { ...NO_FILTER, view: filter.view };
 							if (showSnoozed) onShowSnoozed?.(false);
 						}}
 						clearLabel={labels.clearFilters}
@@ -416,7 +415,7 @@
 								{#snippet trailing()}
 									{#if thread.subject.snoozedUntil}
 										<BellSlash class="size-3.5 text-muted-foreground" aria-label={labels.snoozed} />
-									{:else if thread.pending.length > 0}
+									{:else if thread.needsYou}
 										<StatusPill tone="warning">{labels.needsYou}</StatusPill>
 									{:else if thread.unread > 0}
 										<Circle
@@ -434,13 +433,16 @@
 								size="sm"
 								class="h-full"
 								title={filtered
-									? filter.needsYou
+									? labels.emptyFiltered
+									: filter.view === "needs-you"
 										? labels.emptyNeedsYou
-										: labels.emptyFiltered
-									: labels.empty}
+										: labels.empty}
 							/>
 							{#if filtered}
-								<Button size="sm" variant="outline" onclick={() => (filter = { ...NO_FILTER })}
+								<Button
+									size="sm"
+									variant="outline"
+									onclick={() => (filter = { ...NO_FILTER, view: filter.view })}
 									>{labels.clearFilters}</Button
 								>
 							{/if}

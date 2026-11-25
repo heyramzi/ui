@@ -31,6 +31,11 @@ export function isPending(entry: InboxEntry): boolean {
   return entry.kind === "proposal" && !!entry.proposal && isOpen(entry.proposal);
 }
 
+/** A pending proposal that only this person can decide. The host says false for one that's for info. */
+export function waitsOnYou(entry: InboxEntry): boolean {
+  return isPending(entry) && entry.needsYou !== false;
+}
+
 /**
  * One thread per subject, newest first. An entry with no subject id is dropped, and a malformed
  * timestamp sorts last.
@@ -55,6 +60,7 @@ export function threadsOf(entries: InboxEntry[], options: ThreadsOptions = {}): 
     });
     const newest = ordered.findLast((row) => !Number.isNaN(row.time)) ?? ordered[0];
     const list = ordered.map((row) => row.entry);
+    const pending = list.filter(isPending).toReversed();
     threads.push({
       key,
       // The newest entry carries the freshest title and status.
@@ -62,7 +68,8 @@ export function threadsOf(entries: InboxEntry[], options: ThreadsOptions = {}): 
       entries: list,
       unread: list.filter((entry) => !entry.read).length,
       latestAt: newest.entry.at,
-      pending: list.filter(isPending).toReversed(),
+      pending,
+      needsYou: pending.some(waitsOnYou),
     });
   }
 
@@ -81,15 +88,20 @@ export function threadsOf(entries: InboxEntry[], options: ThreadsOptions = {}): 
     .map((row) => row.thread);
 }
 
-export const NO_FILTER: InboxFilter = { type: ALL, who: ALL, needsYou: false };
+export const NO_FILTER: InboxFilter = { type: ALL, who: ALL, view: ALL };
 
-/** Keep a thread when it matches the type, holds an entry from the person or agent, and has a pending proposal if asked. */
+/** True when the thread sits in that tab: Needs you holds the threads waiting on the person, For info the rest. */
+export function inView(thread: InboxThread, view: InboxFilter["view"]): boolean {
+  return view === ALL || thread.needsYou === (view === "needs-you");
+}
+
+/** Keep a thread when it matches the type, holds an entry from the person or agent, and sits in the tab. */
 export function filterThreads(threads: InboxThread[], filter: InboxFilter): InboxThread[] {
   return threads.filter(
     (thread) =>
       (filter.type === ALL || thread.subject.type === filter.type) &&
       (filter.who === ALL || thread.entries.some((entry) => entry.actor.name === filter.who)) &&
-      (!filter.needsYou || thread.pending.length > 0),
+      inView(thread, filter.view),
   );
 }
 
@@ -172,7 +184,7 @@ export function entryLine(entry: InboxEntry, labels: InboxLabels): string {
     case "agent_response":
       return labels.responded;
     case "proposal":
-      return labels.proposed;
+      return entry.needsYou === false ? labels.proposedInfo : labels.proposed;
     default:
       return labels.commented;
   }

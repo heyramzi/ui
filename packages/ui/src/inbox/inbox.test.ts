@@ -119,7 +119,22 @@ describe("filterThreads", () => {
     entry("p", "2026-10-22T11:00:00Z", { subject: tsk9, kind: "proposal", proposal: proposal() }),
   ]);
 
-  it("filters by type, by who and by needs you", () => {
+  it("files a proposal the host marks for info under For info, with its card still pending", () => {
+    const fyi = threadsOf([
+      entry("p", "2026-10-22T11:00:00Z", {
+        kind: "proposal",
+        proposal: proposal(),
+        needsYou: false,
+      }),
+    ]);
+    expect(fyi[0].pending).toHaveLength(1);
+    expect(fyi[0].needsYou).toBe(false);
+    expect(filterThreads(fyi, { ...NO_FILTER, view: "info" })).toHaveLength(1);
+    expect(filterThreads(fyi, { ...NO_FILTER, view: "needs-you" })).toHaveLength(0);
+    expect(entryLine(fyi[0].entries[0], resolveInboxLabels())).toBe("proposed this");
+  });
+
+  it("filters by type, by who and by tab", () => {
     expect(filterThreads(threads, { ...NO_FILTER, type: "doc" }).map((t) => t.subject.id)).toEqual([
       "1",
     ]);
@@ -127,8 +142,9 @@ describe("filterThreads", () => {
       filterThreads(threads, { ...NO_FILTER, who: "Scribe" }).map((t) => t.subject.id),
     ).toEqual(["7"]);
     expect(
-      filterThreads(threads, { ...NO_FILTER, needsYou: true }).map((t) => t.subject.id),
+      filterThreads(threads, { ...NO_FILTER, view: "needs-you" }).map((t) => t.subject.id),
     ).toEqual(["9"]);
+    expect(filterThreads(threads, { ...NO_FILTER, view: "info" })).toHaveLength(2);
     expect(filterThreads(threads, NO_FILTER)).toHaveLength(3);
   });
 });

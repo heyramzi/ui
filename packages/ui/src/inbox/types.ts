@@ -51,6 +51,12 @@ export type InboxEntry = {
   assignee?: string;
   /** A `proposal` entry: the agent's ask, drawn as an InboxCard while it waits. */
   proposal?: InboxItem;
+  /**
+   * A proposal only this person can decide: a message under their name, a payment, a delete, an
+   * agent stopped until they answer. False files its thread under For info, with the card still
+   * pinned. Unset counts as true.
+   */
+  needsYou?: boolean;
 };
 
 export type InboxThread = {
@@ -64,15 +70,20 @@ export type InboxThread = {
   latestAt: string;
   /** Proposals still waiting for a verdict, newest first. */
   pending: InboxEntry[];
+  /** A pending proposal here waits on this person. Every other thread is for info. */
+  needsYou: boolean;
 };
+
+/** The two tabs: what waits on the person, and everything else. */
+export type InboxView = "needs-you" | "info";
 
 export type InboxFilter = {
   /** A subject type, or "all". */
   type: string;
   /** An actor name, or "all". */
   who: string;
-  /** Only threads holding a pending proposal. */
-  needsYou: boolean;
+  /** One tab's threads, or "all" for both. */
+  view: InboxView | typeof ALL;
 };
 
 export const ALL = "all";
@@ -98,6 +109,7 @@ export type InboxLabels = {
   all: string;
   anyone: string;
   needsYou: string;
+  forInfo: string;
   empty: string;
   emptyNeedsYou: string;
   emptyFiltered: string;
@@ -131,6 +143,8 @@ export type InboxLabels = {
   commented: string;
   responded: string;
   proposed: string;
+  /** The line of a proposal that doesn't wait on the person. */
+  proposedInfo: string;
   /** Keyboard hint words. */
   hintMove: string;
   hintRead: string;
@@ -145,6 +159,7 @@ export const DEFAULT_INBOX_LABELS: InboxLabels = {
   all: "All",
   anyone: "Anyone",
   needsYou: "Needs you",
+  forInfo: "For info",
   empty: "Nothing here",
   emptyNeedsYou: "Nothing is waiting on you",
   emptyFiltered: "No thread matches these filters",
@@ -178,6 +193,7 @@ export const DEFAULT_INBOX_LABELS: InboxLabels = {
   commented: "commented",
   responded: "replied",
   proposed: "asks for your call",
+  proposedInfo: "proposed this",
   hintMove: "move",
   hintRead: "read",
   hintReadAll: "all read",

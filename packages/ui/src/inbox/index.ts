@@ -4,8 +4,10 @@ export {
   actorNames,
   entryLine,
   filterThreads,
+  inView,
   inboxKeyOf,
   isPending,
+  waitsOnYou,
   resolveInboxLabels,
   snoozeChoices,
   subjectTypes,
@@ -24,6 +26,7 @@ export type {
   InboxSnooze,
   InboxSubject,
   InboxThread,
+  InboxView,
 } from "#src/inbox/types.js";
 
 // The approval card a pinned proposal is drawn with. Its `proposal` types come from `./work/inbox`.
