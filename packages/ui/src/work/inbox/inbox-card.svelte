@@ -67,6 +67,8 @@
 	let message = $derived(item.proposal.message);
 	let replyingTo = $derived(item.proposal.replyingTo);
 	let replyingHref = $derived(safeHref(replyingTo?.href));
+	// WHY: a first DM answers nothing, so calling it a reply misreads a cold message.
+	let messageLabel = $derived(replyingTo ? "Your reply" : "Your message");
 	// WHY: a draft has no project, and a host that falls back to the title for its name drew the
 	// title a second time as a chip.
 	let projectName = $derived(item.project.name.trim());
@@ -249,8 +251,8 @@
 					</section>
 				{/if}
 				{#if message}
-					<section class="flex flex-col items-start gap-1" aria-label="Your reply">
-						<p class="text-foreground text-xs font-medium">Your reply</p>
+					<section class="flex flex-col items-start gap-1" aria-label={messageLabel}>
+						<p class="text-foreground text-xs font-medium">{messageLabel}</p>
 						{#if message.to || message.subject}
 							<dl class="grid grid-cols-[auto_1fr] gap-x-2 text-xs leading-5">
 								{#if message.to}
