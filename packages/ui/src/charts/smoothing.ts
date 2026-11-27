@@ -159,10 +159,15 @@ export function smoothSeries<TData extends Record<string, unknown>>(
 
 /** Labels at least `spacing` pixels apart, the way a time axis reads at any width. */
 export function ticksForWidth(max: number, spacing = 72) {
-  return (scale: { range: () => number[]; ticks?: (count: number) => unknown[] }) => {
+  return (scale: {
+    range: () => number[];
+    domain: () => unknown[];
+    ticks?: (count: number) => unknown[];
+  }) => {
     const [start, end] = scale.range();
     const count = Math.max(2, Math.min(max, Math.floor(Math.abs(end - start) / spacing)));
-    const ticks = scale.ticks?.(count) ?? [];
+    // A text x axis is a point scale, which has no `ticks()`: its labels are its domain.
+    const ticks = scale.ticks ? scale.ticks(count) : scale.domain();
     const step = Math.ceil(ticks.length / count);
     return step > 1 ? ticks.filter((_, i) => i % step === 0) : ticks;
   };

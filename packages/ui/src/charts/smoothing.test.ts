@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import { averageTo, smoothSeries } from "#src/charts/smoothing.js";
+import { averageTo, smoothSeries, ticksForWidth } from "#src/charts/smoothing.js";
 
 type Row = { date: string; value: number | null };
 
@@ -78,5 +78,20 @@ describe("smoothSeries over a year", () => {
   it("names a point by its window", () => {
     expect(averageTo("Oct 31", 28)).toBe("28-day average to Oct 31");
     expect(averageTo("Oct 31")).toBe("7-day average to Oct 31");
+  });
+});
+
+// /seo/google's clicks chart keys its points by a "Nov 27" label, so its x scale is a point scale
+// with no `ticks()`, and the bottom axis drew no dates (TSK-3775).
+describe("ticksForWidth on a text x axis", () => {
+  const labels = ["May 18", "Sep 14", "Nov 8", "Nov 15", "Nov 22", "Nov 27"];
+  const pointScale = (width: number) => ({ range: () => [0, width], domain: () => labels });
+
+  it("labels every point when they fit", () => {
+    expect(ticksForWidth(6)(pointScale(700))).toEqual(labels);
+  });
+
+  it("thins the labels to the width", () => {
+    expect(ticksForWidth(6)(pointScale(200))).toEqual(["May 18", "Nov 15"]);
   });
 });
