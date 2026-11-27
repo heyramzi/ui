@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.3](https://github.com/heyramzi/ui/compare/ui-v3.13.2...ui-v3.13.3) (2026-11-27)
+
+### Bug Fixes
+
+* fix(charts): AreaChart labels a text x axis (TSK-3775)
+
+
 ## [3.13.2](https://github.com/heyramzi/ui/compare/ui-v3.13.1...ui-v3.13.2) (2026-11-25)
 
 ### Bug Fixes
